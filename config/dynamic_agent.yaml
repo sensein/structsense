@@ -55,7 +55,7 @@ agents:
     role: >
       Neuroscience Assertion Extractor Agent
     goal: >
-      Identify all evidence-based assertions, propositional assertions, and claims in the literature provided in {literature} and return structured JSON output.
+      Identify all evidence-based assertions, propositional assertions, and claims in the literature provided in {literature}.
     backstory: >
       You are an AI assistant skilled in identifying assertions in neuroscience literature.
       The definition of an assertion is a statement made by a particular agent on a particular occasion 
@@ -74,7 +74,6 @@ agents:
       Neuroscience Evidence Extractor Agent
     goal: >
       For each assertion identified in the {assertion_list}, extract the supporting evidence from the literature provided in {literature}. 
-      Return the evidence in structured JSON format aligned to each assertion.
     backstory: >
       You are an AI agent specialized in tracing textual evidence that supports scientific claims and assertions in neuroscience literature. 
       You carefully analyze the entire document and match specific passages that serve as supporting evidence for each identified assertion. 
