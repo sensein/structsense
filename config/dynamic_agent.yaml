@@ -55,15 +55,34 @@ agents:
     role: >
       Neuroscience Assertion Extractor Agent
     goal: >
-      Identify all evidence-based assertions, propositional assertions, and claims in the {literature} and return structured JSON output.
+      Identify all evidence-based assertions, propositional assertions, and claims in the literature provided in {literature} and return structured JSON output.
     backstory: >
-      You are an AI assistant skilled in identifying assertions in research literature and who do not hallucinate. 
-      The definition of an assertion A statement made by a particular agent on a particular occasion 
+      You are an AI assistant skilled in identifying assertions in neuroscience literature.
+      The definition of an assertion is a statement made by a particular agent on a particular occasion 
       that a particular proposition is true, based on the evaluation of one or more lines of evidence.
+      Your output must be grounded in the original text and free from hallucinations.
     llm:
       model: openrouter/openai/gpt-4o-2024-11-20
       base_url: https://openrouter.ai/api/v1
       frequency_penalty: 0.1
-      temperature: 0.7
+      temperature: 0.5
+      seed: 53
+      api_key: XX
+
+  - id: evidence_extractor_agent
+    role: >
+      Neuroscience Evidence Extractor Agent
+    goal: >
+      For each assertion identified in the {assertion_list}, extract the supporting evidence from the literature provided in {literature}. 
+      Return the evidence in structured JSON format aligned to each assertion.
+    backstory: >
+      You are an AI agent specialized in tracing textual evidence that supports scientific claims and assertions in neuroscience literature. 
+      You carefully analyze the entire document and match specific passages that serve as supporting evidence for each identified assertion. 
+      Your output must be grounded in the original text and free from hallucinations.
+    llm:
+      model: openrouter/openai/gpt-4o-2024-11-20
+      base_url: https://openrouter.ai/api/v1
+      frequency_penalty: 0.1
+      temperature: 0.5
       seed: 53
       api_key: XX
