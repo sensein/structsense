@@ -7,8 +7,7 @@ import os
 import sys
 import tracemalloc
 
-import mlflow
-import weave
+
 from crewai import Crew
 from crewai.flow.flow import Flow, start
 from crewai.memory import EntityMemory, LongTermMemory, ShortTermMemory
@@ -31,10 +30,17 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-weave.init(project_name="StructSense")
-mlflow.crewai.autolog()
-mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URL", "http://localhost:5000"))
-mlflow.set_experiment("StructSense")
+if os.getenv("ENABLE_WEAVE", "false").lower() == "true":
+
+    import weave
+    weave.init(project_name="StructSense")
+
+# Optional MLflow setup
+if os.getenv("ENABLE_MLFLOW", "false").lower() == "true":
+    import mlflow
+    mlflow.crewai.autolog()
+    mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URL", "http://localhost:5000"))
+    mlflow.set_experiment("StructSense")
 
 
 class StructSenseFlow(Flow):
@@ -79,12 +85,6 @@ class StructSenseFlow(Flow):
         if not hasattr(self, "state") or self.state is None:
             self.__dict__["state"] = {}
         self.state["source_text"] = source_text
-
-        # # Pre-fill state with expected output variable keys
-        # for step in self.flowconfig["flow"]:
-        #     agent_id = step["agent_key"]
-        #     output_var = self.agentconfig.get(agent_id, {}).get("output_variable", step["id"])
-        #     self.state[output_var] = {}  # Initialize with empty dict
 
     def interpolate(self, template, context):
         import re
@@ -134,7 +134,6 @@ class StructSenseFlow(Flow):
         if "knowledge_source" in step:
             src_key = step["knowledge_source"]
             if src_key in self.state:
-                logger.info(f"Knowledge source input: {self.state[src_key]}")
                 logger.info(
                     f"Knowledge source response str: {self.knowledgeconfig['search_key']}"
                 )
@@ -144,7 +143,6 @@ class StructSenseFlow(Flow):
                 )
                 logger.info(f"Knowledge source response: {custom_source}")
                 ksrc = StringKnowledgeSource(content=custom_source)
-                logger.info(f"StringKnowledgeSource: {ksrc}")
 
         crew = Crew(
             agents=[agent],
@@ -175,25 +173,10 @@ class StructSenseFlow(Flow):
         )
         return result
 
-    # @start("kickoff")
-    # def kickoff_flow(self):
-    #     for step in self.flowconfig["flow"]:
-    #         agent_id = step["agent_key"]
-    #         output_var = self.agentconfig.get(agent_id, {}).get("output_variable", step["id"])
-    #
-    #         if output_var not in self.state:
-    #             self.state[output_var] = {}  # Pre-initialize state key for the output
-    #
-    #         self.run_step(step)
-    #
-    #     return self.state
     @start("kickoff")
     def kickoff_flow(self):
         for step in self.flowconfig["flow"]:
             self.run_step(step)
-        # print("^"*100)
-        # print(self.state)
-        # print("^" * 100)
         return self.state
 
 
