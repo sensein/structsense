@@ -3,18 +3,18 @@ flow:
     agent_key: extractor_agent
     task_key: ner_extraction
     inputs:
-      literature: "{{source_text}}"
+      literature: "{{source_text}}"  # still comes from runtime
 
   - id: align_structured_information
     agent_key: alignment_agent
     task_key: ner_alignment
     inputs:
-      extracted_info: "{{output_of.extracted_structured_information}}"
-    knowledge_source: extracted_info
+      extracted_info: "{{extracted_info}}"  #  comes from agent's output_variable
+    knowledge_source: extracted_info        #  match output_variable from previous step i.e., extractor_agent
 
   - id: judge_alignment
     agent_key: judge_agent
     task_key: ner_judgment
     inputs:
-      aligned_structured_terms: "{{output_of.align_structured_information}}"
+      aligned_structured_terms: "{{aligned_structured_terms}}"
     knowledge_source: aligned_structured_terms

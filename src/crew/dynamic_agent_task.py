@@ -18,6 +18,7 @@
 
 from crewai import Agent, Task
 
+
 class DynamicAgentTask:
     def __init__(self, tasks_config):
         self.tasks_config = tasks_config
@@ -29,10 +30,14 @@ class DynamicAgentTask:
             agent = agents_by_id.get(agent_id)
 
             if agent is None:
-                raise ValueError(f"Agent with id '{agent_id}' not found for task '{task_cfg.get('id')}'")
+                raise ValueError(
+                    f"Agent with id '{agent_id}' not found for task '{task_cfg.get('id')}'"
+                )
 
             # Remove fields not accepted by Task
-            task_cfg_cleaned = {k: v for k, v in task_cfg.items() if k not in ["id", "agent_id"]}
+            task_cfg_cleaned = {
+                k: v for k, v in task_cfg.items() if k not in ["id", "agent_id"]
+            }
 
             task = Task(config=task_cfg_cleaned, agent=agent)
             tasks.append(task)

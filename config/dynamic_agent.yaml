@@ -1,5 +1,6 @@
 agents:
   - id: extractor_agent
+    output_variable: extracted_info
     role: >
       Neuroscience Named Entity Recognition (NER) Extractor Agent
     goal: >
@@ -17,6 +18,7 @@ agents:
       api_key: XX
 
   - id: alignment_agent
+    output_variable: aligned_structured_terms
     role: >
       Neuroscience Named Entity Recognition (NER) Concept Alignment Agent
     goal: >
@@ -34,6 +36,7 @@ agents:
       api_key: XX
 
   - id: judge_agent
+    output_variable: aligned_judged_terms
     role: >
       Neuroscience Named Entity Recognition (NER) Judge Agent
     goal: >

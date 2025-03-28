@@ -306,7 +306,12 @@ def hybrid_search(client, query_text, alpha=0.5, limit=3):
             logger.info("No results found for query: '%s'", query_text)
             return []
 
-        logger.info("Found %d results for query: '%s: %s'", len(results), query_text, str(results))
+        logger.info(
+            "Found %d results for query: '%s: %s'",
+            len(results),
+            query_text,
+            str(results),
+        )
         logger.info(extract_weaviate_properties(results))
 
         return extract_weaviate_properties(results)

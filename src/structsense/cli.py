@@ -39,29 +39,43 @@ def cli(ctx):
     "--flowconfig",
     required=True,
     type=str,
-    help=("Path to the flow configuration in YAML format or or dictionary. The flow configuration describes the flow of the agent."),
+    help=(
+        "Path to the flow configuration in YAML format or or dictionary. The flow configuration describes the flow of the agent."
+    ),
 )
-
+@click.option(
+    "--knowledgeconfig",
+    required=True,
+    type=str,
+    help=(
+        "Path to the configuration in YAML format or or dictionary that specify the search knowledge search key."
+    ),
+)
 @click.option(
     "--source",
     required=True,
     help=("The source—whether a file (text or PDF), a folder, or a text string."),
 )
-def extract(agentconfig, taskconfig, embedderconfig, flowconfig, source):
+def extract(
+    agentconfig, taskconfig, embedderconfig, flowconfig, knowledgeconfig, source
+):
     """Extract the terms along with sentence."""
     logger.info(
-         f"Processing source: {source} with agent config: {agentconfig}, task config: {taskconfig}, embedderconfig: {embedderconfig} and flowconfig: {flowconfig}"
+        f"Processing source: {source} with agent config: {agentconfig}, task config: {taskconfig}, embedderconfig: {embedderconfig}, flowconfig: {flowconfig}, knowledgeconfig: {knowledgeconfig}"
     )
     click.echo(
-        f"Processing source: {source} with agent config: {agentconfig}, task config: {taskconfig}, embedderconfig: {embedderconfig} and flowconfig: {flowconfig}"
+        f"Processing source: {source} with agent config: {agentconfig}, task config: {taskconfig}, embedderconfig: {embedderconfig} knowledgeconfig: {knowledgeconfig} flowconfig: {flowconfig}"
     )
-    result = kickoff(agentconfig=agentconfig,
-                     taskconfig=taskconfig,
-                     embedderconfig=embedderconfig,
-                     flowconfig=flowconfig,
-                     source_text=source)
-    click.echo(
-        result)
+    result = kickoff(
+        agentconfig=agentconfig,
+        taskconfig=taskconfig,
+        embedderconfig=embedderconfig,
+        flowconfig=flowconfig,
+        knowledgeconfig=knowledgeconfig,
+        source_text=source,
+    )
+    click.echo(result)
+
 
 if __name__ == "__main__":
     cli()

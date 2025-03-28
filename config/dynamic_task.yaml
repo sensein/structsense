@@ -1,11 +1,15 @@
 tasks:
   - id: ner_extraction
     description: >
-      From the given {literature} extract named entities from neuroscience statements. 
+      From the given literature extract named entities from neuroscience statements. 
       A named entity is anything that can be referred to with a proper name. 
       Some common named entities in neuroscience articles are animal species (e.g., mouse, drosophila, zebrafish), anatomical regions (e.g., neocortex, mushroom body, cerebellum), experimental conditions (e.g., control, tetrodotoxin treatment, Scn1a knockout), and cell types (e.g., pyramidal neuron, direction-sensitive mechanoreceptor, oligodendrocyte)
+      
+      Literature:
+      {literature}
     expected_output: >
-      Provide the output in the following format.
+      output format: json
+      Example output.
       "extracted_terms": {
               "1": [
                 {
@@ -51,7 +55,8 @@ tasks:
       Take the output of extractor_agent {extracted_info} as input and perform the concept alignment using the ontological concepts. 
       A concept alignment is anything where you align the given entity to the matching concept aka class from a ontology or a schema.
     expected_output: >
-      Provide the output in the following format.
+      output format: json
+      Example output.
       "aligned_ner_terms": {
               "1": [
                     {
@@ -93,7 +98,8 @@ tasks:
       2. Assign a score between 0 and 1 as a judge_score.
       3. Update the {aligned_structured_terms} adding the judge_score.
     expected_output: >
-      Provide the output in the following format.
+      output format: json
+      Example output.
       "judge_ner_terms": {
              "1": [
                    {

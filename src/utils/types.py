@@ -26,6 +26,7 @@ from typing import List, Dict
 
 class StructuredInformation(BaseModel):
     """Represents a structured information in text."""
+
     entity: str
     label: str
     sentence: str
@@ -38,19 +39,26 @@ class StructuredInformation(BaseModel):
 
 class AlignedStructuredInformation(StructuredInformation):
     """Represents an aligned term with ontology mapping."""
+
     ontology_id: str
     ontology_label: str
+
 
 class JudgedStructuredInformation(AlignedStructuredInformation):
     judge_score: float
 
+
 class JudgeStructuredTerms(BaseModel):
     aligned_judged_terms: Dict[str, List[JudgedStructuredInformation]]
 
+
 class AlignedStructuredTerms(BaseModel):
     """Pydantic model to validate aligned  terms."""
+
     aligned_ner_terms: Dict[str, List[AlignedStructuredInformation]]
+
 
 class ExtractedStructuredTerms(BaseModel):
     """Pydantic model to validate extracted terms."""
+
     extracted_terms: Dict[str, List[StructuredInformation]]

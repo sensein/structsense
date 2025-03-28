@@ -1,70 +1,68 @@
 import logging
 from .utils import hybrid_search, get_weaviate_client
+import json
 
 logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger("OntologyKnowledgeTool")
 
 
-def OntologyKnowledgeTool(aligned_ner_terms):
-    """Extracts entities and ontology metadata, performs hybrid search,
-    and returns structured ontology knowledge grouped by entity.
+def OntologyKnowledgeTool(data, search_key="entity"):
+    """Extracts ontology metadata for any structured data, performs hybrid search,
+    and returns structured ontology knowledge grouped by a configurable search key.
 
     Args:
-        aligned_ner_terms (Dict): Named Entity Recognition (NER) terms aligned with ontologies.
+        data (Dict): Any structured dictionary containing lists of records.
+        search_key (str): The key to look up in each item for search (e.g., 'entity').
 
     Returns:
         str: A plain, long string containing ontology knowledge.
     """
     response_text = ""
 
-    if not aligned_ner_terms:
-        logger.error("No aligned NER terms provided.")
-        return "Error: Missing required input: aligned_ner_terms."
+    if not data:
+        logger.error("No input data provided.")
+        return "Error: Missing required input: data."
 
-    # Extract the correct key dynamically
-    if isinstance(aligned_ner_terms, dict):
-        key_name = next((key for key in aligned_ner_terms.keys() if isinstance(aligned_ner_terms[key], dict)), None)
-        if key_name:
-            terms_data = aligned_ner_terms[key_name]
-        else:
-            logger.error("No valid key found in aligned_ner_terms.")
-            return "Error: Invalid input structure. No recognized key found."
-    else:
-        logger.error("Unexpected format for aligned_ner_terms.")
+    # Dynamically locate nested dictionaries that contain lists of dicts
+    data = json.loads(data)
+    term_collections = []
+    if isinstance(data, dict):
+        for _, val in data.items():
+            if isinstance(val, dict):
+                for inner_val in val.values():
+                    if isinstance(inner_val, list):
+                        term_collections.append(inner_val)
+
+    if not term_collections:
+        logger.error("Unexpected format: no list of terms found in input data.")
         return "Error: Invalid input structure."
 
-    # Iterate through entity groups
-    for term_group in terms_data.values():
-        if not isinstance(term_group, list):
-            logger.warning(f"Unexpected format in term group: {term_group}")
-            continue
-
+    for term_group in term_collections:
         for term in term_group:
             if not isinstance(term, dict):
                 logger.warning(f"Skipping non-dictionary term: {term}")
                 continue
 
-            entity = term.get("entity")
-            label = term.get("label")
+            query = term.get(search_key)
+            label = term.get("label", "")
 
-            if not entity:
-                logger.warning(f"Skipping term due to missing entity: {term}")
+            if not query:
+                logger.warning(f"Skipping term due to missing '{search_key}': {term}")
                 continue
 
-            response_text += f"Entity: {entity}, Label: {label}. "
+            response_text += f"Search Term: {query}, Label: {label}. "
 
             try:
-                # Perform hybrid search for the entity
+                # Perform hybrid search for the query term
                 client = get_weaviate_client()
-                search_results = hybrid_search(client, entity)
+                search_results = hybrid_search(client, query)
                 client.close()
 
                 # Append search results to response text
                 if search_results:
-                    response_text += "Search Results: "
+                    response_text += "Knowledge: "
                     for res in search_results:
                         response_text += (
                             f"[Label: {res.get('label', 'N/A')}, "
@@ -74,7 +72,7 @@ def OntologyKnowledgeTool(aligned_ner_terms):
                         )
 
             except Exception as e:
-                logger.error(f"Hybrid search failed for entity '{entity}': {e}")
+                logger.error(f"Hybrid search failed for query '{query}': {e}")
                 response_text += "Search Results: Failed to retrieve search results. "
 
     return response_text.strip() if response_text else "No ontology knowledge found."

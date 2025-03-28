@@ -18,8 +18,11 @@
 
 from crewai import LLM, Agent
 
+
 class DynamicAgent:
-    def __init__(self, agents_config: list[dict], embedder_config: dict, tools: list = []):
+    def __init__(
+        self, agents_config: list[dict], embedder_config: dict, tools: list = []
+    ):
         """Initializes the DynamicAgent class for multiple agents.
 
         Args:
@@ -49,7 +52,7 @@ class DynamicAgent:
                 embedder=self.embedder_config.get("embedder_config"),
                 tools=self.tools,
                 allow_delegation=False,
-                verbose=True
+                verbose=True,
             )
             agents_by_id[agent_id] = agent
         return agents_by_id
