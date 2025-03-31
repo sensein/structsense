@@ -15,7 +15,7 @@ agents:
       frequency_penalty: 0.1
       temperature: 0.7
       seed: 53
-      api_key: XX
+      api_key: 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
 
   - id: alignment_agent
     output_variable: aligned_structured_terms
@@ -33,7 +33,7 @@ agents:
       frequency_penalty: 0.1
       temperature: 0.7
       seed: 53
-      api_key: XX
+      api_key: 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
 
   - id: judge_agent
     output_variable: aligned_judged_terms
@@ -88,3 +88,4 @@ agents:
       temperature: 0.5
       seed: 53
       api_key: XX
+      api_key: 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

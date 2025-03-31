@@ -1,1 +1,3 @@
-search_key: entity
+search_key: #local vector database
+  - entity
+  - label

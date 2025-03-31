@@ -30,8 +30,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-if os.getenv("ENABLE_WEAVE", "false").lower() == "true":
-
+if os.getenv("ENABLE_WEIGHTSANDBIAS", "false").lower() == "true":
     import weave
     weave.init(project_name="StructSense")
 
@@ -131,7 +130,8 @@ class StructSenseFlow(Flow):
         }
 
         ksrc = None
-        if "knowledge_source" in step:
+        enable_kg_source = os.getenv("ENABLE_KG_SOURCE", "false").lower() == "true"
+        if enable_kg_source and "knowledge_source" in step:
             src_key = step["knowledge_source"]
             if src_key in self.state:
                 logger.info(
@@ -144,16 +144,20 @@ class StructSenseFlow(Flow):
                 logger.info(f"Knowledge source response: {custom_source}")
                 ksrc = StringKnowledgeSource(content=custom_source)
 
-        crew = Crew(
-            agents=[agent],
-            tasks=[task],
-            memory=True,
-            long_term_memory_config=self.long_term_memory,
-            short_term_memory=self.short_term_memory,
-            entity_memory=self.entity_memory,
-            knowledge_sources=[ksrc] if ksrc else [],
-            verbose=True,
-        )
+        crew_kwargs = {
+            "agents": [agent],
+            "tasks": [task],
+            "memory": True,
+            "long_term_memory_config": self.long_term_memory,
+            "short_term_memory": self.short_term_memory,
+            "entity_memory": self.entity_memory,
+            "verbose": True,
+        }
+
+        if enable_kg_source and ksrc:
+            crew_kwargs["knowledge_sources"] = [ksrc]
+
+        crew = Crew(**crew_kwargs)
 
         result = crew.kickoff(inputs=inputs)
         task_output = task.output

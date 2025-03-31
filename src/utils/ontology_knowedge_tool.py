@@ -8,7 +8,7 @@ logging.basicConfig(
 logger = logging.getLogger("OntologyKnowledgeTool")
 
 
-def OntologyKnowledgeTool(data, search_key="entity"):
+def OntologyKnowledgeTool(data, search_key=["entity", "label"]):
     """Extracts ontology metadata for any structured data, performs hybrid search,
     and returns structured ontology knowledge grouped by a configurable search key.
 
@@ -26,7 +26,13 @@ def OntologyKnowledgeTool(data, search_key="entity"):
         return "Error: Missing required input: data."
 
     # Dynamically locate nested dictionaries that contain lists of dicts
-    data = json.loads(data)
+    try:
+        data = json.loads(data)
+    except json.JSONDecodeError as e:
+        #it is of the format ```json {} ```
+        cleaned_json_str = data.strip().removeprefix("```json").removesuffix("```").strip()
+        data = json.loads(cleaned_json_str)
+
     term_collections = []
     if isinstance(data, dict):
         for _, val in data.items():
@@ -45,14 +51,15 @@ def OntologyKnowledgeTool(data, search_key="entity"):
                 logger.warning(f"Skipping non-dictionary term: {term}")
                 continue
 
-            query = term.get(search_key)
-            label = term.get("label", "")
+            # Combine multiple search keys into one string
+            combined_query_parts = [str(term.get(k)).strip() for k in search_key if term.get(k)]
+            query = " ".join(combined_query_parts)
 
             if not query:
                 logger.warning(f"Skipping term due to missing '{search_key}': {term}")
                 continue
 
-            response_text += f"Search Term: {query}, Label: {label}. "
+            response_text += f"Search Term: {query}"
 
             try:
                 # Perform hybrid search for the query term
