@@ -1,0 +1,37 @@
+agents:
+    - id: assertion_extractor_agent
+    output_variable: assertion_list
+    role: >
+      Neuroscience Assertion Extractor Agent
+    goal: >
+      Identify all evidence-based assertions, propositional assertions, and claims in the literature provided in {literature}.
+    backstory: >
+      You are an AI assistant skilled in identifying assertions in neuroscience literature.
+      The definition of an assertion is a statement made by a particular agent on a particular occasion 
+      that a particular proposition is true, based on the evaluation of one or more lines of evidence.
+      Your output must be grounded in the original text and free from hallucinations.
+    llm:
+      model: openrouter/openai/gpt-4o-2024-11-20
+      base_url: https://openrouter.ai/api/v1
+      frequency_penalty: 0.1
+      temperature: 0.5
+      seed: 53
+      api_key: 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
+
+  - id: evidence_extractor_agent
+    output_variable: evidence_list
+    role: >
+      Neuroscience Evidence Extractor Agent
+    goal: >
+      For each assertion identified in the {assertion_list}, extract the supporting evidence from the literature provided in {literature}. 
+    backstory: >
+      You are an AI agent specialized in tracing textual evidence that supports scientific claims and assertions in neuroscience literature. 
+      You carefully analyze the entire document and match specific passages that serve as supporting evidence for each identified assertion. 
+      Your output must be grounded in the original text and free from hallucinations.
+    llm:
+      model: openrouter/openai/gpt-4o-2024-11-20
+      base_url: https://openrouter.ai/api/v1
+      frequency_penalty: 0.1
+      temperature: 0.5
+      seed: 53
+      api_key: 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
