@@ -1,0 +1,24 @@
+tasks:
+  - id: assertion_extraction
+    description: >
+      Extract all evidence-based assertions, propositional assertions, and claims from the literature provided in {literature}.
+    expected_output: >
+      output format: json
+      Example output:
+      "assertions": {
+        "1": 
+          {
+            "assertion": "The mammalian brain consists of millions to billions of cells that are organized into many cell types with specific spatial distribution patterns and structural and functional properties."  
+            "paper_location": "abstract",
+            "paper_title": "A high-resolution transcriptomic and spatial atlas of cell types in the whole mouse brain",
+            "doi": "https://www.nature.com/articles/s41586-023-06812-z"
+          },
+        "2":
+          {
+            "assertion": "Telencephalon consists of five major brain structures: isocortex, hippocampal formation (HPF), olfactory areas (OLF), cortical subplate (CTXsp) and cerebral nuclei (CNU)."  
+            "paper_location": "main",
+            "paper_title": "A high-resolution transcriptomic and spatial atlas of cell types in the whole mouse brain",
+            "doi": "https://www.nature.com/articles/s41586-023-06812-z"
+          }
+      }
+    agent_id: assertion_extractor_agent
