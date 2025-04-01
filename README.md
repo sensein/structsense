@@ -8,6 +8,7 @@ Whether you're working with scientific texts, documents, or messy data, `structs
 
 **Caution:**: this package is still under development and may change rapidly over the next few weeks.
 
+
 ---
 ## 🏗️ Architecture
 The below is the architecture of the `StructSense`.
@@ -397,6 +398,7 @@ structsense-cli extract \
 ```
 
 #### ⚡ 3. Extract from raw text (minimal setup without knowledge source)
+
 ```shell
 structsense-cli extract \
   --agentconfig config/your_agent.yaml \
@@ -404,5 +406,9 @@ structsense-cli extract \
   --embedderconfig config/embedding.yaml \
   --flowconfig config/flow_ner.yaml \
   --source "Additionally, mutations in the APOE gene have been linked to neurodegenerative disorders, impacting astrocytes and microglia function."
-
 ```
+
+## In progress
+- [X] [`More examples (e.g., using ollama)`](example/ner_example_ollama)
+- [ ] Validations (e.g., benchmarking)
+- [ ] Human feedback component.
