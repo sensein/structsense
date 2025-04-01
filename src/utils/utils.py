@@ -31,6 +31,7 @@ import weaviate
 from weaviate.classes.init import AdditionalConfig, Timeout, Auth
 from dotenv import load_dotenv
 from weaviate.classes.config import Property, DataType, Configure, VectorDistances
+from GrobidArticleExtractor import GrobidArticleExtractor
 
 # Load environment variables from a .env file if present
 load_dotenv()
@@ -45,7 +46,140 @@ logger = logging.getLogger(__name__)
 
 
 ONTOLOGY_DATABASE = os.getenv("ONTOLOGY_DATABASE", "ontology_database_agentpy")
+GROBID_SERVER_URL = os.getenv("GROBID_SERVER_URL", "http://localhost:8070")
 
+def process_input_data(source:str): 
+    if isinstance(source, str):
+        # Try different path resolutions
+        paths_to_try = [
+            Path(source),  # As provided
+            Path.cwd() / source,  # Relative to current directory
+            Path(source).absolute(),  # Absolute path
+            Path(source).resolve()  # Resolved path (handles .. and .)
+        ]
+
+        # Log all paths being tried
+        logger.info(f"Trying paths: {[str(p) for p in paths_to_try]}")
+
+        # Check if this is raw text input
+        is_raw_text = (
+            # If it's a very long string, treat as raw text
+                len(source) > 500 or
+                # Or if it contains newlines
+                '\n' in source or
+                # Or if it doesn't look like a path and no paths exist
+                (not ('/' in source or '\\' in source) and not any(p.exists() for p in paths_to_try))
+        )
+
+        if is_raw_text:
+            logger.info(f"Processing raw text input (length: {len(source)})")
+            return source
+
+        # Use the first path that exists, or default to the first path
+        source_path = next((p for p in paths_to_try if p.exists()), paths_to_try[0])
+
+        if not source_path.exists():
+            error_msg = (
+                    f"Source path does not exist: {source}\n"
+                    f"Tried the following paths:\n"
+                    + "\n".join(f"- {p}" for p in paths_to_try)
+            )
+            logger.error(error_msg)
+            return {
+                "status": "Error",
+                "error": error_msg
+            }
+
+        logger.info(f"Using path: {source_path}")
+    else:
+        source_path = Path(source)
+        if not source_path.exists():
+            error_msg = f"Source path does not exist: {source}"
+            logger.error(error_msg)
+            return {
+                "status": "Error",
+                "error": error_msg
+            }
+
+        # Process single file
+    if source_path.is_file():
+        logger.info(f"Processing single file: {source_path}")
+        return extract_pdf_content(
+            file_path=source_path
+        )
+
+def extract_pdf_content(file_path: str, grobid_server: str = GROBID_SERVER_URL) -> dict:
+    """
+    Extracts content from a PDF file using GrobidArticleExtractor.
+    https://github.com/sensein/EviSense/blob/experiment/src/EviSense/shared.py
+
+    This function processes the given PDF file and extracts its contents.
+
+    Args:
+        file_path (str): The path to the PDF file.
+        grobid_server (str, optional): The URL of the Grobid server. If not provided,
+            uses the default URL (http://localhost:8070).
+
+    Returns:
+        dict: A dictionary containing:
+            - "metadata" (dict): Metadata information about the publications.
+            - "sections" (list): A list of extracted sections, where each section is a dictionary containing:
+                - "heading" (str): The heading/title of the section.
+                - "content" (str): The textual content of the section.
+    """
+    if grobid_server is None:
+        # default localhost
+        extractor = GrobidArticleExtractor()
+    else:
+        extractor = GrobidArticleExtractor(grobid_url=grobid_server)
+
+    xml_content = extractor.process_pdf(file_path)
+    result = extractor.extract_content(xml_content)
+
+    try:
+        extracted_data = {
+            "metadata": result.get("metadata", {}),
+            "sections": []
+        }
+
+        # Process sections
+        sections = result.get("sections", [])
+        if not sections:
+            logger.warning("No sections found in PDF")
+            # Create a single section with all content if available
+            if content := result.get("content"):
+                sections = [{
+                    "heading": "Content",
+                    "content": content
+                }]
+
+        # Add sections to extracted data
+        for section in sections:
+            if not isinstance(section, dict):
+                logger.warning(f"Skipping invalid section format: {type(section)}")
+                continue
+
+            heading = str(section.get("heading", "")).strip()
+            content = str(section.get("content", "")).strip()
+
+            if not content:
+                logger.warning(f"Skipping empty section: {heading}")
+                continue
+
+            extracted_data["sections"].append({
+                "heading": heading,
+                "content": content
+            })
+
+        if not extracted_data["sections"]:
+            raise Exception("No valid content could be extracted from PDF")
+
+        logger.info(f"Successfully extracted {len(extracted_data['sections'])} sections")
+        return extracted_data
+
+    except Exception as e:
+        logger.error(f"Error in extract_pdf_content: {str(e)}")
+        raise
 
 def get_weaviate_client():
     """

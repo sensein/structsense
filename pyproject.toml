@@ -1,22 +1,26 @@
 [tool.poetry]
-name = "strucsense"
-version = "0.0.1"
-description = "strucsense is a Python package for doing incredible stuff."
+name = "structsense"
+version = "1.0.1"
+description = "structsense is a powerful multi-agent system designed to extract structured information from unstructured data. By orchestrating intelligent agents, it helps you make sense of complex information — hence the name structsense. Whether you're working with scientific texts, documents, or messy data, structsense enables you to transform it into meaningful, structured insights."
 authors = ["tekrajchhetri <tekraj@mit.edu>"]
 maintainers = ["tekrajchhetri <tekraj@mit.edu>"]
 license = "Apache-2.0"
 readme = "README.md"
 homepage = "https://github.com/sensein/ner_framework"
 repository = "https://github.com/sensein/ner_framework"
-documentation = "https://tekrajchhetri.github.io/ner_framework"
+documentation = "https://docs.brainkb.org/"
 keywords = ["python", "package", "template"]
 classifiers = [
-  "Development Status :: 3 - Alpha",
+  "Development Status :: 4 - Beta",
   "Programming Language :: Python :: 3.10",
   "License :: OSI Approved :: Apache Software License",
   "Operating System :: OS Independent"
 ]
-packages = [{ include = "structsense", from = "src" }]
+packages = [
+  { include = "structsense", from = "src" },
+  { include = "crew", from = "src" },
+   { include = "utils", from = "src" }
+]
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.13"
@@ -96,6 +100,7 @@ vcs = "git"
 style = "pep440"
 bump = true
 pattern = "default-unprefixed"
+format-jinja = "{% if distance == 0 %}{{ base }}{% else %}{{ base }}.dev{{ distance }}{% endif %}"
 
 [build-system]
 requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]

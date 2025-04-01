@@ -4,9 +4,9 @@ config/agents.yaml
 # Mac
 .DS_Store
 crew_memory/
-example/
 .venv/
-.nervenv/
+.*/*
+.ipynb_checkpoints
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

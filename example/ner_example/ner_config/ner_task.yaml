@@ -1,0 +1,137 @@
+tasks:
+  - id: ner_extraction
+    description: >
+      From the given literature extract named entities from neuroscience statements. 
+      A named entity is anything that can be referred to with a proper name. 
+      Some common named entities in neuroscience articles are animal species (e.g., mouse, drosophila, zebrafish), anatomical regions (e.g., neocortex, mushroom body, cerebellum), experimental conditions (e.g., control, tetrodotoxin treatment, Scn1a knockout), and cell types (e.g., pyramidal neuron, direction-sensitive mechanoreceptor, oligodendrocyte)
+      
+      Literature:
+      {literature}
+    expected_output: >
+      output format: json
+      Example output.
+      "extracted_terms": {
+              "1": [
+                {
+                  "entity": "mouse",
+                  "label": "ANIMAL_SPECIES",
+                  "sentence": "These particles were visualized by fluorescent immunohistochemistry using mouse monoclonal anti-human myelin basic protein (MBPh) antibody (clone SMI-99).",
+                  "start": 79,
+                  "end": 84,
+                  "paper_location": "methods",
+                  "paper_title": "Concentration of myelin debris-like myelin basic protein-immunoreactive particles in the distal (anterior)-most part of the myelinated region in the normal rat optic nerve",
+                  "doi": "10.1101/2025.03.19.643597"
+                }
+              ],
+              "2": [
+                {
+                  "entity": "oligodendrocyte",
+                  "label": "CELL_TYPE",
+                  "sentence": "Individual oligodendrocytes provide, on average, 16 near axons with single myelin segments about 200 µm in length (Butt and Ransom, 1993).",
+                  "start": 14,
+                  "end": 29,
+                  "paper_location": "discussion",
+                  "paper_title": "Concentration of myelin debris-like myelin basic protein-immunoreactive particles in the distal (anterior)-most part of the myelinated region in the normal rat optic nerve",
+                  "doi": "10.1101/2025.03.19.643597"
+                }
+              ],
+              "3": [
+                {
+                  "entity": "cerebellum",
+                  "label": "ANATOMICAL_REGION",
+                  "sentence": "Myelin basic protein, human (MBPh) The mouse monoclonal antibody against the human myelin basic protein (clone SMI-99; Covance, Princeton, NJ) detects 4 bands between 14 and 21 kDa, corresponding to 4 myelin basic protein (MBP) isoforms on immunoblots of the mouse cerebellum (Dyer et al.).",
+                  "start": 293,
+                  "end": 303,
+                  "paper_location": "methods",
+                  "paper_title": "Concentration of myelin debris-like myelin basic protein-immunoreactive particles in the distal (anterior)-most part of the myelinated region in the normal rat optic nerve",
+                  "doi": "10.1101/2025.03.19.643597"
+                }
+              ],
+          }
+    agent_id: extractor_agent
+
+  - id: ner_alignment
+    description: >
+      Take the output of extractor_agent {extracted_info} as input and perform the concept alignment using the ontological concepts. 
+      A concept alignment is anything where you align the given entity to the matching concept aka class from a ontology or a schema.
+    expected_output: >
+      output format: json
+      Example output.
+      "aligned_ner_terms": {
+              "1": [
+                    {
+                      "entity": "oligodendrocyte",
+                      "label": "CELL_TYPE",
+                      "ontology_id": "CL:0000128", 
+                      "ontology_label": "Oligodendrocyte",
+                      "sentence": "Individual oligodendrocytes provide, on average, 16 near axons with single myelin segments about 200 µm in length (Butt and Ransom, 1993).",
+                      "start": 14,
+                      "end": 29,
+                      "paper_location": "discussion",
+                      "paper_title": "Concentration of myelin debris-like myelin basic protein-immunoreactive particles in the distal (anterior)-most part of the myelinated region in the normal rat optic nerve",
+                      "doi": "10.1101/2025.03.19.643597"
+                    }
+
+              ],
+              "2": [
+                   {
+                      "entity": "cerebellum",
+                      "label": "ANATOMICAL_REGION",
+                      "ontology_id": "UBERON:0002037", 
+                      "ontology_label": "Cerebellum", 
+                      "sentence": "Myelin basic protein, human (MBPh) The mouse monoclonal antibody against the human myelin basic protein (clone SMI-99; Covance, Princeton, NJ) detects 4 bands between 14 and 21 kDa, corresponding to 4 myelin basic protein (MBP) isoforms on immunoblots of the mouse cerebellum (Dyer et al.).",
+                      "start": 293,
+                      "end": 303,
+                      "paper_location": "methods",
+                      "paper_title": "Concentration of myelin debris-like myelin basic protein-immunoreactive particles in the distal (anterior)-most part of the myelinated region in the normal rat optic nerve",
+                      "doi": "10.1101/2025.03.19.643597"
+                    }
+
+                  ]
+              }
+    agent_id: alignment_agent
+
+  - id: ner_judgment
+    description: >
+      Take the output of alignment agent {aligned_structured_terms} as input and perform the following evaluation: 
+      1. Assess the quality and accuracy of the alignment with the ontology or schema in {aligned_structured_terms}.
+      2. Assign a score between 0 and 1 as a judge_score.
+      3. Update the {aligned_structured_terms} adding the judge_score.
+    expected_output: >
+      output format: json
+      Example output.
+      "judge_ner_terms": {
+             "1": [
+                   {
+                     "entity": "oligodendrocyte",
+                     "label": "CELL_TYPE",
+                     "ontology_id": "CL:0000128", 
+                     "ontology_label": "Oligodendrocyte",
+                     "sentence": "Individual oligodendrocytes provide, on average, 16 near axons with single myelin segments about 200 µm in length (Butt and Ransom, 1993).",
+                     "start": 14,
+                     "end": 29,
+                     "judge_score": "0.8",
+                     "paper_location": "discussion",
+                     "paper_title": "Concentration of myelin debris-like myelin basic protein-immunoreactive particles in the distal (anterior)-most part of the myelinated region in the normal rat optic nerve",
+                     "doi": "10.1101/2025.03.19.643597"
+                   }
+
+             ],
+             "2": [
+                  {
+                     "entity": "cerebellum",
+                     "label": "ANATOMICAL_REGION",
+                     "ontology_id": "UBERON:0002037", 
+                     "ontology_label": "Cerebellum", 
+                     "sentence": "Myelin basic protein, human (MBPh) The mouse monoclonal antibody against the human myelin basic protein (clone SMI-99; Covance, Princeton, NJ) detects 4 bands between 14 and 21 kDa, corresponding to 4 myelin basic protein (MBP) isoforms on immunoblots of the mouse cerebellum (Dyer et al.).",
+                     "start": 293,
+                     "end": 303,
+                     "judge_score": "0.54",
+                     "paper_location": "methods",
+                     "paper_title": "Concentration of myelin debris-like myelin basic protein-immunoreactive particles in the distal (anterior)-most part of the myelinated region in the normal rat optic nerve",
+                     "doi": "10.1101/2025.03.19.643597"
+                   }
+
+                 ]
+             }
+    agent_id: judge_agent
