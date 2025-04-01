@@ -1,6 +1,6 @@
 agents:
     - id: assertion_extractor_agent
-    output_variable: assertion_list
+    output_variable: assertions
     role: >
       Neuroscience Assertion Extractor Agent
     goal: >
@@ -23,9 +23,9 @@ agents:
     role: >
       Neuroscience Evidence Extractor Agent
     goal: >
-      For each assertion identified in the {assertion_list}, extract the supporting evidence from the literature provided in {literature}. 
+      For each assertion identified in the {assertions}, extract the supporting evidence from the literature provided in {literature}. 
     backstory: >
-      You are an AI agent specialized in tracing textual evidence that supports scientific claims and assertions in neuroscience literature. 
+      You are an AI assistant specialized in tracing textual evidence that supports scientific claims and assertions in neuroscience literature. 
       You carefully analyze the entire document and match specific passages that serve as supporting evidence for each identified assertion. 
       Your output must be grounded in the original text and free from hallucinations.
     llm:
