@@ -1,0 +1,6 @@
+flow:
+  - id: extract_assertion
+    agent_key: assertion_extractor_agent
+    task_key: assertion_extraction
+    inputs:
+      literature: "{{source_text}}"
