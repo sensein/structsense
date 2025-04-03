@@ -18,6 +18,7 @@
 
 import logging
 import sys
+import json
 from pathlib import Path
 from typing import Union, Dict, List
 import yaml
@@ -1115,3 +1116,128 @@ def process_ontology(file_path, output_file=None):
         logger.info(f"Saved ontology metadata to {output_file}")
 
     return df
+
+def extract_json_from_text(text):
+    """```json
+    {
+    "extracted_terms": {
+    "1": [
+      {
+        "entity": "mouse",
+        "label": "ANIMAL_SPECIES",
+        "sentence": "Here we report a comprehensive and high-resolution transcriptomic and spatial cell-type atlas for the whole adult mouse brain.",
+        "start": 94,
+        "end": 99,
+        "paper_location": "A high-resolution transcriptomic and spatial atlas of cell types in the whole mouse brain",
+        "paper_title": "Check for updates",
+        "doi": null
+      }
+    ],
+    "2": [
+      {
+        "entity": "isocortex",
+        "label": "ANATOMICAL_REGION",
+        "sentence": "Telencephalon consists of five major brain structures: isocortex, hippocampal formation (HPF), olfactory areas (OLF), cortical subplate (CTXsp) and cerebral nuclei (CNU).",
+        "start": 54,
+        "end": 63,
+        "paper_location": "A high-resolution transcriptomic and spatial atlas of cell types in the whole mouse brain",
+        "paper_title": "Check for updates",
+        "doi": null
+      },
+      {
+        "entity": "hippocampal formation",
+        "label": "ANATOMICAL_REGION",
+        "sentence": "Telencephalon consists of five major brain structures: isocortex, hippocampal formation (HPF), olfactory areas (OLF), cortical subplate (CTXsp) and cerebral nuclei (CNU).",
+        "start": 65,
+        "end": 85,
+        "paper_location": "A high-resolution transcriptomic and spatial atlas of cell types in the whole mouse brain",
+        "paper_title": "Check for updates",
+        "doi": null
+      },
+      {
+        "entity": "olfactory areas",
+        "label": "ANATOMICAL_REGION",
+        "sentence": "Telencephalon consists of five major brain structures: isocortex, hippocampal formation (HPF), olfactory areas (OLF), cortical subplate (CTXsp) and cerebral nuclei (CNU).",
+        "start": 94,
+        "end": 110,
+        "paper_location": "A high-resolution transcriptomic and spatial atlas of cell types in the whole mouse brain",
+        "paper_title": "Check for updates",
+        "doi": null
+      },
+      {
+        "entity": "cortical subplate",
+        "label": "ANATOMICAL_REGION",
+        "sentence": "Telencephalon consists of five major brain structures: isocortex, hippocampal formation (HPF), olfactory areas (OLF), cortical subplate (CTXsp) and cerebral nuclei (CNU).",
+        "start": 113,
+        "end": 130,
+        "paper_location": "A high-resolution transcriptomic and spatial atlas of cell types in the whole mouse brain",
+        "paper_title": "Check for updates",
+        "doi": null
+      },
+      {
+        "entity": "cerebral nuclei",
+        "label": "ANATOMICAL_REGION",
+        "sentence": "Telencephalon consists of five major brain structures: isocortex, hippocampal formation (HPF), olfactory areas (OLF), cortical subplate (CTXsp) and cerebral nuclei (CNU).",
+        "start": 139,
+        "end": 155,
+        "paper_location": "A high-resolution transcriptomic and spatial atlas of cell types in the whole mouse brain",
+        "paper_title": "Check for updates",
+        "doi": null
+      }
+    ],
+    "3": [
+      {
+        "entity": "astrocytes",
+        "label": "CELL_TYPE",
+        "sentence": "The Astro-Epen class is the most complex, containing ten subclasses, five of which represent astrocytes that are specific to different brain regions.",
+        "start": 79,
+        "end": 89,
+        "paper_location": "Non-neuronal and immature neuronal cell types",
+        "paper_title": "Check for updates",
+        "doi": null
+      },
+      {
+        "entity": "oligodendrocytes",
+        "label": "CELL_TYPE",
+        "sentence": "The OPC-Oligo class contains two subclasses, oligodendrocyte precursor cells (OPC) and oligodendrocytes.",
+        "start": 90,
+        "end": 106,
+        "paper_location": "Non-neuronal and immature neuronal cell types",
+        "paper_title": "Check for updates",
+        "doi": null
+      },
+      {
+        "entity": "microglia",
+        "label": "CELL_TYPE",
+        "sentence": "The Immune class consists of 5 subclasses: microglia, border-associated macrophages (BAM), monocytes, dendritic cells (DC) and lymphoid cells, which contains B cells, T cells, natural killer (NK) cells and innate lymphoid cells (ILC).",
+        "start": 41,
+        "end": 49,
+        "paper_location": "Non-neuronal and immature neuronal cell types",
+        "paper_title": "Check for updates",
+        "doi": null
+      }
+    ]
+    }
+    }
+    ```
+
+    (Note: This output contains representative examples from the input text. The complete response will include further identified entities systematically extracted from the entire provided document.)
+    """
+    brace_stack = []
+    json_start = None
+    for i, char in enumerate(text):
+        if char == '{':
+            if not brace_stack:
+                json_start = i
+            brace_stack.append('{')
+        elif char == '}':
+            if brace_stack:
+                brace_stack.pop()
+                if not brace_stack:
+                    json_end = i + 1
+                    json_str = text[json_start:json_end]
+                    try:
+                        return json.loads(json_str)
+                    except json.JSONDecodeError as e:
+                        raise ValueError(f"Found potential JSON but failed to parse: {e}")
+    raise ValueError("No valid JSON object found in the input.")

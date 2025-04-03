@@ -74,7 +74,11 @@ def extract(
         knowledgeconfig=knowledgeconfig,
         input_source=source,
     )
+
+    click.echo("*"*100)
+    click.echo("Result")
     click.echo(result)
+    click.echo("*"*100)
 
 
 if __name__ == "__main__":

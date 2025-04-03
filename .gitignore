@@ -11,7 +11,7 @@ crew_memory/
 __pycache__/
 *.py[cod]
 *$py.class
-
+example/.structsense_env
 # C extensions
 *.so
 .chainlit/
