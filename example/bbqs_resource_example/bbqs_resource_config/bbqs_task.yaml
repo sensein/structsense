@@ -1,0 +1,88 @@
+tasks:
+  - id: bbqs_resource_extraction
+    description: >
+      Extract structured metadata about scientific resources relevant to BBQS from the given {resource}
+      Each input should yield **one resource** only. If the input mentions other resources, include them under a `mentions` field but do not extract them as separate entries.
+      
+      Return the following fields in JSON format:
+        - name
+        - description
+        - type (Model, Dataset, Tool, Paper, Benchmark, Leaderboard)
+        - category (e.g., Pose Estimation, Behavioral Quantification)
+        - target (e.g., Animal, Human, Mammals)
+        - specific target (e.g., Mice, Macaque, Bird)
+        - url
+        - mentions (optional: dictionary with fields like models, datasets, benchmarks, papers)
+
+      Use `null` if information is missing.
+
+      Resource:
+      {resource}
+    expected_output: >
+      output format: json
+      Example output.
+      "resource": {
+            "name": "DeepLabCut Model Zoo - SuperAnimal-Quadruped",
+            "description": "Pre-trained model for quadruped animal pose estimation using DeepLabCut.",
+            "type": "Model",
+            "category": "Pose Estimation",
+            "target": "Animal",
+            "specific_target": "Quadruped, Horse, Mice",
+            "mentions": {
+                "datasets": ["Quadruped-80K", "AnimalPose", "AwA-Pose", "AcinoSet", "Horse-30", "StanfordDogs", "AP-10K", "iRodent"],
+                "benchmarks": ["AP-10K", "AnimalPose", "Horse-10", "iRodent"],
+                "models": ["DeepLabCut"],
+            }
+          }
+    agent_id: extractor_agent
+
+  - id: bbqs_resource_alignment
+    description: >
+      Take the output of extractor_agent {extracted_info} as input and perform the concept alignment based on existing resources. 
+      A concept alignment is anything where you align the given entity to the matching concept aka class from the existing set of resources.
+    expected_output: >
+      output format: json
+      Example output.
+      "aligned_resources": {
+            "name": "DeepLabCut Model Zoo - SuperAnimal-Quadruped",
+            "description": "A DeepLabCut SuperAnimal pre-trained model for quadruped animal pose estimation using DeepLabCut, trained on the TopViewMouse-5K dataset.",
+            "type": "Model",
+            "category": "Pose Estimation",
+            "target": "Animal",
+            "specific_target": "Quadruped, Horse, Mice, Primate, Macaque, Dogs, Rodents",
+            "url": "https://deeplabcut.github.io/DeepLabCut/docs/ModelZoo.html"
+            "mentions": {
+                "datasets": ["Quadruped-80K", "AnimalPose", "AwA-Pose", "AcinoSet", "Horse-30", "StanfordDogs", "AP-10K", "iRodent"],
+                "benchmarks": ["AP-10K", "AnimalPose", "Horse-10", "iRodent"],
+                "models": ["DeepLabCut"],
+                "papers": ["10.48550/arXiv.2203.07436"]
+            }
+          }
+    agent_id: alignment_agent
+
+  - id: bbqs_resource_judgment
+    description: >
+      Take the output of alignment agent {aligned_structured_terms} as input and perform the following evaluation: 
+      1. Assess the quality and accuracy of the alignment with the BBQS standards in {aligned_structured_terms}.
+      2. Assign a score between 0 and 1 as a judge_score.
+      3. Update the {aligned_structured_terms} adding the judge_score.
+    expected_output: >
+      output format: json
+      Example output.
+      "judge_ner_terms": {
+            "name": "DeepLabCut Model Zoo - SuperAnimal-Quadruped",
+            "description": "A DeepLabCut SuperAnimal pre-trained model for quadruped animal pose estimation using DeepLabCut, trained on the TopViewMouse-5K dataset.",
+            "type": "Model",
+            "category": "Pose Estimation",
+            "target": "Animal",
+            "specific_target": "Quadruped, Horse, Mice, Primate, Macaque, Dogs, Rodents",
+            "url": "https://deeplabcut.github.io/DeepLabCut/docs/ModelZoo.html"
+            "mentions": {
+                "datasets": ["Quadruped-80K", "AnimalPose", "AwA-Pose", "AcinoSet", "Horse-30", "StanfordDogs", "AP-10K", "iRodent"],
+                "benchmarks": ["AP-10K", "AnimalPose", "Horse-10", "iRodent"],
+                "models": ["DeepLabCut"],
+                "papers": ["10.48550/arXiv.2203.07436"]
+            }
+            "judge_score": 0.95
+          }
+    agent_id: judge_agent
