@@ -37,14 +37,42 @@ The below is the architecture of the `StructSense`.
   - Install ollama and pull the models which you intend to use. This example uses `deepseek-r1:14b` model. You can get it from ollama by running `ollama pull deepseek-r1:14b` command. If you want to use different models, e.g., `llama3.2:latest`, you need to pull it similar to `deepseek-r1:14b`. Make sure that ollama is running. You can run ollama using `ollama serve`.
 ---
 ## 📄 Requirements
-### GROBID Service
-You need GROBID service running if you plan to use PDF files as input. For the raw input text, you do not use GROBID.
+### 📄 PDF Extraction Configuration
 
+By default, the system uses the **local Grobid service** for PDF content extraction. If you have Grobid installed locally, **no additional setup is required** — everything is preconfigured for local usage.
+
+**Grobid Installation via Docker**
 ```shell
 docker pull lfoppiano/grobid:0.8.0
 docker run --init -p 8070:8070 -e JAVA_OPTS="-XX:+UseZGC" lfoppiano/grobid:0.8.0
 ```
 JAVA_OPTS="-XX:+UseZGC" helps to resolve the following error in MAC OS.
+
+---
+
+#### 🔧 Using a Remote Grobid Server
+
+If you're running Grobid on a **remote server**, set the following environment variable:
+
+```bash
+GROBID_SERVER_URL_OR_EXTERNAL_SERVICE=http://your-remote-grobid-server:PORT
+
+```
+
+### 🌐 Using an External PDF Extraction API
+If you prefer to use an external PDF extraction API service, you must:
+
+- Set the API endpoint:
+
+  ```shell
+    GROBID_SERVER_URL_OR_EXTERNAL_SERVICE=https://api.SOMEAPIENDPOINT.com/api/extract
+  ```
+- Enable the external API mode:
+  ```shell
+    EXTERNAL_PDF_EXTRACTION_SERVICE=True
+  ```
+> Note:
+At the moment, the external API is assumed to be publicly accessible and does not require authentication (e.g., no JWT token or API key). Support for authenticated requests may be added in future versions.
 
 ---
 
@@ -94,7 +122,7 @@ This configuration is optional and only necessary if you plan to integrate a kno
 | `OLLAMA_MODEL`        | Name of the Ollama embedding model            | `nomic-embed-text`                      |
 
 > ⚠️ **Note**:  If ollama is running in host machine and vector database, i.e., WEAVIATE, in docker, then we use `http://host.docker.internal:11434`, which is also the default value. However, if both are running in docker in the same host, use `http://localhost:11434 `.
-#### 🧵 Optional Integrations
+#### 🧵 Optional: Experiment Tracking
 
 | Variable               | Description                                                                | Default           |
 |------------------------|----------------------------------------------------------------------------|-------------------|
@@ -149,63 +177,62 @@ ENABLE_KG_SOURCE=false
 ---
 
 ### 📄 YAML Configuration
-In order to run `structsense` you need 5 YAML configuration files.
+In order to run `structsense` you need 4 YAML configuration files.
 - The first is the `agent configuration`.
   - The agent configuration. You can define as many agents as you want, we process it dynamically.
     - Example agent configuration.
       ```yaml 
-      agents:
-        - id: extractor_agent
-          output_variable: extracted_info
+        extractor_agent:
           role: >
-            [Entity Extraction Agent]
+            Neuroscience Named Entity Recognition (NER) Extractor Agent
           goal: >
-            Perform Named Entity Recognition (NER) or entity extraction on {input_data} and return structured JSON output.
+            Perform Named Entity Recognition (NER) on neuroscience {literature} and return structured JSON output.
           backstory: >
-            You are an AI assistant specialized in information extraction for a specific domain. 
-            Your expertise includes identifying and classifying entities relevant to the task, such as concepts, locations, people, or other domain-specific items. 
-            You respond strictly in structured JSON to ensure compatibility with downstream systems.
+            You are an AI assistant specialized in processing neuroscience and who do not hallucinate. 
+            Your expertise includes recognizing and categorizing named entities such as anatomical regions, experimental conditions, and cell types. 
+            Your responses strictly adhere to JSON format, ensuring accurate and structured data extraction for downstream applications.
           llm:
             model: openrouter/openai/gpt-4o-2024-11-20
             base_url: https://openrouter.ai/api/v1
             frequency_penalty: 0.1
             temperature: 0.7
             seed: 53
-            api_key: YOUR_API_KEY_HERE  # Replace with your actual API key or use env var
-      
-          - id: alignment_agent
-            output_variable: aligned_entities
-            role: >
-              [Concept Alignment Agent]
-            goal: >
-              Align extracted entities from {extracted_info} with domain-specific ontologies or schema models and return structured JSON.
-            backstory: >
-              You are an AI assistant with expertise in linking extracted terms to formal knowledge representations such as taxonomies, schemas, or ontologies. 
-              Your responses help enrich and normalize the raw extracted data for semantic interoperability.
-            llm:
-              model: openrouter/openai/gpt-4o-2024-11-20
-              base_url: https://openrouter.ai/api/v1
-              frequency_penalty: 0.1
-              temperature: 0.7
-              seed: 53
-              api_key: YOUR_API_KEY_HERE
-    
-          - id: judge_agent
-            output_variable: reviewed_output
-            role: >
-              [Judgment & Scoring Agent]
-            goal: >
-              Evaluate the {aligned_entities} based on predefined criteria and return structured feedback and scores in JSON format.
-            backstory: >
-              You are an evaluation-focused AI agent that reviews entity alignment or extraction quality based on accuracy, consistency, or relevance. 
-              You assign a confidence score (e.g., from 0 to 1) and provide justification or flags where applicable.
-            llm:
-              model: openrouter/openai/gpt-4o-2024-11-20
-              base_url: https://openrouter.ai/api/v1
-              frequency_penalty: 0.1
-              temperature: 0.7
-              seed: 53
-              api_key: YOUR_API_KEY_HERE 
+            api_key: sk-or-v1-
+        
+        alignment_agent:
+          role: >
+            Neuroscience Named Entity Recognition (NER) Concept Alignment Agent
+          goal: >
+            Perform concept alignment to the extracted Named Entity Recognition (NER) by extractor_agent {extracted_structured_information} and return structured JSON output.
+          backstory: >
+            You are an AI assistant specialized in processing neuroscience concept alignment with structured models, i.e., ontologies or schemas and who do not hallucinate. 
+            Your expertise includes recognizing and categorizing extracted named entities such as anatomical regions, experimental conditions, and cell types and aligning the recognized named entities such as cell types with corresponding ontological terms. 
+            Your responses strictly adhere to JSON format, ensuring accurate and structured data extraction for downstream applications.
+          llm:
+            model: openrouter/openai/gpt-4o-2024-11-20
+            base_url: https://openrouter.ai/api/v1
+            frequency_penalty: 0.1
+            temperature: 0.7
+            seed: 53
+            api_key: sk-or-v1-
+        
+        judge_agent:
+          role: >
+            Neuroscience Named Entity Recognition (NER) Judge Agent
+          goal: >
+            Evaluate the {aligned_structured_information} based on predefined criteria and generate a structured JSON output reflecting the assessment results.
+          backstory: >
+            You are an AI assistant with expert knowledge in neuroscience and structured models, i.e., ontologies or schemas, and someone who does not hallucinate.  
+            Your task is to evaluate the {aligned_structured_information} based on the accuracy and quality of the alignment. 
+            Assign the score between 0-1 with 1 being the highest score of your evaluation.
+            Your responses strictly adhere to JSON format, ensuring accurate and structured data extraction for downstream applications.
+          llm:
+            model: openrouter/openai/gpt-4o-2024-11-20
+            base_url: https://openrouter.ai/api/v1
+            frequency_penalty: 0.1
+            temperature: 0.7
+            seed: 53
+            api_key: sk-or-v1-
         ```
     - In the YAML file: 
         - **ID**: Unique identifier
@@ -219,97 +246,93 @@ In order to run `structsense` you need 5 YAML configuration files.
   - Task configuration allows you to describes the tasks for the agent. 
      - Example task configuration.
        ```yaml
-         tasks:
-           - id: entity_extraction
-             description: >
-               From the given input {input_data}, extract named entities relevant to your domain.
-               A named entity is any term or phrase that refers to a specific concept, such as a person, place, organization, species, anatomical region, or event.
-    
-               Input:
-               {input_data}
-             expected_output: >
-               Format: JSON
-               Example:
-               {
-                 "extracted_terms": {
-                   "1": [
-                     {
-                       "entity": "example entity",
-                       "label": "ENTITY_TYPE",
-                       "sentence": "This is the sentence where the entity appears.",
-                       "start": 10,
-                       "end": 25,
-                       "source_metadata": {
-                         "title": "Source Title",
-                         "section": "methods",
-                         "doi": "doi-or-id"
-                       }
-                     }
-                   ]
-                 }
-               }
-             agent_id: extractor_agent
-    
-           - id: concept_alignment
-             description: >
-               Take the output from the extraction step {extracted_info} and align each entity to a matching concept 
-               in a domain-specific ontology or schema. Use concept identifiers and labels where possible.
-    
-             expected_output: >
-               Format: JSON
-               Example:
-               {
-                 "aligned_terms": {
-                   "1": [
-                     {
-                       "entity": "example entity",
-                       "label": "ENTITY_TYPE",
-                       "ontology_id": "ONTO:0000001",
-                       "ontology_label": "Mapped Concept Label",
-                       "sentence": "Original sentence text.",
-                       "start": 10,
-                       "end": 25,
-                       "source_metadata": {
-                         "title": "Source Title",
-                         "section": "methods",
-                         "doi": "doi-or-id"
-                       }
-                     }
-                   ]
-                 }
-               }
-             agent_id: alignment_agent
-    
-           - id: alignment_judgment
-             description: >
-               Take the aligned output {aligned_terms} and evaluate each mapping based on domain knowledge and matching quality.
-               Assign a score between 0 and 1 (higher is better), and embed the score into the aligned result.
-    
-             expected_output: >
-               Format: JSON
-               Example:
-               {
-                 "judged_terms": {
-                   "1": [
-                     {
-                       "entity": "example entity",
-                       "label": "ENTITY_TYPE",
-                       "ontology_id": "ONTO:0000001",
-                       "ontology_label": "Mapped Concept Label",
-                       "sentence": "Original sentence text.",
-                       "start": 10,
-                       "end": 25,
-                       "judge_score": 0.85,
-                       "source_metadata": {
-                         "title": "Source Title",
-                         "section": "methods",
-                         "doi": "doi-or-id"
-                       }
-                     }
-                   ]
-                 }
-               }
-             agent_id: judge_agent 
+        extraction_task:
+          description: >
+            From the given literature extract named entities from neuroscience statements.
+            A named entity is anything that can be referred to with a proper name.
+            Some common named entities in neuroscience articles are animal species (e.g., mouse, drosophila, zebrafish),
+            anatomical regions (e.g., neocortex, mushroom body, cerebellum), experimental conditions (e.g., control, tetrodotoxin treatment, Scn1a knockout),
+            and cell types (e.g., pyramidal neuron, direction-sensitive mechanoreceptor, oligodendrocyte)
+        
+            Literature:
+            {literature}
+          expected_output: >
+            output format: json
+            Example output:
+            {
+              "extracted_terms": {
+                "1": [
+                  {
+                    "entity": "mouse",
+                    "label": "ANIMAL_SPECIES",
+                    "sentence": "These particles were visualized by fluorescent immunohistochemistry using mouse monoclonal anti-human myelin basic protein (MBPh) antibody (clone SMI-99).",
+                    "start": 79,
+                    "end": 84,
+                    "paper_location": "methods",
+                    "paper_title": "Concentration of myelin debris-like myelin basic protein-immunoreactive particles in the distal (anterior)-most part of the myelinated region in the normal rat optic nerve",
+                    "doi": "10.1101/2025.03.19.643597"
+                  }
+                ]
+              }
+            }
+          agent_id: extractor_agent
+        
+        alignment_task:
+          description: >
+            Take the output of extractor_agent {extracted_structured_information} as input and perform the concept alignment using the ontological concepts.
+            A concept alignment is where you align the given entity to the matching concept or class from an ontology or schema.
+          expected_output: >
+            output format: json
+            Example output:
+            {
+              "aligned_ner_terms": {
+                "1": [
+                  {
+                    "entity": "oligodendrocyte",
+                    "label": "CELL_TYPE",
+                    "ontology_id": "CL:0000128",
+                    "ontology_label": "Oligodendrocyte",
+                    "sentence": "Individual oligodendrocytes provide...",
+                    "start": 14,
+                    "end": 29,
+                    "paper_location": "discussion",
+                    "paper_title": "Concentration of myelin debris-like...",
+                    "doi": "10.1101/2025.03.19.643597"
+                  }
+                ] 
+              }
+            }
+          agent_id: alignment_agent
+        
+        judge_task:
+          description: >
+            Take the output of alignment agent {aligned_structured_information} as input and perform the following evaluation:
+            1. Assess the quality and accuracy of the alignment with the ontology or schema.
+            2. Assign a score between 0 and 1 as a judge_score.
+            3. Update the {aligned_structured_information} by adding the judge_score.
+          expected_output: >
+            output format: json
+            Example output:
+            {
+              "judge_ner_terms": {
+                "1": [
+                  {
+                    "entity": "oligodendrocyte",
+                    "label": "CELL_TYPE",
+                    "ontology_id": "CL:0000128",
+                    "ontology_label": "Oligodendrocyte",
+                    "judge_score": "0.8",
+                    "sentence": "Individual oligodendrocytes provide...",
+                    "start": 14,
+                    "end": 29,
+                    "paper_location": "discussion",
+                    "paper_title": "Concentration of myelin debris-like...",
+                    "doi": "10.1101/2025.03.19.643597"
+                  }
+                ]
+              }
+            }
+          agent_id: judge_agent
        ```
      - Each task links to a specific agent via `agent_id` and defines:
        - **Description**: What the task does
@@ -318,33 +341,8 @@ In order to run `structsense` you need 5 YAML configuration files.
        - 
        > ⚠️ **Note**:  The variables {variable_name} are replaced at the run-time. Also, pay attention in the tasks where we are using the output variable defined in `agent configuration`.
 
-- The third is the `flow configuration`
 
-  - Creates the flow on how the tasks are executed. Even though we see it sequential, since the memory has been setup at a crew level, the details are shared across the agents while performing the tasks.
-
-  ```yaml
-  flow:
-    - id: extracted_structured_information
-      agent_key: extractor_agent #should match the agent configuration
-      task_key: ner_extraction #should match the task configuration
-      inputs:
-        literature: "{{source_text}}"  # still comes from runtime. Do not change this variable name
-  
-      - id: align_structured_information
-        agent_key: alignment_agent
-        task_key: ner_alignment
-        inputs:
-          extracted_info: "{{extracted_info}}"  #  comes from agent's output_variable
-        knowledge_source: extracted_info        #  match output_variable from previous step i.e., extractor_agent and is used to get content from the vector db
-  
-      - id: judge_alignment
-        agent_key: judge_agent
-        task_key: ner_judgment
-        inputs:
-          aligned_structured_terms: "{{aligned_structured_terms}}"
-        knowledge_source: aligned_structured_terms
-  ```
-- The fourth is the `embedding configuration` For more about the different embedding configurations using different provider see [https://docs.crewai.com/concepts/memory#additional-embedding-providerscl](https://docs.crewai.com/concepts/memory#additional-embedding-providerscl).
+- The third is the `embedding configuration` For more about the different embedding configurations using different provider see [https://docs.crewai.com/concepts/memory#additional-embedding-providerscl](https://docs.crewai.com/concepts/memory#additional-embedding-providerscl).
   ```yaml
   embedder_config:
     provider: ollama
@@ -352,7 +350,7 @@ In order to run `structsense` you need 5 YAML configuration files.
       api_base: http://localhost:11434
       model: nomic-embed-text:latest
   ``` 
-- The fifth and the final one is the `search configuration`, where we define the search keys. Since the ontology/schemas are our current knowledge source, which is why you see the label and entity as search key. _This is optional if you do not use knowledge source._
+- The fourth and the final one is the `search configuration`, where we define the search keys. Since the ontology/schemas are our current knowledge source, which is why you see the label and entity as search key. _This is optional if you do not use knowledge source._
   ```yaml
   search_key: #local vector database
     - entity

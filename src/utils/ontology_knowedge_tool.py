@@ -1,7 +1,7 @@
 import json
 import logging
 
-from .utils import get_weaviate_client, hybrid_search, extract_json_from_text
+from .utils import get_weaviate_client, hybrid_search
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
@@ -29,7 +29,7 @@ def OntologyKnowledgeTool(data, search_key=["entity", "label"]):
         return "Error: Missing required input: data."
 
     # Dynamically locate nested dictionaries that contain lists of dicts
-    data = extract_json_from_text(data)
+
 
     term_collections = []
     if isinstance(data, dict):

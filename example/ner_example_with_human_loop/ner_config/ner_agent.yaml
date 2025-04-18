@@ -13,7 +13,7 @@ extractor_agent:
     frequency_penalty: 0.1
     temperature: 0.7
     seed: 53
-    api_key: sk-or-v1-
+    api_key: XXX
 
 alignment_agent:
   role: >
@@ -30,7 +30,7 @@ alignment_agent:
     frequency_penalty: 0.1
     temperature: 0.7
     seed: 53
-    api_key: sk-or-v1-
+    api_key: XXX
 
 judge_agent:
   role: >
@@ -48,5 +48,21 @@ judge_agent:
     frequency_penalty: 0.1
     temperature: 0.7
     seed: 53
-    api_key: sk-or-v1-
+    api_key: XXX
 
+humanfeedback_agent:
+  role: >
+    Neuroscience Named Entity Recognition (NER) Human feedback processor Agent
+  goal: >
+    Evaluate the {judged_structured_information_with_human_feedback} and review if everything is correct as human domain expert.
+  backstory: >
+    You are an AI assistant that acts as a human expert in neuroscience and structured models, i.e., ontologies or schemas, and someone who does not hallucinate.  
+    Your task is to evaluate, i.e., review the result {judged_structured_information_with_human_feedback} to see if everything is correct and if not fix it. 
+    Your responses strictly adhere to JSON format, ensuring accurate and structured data extraction for downstream applications.
+  llm:
+    model: openrouter/openai/gpt-4o-2024-11-20
+    base_url: https://openrouter.ai/api/v1
+    frequency_penalty: 0.1
+    temperature: 0.7
+    seed: 53
+    api_key: XXX

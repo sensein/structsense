@@ -13,18 +13,5 @@
 # @Author  : Tek Raj Chhetri
 # @Email   : tekraj@mit.edu
 # @Web     : https://tekrajchhetri.com/
-# @File    : types.py
+# @File    : __init__.py.py
 # @Software: PyCharm
-
-from typing import Dict, List, Any
-from pydantic import BaseModel
-
-
-class ExtractedTermsDynamic(BaseModel):
-    extracted_structured_information: Dict[str, List[Dict[str, Any]]]
-
-class AlignedTermsDynamic(BaseModel):
-    aligned_structured_information: Dict[str, List[Dict[str, Any]]]
-
-class JudgedTermsDynamic(BaseModel):
-    judged_structured_information: Dict[str, List[Dict[str, Any]]]

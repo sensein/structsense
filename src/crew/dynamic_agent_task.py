@@ -23,23 +23,16 @@ class DynamicAgentTask:
     def __init__(self, tasks_config):
         self.tasks_config = tasks_config
 
-    def build_tasks(self, agents_by_id: dict) -> list:
-        tasks = []
-        for task_cfg in self.tasks_config:
-            agent_id = task_cfg["agent_id"]
-            agent = agents_by_id.get(agent_id)
+    def build_task(self, pydantic_output, agent: Agent) -> Task:
+        """Creates and returns an  task assigned to the agent.
 
-            if agent is None:
-                raise ValueError(
-                    f"Agent with id '{agent_id}' not found for task '{task_cfg.get('id')}'"
-                )
+           Args:
+             agent (Agent): The agent that will execute the task.
 
-            # Remove fields not accepted by Task
-            task_cfg_cleaned = {
-                k: v for k, v in task_cfg.items() if k not in ["id", "agent_id"]
-            }
+          Returns:
+            Task: A configured CrewAI task.
+        """
 
-            task = Task(config=task_cfg_cleaned, agent=agent)
-            tasks.append(task)
-
-        return tasks
+        return Task(config=self.tasks_config,
+                    output_pydantic=pydantic_output,
+                    agent=agent)

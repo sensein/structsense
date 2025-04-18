@@ -34,25 +34,29 @@ class DynamicAgent:
         self.embedder_config = embedder_config
         self.tools = tools
 
-    def build_agents(self) -> dict:
+    def build_agent(self) -> dict:
         """Builds and returns agents mapped by ID.
 
         Returns:
             dict: Mapping of agent_id to Agent instance.
         """
-        agents_by_id = {}
-        for config in self.agents_config:
-            agent_id = config["id"]
-            llm_config = config.get("llm", {})
-            agent = Agent(
-                role=config["role"],
-                goal=config["goal"],
-                backstory=config.get("backstory", ""),
+        agent_config = self.agents_config
+        agent_role = agent_config.get("role","")
+        agent_goal = agent_config.get("goal", "")
+        agent_backstory = agent_config.get("backstory", "")
+        llm_config = agent_config.get("llm","")
+        embedder_config = self.embedder_config.get("embedder_config")
+
+        agent = Agent(
+                role=agent_role,
+                goal=agent_goal,
+                backstory=agent_backstory,
                 llm=LLM(**llm_config),
-                embedder=self.embedder_config.get("embedder_config"),
+                embedder=embedder_config,
                 tools=self.tools,
                 allow_delegation=False,
                 verbose=True,
+                max_iter=1
             )
-            agents_by_id[agent_id] = agent
-        return agents_by_id
+
+        return agent

@@ -33,6 +33,9 @@ from weaviate.classes.init import AdditionalConfig, Timeout, Auth
 from dotenv import load_dotenv
 from weaviate.classes.config import Property, DataType, Configure, VectorDistances
 from GrobidArticleExtractor import GrobidArticleExtractor
+import requests
+from requests.exceptions import RequestException
+
 
 # Load environment variables from a .env file if present
 load_dotenv()
@@ -46,10 +49,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-ONTOLOGY_DATABASE = os.getenv("ONTOLOGY_DATABASE", "ontology_database_agentpy")
-GROBID_SERVER_URL = os.getenv("GROBID_SERVER_URL", "http://localhost:8070")
-
-def process_input_data(source:str): 
+def process_input_data(source:str):
     if isinstance(source, str):
         # Try different path resolutions
         paths_to_try = [
@@ -64,12 +64,15 @@ def process_input_data(source:str):
 
         # Check if this is raw text input
         is_raw_text = (
-            # If it's a very long string, treat as raw text
+            # do not contains any extensions like .pdf
+                (not source.lower().endswith(".pdf")) or
+                # If it's a very long string, treat as raw text
                 len(source) > 500 or
                 # Or if it contains newlines
                 '\n' in source or
                 # Or if it doesn't look like a path and no paths exist
                 (not ('/' in source or '\\' in source) and not any(p.exists() for p in paths_to_try))
+
         )
 
         if is_raw_text:
@@ -105,13 +108,18 @@ def process_input_data(source:str):
         # Process single file
     if source_path.is_file():
         logger.info(f"Processing single file: {source_path}")
+        GROBID_SERVER_URL_OR_EXTERNAL_SERVICE = os.getenv("GROBID_SERVER_URL_OR_EXTERNAL_SERVICE",
+                                                          "http://localhost:8070")
+        EXTERNAL_PDF_EXTRACTION_SERVICE = os.getenv("EXTERNAL_PDF_EXTRACTION_SERVICE", "False")
         return extract_pdf_content(
-            file_path=source_path
+            file_path=source_path,
+            grobid_server=GROBID_SERVER_URL_OR_EXTERNAL_SERVICE,
+            external_service=EXTERNAL_PDF_EXTRACTION_SERVICE
         )
 
-def extract_pdf_content(file_path: str, grobid_server: str = GROBID_SERVER_URL) -> dict:
+def extract_pdf_content(file_path: str, grobid_server: str , external_service: str ) -> dict:
     """
-    Extracts content from a PDF file using GrobidArticleExtractor.
+    Extracts content from a PDF file using GrobidArticleExtractor. or uses the external service
     https://github.com/sensein/EviSense/blob/experiment/src/EviSense/shared.py
 
     This function processes the given PDF file and extracts its contents.
@@ -128,59 +136,82 @@ def extract_pdf_content(file_path: str, grobid_server: str = GROBID_SERVER_URL) 
                 - "heading" (str): The heading/title of the section.
                 - "content" (str): The textual content of the section.
     """
-    if grobid_server is None:
-        # default localhost
-        extractor = GrobidArticleExtractor()
-    else:
-        extractor = GrobidArticleExtractor(grobid_url=grobid_server)
+    is_external_service = external_service.lower() == "true"
+    logger.debug("*"*100)
+    logger.debug("printing from structsense")
+    logger.debug(external_service, grobid_server)
+    logger.debug("*" * 100)
+    if not is_external_service:
+        logging.debug("Using GROBID_SERVICE: {}".format(grobid_server))
+        if grobid_server is None:
+            # default localhost
+            extractor = GrobidArticleExtractor()
+        else:
+            extractor = GrobidArticleExtractor(grobid_url=grobid_server)
 
-    xml_content = extractor.process_pdf(file_path)
-    result = extractor.extract_content(xml_content)
+        xml_content = extractor.process_pdf(file_path)
+        result = extractor.extract_content(xml_content)
 
-    try:
-        extracted_data = {
-            "metadata": result.get("metadata", {}),
-            "sections": []
-        }
+        try:
+            extracted_data = {
+                "metadata": result.get("metadata", {}),
+                "sections": []
+            }
 
-        # Process sections
-        sections = result.get("sections", [])
-        if not sections:
-            logger.warning("No sections found in PDF")
-            # Create a single section with all content if available
-            if content := result.get("content"):
-                sections = [{
-                    "heading": "Content",
+            # Process sections
+            sections = result.get("sections", [])
+            if not sections:
+                logger.warning("No sections found in PDF")
+                # Create a single section with all content if available
+                if content := result.get("content"):
+                    sections = [{
+                        "heading": "Content",
+                        "content": content
+                    }]
+
+            # Add sections to extracted data
+            for section in sections:
+                if not isinstance(section, dict):
+                    logger.warning(f"Skipping invalid section format: {type(section)}")
+                    continue
+
+                heading = str(section.get("heading", "")).strip()
+                content = str(section.get("content", "")).strip()
+
+                if not content:
+                    logger.warning(f"Skipping empty section: {heading}")
+                    continue
+
+                extracted_data["sections"].append({
+                    "heading": heading,
                     "content": content
-                }]
+                })
 
-        # Add sections to extracted data
-        for section in sections:
-            if not isinstance(section, dict):
-                logger.warning(f"Skipping invalid section format: {type(section)}")
-                continue
+            if not extracted_data["sections"]:
+                raise Exception("No valid content could be extracted from PDF")
 
-            heading = str(section.get("heading", "")).strip()
-            content = str(section.get("content", "")).strip()
+            logger.info(f"Successfully extracted {len(extracted_data['sections'])} sections")
+            return extracted_data
 
-            if not content:
-                logger.warning(f"Skipping empty section: {heading}")
-                continue
+        except Exception as e:
+            logger.error(f"Error in extract_pdf_content: {str(e)}")
+            raise
+    else:
+        logging.debug("Using EXTERNAL PDF SERVICE: {}".format(grobid_server))
 
-            extracted_data["sections"].append({
-                "heading": heading,
-                "content": content
-            })
+        with open(file_path, 'rb') as f:
+            files = {'file': (str(file_path), f, 'application/pdf')}  # convert Path to str
+            headers = {'Accept': 'application/json'}
+            response = requests.post(grobid_server,
+                                     files=files,
+                                     headers=headers)
 
-        if not extracted_data["sections"]:
-            raise Exception("No valid content could be extracted from PDF")
+        response.raise_for_status()
+        data =  response.json()
+        print("*" * 100)
+        return data
 
-        logger.info(f"Successfully extracted {len(extracted_data['sections'])} sections")
-        return extracted_data
 
-    except Exception as e:
-        logger.error(f"Error in extract_pdf_content: {str(e)}")
-        raise
 
 def get_weaviate_client():
     """
@@ -260,6 +291,8 @@ def create_ontology_collection(client):
         dict: Dictionary containing status (boolean) and a message.
     """
     try:
+
+        ONTOLOGY_DATABASE = os.getenv("ONTOLOGY_DATABASE", "ontology_database_agentpy")
         # Check if the collection already exists
         collection = client.collections.get(ONTOLOGY_DATABASE)
         if collection.exists():
@@ -411,7 +444,7 @@ def hybrid_search(client, query_text, alpha=0.5, limit=3):
 
         if not isinstance(limit, int) or limit <= 0:
             raise ValueError("Limit must be a positive integer.")
-
+        ONTOLOGY_DATABASE = os.getenv("ONTOLOGY_DATABASE", "ontology_database_agentpy")
         collection = client.collections.get(ONTOLOGY_DATABASE)
         if not collection.exists():
             logger.error("The Ontology collection does not exist.")
@@ -493,6 +526,7 @@ def batch_insert_ontology_data(client, data, max_errors=1000):
     """
     try:
         # Check if the Ontology collection exists
+        ONTOLOGY_DATABASE = os.getenv("ONTOLOGY_DATABASE", "ontology_database_agentpy")
         collection = client.collections.get(ONTOLOGY_DATABASE)
         if not collection.exists():
             logger.info("Ontology collection does not exist. Creating it.")
@@ -1117,127 +1151,18 @@ def process_ontology(file_path, output_file=None):
 
     return df
 
-def extract_json_from_text(text):
-    """```json
-    {
-    "extracted_terms": {
-    "1": [
-      {
-        "entity": "mouse",
-        "label": "ANIMAL_SPECIES",
-        "sentence": "Here we report a comprehensive and high-resolution transcriptomic and spatial cell-type atlas for the whole adult mouse brain.",
-        "start": 94,
-        "end": 99,
-        "paper_location": "A high-resolution transcriptomic and spatial atlas of cell types in the whole mouse brain",
-        "paper_title": "Check for updates",
-        "doi": null
-      }
-    ],
-    "2": [
-      {
-        "entity": "isocortex",
-        "label": "ANATOMICAL_REGION",
-        "sentence": "Telencephalon consists of five major brain structures: isocortex, hippocampal formation (HPF), olfactory areas (OLF), cortical subplate (CTXsp) and cerebral nuclei (CNU).",
-        "start": 54,
-        "end": 63,
-        "paper_location": "A high-resolution transcriptomic and spatial atlas of cell types in the whole mouse brain",
-        "paper_title": "Check for updates",
-        "doi": null
-      },
-      {
-        "entity": "hippocampal formation",
-        "label": "ANATOMICAL_REGION",
-        "sentence": "Telencephalon consists of five major brain structures: isocortex, hippocampal formation (HPF), olfactory areas (OLF), cortical subplate (CTXsp) and cerebral nuclei (CNU).",
-        "start": 65,
-        "end": 85,
-        "paper_location": "A high-resolution transcriptomic and spatial atlas of cell types in the whole mouse brain",
-        "paper_title": "Check for updates",
-        "doi": null
-      },
-      {
-        "entity": "olfactory areas",
-        "label": "ANATOMICAL_REGION",
-        "sentence": "Telencephalon consists of five major brain structures: isocortex, hippocampal formation (HPF), olfactory areas (OLF), cortical subplate (CTXsp) and cerebral nuclei (CNU).",
-        "start": 94,
-        "end": 110,
-        "paper_location": "A high-resolution transcriptomic and spatial atlas of cell types in the whole mouse brain",
-        "paper_title": "Check for updates",
-        "doi": null
-      },
-      {
-        "entity": "cortical subplate",
-        "label": "ANATOMICAL_REGION",
-        "sentence": "Telencephalon consists of five major brain structures: isocortex, hippocampal formation (HPF), olfactory areas (OLF), cortical subplate (CTXsp) and cerebral nuclei (CNU).",
-        "start": 113,
-        "end": 130,
-        "paper_location": "A high-resolution transcriptomic and spatial atlas of cell types in the whole mouse brain",
-        "paper_title": "Check for updates",
-        "doi": null
-      },
-      {
-        "entity": "cerebral nuclei",
-        "label": "ANATOMICAL_REGION",
-        "sentence": "Telencephalon consists of five major brain structures: isocortex, hippocampal formation (HPF), olfactory areas (OLF), cortical subplate (CTXsp) and cerebral nuclei (CNU).",
-        "start": 139,
-        "end": 155,
-        "paper_location": "A high-resolution transcriptomic and spatial atlas of cell types in the whole mouse brain",
-        "paper_title": "Check for updates",
-        "doi": null
-      }
-    ],
-    "3": [
-      {
-        "entity": "astrocytes",
-        "label": "CELL_TYPE",
-        "sentence": "The Astro-Epen class is the most complex, containing ten subclasses, five of which represent astrocytes that are specific to different brain regions.",
-        "start": 79,
-        "end": 89,
-        "paper_location": "Non-neuronal and immature neuronal cell types",
-        "paper_title": "Check for updates",
-        "doi": null
-      },
-      {
-        "entity": "oligodendrocytes",
-        "label": "CELL_TYPE",
-        "sentence": "The OPC-Oligo class contains two subclasses, oligodendrocyte precursor cells (OPC) and oligodendrocytes.",
-        "start": 90,
-        "end": 106,
-        "paper_location": "Non-neuronal and immature neuronal cell types",
-        "paper_title": "Check for updates",
-        "doi": null
-      },
-      {
-        "entity": "microglia",
-        "label": "CELL_TYPE",
-        "sentence": "The Immune class consists of 5 subclasses: microglia, border-associated macrophages (BAM), monocytes, dendritic cells (DC) and lymphoid cells, which contains B cells, T cells, natural killer (NK) cells and innate lymphoid cells (ILC).",
-        "start": 41,
-        "end": 49,
-        "paper_location": "Non-neuronal and immature neuronal cell types",
-        "paper_title": "Check for updates",
-        "doi": null
-      }
-    ]
-    }
-    }
-    ```
 
-    (Note: This output contains representative examples from the input text. The complete response will include further identified entities systematically extracted from the entire provided document.)
-    """
-    brace_stack = []
-    json_start = None
-    for i, char in enumerate(text):
-        if char == '{':
-            if not brace_stack:
-                json_start = i
-            brace_stack.append('{')
-        elif char == '}':
-            if brace_stack:
-                brace_stack.pop()
-                if not brace_stack:
-                    json_end = i + 1
-                    json_str = text[json_start:json_end]
-                    try:
-                        return json.loads(json_str)
-                    except json.JSONDecodeError as e:
-                        raise ValueError(f"Found potential JSON but failed to parse: {e}")
-    raise ValueError("No valid JSON object found in the input.")
+def has_modifications(new_data, old_data):
+    if not isinstance(new_data, dict) or not isinstance(old_data, dict):
+        return new_data != old_data
+
+    # Compare all keys in both dictionaries
+    all_keys = set(new_data.keys()) | set(old_data.keys())
+    for key in all_keys:
+        if key not in new_data or key not in old_data:
+            return True
+        if has_modifications(new_data[key], old_data[key]):
+            return True
+    return False
+
+

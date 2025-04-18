@@ -53,6 +53,7 @@ alignment_task:
   description: >
     Take the output of extractor_agent {extracted_structured_information} as input and perform the concept alignment using the ontological concepts. 
     A concept alignment is anything where you align the given entity to the matching concept aka class from a ontology or a schema.
+    Add the remark stating if the alignment was made based on the searched knowledge source result or not, i.e., if the ontology id or label aka ontology information is present in the search result in local knowledge source.
   expected_output: >
     output format: json
     Example output:
@@ -66,6 +67,7 @@ alignment_task:
           "sentence": "Individual oligodendrocytes provide, on average, 16 near axons with single myelin segments about 200 µm in length (Butt and Ransom, 1993).",
           "start": 14,
           "end": 29,
+           "remark": "alignment is based on the search result i.e., knowledge source",
           "paper_location": "discussion",
           "paper_title": "Concentration of myelin debris-like myelin basic protein-immunoreactive particles in the distal (anterior)-most part of the myelinated region in the normal rat optic nerve",
           "doi": "10.1101/2025.03.19.643597"
@@ -80,6 +82,7 @@ alignment_task:
           "sentence": "Myelin basic protein, human (MBPh) The mouse monoclonal antibody against the human myelin basic protein (clone SMI-99; Covance, Princeton, NJ) detects 4 bands between 14 and 21 kDa, corresponding to 4 myelin basic protein (MBP) isoforms on immunoblots of the mouse cerebellum (Dyer et al.).",
           "start": 293,
           "end": 303,
+          "remark": "alignment is not based on the search result i.e., knowledge source as the entity is not present in knowledge source",
           "paper_location": "methods",
           "paper_title": "Concentration of myelin debris-like myelin basic protein-immunoreactive particles in the distal (anterior)-most part of the myelinated region in the normal rat optic nerve",
           "doi": "10.1101/2025.03.19.643597"
@@ -94,6 +97,7 @@ judge_task:
     1. Assess the quality and accuracy of the alignment with the ontology or schema in {aligned_structured_information}.
     2. Assign a score between 0 and 1 as a judge_score.
     3. Update the {aligned_structured_information} adding the judge_score.
+    4. Update the remark with reason why such score or anyother information from evaluation. Please make sure you do not remove previous remark, just add more as required.
   expected_output: >
     output format: json
     Example output:
@@ -108,6 +112,7 @@ judge_task:
           "start": 14,
           "end": 29,
           "judge_score": "0.8",
+          "remark": "alignment is based on the search result i.e., knowledge source. The alignment doesn't match exactly and was based on similarity.",
           "paper_location": "discussion",
           "paper_title": "Concentration of myelin debris-like myelin basic protein-immunoreactive particles in the distal (anterior)-most part of the myelinated region in the normal rat optic nerve",
           "doi": "10.1101/2025.03.19.643597"
@@ -123,6 +128,7 @@ judge_task:
           "start": 293,
           "end": 303,
           "judge_score": "0.54",
+          "remark": "alignment is not based on the search result i.e., knowledge source as the entity is not present in knowledge source. I might be wrong as its not present in the knowledge source so low score, also it match was not accurate",
           "paper_location": "methods",
           "paper_title": "Concentration of myelin debris-like myelin basic protein-immunoreactive particles in the distal (anterior)-most part of the myelinated region in the normal rat optic nerve",
           "doi": "10.1101/2025.03.19.643597"
@@ -130,3 +136,48 @@ judge_task:
       ]
     }
   agent_id: judge_agent
+
+humanfeedback_task:
+  description: >
+    Take the output of alignment agent {judged_structured_information_with_human_feedback} as input and perform the following evaluation: 
+    1. Review and assess the quality and accuracy of the alignment with the ontology or schema in {judged_structured_information_with_human_feedback}.
+    2. Correct if you find any issues such as labels or if you think that the assigned judged score should be upated. 
+    3. Update the {judged_structured_information_with_human_feedback} adding the remark, providing what updates were made and if the alignment was made based on knowledge source result.Please make sure you do not remove previous remark, just add more as required.
+  expected_output: >
+    output format: json
+    Example output:
+    "judge_ner_terms": {
+      "1": [
+        {
+          "entity": "oligodendrocyte",
+          "label": "CELL_TYPE",
+          "ontology_id": "CL:0000128", 
+          "ontology_label": "Oligodendrocyte",
+          "sentence": "Individual oligodendrocytes provide, on average, 16 near axons with single myelin segments about 200 µm in length (Butt and Ransom, 1993).",
+          "start": 14,
+          "end": 29,
+          "judge_score": "0.7",
+          "remark": "alignment is based on the search result i.e., knowledge source. The alignment doesn't match exactly and was based on similarity. Updated based on user feedback and the new score is now 0.7 than previous 0.8",
+          "paper_location": "discussion",
+          "paper_title": "Concentration of myelin debris-like myelin basic protein-immunoreactive particles in the distal (anterior)-most part of the myelinated region in the normal rat optic nerve",
+          "doi": "10.1101/2025.03.19.643597"
+        }
+      ],
+      "2": [
+        {
+          "entity": "cerebellum",
+          "label": "ANATOMICAL_REGION",
+          "ontology_id": "UBERON:0002038", 
+          "ontology_label": "Cerebellum", 
+          "sentence": "Myelin basic protein, human (MBPh) The mouse monoclonal antibody against the human myelin basic protein (clone SMI-99; Covance, Princeton, NJ) detects 4 bands between 14 and 21 kDa, corresponding to 4 myelin basic protein (MBP) isoforms on immunoblots of the mouse cerebellum (Dyer et al.).",
+          "start": 293,
+          "end": 303,
+          "remark": "alignment is not based on the search result i.e., knowledge source as the entity is not present in knowledge source. I might be wrong as its not present in the knowledge source so low score, also it match was not accurate. Now updated based on user feedback so the score is changed to 0.75 from 0.54",
+          "judge_score": "0.75",
+          "paper_location": "methods",
+          "paper_title": "Concentration of myelin debris-like myelin basic protein-immunoreactive particles in the distal (anterior)-most part of the myelinated region in the normal rat optic nerve",
+          "doi": "10.1101/2025.03.19.643597"
+        }
+      ]
+    }
+  agent_id: humanfeedback_agent
