@@ -18,8 +18,8 @@ classifiers = [
 ]
 
 [project.urls]
-homepage = "https://github.com/sensein/ner_framework"
-repository = "https://github.com/sensein/ner_framework"
+homepage = "https://github.com/sensein/structsense"
+repository = "https://github.com/sensein/structsense"
 documentation = "https://docs.brainkb.org/"
 
 [project.scripts]
