@@ -1,0 +1,3 @@
+[codespell]
+skip = poetry.lock,docs_style/pdoc-theme/syntax-highlighting.css,*.cha,*.ipynb
+ignore-words-list = SIE

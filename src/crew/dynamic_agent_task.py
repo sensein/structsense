@@ -26,13 +26,10 @@ class DynamicAgentTask:
     def build_task(self, pydantic_output, agent: Agent) -> Task:
         """Creates and returns an  task assigned to the agent.
 
-           Args:
-             agent (Agent): The agent that will execute the task.
+        Args:
+           agent (Agent): The agent that will execute the task.
 
-          Returns:
-            Task: A configured CrewAI task.
+        Returns:
+          Task: A configured CrewAI task.
         """
-
-        return Task(config=self.tasks_config,
-                    output_pydantic=pydantic_output,
-                    agent=agent)
+        return Task(config=self.tasks_config, output_pydantic=pydantic_output, agent=agent)

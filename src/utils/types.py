@@ -16,15 +16,18 @@
 # @File    : types.py
 # @Software: PyCharm
 
-from typing import Dict, List, Any
+from typing import Any, Dict, List
+
 from pydantic import BaseModel
 
 
 class ExtractedTermsDynamic(BaseModel):
     extracted_structured_information: Dict[str, List[Dict[str, Any]]]
 
+
 class AlignedTermsDynamic(BaseModel):
     aligned_structured_information: Dict[str, List[Dict[str, Any]]]
+
 
 class JudgedTermsDynamic(BaseModel):
     judged_structured_information: Dict[str, List[Dict[str, Any]]]
