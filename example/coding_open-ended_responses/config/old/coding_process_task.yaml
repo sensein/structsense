@@ -1,5 +1,3 @@
-
-
 agreement_task:
   description: >
     You are given the {coder_1_categories} and {coder_2_categories} from two different coding agents.
