@@ -10,7 +10,6 @@ on:
 
 jobs:
   unit:
-    if: github.event.pull_request.draft == false
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -56,7 +55,6 @@ jobs:
         token: ${{ secrets.CODECOV_TOKEN }}
 
   pre-commit:
-    if: github.event.pull_request.draft == false
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
