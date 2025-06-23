@@ -22,12 +22,12 @@ from pydantic import BaseModel
 
 
 class ExtractedTermsDynamic(BaseModel):
-    extracted_structured_information: Dict[str, List[Dict[str, Any]]]
+    extracted_structured_information: Any
 
 
 class AlignedTermsDynamic(BaseModel):
-    aligned_structured_information: Dict[str, List[Dict[str, Any]]]
+    aligned_structured_information: Any
 
 
 class JudgedTermsDynamic(BaseModel):
-    judged_structured_information: Dict[str, List[Dict[str, Any]]]
+    judged_structured_information: Any

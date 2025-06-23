@@ -1,0 +1,226 @@
+# This config file uses the ollama.
+agent_config:
+  extractor_agent:
+    role: >
+      Extraction and classification agent
+    goal: >
+      Your goal is to provide an overview of the responses, highlighting key themes, patterns, notable insights and group similar responses into **semantic categories** based on their meaning or morphological similarities.
+    backstory: >
+      You are a trained observer who analyzes open-ended responses and classifies items into categories.
+    llm:
+      model: ollama/deepseek-r1:14b
+      base_url: http://localhost:11434
+
+  alignment_agent:
+    role: >
+      Alignment agent
+    goal: >
+      Perform concept alignment to the extracted structured information {extracted_structured_information} by extractor_agent and map each "assigned_category". and return structured JSON output.
+    backstory: >
+      You are a trained semantic expert who analyzes "assigned_category" and performs the concept mapping.
+    llm:
+      model: ollama/deepseek-r1:14b
+      base_url: http://localhost:11434
+
+  judge_agent:
+    role: >
+      Conflict resolution and judgement agent
+    goal: >
+      Your goal is to judge the output provided by alignment agent and determine conflict or issue in alignment or classification and assign the judge score.
+    backstory: >
+      You are an AI assistant specialized in analyzing and comparing classification and concept alignment results from extractor and alignment agent. Your expertise includes identifying similarities and differences in categorization, ensuring accurate representation of agreement.
+    llm:
+      model: ollama/deepseek-r1:14b
+      base_url: http://localhost:11434
+
+  humanfeedback_agent:
+    role: >
+      Human feedback processor Agent
+    goal: >
+      Evaluate the {judged_structured_information_with_human_feedback} and review if everything is correct as human domain expert.
+    backstory: >
+      You are an AI assistant that acts as a human expert. Your task is to review classification and concept alignment results and correct as human expert.
+    llm:
+      model: ollama/deepseek-r1:14b
+      base_url: http://localhost:11434
+
+# agent task config
+task_config:
+  extraction_task:
+    description: >
+      Read the provided {literature} carefully. It contains the questions and the open ended text response from a survey.
+
+      Your task is to do the following: Please do it in two steps.
+      First step:
+        1. Identify the main themes or categories that emerge from the responses.
+        2. For each category, provide a brief description.
+      Second Step:
+        1. For each response:
+           a) Read the text, i.e., questions and open ended answers {literature} carefully.
+           b) Assign it to one of the categories from the first step if the response clearly matches that category’s description.
+           c) Provide a brief explanation for the assignment in a "reason" field.
+           d) If the response does not fit any existing category, leave the "assigned_category" field empty and provide a reason. Do not create new categories.
+           e) If a response is ambiguous between two categories, list both and briefly explain in a “reason” field.
+
+      Provide the output in JSON format, see expected output.
+    expected_output: >
+      output format: json
+      Example output:
+        {
+          "responses": [
+            {
+              "response_id": 1,
+              "response_text": "I use various data analysis techniques to interpret results.",
+              "assigned_category": "Data Analysis Techniques",
+              "reason": "The response discusses methods and techniques used in data analysis."
+            },
+            {
+              "response_id": 2,
+              "response_text": "The instructional use of data is crucial for effective teaching.",
+              "assigned_category": "Instructional Use",
+              "reason": "This response highlights the importance of data in teaching."
+            }
+          ]
+        }
+    agent_id: extractor_agent
+
+  alignment_task:
+    description: >
+      Perform concept alignment on the extracted structured information by mapping each "assigned_category" to a matching concept (class) from a given ontology or schema.
+
+      Inputs: {extracted_structured_information}
+
+      Instructions:
+        alignment instructions:
+          - For each assigned_category in `extracted_structured_information`, find the most appropriate matching concept from an ontology or schema (e.g., NCIT:C159271, schema.org and other related ontologies).
+          - Concept alignment means associating a term with a known ontological class or identifier.
+          - Use a local knowledge source or indexed search system to retrieve candidate concepts (labels or IDs) where possible and mark in remarks if a local knowledge source is used.
+          - Record the matched ontology information for each term:
+            - ontology_label - label from the ontology or schema class
+            - assigned_category_mapped_to_ontology - iri of the ontology or schema class
+    expected_output: >
+      output format: json
+      Example output:
+        {
+          "responses": [
+            {
+              "response_id": 1,
+              "response_text": "I use various data analysis techniques to interpret results.",
+              "assigned_category": "Data Analysis Techniques",
+              "assigned_category_mapped_to_ontology": "EDAM:3365",
+              "ontology_label": "Data architecture, analysis and design",
+              "reason": "The response discusses methods and techniques used in data analysis."
+            },
+            {
+              "response_id": 2,
+              "response_text": "The instructional use of data is crucial for effective teaching.",
+              "assigned_category": "Instructional Use",
+              "assigned_category_mapped_to_ontology": "LOM:educational",
+              "ontology_label": "educational use",
+              "reason": "This response highlights the importance of data in teaching."
+            }
+          ]
+        }
+    agent_id: alignment_agent
+
+  judge_task:
+    description: >
+      Evaluate the structured output from the alignment agent ({aligned_structured_information}). Assess both the quality of the assigned_category classification and its alignment with the ontology or schema. Assign a `judge_score` between 0 and 1, and append remarks justifying the evaluation.
+
+      Instructions:
+        - Analyze the content of {aligned_structured_information} and evaluate how well the assigned_category is classified and aligned with the target ontology or schema.
+        - Assign a `judge_score` between 0 and 1:
+            - 1.0 = perfect alignment
+            - 0.0 = misaligned or invalid
+            - Intermediate values indicate partial alignment
+        - If necessary adjust the "assigned_category" for "response_text" as well as the "assigned_category_mapped_to_ontology".
+        - If user-modified fields (e.g., extracted terms) are present, do not overwrite them. Note their presence and evaluation in the remarks.
+        - Ensure the final structure is schema-compliant and retains all original metadata and history.
+    expected_output: >
+      output format: json
+      Example output:
+        {
+          "responses": [
+            {
+              "response_id": 1,
+              "response_text": "I use various data analysis techniques to interpret results.",
+              "assigned_category": "Data Analysis Techniques",
+              "assigned_category_mapped_to_ontology": "EDAM:3365",
+              "ontology_label": "Data architecture, analysis and design",
+              "judge_score": 0.8,
+              "reason": "The response discusses methods and techniques used in data analysis."
+            },
+            {
+              "response_id": 2,
+              "response_text": "The instructional use of data is crucial for effective teaching.",
+              "assigned_category": "Instructional Use",
+              "assigned_category_mapped_to_ontology": "LOM:educational",
+              "ontology_label": "educational use",
+              "judge_score": 0.9,
+              "reason": "This response highlights the importance of data in teaching."
+            }
+          ]
+        }
+    agent_id: judge_agent
+
+  humanfeedback_task:
+    description: >
+      Input: {judged_structured_information_with_human_feedback}
+
+      Objective: Evaluate and, if necessary, revise the output to ensure accurate alignment with the target ontology/schema based on feedback.
+
+      modification_context: {modification_context}
+      user_feedback_text: {user_feedback_text}
+
+      Instructions:
+        - If the input includes modifications made based on human/user feedback:
+          - Detect and respect these changes (e.g., altered extracted terms).
+          - Do not overwrite user-modified terms.
+          - Instead, annotate in remarks that user-defined values were retained and evaluated accordingly.
+
+      Constraints:
+        - Preserve all historical data.
+        - Ensure outputs are traceable, auditable, and schema-compliant.
+    expected_output: >
+      output format: json
+      Example output:
+        {
+          "responses": [
+            {
+              "response_id": 1,
+              "response_text": "I use various data analysis techniques to interpret results.",
+              "assigned_category": "Data Analysis Techniques",
+              "assigned_category_mapped_to_ontology": "EDAM:3365",
+              "ontology_label": "Data architecture, analysis and design",
+              "judge_score": 0.8,
+              "reason": "The response discusses methods and techniques used in data analysis."
+            },
+            {
+              "response_id": 2,
+              "response_text": "The instructional use of data is crucial for effective teaching.",
+              "assigned_category": "Instructional Use",
+              "assigned_category_mapped_to_ontology": "LOM:educational",
+              "ontology_label": "educational use",
+              "judge_score": 0.9,
+              "reason": "This response highlights the importance of data in teaching."
+            }
+          ]
+        }
+    agent_id: humanfeedback_agent
+
+# embedding config
+embedder_config:
+  provider: ollama
+  config:
+    api_base: http://localhost:11434
+    model: nomic-embed-text:latest
+
+# knowledge search config
+knowledge_config:
+  search_key:
+    - entity
+    - label
+
+# human in loop config
+human_in_loop_config:
+  humanfeedback_agent: true

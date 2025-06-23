@@ -1,0 +1,44 @@
+{
+  "judge_resource": {
+    "name": "Pretraining boosts out-of-domain robustness for pose estimation",
+    "description": "This paper explores the effectiveness of neural networks for pose estimation, particularly focusing on generalization abilities across different domains and animal species. It develops a dataset of 30 horses with annotated body parts and demonstrates that using pre-trained ImageNet models enhances performance on both within-domain and out-of-domain tasks.",
+    "type": "Research Paper",
+    "category": "Pose Estimation",
+    "target": "Animal",
+    "mapped_target_concept": [
+      {
+        "id": "http://purl.obolibrary.org/obo/BTO_0000042",
+        "label": "animal",
+        "ontology": "BTO"
+      }
+    ],
+    "specific_target": "Horse",
+    "mapped_specific_target_concept": [
+      {
+        "specific_target": "Horse",
+        "mapped_target_concept": {
+          "label": "Equus caballus",
+          "id": "NCBITaxon:9796",
+          "ontology": "NCBITaxon"
+        }
+      }
+    ],
+    "url": "https://arxiv.org/abs/1909.11229",
+    "mentions": {
+      "models": [
+        "MobileNetV2",
+        "ResNet",
+        "EfficientNet"
+      ],
+      "datasets": [
+        "Horse Dataset",
+        "Animal Pose dataset"
+      ],
+      "benchmarks": [
+        "Horse-10",
+        "Horse-C"
+      ]
+    },
+    "judge_score": 0.95
+  }
+}

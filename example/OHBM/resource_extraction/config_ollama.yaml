@@ -1,0 +1,418 @@
+#agent config
+agent_config:
+  extractor_agent:
+    role: >
+     Brain and Behavior Quantification and Synchronization (BBQS) Resource Extractor Agent
+    goal: >
+      Extract a single structured resource entry per input relevant to the Brain Behavior Quantification and Synchronization (BBQS) consortium. Capture related subjects as secondary mentions.
+    backstory: >
+      You are a research assistant working with the Brain Behavior Quantification and Synchronization (BBQS) consortium.
+      BBQS is an NIH-funded research effort focused on tools, datasets, models, and benchmarks that advance understanding of brain-behavior relationships.
+
+            The consortium tracks resources in the following categories:
+            - Models (e.g., pose estimation models, embedding models)
+            - Datasets (e.g., annotated video data, behavioral recordings)
+            - Papers (e.g., methods or applications related to behavioral quantification)
+            - Tools (e.g., analysis software, labeling interfaces)
+            - Benchmarks (e.g., standardized datasets or protocols for evaluating performance)
+            - Leaderboards (e.g., systems ranking models based on performance on a task)
+
+            Your input will be a description, webpage, or paper about a **single primary resource**. However, that resource may mention other entities like datasets, benchmarks, or tools. These should not be extracted as separate resources.
+
+            Instead, extract the primary resource with the following fields:
+            - name
+            - description
+            - type (Model, Dataset, Paper, Tool, Benchmark, Leaderboard)
+            - category (e.g., Pose Estimation, Gaze Detection, Behavioral Quantification)
+            - target (e.g., Animal, Human, Mammals)
+            - specific targets (e.g., Mice, Fish, Macaque)
+            - url (GitHub, HuggingFace, arXiv, lab site, etc.)
+            - mentions (optional: dictionary with fields like models, datasets, benchmarks, papers)
+
+            Also include a `mentions` field if applicable. This is a dictionary that may include referenced datasets, models, benchmarks, or tools used or described within the resource. 
+            Be mindful that webpages may contain many extraneous references and links that are not relevant to the primary resource and should not be included in mentions.
+            If a field is missing or unknown, use `null`. Only return a single JSON object under the key `resource`.
+    llm:
+      model: ollama/deepseek-r1:1.5b
+      base_url: http://localhost:11434
+
+  alignment_agent:
+    role: >
+      Brain and Behavior Quantification and Synchronization (BBQS) Concept Alignment Agent
+    goal: >
+      Align extracted resource information with controlled vocabularies or domain-specific schemas used by BBQS.
+    backstory: >
+      You are an alignment assistant trained to normalize resource metadata according to the BBQS standard. 
+      Your task is to align fields such as `type`, `category`, `target`, and `specific_target` using existing schemas, correcting typos or ambiguities as needed. 
+      You take one resource object and update it accordingly.
+      You return the updated structured resources in JSON format, maintaining the original format but with aligned values.
+      Mentions may be left as-is or annotated if appropriate, using knowledge from existing schemas.
+    llm:
+      model: ollama/deepseek-r1:1.5b
+      base_url: http://localhost:11434
+
+  judge_agent:
+    role: >
+      Brain and Behavior Quantification and Synchronization (BBQS) Judge Agent
+    goal: >
+      Evaluate the {aligned_structured_information} based on predefined criteria and generate a structured JSON output reflecting the assessment results.
+    backstory: >
+      You are a reviewer and evaluator for the BBQS resource curation pipeline, and someone who does not hallucinate.  
+      Your job is to assess how well the {aligned_structured_information} conform to BBQS standards. 
+      You return a confidence score between 0 and 1, along with a rationale. 
+      You only score the primary resource, not its mentions.
+      Your responses are in JSON and preserve the original fields while appending evaluation metadata.
+    llm:
+      model: ollama/deepseek-r1:1.5b
+      base_url: http://localhost:11434
+
+  humanfeedback_agent:
+    role: >
+      Brain and Behavior Quantification and Synchronization (BBQS) Human feedback processor Agent
+    goal: >
+      Evaluate the {judged_structured_information_with_human_feedback} and review if everything is correct as human domain expert.
+    backstory: >
+      You are a human reviewer and evaluator for the BBQS resource curation pipeline, and someone who does not hallucinate.  
+      Your job is to assess how well the {judged_structured_information_with_human_feedback} conform to BBQS standards. 
+      You return a confidence score between 0 and 1, along with a rationale. 
+      You only score the primary resource, not its mentions.
+      Your responses are in JSON and preserve the original fields while appending evaluation metadata.
+
+    llm:
+      model: ollama/deepseek-r1:1.5b
+      base_url: http://localhost:11434
+
+# agent task config
+task_config:
+  extraction_task:
+    description: >
+      Extract structured metadata about scientific resources relevant to BBQS from the given {literature}
+      Each input should yield **one resource** only. If the input mentions other resources, include them under a `mentions` field but do not extract them as separate entries.
+
+      Return the following fields in JSON format:
+              - name
+              - description
+              - type (Model, Dataset, Tool, Paper, Benchmark, Leaderboard)
+              - category (e.g., Pose Estimation, Behavioral Quantification)
+              - target (e.g., Animal, Human, Mammals)
+              - specific target (e.g., Mice, Macaque, Bird)
+              - url
+              - mentions (optional: dictionary with fields like models, datasets, benchmarks, papers)
+
+      Use `null` if information is missing.
+      
+      Important:
+              Do not copy the example output.
+
+    Resource:
+      { literature }
+
+    expected_output: >
+      output format: json
+      Example output:
+      "extracted_resources": {
+        { 
+           "name": "DeepLabCut Model Zoo - SuperAnimal-Quadruped",
+            "description": "Pre-trained model for quadruped animal pose estimation using DeepLabCut.",
+            "type": "Model",
+            "category": "Pose Estimation",
+            "target": "Animal",
+            "specific_target": "Quadruped, Horse, Mice",
+            "mentions": {
+                "datasets": ["Quadruped-80K", "AnimalPose", "AwA-Pose", "AcinoSet", "Horse-30", "StanfordDogs", "AP-10K", "iRodent"],
+                "benchmarks": ["AP-10K", "AnimalPose", "Horse-10", "iRodent"],
+                "models": ["DeepLabCut"],
+            }
+        },
+      ...
+      }
+
+    agent_id: extractor_agent
+
+  alignment_task:
+    description: >
+      Take the output of extractor_agent {extracted_structured_information} as input and perform the concept alignment based on existing resources. 
+      A concept alignment is anything where you align the given entity to the matching concept aka class from the existing set of resources.
+
+    expected_output: >
+      output format: json
+      Example output:
+      "aligned_resources": {
+       {
+          "name": "DeepLabCut Model Zoo - SuperAnimal-Quadruped",
+            "description": "A DeepLabCut SuperAnimal pre-trained model for quadruped animal pose estimation using DeepLabCut, trained on the TopViewMouse-5K dataset.",
+            "type": "Model",
+            "category": "Pose Estimation",
+            "target": "Animal",
+                        "mapped_target_concept": [
+                                         {
+                                           "id": "http://purl.obolibrary.org/obo/BTO_0000042",
+                                           "label": "animal",
+                                           "ontology": "BTO"
+                        }],
+                        "specific_target": "Quadruped, Horse, Mice, Primate, Macaque, Dogs, Rodents",
+                         "mapped_specific_target_concept": [
+                                                             {
+                                                               "specific_target": "Quadruped",
+                                                               "mapped_target_concept": {
+                                                                 "label": "Tetrapoda",
+                                                                 "id": "NCBITaxon:32523",
+                                                                 "ontology": "NCBITaxon"
+                                                               }
+                                                             },
+                                                             {
+                                                               "specific_target": "Horse",
+                                                               "mapped_target_concept": {
+                                                                 "label": "Equus caballus",
+                                                                 "id": "NCBITaxon:9796",
+                                                                 "ontology": "NCBITaxon"
+                                                               }
+                                                             },
+                                                             {
+                                                               "specific_target": "Mice",
+                                                               "mapped_target_concept": {
+                                                                 "label": "Mus musculus",
+                                                                 "id": "NCBITaxon:10090",
+                                                                 "ontology": "NCBITaxon"
+                                                               }
+                                                             },
+                                                             {
+                                                               "specific_target": "Primate",
+                                                               "mapped_target_concept": {
+                                                                 "label": "Primates",
+                                                                 "id": "NCBITaxon:9443",
+                                                                 "ontology": "NCBITaxon"
+                                                               }
+                                                             },
+                                                             {
+                                                               "specific_target": "Macaque",
+                                                               "mapped_target_concept": {
+                                                                 "label": "Macaca",
+                                                                 "id": "NCBITaxon:9541",
+                                                                 "ontology": "NCBITaxon"
+                                                               }
+                                                             },
+                                                             {
+                                                               "specific_target": "Dogs",
+                                                               "mapped_target_concept": {
+                                                                 "label": "Canis lupus familiaris",
+                                                                 "id": "NCBITaxon:9615",
+                                                                 "ontology": "NCBITaxon"
+                                                               }
+                                                             }
+                         ],
+            "url": "https://deeplabcut.github.io/DeepLabCut/docs/ModelZoo.html"
+            "mentions": {
+                "datasets": ["Quadruped-80K", "AnimalPose", "AwA-Pose", "AcinoSet", "Horse-30", "StanfordDogs", "AP-10K", "iRodent"],
+                "benchmarks": ["AP-10K", "AnimalPose", "Horse-10", "iRodent"],
+                "models": ["DeepLabCut"],
+                "papers": ["10.48550/arXiv.2203.07436"]
+           }
+       },
+      ...
+      }
+
+    agent_id: alignment_agent
+
+  judge_task:
+    description: >
+      Take the output of alignment agent {aligned_structured_information} as input and perform the following evaluation: 
+      1. Assess the quality and accuracy of the alignment with the BBQS standards in {aligned_structured_information}.
+      2. Assign a score between 0 and 1 as a judge_score.
+      3. Update the {aligned_structured_information} adding the judge_score.
+
+    expected_output: > 
+      output format: json 
+      Example output:
+      "judge_resource": {
+                        {
+                    "name": "DeepLabCut Model Zoo - SuperAnimal-Quadruped",
+                  "description": "A DeepLabCut SuperAnimal pre-trained model for quadruped animal pose estimation using DeepLabCut, trained on the TopViewMouse-5K dataset.",
+                  "type": "Model",
+                  "category": "Pose Estimation",
+                  "target": "Animal",
+                              "mapped_target_concept": [
+                                               {
+                                                 "id": "http://purl.obolibrary.org/obo/BTO_0000042",
+                                                 "label": "animal",
+                                                 "ontology": "BTO"
+                              }],
+                              "specific_target": "Quadruped, Horse, Mice, Primate, Macaque, Dogs, Rodents",
+                               "mapped_specific_target_concept": [
+                                                                   {
+                                                                     "specific_target": "Quadruped",
+                                                                     "mapped_target_concept": {
+                                                                       "label": "Tetrapoda",
+                                                                       "id": "NCBITaxon:32523",
+                                                                       "ontology": "NCBITaxon"
+                                                                     }
+                                                                   },
+                                                                   {
+                                                                     "specific_target": "Horse",
+                                                                     "mapped_target_concept": {
+                                                                       "label": "Equus caballus",
+                                                                       "id": "NCBITaxon:9796",
+                                                                       "ontology": "NCBITaxon"
+                                                                     }
+                                                                   },
+                                                                   {
+                                                                     "specific_target": "Mice",
+                                                                     "mapped_target_concept": {
+                                                                       "label": "Mus musculus",
+                                                                       "id": "NCBITaxon:10090",
+                                                                       "ontology": "NCBITaxon"
+                                                                     }
+                                                                   },
+                                                                   {
+                                                                     "specific_target": "Primate",
+                                                                     "mapped_target_concept": {
+                                                                       "label": "Primates",
+                                                                       "id": "NCBITaxon:9443",
+                                                                       "ontology": "NCBITaxon"
+                                                                     }
+                                                                   },
+                                                                   {
+                                                                     "specific_target": "Macaque",
+                                                                     "mapped_target_concept": {
+                                                                       "label": "Macaca",
+                                                                       "id": "NCBITaxon:9541",
+                                                                       "ontology": "NCBITaxon"
+                                                                     }
+                                                                   },
+                                                                   {
+                                                                     "specific_target": "Dogs",
+                                                                     "mapped_target_concept": {
+                                                                       "label": "Canis lupus familiaris",
+                                                                       "id": "NCBITaxon:9615",
+                                                                       "ontology": "NCBITaxon"
+                                                                     }
+                                                                   }
+                               ],
+                   
+                  "url": "https://deeplabcut.github.io/DeepLabCut/docs/ModelZoo.html"
+                  "mentions": {
+                      "datasets": ["Quadruped-80K", "AnimalPose", "AwA-Pose", "AcinoSet", "Horse-30", "StanfordDogs", "AP-10K", "iRodent"],
+                      "benchmarks": ["AP-10K", "AnimalPose", "Horse-10", "iRodent"],
+                      "models": ["DeepLabCut"],
+                      "papers": ["10.48550/arXiv.2203.07436"]
+                  }
+                  "judge_score": 0.95
+      }
+      ...
+      }
+
+    agent_id: judge_agent
+
+  humanfeedback_task:
+    description: > 
+      Take the output of alignment agent {judged_structured_information_with_human_feedback} as input and perform the following evaluation as an human expert: 
+            1. Assess the quality and accuracy of the alignment with the BBQS standards in {aligned_structured_information}.
+            2. Assign a score between 0 and 1 as a judge_score.
+            3. Update the {judged_structured_information_with_human_feedback} adding the judge_score.
+  
+      Additionally process the received human feedback.
+      Important: The number of extracted entities should not be less than what you received.
+      modification_context: 
+        {modification_context}
+      
+      user_feedback_text:
+        {user_feedback_text} 
+
+    expected_output: > 
+      output format: json
+      Example output:
+      "judge_resource": {
+                              {
+                          "name": "DeepLabCut Model Zoo - SuperAnimal-Quadruped",
+                        "description": "A DeepLabCut SuperAnimal pre-trained model for quadruped animal pose estimation using DeepLabCut, trained on the TopViewMouse-5K dataset.",
+                        "type": "Model",
+                        "category": "Pose Estimation",
+                        "target": "Animal",
+                                    "mapped_target_concept": [
+                                                     {
+                                                       "id": "http://purl.obolibrary.org/obo/BTO_0000042",
+                                                       "label": "animal",
+                                                       "ontology": "BTO"
+                                    }],
+                                    "specific_target": "Quadruped, Horse, Mice, Primate, Macaque, Dogs, Rodents",
+                                     "mapped_specific_target_concept": [
+                                                                         {
+                                                                           "specific_target": "Quadruped",
+                                                                           "mapped_target_concept": {
+                                                                             "label": "Tetrapoda",
+                                                                             "id": "NCBITaxon:32523",
+                                                                             "ontology": "NCBITaxon"
+                                                                           }
+                                                                         },
+                                                                         {
+                                                                           "specific_target": "Horse",
+                                                                           "mapped_target_concept": {
+                                                                             "label": "Equus caballus",
+                                                                             "id": "NCBITaxon:9796",
+                                                                             "ontology": "NCBITaxon"
+                                                                           }
+                                                                         },
+                                                                         {
+                                                                           "specific_target": "Mice",
+                                                                           "mapped_target_concept": {
+                                                                             "label": "Mus musculus",
+                                                                             "id": "NCBITaxon:10090",
+                                                                             "ontology": "NCBITaxon"
+                                                                           }
+                                                                         },
+                                                                         {
+                                                                           "specific_target": "Primate",
+                                                                           "mapped_target_concept": {
+                                                                             "label": "Primates",
+                                                                             "id": "NCBITaxon:9443",
+                                                                             "ontology": "NCBITaxon"
+                                                                           }
+                                                                         },
+                                                                         {
+                                                                           "specific_target": "Macaque",
+                                                                           "mapped_target_concept": {
+                                                                             "label": "Macaca",
+                                                                             "id": "NCBITaxon:9541",
+                                                                             "ontology": "NCBITaxon"
+                                                                           }
+                                                                         },
+                                                                         {
+                                                                           "specific_target": "Dogs",
+                                                                           "mapped_target_concept": {
+                                                                             "label": "Canis lupus familiaris",
+                                                                             "id": "NCBITaxon:9615",
+                                                                             "ontology": "NCBITaxon"
+                                                                           }
+                                                                         }
+                                     ],
+                        "url": "https://deeplabcut.github.io/DeepLabCut/docs/ModelZoo.html"
+                        "mentions": {
+                            "datasets": ["Quadruped-80K", "AnimalPose", "AwA-Pose", "AcinoSet", "Horse-30", "StanfordDogs", "AP-10K", "iRodent"],
+                            "benchmarks": ["AP-10K", "AnimalPose", "Horse-10", "iRodent"],
+                            "models": ["DeepLabCut"],
+                            "papers": ["10.48550/arXiv.2203.07436"]
+                        }
+                        "judge_score": 0.95
+            }
+            ...
+            }
+
+    agent_id: humanfeedback_agent
+
+# embedding config
+# see for more details and parameters for config
+# https://docs.crewai.com/concepts/memory#additional-embedding-providerscl
+embedder_config:
+  provider: ollama
+  config:
+    api_base: http://localhost:11434
+    model: nomic-embed-text:v1.5
+
+# knowledge search config
+knowledge_config:
+  search_key: #local vector database
+    - entity
+    - label
+# human in loop config
+human_in_loop_config:
+  humanfeedback_agent: true

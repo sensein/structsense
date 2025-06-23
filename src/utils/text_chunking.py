@@ -112,37 +112,114 @@ def split_text_into_chunks(
     return chunks
 
 
-def merge_chunk_results(chunk_results: List[dict], result_key: str = "terms") -> dict:
-    """Merge results from multiple chunks into a single result.
+# def merge_chunk_results(chunk_results: List[dict], result_key: str = "terms") -> dict:
+#     """Merge results from multiple chunks into a single result.
+#
+#     Args:
+#         chunk_results (List[dict]): List of results from individual chunks
+#         result_key (str): Key in the result dictionary containing the terms/items to merge
+#
+#     Returns:
+#         dict: Combined result with merged terms/items
+#     """
+#     start_time = time.time()
+#     logger.info(f"Starting to merge {len(chunk_results)} chunk results")
+#
+#     if not chunk_results:
+#         logger.warning("No chunk results to merge")
+#         return {result_key: []}
+#
+#     # First, detect the actual key being used across all chunk results
+#     detected_key = None
+#     possible_keys = [
+#         'terms', 'extracted_terms', 'extracted_resources',
+#         'extracted_structured_information', 'aligned_terms',
+#         'judged_terms', 'resources', 'entities'
+#     ]
+#
+#     # Count occurrences of each possible key
+#     key_counts = {}
+#     for result in chunk_results:
+#         if isinstance(result, dict):
+#             for key in possible_keys:
+#                 if key in result:
+#                     key_counts[key] = key_counts.get(key, 0) + 1
+#
+#     # Find the most common key
+#     if key_counts:
+#         detected_key = max(key_counts.items(), key=lambda x: x[1])[0]
+#         logger.info(f"Detected key '{detected_key}' present in {key_counts[detected_key]}/{len(chunk_results)} chunk results")
+#     else:
+#         # Fallback to the provided result_key
+#         detected_key = result_key
+#         logger.warning(f"No common keys found, using fallback key '{detected_key}'")
+#
+#     # If the detected key is different from the provided one, use the detected one
+#     if detected_key != result_key:
+#         logger.info(f"Using detected key '{detected_key}' instead of provided key '{result_key}'")
+#         result_key = detected_key
+#
+#     combined_result = {result_key: []}
+#     total_items = 0
+#
+#     for i, result in enumerate(chunk_results, 1):
+#         chunk_start_time = time.time()
+#         if result_key in result:
+#             items = result[result_key]
+#             if isinstance(items, list):
+#                 combined_result[result_key].extend(items)
+#                 total_items += len(items)
+#                 chunk_time = time.time() - chunk_start_time
+#                 logger.info(f"Chunk {i}/{len(chunk_results)}: added {len(items)} items (took {chunk_time:.2f}s)")
+#             else:
+#                 logger.warning(f"Chunk {i}/{len(chunk_results)}: key '{result_key}' contains non-list data: {type(items)}")
+#         else:
+#             # Try to find any list data in this result
+#             found_items = []
+#             for key, value in result.items():
+#                 if isinstance(value, list) and len(value) > 0:
+#                     found_items.extend(value)
+#                     logger.info(f"Chunk {i}/{len(chunk_results)}: found {len(value)} items in key '{key}'")
+#
+#             if found_items:
+#                 combined_result[result_key].extend(found_items)
+#                 total_items += len(found_items)
+#                 chunk_time = time.time() - chunk_start_time
+#                 logger.info(f"Chunk {i}/{len(chunk_results)}: added {len(found_items)} items from various keys (took {chunk_time:.2f}s)")
+#             else:
+#                 logger.warning(f"Chunk {i}/{len(chunk_results)}: missing key '{result_key}' and no list data found")
+#
+#     total_time = time.time() - start_time
+#     logger.info(f"Merged {len(chunk_results)} chunk results into {total_items} total items in {total_time:.2f} seconds")
+#     return combined_result
 
-    Args:
-        chunk_results (List[dict]): List of results from individual chunks
-        result_key (str): Key in the result dictionary containing the terms/items to merge
+from collections.abc import Mapping
+from copy import deepcopy
 
-    Returns:
-        dict: Combined result with merged terms/items
+
+def merge_json_chunks(chunks):
     """
-    start_time = time.time()
-    logger.info(f"Starting to merge {len(chunk_results)} chunk results")
+    Merges a list of JSON chunks (arbitrary nested dict/list structures).
+    Handles structures like 'judge_ner_terms' where keys are strings of numbers mapping to lists.
+    """
 
-    if not chunk_results:
-        logger.warning("No chunk results to merge")
-        return {result_key: []}
-
-    combined_result = {result_key: []}
-    total_items = 0
-
-    for i, result in enumerate(chunk_results, 1):
-        chunk_start_time = time.time()
-        if result_key in result:
-            items = result[result_key]
-            combined_result[result_key].extend(items)
-            total_items += len(items)
-            chunk_time = time.time() - chunk_start_time
-            logger.info(f"Chunk {i}/{len(chunk_results)}: added {len(items)} items (took {chunk_time:.2f}s)")
+    def merge(a, b):
+        if isinstance(a, dict) and isinstance(b, dict):
+            result = deepcopy(a)
+            for key, b_val in b.items():
+                if key in result:
+                    result[key] = merge(result[key], b_val)
+                else:
+                    result[key] = deepcopy(b_val)
+            return result
+        elif isinstance(a, list) and isinstance(b, list):
+            return a + b
+        elif a == b:
+            return a
         else:
-            logger.warning(f"Chunk {i}/{len(chunk_results)}: missing key '{result_key}'")
+            return [a, b] if not isinstance(a, list) else (a + ([b] if b not in a else []))
 
-    total_time = time.time() - start_time
-    logger.info(f"Merged {len(chunk_results)} chunk results into {total_items} total items in {total_time:.2f} seconds")
-    return combined_result
+    merged_result = {}
+    for chunk in chunks:
+        merged_result = merge(merged_result, chunk)
+    return merged_result

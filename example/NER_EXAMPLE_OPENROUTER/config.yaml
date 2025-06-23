@@ -10,7 +10,6 @@ agent_config:
     llm:
       model: openrouter/openai/gpt-4o-mini
       base_url: https://openrouter.ai/api/v1
-      api_key: sk-
 
   alignment_agent:
     role: >
@@ -22,7 +21,6 @@ agent_config:
     llm:
       model: openrouter/openai/gpt-4o-mini
       base_url: https://openrouter.ai/api/v1
-      api_key: sk-or-
 
   judge_agent:
     role: >
@@ -35,7 +33,6 @@ agent_config:
     llm:
       model: openrouter/openai/gpt-4o-mini
       base_url: https://openrouter.ai/api/v1
-      api_key: sk-or-v1-
 
   humanfeedback_agent:
     role: >
@@ -47,7 +44,6 @@ agent_config:
     llm:
       model: openrouter/openai/gpt-4o-mini
       base_url: https://openrouter.ai/api/v1
-      api_key: sk-or-v1-
 
 # agent task config
 task_config:
@@ -717,7 +713,7 @@ embedder_config:
   provider: ollama
   config:
     api_base: http://localhost:11434
-    model: nomic-embed-text:latest
+    model: nomic-embed-text:v1.5
 
 # knowledge search config
 knowledge_config:

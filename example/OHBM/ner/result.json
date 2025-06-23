@@ -1,0 +1,897 @@
+{
+  "judged_structured_information": {
+    "judge_ner_terms": {
+      "1": [
+        {
+          "entity": "retinal terminal fields",
+          "label": "ANATOMICAL_REGION",
+          "ontology_id": "UBERON:0002102",
+          "ontology_label": "Retinal terminal field",
+          "sentence": [
+            "Recovery of retinal terminal fields after traumatic brain injury: evidence of collateral sprouting and sexual dimorphism"
+          ],
+          "start": [
+            27
+          ],
+          "end": [
+            48
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "High-confidence alignment based on exact match with ontology ID and label.",
+            "Alignment is based on the search result i.e., knowledge source"
+          ],
+          "paper_location": [
+            "abstract"
+          ],
+          "paper_title": [
+            "Recovery of retinal terminal fields after traumatic brain injury: evidence of collateral sprouting and sexual dimorphism"
+          ],
+          "doi": [
+            "10.1101/2025.05.28.656451"
+          ]
+        }
+      ],
+      "2": [
+        {
+          "entity": "traumatic brain injury",
+          "label": "EXPERIMENTAL_CONDITION",
+          "ontology_id": "DOID:0050184",
+          "ontology_label": "Traumatic brain injury",
+          "sentence": [
+            "Little is known about repair of pathways/circuits after traumatic brain injury (TBI), which results in disruption of connectivity."
+          ],
+          "start": [
+            68
+          ],
+          "end": [
+            95
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "High-confidence alignment based on exact match with ontology ID and label.",
+            "Alignment is based on the search result i.e., knowledge source"
+          ],
+          "paper_location": [
+            "abstract"
+          ],
+          "paper_title": [
+            "Recovery of retinal terminal fields after traumatic brain injury: evidence of collateral sprouting and sexual dimorphism"
+          ],
+          "doi": [
+            "10.1101/2025.05.28.656451"
+          ]
+        }
+      ],
+      "3": [
+        {
+          "entity": "mouse model",
+          "label": "ANIMAL_SPECIES",
+          "ontology_id": "http://purl.obolibrary.org/obo/NCBITaxon_10090",
+          "ontology_label": "Mus musculus",
+          "sentence": [
+            "Here we utilize a mouse model of diffuse traumatic axonal injury (Impact-acceleration TBI) in order to explore..."
+          ],
+          "start": [
+            25
+          ],
+          "end": [
+            38
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "High-confidence alignment based on exact match with ontology ID and label.",
+            "Alignment is based on the search result i.e., knowledge source"
+          ],
+          "paper_location": [
+            "abstract"
+          ],
+          "paper_title": [
+            "Recovery of retinal terminal fields after traumatic brain injury: evidence of collateral sprouting and sexual dimorphism"
+          ],
+          "doi": [
+            "10.1101/2025.05.28.656451"
+          ]
+        }
+      ],
+      "4": [
+        {
+          "entity": "retinal ganglion cell",
+          "label": "CELL_TYPE",
+          "ontology_id": "CL:0000117",
+          "ontology_label": "Retinal ganglion cell",
+          "sentence": [
+            "Retinal ganglion cell (RGC) axons and synapses were genetically labeled via AAV transduction..."
+          ],
+          "start": [
+            18
+          ],
+          "end": [
+            43
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "High-confidence alignment based on exact match with ontology ID and label.",
+            "Alignment is based on the search result i.e., knowledge source"
+          ],
+          "paper_location": [
+            "abstract"
+          ],
+          "paper_title": [
+            "Recovery of retinal terminal fields after traumatic brain injury: evidence of collateral sprouting and sexual dimorphism"
+          ],
+          "doi": [
+            "10.1101/2025.05.28.656451"
+          ]
+        }
+      ],
+      "5": [
+        {
+          "entity": "c-Fos",
+          "label": "MOLECULAR_MARKER",
+          "ontology_id": "http://www.uniprot.org/uniprot/P15436",
+          "ontology_label": "c-Fos protein",
+          "sentence": [
+            "Functional connectivity and visual integrity were assessed by monitoring c-Fos expression following light stimulation..."
+          ],
+          "start": [
+            104
+          ],
+          "end": [
+            116
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "High-confidence alignment based on exact match with ontology ID and label.",
+            "Alignment is based on the search result i.e., knowledge source"
+          ],
+          "paper_location": [
+            "abstract"
+          ],
+          "paper_title": [
+            "Recovery of retinal terminal fields after traumatic brain injury: evidence of collateral sprouting and sexual dimorphism"
+          ],
+          "doi": [
+            "10.1101/2025.05.28.656451"
+          ]
+        }
+      ],
+      "6": [
+        {
+          "entity": "visual evoked potentials",
+          "label": "MEASUREMENT",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "...and visual evoked potentials (VEPs)."
+          ],
+          "start": [
+            118
+          ],
+          "end": [
+            144
+          ],
+          "judge_score": [
+            0.8
+          ],
+          "remarks": [
+            "Moderate confidence alignment; term relates to measurement but lacks specific ontology reference.",
+            "Alignment inferred without a direct match."
+          ],
+          "paper_location": [
+            "abstract"
+          ],
+          "paper_title": [
+            "Recovery of retinal terminal fields after traumatic brain injury: evidence of collateral sprouting and sexual dimorphism"
+          ],
+          "doi": [
+            "10.1101/2025.05.28.656451"
+          ]
+        }
+      ],
+      "7": [
+        {
+          "entity": "Sarm1 knockout mice",
+          "label": "ANIMAL_MODEL",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "Moreover, collateral sprouting proceeded normally in Sarm1 knockout mice, evidence of some independence from Wallerian degeneration."
+          ],
+          "start": [
+            58
+          ],
+          "end": [
+            83
+          ],
+          "judge_score": [
+            0.7
+          ],
+          "remarks": [
+            "Low to moderate confidence alignment; the term is relevant but lacks a strong ontology match.",
+            "Alignment inferred without a direct match."
+          ],
+          "paper_location": [
+            "abstract"
+          ],
+          "paper_title": [
+            "Recovery of retinal terminal fields after traumatic brain injury: evidence of collateral sprouting and sexual dimorphism"
+          ],
+          "doi": [
+            "10.1101/2025.05.28.656451"
+          ]
+        }
+      ],
+      "8": [
+        {
+          "entity": "homotypic collateral sprouting",
+          "label": "MECHANISM",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "Homotypic collateral sprouting -the process by which uninjured axons from the same neuronal source extend..."
+          ],
+          "start": [
+            1
+          ],
+          "end": [
+            40
+          ],
+          "judge_score": [
+            0.6
+          ],
+          "remarks": [
+            "Low confidence alignment; the term is of interest but not linked to any specific ontology.",
+            "Alignment inferred without a direct match."
+          ],
+          "paper_location": [
+            "significance"
+          ],
+          "paper_title": [
+            "Recovery of retinal terminal fields after traumatic brain injury: evidence of collateral sprouting and sexual dimorphism"
+          ],
+          "doi": [
+            "10.1101/2025.05.28.656451"
+          ]
+        }
+      ],
+      "9": [
+        {
+          "entity": "Department of Pathology, Johns Hopkins University School of Medicine",
+          "label": "INSTITUTION",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "1 Department of Pathology, Johns Hopkins University School of Medicine, MD, USA."
+          ],
+          "start": [
+            0
+          ],
+          "end": [
+            69
+          ],
+          "judge_score": [
+            0.9
+          ],
+          "remarks": [
+            "High confidence alignment; while there's no ontology match, the institution is well-known.",
+            "Alignment inferred without a direct match."
+          ],
+          "paper_location": [
+            "author affiliations"
+          ],
+          "paper_title": [
+            "Recovery of retinal terminal fields after traumatic brain injury: evidence of collateral sprouting and sexual dimorphism"
+          ],
+          "doi": [
+            "10.1101/2025.05.28.656451"
+          ]
+        }
+      ],
+      "10": [
+        {
+          "entity": "Viterbi Family Department of Ophthalmology and Shiley Eye Institute, University of California San Diego",
+          "label": "INSTITUTION",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "2 Viterbi Family Department of Ophthalmology and Shiley Eye Institute, University of California San Diego, La Jolla, USA."
+          ],
+          "start": [
+            0
+          ],
+          "end": [
+            103
+          ],
+          "judge_score": [
+            0.9
+          ],
+          "remarks": [
+            "High confidence alignment; while there's no ontology match, the institution is relevant.",
+            "Alignment inferred without a direct match."
+          ],
+          "paper_location": [
+            "author affiliations"
+          ],
+          "paper_title": [
+            "Recovery of retinal terminal fields after traumatic brain injury: evidence of collateral sprouting and sexual dimorphism"
+          ],
+          "doi": [
+            "10.1101/2025.05.28.656451"
+          ]
+        }
+      ],
+      "11": [
+        {
+          "entity": "Department of Ophthalmology, Johns Hopkins University School of Medicine",
+          "label": "INSTITUTION",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "3 Department of Ophthalmology, Johns Hopkins University School of Medicine, Baltimore, Maryland, USA."
+          ],
+          "start": [
+            0
+          ],
+          "end": [
+            74
+          ],
+          "judge_score": [
+            0.9
+          ],
+          "remarks": [
+            "High confidence alignment; while there's no ontology match, the institution is notable.",
+            "Alignment inferred without a direct match."
+          ],
+          "paper_location": [
+            "author affiliations"
+          ],
+          "paper_title": [
+            "Recovery of retinal terminal fields after traumatic brain injury: evidence of collateral sprouting and sexual dimorphism"
+          ],
+          "doi": [
+            "10.1101/2025.05.28.656451"
+          ]
+        }
+      ],
+      "12": [
+        {
+          "entity": "Department of Molecular Biology and Genetics, Johns Hopkins University School of Medicine",
+          "label": "INSTITUTION",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "4 Department of Molecular Biology and Genetics, Johns Hopkins University School of Medicine, Baltimore, Maryland, USA."
+          ],
+          "start": [
+            0
+          ],
+          "end": [
+            87
+          ],
+          "judge_score": [
+            0.9
+          ],
+          "remarks": [
+            "High confidence alignment; well-known institution but lacks specific ontology.",
+            "Alignment inferred without a direct match."
+          ],
+          "paper_location": [
+            "author affiliations"
+          ],
+          "paper_title": [
+            "Recovery of retinal terminal fields after traumatic brain injury: evidence of collateral sprouting and sexual dimorphism"
+          ],
+          "doi": [
+            "10.1101/2025.05.28.656451"
+          ]
+        }
+      ],
+      "13": [
+        {
+          "entity": "Department of Neuroscience Johns Hopkins University School of Medicine",
+          "label": "INSTITUTION",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "5 Department of Neuroscience Johns Hopkins University School of Medicine, Baltimore, Maryland, USA."
+          ],
+          "start": [
+            0
+          ],
+          "end": [
+            84
+          ],
+          "judge_score": [
+            0.9
+          ],
+          "remarks": [
+            "High confidence alignment; although no ontology match, the institution is recognized.",
+            "Alignment inferred without a direct match."
+          ],
+          "paper_location": [
+            "author affiliations"
+          ],
+          "paper_title": [
+            "Recovery of retinal terminal fields after traumatic brain injury: evidence of collateral sprouting and sexual dimorphism"
+          ],
+          "doi": [
+            "10.1101/2025.05.28.656451"
+          ]
+        }
+      ],
+      "14": [
+        {
+          "entity": "Department of Genetic Medicine, Johns Hopkins University School of Medicine",
+          "label": "INSTITUTION",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "6 Department of Genetic Medicine, Johns Hopkins University School of Medicine, Baltimore, Maryland, USA."
+          ],
+          "start": [
+            0
+          ],
+          "end": [
+            77
+          ],
+          "judge_score": [
+            0.9
+          ],
+          "remarks": [
+            "High confidence alignment; while no ontology, the institution is established.",
+            "Alignment inferred without a direct match."
+          ],
+          "paper_location": [
+            "author affiliations"
+          ],
+          "paper_title": [
+            "Recovery of retinal terminal fields after traumatic brain injury: evidence of collateral sprouting and sexual dimorphism"
+          ],
+          "doi": [
+            "10.1101/2025.05.28.656451"
+          ]
+        }
+      ],
+      "15": [
+        {
+          "entity": "Department of Neurology, Johns Hopkins University School of Medicine",
+          "label": "INSTITUTION",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "7 Department of Neurology, Johns Hopkins University School of Medicine, Baltimore, MD, USA."
+          ],
+          "start": [
+            0
+          ],
+          "end": [
+            71
+          ],
+          "judge_score": [
+            0.9
+          ],
+          "remarks": [
+            "High confidence alignment; the institution is prominent but lacks clear ontology.",
+            "Alignment inferred without a direct match."
+          ],
+          "paper_location": [
+            "author affiliations"
+          ],
+          "paper_title": [
+            "Recovery of retinal terminal fields after traumatic brain injury: evidence of collateral sprouting and sexual dimorphism"
+          ],
+          "doi": [
+            "10.1101/2025.05.28.656451"
+          ]
+        }
+      ],
+      "16": [
+        {
+          "entity": "Department of Psychiatry and Behavioral Sciences, Johns Hopkins University School of Medicine",
+          "label": "INSTITUTION",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "8 Department of Psychiatry and Behavioral Sciences, Johns Hopkins University School of Medicine, Baltimore, MD, USA."
+          ],
+          "start": [
+            0
+          ],
+          "end": [
+            86
+          ],
+          "judge_score": [
+            0.9
+          ],
+          "remarks": [
+            "High confidence alignment; known institution despite no ontology match.",
+            "Alignment inferred without a direct match."
+          ],
+          "paper_location": [
+            "author affiliations"
+          ],
+          "paper_title": [
+            "Recovery of retinal terminal fields after traumatic brain injury: evidence of collateral sprouting and sexual dimorphism"
+          ],
+          "doi": [
+            "10.1101/2025.05.28.656451"
+          ]
+        }
+      ],
+      "17": [
+        {
+          "entity": "National Eye Institute",
+          "label": "FUNDING_AGENCY",
+          "ontology_id": "http://www.nih.gov",
+          "ontology_label": "National Eye Institute",
+          "sentence": [
+            "This research was supported by funding from the National Eye Institute (RO1EY028039)..."
+          ],
+          "start": [
+            42
+          ],
+          "end": [
+            63
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "High-confidence alignment based on exact match with funding agency ontology.",
+            "Alignment is based on the search result i.e., knowledge source"
+          ],
+          "paper_location": [
+            "funding"
+          ],
+          "paper_title": [
+            "Recovery of retinal terminal fields after traumatic brain injury: evidence of collateral sprouting and sexual dimorphism"
+          ],
+          "doi": [
+            "10.1101/2025.05.28.656451"
+          ]
+        }
+      ],
+      "18": [
+        {
+          "entity": "National Institute of Neurological Disorders and Stroke",
+          "label": "FUNDING_AGENCY",
+          "ontology_id": "http://www.ninds.nih.gov",
+          "ontology_label": "National Institute of Neurological Disorders and Stroke",
+          "sentence": [
+            "...and the National Institute of Neurological Disorders and Stroke (R01NS114397) to VEK..."
+          ],
+          "start": [
+            67
+          ],
+          "end": [
+            103
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "High-confidence alignment based on exact match with funding agency ontology.",
+            "Alignment is based on the search result i.e., knowledge source"
+          ],
+          "paper_location": [
+            "funding"
+          ],
+          "paper_title": [
+            "Recovery of retinal terminal fields after traumatic brain injury: evidence of collateral sprouting and sexual dimorphism"
+          ],
+          "doi": [
+            "10.1101/2025.05.28.656451"
+          ]
+        }
+      ],
+      "19": [
+        {
+          "entity": "Department of Defense",
+          "label": "FUNDING_AGENCY",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "...and from the Department of Defense (TH94252310589) to DJZ and VEK."
+          ],
+          "start": [
+            67
+          ],
+          "end": [
+            92
+          ],
+          "judge_score": [
+            0.8
+          ],
+          "remarks": [
+            "Moderate confidence alignment; relevant funding agency but lacks specific ontology match.",
+            "Alignment inferred without a direct match."
+          ],
+          "paper_location": [
+            "funding"
+          ],
+          "paper_title": [
+            "Recovery of retinal terminal fields after traumatic brain injury: evidence of collateral sprouting and sexual dimorphism"
+          ],
+          "doi": [
+            "10.1101/2025.05.28.656451"
+          ]
+        }
+      ],
+      "20": [
+        {
+          "entity": "Johns Hopkins Alzheimer\u2019s Disease Research Center",
+          "label": "INSTITUTION",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "Imaging was performed using the MICA Leica microscope in the Division of Neuropathology, supported by the Johns Hopkins Alzheimer\u2019s Disease Research Center (ADRC; P30 AG066507)..."
+          ],
+          "start": [
+            118
+          ],
+          "end": [
+            185
+          ],
+          "judge_score": [
+            0.7
+          ],
+          "remarks": [
+            "Low to moderate confidence alignment; while the institution is noted, it lacks a direct ontology match.",
+            "Alignment inferred without a direct match."
+          ],
+          "paper_location": [
+            "funding"
+          ],
+          "paper_title": [
+            "Recovery of retinal terminal fields after traumatic brain injury: evidence of collateral sprouting and sexual dimorphism"
+          ],
+          "doi": [
+            "10.1101/2025.05.28.656451"
+          ]
+        }
+      ],
+      "21": [
+        {
+          "entity": "P30 EY001765",
+          "label": "FUNDING_AWARD",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "...and support was also provided by P30 EY001765."
+          ],
+          "start": [
+            22
+          ],
+          "end": [
+            41
+          ],
+          "judge_score": [
+            0.6
+          ],
+          "remarks": [
+            "Low confidence alignment; while the funding award is mentioned, it doesn't have a corresponding ontology.",
+            "Alignment inferred without a direct match."
+          ],
+          "paper_location": [
+            "funding"
+          ],
+          "paper_title": [
+            "Recovery of retinal terminal fields after traumatic brain injury: evidence of collateral sprouting and sexual dimorphism"
+          ],
+          "doi": [
+            "10.1101/2025.05.28.656451"
+          ]
+        }
+      ],
+      "22": [
+        {
+          "entity": "Alex Kolodkin",
+          "label": "PERSON",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "We are grateful to Dr. Alex Kolodkin, Professor of Neuroscience (Johns Hopkins University), and Dr. Constantine Frangakis..."
+          ],
+          "start": [
+            27
+          ],
+          "end": [
+            44
+          ],
+          "judge_score": [
+            0.9
+          ],
+          "remarks": [
+            "High confidence alignment; the person is recognized but lacks specific ontology.",
+            "Alignment inferred without a direct match."
+          ],
+          "paper_location": [
+            "acknowledgments"
+          ],
+          "paper_title": [
+            "Recovery of retinal terminal fields after traumatic brain injury: evidence of collateral sprouting and sexual dimorphism"
+          ],
+          "doi": [
+            "10.1101/2025.05.28.656451"
+          ]
+        }
+      ],
+      "23": [
+        {
+          "entity": "Constantine Frangakis",
+          "label": "PERSON",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "...and Dr. Constantine Frangakis, Professor of Biostatistics (Johns Hopkins University), for insightful discussions."
+          ],
+          "start": [
+            73
+          ],
+          "end": [
+            90
+          ],
+          "judge_score": [
+            0.9
+          ],
+          "remarks": [
+            "High confidence alignment; the person is noted but lacks a specific ontology.",
+            "Alignment inferred without a direct match."
+          ],
+          "paper_location": [
+            "acknowledgments"
+          ],
+          "paper_title": [
+            "Recovery of retinal terminal fields after traumatic brain injury: evidence of collateral sprouting and sexual dimorphism"
+          ],
+          "doi": [
+            "10.1101/2025.05.28.656451"
+          ]
+        }
+      ],
+      "24": [
+        {
+          "entity": "Victoria Neckles",
+          "label": "PERSON",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "We thank Dr. Victoria Neckles for assistance with optomotor response testing."
+          ],
+          "start": [
+            17
+          ],
+          "end": [
+            36
+          ],
+          "judge_score": [
+            0.9
+          ],
+          "remarks": [
+            "High confidence alignment; acknowledged individual without ontology.",
+            "Alignment inferred without a direct match."
+          ],
+          "paper_location": [
+            "acknowledgments"
+          ],
+          "paper_title": [
+            "Recovery of retinal terminal fields after traumatic brain injury: evidence of collateral sprouting and sexual dimorphism"
+          ],
+          "doi": [
+            "10.1101/2025.05.28.656451"
+          ]
+        }
+      ],
+      "25": [
+        {
+          "entity": "Georgia L. Lawlor",
+          "label": "PERSON",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "We also acknowledge Ms. Georgia L. Lawlor and Mr. Sadid Khan for their help in setting up pattern visual evoked potential recordings."
+          ],
+          "start": [
+            39
+          ],
+          "end": [
+            60
+          ],
+          "judge_score": [
+            0.9
+          ],
+          "remarks": [
+            "High confidence alignment; the individual is acknowledged without ontology.",
+            "Alignment inferred without a direct match."
+          ],
+          "paper_location": [
+            "acknowledgments"
+          ],
+          "paper_title": [
+            "Recovery of retinal terminal fields after traumatic brain injury: evidence of collateral sprouting and sexual dimorphism"
+          ],
+          "doi": [
+            "10.1101/2025.05.28.656451"
+          ]
+        }
+      ],
+      "26": [
+        {
+          "entity": "Sadid Khan",
+          "label": "PERSON",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "...Ms. Georgia L. Lawlor and Mr. Sadid Khan for their help in setting up pattern visual evoked potential recordings."
+          ],
+          "start": [
+            77
+          ],
+          "end": [
+            88
+          ],
+          "judge_score": [
+            0.9
+          ],
+          "remarks": [
+            "High confidence alignment; individual mentioned without a specific ontology.",
+            "Alignment inferred without a direct match."
+          ],
+          "paper_location": [
+            "acknowledgments"
+          ],
+          "paper_title": [
+            "Recovery of retinal terminal fields after traumatic brain injury: evidence of collateral sprouting and sexual dimorphism"
+          ],
+          "doi": [
+            "10.1101/2025.05.28.656451"
+          ]
+        }
+      ],
+      "27": [
+        {
+          "entity": "impact-acceleration TBI",
+          "label": "EXPERIMENTAL_CONDITION",
+          "ontology_id": "DOID:0050184",
+          "ontology_label": "Traumatic brain injury",
+          "sentence": [
+            "Here we utilize a mouse model of diffuse traumatic axonal injury (Impact-acceleration TBI) in order to explore..."
+          ],
+          "start": [
+            70
+          ],
+          "end": [
+            95
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "High confidence alignment based on exact match with ontology ID and label.",
+            "Alignment is based on the search result i.e., knowledge source"
+          ],
+          "paper_location": [
+            "abstract"
+          ],
+          "paper_title": [
+            "Recovery of retinal terminal fields after traumatic brain injury: evidence of collateral sprouting and sexual dimorphism"
+          ],
+          "doi": [
+            "10.1101/2025.05.28.656451"
+          ]
+        }
+      ]
+    }
+  }
+}
