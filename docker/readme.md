@@ -26,7 +26,7 @@ docker compose -f custom-compose.yml up
   - It consists individual docker compose file.
 - Merged
   - It contains a single Docker Compose file that consolidates all configurations from the individual files into one unified setup.
-  
+
 ## ⚠️ Requirements
 
 Please ensure you have the **latest version of Docker and Docker Compose** installed. Older versions may result in compatibility errors related to the Compose file format.

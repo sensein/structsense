@@ -218,8 +218,8 @@ embedder_config:
 # knowledge search config
 knowledge_config:
   search_key:
-    - entity
-    - label
+  - entity
+  - label
 
 # human in loop config
 human_in_loop_config:

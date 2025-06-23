@@ -30,7 +30,7 @@ pip install git+https://github.com/sensein/structsense.git
    Once the containers are running, you’re ready to execute the examples.
 
    If there's an issue with Grobid, run it individually. The command below has been tested on MaC.
-   
+
    ```shell
    docker pull lfoppiano/grobid:0.8.0
    docker run --init -p 8070:8070 -e JAVA_OPTS="-XX:+UseZGC" lfoppiano/grobid:0.8.0
@@ -41,11 +41,11 @@ pip install git+https://github.com/sensein/structsense.git
 
    ```shell
    docker run --platform linux/amd64 --init -p 8070:8070 -e JAVA_OPTS="-XX:+UseZGC" lfoppiano/grobid:0.8.0
-   
+
    ```
    For more see [https://grobid.readthedocs.io/en/latest/Run-Grobid/](https://grobid.readthedocs.io/en/latest/Run-Grobid/).
 
-   Official image: 
+   Official image:
 
    ```shell
    docker pull grobid/grobid:0.8.2
@@ -117,7 +117,7 @@ structsense-cli extract \
 
 ```bash
 structsense-cli extract \
-  --source test_small.pdf \ 
+  --source test_small.pdf \
   --config config_ollama.yaml \
   --env_file .env_ohbm_hackathon \
   --save_file result.json
@@ -137,7 +137,7 @@ structsense-cli extract \
 
 ```bash
 structsense-cli extract \
-  --source paper_1909.11229v2.pdf \ 
+  --source paper_1909.11229v2.pdf \
   --config config_ollama.yaml \
   --env_file .env_ohbm_hackathon \
   --save_file result.json
@@ -145,6 +145,6 @@ structsense-cli extract \
 
 > ⚠️ A version of the config file for **Ollama** is also included, but note that small local models may fail or produce suboptimal results. If you use **Ollama** version make sure to adjust the docker compose file so that it pulls the correct model that you've specified in config.yaml.
 
-> ⚠️ For this demonstration we've disabled knowledge source as we do not have any ontologies in our vector databse.
+> ⚠️ For this demonstration we've disabled knowledge source as we do not have any ontologies in our vector database.
 
 > ⚠️ To enable chunking pass `--chunking True`. It still needs improvement and would be nice to have some help.

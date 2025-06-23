@@ -4,13 +4,12 @@ services:
     container_name: ollama
     restart: unless-stopped
     ports:
-      - "11434:11434"
+    - 11434:11434
     volumes:
-      - ollama_models:/root/.ollama
+    - ollama_models:/root/.ollama
     entrypoint: >
       sh -c "
-      ollama serve & 
-      sleep 5 &&
+      ollama serve &  sleep 5 &&
       ollama pull nomic-embed-text &&
       ollama pull deepseek-r1:7b &&
       tail -f /dev/null

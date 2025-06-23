@@ -2,7 +2,7 @@ services:
   grobid:
     image: lfoppiano/grobid:0.8.0
     ports:
-      - "8070:8070"
+    - 8070:8070
     environment:
-      JAVA_OPTS: "-XX:+UseZGC"
+      JAVA_OPTS: -XX:+UseZGC
     init: true

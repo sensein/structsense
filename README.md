@@ -34,7 +34,7 @@ The below is the architecture of the `StructSense`.
 
 ## 📄 Blank Configuration Template
 
-- Refer to the [`config_template`](config_template) directory for a blank configuration template.  
+- Refer to the [`config_template`](config_template) directory for a blank configuration template.
   Before using it, make sure to read the detailed explanation of the configuration template provided in the sections below (`Configuration Template`).
 
 ---
@@ -113,7 +113,7 @@ This configuration is optional and only necessary if you plan to integrate a kno
 | `WEAVIATE_GRPC_PORT`      | gRPC port for Weaviate                       | `50051`   |
 | `WEAVIATE_GRPC_SECURE`    | Use secure gRPC (`true/false`)              | `false`   |
 
-#### 🧪 Weaviate Timeouts 
+#### 🧪 Weaviate Timeouts
 
 | Variable                   | Description                                  | Default   |
 |---------------------------|----------------------------------------------|-----------|
@@ -166,20 +166,20 @@ MLFLOW_TRACKING_URL=http://localhost:5000
 ```
 #### 🛠️ Minimum Required Environment Variables
 
-Below are the **minimum required environment variables** to run `structsense`.  
+Below are the **minimum required environment variables** to run `structsense`.
 This configuration assumes all other optional variables will use their default values.
 
 In this minimal setup:
 
-- 🚫 **Weights & Biases** is disabled  
-  - 🚫 **MLflow tracking** is disabled  
-  - 🚫 **Knowledge source integration** is disabled  
+- 🚫 **Weights & Biases** is disabled
+  - 🚫 **MLflow tracking** is disabled
+  - 🚫 **Knowledge source integration** is disabled
   - 📦 As a result, **no vector database** (e.g., Weaviate) is used
 
-```shell 
+```shell
 ENABLE_WEIGHTSANDBIAS=false
 ENABLE_MLFLOW=false
-ENABLE_KG_SOURCE=false  
+ENABLE_KG_SOURCE=false
 ```
 ---
 ### 📄 Configuration Template
@@ -192,7 +192,7 @@ Please follow the guidelines below when updating the configuration:
 
 #### ⚠️ Important Notes
 
-- **Do not rename** predefined YAML keys such as `task_config` and `agent_config`.  
+- **Do not rename** predefined YAML keys such as `task_config` and `agent_config`.
   Only update the following:
   - Agent descriptions
   - Task descriptions
@@ -273,13 +273,13 @@ Each task corresponds to a specific agent and must not be renamed:
 
 Each task should include:
 
-- **`description`**:  
+- **`description`**:
   A detailed explanation of the task, including the required input (e.g., `{literature}` for extraction, `{extracted_structured_information}` for alignment, etc.).
 
-- **`expected_output`**:  
+- **`expected_output`**:
   The expected output format. The format must be JSON. You may specify the structure or give an example.
 
-- **`agent_id`**:  
+- **`agent_id`**:
   This key assigns the task to its corresponding agent. The value must match the agent ID defined under `agent_config`.
 
 Example:
@@ -290,7 +290,7 @@ task_config:
       Extract structured information from the given literature.
       Input: {literature}
     expected_output: >
-      Format: JSON  
+      Format: JSON
       Example: {"entities": [...], "relations": [...]}
     agent_id: extractor_agent
 ```
