@@ -31,23 +31,19 @@ Given a questionnaire PDF, this pipeline:
 
 ## 📁 Expected Output Structure
 
-The final output is a directory that follows ReproSchema conventions:
-```
-protocol_name/
-├── activities/
-│   └── example_activity.jsonld
-├── items/
-│   ├── q1.jsonld
-│   ├── q2.jsonld
-│   └── …
-├── activity_schema.jsonld
-```
+The pipeline produces a JSON file containing the final output from the judge agent. 
 
-Each JSON-LD file conforms to [ReproSchema specifications](https://www.repronim.org/reproschema/), including proper use of:
-- `@context`, `@id`, `@type`
-- multilingual support (`skos:prefLabel`, `skos:altLabel`)
-- input types, response options, scoring
-- UI behavior and branching logic
+Key points about the output:
+1. **Format**: The output is always a JSON file
+2. **Content**: The specific structure and content of the JSON depends on how you define the `expected_output` in the judge task configuration
+
+For example, if your config specifies the judge agent to evaluate ReproSchema compliance, the output might include:
+- Schema validation results
+- Fidelity scores
+- Identified issues or discrepancies
+- Recommendations for improvements
+
+The exact JSON structure is fully customizable through your configuration file's `task_config.judge_task.expected_output` field.
 
 ---
 
@@ -61,32 +57,44 @@ After the automated processing and evaluation steps, human feedback can be used 
 
 ---
 
-## 🔍 Technologies Used
+## 🤖 Language Models
 
-- **CrewAI** for multi-agent orchestration
-- **ReproSchema** for schema-based assessment modeling
-- **OpenRouter GPT-4o-mini** as the LLM backend
-- **Ollama/Nomic** embeddings for memory and search
-- **Local vector store** for knowledge integration (e.g., label/entity lookups)
+The configuration specifies `openrouter/openai/gpt-4o-mini` as the default LLM. However, for evaluation purposes, this pipeline has been tested with:
 
----
+- **GPT-4o-mini** by OpenAI
+- **Claude 3.5 Sonnet** by Anthropic
+- **DeepSeek V3** (open-source model) by DeepSeek
 
-## 📦 Configuration Files
-
-- `agent_config`: Defines the roles, goals, and models for each AI agent
-- `task_config`: Step-by-step logic for extracting, converting, validating, and revising schema data
-- `embedder_config`: Text embedding model and backend for semantic memory
-- `knowledge_config`: Defines searchable metadata keys (`entity`, `label`)
-- `human_in_loop_config`: Activates the `humanfeedback_agent` for schema revision
+You can modify the LLM settings in the `agent_config` section of your configuration file to use different models based on your requirements.
 
 ---
 
-## 🧪 Usage Tips
+## 🧪 Usage
 
-- The `{literature}` variable must be initialized with a questionnaire PDF.
-- Outputs are JSON files organized in folders; ensure file writing permissions in your workspace.
-- Best used with source questionnaires similar to PHQ-9, GAD-7, or eCOBIDAS formats.
-- Consider mounting Git integration to track schema version control.
+### Using OpenRouter
+```bash
+structsense-cli extract \
+  --source sample_pdf.pdf \
+  --api_key <YOUR_API_KEY> \
+  --config config.yaml \
+  --env_file .env \
+  --save_file result.json  # optional
+```
+
+### Using Ollama (Local)
+```bash
+structsense-cli extract \
+  --source sample_pdf.pdf \
+  --config config.yaml \
+  --env_file .env \
+  --save_file result.json  # optional
+```
+
+### Tips
+
+- Best used with source questionnaires similar to PHQ-9, GAD-7, or eCOBIDAS formats
+- The configuration file should define the expected ReproSchema structure
+- Human-in-the-loop feedback can significantly improve schema accuracy
 
 ---
 
