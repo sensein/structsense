@@ -1,10 +1,10 @@
-# >à BBQS Resource Extraction Pipeline
+# ðŸ§  BBQS Resource Extraction Pipeline
 
 This project uses `structsense` to extract and curate structured metadata about scientific resources relevant to the Brain Behavior Quantification and Synchronization (BBQS) consortium. The pipeline focuses on tools, datasets, models, and benchmarks that advance understanding of brain-behavior relationships.
 
 ---
 
-## =, What This System Does
+## ðŸ”¬ What This System Does
 
 Given a scientific paper, webpage, or resource description, this pipeline:
 
@@ -16,7 +16,7 @@ Given a scientific paper, webpage, or resource description, this pipeline:
 
 ---
 
-## >Ñ=¼ Agents & Their Roles
+## ðŸ§‘â€ðŸ’¼ Agents & Their Roles
 
 | Agent Name           | Description |
 |----------------------|-------------|
@@ -27,7 +27,7 @@ Given a scientific paper, webpage, or resource description, this pipeline:
 
 ---
 
-## =Á Expected Output Structure
+## ðŸ“ Expected Output Structure
 
 The pipeline produces a JSON file containing the final evaluation from the judge agent.
 
@@ -49,7 +49,7 @@ Resource types include:
 
 ---
 
-## =Ú Example Papers
+## ðŸ“š Example Papers
 
 *[Placeholder for evaluation papers - to be added]*
 
@@ -61,7 +61,7 @@ Resource types include:
 
 ---
 
-## >ê Usage
+## ðŸ§ª Usage
 
 ### Using OpenRouter
 ```bash
@@ -91,7 +91,7 @@ structsense-cli extract \
 
 ---
 
-## = Resource Categories
+## ðŸ” Resource Categories
 
 The system extracts resources in these categories:
 
@@ -115,7 +115,7 @@ Resources referenced within the primary resource:
 
 ---
 
-## > Language Models
+## ðŸ¤– Language Models
 
 The current `config.yaml` specifies `openrouter/openai/gpt-4o-mini` as the default LLM. However, for evaluation purposes, this pipeline has been tested with:
 
