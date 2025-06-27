@@ -49,9 +49,6 @@ The NER pipeline has been tested with the following Nature Neuroscience papers:
 1. Langdon, C., Engel, T.A. Latent circuit inference from heterogeneous neural responses during cognitive tasks. Nat Neurosci 28, 665–675 (2025).
 2. Hansen, J.Y., Cauzzo, S., Singh, K. et al. Integrating brainstem and cortical functional architectures. Nat Neurosci 27, 2500–2511 (2024).
 3. Oby, E.R., Degenhart, A.D., Grigsby, E.M. et al. Dynamical constraints on neural population activity. Nat Neurosci 28, 383–393 (2025).
-4. Elston, T.W., Wallis, J.D. Context-dependent decision-making in the primate hippocampal–prefrontal circuit. Nat Neurosci 28, 374–382 (2025).
-5. Vega-Zuniga, T., Sumser, A., Symonova, O. et al. A thalamic hub-and-spoke network enables visual perception during action by coordinating visuomotor dynamics. Nat Neurosci 28, 627–639 (2025).
-
 ---
 
 ## 🧪 Usage
