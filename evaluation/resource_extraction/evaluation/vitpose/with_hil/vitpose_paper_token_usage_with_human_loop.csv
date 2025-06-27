@@ -1,4 +1,4 @@
-Timestamp,Provider / Model,App,System,Input Tokens,Output Tokens,Cost ($),Speed (tps),Finish
+Timestamp,Provider,Model,App,Input Tokens,Output Tokens,Cost ($),Speed (tps),Finish
 "Jun 27, 12:19 PM",Favicon for Phala,DeepSeek V3 0324,liteLLM,3503,334,0.00311,31.6,stop
 "Jun 27, 12:18 PM",Favicon for Phala,DeepSeek V3 0324,liteLLM,4017,780,0.00402,29.6,stop
 "Jun 27, 12:17 PM",Favicon for GMICloud,DeepSeek V3 0324,liteLLM,2037,373,0.00184,99.5,stop
