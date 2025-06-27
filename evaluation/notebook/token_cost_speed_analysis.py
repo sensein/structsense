@@ -10,15 +10,27 @@ parser.add_argument('--task', type=str, required=True, help='Task name (e.g., re
 parser.add_argument('--file', type=str, required=True, help='CSV file name (e.g., reproschema_token_usage.csv)')
 args = parser.parse_args()
 
-# Create output directory if it doesn't exist in the same location as the data
-file_dir = os.path.dirname(os.path.abspath(args.file))
-output_dir = os.path.join(file_dir, args.task)
+# Create output directory in the same location as this script
+script_dir = os.path.dirname(os.path.abspath(__file__))
+output_dir = os.path.join(script_dir, args.task)
 os.makedirs(output_dir, exist_ok=True)
 print(f"Created directory: {output_dir}")
 
 # Read data
 df = pd.read_csv(args.file)
 df['Model'] = df['Model'].str.strip()
+
+# Map column names to expected names
+column_mapping = {
+    'Tokens': 'Input Tokens',
+    'Cost': 'Cost ($)',
+    'Speed': 'Speed (tps)'
+}
+
+# Rename columns if they exist
+for old_name, new_name in column_mapping.items():
+    if old_name in df.columns and new_name not in df.columns:
+        df.rename(columns={old_name: new_name}, inplace=True)
 
 # Define colorblind-friendly palette
 # Using colors from Wong's colorblind-friendly palette
