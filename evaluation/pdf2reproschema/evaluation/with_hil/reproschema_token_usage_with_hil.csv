@@ -1,4 +1,4 @@
-Timestamp,Provider / Model,App,System,Input Tokens,Output Tokens,Cost ($),Speed (tps),Finish
+Timestamp,Provider,Model,App,Input Tokens,Output Tokens,Cost ($),Speed (tps),Finish
 "Jun 27, 02:41 PM",Favicon for Nebius,DeepSeek V3 0324,liteLLM,4045,385,0.0026,19.2,stop
 "Jun 27, 02:41 PM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,2871,1254,0.00191,21.3,stop
 "Jun 27, 02:39 PM",Favicon for Novita,DeepSeek V3 0324,liteLLM,1322,1278,0.0021,102.9,stop
