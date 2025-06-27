@@ -58,7 +58,7 @@ The NER pipeline has been tested with the following Nature Neuroscience papers:
 structsense-cli extract \
   --source your_neuroscience_paper.pdf \
   --api_key <YOUR_API_KEY> \
-  --config config.yaml \
+  --config <config-file>.yaml \
   --env_file .env \
   --save_file result.json  # optional
 ```
@@ -67,7 +67,7 @@ structsense-cli extract \
 ```bash
 structsense-cli extract \
   --source your_neuroscience_paper.pdf \
-  --config config.yaml \
+  --config <config-file>.yaml \
   --env_file .env \
   --save_file result.json  # optional
 ```

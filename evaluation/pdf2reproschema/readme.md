@@ -76,7 +76,7 @@ You can modify the LLM settings in the `agent_config` section of your configurat
 structsense-cli extract \
   --source sample_pdf.pdf \
   --api_key <YOUR_API_KEY> \
-  --config config.yaml \
+  --config <config-file>.yaml \
   --env_file .env \
   --save_file result.json  # optional
 ```
@@ -85,7 +85,7 @@ structsense-cli extract \
 ```bash
 structsense-cli extract \
   --source sample_pdf.pdf \
-  --config config.yaml \
+  --config <config-file>.yaml \
   --env_file .env \
   --save_file result.json  # optional
 ```
