@@ -1,0 +1,74 @@
+{
+  "judge_resource": {
+    "1": [
+      {
+        "name": "CEBRA",
+        "description": "A nonlinear dimensionality reduction method for obtaining interpretable, consistent embeddings of high-dimensional recordings using auxiliary variables. It combines ideas from nonlinear independent component analysis (ICA) with contrastive learning to generate latent embeddings conditioned on behavior and/or time.",
+        "type": "Model",
+        "category": "Behavioral Quantification",
+        "target": "Animal",
+        "mapped_target_concept": [
+          {
+            "id": "http://purl.obolibrary.org/obo/BTO_0000042",
+            "label": "animal",
+            "ontology": "BTO"
+          }
+        ],
+        "specific_target": [
+          "Mice",
+          "Rat",
+          "Macaque"
+        ],
+        "mapped_specific_target_concept": [
+          {
+            "specific_target": "Mice",
+            "mapped_target_concept": {
+              "label": "Mus musculus",
+              "id": "NCBITaxon:10090",
+              "ontology": "NCBITaxon"
+            }
+          },
+          {
+            "specific_target": "Rat",
+            "mapped_target_concept": {
+              "label": "Rattus norvegicus",
+              "id": "NCBITaxon:10116",
+              "ontology": "NCBITaxon"
+            }
+          },
+          {
+            "specific_target": "Macaque",
+            "mapped_target_concept": {
+              "label": "Macaca",
+              "id": "NCBITaxon:9541",
+              "ontology": "NCBITaxon"
+            }
+          }
+        ],
+        "url": "https://github.com/AdaptiveMotorControlLab/CEBRA",
+        "mentions": {
+          "models": [
+            "pi-VAE",
+            "conv-pi-VAE",
+            "autoLFADS",
+            "t-SNE",
+            "UMAP",
+            "PCA"
+          ],
+          "datasets": [
+            "Rat hippocampus dataset",
+            "Macaque dataset",
+            "Mouse visual cortex datasets"
+          ],
+          "benchmarks": [
+            "Neural Latents Benchmark"
+          ],
+          "papers": [
+            "Zhou and Wei (2020)"
+          ]
+        },
+        "judge_score": 0.95
+      }
+    ]
+  }
+}
