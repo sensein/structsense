@@ -1,4 +1,4 @@
-Timestamp,Provider / Model,App,System,Input Tokens,Output Tokens,Cost ($),Speed,Finish
+Timestamp,Provider,Model,App,Input Tokens,Output Tokens,Cost ($),Speed,Finish
 "Jun 27, 01:40 PM",Favicon for Novita,DeepSeek V3 0324,liteLLM,2569,405,0.00137,106.7 tps,stop
 "Jun 27, 01:40 PM",Favicon for GMICloud,DeepSeek V3 0324,liteLLM,2984,518,0.00267,102.1 tps,stop
 "Jun 27, 01:40 PM",Favicon for Novita,DeepSeek V3 0324,liteLLM,1577,475,0.00114,101.9 tps,stop
