@@ -1,4 +1,4 @@
-Timestamp,Provider / Model,Model,App,Tokens,Output Tokens,Cost,Speed,Finish
+Timestamp,Provider,Model,App,Input Tokens,Output Tokens,Cost,Speed,Finish
 "Jun 27, 11:42 AM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,2125,446,0.000987,20.3,stop
 "Jun 27, 11:42 AM",Favicon for Together,DeepSeek V3 0324,liteLLM,2478,376,0.00357,157.7,stop
 "Jun 27, 11:42 AM",Favicon for Lambda,DeepSeek V3 0324,liteLLM,1466,292,0.000755,28.1,stop
