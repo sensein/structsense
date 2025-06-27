@@ -10,11 +10,11 @@ parser.add_argument('--task', type=str, required=True, help='Task name (e.g., re
 parser.add_argument('--file', type=str, required=True, help='CSV file name (e.g., reproschema_token_usage.csv)')
 args = parser.parse_args()
 
-# Create output directory if it doesn't exist
-output_dir = args.task
-if not os.path.exists(output_dir):
-    os.makedirs(output_dir)
-    print(f"Created directory: {output_dir}")
+# Create output directory if it doesn't exist in the same location as the data
+file_dir = os.path.dirname(os.path.abspath(args.file))
+output_dir = os.path.join(file_dir, args.task)
+os.makedirs(output_dir, exist_ok=True)
+print(f"Created directory: {output_dir}")
 
 # Read data
 df = pd.read_csv(args.file)
@@ -56,7 +56,7 @@ plt.title("Cost Distribution by Model", pad=10)
 plt.tight_layout()
 plt.savefig(os.path.join(output_dir, f"{args.task}_cost_violin.png"), dpi=300, bbox_inches='tight')
 plt.savefig(os.path.join(output_dir, f"{args.task}_cost_violin.svg"), dpi=300, bbox_inches='tight')
-plt.show()
+plt.close()
 
 # Plot 2: Input and Output Tokens per Model (Violin Plot)
 plt.figure(figsize=(3.5, 3))
@@ -76,7 +76,7 @@ plt.legend(title='Token Type', loc='upper left')
 plt.tight_layout()
 plt.savefig(os.path.join(output_dir, f"{args.task}_token_usage_violin.png"), dpi=300, bbox_inches='tight')
 plt.savefig(os.path.join(output_dir, f"{args.task}_token_usage_violin.svg"), dpi=300, bbox_inches='tight')
-plt.show()
+plt.close()
 
 # Plot 3: Speed per Model (Violin Plot)
 plt.figure(figsize=(3.2, 2.5))
@@ -87,7 +87,7 @@ plt.ylabel("Speed (tokens/sec)")
 plt.tight_layout()
 plt.savefig(os.path.join(output_dir, f"{args.task}_speed_violin.png"), dpi=300, bbox_inches='tight')
 plt.savefig(os.path.join(output_dir, f"{args.task}_speed_violin.svg"), dpi=300, bbox_inches='tight')
-plt.show()
+plt.close()
 
 # Plot 4: Scatter plot of Speed vs Cost
 plt.figure(figsize=(3, 3))
@@ -103,4 +103,4 @@ plt.legend(bbox_to_anchor=(1, 1), loc='upper left')
 plt.tight_layout()
 plt.savefig(os.path.join(output_dir, f"{args.task}_speed_vs_cost.png"), dpi=300, bbox_inches='tight')
 plt.savefig(os.path.join(output_dir, f"{args.task}_speed_vs_cost.svg"), dpi=300, bbox_inches='tight')
-plt.show()
+plt.close()
