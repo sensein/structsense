@@ -51,13 +51,11 @@ Resource types include:
 
 ## 📚 Example Papers
 
-*[Placeholder for evaluation papers - to be added]*
-
-1. Paper Title 1 - Author et al. (2025) - Focus on [resource type]
-2. Paper Title 2 - Author et al. (2025) - Focus on [resource type]
-3. Paper Title 3 - Author et al. (2025) - Focus on [resource type]
-4. Paper Title 4 - Author et al. (2025) - Focus on [resource type]
-5. Paper Title 5 - Author et al. (2025) - Focus on [resource type]
+1. Xu, Y., Zhang, J., Zhang, Q., & Tao, D. (2022). Vitpose: Simple vision transformer baselines for human pose estimation. Advances in neural information processing systems, 35, 38571-38584.
+2. Lauer, J., Zhou, M., Ye, S. et al. Multi-animal pose estimation, identification and tracking with DeepLabCut. Nat Methods 19, 496–504 (2022). https://doi.org/10.1038/s41592-022-01443-0
+3. Schneider, S., Lee, J.H. & Mathis, M.W. Learnable latent embeddings for joint behavioural and neural analysis. Nature 617, 360–368 (2023). https://doi.org/10.1038/s41586-023-06031-6
+4. Mathis, A., Mamidanna, P., Cury, K. M., Abe, T., Murthy, V. N., Mathis, M. W., & Bethge, M. (2018). DeepLabCut: markerless pose estimation of user-defined body parts with deep learning. Nature neuroscience, 21(9), 1281-1289.
+5. Yeung, C., Suzuki, T., Tanaka, R., Yin, Z., & Fujii, K. (2025). AthletePose3D: A benchmark dataset for 3D human pose estimation and kinematic validation in athletic movements. In Proceedings of the Computer Vision and Pattern Recognition Conference (pp. 5945-5956).
 
 ---
 
