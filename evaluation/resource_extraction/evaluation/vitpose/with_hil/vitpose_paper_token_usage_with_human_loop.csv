@@ -1,4 +1,4 @@
-Timestamp,Provider / Model,App,Tokens,Cost,Speed,Price ($),Throughput (tps),Finish
+Timestamp,Provider / Model,App,System,Input Tokens,Output Tokens,Cost ($),Speed (tps),Finish
 "Jun 27, 12:19 PM",Favicon for Phala,DeepSeek V3 0324,liteLLM,3503,334,0.00311,31.6,stop
 "Jun 27, 12:18 PM",Favicon for Phala,DeepSeek V3 0324,liteLLM,4017,780,0.00402,29.6,stop
 "Jun 27, 12:17 PM",Favicon for GMICloud,DeepSeek V3 0324,liteLLM,2037,373,0.00184,99.5,stop
@@ -7,16 +7,6 @@ Timestamp,Provider / Model,App,Tokens,Cost,Speed,Price ($),Throughput (tps),Fini
 "Jun 27, 12:17 PM",Favicon for Nebius,DeepSeek V3 0324,liteLLM,1249,350,0.00115,31.5,stop
 "Jun 27, 12:17 PM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,15137,617,0.00478,25.6,stop
 "Jun 27, 12:16 PM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,15544,264,0.00458,22.2,stop
-"Jun 27, 12:07 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,3579,234,0.000677,64.6,stop
-"Jun 27, 12:07 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,4292,747,0.000785,60.4,stop
-"Jun 27, 12:07 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,4195,800,0.00111,58.3,stop
-"Jun 27, 12:05 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,366,328,0.000252,77.4,stop
-"Jun 27, 12:05 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,2006,287,0.000473,69.4,stop
-"Jun 27, 12:05 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,2368,328,0.000552,32.4,stop
-"Jun 27, 12:05 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,1381,259,0.000363,41.5,stop
-"Jun 27, 12:05 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,1219,324,0.000377,55.2,stop
-"Jun 27, 12:05 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,15178,456,0.00255,64.8,stop
-"Jun 27, 12:05 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,15604,253,0.00249,53.9,stop
 "Jun 27, 12:15 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,7004,499,0.0285,69.2,tool_calls
 "Jun 27, 12:15 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,8476,873,0.0385,58.2,stop
 "Jun 27, 12:14 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,4086,481,0.0195,63.2,tool_calls
