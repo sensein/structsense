@@ -1,0 +1,18 @@
+Timestamp,Provider,Model,App,Input Tokens,Output Tokens,Cost ($),Speed (tps),Finish
+"Jun 27, 12:19 PM",Favicon for Phala,DeepSeek V3 0324,liteLLM,3503,334,0.00311,31.6,stop
+"Jun 27, 12:18 PM",Favicon for Phala,DeepSeek V3 0324,liteLLM,4017,780,0.00402,29.6,stop
+"Jun 27, 12:17 PM",Favicon for GMICloud,DeepSeek V3 0324,liteLLM,2037,373,0.00184,99.5,stop
+"Jun 27, 12:17 PM",Favicon for Novita,DeepSeek V3 0324,liteLLM,2352,361,0.00125,20.5,stop
+"Jun 27, 12:17 PM",Favicon for Lambda,DeepSeek V3 0324,liteLLM,1429,281,0.000733,30.9,stop
+"Jun 27, 12:17 PM",Favicon for Nebius,DeepSeek V3 0324,liteLLM,1249,350,0.00115,31.5,stop
+"Jun 27, 12:17 PM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,15137,617,0.00478,25.6,stop
+"Jun 27, 12:16 PM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,15544,264,0.00458,22.2,stop
+"Jun 27, 12:15 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,7004,499,0.0285,69.2,tool_calls
+"Jun 27, 12:15 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,8476,873,0.0385,58.2,stop
+"Jun 27, 12:14 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,4086,481,0.0195,63.2,tool_calls
+"Jun 27, 12:14 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,3851,798,0.0235,64.8,stop
+"Jun 27, 12:14 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,2842,543,0.0167,27.2,tool_calls
+"Jun 27, 12:13 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,1747,668,0.0153,63.7,stop
+"Jun 27, 12:13 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,754,518,0.01,109.9,tool_calls
+"Jun 27, 12:13 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,18461,475,0.0625,64.7,tool_calls
+"Jun 27, 12:13 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,18225,359,0.0601,61.1,stop

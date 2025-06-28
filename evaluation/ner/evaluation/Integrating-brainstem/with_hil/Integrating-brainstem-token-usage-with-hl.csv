@@ -1,0 +1,25 @@
+Timestamp,Provider / Model,App,System,Input Tokens,Output Tokens,Cost ($),Speed (tps),Finish
+"Jun 28, 10:03 AM",Favicon for InferenceNet,DeepSeek V3 0324,liteLLM,840,720,0.00142,7.7,stop
+"Jun 28, 10:01 AM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,4251,316,0.00147,22.4,stop
+"Jun 28, 10:01 AM",Favicon for Crusoe,DeepSeek V3 0324,liteLLM,72343,834,0.0212,23.2,stop
+"Jun 28, 09:57 AM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,443,415,0.000489,19.7,stop
+"Jun 28, 09:57 AM",Favicon for Crusoe,DeepSeek V3 0324,liteLLM,2777,289,0.00111,25.8,stop
+"Jun 28, 09:57 AM",Favicon for Crusoe,DeepSeek V3 0324,liteLLM,24235,416,0.00726,15.6,stop
+"Jun 28, 09:56 AM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,310,291,0.000343,20.5,stop
+"Jun 28, 09:55 AM",Favicon for Crusoe,DeepSeek V3 0324,liteLLM,6364,252,0.00207,20.0,stop
+"Jun 28, 09:55 AM",Favicon for Crusoe,DeepSeek V3 0324,liteLLM,31851,282,0.00924,24.3,stop
+"Jun 28, 09:54 AM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,5155,5131,0.00596,24.0,stop
+"Jun 28, 09:50 AM",Favicon for Crusoe,DeepSeek V3 0324,liteLLM,42568,465,0.0125,18.7,stop
+"Jun 28, 09:49 AM",Favicon for Nebius,DeepSeek V3 0324,liteLLM,79864,5149,0.0477,15.0,stop
+"Jun 28, 09:15 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,4469,4421,0.003,61.1,stop
+"Jun 28, 09:14 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,21489,1335,0.00402,58.9,stop
+"Jun 28, 09:14 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,70022,4432,0.0132,64.5,stop
+"Jun 28, 09:11 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,4440,4409,0.00331,56.6,stop
+"Jun 28, 09:10 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,15378,612,0.00267,78.3,stop
+"Jun 28, 09:10 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,0,0,0.0,0.0,--
+"Jun 28, 09:08 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,5399,5351,0.00402,76.9,stop
+"Jun 28, 09:07 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,11508,1701,0.00275,60.4,stop
+"Jun 28, 09:06 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,17158,5363,0.00579,65.8,stop
+"Jun 28, 09:05 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,5399,5352,0.00402,58.0,stop
+"Jun 28, 09:03 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,43032,1984,0.00765,63.0,stop
+"Jun 28, 09:03 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,80322,5361,0.0153,56.1,stop

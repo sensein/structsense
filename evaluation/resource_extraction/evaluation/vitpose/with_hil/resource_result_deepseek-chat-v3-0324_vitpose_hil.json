@@ -1,0 +1,94 @@
+{
+  "judged_structured_information": {
+    "1": [
+      {
+        "name": "ViTPose",
+        "description": "A simple yet effective vision transformer baseline for human pose estimation. ViTPose employs plain and non-hierarchical vision transformers as backbones to extract features for a given person instance and a lightweight decoder for pose estimation. It demonstrates simplicity in model structure, scalability in model size, flexibility in training paradigm, and transferability of knowledge between models.",
+        "type": "Model",
+        "category": "Pose Estimation",
+        "target": "Human",
+        "mapped_target_concept": [
+          {
+            "id": "http://purl.obolibrary.org/obo/NCBITaxon_9606",
+            "label": "Homo sapiens",
+            "ontology": "NCBITaxon"
+          }
+        ],
+        "specific_target": null,
+        "url": "https://github.com/ViTAE-Transformer/ViTPose",
+        "mentions": {
+          "models": [
+            "ViTPose-B",
+            "ViTPose-L",
+            "ViTPose-H",
+            "ViTPose-G"
+          ],
+          "datasets": [
+            "MS COCO",
+            "AI Challenger",
+            "MPII"
+          ],
+          "benchmarks": [
+            "MS COCO Keypoint Detection"
+          ],
+          "papers": [
+            "SimpleBaseline",
+            "HRNet",
+            "TokenPose",
+            "TransPose",
+            "HRFormer"
+          ]
+        },
+        "judge_score": 0.9,
+        "remarks": "The 'specific_target' field is empty as no specific human subpopulation or body parts are targeted by this model, which is correct for general human pose estimation."
+      }
+    ],
+    "user_feedback_json": {
+      "1": [
+        {
+          "name": "ViTPose",
+          "description": "A simple yet effective vision transformer baseline for human pose estimation. ViTPose employs plain and non-hierarchical vision transformers as backbones to extract features for a given person instance and a lightweight decoder for pose estimation. It demonstrates simplicity in model structure, scalability in model size, flexibility in training paradigm, and transferability of knowledge between models.",
+          "type": "Model",
+          "category": "Pose Estimation",
+          "target": "Human",
+          "mapped_target_concept": [
+            {
+              "id": "http://purl.obolibrary.org/obo/NCBITaxon_9606",
+              "label": "Homo sapiens",
+              "ontology": "NCBITaxon"
+            }
+          ],
+          "specific_target": null,
+          "url": "https://github.com/ViTAE-Transformer/ViTPose",
+          "mentions": {
+            "models": [
+              "ViTPose-B",
+              "ViTPose-L",
+              "ViTPose-H",
+              "ViTPose-G"
+            ],
+            "datasets": [
+              "MS COCO",
+              "AI Challenger",
+              "MPII"
+            ],
+            "benchmarks": [
+              "MS COCO Keypoint Detection"
+            ],
+            "papers": [
+              "SimpleBaseline",
+              "HRNet",
+              "TokenPose",
+              "TransPose",
+              "HRFormer"
+            ]
+          },
+          "judge_score": 0.9,
+          "remarks": "The 'specific_target' field is empty as no specific human subpopulation or body parts are targeted by this model, which is correct for general human pose estimation."
+        }
+      ]
+    },
+    "user_feedback_text": "see why specific_target is empty.",
+    "remarks": "The user feedback was processed and confirmed that the 'specific_target' field should be empty for this general human pose estimation model. The existing alignment meets BBQS standards."
+  }
+}

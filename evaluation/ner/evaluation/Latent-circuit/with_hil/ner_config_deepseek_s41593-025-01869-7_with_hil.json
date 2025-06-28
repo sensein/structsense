@@ -1,0 +1,531 @@
+{
+  "judged_structured_information": {
+    "judge_ner_terms": {
+      "1": [
+        {
+          "entity": "Nature Neuroscience",
+          "label": "JOURNAL",
+          "ontology_id": "ISSN:1097-6256",
+          "ontology_label": "Nature Neuroscience",
+          "sentence": [
+            "Nature Neuroscience | Volume 28 | March 2025 | 665\u2013675"
+          ],
+          "start": [
+            0
+          ],
+          "end": [
+            18
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Journal of publication",
+            "Alignment matches existing ontology ID",
+            "Perfect alignment to journal ISSN",
+            "Verified correct journal identification with ISSN"
+          ],
+          "paper_location": [
+            "header"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "2": [
+        {
+          "entity": "Christopher Langdon",
+          "label": "AUTHOR",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "Christopher Langdon 1,2 & Tatiana A. Engel 1,2"
+          ],
+          "start": [
+            0
+          ],
+          "end": [
+            17
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "First author of the paper",
+            "No ontological mapping available",
+            "Correctly identified as author with no available ontology",
+            "Author name correctly extracted from byline"
+          ],
+          "paper_location": [
+            "byline"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "3": [
+        {
+          "entity": "Tatiana A. Engel",
+          "label": "AUTHOR",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "Christopher Langdon 1,2 & Tatiana A. Engel 1,2"
+          ],
+          "start": [
+            20
+          ],
+          "end": [
+            36
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Second author of the paper",
+            "No ontological mapping available",
+            "Correctly identified as author with no available ontology",
+            "Author name correctly extracted from byline"
+          ],
+          "paper_location": [
+            "byline"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "4": [
+        {
+          "entity": "Princeton Neuroscience Institute",
+          "label": "INSTITUTION",
+          "ontology_id": "GRID:grid.16750.35",
+          "ontology_label": "Princeton University",
+          "sentence": [
+            "Princeton Neuroscience Institute, Princeton University, Princeton, NJ, USA."
+          ],
+          "start": [
+            0
+          ],
+          "end": [
+            35
+          ],
+          "judge_score": [
+            0.9
+          ],
+          "remarks": [
+            "Affiliation of authors",
+            "Updated to include GRID ontology mapping for parent institution",
+            "Correct institution identification with partial ontology mapping",
+            "Added GRID ID for Princeton University as parent organization"
+          ],
+          "paper_location": [
+            "affiliations"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "5": [
+        {
+          "entity": "Cold Spring Harbor Laboratory",
+          "label": "INSTITUTION",
+          "ontology_id": "GRID:grid.225279.9",
+          "ontology_label": "Cold Spring Harbor Laboratory",
+          "sentence": [
+            "Cold Spring Harbor Laboratory, Cold Spring Harbor, NY, USA."
+          ],
+          "start": [
+            0
+          ],
+          "end": [
+            26
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Affiliation of authors",
+            "Added GRID ontology mapping for exact institution match",
+            "Perfect institution alignment with GRID ontology",
+            "Verified correct institution identification with GRID ID"
+          ],
+          "paper_location": [
+            "affiliations"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "6": [
+        {
+          "entity": "prefrontal cortex",
+          "label": "ANATOMICAL_REGION",
+          "ontology_id": "UBERON:0000451",
+          "ontology_label": "prefrontal cortex",
+          "sentence": [
+            "Single neurons in areas such as the prefrontal cortex (PFC)"
+          ],
+          "start": [
+            23
+          ],
+          "end": [
+            39
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Brain region studied in the paper",
+            "Existing alignment confirmed",
+            "Perfect anatomical alignment with UBERON ontology",
+            "Verified correct anatomical region identification"
+          ],
+          "paper_location": [
+            "text"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "7": [
+        {
+          "entity": "PFC",
+          "label": "ANATOMICAL_REGION_ABBREVIATION",
+          "ontology_id": "UBERON:0000451",
+          "ontology_label": "prefrontal cortex",
+          "sentence": [
+            "Single neurons in areas such as the prefrontal cortex (PFC)"
+          ],
+          "start": [
+            41
+          ],
+          "end": [
+            44
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Abbreviation for prefrontal cortex",
+            "Mapped to same ontology as full term",
+            "Correct abbreviation mapping to anatomical term",
+            "Verified correct abbreviation expansion"
+          ],
+          "paper_location": [
+            "text"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "8": [
+        {
+          "entity": "RNN",
+          "label": "COMPUTATIONAL_MODEL",
+          "ontology_id": "OMICS:0000116",
+          "ontology_label": "artificial neural network",
+          "sentence": [
+            "Although trained RNNs are a class of neural circuit models"
+          ],
+          "start": [
+            15
+          ],
+          "end": [
+            18
+          ],
+          "judge_score": [
+            0.9
+          ],
+          "remarks": [
+            "Recurrent neural network model used in study",
+            "Added OMICS ontology mapping for general neural network class",
+            "Improved model identification with partial ontology mapping",
+            "Mapped to general artificial neural network category"
+          ],
+          "paper_location": [
+            "text"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "9": [
+        {
+          "entity": "latent circuit model",
+          "label": "METHOD",
+          "ontology_id": "OMICS:0000090",
+          "ontology_label": "modeling and simulation technique",
+          "sentence": [
+            "We develop the latent circuit model, a dimensionality reduction approach"
+          ],
+          "start": [
+            4
+          ],
+          "end": [
+            23
+          ],
+          "judge_score": [
+            0.9
+          ],
+          "remarks": [
+            "Main methodological contribution of the paper",
+            "Added OMICS ontology mapping for general modeling technique",
+            "Correct identification of novel method with partial ontology",
+            "Mapped to general modeling technique category"
+          ],
+          "paper_location": [
+            "text"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "10": [
+        {
+          "entity": "context-dependent decision-making",
+          "label": "COGNITIVE_TASK",
+          "ontology_id": "ERO:0000006",
+          "ontology_label": "behavioral task",
+          "sentence": [
+            "We applied latent circuit inference to recurrent neural networks trained to perform a context-dependent decision-making task"
+          ],
+          "start": [
+            53
+          ],
+          "end": [
+            85
+          ],
+          "judge_score": [
+            0.9
+          ],
+          "remarks": [
+            "Cognitive task studied in the paper",
+            "Added ERO ontology mapping for behavioral task category",
+            "Improved task identification with partial ontology mapping",
+            "Mapped to general behavioral task category"
+          ],
+          "paper_location": [
+            "text"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "11": [
+        {
+          "entity": "excitatory neurons",
+          "label": "CELL_TYPE",
+          "ontology_id": "CL:0008031",
+          "ontology_label": "excitatory neuron",
+          "sentence": [
+            "These computations result from interactions between excitatory and inhibitory neurons in cortical circuits."
+          ],
+          "start": [
+            40
+          ],
+          "end": [
+            57
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Type of neuron in cortical circuits",
+            "Existing alignment confirmed",
+            "Perfect cell type alignment with CL ontology",
+            "Verified correct cell type identification"
+          ],
+          "paper_location": [
+            "text"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "12": [
+        {
+          "entity": "inhibitory neurons",
+          "label": "CELL_TYPE",
+          "ontology_id": "CL:0008032",
+          "ontology_label": "inhibitory neuron",
+          "sentence": [
+            "These computations result from interactions between excitatory and inhibitory neurons in cortical circuits."
+          ],
+          "start": [
+            62
+          ],
+          "end": [
+            79
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Type of neuron in cortical circuits",
+            "Existing alignment confirmed",
+            "Perfect cell type alignment with CL ontology",
+            "Verified correct cell type identification"
+          ],
+          "paper_location": [
+            "text"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "13": [
+        {
+          "entity": "rhesus monkeys",
+          "label": "ANIMAL_SPECIES",
+          "ontology_id": "NCBITaxon:9544",
+          "ontology_label": "Macaca mulatta",
+          "\u6781sentence": [
+            "Moreover, fitting the latent circuit model to neural recordings from the PFC of monkeys performing the same context-dependent decision-making task revealed a qualitatively similar suppression mechanism"
+          ],
+          "start": [
+            66
+          ],
+          "end": [
+            80
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Animal subjects used in experiments",
+            "Existing alignment confirmed",
+            "Perfect species alignment with NCBI taxonomy",
+            "Verified correct species identification"
+          ],
+          "paper_location": [
+            "text"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "14": [
+        {
+          "entity": "decision-making",
+          "label": "COGNITIVE_PROCESS",
+          "ontology_id": "GO:0050776",
+          "ontology_label": "behavioral decision making",
+          "sentence": [
+            "Context-dependent decision-making requires flexible trial-by-trial switching between alternative stimulus-response mappings."
+          ],
+          "start": [
+            0
+          ],
+          "end": [
+            15
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Cognitive process studied",
+            "Existing alignment confirmed",
+            "Perfect cognitive process alignment with GO ontology",
+            "Verified correct cognitive process identification"
+          ],
+          "paper_location": [
+            "text"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "15": [
+        {
+          "entity": "ReLU",
+          "label": "METHOD",
+          "ontology_id": "OMICS:0001923",
+          "ontology_label": "activation function",
+          "sentence": [
+            "where f is a rectified linear (ReLU) activation function"
+          ],
+          "start": [
+            27
+          ],
+          "end": [
+            31
+          ],
+          "judge_score": [
+            0.9
+          ],
+          "remarks": [
+            "Activation function used in the model",
+            "Added OMICS ontology mapping for activation function",
+            "Improved method identification with partial ontology",
+            "Mapped to general activation function category"
+          ],
+          "paper_location": [
+            "methods"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ]
+    }
+  }
+}

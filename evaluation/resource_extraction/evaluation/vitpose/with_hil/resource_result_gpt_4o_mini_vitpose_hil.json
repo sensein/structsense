@@ -1,0 +1,92 @@
+{
+  "judged_structured_information": {
+    "judge_resource": {
+      "1": [
+        {
+          "name": "ViTPose: Simple Vision Transformer Baselines for Human Pose Estimation",
+          "description": "ViTPose is a baseline model that leverages plain vision transformers for human pose estimation. It achieves state-of-the-art performance, with 80.9 AP on the MS COCO Keypoint Detection benchmark, while maintaining a simple model structure which enhances scalability, flexibility in training paradigms, and knowledge transferability. ViTPose can easily adapt to varying model sizes, input resolutions, and different datasets, setting a new standard for pose estimation tasks.",
+          "type": "Model",
+          "category": "Pose Estimation",
+          "target": "Human",
+          "mapped_target_concept": [
+            {
+              "id": "http://purl.obolibrary.org/obo/BTO_0000015",
+              "label": "human",
+              "ontology": "BTO"
+            }
+          ],
+          "specific_target": "N/A",
+          "mapped_specific_target_concept": [
+            {
+              "specific_target": "Human",
+              "mapped_target_concept": {
+                "label": "Homo sapiens",
+                "id": "NCBITaxon:9606",
+                "ontology": "NCBITaxon"
+              }
+            }
+          ],
+          "url": "https://github.com/ViTAE-Transformer/ViTPose",
+          "mentions": {
+            "models": [
+              "ViTPose-B",
+              "ViTPose-L",
+              "ViTPose-H"
+            ],
+            "datasets": [
+              "MS COCO",
+              "AI Challenger",
+              "MPII"
+            ],
+            "benchmarks": [
+              "MS COCO Keypoint Detection"
+            ],
+            "papers": []
+          },
+          "judge_score": 0.95
+        }
+      ]
+    },
+    "user_feedback_json": {
+      "judge_resource": {
+        "1": [
+          {
+            "name": "ViTPose: Simple Vision Transformer Baselines for Human Pose Estimation",
+            "description": "ViTPose is a baseline model that leverages plain vision transformers for human pose estimation. It achieves state-of-the-art performance, with 80.9 AP on the MS COCO Keypoint Detection benchmark, while maintaining a simple model structure which enhances scalability, flexibility in training paradigms, and knowledge transferability. ViTPose can easily adapt to varying model sizes, input resolutions, and different datasets, setting a new standard for pose estimation tasks.",
+            "type": "Model",
+            "category": "Pose Estimation",
+            "target": "Human",
+            "mapped_target_concept": [
+              {
+                "id": "http://purl.obolibrary.org/obo/BTO_0000015",
+                "label": "human",
+                "ontology": "BTO"
+              }
+            ],
+            "specific_target": "N/A",
+            "mapped_specific_target_concept": "Homo sapiens",
+            "url": "https://github.com/ViTAE-Transformer/ViTPose",
+            "mentions": {
+              "models": [
+                "ViTPose-B",
+                "ViTPose-L",
+                "ViTPose-H"
+              ],
+              "datasets": [
+                "MS COCO",
+                "AI Challenger",
+                "MPII"
+              ],
+              "benchmarks": [
+                "MS COCO Keypoint Detection"
+              ],
+              "papers": []
+            },
+            "judge_score": 0.95
+          }
+        ]
+      }
+    },
+    "user_feedback_text": "fix why mapped_specific_target_concept are N/A, try to find the match from ontologies like NCIT and others."
+  }
+}

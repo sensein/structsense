@@ -1,0 +1,35 @@
+Timestamp,Provider / Model,App,System,Input Tokens,Output Tokens,Cost ($),Speed (tps),Finish
+"Jun 28, 08:41 AM",Favicon for Novita,DeepSeek V3 0324,liteLLM,1343,1315,0.00215,21.8,stop
+"Jun 28, 08:40 AM",Favicon for Lambda,DeepSeek V3 0324,liteLLM,3656,688,0.00185,28.1,stop
+"Jun 28, 08:39 AM",Favicon for Lambda,DeepSeek V3 0324,liteLLM,12182,1315,0.0053,26.9,stop
+"Jun 28, 08:38 AM",Favicon for BaseTen,DeepSeek V3 0324,liteLLM,918,281,0.000923,104.3,stop
+"Jun 28, 08:38 AM",Favicon for Together,DeepSeek V3 0324,liteLLM,4977,461,0.0068,77.7,stop
+"Jun 28, 08:38 AM",Favicon for Lambda,DeepSeek V3 0324,liteLLM,27871,885,0.0103,34.8,stop
+"Jun 28, 08:38 AM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,2830,2805,0.00326,23.7,stop
+"Jun 28, 08:36 AM",Favicon for Phala,DeepSeek V3 0324,liteLLM,2830,1644,0.00408,29.8,stop
+"Jun 28, 08:35 AM",Favicon for Lambda,DeepSeek V3 0324,liteLLM,40240,1022,0.0146,28.3,stop
+"Jun 28, 08:34 AM",Favicon for InferenceNet,DeepSeek V3 0324,liteLLM,79877,2822,0.04,16.1,stop
+"Jun 28, 08:31 AM",Favicon for Nebius,DeepSeek V3 0324,liteLLM,3313,780,0.00283,21.6,stop
+"Jun 28, 08:30 AM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,3310,3274,0.00381,21.3,stop
+"Jun 28, 08:27 AM",Favicon for Nebius,DeepSeek V3 0324,liteLLM,3313,1217,0.00348,19.9,stop
+"Jun 28, 08:26 AM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,40699,1293,0.0125,12.1,stop
+"Jun 28, 08:24 AM",Favicon for Novita,DeepSeek V3 0324,liteLLM,79819,3281,0.0306,92.8,stop
+"Jun 28, 08:23 AM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,8257,7507,0.137,79.1,tool_calls
+"Jun 28, 08:21 AM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,22867,578,0.0773,59.1,tool_calls
+"Jun 28, 08:21 AM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,38038,7854,0.232,84.0,stop
+"Jun 28, 08:19 AM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,6971,6592,0.12,86.1,tool_calls
+"Jun 28, 08:18 AM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,29017,485,0.0943,65.6,tool_calls
+"Jun 28, 08:18 AM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,49699,6574,0.248,81.2,stop
+"Jun 28, 08:16 AM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,22691,22315,0.403,91.2,tool_calls
+"Jun 28, 08:12 AM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,67573,1223,0.221,66.8,tool_calls
+"Jun 28, 08:11 AM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,95310,22350,0.621,92.4,stop
+"Jun 28, 08:07 AM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,95204,44862,0.959,90.9,stop
+"Jun 28, 07:53 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,6240,6354,0.00475,65.3,stop
+"Jun 28, 07:51 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,17692,1659,0.00365,55.7,stop
+"Jun 28, 07:51 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,30469,6202,0.00829,60.4,stop
+"Jun 28, 07:49 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,5539,5491,0.00413,72.6,stop
+"Jun 28, 07:48 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,11611,492,0.00204,60.3,stop
+"Jun 28, 07:47 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,17086,5502,0.00586,66.4,stop
+"Jun 28, 07:46 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,5552,5505,0.00414,56.5,stop
+"Jun 28, 07:44 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,43185,624,0.00685,77.7,stop
+"Jun 28, 07:44 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,80010,5514,0.0153,68.2,stop
