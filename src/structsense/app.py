@@ -719,10 +719,20 @@ class StructSenseFlow(Flow):
                 extracted_info = combined_result['extracted_structured_information']
                 logger.info(f"Found 'extracted_structured_information' with type: {type(extracted_info)}")
                 
-                # If it's a single resource object, wrap it in a list
+                # Handle nested dictionary structure (like extracted_terms with numbered keys)
                 if isinstance(extracted_info, dict):
-                    terms = [extracted_info]
-                    logger.info("Converted single resource object to list")
+                    terms = []
+                    for key, value in extracted_info.items():
+                        if isinstance(value, list):
+                            terms.extend(value)
+                            logger.debug(f"Added {len(value)} items from list key '{key}'")
+                        elif isinstance(value, dict):
+                            terms.append(value)
+                            logger.debug(f"Added 1 item from dict key '{key}'")
+                        else:
+                            terms.append(value)
+                            logger.debug(f"Added 1 item from key '{key}'")
+                    logger.info(f"Extracted {len(terms)} entities from nested structure")
                 elif isinstance(extracted_info, list):
                     terms = extracted_info
                     logger.info(f"Using list of {len(terms)} resources")
@@ -731,11 +741,54 @@ class StructSenseFlow(Flow):
                     logger.info("Converted non-dict/list to list")
                     
             elif 'extracted_terms' in combined_result:
-                terms = combined_result['extracted_terms']
-                logger.info(f"Found 'extracted_terms' key with {len(terms)} items")
+                extracted_terms = combined_result['extracted_terms']
+                logger.info(f"Found 'extracted_terms' key with type: {type(extracted_terms)}")
+                
+                # Handle nested dictionary structure (like numbered keys "1", "2", etc.)
+                if isinstance(extracted_terms, dict):
+                    terms = []
+                    for key, value in extracted_terms.items():
+                        if isinstance(value, list):
+                            terms.extend(value)
+                            logger.debug(f"Added {len(value)} items from list key '{key}'")
+                        elif isinstance(value, dict):
+                            terms.append(value)
+                            logger.debug(f"Added 1 item from dict key '{key}'")
+                        else:
+                            terms.append(value)
+                            logger.debug(f"Added 1 item from key '{key}'")
+                    logger.info(f"Extracted {len(terms)} entities from extracted_terms structure")
+                elif isinstance(extracted_terms, list):
+                    terms = extracted_terms
+                    logger.info(f"Using list of {len(terms)} extracted terms")
+                else:
+                    terms = [extracted_terms]
+                    logger.info("Converted extracted_terms to list")
+                    
             elif 'extracted_resources' in combined_result:
-                terms = combined_result['extracted_resources']
-                logger.info(f"Found 'extracted_resources' key with {len(terms)} items")
+                extracted_resources = combined_result['extracted_resources']
+                logger.info(f"Found 'extracted_resources' key with type: {type(extracted_resources)}")
+                
+                # Handle nested dictionary structure
+                if isinstance(extracted_resources, dict):
+                    terms = []
+                    for key, value in extracted_resources.items():
+                        if isinstance(value, list):
+                            terms.extend(value)
+                            logger.debug(f"Added {len(value)} items from list key '{key}'")
+                        elif isinstance(value, dict):
+                            terms.append(value)
+                            logger.debug(f"Added 1 item from dict key '{key}'")
+                        else:
+                            terms.append(value)
+                            logger.debug(f"Added 1 item from key '{key}'")
+                    logger.info(f"Extracted {len(terms)} entities from extracted_resources structure")
+                elif isinstance(extracted_resources, list):
+                    terms = extracted_resources
+                    logger.info(f"Using list of {len(terms)} extracted resources")
+                else:
+                    terms = [extracted_resources]
+                    logger.info("Converted extracted_resources to list")
             else:
                 # If no clear structure, try to extract terms from the dict
                 terms = []
