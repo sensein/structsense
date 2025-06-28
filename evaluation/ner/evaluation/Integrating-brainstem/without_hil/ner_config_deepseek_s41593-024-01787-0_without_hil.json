@@ -1,0 +1,336 @@
+{
+  "judge_ner_terms": {
+    "judge_ner_terms": {
+      "1": [
+        {
+          "entity": "product_name",
+          "label": "PRODUCT",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "LB15-47PP\u578b\u53f7\u56db\u5217\u76f4\u7ebf\u8f74\u627f"
+          ],
+          "start": [
+            0
+          ],
+          "end": [
+            14
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Exact product name extracted correctly.",
+            "No ontological mapping available."
+          ],
+          "paper_location": [
+            "header"
+          ],
+          "paper_title": [
+            "LB15-47PP linear bearing specifications"
+          ],
+          "doi": [
+            null
+          ]
+        }
+      ],
+      "2": [
+        {
+          "entity": "brand",
+          "label": "BRAND",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "LBC"
+          ],
+          "start": [
+            0
+          ],
+          "end": [
+            3
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Brand name extracted correctly.",
+            "No ontological mapping available."
+          ],
+          "paper_location": [
+            "header"
+          ],
+          "paper_title": [
+            "LB15-47PP linear bearing specifications"
+          ],
+          "doi": [
+            null
+          ]
+        }
+      ],
+      "3": [
+        {
+          "entity": "\u56db\u6392\u6eda\u73e0\u7ed3\u6784",
+          "label": "FEATURE",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "\u56db\u6392\u6eda\u73e0\u7ed3\u6784,\u627f\u8f7d\u80fd\u529b\u5927"
+          ],
+          "start": [
+            0
+          ],
+          "end": [
+            5
+          ],
+          "judge_score": [
+            0.9
+          ],
+          "remarks": [
+            "Feature description extracted accurately.",
+            "No ontological mapping available."
+          ],
+          "paper_location": [
+            "features"
+          ],
+          "paper_title": [
+            "LB15-47PP linear bearing specifications"
+          ],
+          "doi": [
+            null
+          ]
+        }
+      ],
+      "4": [
+        {
+          "entity": "\u9632\u5c18\u8bbe\u8ba1",
+          "label": "FEATURE",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "\u9632\u5c18\u8bbe\u8ba1,\u4f7f\u7528\u5bff\u547d\u957f"
+          ],
+          "start": [
+            0
+          ],
+          "end": [
+            3
+          ],
+          "judge_score": [
+            0.9
+          ],
+          "remarks": [
+            "Feature description extracted accurately.",
+            "No ontological mapping available."
+          ],
+          "paper_location": [
+            "features"
+          ],
+          "paper_title": [
+            "LB15-47PP linear bearing specifications"
+          ],
+          "doi": [
+            null
+          ]
+        }
+      ],
+      "5": [
+        {
+          "entity": "inner_diameter",
+          "label": "SPECIFICATION",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "15mm"
+          ],
+          "start": [
+            0
+          ],
+          "end": [
+            4
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Specification extracted accurately.",
+            "No ontological mapping available."
+          ],
+          "paper_location": [
+            "specifications"
+          ],
+          "paper_title": [
+            "LB15-47PP linear bearing specifications"
+          ],
+          "doi": [
+            null
+          ]
+        }
+      ],
+      "6": [
+        {
+          "entity": "GCr15\u8f74\u627f\u94a2",
+          "label": "MATERIAL",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "GCr15\u8f74\u627f\u94a2"
+          ],
+          "start": [
+            0
+          ],
+          "end": [
+            6
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Material specification extracted correctly.",
+            "No ontological mapping available."
+          ],
+          "paper_location": [
+            "specifications"
+          ],
+          "paper_title": [
+            "LB15-47PP linear bearing specifications"
+          ],
+          "doi": [
+            null
+          ]
+        }
+      ],
+      "7": [
+        {
+          "entity": "3D\u6253\u5370\u673a",
+          "label": "APPLICATION",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "3D\u6253\u5370\u673a"
+          ],
+          "start": [
+            0
+          ],
+          "end": [
+            4
+          ],
+          "judge_score": [
+            0.8
+          ],
+          "remarks": [
+            "Application extracted correctly.",
+            "No ontological mapping available."
+          ],
+          "paper_location": [
+            "applications"
+          ],
+          "paper_title": [
+            "LB15-47PP linear bearing specifications"
+          ],
+          "doi": [
+            null
+          ]
+        }
+      ],
+      "8": [
+        {
+          "entity": "GB/T 276-2013",
+          "label": "STANDARD",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "\u672c\u4ea7\u54c1\u4e25\u683c\u6309\u56fd\u5bb6\u6807\u51c6GB/T 276-2013\u751f\u4ea7\uff0c\u4ea7\u54c1\u8d28\u91cf\u53ef\u9760\u3002"
+          ],
+          "start": [
+            11
+          ],
+          "end": [
+            23
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Quality standard extracted correctly.",
+            "No ontological mapping available."
+          ],
+          "paper_location": [
+            "quality_assurance"
+          ],
+          "paper_title": [
+            "LB15-47PP linear bearing specifications"
+          ],
+          "doi": [
+            null
+          ]
+        }
+      ],
+      "9": [
+        {
+          "entity": "price",
+          "label": "PRICE",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "\u00a5186.00"
+          ],
+          "start": [
+            0
+          ],
+          "end": [
+            7
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Price information extracted correctly.",
+            "No ontological mapping available."
+          ],
+          "paper_location": [
+            "pricing"
+          ],
+          "paper_title": [
+            "LB15-47PP linear bearing specifications"
+          ],
+          "doi": [
+            null
+          ]
+        }
+      ],
+      "10": [
+        {
+          "entity": "400-800-1234",
+          "label": "CONTACT",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "400-800-1234"
+          ],
+          "start": [
+            0
+          ],
+          "end": [
+            12
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Contact information extracted correctly.",
+            "No ontological mapping available."
+          ],
+          "paper_location": [
+            "contact"
+          ],
+          "paper_title": [
+            "LB15-47PP linear bearing specifications"
+          ],
+          "doi": [
+            null
+          ]
+        }
+      ]
+    }
+  }
+}
