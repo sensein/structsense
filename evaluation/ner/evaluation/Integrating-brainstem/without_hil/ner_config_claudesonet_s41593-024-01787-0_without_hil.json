@@ -1,0 +1,544 @@
+{
+  "judge_ner_terms": {
+    "1": {
+      "entity": "brainstem",
+      "label": "ANATOMICAL_REGION",
+      "ontology_id": "UBERON:0000126",
+      "ontology_label": "brainstem",
+      "sentence": "The brainstem is a fundamental component of the central nervous system, yet it is typically excluded from in vivo human brain mapping efforts, precluding a complete understanding of how the brainstem influences cortical function.",
+      "start": 4,
+      "end": 13,
+      "judge_score": 1.0,
+      "remarks": [
+        "Major anatomical region that is the focus of the paper",
+        "Aligned with UBERON ontology for brain stem structure",
+        "Perfect alignment with the correct ontology ID and label"
+      ],
+      "paper_location": "abstract",
+      "paper_title": "Integrating brainstem and cortical functional architectures",
+      "doi": "10.1038/s41593-024-01787-0"
+    },
+    "2": {
+      "entity": "cortex",
+      "label": "ANATOMICAL_REGION",
+      "ontology_id": "UBERON:0000956",
+      "ontology_label": "cerebral cortex",
+      "sentence": "The brainstem is a fundamental component of the central nervous system, yet it is typically excluded from in vivo human brain mapping efforts, precluding a complete understanding of how the brainstem influences cortical function.",
+      "start": 139,
+      "end": 145,
+      "judge_score": 0.95,
+      "remarks": [
+        "Major anatomical region studied in relation to brainstem",
+        "Aligned with UBERON ontology for cerebral cortex",
+        "Very good alignment despite slight terminology difference (cortex vs cerebral cortex)"
+      ],
+      "paper_location": "abstract",
+      "paper_title": "Integrating brainstem and cortical functional architectures",
+      "doi": "10.1038/s41593-024-01787-0"
+    },
+    "3": {
+      "entity": "central nervous system",
+      "label": "ANATOMICAL_REGION",
+      "ontology_id": "UBERON:0001017",
+      "ontology_label": "central nervous system",
+      "sentence": "The brainstem is a fundamental component of the central nervous system, yet it is typically excluded from in vivo human brain mapping efforts, precluding a complete understanding of how the brainstem influences cortical function.",
+      "start": 46,
+      "end": 68,
+      "judge_score": 1.0,
+      "remarks": [
+        "Major anatomical system that includes the brainstem",
+        "Aligned with UBERON ontology for central nervous system",
+        "Perfect alignment with exact ontology ID and label match"
+      ],
+      "paper_location": "abstract",
+      "paper_title": "Integrating brainstem and cortical functional architectures",
+      "doi": "10.1038/s41593-024-01787-0"
+    },
+    "4": {
+      "entity": "7-Tesla functional magnetic resonance imaging",
+      "label": "METHOD",
+      "ontology_id": "NCIT:C16312",
+      "ontology_label": "Functional Magnetic Resonance Imaging",
+      "sentence": "In this study, we used high-resolution 7-Tesla functional magnetic resonance imaging to derive a functional connectome encompassing cortex and 58 brainstem nuclei spanning the midbrain, pons and medulla.",
+      "start": 38,
+      "end": 85,
+      "judge_score": 0.9,
+      "remarks": [
+        "Imaging method used in the study",
+        "Aligned with NCI Thesaurus for fMRI, with specification of 7-Tesla strength",
+        "Good alignment but the specific field strength (7-Tesla) not reflected in the ontology label"
+      ],
+      "paper_location": "abstract",
+      "paper_title": "Integrating brainstem and cortical functional architectures",
+      "doi": "10.1038/s41593-024-01787-0"
+    },
+    "5": {
+      "entity": "midbrain",
+      "label": "ANATOMICAL_REGION",
+      "ontology_id": "UBERON:0001891",
+      "ontology_label": "midbrain",
+      "sentence": "In this study, we used high-resolution 7-Tesla functional magnetic resonance imaging to derive a functional connectome encompassing cortex and 58 brainstem nuclei spanning the midbrain, pons and medulla.",
+      "start": 177,
+      "end": 185,
+      "judge_score": 1.0,
+      "remarks": [
+        "Subdivision of the brainstem studied",
+        "Aligned with UBERON ontology for midbrain structure",
+        "Perfect alignment with exact ontology ID and label match"
+      ],
+      "paper_location": "abstract",
+      "paper_title": "Integrating brainstem and cortical functional architectures",
+      "doi": "10.1038/s41593-024-01787-0"
+    },
+    "6": {
+      "entity": "pons",
+      "label": "ANATOMICAL_REGION",
+      "ontology_id": "UBERON:0000988",
+      "ontology_label": "pons",
+      "sentence": "In this study, we used high-resolution 7-Tesla functional magnetic resonance imaging to derive a functional connectome encompassing cortex and 58 brainstem nuclei spanning the midbrain, pons and medulla.",
+      "start": 187,
+      "end": 191,
+      "judge_score": 1.0,
+      "remarks": [
+        "Subdivision of the brainstem studied",
+        "Aligned with UBERON ontology for pons structure",
+        "Perfect alignment with exact ontology ID and label match"
+      ],
+      "paper_location": "abstract",
+      "paper_title": "Integrating brainstem and cortical functional architectures",
+      "doi": "10.1038/s41593-024-01787-0"
+    },
+    "7": {
+      "entity": "medulla",
+      "label": "ANATOMICAL_REGION",
+      "ontology_id": "UBERON:0001896",
+      "ontology_label": "medulla oblongata",
+      "sentence": "In this study, we used high-resolution 7-Tesla functional magnetic resonance imaging to derive a functional connectome encompassing cortex and 58 brainstem nuclei spanning the midbrain, pons and medulla.",
+      "start": 196,
+      "end": 203,
+      "judge_score": 0.95,
+      "remarks": [
+        "Subdivision of the brainstem studied",
+        "Aligned with UBERON ontology for medulla oblongata",
+        "Very good alignment despite abbreviated term in text (medulla vs. medulla oblongata)"
+      ],
+      "paper_location": "abstract",
+      "paper_title": "Integrating brainstem and cortical functional architectures",
+      "doi": "10.1038/s41593-024-01787-0"
+    },
+    "8": {
+      "entity": "integrative hubs",
+      "label": "CONCEPT",
+      "ontology_id": "NCIT:C172271",
+      "ontology_label": "Brain Network Hub",
+      "sentence": "We identified a compact set of integrative hubs in the brainstem with widespread connectivity with cerebral cortex.",
+      "start": 36,
+      "end": 51,
+      "judge_score": 0.85,
+      "remarks": [
+        "Neural connectivity concept identified in the study",
+        "Aligned with NCI Thesaurus concept for brain network hubs",
+        "Good alignment though the ontology term is more general than the specific concept mentioned"
+      ],
+      "paper_location": "abstract",
+      "paper_title": "Integrating brainstem and cortical functional architectures",
+      "doi": "10.1038/s41593-024-01787-0"
+    },
+    "9": {
+      "entity": "cerebral cortex",
+      "label": "ANATOMICAL_REGION",
+      "ontology_id": "UBERON:0000956",
+      "ontology_label": "cerebral cortex",
+      "sentence": "We identified a compact set of integrative hubs in the brainstem with widespread connectivity with cerebral cortex.",
+      "start": 98,
+      "end": 112,
+      "judge_score": 1.0,
+      "remarks": [
+        "Major brain region studied in relation to brainstem",
+        "Aligned with UBERON ontology for cerebral cortex",
+        "Perfect alignment with exact ontology ID and label match"
+      ],
+      "paper_location": "abstract",
+      "paper_title": "Integrating brainstem and cortical functional architectures",
+      "doi": "10.1038/s41593-024-01787-0"
+    },
+    "10": {
+      "entity": "neurophysiological oscillatory rhythms",
+      "label": "NEUROLOGICAL_PHENOMENON",
+      "ontology_id": "OMIT:0005639",
+      "ontology_label": "neural oscillation",
+      "sentence": "Patterns of connectivity between brainstem and cerebral cortex manifest as neurophysiological oscillatory rhythms, patterns of cognitive functional specialization and the unimodal\u2013transmodal functional hierarchy.",
+      "start": 65,
+      "end": 104,
+      "judge_score": 0.9,
+      "remarks": [
+        "Neural activity pattern studied in relation to brainstem-cortex connectivity",
+        "Aligned with OMIT ontology for neural oscillation",
+        "Strong alignment with appropriate ontology term, slightly different wording"
+      ],
+      "paper_location": "abstract",
+      "paper_title": "Integrating brainstem and cortical functional architectures",
+      "doi": "10.1038/s41593-024-01787-0"
+    },
+    "11": {
+      "entity": "cognitive functional specialization",
+      "label": "NEUROLOGICAL_PHENOMENON",
+      "ontology_id": "NCIT:C94625",
+      "ontology_label": "Functional Specialization",
+      "sentence": "Patterns of connectivity between brainstem and cerebral cortex manifest as neurophysiological oscillatory rhythms, patterns of cognitive functional specialization and the unimodal\u2013transmodal functional hierarchy.",
+      "start": 116,
+      "end": 151,
+      "judge_score": 0.9,
+      "remarks": [
+        "Neural organization pattern studied in relation to brainstem-cortex connectivity",
+        "Aligned with NCI Thesaurus term for functional specialization in neural systems",
+        "Strong alignment with the concept, though the 'cognitive' qualifier is not in the ontology label"
+      ],
+      "paper_location": "abstract",
+      "paper_title": "Integrating brainstem and cortical functional architectures",
+      "doi": "10.1038/s41593-024-01787-0"
+    },
+    "12": {
+      "entity": "unimodal\u2013transmodal functional hierarchy",
+      "label": "NEUROLOGICAL_PHENOMENON",
+      "ontology_id": "NCIT:C172270",
+      "ontology_label": "Cortical Hierarchy",
+      "sentence": "Patterns of connectivity between brainstem and cerebral cortex manifest as neurophysiological oscillatory rhythms, patterns of cognitive functional specialization and the unimodal\u2013transmodal functional hierarchy.",
+      "start": 160,
+      "end": 200,
+      "judge_score": 0.85,
+      "remarks": [
+        "Neural organizational hierarchy studied in relation to brainstem-cortex connectivity",
+        "Aligned with NCI Thesaurus concept for cortical hierarchy",
+        "Good alignment though the specific unimodal-transmodal aspect is not reflected in the ontology label"
+      ],
+      "paper_location": "abstract",
+      "paper_title": "Integrating brainstem and cortical functional architectures",
+      "doi": "10.1038/s41593-024-01787-0"
+    },
+    "13": {
+      "entity": "neurotransmitter receptors",
+      "label": "BIOLOGICAL_COMPONENT",
+      "ontology_id": "GO:0030594",
+      "ontology_label": "neurotransmitter receptor activity",
+      "sentence": "This persistent alignment between cortical functional topographies and brainstem nuclei is shaped by the spatial arrangement of multiple neurotransmitter receptors and transporters.",
+      "start": 126,
+      "end": 150,
+      "judge_score": 0.95,
+      "remarks": [
+        "Molecular components shaping brainstem-cortex connectivity",
+        "Aligned with Gene Ontology term for neurotransmitter receptor activity",
+        "Very good alignment though GO term refers to activity rather than the physical receptor"
+      ],
+      "paper_location": "abstract",
+      "paper_title": "Integrating brainstem and cortical functional architectures",
+      "doi": "10.1038/s41593-024-01787-0"
+    },
+    "14": {
+      "entity": "neurotransmitter transporters",
+      "label": "BIOLOGICAL_COMPONENT",
+      "ontology_id": "GO:0005326",
+      "ontology_label": "neurotransmitter transporter activity",
+      "sentence": "This persistent alignment between cortical functional topographies and brainstem nuclei is shaped by the spatial arrangement of multiple neurotransmitter receptors and transporters.",
+      "start": 155,
+      "end": 166,
+      "judge_score": 0.95,
+      "remarks": [
+        "Molecular components shaping brainstem-cortex connectivity",
+        "Aligned with Gene Ontology term for neurotransmitter transporter activity",
+        "Very good alignment though GO term refers to activity rather than the physical transporter"
+      ],
+      "paper_location": "abstract",
+      "paper_title": "Integrating brainstem and cortical functional architectures",
+      "doi": "10.1038/s41593-024-01787-0"
+    },
+    "15": {
+      "entity": "3-Tesla",
+      "label": "METHOD",
+      "ontology_id": "NCIT:C16312",
+      "ontology_label": "Functional Magnetic Resonance Imaging",
+      "sentence": "We replicated all findings using 3-Tesla data from the same participants.",
+      "start": 32,
+      "end": 39,
+      "judge_score": 0.8,
+      "remarks": [
+        "Alternative imaging method used for validation",
+        "Aligned with NCI Thesaurus for MRI, with specification of 3-Tesla strength",
+        "Acceptable alignment but the specific field strength (3-Tesla) not reflected in the ontology label"
+      ],
+      "paper_location": "abstract",
+      "paper_title": "Integrating brainstem and cortical functional architectures",
+      "doi": "10.1038/s41593-024-01787-0"
+    },
+    "16": {
+      "entity": "neural populations",
+      "label": "BIOLOGICAL_COMPONENT",
+      "ontology_id": "NCIT:C16958",
+      "ontology_label": "Neuronal Population",
+      "sentence": "The brain is a network of functionally interacting neural populations.",
+      "start": 46,
+      "end": 64,
+      "judge_score": 1.0,
+      "remarks": [
+        "Cellular components making up brain network",
+        "Aligned with NCI Thesaurus concept for neuronal populations",
+        "Perfect alignment with the appropriate ontology term"
+      ],
+      "paper_location": "introduction",
+      "paper_title": "Integrating brainstem and cortical functional architectures",
+      "doi": "10.1038/s41593-024-01787-0"
+    },
+    "17": {
+      "entity": "functionally specialized brain regions",
+      "label": "NEUROLOGICAL_PHENOMENON",
+      "ontology_id": "NCIT:C94625",
+      "ontology_label": "Functional Specialization",
+      "sentence": "As a result, key findings about functional activity in the brain\u2014including the presence of functionally specialized brain regions, networks of regions with synchronized neural activity and mechanisms behind higher-order cognitive processes\u2014are primarily limited to the cerebral cortex.",
+      "start": 83,
+      "end": 119,
+      "judge_score": 0.9,
+      "remarks": [
+        "Neural organization pattern primarily studied in cortex",
+        "Aligned with NCI Thesaurus concept for functional specialization of brain regions",
+        "Strong alignment though the ontology term is more general than the specific concept mentioned"
+      ],
+      "paper_location": "introduction",
+      "paper_title": "Integrating brainstem and cortical functional architectures",
+      "doi": "10.1038/s41593-024-01787-0"
+    },
+    "18": {
+      "entity": "synchronized neural activity",
+      "label": "NEUROLOGICAL_PHENOMENON",
+      "ontology_id": "NCIT:C94626",
+      "ontology_label": "Neural Synchrony",
+      "sentence": "As a result, key findings about functional activity in the brain\u2014including the presence of functionally specialized brain regions, networks of regions with synchronized neural activity and mechanisms behind higher-order cognitive processes\u2014are primarily limited to the cerebral cortex.",
+      "start": 152,
+      "end": 178,
+      "judge_score": 0.95,
+      "remarks": [
+        "Neural activity pattern primarily studied in cortex",
+        "Aligned with NCI Thesaurus concept for neural synchrony",
+        "Very good alignment with appropriate synonymous term in the ontology"
+      ],
+      "paper_location": "introduction",
+      "paper_title": "Integrating brainstem and cortical functional architectures",
+      "doi": "10.1038/s41593-024-01787-0"
+    },
+    "19": {
+      "entity": "higher-order cognitive processes",
+      "label": "NEUROLOGICAL_PHENOMENON",
+      "ontology_id": "NCIT:C142594",
+      "ontology_label": "Higher Cognitive Function",
+      "sentence": "As a result, key findings about functional activity in the brain\u2014including the presence of functionally specialized brain regions, networks of regions with synchronized neural activity and mechanisms behind higher-order cognitive processes\u2014are primarily limited to the cerebral cortex.",
+      "start": 196,
+      "end": 228,
+      "judge_score": 1.0,
+      "remarks": [
+        "Cognitive functions primarily studied in cortex",
+        "Aligned with NCI Thesaurus concept for higher cognitive functions",
+        "Perfect alignment with appropriate ontology term"
+      ],
+      "paper_location": "introduction",
+      "paper_title": "Integrating brainstem and cortical functional architectures",
+      "doi": "10.1038/s41593-024-01787-0"
+    },
+    "20": {
+      "entity": "extracortical structures",
+      "label": "ANATOMICAL_REGION",
+      "ontology_id": "UBERON:0010132",
+      "ontology_label": "subcortical region",
+      "sentence": "An important question is therefore: what role do extracortical structures have in cortical function?",
+      "start": 48,
+      "end": 72,
+      "judge_score": 0.85,
+      "remarks": [
+        "Brain regions outside cortex, including brainstem",
+        "Aligned with UBERON ontology for subcortical regions",
+        "Good alignment though 'extracortical' is more general than 'subcortical'"
+      ],
+      "paper_location": "introduction",
+      "paper_title": "Integrating brainstem and cortical functional architectures",
+      "doi": "10.1038/s41593-024-01787-0"
+    },
+    "21": {
+      "entity": "consciousness",
+      "label": "NEUROLOGICAL_PHENOMENON",
+      "ontology_id": "NCIT:C25578",
+      "ontology_label": "Consciousness",
+      "sentence": "This early evolutionary structure is crucial for survival and consciousness and integrates signals from across the nervous system.",
+      "start": 55,
+      "end": 68,
+      "judge_score": 1.0,
+      "remarks": [
+        "Neural state supported by brainstem function",
+        "Aligned with NCI Thesaurus concept for consciousness",
+        "Perfect alignment with exact ontology term"
+      ],
+      "paper_location": "introduction",
+      "paper_title": "Integrating brainstem and cortical functional architectures",
+      "doi": "10.1038/s41593-024-01787-0"
+    },
+    "22": {
+      "entity": "neurotransmitter systems",
+      "label": "BIOLOGICAL_COMPONENT",
+      "ontology_id": "NCIT:C96801",
+      "ontology_label": "Neurotransmitter System",
+      "sentence": "In addition, multiple neurotransmitter systems originate in brainstem nuclei and project throughout the cortex, shaping cortical activity.",
+      "start": 23,
+      "end": 45,
+      "judge_score": 1.0,
+      "remarks": [
+        "Chemical signaling pathways originating in brainstem",
+        "Aligned with NCI Thesaurus concept for neurotransmitter systems",
+        "Perfect alignment with exact ontology term"
+      ],
+      "paper_location": "introduction",
+      "paper_title": "Integrating brainstem and cortical functional architectures",
+      "doi": "10.1038/s41593-024-01787-0"
+    },
+    "23": {
+      "entity": "brainstem nuclei",
+      "label": "ANATOMICAL_REGION",
+      "ontology_id": "UBERON:0002298",
+      "ontology_label": "brainstem nucleus",
+      "sentence": "In addition, multiple neurotransmitter systems originate in brainstem nuclei and project throughout the cortex, shaping cortical activity.",
+      "start": 57,
+      "end": 72,
+      "judge_score": 1.0,
+      "remarks": [
+        "Collection of discrete neural structures in brainstem",
+        "Aligned with UBERON ontology for brainstem nuclei",
+        "Perfect alignment with exact ontology term (plural vs singular form)"
+      ],
+      "paper_location": "introduction",
+      "paper_title": "Integrating brainstem and cortical functional architectures",
+      "doi": "10.1038/s41593-024-01787-0"
+    },
+    "24": {
+      "entity": "lesion studies",
+      "label": "METHOD",
+      "ontology_id": "NCIT:C16410",
+      "ontology_label": "Lesion Study",
+      "sentence": "In stark contrast to research on cortical function, knowledge about brainstem function comes predominantly from lesion studies or studies in model organisms, and these studies are often limited to specific brainstem nuclei or pathways.",
+      "start": 107,
+      "end": 120,
+      "judge_score": 1.0,
+      "remarks": [
+        "Experimental approach used to study brainstem function",
+        "Aligned with NCI Thesaurus concept for lesion studies",
+        "Perfect alignment with exact ontology term (plural vs singular form)"
+      ],
+      "paper_location": "introduction",
+      "paper_title": "Integrating brainstem and cortical functional architectures",
+      "doi": "10.1038/s41593-024-01787-0"
+    },
+    "25": {
+      "entity": "model organisms",
+      "label": "EXPERIMENTAL_SUBJECT",
+      "ontology_id": "NCIT:C14250",
+      "ontology_label": "Model Organism",
+      "sentence": "In stark contrast to research on cortical function, knowledge about brainstem function comes predominantly from lesion studies or studies in model organisms, and these studies are often limited to specific brainstem nuclei or pathways.",
+      "start": 141,
+      "end": 157,
+      "judge_score": 1.0,
+      "remarks": [
+        "Animal subjects used to study brainstem function",
+        "Aligned with NCI Thesaurus concept for model organisms",
+        "Perfect alignment with exact ontology term (plural vs singular form)"
+      ],
+      "paper_location": "introduction",
+      "paper_title": "Integrating brainstem and cortical functional architectures",
+      "doi": "10.1038/s41593-024-01787-0"
+    },
+    "26": {
+      "entity": "brainstem pathways",
+      "label": "ANATOMICAL_REGION",
+      "ontology_id": "UBERON:0001017",
+      "ontology_label": "central nervous system",
+      "sentence": "In stark contrast to research on cortical function, knowledge about brainstem function comes predominantly from lesion studies or studies in model organisms, and these studies are often limited to specific brainstem nuclei or pathways.",
+      "start": 211,
+      "end": 229,
+      "judge_score": 0.7,
+      "remarks": [
+        "Neural tracts connecting brainstem structures",
+        "Aligned with UBERON ontology as part of central nervous system",
+        "Suboptimal alignment - the ontology term is much broader than the specific entity"
+      ],
+      "paper_location": "introduction",
+      "paper_title": "Integrating brainstem and cortical functional architectures",
+      "doi": "10.1038/s41593-024-01787-0"
+    },
+    "27": {
+      "entity": "ultra-high-field magnetic resonance imaging",
+      "label": "METHOD",
+      "ontology_id": "NCIT:C16312",
+      "ontology_label": "Functional Magnetic Resonance Imaging",
+      "sentence": "Exciting recent imaging advances have improved the feasibility of functional imaging in the whole brainstem, including ultra-high-field magnetic resonance imaging (MRI) scanners and extensive brainstem-specific physiological noise reduction pipelines.",
+      "start": 108,
+      "end": 150,
+      "judge_score": 0.8,
+      "remarks": [
+        "Advanced imaging technology for studying brainstem",
+        "Aligned with NCI Thesaurus concept for MRI with ultra-high-field specification",
+        "Good alignment but the 'ultra-high-field' specification is not reflected in the ontology term"
+      ],
+      "paper_location": "introduction",
+      "paper_title": "Integrating brainstem and cortical functional architectures",
+      "doi": "10.1038/s41593-024-01787-0"
+    },
+    "28": {
+      "entity": "brainstem-specific physiological noise reduction pipelines",
+      "label": "METHOD",
+      "ontology_id": "NCIT:C47846",
+      "ontology_label": "Data Processing",
+      "sentence": "Exciting recent imaging advances have improved the feasibility of functional imaging in the whole brainstem, including ultra-high-field magnetic resonance imaging (MRI) scanners and extensive brainstem-specific physiological noise reduction pipelines.",
+      "start": 169,
+      "end": 227,
+      "judge_score": 0.75,
+      "remarks": [
+        "Data processing method for brainstem imaging",
+        "Aligned with NCI Thesaurus concept for data processing with specialized application",
+        "Satisfactory but general alignment - the ontology term is much broader than the specific technique"
+      ],
+      "paper_location": "introduction",
+      "paper_title": "Integrating brainstem and cortical functional architectures",
+      "doi": "10.1038/s41593-024-01787-0"
+    },
+    "29": {
+      "entity": "brainstem atlases",
+      "label": "RESEARCH_TOOL",
+      "ontology_id": "NCIT:C43597",
+      "ontology_label": "Brain Atlas",
+      "sentence": "Furthermore, recent development of brainstem atlases encompassing multiple nuclei has made it possible to augment the cortical functional connectome with an anatomically comprehensive representation of the brainstem.",
+      "start": 34,
+      "end": 50,
+      "judge_score": 0.9,
+      "remarks": [
+        "Anatomical reference tools for brainstem research",
+        "Aligned with NCI Thesaurus concept for brain atlases with brainstem specialization",
+        "Very good alignment though the brainstem-specific aspect is not reflected in the ontology label"
+      ],
+      "paper_location": "introduction",
+      "paper_title": "Integrating brainstem and cortical functional architectures",
+      "doi": "10.1038/s41593-024-01787-0"
+    },
+    "30": {
+      "entity": "functional connectome",
+      "label": "CONCEPT",
+      "ontology_id": "NCIT:C172267",
+      "ontology_label": "Functional Connectome",
+      "sentence": "Furthermore, recent development of brainstem atlases encompassing multiple nuclei has made it possible to augment the cortical functional connectome with an anatomically comprehensive representation of the brainstem.",
+      "start": 97,
+      "end": 117,
+      "judge_score": 1.0,
+      "remarks": [
+        "Network representation of functional neural connections",
+        "Aligned with NCI Thesaurus concept for functional connectome",
+        "Perfect alignment with exact ontology term"
+      ],
+      "paper_location": "introduction",
+      "paper_title": "Integrating brainstem and cortical functional architectures",
+      "doi": "10.1038/s41593-024-01787-0"
+    }
+  }
+}
