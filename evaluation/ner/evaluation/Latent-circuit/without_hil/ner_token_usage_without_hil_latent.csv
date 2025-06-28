@@ -1,0 +1,29 @@
+Timestamp,Provider / Model,App,System,Input Tokens,Output Tokens,Cost ($),Speed (tps),Finish
+"Jun 27, 10:38 PM",Favicon for Lambda,DeepSeek V3 0324,liteLLM,2360,2336,0.00286,26.5,stop
+"Jun 27, 10:36 PM",Favicon for Crusoe,DeepSeek V3 0324,liteLLM,7636,782,0.00304,28.0,stop
+"Jun 27, 10:36 PM",Favicon for Phala,DeepSeek V3 0324,liteLLM,9049,2333,0.00972,24.7,stop
+"Jun 27, 10:34 PM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,2006,1982,0.00231,23.3,stop
+"Jun 27, 10:33 PM",Favicon for Novita,DeepSeek V3 0324,liteLLM,5318,572,0.0025,20.0,stop
+"Jun 27, 10:32 PM",Favicon for Nebius,DeepSeek V3 0324,liteLLM,10328,1979,0.00813,20.1,stop
+"Jun 27, 10:31 PM",Favicon for Lambda,DeepSeek V3 0324,liteLLM,1879,1855,0.00227,32.3,stop
+"Jun 27, 10:30 PM",Favicon for Crusoe,DeepSeek V3 0324,liteLLM,37726,749,0.0114,25.7,stop
+"Jun 27, 10:28 PM",Favicon for GMICloud,DeepSeek V3 0324,liteLLM,71917,1852,0.0549,110.8,stop
+"Jun 27, 10:15 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,10772,10394,0.188,78.1,tool_calls
+"Jun 27, 10:12 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,28469,602,0.0944,59.5,tool_calls
+"Jun 27, 10:12 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,34828,10372,0.26,78.0,stop
+"Jun 27, 10:10 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,8910,8534,0.155,77.5,tool_calls
+"Jun 27, 10:08 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,17693,950,0.0673,61.0,tool_calls
+"Jun 27, 10:07 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,19703,8568,0.188,76.1,stop
+"Jun 27, 10:06 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,7728,7082,0.129,76.8,tool_calls
+"Jun 27, 10:04 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,51376,1294,0.174,89.0,tool_calls
+"Jun 27, 10:04 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,49910,1291,0.169,61.6,tool_calls
+"Jun 27, 10:03 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,83918,7330,0.362,77.9,stop
+"Jun 27, 10:27 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,2026,1988,0.0015,68.2,stop
+"Jun 27, 10:26 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,7043,620,0.00143,69.8,stop
+"Jun 27, 10:26 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,27039,1989,0.00525,70.7,stop
+"Jun 27, 10:25 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,1915,1867,0.00141,80.9,stop
+"Jun 27, 10:25 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,4924,572,0.00108,81.2,stop
+"Jun 27, 10:25 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,23024,1920,0.00461,62.2,stop
+"Jun 27, 10:24 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,1607,1560,0.00118,64.9,stop
+"Jun 27, 10:24 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,37545,165,0.00573,84.2,stop
+"Jun 27, 10:24 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,72143,1571,0.00637,72.9,stop
