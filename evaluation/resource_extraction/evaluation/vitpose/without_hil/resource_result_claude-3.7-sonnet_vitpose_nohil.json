@@ -1,6 +1,6 @@
 {
   "judge_resource": {
-    "aligned_resources": [
+    "1": [
       {
         "name": "ViTPose",
         "description": "A simple yet effective vision transformer baseline for human pose estimation that employs plain and non-hierarchical vision transformers as backbones to extract features for person instances with a lightweight decoder for keypoint detection. It demonstrates good capabilities in structural simplicity, model size scalability, training paradigm flexibility, and knowledge transferability.",
