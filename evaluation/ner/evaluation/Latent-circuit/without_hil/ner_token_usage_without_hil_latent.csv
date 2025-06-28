@@ -1,4 +1,4 @@
-Timestamp,Provider / Model,App,System,Input Tokens,Output Tokens,Cost ($),Speed (tps),Finish
+Timestamp,Provider,Model,App,Input Tokens,Output Tokens,Cost ($),Speed (tps),Finish
 "Jun 27, 10:38 PM",Favicon for Lambda,DeepSeek V3 0324,liteLLM,2360,2336,0.00286,26.5,stop
 "Jun 27, 10:36 PM",Favicon for Crusoe,DeepSeek V3 0324,liteLLM,7636,782,0.00304,28.0,stop
 "Jun 27, 10:36 PM",Favicon for Phala,DeepSeek V3 0324,liteLLM,9049,2333,0.00972,24.7,stop
