@@ -1,0 +1,289 @@
+Timestamp,Provider,Model,App,Input Tokens,Output Tokens,Cost ($),Speed (tps),Finish,Paper,Task,Human loop
+"Jun 28, 10:03 AM",Favicon for InferenceNet,DeepSeek V3 0324,liteLLM,840,720,0.00142,7.7,stop,Integrating brainstem and cortical functional architectures,NER,YES
+"Jun 28, 10:01 AM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,4251,316,0.00147,22.4,stop,Integrating brainstem and cortical functional architectures,NER,YES
+"Jun 28, 10:01 AM",Favicon for Crusoe,DeepSeek V3 0324,liteLLM,72343,834,0.0212,23.2,stop,Integrating brainstem and cortical functional architectures,NER,YES
+"Jun 28, 09:57 AM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,443,415,0.000489,19.7,stop,Integrating brainstem and cortical functional architectures,NER,YES
+"Jun 28, 09:57 AM",Favicon for Crusoe,DeepSeek V3 0324,liteLLM,2777,289,0.00111,25.8,stop,Integrating brainstem and cortical functional architectures,NER,YES
+"Jun 28, 09:57 AM",Favicon for Crusoe,DeepSeek V3 0324,liteLLM,24235,416,0.00726,15.6,stop,Integrating brainstem and cortical functional architectures,NER,YES
+"Jun 28, 09:56 AM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,310,291,0.000343,20.5,stop,Integrating brainstem and cortical functional architectures,NER,YES
+"Jun 28, 09:55 AM",Favicon for Crusoe,DeepSeek V3 0324,liteLLM,6364,252,0.00207,20.0,stop,Integrating brainstem and cortical functional architectures,NER,YES
+"Jun 28, 09:55 AM",Favicon for Crusoe,DeepSeek V3 0324,liteLLM,31851,282,0.00924,24.3,stop,Integrating brainstem and cortical functional architectures,NER,YES
+"Jun 28, 09:54 AM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,5155,5131,0.00596,24.0,stop,Integrating brainstem and cortical functional architectures,NER,YES
+"Jun 28, 09:50 AM",Favicon for Crusoe,DeepSeek V3 0324,liteLLM,42568,465,0.0125,18.7,stop,Integrating brainstem and cortical functional architectures,NER,YES
+"Jun 28, 09:49 AM",Favicon for Nebius,DeepSeek V3 0324,liteLLM,79864,5149,0.0477,15.0,stop,Integrating brainstem and cortical functional architectures,NER,YES
+"Jun 28, 09:15 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,4469,4421,0.003,61.1,stop,Integrating brainstem and cortical functional architectures,NER,YES
+"Jun 28, 09:14 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,21489,1335,0.00402,58.9,stop,Integrating brainstem and cortical functional architectures,NER,YES
+"Jun 28, 09:14 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,70022,4432,0.0132,64.5,stop,Integrating brainstem and cortical functional architectures,NER,YES
+"Jun 28, 09:11 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,4440,4409,0.00331,56.6,stop,Integrating brainstem and cortical functional architectures,NER,YES
+"Jun 28, 09:10 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,15378,612,0.00267,78.3,stop,Integrating brainstem and cortical functional architectures,NER,YES
+"Jun 28, 09:10 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,0,0,0.0,0.0,--,Integrating brainstem and cortical functional architectures,NER,YES
+"Jun 28, 09:08 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,5399,5351,0.00402,76.9,stop,Integrating brainstem and cortical functional architectures,NER,YES
+"Jun 28, 09:07 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,11508,1701,0.00275,60.4,stop,Integrating brainstem and cortical functional architectures,NER,YES
+"Jun 28, 09:06 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,17158,5363,0.00579,65.8,stop,Integrating brainstem and cortical functional architectures,NER,YES
+"Jun 28, 09:05 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,5399,5352,0.00402,58.0,stop,Integrating brainstem and cortical functional architectures,NER,YES
+"Jun 28, 09:03 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,43032,1984,0.00765,63.0,stop,Integrating brainstem and cortical functional architectures,NER,YES
+"Jun 28, 09:03 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,80322,5361,0.0153,56.1,stop,Integrating brainstem and cortical functional architectures,NER,YES
+"Jun 28, 08:41 AM",Favicon for Novita,DeepSeek V3 0324,liteLLM,1343,1315,0.00215,21.8,stop,Integrating brainstem and cortical functional architectures,NER,NO
+"Jun 28, 08:40 AM",Favicon for Lambda,DeepSeek V3 0324,liteLLM,3656,688,0.00185,28.1,stop,Integrating brainstem and cortical functional architectures,NER,NO
+"Jun 28, 08:39 AM",Favicon for Lambda,DeepSeek V3 0324,liteLLM,12182,1315,0.0053,26.9,stop,Integrating brainstem and cortical functional architectures,NER,NO
+"Jun 28, 08:38 AM",Favicon for BaseTen,DeepSeek V3 0324,liteLLM,918,281,0.000923,104.3,stop,Integrating brainstem and cortical functional architectures,NER,NO
+"Jun 28, 08:38 AM",Favicon for Together,DeepSeek V3 0324,liteLLM,4977,461,0.0068,77.7,stop,Integrating brainstem and cortical functional architectures,NER,NO
+"Jun 28, 08:38 AM",Favicon for Lambda,DeepSeek V3 0324,liteLLM,27871,885,0.0103,34.8,stop,Integrating brainstem and cortical functional architectures,NER,NO
+"Jun 28, 08:38 AM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,2830,2805,0.00326,23.7,stop,Integrating brainstem and cortical functional architectures,NER,NO
+"Jun 28, 08:36 AM",Favicon for Phala,DeepSeek V3 0324,liteLLM,2830,1644,0.00408,29.8,stop,Integrating brainstem and cortical functional architectures,NER,NO
+"Jun 28, 08:35 AM",Favicon for Lambda,DeepSeek V3 0324,liteLLM,40240,1022,0.0146,28.3,stop,Integrating brainstem and cortical functional architectures,NER,NO
+"Jun 28, 08:34 AM",Favicon for InferenceNet,DeepSeek V3 0324,liteLLM,79877,2822,0.04,16.1,stop,Integrating brainstem and cortical functional architectures,NER,NO
+"Jun 28, 08:31 AM",Favicon for Nebius,DeepSeek V3 0324,liteLLM,3313,780,0.00283,21.6,stop,Integrating brainstem and cortical functional architectures,NER,NO
+"Jun 28, 08:30 AM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,3310,3274,0.00381,21.3,stop,Integrating brainstem and cortical functional architectures,NER,NO
+"Jun 28, 08:27 AM",Favicon for Nebius,DeepSeek V3 0324,liteLLM,3313,1217,0.00348,19.9,stop,Integrating brainstem and cortical functional architectures,NER,NO
+"Jun 28, 08:26 AM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,40699,1293,0.0125,12.1,stop,Integrating brainstem and cortical functional architectures,NER,NO
+"Jun 28, 08:24 AM",Favicon for Novita,DeepSeek V3 0324,liteLLM,79819,3281,0.0306,92.8,stop,Integrating brainstem and cortical functional architectures,NER,NO
+"Jun 28, 08:23 AM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,8257,7507,0.137,79.1,tool_calls,Integrating brainstem and cortical functional architectures,NER,NO
+"Jun 28, 08:21 AM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,22867,578,0.0773,59.1,tool_calls,Integrating brainstem and cortical functional architectures,NER,NO
+"Jun 28, 08:21 AM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,38038,7854,0.232,84.0,stop,Integrating brainstem and cortical functional architectures,NER,NO
+"Jun 28, 08:19 AM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,6971,6592,0.12,86.1,tool_calls,Integrating brainstem and cortical functional architectures,NER,NO
+"Jun 28, 08:18 AM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,29017,485,0.0943,65.6,tool_calls,Integrating brainstem and cortical functional architectures,NER,NO
+"Jun 28, 08:18 AM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,49699,6574,0.248,81.2,stop,Integrating brainstem and cortical functional architectures,NER,NO
+"Jun 28, 08:16 AM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,22691,22315,0.403,91.2,tool_calls,Integrating brainstem and cortical functional architectures,NER,NO
+"Jun 28, 08:12 AM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,67573,1223,0.221,66.8,tool_calls,Integrating brainstem and cortical functional architectures,NER,NO
+"Jun 28, 08:11 AM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,95310,22350,0.621,92.4,stop,Integrating brainstem and cortical functional architectures,NER,NO
+"Jun 28, 08:07 AM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,95204,44862,0.959,90.9,stop,Integrating brainstem and cortical functional architectures,NER,NO
+"Jun 28, 07:53 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,6240,6354,0.00475,65.3,stop,Integrating brainstem and cortical functional architectures,NER,NO
+"Jun 28, 07:51 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,17692,1659,0.00365,55.7,stop,Integrating brainstem and cortical functional architectures,NER,NO
+"Jun 28, 07:51 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,30469,6202,0.00829,60.4,stop,Integrating brainstem and cortical functional architectures,NER,NO
+"Jun 28, 07:49 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,5539,5491,0.00413,72.6,stop,Integrating brainstem and cortical functional architectures,NER,NO
+"Jun 28, 07:48 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,11611,492,0.00204,60.3,stop,Integrating brainstem and cortical functional architectures,NER,NO
+"Jun 28, 07:47 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,17086,5502,0.00586,66.4,stop,Integrating brainstem and cortical functional architectures,NER,NO
+"Jun 28, 07:46 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,5552,5505,0.00414,56.5,stop,Integrating brainstem and cortical functional architectures,NER,NO
+"Jun 28, 07:44 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,43185,624,0.00685,77.7,stop,Integrating brainstem and cortical functional architectures,NER,NO
+"Jun 28, 07:44 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,80010,5514,0.0153,68.2,stop,Integrating brainstem and cortical functional architectures,NER,NO
+"Jun 27, 11:49 PM",Favicon for Novita,DeepSeek V3 0324,liteLLM,2965,2938,0.0048,72.1,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,YES
+"Jun 27, 11:49 PM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,14138,803,0.00467,20.8,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,YES
+"Jun 27, 11:48 PM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,58760,2935,0.019,10.6,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,YES
+"Jun 27, 11:42 PM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,2730,2706,0.00315,24.9,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,YES
+"Jun 27, 11:40 PM",Favicon for GMICloud,DeepSeek V3 0324,liteLLM,8566,889,0.00714,120.5,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,YES
+"Jun 27, 11:40 PM",Favicon for Novita,DeepSeek V3 0324,liteLLM,45999,2700,0.0187,128.3,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,YES
+"Jun 27, 11:40 PM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,2285,2261,0.00263,26.2,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,YES
+"Jun 27, 11:38 PM",Favicon for Nebius,DeepSeek V3 0324,liteLLM,2288,2459,0.00483,23.8,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,YES
+"Jun 27, 11:37 PM",Favicon for Crusoe,DeepSeek V3 0324,liteLLM,5871,721,0.00247,27.2,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,YES
+"Jun 27, 11:36 PM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,16254,2256,0.00654,22.1,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,YES
+"Jun 27, 11:34 PM",Favicon for BaseTen,DeepSeek V3 0324,liteLLM,2248,2221,0.00344,156.2,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,YES
+"Jun 27, 11:34 PM",Favicon for Lambda,DeepSeek V3 0324,liteLLM,38090,807,0.0137,27.6,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,YES
+"Jun 27, 11:34 PM",Favicon for Crusoe,DeepSeek V3 0324,liteLLM,71866,2218,0.0227,18.3,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,YES
+"Jun 27, 11:30 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,19203,18822,0.34,75.0,tool_calls,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,YES
+"Jun 27, 11:25 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,84710,677,0.264,58.4,tool_calls,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,YES
+"Jun 27, 11:25 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,133687,18817,0.683,81.8,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,YES
+"Jun 27, 11:20 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,17648,17270,0.312,82.3,tool_calls,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,YES
+"Jun 27, 11:16 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,44622,705,0.144,119.6,tool_calls,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,YES
+"Jun 27, 11:16 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,43731,717,0.142,61.4,tool_calls,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,YES
+"Jun 27, 11:16 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,54832,17328,0.424,82.0,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,YES
+"Jun 27, 11:12 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,12626,12250,0.222,80.2,tool_calls,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,YES
+"Jun 27, 11:09 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,24951,882,0.0881,59.8,tool_calls,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,YES
+"Jun 27, 11:09 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,44255,12293,0.317,79.0,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,YES
+"Jun 27, 11:06 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,11739,11063,0.201,75.1,tool_calls,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,YES
+"Jun 27, 11:04 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,53924,1105,0.178,64.9,tool_calls,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,YES
+"Jun 27, 11:03 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,84326,11344,0.423,81.3,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,YES
+"Jun 27, 11:01 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,84220,8159,0.375,81.7,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,YES
+"Jun 27, 10:59 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,84114,9869,0.4,80.5,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,YES
+"Jun 27, 10:38 PM",Favicon for Lambda,DeepSeek V3 0324,liteLLM,2360,2336,0.00286,26.5,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,NO
+"Jun 27, 10:36 PM",Favicon for Crusoe,DeepSeek V3 0324,liteLLM,7636,782,0.00304,28.0,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,NO
+"Jun 27, 10:36 PM",Favicon for Phala,DeepSeek V3 0324,liteLLM,9049,2333,0.00972,24.7,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,NO
+"Jun 27, 10:34 PM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,2006,1982,0.00231,23.3,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,NO
+"Jun 27, 10:33 PM",Favicon for Novita,DeepSeek V3 0324,liteLLM,5318,572,0.0025,20.0,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,NO
+"Jun 27, 10:32 PM",Favicon for Nebius,DeepSeek V3 0324,liteLLM,10328,1979,0.00813,20.1,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,NO
+"Jun 27, 10:31 PM",Favicon for Lambda,DeepSeek V3 0324,liteLLM,1879,1855,0.00227,32.3,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,NO
+"Jun 27, 10:30 PM",Favicon for Crusoe,DeepSeek V3 0324,liteLLM,37726,749,0.0114,25.7,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,NO
+"Jun 27, 10:28 PM",Favicon for GMICloud,DeepSeek V3 0324,liteLLM,71917,1852,0.0549,110.8,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,NO
+"Jun 27, 10:15 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,10772,10394,0.188,78.1,tool_calls,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,NO
+"Jun 27, 10:12 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,28469,602,0.0944,59.5,tool_calls,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,NO
+"Jun 27, 10:12 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,34828,10372,0.26,78.0,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,NO
+"Jun 27, 10:10 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,8910,8534,0.155,77.5,tool_calls,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,NO
+"Jun 27, 10:08 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,17693,950,0.0673,61.0,tool_calls,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,NO
+"Jun 27, 10:07 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,19703,8568,0.188,76.1,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,NO
+"Jun 27, 10:06 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,7728,7082,0.129,76.8,tool_calls,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,NO
+"Jun 27, 10:04 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,51376,1294,0.174,89.0,tool_calls,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,NO
+"Jun 27, 10:04 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,49910,1291,0.169,61.6,tool_calls,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,NO
+"Jun 27, 10:03 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,83918,7330,0.362,77.9,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,NO
+"Jun 27, 10:27 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,2026,1988,0.0015,68.2,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,NO
+"Jun 27, 10:26 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,7043,620,0.00143,69.8,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,NO
+"Jun 27, 10:26 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,27039,1989,0.00525,70.7,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,NO
+"Jun 27, 10:25 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,1915,1867,0.00141,80.9,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,NO
+"Jun 27, 10:25 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,4924,572,0.00108,81.2,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,NO
+"Jun 27, 10:25 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,23024,1920,0.00461,62.2,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,NO
+"Jun 27, 10:24 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,1607,1560,0.00118,64.9,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,NO
+"Jun 27, 10:24 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,37545,165,0.00573,84.2,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,NO
+"Jun 27, 10:24 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,72143,1571,0.00637,72.9,stop,Latent circuit inference from heterogeneous neural responses during cognitive tasks,NER,NO
+"Jun 27, 02:41 PM",Favicon for Nebius,DeepSeek V3 0324,liteLLM,4045,385,0.0026,19.2,stop,Sample-data,Reproschema,YES
+"Jun 27, 02:41 PM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,2871,1254,0.00191,21.3,stop,Sample-data,Reproschema,YES
+"Jun 27, 02:39 PM",Favicon for Novita,DeepSeek V3 0324,liteLLM,1322,1278,0.0021,102.9,stop,Sample-data,Reproschema,YES
+"Jun 27, 02:39 PM",Favicon for Crusoe,DeepSeek V3 0324,liteLLM,6527,347,0.00223,13.2,stop,Sample-data,Reproschema,YES
+"Jun 27, 02:39 PM",Favicon for GMICloud,DeepSeek V3 0324,liteLLM,5334,1295,0.00511,69.5,stop,Sample-data,Reproschema,YES
+"Jun 27, 02:38 PM",Favicon for Novita,DeepSeek V3 0324,liteLLM,10035,303,0.00371,19.7,stop,Sample-data,Reproschema,YES
+"Jun 27, 02:38 PM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,4947,5191,0.00595,21.9,stop,Sample-data,Reproschema,YES
+"Jun 27, 02:34 PM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,6167,502,0.00217,21.1,stop,Sample-data,Reproschema,YES
+"Jun 27, 02:34 PM",Favicon for Novita,DeepSeek V3 0324,liteLLM,1777,4748,0.00676,86.5,stop,Sample-data,Reproschema,YES
+"Jun 27, 02:31 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,19104,501,0.0648,63.0,tool_calls,Sample-data,Reproschema,YES
+"Jun 27, 02:31 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,12359,6237,0.131,93.2,stop,Sample-data,Reproschema,YES
+"Jun 27, 02:29 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,13080,398,0.0452,70.9,tool_calls,Sample-data,Reproschema,YES
+"Jun 27, 02:29 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,6349,6236,0.113,93.0,stop,Sample-data,Reproschema,YES
+"Jun 27, 02:28 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,11766,387,0.0411,61.3,tool_calls,Sample-data,Reproschema,YES
+"Jun 27, 02:28 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,5075,6197,0.108,95.8,stop,Sample-data,Reproschema,YES
+"Jun 27, 02:27 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,6778,482,0.0276,64.4,tool_calls,Sample-data,Reproschema,YES
+"Jun 27, 02:27 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,1986,4622,0.0753,95.7,stop,Sample-data,Reproschema,YES
+"Jun 27, 02:24 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,16406,289,0.00263,51.3,stop,Sample-data,Reproschema,YES
+"Jun 27, 02:24 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,9914,6578,0.00543,60.9,stop,Sample-data,Reproschema,YES
+"Jun 27, 02:21 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,6559,6512,0.00489,66.6,stop,Sample-data,Reproschema,YES
+"Jun 27, 02:19 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,11636,284,0.00192,48.3,stop,Sample-data,Reproschema,YES
+"Jun 27, 02:19 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,5215,6521,0.00469,60.3,stop,Sample-data,Reproschema,YES
+"Jun 27, 02:17 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,10376,215,0.00169,48.3,stop,Sample-data,Reproschema,YES
+"Jun 27, 02:17 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,4089,6391,0.00445,56.3,stop,Sample-data,Reproschema,YES
+"Jun 27, 02:15 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,5408,286,0.000983,71.0,stop,Sample-data,Reproschema,YES
+"Jun 27, 02:15 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,1808,3999,0.00267,60.6,stop,Sample-data,Reproschema,YES
+"Jun 26, 05:07 PM",Favicon for InferenceNet,DeepSeek V3 0324,liteLLM,2925,409,0.00191,28.3,tps,Sample-data,Reproschema,NO
+"Jun 26, 05:06 PM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,1932,1076,0.00149,17.9,tps,Sample-data,Reproschema,NO
+"Jun 26, 05:03 PM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,614,665,0.000757,20.2,tps,Sample-data,Reproschema,NO
+"Jun 26, 05:03 PM",Favicon for Nebius,DeepSeek V3 0324,liteLLM,617,87,0.000439,27.3,tps,Sample-data,Reproschema,NO
+"Jun 26, 05:03 PM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,6848,313,0.00219,16.4,tps,Sample-data,Reproschema,NO
+"Jun 26, 05:02 PM",Favicon for Lambda,DeepSeek V3 0324,liteLLM,6361,587,0.00268,29.6,tps,Sample-data,Reproschema,NO
+"Jun 26, 05:02 PM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,6276,7397,0.00827,17.5,tps,Sample-data,Reproschema,NO
+"Jun 26, 04:47 PM",Favicon for InferenceNet,DeepSeek V3 0324,liteLLM,11140,353,0.00552,28.9,tps,Sample-data,Reproschema,NO
+"Jun 26, 04:47 PM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,4994,6248,0.0069,27.9,tps,Sample-data,Reproschema,NO
+"Jun 26, 04:43 PM",Favicon for Crusoe,DeepSeek V3 0324,liteLLM,6218,376,0.00217,23.7,tps,Sample-data,Reproschema,NO
+"Jun 26, 04:43 PM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,1766,4797,0.00472,22.9,tps,Sample-data,Reproschema,NO
+"Jun 26, 04:35 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,7385,6995,0.127,95.2,tps,Sample-data,Reproschema,NO
+"Jun 26, 04:33 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,14726,415,0.0504,59.6,tps,Sample-data,Reproschema,NO
+"Jun 26, 04:33 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,7244,6987,0.127,95.5,tps,Sample-data,Reproschema,NO
+"Jun 26, 04:32 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,12851,489,0.0459,66.8,tps,Sample-data,Reproschema,NO
+"Jun 26, 04:32 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,5074,7283,0.124,97.2,tps,Sample-data,Reproschema,NO
+"Jun 26, 04:31 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,6777,565,0.0288,67.0,tps,Sample-data,Reproschema,NO
+"Jun 26, 04:30 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,1781,4621,0.0747,95.2,tps,Sample-data,Reproschema,NO
+"Jun 26, 02:32 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,11202,243,0.00183,42.4,tps,Sample-data,Reproschema,NO
+"Jun 26, 02:32 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,4997,6305,0.00453,83.7,tps,Sample-data,Reproschema,NO
+"Jun 26, 02:30 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,9936,345,0.000958,59.5,tps,Sample-data,Reproschema,NO
+"Jun 26, 02:30 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,9936,297,0.00167,78.5,tps,Sample-data,Reproschema,NO
+"Jun 26, 02:30 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,3871,6169,0.00428,62.2,tps,Sample-data,Reproschema,NO
+"Jun 27, 12:19 PM",Favicon for Phala,DeepSeek V3 0324,liteLLM,3503,334,0.00311,31.6,stop,Vitpose: Simple vision transformer baselines for human pose estimation,Resource extraction,YES
+"Jun 27, 12:18 PM",Favicon for Phala,DeepSeek V3 0324,liteLLM,4017,780,0.00402,29.6,stop,Vitpose: Simple vision transformer baselines for human pose estimation,Resource extraction,YES
+"Jun 27, 12:17 PM",Favicon for GMICloud,DeepSeek V3 0324,liteLLM,2037,373,0.00184,99.5,stop,Vitpose: Simple vision transformer baselines for human pose estimation,Resource extraction,YES
+"Jun 27, 12:17 PM",Favicon for Novita,DeepSeek V3 0324,liteLLM,2352,361,0.00125,20.5,stop,Vitpose: Simple vision transformer baselines for human pose estimation,Resource extraction,YES
+"Jun 27, 12:17 PM",Favicon for Lambda,DeepSeek V3 0324,liteLLM,1429,281,0.000733,30.9,stop,Vitpose: Simple vision transformer baselines for human pose estimation,Resource extraction,YES
+"Jun 27, 12:17 PM",Favicon for Nebius,DeepSeek V3 0324,liteLLM,1249,350,0.00115,31.5,stop,Vitpose: Simple vision transformer baselines for human pose estimation,Resource extraction,YES
+"Jun 27, 12:17 PM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,15137,617,0.00478,25.6,stop,Vitpose: Simple vision transformer baselines for human pose estimation,Resource extraction,YES
+"Jun 27, 12:16 PM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,15544,264,0.00458,22.2,stop,Vitpose: Simple vision transformer baselines for human pose estimation,Resource extraction,YES
+"Jun 27, 12:15 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,7004,499,0.0285,69.2,tool_calls,Vitpose: Simple vision transformer baselines for human pose estimation,Resource extraction,YES
+"Jun 27, 12:15 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,8476,873,0.0385,58.2,stop,Vitpose: Simple vision transformer baselines for human pose estimation,Resource extraction,YES
+"Jun 27, 12:14 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,4086,481,0.0195,63.2,tool_calls,Vitpose: Simple vision transformer baselines for human pose estimation,Resource extraction,YES
+"Jun 27, 12:14 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,3851,798,0.0235,64.8,stop,Vitpose: Simple vision transformer baselines for human pose estimation,Resource extraction,YES
+"Jun 27, 12:14 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,2842,543,0.0167,27.2,tool_calls,Vitpose: Simple vision transformer baselines for human pose estimation,Resource extraction,YES
+"Jun 27, 12:13 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,1747,668,0.0153,63.7,stop,Vitpose: Simple vision transformer baselines for human pose estimation,Resource extraction,YES
+"Jun 27, 12:13 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,754,518,0.01,109.9,tool_calls,Vitpose: Simple vision transformer baselines for human pose estimation,Resource extraction,YES
+"Jun 27, 12:13 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,18461,475,0.0625,64.7,tool_calls,Vitpose: Simple vision transformer baselines for human pose estimation,Resource extraction,YES
+"Jun 27, 12:13 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,18225,359,0.0601,61.1,stop,Vitpose: Simple vision transformer baselines for human pose estimation,Resource extraction,YES
+"Jun 27, 11:42 AM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,2125,446,0.000987,20.3,stop,Vitpose: Simple vision transformer baselines for human pose estimation,Resource extraction,No
+"Jun 27, 11:42 AM",Favicon for Together,DeepSeek V3 0324,liteLLM,2478,376,0.00357,157.7,stop,Vitpose: Simple vision transformer baselines for human pose estimation,Resource extraction,No
+"Jun 27, 11:42 AM",Favicon for Lambda,DeepSeek V3 0324,liteLLM,1466,292,0.000755,28.1,stop,Vitpose: Simple vision transformer baselines for human pose estimation,Resource extraction,No
+"Jun 27, 11:41 AM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,1267,365,0.000676,21.9,stop,Vitpose: Simple vision transformer baselines for human pose estimation,Resource extraction,No
+"Jun 27, 11:41 AM",Favicon for Novita,DeepSeek V3 0324,liteLLM,15154,310,0.0054,25.4,stop,Vitpose: Simple vision transformer baselines for human pose estimation,Resource extraction,No
+"Jun 27, 11:41 AM",Favicon for Atoma,DeepSeek V3 0324,liteLLM,15574,281,0.00549,16.4,stop,Vitpose: Simple vision transformer baselines for human pose estimation,Resource extraction,No
+"Jun 27, 11:39 AM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,3512,399,0.0165,70.1,tool_calls,Vitpose: Simple vision transformer baselines for human pose estimation,Resource extraction,No
+"Jun 27, 11:39 AM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,3161,638,0.0191,63.6,stop,Vitpose: Simple vision transformer baselines for human pose estimation,Resource extraction,No
+"Jun 27, 11:39 AM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,2495,454,0.0143,75.1,tool_calls,Vitpose: Simple vision transformer baselines for human pose estimation,Resource extraction,No
+"Jun 27, 11:38 AM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,1621,447,0.0116,58.5,stop,Vitpose: Simple vision transformer baselines for human pose estimation,Resource extraction,No
+"Jun 27, 11:38 AM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,706,330,0.00707,136.6,tool_calls,Vitpose: Simple vision transformer baselines for human pose estimation,Resource extraction,No
+"Jun 27, 11:38 AM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,18433,509,0.0629,71.2,tool_calls,Vitpose: Simple vision transformer baselines for human pose estimation,Resource extraction,No
+"Jun 27, 11:38 AM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,18241,331,0.0597,52.8,stop,Vitpose: Simple vision transformer baselines for human pose estimation,Resource extraction,No
+"Jun 27, 11:36 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,1769,269,0.000427,56.4,stop,Vitpose: Simple vision transformer baselines for human pose estimation,Resource extraction,No
+"Jun 27, 11:36 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,2068,271,0.000473,63.3,stop,Vitpose: Simple vision transformer baselines for human pose estimation,Resource extraction,No
+"Jun 27, 11:36 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,1261,471,0.000472,36.7,stop,Vitpose: Simple vision transformer baselines for human pose estimation,Resource extraction,No
+"Jun 27, 11:36 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,1159,264,0.000332,44.1,stop,Vitpose: Simple vision transformer baselines for human pose estimation,Resource extraction,No
+"Jun 27, 11:36 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,15118,197,0.00239,55.4,stop,Vitpose: Simple vision transformer baselines for human pose estimation,Resource extraction,No
+"Jun 27, 11:36 AM",Favicon for OpenAI,GPT-4o-mini,liteLLM,15560,193,0.00245,77.1,stop,Vitpose: Simple vision transformer baselines for human pose estimation,Resource extraction,No
+"Jun 27, 01:40 PM",Favicon for Novita,DeepSeek V3 0324,liteLLM,2569,405,0.00137,106.7 tps,stop,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,YES
+"Jun 27, 01:40 PM",Favicon for GMICloud,DeepSeek V3 0324,liteLLM,2984,518,0.00267,102.1 tps,stop,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,YES
+"Jun 27, 01:40 PM",Favicon for Novita,DeepSeek V3 0324,liteLLM,1577,475,0.00114,101.9 tps,stop,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,YES
+"Jun 27, 01:40 PM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,1226,517,0.000798,17.2 tps,stop,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,YES
+"Jun 27, 01:39 PM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,64551,745,0.0187,13.4 tps,stop,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,YES
+"Jun 27, 01:38 PM",Favicon for Crusoe,DeepSeek V3 0324,liteLLM,64954,245,0.0185,20.7 tps,stop,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,YES
+"Jun 27, 01:37 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,4358,451,0.0198,69.6 tps,tool_calls,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,YES
+"Jun 27, 01:37 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,4245,834,0.0252,64.2 tps,stop,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,YES
+"Jun 27, 01:37 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,2795,652,0.0182,73.7 tps,tool_calls,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,YES
+"Jun 27, 01:36 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,1672,696,0.0155,63.9 tps,stop,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,YES
+"Jun 27, 01:36 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,744,368,0.00775,128.3 tps,tool_calls,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,YES
+"Jun 27, 01:36 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,75638,595,0.236,64.2 tps,tool_calls,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,YES
+"Jun 27, 01:36 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,75333,347,0.231,57.0 tps,stop,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,YES
+"Jun 27, 01:35 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,2434,398,0.000604,52.6 tps,stop,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,YES
+"Jun 27, 01:35 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,2863,459,0.000705,70.6 tps,stop,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,YES
+"Jun 27, 01:35 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,1512,362,0.000444,73.7 tps,stop,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,YES
+"Jun 27, 01:35 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,1200,474,0.000464,54.2 tps,stop,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,YES
+"Jun 27, 01:35 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,263,225,0.000174,57.6 tps,stop,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,YES
+"Jun 27, 01:35 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,64160,564,0.00996,75.1 tps,stop,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,YES
+"Jun 27, 01:34 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,64420,225,0.0098,71.4 tps,stop,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,YES
+"Jun 27, 01:40 PM",Favicon for Novita,DeepSeek V3 0324,liteLLM,2569,405,0.00137,106.7 tps,stop,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,NO
+"Jun 27, 01:40 PM",Favicon for GMICloud,DeepSeek V3 0324,liteLLM,2984,518,0.00267,102.1 tps,stop,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,NO
+"Jun 27, 01:40 PM",Favicon for Novita,DeepSeek V3 0324,liteLLM,1577,475,0.00114,101.9 tps,stop,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,NO
+"Jun 27, 01:40 PM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,1226,517,0.000798,17.2 tps,stop,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,NO
+"Jun 27, 01:39 PM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,64551,745,0.0187,13.4 tps,stop,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,NO
+"Jun 27, 01:38 PM",Favicon for Crusoe,DeepSeek V3 0324,liteLLM,64954,245,0.0185,20.7 tps,stop,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,NO
+"Jun 27, 01:37 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,4358,451,0.0198,69.6 tps,tool_calls,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,NO
+"Jun 27, 01:37 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,4245,834,0.0252,64.2 tps,stop,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,NO
+"Jun 27, 01:37 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,2795,652,0.0182,73.7 tps,tool_calls,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,NO
+"Jun 27, 01:36 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,1672,696,0.0155,63.9 tps,stop,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,NO
+"Jun 27, 01:36 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,744,368,0.00775,128.3 tps,tool_calls,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,NO
+"Jun 27, 01:36 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,75638,595,0.236,64.2 tps,tool_calls,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,NO
+"Jun 27, 01:36 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,75333,347,0.231,57.0 tps,stop,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,NO
+"Jun 27, 01:35 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,2434,398,0.000604,52.6 tps,stop,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,NO
+"Jun 27, 01:35 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,2863,459,0.000705,70.6 tps,stop,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,NO
+"Jun 27, 01:35 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,1512,362,0.000444,73.7 tps,stop,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,NO
+"Jun 27, 01:35 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,1200,474,0.000464,54.2 tps,stop,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,NO
+"Jun 27, 01:35 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,263,225,0.000174,57.6 tps,stop,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,NO
+"Jun 27, 01:35 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,64160,564,0.00996,75.1 tps,stop,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,NO
+"Jun 27, 01:34 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,64420,225,0.0098,71.4 tps,stop,Learnable latent embeddings for joint behavioural and neural analysis,Resource extraction,NO
+"Jun 27, 01:24 PM",Nebius,DeepSeek V3 0324,liteLLM,4009,424,0.00264,18.2,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,YES
+"Jun 27, 01:24 PM",Lambda,DeepSeek V3 0324,liteLLM,5181,583,0.00227,20.3,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,YES
+"Jun 27, 01:22 PM",DeepInfra,DeepSeek V3 0324,liteLLM,2522,392,0.00105,21.9,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,YES
+"Jun 27, 01:22 PM",DeepInfra,DeepSeek V3 0324,liteLLM,2922,506,0.00126,24.8,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,YES
+"Jun 27, 01:22 PM",Novita,DeepSeek V3 0324,liteLLM,1570,538,0.00122,83.4,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,YES
+"Jun 27, 01:22 PM",Lambda,DeepSeek V3 0324,liteLLM,1242,495,0.000858,32.3,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,YES
+"Jun 27, 01:21 PM",Crusoe,DeepSeek V3 0324,liteLLM,59280,289,0.0169,20.9,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,YES
+"Jun 27, 01:20 PM",Phala,DeepSeek V3 0324,liteLLM,59644,268,0.0468,22.4,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,YES
+"Jun 27, 01:19 PM",Google,Claude 3.7 Sonnet,liteLLM,8200,586,0.0334,73.0,tool_calls,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,YES
+"Jun 27, 01:19 PM",Google,Claude 3.7 Sonnet,liteLLM,10200,1037,0.0462,62.2,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,YES
+"Jun 27, 01:18 PM",Google,Claude 3.7 Sonnet,liteLLM,4732,454,0.021,61.7,tool_calls,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,YES
+"Jun 27, 01:18 PM",Google,Claude 3.7 Sonnet,liteLLM,4615,986,0.0286,65.9,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,YES
+"Jun 27, 01:17 PM",Google,Claude 3.7 Sonnet,liteLLM,3053,447,0.0159,63.8,tool_calls,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,YES
+"Jun 27, 01:17 PM",Google,Claude 3.7 Sonnet,liteLLM,1740,886,0.0185,64.4,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,YES
+"Jun 27, 01:17 PM",Google,Claude 3.7 Sonnet,liteLLM,837,443,0.00916,106.4,tool_calls,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,YES
+"Jun 27, 01:17 PM",Google,Claude 3.7 Sonnet,liteLLM,68694,562,0.215,76.2,tool_calls,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,YES
+"Jun 27, 01:17 PM",Google,Claude 3.7 Sonnet,liteLLM,68374,440,0.212,56.5,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,YES
+"Jun 27, 01:16 PM",OpenAI,GPT-4o-mini,liteLLM,1042,1004,0.000759,68.4,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,YES
+"Jun 27, 01:15 PM",OpenAI,GPT-4o-mini,liteLLM,4580,389,0.00092,77.3,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,YES
+"Jun 27, 01:15 PM",OpenAI,GPT-4o-mini,liteLLM,5538,1006,0.00143,42.7,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,YES
+"Jun 27, 01:15 PM",OpenAI,GPT-4o-mini,liteLLM,5441,517,0.00113,35.0,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,YES
+"Jun 27, 01:14 PM",OpenAI,GPT-4o-mini,liteLLM,2584,447,0.000656,72.3,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,YES
+"Jun 27, 01:14 PM",OpenAI,GPT-4o-mini,liteLLM,3042,502,0.000758,66.9,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,YES
+"Jun 27, 01:14 PM",OpenAI,GPT-4o-mini,liteLLM,1582,561,0.000574,69.0,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,YES
+"Jun 27, 01:13 PM",OpenAI,GPT-4o-mini,liteLLM,1234,510,0.000491,47.1,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,YES
+"Jun 27, 01:13 PM",OpenAI,GPT-4o-mini,liteLLM,59037,435,0.00912,34.6,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,YES
+"Jun 27, 01:13 PM",OpenAI,GPT-4o-mini,liteLLM,59381,283,0.00908,66.8,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,YES
+"Jun 27, 01:00 PM",Favicon for Novita,DeepSeek V3 0324,liteLLM,2665,432,0.00144,100.3 tps,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,NO
+"Jun 27, 12:59 PM",Favicon for Lambda,DeepSeek V3 0324,liteLLM,3093,547,0.00153,17.1 tps,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,NO
+"Jun 27, 12:59 PM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,1615,333,0.000745,22.5 tps,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,NO
+"Jun 27, 12:59 PM",Favicon for Crusoe,DeepSeek V3 0324,liteLLM,1248,536,0.000966,22.8 tps,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,NO
+"Jun 27, 12:58 PM",Favicon for Crusoe,DeepSeek V3 0324,liteLLM,59272,416,0.0171,18.0 tps,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,NO
+"Jun 27, 12:58 PM",Favicon for Phala,DeepSeek V3 0324,liteLLM,59270,801,0.0471,31.1 tps,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,NO
+"Jun 27, 12:57 PM",Favicon for Atoma,DeepSeek V3 0324,liteLLM,59270,741,0.0205,16.9 tps,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,NO
+"Jun 27, 12:56 PM",Favicon for Atoma,DeepSeek V3 0324,liteLLM,59624,260,0.02,8.2 tps,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,NO
+"Jun 27, 12:55 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,4349,657,0.0229,76.7 tps,tool_calls,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,NO
+"Jun 27, 12:55 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,4161,875,0.0256,65.6 tps,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,NO
+"Jun 27, 12:55 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,2727,633,0.0177,70.2 tps,tool_calls,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,NO
+"Jun 27, 12:55 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,1645,655,0.0148,73.0 tps,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,NO
+"Jun 27, 12:55 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,727,344,0.00734,126.3 tps,tool_calls,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,NO
+"Jun 27, 12:54 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,68584,465,0.213,65.8 tps,tool_calls,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,NO
+"Jun 27, 12:54 PM",Favicon for Google,Claude 3.7 Sonnet,liteLLM,68282,330,0.21,54.9 tps,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,NO
+"Jun 27, 12:53 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,2583,399,0.000627,98.1 tps,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,NO
+"Jun 27, 12:53 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,3043,500,0.000756,61.5 tps,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,NO
+"Jun 27, 12:53 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,1569,362,0.000453,94.3 tps,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,NO
+"Jun 27, 12:53 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,1236,495,0.000482,47.0 tps,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,NO
+"Jun 27, 12:53 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,300,262,0.000202,69.8 tps,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,NO
+"Jun 27, 12:53 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,59016,634,0.00923,67.6 tps,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,NO
+"Jun 27, 12:53 PM",Favicon for OpenAI,GPT-4o-mini,liteLLM,59239,262,0.00904,80.6 tps,stop,"Multi-animal pose estimation, identification and tracking with DeepLabCut",Resource extraction,NO
