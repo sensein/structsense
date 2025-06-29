@@ -1,4 +1,4 @@
-Timestamp,Provider / Model,App,System,Input Tokens,Output Tokens,Cost ($),Speed (tps),Finish
+Timestamp,Provider,Model,App,Input Tokens,Output Tokens,Cost ($),Speed (tps),Finish
 "Jun 28, 08:41 AM",Favicon for Novita,DeepSeek V3 0324,liteLLM,1343,1315,0.00215,21.8,stop
 "Jun 28, 08:40 AM",Favicon for Lambda,DeepSeek V3 0324,liteLLM,3656,688,0.00185,28.1,stop
 "Jun 28, 08:39 AM",Favicon for Lambda,DeepSeek V3 0324,liteLLM,12182,1315,0.0053,26.9,stop

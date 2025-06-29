@@ -60,14 +60,20 @@ plt.rcParams.update({
     'axes.spines.right': False
 })
 
+# Helper function to save in multiple formats
+def save_plot(filename_base):
+    """Save the current plot in PNG, SVG, and PDF formats"""
+    plt.savefig(os.path.join(output_dir, f"{filename_base}.png"), dpi=300, bbox_inches='tight')
+    plt.savefig(os.path.join(output_dir, f"{filename_base}.svg"), dpi=300, bbox_inches='tight')
+    plt.savefig(os.path.join(output_dir, f"{filename_base}.pdf"), dpi=300, bbox_inches='tight')
+
 # Plot 1: Cost per Model (Violin Plot)
 plt.figure(figsize=(3.2, 2.5))
 ax = sns.violinplot(data=df, x='Model', y='Cost ($)', hue='Model', inner='box', 
                     palette=model_colors, linewidth=0.8, legend=False)
 plt.title("Cost Distribution by Model", pad=10)
 plt.tight_layout()
-plt.savefig(os.path.join(output_dir, f"{args.task}_cost_violin.png"), dpi=300, bbox_inches='tight')
-plt.savefig(os.path.join(output_dir, f"{args.task}_cost_violin.svg"), dpi=300, bbox_inches='tight')
+save_plot(f"{args.task}_cost_violin")
 plt.close()
 
 # Plot 2: Input and Output Tokens per Model (Violin Plot)
@@ -86,8 +92,7 @@ ax.set_xticklabels(ax.get_xticklabels())
 plt.title("Token Usage by Model", pad=10)
 plt.legend(title='Token Type', loc='upper left')
 plt.tight_layout()
-plt.savefig(os.path.join(output_dir, f"{args.task}_token_usage_violin.png"), dpi=300, bbox_inches='tight')
-plt.savefig(os.path.join(output_dir, f"{args.task}_token_usage_violin.svg"), dpi=300, bbox_inches='tight')
+save_plot(f"{args.task}_token_usage_violin")
 plt.close()
 
 # Plot 3: Speed per Model (Violin Plot)
@@ -97,8 +102,7 @@ ax = sns.violinplot(data=df, x='Model', y='Speed (tps)', hue='Model', inner='box
 plt.title("Speed Distribution by Model", pad=10)
 plt.ylabel("Speed (tokens/sec)")
 plt.tight_layout()
-plt.savefig(os.path.join(output_dir, f"{args.task}_speed_violin.png"), dpi=300, bbox_inches='tight')
-plt.savefig(os.path.join(output_dir, f"{args.task}_speed_violin.svg"), dpi=300, bbox_inches='tight')
+save_plot(f"{args.task}_speed_violin")
 plt.close()
 
 # Plot 4: Scatter plot of Speed vs Cost
@@ -113,6 +117,7 @@ plt.ylabel("Cost ($)")
 plt.title("Speed vs Cost by Model", pad=10)
 plt.legend(bbox_to_anchor=(1, 1), loc='upper left')
 plt.tight_layout()
-plt.savefig(os.path.join(output_dir, f"{args.task}_speed_vs_cost.png"), dpi=300, bbox_inches='tight')
-plt.savefig(os.path.join(output_dir, f"{args.task}_speed_vs_cost.svg"), dpi=300, bbox_inches='tight')
+save_plot(f"{args.task}_speed_vs_cost")
 plt.close()
+
+print(f"All plots saved in {output_dir} as PNG, SVG, and PDF formats")

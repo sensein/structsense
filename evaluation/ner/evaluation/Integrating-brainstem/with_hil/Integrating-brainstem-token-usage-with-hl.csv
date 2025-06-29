@@ -1,4 +1,4 @@
-Timestamp,Provider / Model,App,System,Input Tokens,Output Tokens,Cost ($),Speed (tps),Finish
+Timestamp,Provider,Model,App,Input Tokens,Output Tokens,Cost ($),Speed (tps),Finish
 "Jun 28, 10:03 AM",Favicon for InferenceNet,DeepSeek V3 0324,liteLLM,840,720,0.00142,7.7,stop
 "Jun 28, 10:01 AM",Favicon for DeepInfra,DeepSeek V3 0324,liteLLM,4251,316,0.00147,22.4,stop
 "Jun 28, 10:01 AM",Favicon for Crusoe,DeepSeek V3 0324,liteLLM,72343,834,0.0212,23.2,stop
