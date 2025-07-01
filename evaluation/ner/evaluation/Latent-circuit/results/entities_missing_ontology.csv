@@ -1,0 +1,20 @@
+Group,Model,Entity
+with_hil,GPT-4o-mini,Christopher Langdon
+with_hil,GPT-4o-mini,Nature Neuroscience
+with_hil,GPT-4o-mini,Tatiana A. Engel
+with_hil,GPT-4o-mini,task variables
+with_hil,DeepSeek V3 0324,Christopher Langdon
+with_hil,DeepSeek V3 0324,Tatiana A. Engel
+without_hil,DeepSeek V3 0324,Adam optimizer
+without_hil,DeepSeek V3 0324,PyTorch
+without_hil,DeepSeek V3 0324,RNN
+without_hil,DeepSeek V3 0324,ReLU
+without_hil,DeepSeek V3 0324,context-dependent decision-making task
+without_hil,DeepSeek V3 0324,latent circuit model
+without_hil,Claude 3.7 Sonnet,latent circuit model
+without_hil,GPT-4o-mini,Christopher Langdon
+without_hil,GPT-4o-mini,Nature Neuroscience
+without_hil,GPT-4o-mini,Tatiana A. Engel
+without_hil,GPT-4o-mini,cognitive functions
+without_hil,GPT-4o-mini,latent circuit model
+without_hil,GPT-4o-mini,s41593-025-01869-7
