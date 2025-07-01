@@ -73,11 +73,6 @@ CROSS-GROUP COMPARISON
 
 Common models performance comparison:
 
-GPT-4o-mini:
-  Detection Rate: 15.3% (with HIL) vs 28.9% (without HIL) [Δ-13.7%]
-  Ontology Mapping: 55.6% (with HIL) vs 45.5% (without HIL) [Δ+10.1%]
-  Judge Score: 0.978 (with HIL) vs 0.995 (without HIL) [Δ-0.018]
-
 DeepSeek V3 0324:
   Detection Rate: 25.4% (with HIL) vs 26.3% (without HIL) [Δ-0.9%]
   Ontology Mapping: 86.7% (with HIL) vs 40.0% (without HIL) [Δ+46.7%]
@@ -87,6 +82,11 @@ Claude 3.7 Sonnet:
   Detection Rate: 84.7% (with HIL) vs 78.9% (without HIL) [Δ+5.8%]
   Ontology Mapping: 100.0% (with HIL) vs 96.7% (without HIL) [Δ+3.3%]
   Judge Score: 0.857 (with HIL) vs 0.885 (without HIL) [Δ-0.028]
+
+GPT-4o-mini:
+  Detection Rate: 15.3% (with HIL) vs 28.9% (without HIL) [Δ-13.7%]
+  Ontology Mapping: 55.6% (with HIL) vs 45.5% (without HIL) [Δ+10.1%]
+  Judge Score: 0.978 (with HIL) vs 0.995 (without HIL) [Δ-0.018]
 
 
 KEY INSIGHTS
