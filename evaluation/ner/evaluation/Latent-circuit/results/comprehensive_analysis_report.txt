@@ -1,0 +1,97 @@
+NER EVALUATION COMPREHENSIVE SUMMARY REPORT
+==================================================
+
+EXECUTIVE SUMMARY
+--------------------
+
+WITH_HIL GROUP:
+- Total unique entities in pool: 59
+- Best entity detection: Claude 3.7 Sonnet (84.7%)
+- Best ontology mapping: Claude 3.7 Sonnet (100.0%)
+- Highest judge scores: GPT-4o-mini (0.978)
+
+WITHOUT_HIL GROUP:
+- Total unique entities in pool: 38
+- Best entity detection: Claude 3.7 Sonnet (78.9%)
+- Best ontology mapping: Claude 3.7 Sonnet (96.7%)
+- Highest judge scores: GPT-4o-mini (0.995)
+
+
+DETAILED MODEL ANALYSIS
+-------------------------
+
+WITH_HIL GROUP DETAILED METRICS:
+
+GPT-4o-mini:
+  Entity Detection: 9/59 (15.3%)
+  Ontology Mapping: 5/9 complete (55.6%)
+  Judge Score: 0.978 ± 0.067
+  High Confidence: 100.0%
+  Label Diversity: 7 types (Shannon: 1.89)
+
+DeepSeek V3 0324:
+  Entity Detection: 15/59 (25.4%)
+  Ontology Mapping: 13/15 complete (86.7%)
+  Judge Score: 0.967 ± 0.049
+  High Confidence: 100.0%
+  Label Diversity: 11 types (Shannon: 2.34)
+
+Claude 3.7 Sonnet:
+  Entity Detection: 50/59 (84.7%)
+  Ontology Mapping: 50/50 complete (100.0%)
+  Judge Score: 0.857 ± 0.102
+  High Confidence: 85.3%
+  Label Diversity: 21 types (Shannon: 2.88)
+
+
+WITHOUT_HIL GROUP DETAILED METRICS:
+
+DeepSeek V3 0324:
+  Entity Detection: 10/38 (26.3%)
+  Ontology Mapping: 4/10 complete (40.0%)
+  Judge Score: 0.853 ± 0.083
+  High Confidence: 87.5%
+  Label Diversity: 7 types (Shannon: 1.89)
+
+Claude 3.7 Sonnet:
+  Entity Detection: 30/38 (78.9%)
+  Ontology Mapping: 29/30 complete (96.7%)
+  Judge Score: 0.885 ± 0.301
+  High Confidence: 88.5%
+  Label Diversity: 12 types (Shannon: 2.37)
+
+GPT-4o-mini:
+  Entity Detection: 11/38 (28.9%)
+  Ontology Mapping: 5/11 complete (45.5%)
+  Judge Score: 0.995 ± 0.015
+  High Confidence: 100.0%
+  Label Diversity: 9 types (Shannon: 2.15)
+
+
+CROSS-GROUP COMPARISON
+----------------------
+
+Common models performance comparison:
+
+GPT-4o-mini:
+  Detection Rate: 15.3% (with HIL) vs 28.9% (without HIL) [Δ-13.7%]
+  Ontology Mapping: 55.6% (with HIL) vs 45.5% (without HIL) [Δ+10.1%]
+  Judge Score: 0.978 (with HIL) vs 0.995 (without HIL) [Δ-0.018]
+
+DeepSeek V3 0324:
+  Detection Rate: 25.4% (with HIL) vs 26.3% (without HIL) [Δ-0.9%]
+  Ontology Mapping: 86.7% (with HIL) vs 40.0% (without HIL) [Δ+46.7%]
+  Judge Score: 0.967 (with HIL) vs 0.853 (without HIL) [Δ+0.114]
+
+Claude 3.7 Sonnet:
+  Detection Rate: 84.7% (with HIL) vs 78.9% (without HIL) [Δ+5.8%]
+  Ontology Mapping: 100.0% (with HIL) vs 96.7% (without HIL) [Δ+3.3%]
+  Judge Score: 0.857 (with HIL) vs 0.885 (without HIL) [Δ-0.028]
+
+
+KEY INSIGHTS
+------------
+
+1. Overall best performer: Claude 3.7 Sonnet (with_hil) (composite score: 90.7)
+2. Human-in-the-loop (HIL) appears to degrade performance in some cases
+3. Model ranking by average detection rate: Claude (81.8%) > DeepSeek (25.9%) > GPT (22.1%)

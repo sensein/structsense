@@ -1,0 +1,9 @@
+Metric,Value
+Total Pool Size,38
+All Models Shared,2
+DeepSeek V3 0324 - Detected,10
+DeepSeek V3 0324 - Missed,28
+Claude 3.7 Sonnet - Detected,30
+Claude 3.7 Sonnet - Missed,8
+GPT-4o-mini - Detected,11
+GPT-4o-mini - Missed,27

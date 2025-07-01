@@ -1,0 +1,7 @@
+Group,Model,Total Entities,Complete (ID & Label),Complete %,ID Only,Label Only,Neither,Any Ontology Info,Any Ontology %
+with_hil,GPT-4o-mini,9,5,55.6%,0,0,4,5,55.6%
+with_hil,DeepSeek V3 0324,15,13,86.7%,0,0,2,13,86.7%
+with_hil,Claude 3.7 Sonnet,50,50,100.0%,0,0,0,50,100.0%
+without_hil,DeepSeek V3 0324,10,4,40.0%,0,0,6,4,40.0%
+without_hil,Claude 3.7 Sonnet,30,29,96.7%,0,0,1,29,96.7%
+without_hil,GPT-4o-mini,11,5,45.5%,0,0,6,5,45.5%
