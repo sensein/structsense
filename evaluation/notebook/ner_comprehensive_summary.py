@@ -5,8 +5,6 @@ NER Comprehensive Analysis Summary
 This script creates a comprehensive summary and comparison of all NER evaluation results,
 combining insights from entity pool, ontology, location, label, and judge score analyses.
 
-Author: Claude
-Date: 2025-01-30
 Purpose: Generate comprehensive summary report and final visualizations
 """
 

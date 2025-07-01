@@ -5,8 +5,6 @@ NER Entity Pool Analysis
 This script analyzes the entity pool across models for both with_hil and without_hil groups.
 It calculates false negatives (missed entities) for each model based on the union of all models.
 
-Author: Claude
-Date: 2025-01-30
 Purpose: Analyze entity detection performance and calculate false negatives
 """
 
@@ -32,7 +30,7 @@ plt.rcParams['xtick.major.size'] = 3
 plt.rcParams['ytick.major.size'] = 3
 
 
-def create_entity_pool_analysis(loader: NERDataLoader, output_dir: Path):
+def create_entity_pool_analysis(loader: NERDataLoader, group_name:Dict, output_dir: Path):
     """
     Create comprehensive entity pool analysis for both groups.
     
@@ -67,7 +65,7 @@ def create_entity_pool_analysis(loader: NERDataLoader, output_dir: Path):
         ax1.set_xticks(range(len(models)))
         ax1.set_xticklabels([m.replace(' ', '\n') for m in models], fontsize=6)
         ax1.set_ylabel('Number of Unique Entities', fontsize=7)
-        ax1.set_title(f'Entities Detected per Model ({group})', fontsize=8, fontweight='bold')
+        ax1.set_title(f'Entities Detected per Model ({group_name[group]})', fontsize=8, fontweight='bold')
         ax1.spines['top'].set_visible(False)
         ax1.spines['right'].set_visible(False)
         
@@ -92,7 +90,7 @@ def create_entity_pool_analysis(loader: NERDataLoader, output_dir: Path):
         ax2.set_xticks(range(len(models)))
         ax2.set_xticklabels([m.replace(' ', '\n') for m in models], fontsize=6)
         ax2.set_ylabel('Number of Missed Entities', fontsize=7)
-        ax2.set_title(f'Missed Detection per Model ({group})', fontsize=8, fontweight='bold')
+        ax2.set_title(f'Missed Detection per Model ({group_name[group]})', fontsize=8, fontweight='bold')
         ax2.spines['top'].set_visible(False)
         ax2.spines['right'].set_visible(False)
         
@@ -105,19 +103,17 @@ def create_entity_pool_analysis(loader: NERDataLoader, output_dir: Path):
         plt.tight_layout()
         
         # Save figure
-        for fmt in ['png', 'svg', 'pdf']:
-            fig.savefig(output_dir / f'entity_pool_analysis_{group}.{fmt}', 
-                       dpi=300 if fmt == 'png' else None, bbox_inches='tight')
+        fig.savefig(output_dir / f'entity_pool_analysis_{group}.pdf', bbox_inches='tight')
         plt.close()
         
         # Create Venn diagram for model overlaps (simplified version)
-        create_overlap_visualization(overlap_stats, group, colors, output_dir)
+        create_overlap_visualization(overlap_stats, group, colors, group_name, output_dir)
         
         # Save detailed statistics to CSV
         save_overlap_statistics(overlap_stats, group, output_dir)
 
 
-def create_overlap_visualization(overlap_stats: Dict, group: str, colors: Dict[str, str], output_dir: Path):
+def create_overlap_visualization(overlap_stats: Dict, group: str, colors: Dict[str, str], group_name: Dict, output_dir: Path):
     """
     Create visualization of entity overlaps between models.
     
@@ -127,6 +123,7 @@ def create_overlap_visualization(overlap_stats: Dict, group: str, colors: Dict[s
         colors: Model color mapping
         output_dir: Output directory
     """
+
     fig, ax = plt.subplots(1, 1, figsize=(4, 3.5))
     
     # Prepare data for visualization (ordered: GPT, Claude, DeepSeek)
@@ -162,7 +159,7 @@ def create_overlap_visualization(overlap_stats: Dict, group: str, colors: Dict[s
                           ha="center", va="center", color="black" if overlap_matrix[i, j] < 20 else "white",
                           fontsize=6)
     
-    ax.set_title(f'Entity Overlap Matrix ({group})', fontsize=8, fontweight='bold')
+    ax.set_title(f'Entity Overlap Matrix ({group_name[group]})', fontsize=8, fontweight='bold')
     
     # Add colorbar
     cbar = plt.colorbar(im, ax=ax, fraction=0.046, pad=0.04)
@@ -172,9 +169,7 @@ def create_overlap_visualization(overlap_stats: Dict, group: str, colors: Dict[s
     plt.tight_layout()
     
     # Save figure
-    for fmt in ['png', 'svg', 'pdf']:
-        fig.savefig(output_dir / f'entity_overlap_matrix_{group}.{fmt}', 
-                   dpi=300 if fmt == 'png' else None, bbox_inches='tight')
+    fig.savefig(output_dir / f'entity_overlap_matrix_{group}.pdf', bbox_inches='tight')
     plt.close()
     
     # Also create a bar chart showing shared entities
@@ -193,7 +188,7 @@ def create_overlap_visualization(overlap_stats: Dict, group: str, colors: Dict[s
         
         bars = ax.bar(categories, values, color=['#66c2a5', '#fc8d62', '#8da0cb'], alpha=0.8)
         ax.set_ylabel('Number of Entities', fontsize=7)
-        ax.set_title(f'Entity Sharing Patterns ({group})', fontsize=8, fontweight='bold')
+        ax.set_title(f'Entity Sharing Patterns ({group_name[group]})', fontsize=8, fontweight='bold')
         ax.spines['top'].set_visible(False)
         ax.spines['right'].set_visible(False)
         ax.tick_params(axis='x', labelsize=6)
@@ -207,9 +202,7 @@ def create_overlap_visualization(overlap_stats: Dict, group: str, colors: Dict[s
         plt.tight_layout()
         
         # Save figure
-        for fmt in ['png', 'svg', 'pdf']:
-            fig.savefig(output_dir / f'entity_sharing_patterns_{group}.{fmt}', 
-                       dpi=300 if fmt == 'png' else None, bbox_inches='tight')
+        fig.savefig(output_dir / f'entity_sharing_patterns_{group}.pdf', bbox_inches='tight')
         plt.close()
 
 
@@ -270,8 +263,10 @@ def main():
     structsense_root = Path(__file__).parent.parent.parent
     output_dir = structsense_root / "evaluation/ner/evaluation/Latent-circuit/results"
     
+    group_name = {"with_hil": "with HIL", "without_hil": "without HIL"}
+
     # Run analysis
-    create_entity_pool_analysis(loader, output_dir)
+    create_entity_pool_analysis(loader, group_name, output_dir)
     
     print(f"\nEntity pool analysis complete. Results saved to {output_dir}")
     

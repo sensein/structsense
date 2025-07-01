@@ -62,10 +62,8 @@ plt.rcParams.update({
 
 # Helper function to save in multiple formats
 def save_plot(filename_base):
-    """Save the current plot in PNG, SVG, and PDF formats"""
-    plt.savefig(os.path.join(output_dir, f"{filename_base}.png"), dpi=300, bbox_inches='tight')
-    plt.savefig(os.path.join(output_dir, f"{filename_base}.svg"), dpi=300, bbox_inches='tight')
-    plt.savefig(os.path.join(output_dir, f"{filename_base}.pdf"), dpi=300, bbox_inches='tight')
+    """Save the current plot in PDF format"""
+    plt.savefig(os.path.join(output_dir, f"{filename_base}.pdf"), bbox_inches='tight')
 
 # Plot 1: Cost per Model (Violin Plot)
 plt.figure(figsize=(3.2, 2.5))

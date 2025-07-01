@@ -5,8 +5,6 @@ NER Label Distribution Analysis
 This script analyzes the distribution of entity labels (types) detected by each model.
 It examines both individual model patterns and shared entity labels across models.
 
-Author: Claude
-Date: 2025-01-30
 Purpose: Analyze entity label distribution patterns
 """
 
@@ -151,9 +149,7 @@ def create_label_distribution_plot(model_labels: Dict, all_labels: Set,
     plt.tight_layout()
     
     # Save figure
-    for fmt in ['png', 'svg', 'pdf']:
-        fig.savefig(output_dir / f'label_distribution_{group}.{fmt}', 
-                   dpi=300 if fmt == 'png' else None, bbox_inches='tight')
+    fig.savefig(output_dir / f'label_distribution_{group}.pdf', bbox_inches='tight')
     plt.close()
 
 
@@ -272,9 +268,7 @@ def create_label_diversity_plot(model_labels: Dict, group: str, colors: Dict[str
     plt.tight_layout()
     
     # Save figure
-    for fmt in ['png', 'svg', 'pdf']:
-        fig.savefig(output_dir / f'label_diversity_{group}.{fmt}', 
-                   dpi=300 if fmt == 'png' else None, bbox_inches='tight')
+    fig.savefig(output_dir / f'label_diversity_{group}.pdf', bbox_inches='tight')
     plt.close()
 
 
@@ -385,9 +379,7 @@ def analyze_shared_entity_labels(loader: NERDataLoader, group: str, output_dir: 
                 plt.tight_layout()
                 
                 # Save figure
-                for fmt in ['png', 'svg', 'pdf']:
-                    fig.savefig(output_dir / f'label_consistency_{group}.{fmt}', 
-                               dpi=300 if fmt == 'png' else None, bbox_inches='tight')
+                fig.savefig(output_dir / f'label_consistency_{group}.pdf', bbox_inches='tight')
                 plt.close()
 
 
@@ -464,9 +456,7 @@ def create_group_label_comparison(loader: NERDataLoader, colors: Dict[str, str],
     plt.tight_layout()
     
     # Save figure
-    for fmt in ['png', 'svg', 'pdf']:
-        fig.savefig(output_dir / f'label_distribution_group_comparison.{fmt}', 
-                   dpi=300 if fmt == 'png' else None, bbox_inches='tight')
+    fig.savefig(output_dir / f'label_distribution_group_comparison.pdf', bbox_inches='tight')
     plt.close()
 
 

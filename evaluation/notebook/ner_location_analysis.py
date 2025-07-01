@@ -5,8 +5,6 @@ NER Paper Location Analysis
 This script analyzes where in scientific papers each model detects entities.
 It examines both overall detection patterns and location agreement for shared entities.
 
-Author: Claude
-Date: 2025-01-30
 Purpose: Analyze paper location patterns for detected entities
 """
 
@@ -189,9 +187,7 @@ def create_location_distribution_plot(model_locations: Dict, all_locations: Set,
     plt.tight_layout()
     
     # Save figure
-    for fmt in ['png', 'svg', 'pdf']:
-        fig.savefig(output_dir / f'location_distribution_{group}.{fmt}', 
-                   dpi=300 if fmt == 'png' else None, bbox_inches='tight')
+    fig.savefig(output_dir / f'location_distribution_{group}.pdf', bbox_inches='tight')
     plt.close()
 
 
@@ -263,9 +259,7 @@ def create_location_heatmap(model_locations: Dict, group: str, output_dir: Path)
     plt.tight_layout()
     
     # Save figure
-    for fmt in ['png', 'svg', 'pdf']:
-        fig.savefig(output_dir / f'location_heatmap_{group}.{fmt}', 
-                   dpi=300 if fmt == 'png' else None, bbox_inches='tight')
+    fig.savefig(output_dir / f'location_heatmap_{group}.pdf', bbox_inches='tight')
     plt.close()
 
 

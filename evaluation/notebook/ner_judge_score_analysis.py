@@ -5,8 +5,6 @@ NER Judge Score Analysis
 This script analyzes the judge scores assigned to entity extractions by each model.
 It examines score distributions, confidence patterns, and quality assessments.
 
-Author: Claude
-Date: 2025-01-30
 Purpose: Analyze judge score patterns and quality assessments
 """
 
@@ -150,9 +148,7 @@ def create_score_density_plots(model_scores: Dict[str, List[float]],
     plt.tight_layout()
     
     # Save figure
-    for fmt in ['png', 'svg', 'pdf']:
-        fig.savefig(output_dir / f'judge_score_distributions_{group}.{fmt}', 
-                   dpi=300 if fmt == 'png' else None, bbox_inches='tight')
+    fig.savefig(output_dir / f'judge_score_distributions_{group}.pdf', bbox_inches='tight')
     plt.close()
 
 
@@ -237,9 +233,7 @@ def create_score_statistics_table(model_scores: Dict[str, List[float]],
         plt.tight_layout()
         
         # Save figure
-        for fmt in ['png', 'svg', 'pdf']:
-            fig.savefig(output_dir / f'judge_score_table_{group}.{fmt}', 
-                       dpi=300 if fmt == 'png' else None, bbox_inches='tight')
+        fig.savefig(output_dir / f'judge_score_table_{group}.pdf', bbox_inches='tight')
         plt.close()
 
 
@@ -330,9 +324,7 @@ def create_scores_by_label_plot(df: pd.DataFrame, group: str, output_dir: Path):
     plt.tight_layout()
     
     # Save figure
-    for fmt in ['png', 'svg', 'pdf']:
-        fig.savefig(output_dir / f'judge_scores_by_label_{group}.{fmt}', 
-                   dpi=300 if fmt == 'png' else None, bbox_inches='tight')
+    fig.savefig(output_dir / f'judge_scores_by_label_{group}.pdf', bbox_inches='tight')
     plt.close()
 
 
@@ -382,9 +374,7 @@ def create_scores_by_location_plot(df: pd.DataFrame, group: str, output_dir: Pat
     plt.tight_layout()
     
     # Save figure
-    for fmt in ['png', 'svg', 'pdf']:
-        fig.savefig(output_dir / f'judge_scores_by_location_{group}.{fmt}', 
-                   dpi=300 if fmt == 'png' else None, bbox_inches='tight')
+    fig.savefig(output_dir / f'judge_scores_by_location_{group}.pdf', bbox_inches='tight')
     plt.close()
 
 
@@ -472,9 +462,7 @@ def create_group_score_comparison(loader: NERDataLoader, colors: Dict[str, str],
     plt.tight_layout()
     
     # Save figure
-    for fmt in ['png', 'svg', 'pdf']:
-        fig.savefig(output_dir / f'judge_scores_group_comparison.{fmt}', 
-                   dpi=300 if fmt == 'png' else None, bbox_inches='tight')
+    fig.savefig(output_dir / f'judge_scores_group_comparison.pdf', bbox_inches='tight')
     plt.close()
 
 

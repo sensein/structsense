@@ -6,8 +6,6 @@ This module provides utilities for loading and preprocessing NER evaluation data
 from the Latent-circuit evaluation results. It handles both with_hil and without_hil
 groups and standardizes the data structure for analysis.
 
-Author: Claude
-Date: 2025-01-30
 Purpose: Load and preprocess NER evaluation JSON files for comparative analysis
 """
 

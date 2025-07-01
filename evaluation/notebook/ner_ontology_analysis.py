@@ -6,8 +6,6 @@ This script analyzes the completeness of ontology mappings (IDs and labels) for
 entities detected by each model. It identifies which models have better ontology
 alignment capabilities.
 
-Author: Claude
-Date: 2025-01-30
 Purpose: Analyze missing ontology IDs and labels per model
 """
 
@@ -148,62 +146,21 @@ def create_ontology_coverage_plot(group_stats: Dict, group: str, colors: Dict[st
     ax.spines['right'].set_visible(False)
     
     # Add percentage labels
-    for i, model in enumerate(models):
-        total = group_stats[model]['total']
-        if total > 0:
-            # Add percentage for "has_both" at the top of the bar
-            pct_complete = (group_stats[model]['has_both'] / total) * 100
-            max_total = max([group_stats[m]['total'] for m in models])
-            ax.text(i, total + max_total * 0.05, f'{pct_complete:.0f}%', 
-                   ha='center', va='bottom', fontsize=6, fontweight='bold')
+    # for i, model in enumerate(models):
+    #     total = group_stats[model]['total']
+    #     if total > 0:
+    #         # Add percentage for "has_both" at the top of the bar
+    #         pct_complete = (group_stats[model]['has_both'] / total) * 100
+    #         max_total = max([group_stats[m]['total'] for m in models])
+    #         ax.text(i, total + max_total * 0.05, f'{pct_complete:.0f}%', 
+    #                ha='center', va='bottom', fontsize=6, fontweight='bold')
     
     plt.tight_layout()
     
     # Save figure
-    for fmt in ['png', 'svg', 'pdf']:
-        fig.savefig(output_dir / f'ontology_coverage_{group}.{fmt}', 
-                   dpi=300 if fmt == 'png' else None, bbox_inches='tight')
+    fig.savefig(output_dir / f'ontology_coverage_{group}.pdf', bbox_inches='tight')
     plt.close()
     
-    # Create a second plot showing percentages
-    fig, ax = plt.subplots(1, 1, figsize=(4, 3))
-    
-    # Calculate percentages
-    pct_both = [group_stats[m]['has_both'] / group_stats[m]['total'] * 100 if group_stats[m]['total'] > 0 else 0 for m in models]
-    pct_any = [group_stats[m]['has_any'] / group_stats[m]['total'] * 100 if group_stats[m]['total'] > 0 else 0 for m in models]
-    
-    x = np.arange(n_models)
-    width = 0.35
-    
-    bars1 = ax.bar(x - width/2, pct_both, width, label='Complete (ID & Label)',
-                   color=[colors.get(m, '#999999') for m in models], alpha=0.8)
-    bars2 = ax.bar(x + width/2, pct_any, width, label='Any Ontology Info',
-                   color=[colors.get(m, '#999999') for m in models], alpha=0.4)
-    
-    ax.set_ylabel('Percentage of Entities (%)', fontsize=7)
-    ax.set_title(f'Ontology Mapping Success Rate ({group})', fontsize=8, fontweight='bold')
-    ax.set_xticks(x)
-    ax.set_xticklabels([m.replace(' ', '\n') for m in models], fontsize=6)
-    ax.legend(fontsize=6, loc='upper left', frameon=False)
-    ax.spines['top'].set_visible(False)
-    ax.spines['right'].set_visible(False)
-    ax.set_ylim(0, 105)
-    
-    # Add value labels
-    for bars in [bars1, bars2]:
-        for bar in bars:
-            height = bar.get_height()
-            ax.text(bar.get_x() + bar.get_width()/2., height + 1,
-                   f'{height:.0f}%', ha='center', va='bottom', fontsize=6)
-    
-    plt.tight_layout()
-    
-    # Save figure
-    for fmt in ['png', 'svg', 'pdf']:
-        fig.savefig(output_dir / f'ontology_success_rate_{group}.{fmt}', 
-                   dpi=300 if fmt == 'png' else None, bbox_inches='tight')
-    plt.close()
-
 
 def create_group_comparison_plot(all_stats: Dict, colors: Dict[str, str], output_dir: Path):
     """
@@ -220,8 +177,8 @@ def create_group_comparison_plot(all_stats: Dict, colors: Dict[str, str], output
     fig, ax = plt.subplots(1, 1, figsize=(5, 3.5))
     
     # Get models that appear in both groups (ordered: GPT, Claude, DeepSeek)
-    models_with = set(all_stats.get('with_hil', {}).keys())
-    models_without = set(all_stats.get('without_hil', {}).keys())
+    models_with = set(all_stats.get('with HIL', {}).keys())
+    models_without = set(all_stats.get('without HIL', {}).keys())
     model_order = ['GPT-4o-mini', 'Claude 3.7 Sonnet', 'DeepSeek V3 0324']
     common_models = [m for m in model_order if m in models_with and m in models_without]
     
@@ -263,11 +220,11 @@ def create_group_comparison_plot(all_stats: Dict, colors: Dict[str, str], output
     ax.set_xticks(x)
     ax.set_xticklabels([m.replace(' ', '\n') for m in common_models], fontsize=6)
     
-    # Add text labels instead of legend to avoid color confusion
-    ax.text(0.02, 0.95, 'With\nHIL', transform=ax.transAxes, fontsize=6, 
-           verticalalignment='top', bbox=dict(boxstyle='round', facecolor='white', alpha=0.8))
-    ax.text(0.12, 0.95, 'Without\nHIL', transform=ax.transAxes, fontsize=6, 
-           verticalalignment='top', bbox=dict(boxstyle='round', facecolor='lightgray', alpha=0.8))
+    # # Add text labels instead of legend to avoid color confusion
+    # ax.text(0.02, 0.95, 'With\nHIL', transform=ax.transAxes, fontsize=6, 
+    #        verticalalignment='top', bbox=dict(boxstyle='round', facecolor='white', alpha=0.8))
+    # ax.text(0.12, 0.95, 'Without\nHIL', transform=ax.transAxes, fontsize=6, 
+    #        verticalalignment='top', bbox=dict(boxstyle='round', facecolor='lightgray', alpha=0.8))
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     ax.set_ylim(0, 105)
@@ -282,9 +239,7 @@ def create_group_comparison_plot(all_stats: Dict, colors: Dict[str, str], output
     plt.tight_layout()
     
     # Save figure
-    for fmt in ['png', 'svg', 'pdf']:
-        fig.savefig(output_dir / f'ontology_hil_comparison.{fmt}', 
-                   dpi=300 if fmt == 'png' else None, bbox_inches='tight')
+    fig.savefig(output_dir / f'ontology_hil_comparison.pdf', bbox_inches='tight')
     plt.close()
 
 
