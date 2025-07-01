@@ -1,5 +1,5 @@
 {
-  "judge_resource": {
+  "judge_resource.1.1": {
     "1": [
       {
         "name": "ViTPose",
@@ -31,18 +31,34 @@
             "ViT"
           ],
           "datasets": [
-            "MS COCO Keypoint",
+            "MS COCO",
             "ImageNet-1K",
             "AI Challenger",
             "MPII"
           ],
           "benchmarks": [
-            "MS COCO Keypoint Detection benchmark",
-            "MS COCO test-dev set"
+            "MS COCO Keypoint Detection",
+            "-"
           ]
         },
         "judge_score": 0.9,
-        "judge_rationale": "This resource alignment scores high for several reasons: (1) Proper categorization as a 'Model' type and 'Pose Estimation' category; (2) Appropriate target mapping to Homo sapiens with correct ontology reference; (3) Comprehensive description that clearly explains the model's purpose and advantages; (4) Valid URL to the resource repository; (5) Well-structured mentions of related models, datasets, and benchmarks that provide context. The only minor limitations are the absence of specific_targets (though not strictly needed for this human-only model) and the absence of related papers in the mentions section, which would have provided additional scientific context. Overall, this is a well-aligned resource that meets BBQS standards."
+        "judge_rationale": "This resource alignment scores high for several reasons: (1) Proper categorization as a 'Model' type and 'Pose Estimation' category; (2) Appropriate target mapping to Homo sapiens with correct ontology reference; (3) Comprehensive description that clearly explains the model's purpose and advantages; (4) Valid URL to the resource repository; (5) Well-structured mentions of related models, datasets, and benchmarks that provide context. The only minor limitations are the absence of specific_targets (though not strictly needed for this human-only model) and the absence of related papers in the mentions section, which would have provided additional scientific context. Overall, this is a well-aligned resource that meets BBQS standards.",
+        "approved": false,
+        "corrected": true,
+        "corrections": {
+          "mentions": {
+            "datasets": [
+              "MS COCO Keypoint",
+              null,
+              null,
+              null
+            ],
+            "benchmarks": [
+              "MS COCO Keypoint Detection benchmark",
+              "MS COCO test-dev set"
+            ]
+          }
+        }
       }
     ]
   }

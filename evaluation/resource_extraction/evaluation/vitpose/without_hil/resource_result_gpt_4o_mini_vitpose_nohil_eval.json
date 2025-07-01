@@ -1,0 +1,61 @@
+{
+  "judge_resource.1": {
+    "1": [
+      {
+        "name": "ViTPose",
+        "description": "ViTPose presents a minimalistic yet effective vision transformer baseline for human pose estimation, demonstrating state-of-the-art performance on the MS COCO dataset with a new approach that emphasizes simplicity, scalability, flexibility, and transferability through empirical evidence.",
+        "type": "Paper",
+        "category": "Pose Estimation",
+        "target": "Human",
+        "mapped_target_concept": [
+          {
+            "id": "http://purl.obolibrary.org/obo/NCBITaxon_9606",
+            "label": "Homo Sapiens",
+            "ontology": "NCBITaxon"
+          }
+        ],
+        "specific_target": "N/A",
+        "mapped_specific_target_concept": "N/A",
+        "url": "https://github.com/ViTAE-Transformer/ViTPose",
+        "mentions": {
+          "models": [
+            "ViTPose-B",
+            "ViTPose-L",
+            "ViTPose-H"
+          ],
+          "datasets": [
+            "MS COCO",
+            "AI Challenger",
+            "MPII"
+          ],
+          "benchmarks": [
+            "MS COCO Keypoint Detection"
+          ],
+          "papers": [
+            "ViTPose: Simple Vision Transformer Baselines for Human Pose Estimation"
+          ]
+        },
+        "judge_score": 0.9,
+        "approved": false,
+        "corrected": true,
+        "corrections": {
+          "mapped_target_concept": [
+            {
+              "id": "http://purl.obolibrary.org/obo/NCIT_C76232",
+              "label": "Human",
+              "ontology": "NCIT"
+            }
+          ],
+          "mentions": {
+            "benchmarks": [
+              "MS COCO Keypoint Detection"
+            ],
+            "papers": [
+              "ViTPose: Simple Vision Transformer Baselines for Human Pose Estimation"
+            ]
+          }
+        }
+      }
+    ]
+  }
+}
