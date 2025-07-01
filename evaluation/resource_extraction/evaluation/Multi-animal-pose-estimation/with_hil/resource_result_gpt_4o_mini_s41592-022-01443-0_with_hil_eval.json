@@ -1,0 +1,84 @@
+{
+  "judged_structured_information.1": {
+    "1": [
+      {
+        "name": "Multi-animal pose estimation, identification and tracking with DeepLabCut",
+        "description": "This paper describes the development of a multi-animal pose estimation and tracking system extending DeepLabCut, which employs advanced deep-learning architectures and a data-driven assembly method. It presents the release of four benchmark datasets that vary in complexity for evaluating pose estimation in multi-animal scenarios. The proposed framework leverages identity prediction to enhance animal tracking accuracy across occlusions, demonstrating a wide application in neuroscience and ethology. Published on April 12, 2022.",
+        "type": "Model",
+        "category": "Pose Estimation",
+        "target": "Animal",
+        "mapped_target_concept": [
+          {
+            "id": "http://purl.obolibrary.org/obo/BTO_0000042",
+            "label": "animal",
+            "ontology": "BTO"
+          }
+        ],
+        "specific_target": "Mice, Marmosets, Fish",
+        "mapped_specific_target_concept": [
+          {
+            "specific_target": "Mice",
+            "mapped_target_concept": {
+              "label": "Mus musculus",
+              "id": "NCBITaxon:10090",
+              "ontology": "NCBITaxon"
+            }
+          },
+          {
+            "specific_target": "Marmosets",
+            "mapped_target_concept": {
+              "label": "Callitrichinae sp.",
+              "id": "NCBITaxon:38020",
+              "ontology": "NCBITaxon"
+            }
+          },
+          {
+            "specific_target": "Fish",
+            "mapped_target_concept": {
+              "label": "Actinopterygii",
+              "id": "NCBITaxon:7898",
+              "ontology": "NCBITaxon"
+            }
+          }
+        ],
+        "url": "https://github.com/DeepLabCut/DeepLabCut",
+        "mentions": {
+          "datasets": [
+            "Tri-mouse dataset",
+            "Parenting behavior dataset",
+            "Marmoset home-cage behavior dataset",
+            "Fish schooling behavior dataset"
+          ],
+          "models": [
+            "DeepLabCut",
+            "DLCRNet"
+          ],
+          "benchmarks": [
+            "DeepLabCut benchmark challenge"
+          ]
+        },
+        "judge_score": 0.96,
+        "approved": false,
+        "corrected": true,
+        "corrections": {
+          "type": "Research Article",
+          "mapped_specific_target_concept": [
+            null,
+            {
+              "mapped_target_concept": {
+                "label": "Marmoset",
+                "id": "NCBITaxon:9483"
+              }
+            },
+            {
+              "mapped_target_concept": {
+                "id": "NCBITaxon:7896"
+              }
+            }
+          ],
+          "url": "https://doi.org/10.1038/s41592-022-01443-0"
+        }
+      }
+    ]
+  }
+}
