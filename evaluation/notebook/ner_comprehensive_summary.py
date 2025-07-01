@@ -157,18 +157,15 @@ def collect_all_metrics(loader: NERDataLoader) -> Dict[str, Any]:
 
 def create_performance_dashboard(metrics: Dict[str, Any], colors: Dict[str, str], output_dir: Path):
     """
-    Create a comprehensive performance dashboard.
+    Create a performance dashboard with two radar plots and a legend in between.
     
     Args:
         metrics: Comprehensive metrics dictionary
         colors: Model color mapping
         output_dir: Output directory
     """
-    # Create a multi-panel figure
-    fig = plt.figure(figsize=(12, 10))
-    
-    # Define grid layout with more space for radar plots
-    gs = fig.add_gridspec(3, 4, hspace=0.4, wspace=0.3, height_ratios=[1, 1, 1.2])
+    # Create figure with two radar plots side by side
+    fig = plt.figure(figsize=(10, 5))
     
     # Get common models across both groups (ordered: GPT, Claude, DeepSeek)
     models_with = set(metrics.get('with_hil', {}).keys())
@@ -179,50 +176,38 @@ def create_performance_dashboard(metrics: Dict[str, Any], colors: Dict[str, str]
     if not common_models:
         return
     
-    # Panel 1: Detection Rate Comparison
-    ax1 = fig.add_subplot(gs[0, 0:2])
-    create_metric_comparison(ax1, metrics, common_models, 'detection_rate', 
-                           'Entity Detection Rate (%)', colors)
+    # Create radar plot for with_hil
+    ax1 = plt.subplot(131, projection='polar')
+    create_radar_chart(ax1, metrics, 'with_hil', common_models, colors, 'With HIL')
+    ax1.legend().remove()  # Remove individual legend
     
-    # Panel 2: Ontology Coverage Comparison
-    ax2 = fig.add_subplot(gs[0, 2:4])
-    create_metric_comparison(ax2, metrics, common_models, 'ontology_complete_rate', 
-                           'Complete Ontology Mapping (%)', colors)
+    # Create radar plot for without_hil
+    ax3 = plt.subplot(133, projection='polar')
+    create_radar_chart(ax3, metrics, 'without_hil', common_models, colors, 'Without HIL')
+    ax3.legend().remove()  # Remove individual legend
     
-    # Panel 3: Judge Score Comparison
-    ax3 = fig.add_subplot(gs[1, 0:2])
-    create_metric_comparison(ax3, metrics, common_models, 'judge_score_mean', 
-                           'Mean Judge Score', colors)
+    # Create central legend
+    ax2 = plt.subplot(132)
+    ax2.axis('off')  # Hide axes for legend area
     
-    # Panel 4: Label Diversity Comparison
-    ax4 = fig.add_subplot(gs[1, 2:4])
-    create_metric_comparison(ax4, metrics, common_models, 'shannon_diversity', 
-                           'Label Diversity (Shannon Index)', colors)
+    # Create legend handles
+    handles = []
+    for model in common_models:
+        color = colors.get(model, '#999999')
+        line = plt.Line2D([0], [0], color=color, linewidth=2, label=model)
+        handles.append(line)
     
-    # Panel 5: Performance Radar Chart (with_hil)
-    ax5 = fig.add_subplot(gs[2, 0:2], projection='polar')
-    create_radar_chart(ax5, metrics, 'with_hil', common_models, colors, 'With HIL')
+    # Place legend in the center
+    legend = ax2.legend(handles=handles, loc='center', fontsize=10, 
+                       frameon=True, fancybox=True, shadow=True)
+    legend.get_frame().set_facecolor('white')
+    legend.get_frame().set_alpha(0.9)
     
-    # Panel 6: Performance Radar Chart (without_hil)
-    ax6 = fig.add_subplot(gs[2, 2:4], projection='polar')
-    create_radar_chart(ax6, metrics, 'without_hil', common_models, colors, 'Without HIL')
+    # Adjust layout
+    plt.tight_layout()
     
-    # Add shared legend for bar plots between the two columns
-    legend_elements = [
-        plt.Rectangle((0, 0), 1, 1, facecolor='black', alpha=0.8, label='With HIL'),
-        plt.Rectangle((0, 0), 1, 1, facecolor='black', alpha=0.4, label='Without HIL')
-    ]
-    fig.text(0.5, 0.68, 'With HIL', ha='center', va='center', fontsize=8, 
-             bbox=dict(boxstyle='round', facecolor='white', alpha=0.8))
-    fig.text(0.5, 0.65, 'Without HIL', ha='center', va='center', fontsize=8, 
-             bbox=dict(boxstyle='round', facecolor='lightgray', alpha=0.8))
-    
-    # Remove the title as requested
-    
-    # Save figure
-    for fmt in ['png', 'svg', 'pdf']:
-        fig.savefig(output_dir / f'performance_dashboard.{fmt}', 
-                   dpi=300 if fmt == 'png' else None, bbox_inches='tight')
+    # Save figure in PDF format only
+    fig.savefig(output_dir / 'performance_dashboard.pdf', bbox_inches='tight')
     plt.close()
 
 
@@ -320,7 +305,6 @@ def create_radar_chart(ax, metrics: Dict, group: str, models: List[str],
     ax.set_yticklabels(['0.2', '0.4', '0.6', '0.8', '1.0'], fontsize=5)
     ax.grid(True)
     ax.set_title(title, fontsize=8, fontweight='bold', pad=20)
-    ax.legend(loc='upper right', bbox_to_anchor=(1.5, 1.0), fontsize=6)
 
 
 def create_summary_tables(metrics: Dict[str, Any], output_dir: Path):
@@ -454,10 +438,8 @@ def create_model_ranking(metrics: Dict[str, Any], colors: Dict[str, str], output
     
     plt.tight_layout()
     
-    # Save figure
-    for fmt in ['png', 'svg', 'pdf']:
-        fig.savefig(output_dir / f'model_rankings_visual.{fmt}', 
-                   dpi=300 if fmt == 'png' else None, bbox_inches='tight')
+    # Save figure in PDF format only
+    fig.savefig(output_dir / 'model_rankings_visual.pdf', bbox_inches='tight')
     plt.close()
 
 
