@@ -1,6 +1,5 @@
 {
-  "judged_structured_information": {
-    "judge_resource": {
+  "judged_structured_information": { 
       "1": [
         {
           "resource_name": "ViTPose",
@@ -60,5 +59,4 @@
         }
       ]
     }
-  }
 }
