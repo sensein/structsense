@@ -6,9 +6,7 @@ agent_config:
     goal: >
       Perform Named Entity Recognition (NER) on neuroscience {literature} process it by paragraph, chunk as necessary and return structured JSON output.
     backstory: >
-      You are an AI assistant specialized in processing neuroscience and who do not hallucinate. 
-      Your expertise includes recognizing and categorizing named entities such as anatomical regions, experimental conditions, and cell types. 
-      Your responses strictly adhere to JSON format, ensuring accurate and structured data extraction for downstream applications.
+      You are an AI assistant specialized in processing neuroscience and who do not hallucinate.  Your expertise includes recognizing and categorizing named entities such as anatomical regions, experimental conditions, and cell types.  Your responses strictly adhere to JSON format, ensuring accurate and structured data extraction for downstream applications.
     llm:
       model: openrouter/openai/gpt-4o-mini
       base_url: https://openrouter.ai/api/v1
@@ -19,9 +17,7 @@ agent_config:
     goal: >
       Perform concept alignment to the extracted Named Entity Recognition (NER) by extractor_agent {extracted_structured_information} and return structured JSON output.
     backstory: >
-      You are an AI assistant specialized in processing neuroscience concept alignment with structured models, i.e., ontologies or schemas and who do not hallucinate. 
-      Your expertise includes recognizing and categorizing extracted named entities such as anatomical regions, experimental conditions, and cell types and aligning the recognized named entities such as cell types with corresponding ontological terms. 
-      Your responses strictly adhere to JSON format, ensuring accurate and structured data extraction for downstream applications.
+      You are an AI assistant specialized in processing neuroscience concept alignment with structured models, i.e., ontologies or schemas and who do not hallucinate.  Your expertise includes recognizing and categorizing extracted named entities such as anatomical regions, experimental conditions, and cell types and aligning the recognized named entities such as cell types with corresponding ontological terms.  Your responses strictly adhere to JSON format, ensuring accurate and structured data extraction for downstream applications.
     llm:
       model: openrouter/openai/gpt-4o-mini
       base_url: https://openrouter.ai/api/v1
@@ -32,9 +28,7 @@ agent_config:
     goal: >
       Evaluate the {aligned_structured_information} based on predefined criteria and generate a structured JSON output reflecting the assessment results.
     backstory: >
-      You are an AI assistant with expert knowledge in neuroscience and structured models, i.e., ontologies or schemas, and someone who does not hallucinate.  
-      Your task is to evaluate the {aligned_structured_information} based on the accuracy and quality of the alignment. 
-      Assign the score between 0-1 with 1 being the highest score of your evaluation.
+      You are an AI assistant with expert knowledge in neuroscience and structured models, i.e., ontologies or schemas, and someone who does not hallucinate.   Your task is to evaluate the {aligned_structured_information} based on the accuracy and quality of the alignment.  Assign the score between 0-1 with 1 being the highest score of your evaluation.
       Your responses strictly adhere to JSON format, ensuring accurate and structured data extraction for downstream applications.
     llm:
       model: openrouter/openai/gpt-4o-mini
@@ -46,9 +40,7 @@ agent_config:
     goal: >
       Evaluate the {judged_structured_information_with_human_feedback} and review if everything is correct as human domain expert.
     backstory: >
-      You are an AI assistant that acts as a human expert in neuroscience and structured models, i.e., ontologies or schemas, and someone who does not hallucinate.  
-      Your task is to evaluate, i.e., review the result {judged_structured_information_with_human_feedback} to see if everything is correct and if not fix it. 
-      Your responses strictly adhere to JSON format, ensuring accurate and structured data extraction for downstream applications.
+      You are an AI assistant that acts as a human expert in neuroscience and structured models, i.e., ontologies or schemas, and someone who does not hallucinate.   Your task is to evaluate, i.e., review the result {judged_structured_information_with_human_feedback} to see if everything is correct and if not fix it.  Your responses strictly adhere to JSON format, ensuring accurate and structured data extraction for downstream applications.
     llm:
       model: openrouter/openai/gpt-4o-mini
       base_url: https://openrouter.ai/api/v1
@@ -57,14 +49,14 @@ agent_config:
 task_config:
   extraction_task:
     description: >
-      Meticulously extract and classify all relevant entities into the most appropriate and specific category from the provided neuroscience text. 
-         The list of entities extracted should be exhaustive and comprehensive. You should identify and label all entities, including duplicates.                                                             
-         Please ensure that all entities are accurately identified and classified according to their role within the neuroscience domain. 
-         IMPORTANT: DO NOT modify the input text in any way. Use the text as is, without any alterations or corrections. 
-      
-      
-       Instructions: 
-      
+      Meticulously extract and classify all relevant entities into the most appropriate and specific category from the provided neuroscience text.
+         The list of entities extracted should be exhaustive and comprehensive. You should identify and label all entities, including duplicates.
+         Please ensure that all entities are accurately identified and classified according to their role within the neuroscience domain.
+         IMPORTANT: DO NOT modify the input text in any way. Use the text as is, without any alterations or corrections.
+
+
+       Instructions:
+
            NER Extractions instructions:
                - Read the input {literature} carefully by paragraph. Split into small paragraph chunks as necessary.
                - Read the entire paper thoroughly, analyzing sentence by sentence.
@@ -81,21 +73,21 @@ task_config:
                - If you are unsure about a term, include it with a flag for review (e.g., "uncertain").
                - If there are multiple sentences that refer to the same entity extract all the sentences, the start end index and make it as a list in the output.
         Important
-          - Minimum numbers should be at least 100 entities for large text. 
-         paper_metadata_consistency_check: 
+          - Minimum numbers should be at least 100 entities for large text.
+         paper_metadata_consistency_check:
             Ensure all entity entries in the output include consistent and correct metadata:
               - Each entity must have a valid `paper_title` and `doi` field.
               - If multiple entities come from the same paper, the values of `paper_title` and `doi` must be identical across those entities.
               - If a value is missing, check the other entries or the original context and fill it in accordingly.
               - Do not leave `paper_title` or `doi` blank unless all entries are truly missing that information.
               - Avoid using placeholder values like "Check for updates" as `paper_title`.
-        
+
           rules:
             - paper_title: must be a non-empty string (not a list)
             - doi: must be a string, may be empty only if genuinely unavailable for all entries
             - values should be normalized across entries from the same source
             - if any entity has these fields filled, others from the same paper must have matching values
-        
+
           failure_modes_to_fix:
             - One entity has `doi` and `paper_title` while others do not
             - One entity has placeholder `paper_title`, like "Check for updates", while others are correct
@@ -106,19 +98,19 @@ task_config:
                            - Second-level keys must be **stringified integers**: "1", "2", ...
                            - Do not nest under another key like 'extracted_terms'
                            - The value of each second-level key must be a **list** of entity mention objects
-  
+
                 schema_rules:
                     top_level:
                       type: object
                       key: "extracted_terms"
                       note: Do not nest under another dictionary
-  
+
                     second_level_keys:
                       type: string
                       format: stringified integers
                       order: ascending
                       example: ["1", "2", "3"]
-  
+
                     entity_entry:
                       required_fields:
                         - entity: string
@@ -127,30 +119,30 @@ task_config:
                         - ontology_label: string or null
                         - sentence: array of strings
                         - start: array of integers
-                        - end: array of integers 
+                        - end: array of integers
                         - remarks: array of strings
                         - paper_location: array of strings
                         - paper_title: string  # ⚠️ Not an array
                         - doi: string
-  
+
                       notes:
                         - The following fields must be arrays of the same length:
                             - sentence
                             - start
-                            - end 
+                            - end
                             - remarks
                             - paper_location
                         - If ontology match is missing, set:
                             - ontology_id: null
                             - ontology_label: null
                         - paper_title must be a string, even if repeated in multiple entries
-  
+
                     strict_schema: true
                     disallowed:
                       - extra top-level keys
                       - arrays for paper_title
                       - nested result containers like 'judged_structured_information'
-  
+
                   remarks_instructions:
                     - Append a remark for each entry
                     - Preserve prior remarks if present
@@ -211,11 +203,10 @@ task_config:
 
   alignment_task:
     description: >
-      Perform concept alignment on the extracted structured information by mapping each entity 
-      to a matching concept (class) from a given ontology or schema.
-      
+      Perform concept alignment on the extracted structured information by mapping each entity  to a matching concept (class) from a given ontology or schema.
+
       Inputs: {extracted_structured_information}
-      
+
       Instructions:
         alignment instructions:
           - For each entity in `extracted_structured_information`, find the most appropriate matching concept from an ontology or schema.
@@ -228,37 +219,37 @@ task_config:
               - The alignment was made using a successful match from the local knowledge source.
               - Or the alignment was inferred without a direct match.
           - Do not remove or overwrite any previous remarks; always append new remarks.
-      
+
         User Feedback Handling:
           If the input includes modifications made based on human/user feedback:
           Detect and respect these changes (e.g., altered extracted terms).
           Do not overwrite user-modified terms.
           Instead, annotate in remarks that user-defined values were retained and evaluated accordingly.
-      
+
         failure_modes_to_fix:
             - "Inconsistent `ontology_id`/`ontology_label` across same entity."
             - "Missing alignment remark."
             - "`paper_title` or `doi` inconsistent with other entries from same paper."
-      
+
       output_requirements:
                          - The output must be a **single JSON object**
                          - The **only top-level key** must be: "aligned_ner_terms"
                          - Second-level keys must be **stringified integers**: "1", "2", ...
                          - Do not nest under another key like 'aligned_ner_terms'
                          - The value of each second-level key must be a **list** of entity mention objects
-  
+
               schema_rules:
                   top_level:
                     type: object
                     key: "aligned_ner_terms"
                     note: Do not nest under another dictionary
-  
+
                   second_level_keys:
                     type: string
                     format: stringified integers
                     order: ascending
                     example: ["1", "2", "3"]
-  
+
                   entity_entry:
                     required_fields:
                       - entity: string
@@ -267,17 +258,17 @@ task_config:
                       - ontology_label: string or null
                       - sentence: array of strings
                       - start: array of integers
-                      - end: array of integers 
+                      - end: array of integers
                       - remarks: array of strings
                       - paper_location: array of strings
                       - paper_title: array of strings
                       - doi: array of strings
-  
+
                     notes:
                       - The following fields must be arrays of the same length:
                           - sentence
                           - start
-                          - end 
+                          - end
                           - remarks
                           - paper_title
                           - doi
@@ -286,13 +277,13 @@ task_config:
                           - ontology_id: null
                           - ontology_label: null
                       - paper_title must be a string, even if repeated in multiple entries
-  
+
                   strict_schema: true
                   disallowed:
                     - extra top-level keys
                     - arrays for paper_title
                     - nested result containers like 'judged_structured_information'
-  
+
                 remarks_instructions:
                   - Append a remark for each entry
                   - Preserve prior remarks if present
@@ -370,16 +361,16 @@ task_config:
 
   judge_task:
     description: >
-      Evaluate the structured output from the alignment agent ({aligned_structured_information}). 
+      Evaluate the structured output from the alignment agent ({aligned_structured_information}).
         Assess both the quality of the original extraction and its alignment with the ontology or schema. Assign a `judge_score` between 0 and 1, and append remarks justifying the evaluation.
-      
-      Instuctions:
+
+      Instructions:
         User Feedback Handling:
           If the input includes previously made based on human/user feedback:
           Detect and respect these changes (e.g., altered extracted terms).
           Do not overwrite user-modified terms.
           Instead, annotate in remarks that user-defined values were retained and evaluated accordingly.
-  
+
         Judgement:
           - Analyze the content of {aligned_structured_information} and evaluate how well the extracted information aligns with the target ontology or schema.
           - Assign a `judge_score` between 0 and 1:
@@ -389,31 +380,31 @@ task_config:
           - Append a remarks justifying the score. Do not remove or overwrite existing remarks; always preserve previous ones.
           - If user-modified fields (e.g., extracted terms) are present, do not overwrite them. Note their presence and evaluation in the remarks.
           - Ensure the final structure is schema-compliant and retains all original metadata and history.
-      
+
       failure_modes_to_fix:
           - "Missing `judge_score` or `remarks` per sentence."
-          - "Inconsistent `paper_title` or `doi`." 
+          - "Inconsistent `paper_title` or `doi`."
           - "Non-matching array lengths across sentence, score, and remarks."
-      
+
       output_requirements:
                          - The output must be a **single JSON object**
                          - The **only top-level key** must be: "judge_ner_terms"
                          - Second-level keys must be **stringified integers**: "1", "2", ...
                          - Do not nest under another key like 'judge_ner_terms'
                          - The value of each second-level key must be a **list** of entity mention objects
-  
+
               schema_rules:
                   top_level:
                     type: object
                     key: "judge_ner_terms"
                     note: Do not nest under another dictionary
-  
+
                   second_level_keys:
                     type: string
                     format: stringified integers
                     order: ascending
                     example: ["1", "2", "3"]
-  
+
                   entity_entry:
                     required_fields:
                       - entity: string
@@ -428,7 +419,7 @@ task_config:
                       - paper_location: array of strings
                       - paper_title: array of strings
                       - doi: array of strings
-  
+
                     notes:
                       - The following fields must be arrays of the same length:
                           - sentence
@@ -437,31 +428,30 @@ task_config:
                           - judge_score
                           - remarks
                           - doi
-                          - paper_title 
+                          - paper_title
                           - paper_location
                       - If ontology match is missing, set:
                           - ontology_id: null
                           - ontology_label: null
                       - paper_title must be a string, even if repeated in multiple entries
-  
+
                   strict_schema: true
                   disallowed:
                     - extra top-level keys
                     - arrays for paper_title
                     - nested result containers like 'judged_structured_information'
-  
+
                 remarks_instructions:
                   - Append a remark for each entry
                   - Preserve prior remarks if present
                   - Mention any user edits explicitly
-  
+
                 judge_score_instructions:
                   - Assign a float score between 0 and 1 per sentence
                   - 1.0 = perfect match, 0.0 = no match, values in between = partial match
 
-    expected_output: > 
-      output format: json 
-      Example output:
+    expected_output: >
+      output format: json  Example output:
       "judge_ner_terms": {
                           "1": [
                             {
@@ -535,68 +525,68 @@ task_config:
   humanfeedback_task:
     description: >
       Input: {judged_structured_information_with_human_feedback}
-  
+
       Objective: Evaluate and, if necessary, revise the structured output to ensure accurate alignment with the target ontology/schema.
-  
+
       Important: The number of extracted entities should not be less than what you received.
-      modification_context: 
+      modification_context:
         {modification_context}
-      
+
       user_feedback_text:
         {user_feedback_text}
-      
+
       Instructions:
-  
+
       Alignment Assessment:
         Analyze {judged_structured_information_with_human_feedback} to determine whether the extracted terms and structures are correctly aligned with the intended ontology or schema.
-  
-      
+
+
       update_handling:
             - "Preserve existing remarks."
             - "Append new remark for each change made."
             - "Indicate knowledge source or user evidence behind updates in remarks."
-  
+
       Provenance-Aware Remarking:
         Update the remarks field as follows:
         Append a new remark describing the updates made (e.g., corrected label, updated score).
         Specify if the update was informed by a knowledge source or prior evidence.
         Do not remove existing remarks—always preserve historical annotations.
-  
+
       User Feedback Handling:
         If the input includes modifications made based on human/user feedback:
         Detect and respect these changes (e.g., altered extracted terms).
         Do not overwrite user-modified terms.
         Instead, annotate in remarks that user-defined values were retained and evaluated accordingly.
-      
+
       failure_modes_to_fix:
         - "Judge score conflicts (e.g., 1.0 score for low-quality match)."
         - "Misaligned paper metadata across multiple entries."
         - "Missing or conflicting ontology IDs for same entity."
         - "Field arrays of unequal length."
-  
+
       Constraints:
         Preserve all historical data (especially remarks).
         Ensure outputs are traceable, auditable, and schema-compliant.
-      
+
       output_requirements:
                      - The output must be a **single JSON object**
                      - The **only top-level key** must be: "judge_ner_terms"
                      - Second-level keys must be **stringified integers**: "1", "2", ...
                      - Do not nest under another key like 'judge_ner_terms'
                      - The value of each second-level key must be a **list** of entity mention objects
-  
+
           schema_rules:
               top_level:
                 type: object
                 key: "judge_ner_terms"
                 note: Do not nest under another dictionary
-  
+
               second_level_keys:
                 type: string
                 format: stringified integers
                 order: ascending
                 example: ["1", "2", "3"]
-  
+
               entity_entry:
                 required_fields:
                   - entity: string
@@ -611,14 +601,14 @@ task_config:
                   - paper_location: array of strings
                   - paper_title: array of strings
                   - doi: array of strings
-  
+
                 notes:
                   - The following fields must be arrays of the same length:
                       - sentence
                       - start
                       - end
                       - doi
-                      - paper_title 
+                      - paper_title
                       - judge_score
                       - remarks
                       - paper_location
@@ -626,24 +616,24 @@ task_config:
                       - ontology_id: null
                       - ontology_label: null
                   - paper_title must be a string, even if repeated in multiple entries
-  
+
               strict_schema: true
               disallowed:
                 - extra top-level keys
                 - arrays for paper_title
                 - nested result containers like 'judged_structured_information'
-  
+
             remarks_instructions:
               - Append a remark for each entry
               - Preserve prior remarks if present
               - Mention any user edits explicitly
-  
+
             judge_score_instructions:
               - Assign a float score between 0 and 1 per sentence
               - 1.0 = perfect match, 0.0 = no match, values in between = partial match
-  
 
-    expected_output: > 
+
+    expected_output: >
       output format: json
       Example output:
       "judge_ner_terms": {
@@ -705,7 +695,7 @@ task_config:
                                     "Moderate confidence alignment; match found in ontology, but context is less directly linked to definition.",
                                     "Moderate confidence alignment; term matches ontology label, but surrounding context offers less specificity."
                                   ],
-                                  "judge_score": [0.72, 0.70], 
+                                  "judge_score": [0.72, 0.70],
                                   "paper_location": ["methods", "results"],
                                   "paper_title": ["Concentration of myelin debris-like myelin basic protein-immunoreactive particles in the distal (anterior)-most part of the myelinated region in the normal rat optic nerve","Concentration of myelin debris-like myelin basic protein-immunoreactive particles in the distal (anterior)-most part of the myelinated region in the normal rat optic nerve"],
                                   "doi": ["10.1101/2025.03.19.643597","10.1101/2025.03.19.643597"]
@@ -728,8 +718,8 @@ embedder_config:
 # knowledge search config
 knowledge_config:
   search_key: #local vector database
-    - entity
-    - label
+  - entity
+  - label
 # human in loop config
 human_in_loop_config:
   humanfeedback_agent: true

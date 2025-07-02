@@ -9,7 +9,7 @@ agent_config:
     goal: >
       goal
     backstory: >
-     agent back story
+      agent back story
     llm:
       model: openrouter/openai/gpt-4o-mini
       base_url: https://openrouter.ai/api/v1
@@ -38,23 +38,23 @@ agent_config:
 
   humanfeedback_agent:
     role: >
-     agent role
+      agent role
     goal: >
       agent goal
     backstory: >
       agent back story
     llm:
       model: openrouter/openai/gpt-4o-mini
-      base_url: https://openrouter.ai/api/v1 
+      base_url: https://openrouter.ai/api/v1
 
 # agent task config
 task_config:
   extraction_task:
     description: >
       #add task description
-      
+
       Input: {literature}
-   
+
 
     expected_output: >
       output format: json
@@ -63,18 +63,19 @@ task_config:
             #data
          }
 
-    # do not chage this, remove it later
+    # do not change this, remove it later
     agent_id: extractor_agent
 
   alignment_task:
-    description: > 
+    description: >
       Inputs: {extracted_structured_information}
-      
+
       Instructions:
-       
+
 
     expected_output: >
       output format: json
+
       Example output: 
         "aligned_terms":{
             #data
@@ -84,9 +85,8 @@ task_config:
 
   judge_task:
     description: >
-      {aligned_structured_information} 
-         
-      Instuctions: add instructions
+      {aligned_structured_information}
+
 
     expected_output: > 
       output format: json 
@@ -95,30 +95,35 @@ task_config:
             #data
          }
 
-    # do not chage this, remove it later
+    expected_output: >
+      output format: json  Example output: add example
+
+    # do not change this, remove it later
     agent_id: judge_agent
 
   humanfeedback_task:
     description: >
       Input: {judged_structured_information_with_human_feedback}
 
-      modification_context: 
+      modification_context:
         {modification_context}
-      
+
       user_feedback_text:
         {user_feedback_text}
-      
+
       Instructions:
        add you instructions
-      
-  
 
-    expected_output: > 
+
+
+    expected_output: >
       output format: json
+
       Example output: 
         "judged_terms":{
             #data
          }
+
     agent_id: humanfeedback_agent
 
 # embedding config
@@ -133,8 +138,8 @@ embedder_config:
 # knowledge search config
 knowledge_config:
   search_key: #local vector database
-    - entity
-    - label
+  - entity
+  - label
 # human in loop config
 human_in_loop_config:
   humanfeedback_agent: true

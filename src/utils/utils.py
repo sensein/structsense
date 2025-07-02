@@ -17,16 +17,11 @@
 # @Software: PyCharm
 
 import logging
-import sys
-import json
-from pathlib import Path
-from typing import Union, Dict, List
-import yaml
-from rdflib import Graph, RDF, RDFS, OWL, URIRef, Namespace
-import pandas as pd
-import re
-from weaviate.util import generate_uuid5
 import os
+import re
+import sys
+from pathlib import Path
+from typing import Dict, List, Union
 from urllib.parse import urlparse
 import weaviate
 from weaviate.classes.init import AdditionalConfig, Timeout, Auth
@@ -37,6 +32,16 @@ import requests
 import pandas as pd
 from requests.exceptions import RequestException
 
+import pandas as pd
+import requests
+import weaviate
+import yaml
+from dotenv import load_dotenv
+from GrobidArticleExtractor import GrobidArticleExtractor
+from rdflib import OWL, RDF, RDFS, Graph, Namespace, URIRef
+from weaviate.classes.config import Configure, DataType, Property, VectorDistances
+from weaviate.classes.init import AdditionalConfig, Auth, Timeout
+from weaviate.util import generate_uuid5
 
 # Load environment variables from a .env file if present
 load_dotenv()
@@ -50,31 +55,32 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-def process_input_data(source:str):
+def process_input_data(source: str):
     if isinstance(source, str):
         # Try different path resolutions
         paths_to_try = [
             Path(source),  # As provided
             Path.cwd() / source,  # Relative to current directory
             Path(source).absolute(),  # Absolute path
-            Path(source).resolve()  # Resolved path (handles .. and .)
+            Path(source).resolve(),  # Resolved path (handles .. and .)
         ]
 
         # Log all paths being tried
         logger.info(f"Trying paths: {[str(p) for p in paths_to_try]}")
 
-
         # Check if this is raw text input
         is_raw_text = (
             # do not contains any extensions like .pdf
-                (not source.lower().endswith((".pdf", ".csv", ".txt"))) or
-                # If it's a very long string, treat as raw text
-                len(source) > 500 or
-                # Or if it contains newlines
-                '\n' in source or
-                # Or if it doesn't look like a path and no paths exist
-                (not ('/' in source or '\\' in source) and not any(p.exists() for p in paths_to_try))
-
+            (not source.lower().endswith((".pdf", ".csv", ".txt")))
+            or
+            # If it's a very long string, treat as raw text
+            len(source) > 500
+            or
+            # Or if it contains newlines
+            "\n" in source
+            or
+            # Or if it doesn't look like a path and no paths exist
+            (not ("/" in source or "\\" in source) and not any(p.exists() for p in paths_to_try))
         )
 
         if is_raw_text:
@@ -85,16 +91,11 @@ def process_input_data(source:str):
         source_path = next((p for p in paths_to_try if p.exists()), paths_to_try[0])
 
         if not source_path.exists():
-            error_msg = (
-                    f"Source path does not exist: {source}\n"
-                    f"Tried the following paths:\n"
-                    + "\n".join(f"- {p}" for p in paths_to_try)
+            error_msg = f"Source path does not exist: {source}\n" f"Tried the following paths:\n" + "\n".join(
+                f"- {p}" for p in paths_to_try
             )
             logger.error(error_msg)
-            return {
-                "status": "Error",
-                "error": error_msg
-            }
+            return {"status": "Error", "error": error_msg}
 
         logger.info(f"Using path: {source_path}")
     else:
@@ -102,23 +103,17 @@ def process_input_data(source:str):
         if not source_path.exists():
             error_msg = f"Source path does not exist: {source}"
             logger.error(error_msg)
-            return {
-                "status": "Error",
-                "error": error_msg
-            }
+            return {"status": "Error", "error": error_msg}
 
         # Process single file
     if source_path.is_file():
         logger.info(f"Processing single file: {source_path}")
         ext = source_path.suffix.lower()
-        if ext ==".pdf":
-            GROBID_SERVER_URL_OR_EXTERNAL_SERVICE = os.getenv("GROBID_SERVER_URL_OR_EXTERNAL_SERVICE",
-                                                              "http://localhost:8070")
+        if ext == ".pdf":
+            GROBID_SERVER_URL_OR_EXTERNAL_SERVICE = os.getenv("GROBID_SERVER_URL_OR_EXTERNAL_SERVICE", "http://localhost:8070")
             EXTERNAL_PDF_EXTRACTION_SERVICE = os.getenv("EXTERNAL_PDF_EXTRACTION_SERVICE", "False")
             return extract_pdf_content(
-                file_path=source_path,
-                grobid_server=GROBID_SERVER_URL_OR_EXTERNAL_SERVICE,
-                external_service=EXTERNAL_PDF_EXTRACTION_SERVICE
+                file_path=source_path, grobid_server=GROBID_SERVER_URL_OR_EXTERNAL_SERVICE, external_service=EXTERNAL_PDF_EXTRACTION_SERVICE
             )
         elif ext == ".csv":
             try:
@@ -140,9 +135,8 @@ def process_input_data(source:str):
             return {"status": "Error", "error": error_msg}
 
 
-def extract_pdf_content(file_path: str, grobid_server: str , external_service: str ) -> dict:
-    """
-    Extracts content from a PDF file using GrobidArticleExtractor. or uses the external service
+def extract_pdf_content(file_path: str, grobid_server: str, external_service: str) -> dict:
+    """Extracts content from a PDF file using GrobidArticleExtractor. or uses the external service
     https://github.com/sensein/EviSense/blob/experiment/src/EviSense/shared.py
 
     This function processes the given PDF file and extracts its contents.
@@ -160,7 +154,7 @@ def extract_pdf_content(file_path: str, grobid_server: str , external_service: s
                 - "content" (str): The textual content of the section.
     """
     is_external_service = external_service.lower() == "true"
-    logger.debug("*"*100)
+    logger.debug("*" * 100)
     logger.debug("printing from structsense")
     logger.debug(external_service, grobid_server)
     logger.debug("*" * 100)
@@ -176,10 +170,7 @@ def extract_pdf_content(file_path: str, grobid_server: str , external_service: s
         result = extractor.extract_content(xml_content)
 
         try:
-            extracted_data = {
-                "metadata": result.get("metadata", {}),
-                "sections": []
-            }
+            extracted_data = {"metadata": result.get("metadata", {}), "sections": []}
 
             # Process sections
             sections = result.get("sections", [])
@@ -187,10 +178,7 @@ def extract_pdf_content(file_path: str, grobid_server: str , external_service: s
                 logger.warning("No sections found in PDF")
                 # Create a single section with all content if available
                 if content := result.get("content"):
-                    sections = [{
-                        "heading": "Content",
-                        "content": content
-                    }]
+                    sections = [{"heading": "Content", "content": content}]
 
             # Add sections to extracted data
             for section in sections:
@@ -205,10 +193,7 @@ def extract_pdf_content(file_path: str, grobid_server: str , external_service: s
                     logger.warning(f"Skipping empty section: {heading}")
                     continue
 
-                extracted_data["sections"].append({
-                    "heading": heading,
-                    "content": content
-                })
+                extracted_data["sections"].append({"heading": heading, "content": content})
 
             if not extracted_data["sections"]:
                 raise Exception("No valid content could be extracted from PDF")
@@ -222,23 +207,19 @@ def extract_pdf_content(file_path: str, grobid_server: str , external_service: s
     else:
         logging.debug("Using EXTERNAL PDF SERVICE: {}".format(grobid_server))
 
-        with open(file_path, 'rb') as f:
-            files = {'file': (str(file_path), f, 'application/pdf')}  # convert Path to str
-            headers = {'Accept': 'application/json'}
-            response = requests.post(grobid_server,
-                                     files=files,
-                                     headers=headers)
+        with open(file_path, "rb") as f:
+            files = {"file": (str(file_path), f, "application/pdf")}  # convert Path to str
+            headers = {"Accept": "application/json"}
+            response = requests.post(grobid_server, files=files, headers=headers)
 
         response.raise_for_status()
-        data =  response.json()
+        data = response.json()
         print("*" * 100)
         return data
 
 
-
 def get_weaviate_client():
-    """
-    Establishes a connection to a Weaviate instance using environment variables.
+    """Establishes a connection to a Weaviate instance using environment variables.
 
     Returns:
         weaviate.Client: A Weaviate client instance.
@@ -267,9 +248,7 @@ def get_weaviate_client():
             timeout_query = int(os.getenv("WEAVIATE_TIMEOUT_QUERY", 60))
             timeout_insert = int(os.getenv("WEAVIATE_TIMEOUT_INSERT", 120))
         except ValueError:
-            raise ValueError(
-                "Invalid timeout value. Ensure WEAVIATE_TIMEOUT_* environment variables contain valid integers."
-            )
+            raise ValueError("Invalid timeout value. Ensure WEAVIATE_TIMEOUT_* environment variables contain valid integers.")
 
         client = weaviate.connect_to_custom(
             http_host=http_host,
@@ -279,11 +258,7 @@ def get_weaviate_client():
             grpc_port=grpc_port,
             grpc_secure=grpc_secure,
             auth_credentials=Auth.api_key(api_key),
-            additional_config=AdditionalConfig(
-                timeout=Timeout(
-                    init=timeout_init, query=timeout_query, insert=timeout_insert
-                )
-            ),
+            additional_config=AdditionalConfig(timeout=Timeout(init=timeout_init, query=timeout_query, insert=timeout_insert)),
         )
         logger.info("✅ Successfully connected to Weaviate")
         return client
@@ -294,9 +269,7 @@ def get_weaviate_client():
 
     except weaviate.exceptions.WeaviateConnectionError as ce:
         logger.error(f"❌ ConnectionError: Failed to connect to Weaviate - {ce}")
-        raise ConnectionError(
-            "Failed to connect to Weaviate. Check your host, ports, and security settings."
-        )
+        raise ConnectionError("Failed to connect to Weaviate. Check your host, ports, and security settings.")
 
     except Exception as e:
         logger.error(f"❌ Unexpected Error: {e}")
@@ -304,8 +277,7 @@ def get_weaviate_client():
 
 
 def create_ontology_collection(client):
-    """
-    Creates an 'ontology_database' collection with Ollama embeddings and a vector index.
+    """Creates an 'ontology_database' collection with Ollama embeddings and a vector index.
 
     Args:
         client (weaviate.Client): A Weaviate client instance.
@@ -314,7 +286,6 @@ def create_ontology_collection(client):
         dict: Dictionary containing status (boolean) and a message.
     """
     try:
-
         ONTOLOGY_DATABASE = os.getenv("ONTOLOGY_DATABASE", "ontology_database_agentpy")
         # Check if the collection already exists
         collection = client.collections.get(ONTOLOGY_DATABASE)
@@ -323,9 +294,7 @@ def create_ontology_collection(client):
             return {"status": True, "message": "Ontology collection already exists."}
 
         # Retrieve Ollama configuration from environment variables
-        ollama_endpoint = os.getenv(
-            "OLLAMA_API_ENDPOINT", "http://host.docker.internal:11434"
-        )
+        ollama_endpoint = os.getenv("OLLAMA_API_ENDPOINT", "http://host.docker.internal:11434")
         ollama_model = os.getenv("OLLAMA_MODEL", "nomic-embed-text")
 
         client.collections.create(
@@ -335,29 +304,15 @@ def create_ontology_collection(client):
                 model=ollama_model,
             ),
             properties=[
-                Property(
-                    name="class_id", data_type=DataType.TEXT
-                ),  # Unique class identifier
-                Property(
-                    name="class_uri", data_type=DataType.TEXT
-                ),  # Full IRI reference
+                Property(name="class_id", data_type=DataType.TEXT),  # Unique class identifier
+                Property(name="class_uri", data_type=DataType.TEXT),  # Full IRI reference
                 Property(name="ontology", data_type=DataType.TEXT),  # Ontology name
-                Property(
-                    name="equivalent_to", data_type=DataType.TEXT_ARRAY, optional=True
-                ),  # Equivalent concepts
-                Property(
-                    name="broader", data_type=DataType.TEXT_ARRAY, optional=True
-                ),  # SKOS broader concepts
-                Property(
-                    name="narrower", data_type=DataType.TEXT_ARRAY, optional=True
-                ),  # SKOS narrower concepts
-                Property(
-                    name="related", data_type=DataType.TEXT_ARRAY, optional=True
-                ),  # SKOS related concepts
+                Property(name="equivalent_to", data_type=DataType.TEXT_ARRAY, optional=True),  # Equivalent concepts
+                Property(name="broader", data_type=DataType.TEXT_ARRAY, optional=True),  # SKOS broader concepts
+                Property(name="narrower", data_type=DataType.TEXT_ARRAY, optional=True),  # SKOS narrower concepts
+                Property(name="related", data_type=DataType.TEXT_ARRAY, optional=True),  # SKOS related concepts
                 Property(name="label", data_type=DataType.TEXT),  # Concept label
-                Property(
-                    name="definition", data_type=DataType.TEXT
-                ),  # Concept definition
+                Property(name="definition", data_type=DataType.TEXT),  # Concept definition
                 Property(
                     name="related_synonyms",
                     data_type=DataType.TEXT_ARRAY,
@@ -368,27 +323,13 @@ def create_ontology_collection(client):
                     data_type=DataType.TEXT_ARRAY,
                     optional=True,
                 ),  # All combined synonyms
-                Property(
-                    name="exact_synonyms", data_type=DataType.TEXT_ARRAY, optional=True
-                ),  # Exact synonyms
-                Property(
-                    name="alt_definitions", data_type=DataType.TEXT_ARRAY, optional=True
-                ),  # Alternative definitions
-                Property(
-                    name="narrow_synonyms", data_type=DataType.TEXT_ARRAY, optional=True
-                ),  # Narrow synonyms
-                Property(
-                    name="broad_synonyms", data_type=DataType.TEXT_ARRAY, optional=True
-                ),  # Broad synonyms
-                Property(
-                    name="editors_note", data_type=DataType.TEXT_ARRAY, optional=True
-                ),  # Editor notes
-                Property(
-                    name="description", data_type=DataType.TEXT, optional=True
-                ),  # Additional descriptions
-                Property(
-                    name="curators_note", data_type=DataType.TEXT_ARRAY, optional=True
-                ),  # Notes from curators
+                Property(name="exact_synonyms", data_type=DataType.TEXT_ARRAY, optional=True),  # Exact synonyms
+                Property(name="alt_definitions", data_type=DataType.TEXT_ARRAY, optional=True),  # Alternative definitions
+                Property(name="narrow_synonyms", data_type=DataType.TEXT_ARRAY, optional=True),  # Narrow synonyms
+                Property(name="broad_synonyms", data_type=DataType.TEXT_ARRAY, optional=True),  # Broad synonyms
+                Property(name="editors_note", data_type=DataType.TEXT_ARRAY, optional=True),  # Editor notes
+                Property(name="description", data_type=DataType.TEXT, optional=True),  # Additional descriptions
+                Property(name="curators_note", data_type=DataType.TEXT_ARRAY, optional=True),  # Notes from curators
             ],
             vector_index_config=Configure.VectorIndex.hnsw(
                 distance_metric=VectorDistances.COSINE,
@@ -424,8 +365,7 @@ def create_ontology_collection(client):
 
 
 def extract_weaviate_properties(weaviate_results):
-    """
-    Extracts the 'properties' field from a list of Weaviate object results.
+    """Extracts the 'properties' field from a list of Weaviate object results.
 
     Args:
         weaviate_results (list): A list of Weaviate objects, each containing metadata, properties, and other fields.
@@ -446,8 +386,7 @@ def extract_weaviate_properties(weaviate_results):
 
 
 def hybrid_search(client, query_text, alpha=0.5, limit=3):
-    """
-    Performs a hybrid search (BM25 + Vector Search) on the Ontology collection.
+    """Performs a hybrid search (BM25 + Vector Search) on the Ontology collection.
 
     Args:
         client (weaviate.Client): A Weaviate client instance.
@@ -535,8 +474,7 @@ def hybrid_search(client, query_text, alpha=0.5, limit=3):
 
 
 def batch_insert_ontology_data(client, data, max_errors=1000):
-    """
-    Inserts ontology data into the collection in Weaviate using dynamic batch processing. for more information regarding
+    """Inserts ontology data into the collection in Weaviate using dynamic batch processing. for more information regarding
     batch insertion, see https://weaviate.io/developers/weaviate/manage-data/import
 
     Args:
@@ -563,17 +501,11 @@ def batch_insert_ontology_data(client, data, max_errors=1000):
         # Start dynamic batch insertion
         with collection.batch.dynamic() as batch:
             for entry in data:
-                if (
-                    not isinstance(entry, dict)
-                    or "class_id" not in entry
-                    or "label" not in entry
-                ):
+                if not isinstance(entry, dict) or "class_id" not in entry or "label" not in entry:
                     logger.warning("Skipping invalid entry: %s", entry)
                     continue
 
-                obj_uuid = generate_uuid5(
-                    entry["class_id"]
-                )  # Generate deterministic UUID
+                obj_uuid = generate_uuid5(entry["class_id"])  # Generate deterministic UUID
 
                 batch.add_object(
                     properties={
@@ -601,9 +533,7 @@ def batch_insert_ontology_data(client, data, max_errors=1000):
                 inserted_count += 1
 
                 if batch.number_errors > max_errors:
-                    logger.error(
-                        f"Batch import stopped due to excessive errors ({batch.number_errors})."
-                    )
+                    logger.error(f"Batch import stopped due to excessive errors ({batch.number_errors}).")
                     break
 
         # Handle failed objects
@@ -612,9 +542,7 @@ def batch_insert_ontology_data(client, data, max_errors=1000):
             logger.warning(f"Number of failed imports: {len(failed_objects)}")
             logger.warning(f" First failed object: {failed_objects[0]}")
 
-        logger.info(
-            f"Successfully inserted {inserted_count}/{len(data)} records in batch mode."
-        )
+        logger.info(f"Successfully inserted {inserted_count}/{len(data)} records in batch mode.")
         return {
             "status": True,
             "message": f"Inserted {inserted_count}/{len(data)} records in batch mode.",
@@ -636,8 +564,7 @@ def batch_insert_ontology_data(client, data, max_errors=1000):
 
 
 def load_config(config: Union[str, Path, Dict], type: str) -> dict:
-    """
-    Loads the configuration from a YAML file
+    """Loads the configuration from a YAML file
 
     Args:
         config (Union[str, Path, dict]): The configuration source.
@@ -667,11 +594,7 @@ def load_config(config: Union[str, Path, Dict], type: str) -> dict:
 
         # Find first existing path with valid extension
         config_path = next(
-            (
-                p
-                for p in paths_to_try
-                if p.exists() and p.suffix.lower() in {".yml", ".yaml"}
-            ),
+            (p for p in paths_to_try if p.exists() and p.suffix.lower() in {".yml", ".yaml"}),
             paths_to_try[0],  # Default to first path if none exist
         )
     else:
@@ -723,14 +646,11 @@ DC_COVERAGE = DC.coverage  # The scope of the class
 
 #  editor's note and curator's note properties
 IAO_EDITORS_NOTE = URIRef("http://purl.obolibrary.org/obo/IAO_0000116")  # Editor's note
-IAO_CURATORS_NOTE = URIRef(
-    "http://purl.obolibrary.org/obo/IAO_0000233"
-)  # Curator's note
+IAO_CURATORS_NOTE = URIRef("http://purl.obolibrary.org/obo/IAO_0000233")  # Curator's note
 
 
 def extract_ontology_metadata(file_path, output_format="dataframe"):
-    """
-    Extract comprehensive metadata from an ontology file.
+    """Extract comprehensive metadata from an ontology file.
 
     Parameters:
     -----------
@@ -940,9 +860,7 @@ def extract_ontology_metadata(file_path, output_format="dataframe"):
         if definitions:
             class_record["definition"] = definitions[0]  # Primary definition
             if len(definitions) > 1:
-                class_record["alt_definitions"] = definitions[
-                    1:
-                ]  # Alternative definitions
+                class_record["alt_definitions"] = definitions[1:]  # Alternative definitions
 
         # Extract SKOS broader concepts
         for broader in g.objects(cls, SKOS.broader):
@@ -987,9 +905,7 @@ def extract_ontology_metadata(file_path, output_format="dataframe"):
             for desc in g.objects(cls, desc_prop):
                 descriptions.append(str(desc))
         if descriptions:
-            class_record["description"] = (
-                descriptions[0] if len(descriptions) == 1 else descriptions
-            )
+            class_record["description"] = descriptions[0] if len(descriptions) == 1 else descriptions
 
         # Extract synonyms - categorized by type
         exact_synonyms = []
@@ -1062,17 +978,9 @@ def extract_ontology_metadata(file_path, output_format="dataframe"):
             class_record["alt_labels"] = alt_labels
 
         # Combine all types of synonyms into one field for convenience
-        all_synonyms = (
-            exact_synonyms
-            + related_synonyms
-            + narrow_synonyms
-            + broad_synonyms
-            + alt_labels
-        )
+        all_synonyms = exact_synonyms + related_synonyms + narrow_synonyms + broad_synonyms + alt_labels
         if all_synonyms:
-            class_record["all_synonyms_combined"] = list(
-                set(all_synonyms)
-            )  # Remove duplicates
+            class_record["all_synonyms_combined"] = list(set(all_synonyms))  # Remove duplicates
 
         # Add the class record to our collection
         classes_data.append(class_record)
@@ -1159,9 +1067,7 @@ def process_ontology(file_path, output_file=None):
     for col in list_columns:
         if col in df.columns:
             # Convert any non-list values to lists
-            df[col] = df[col].apply(
-                lambda x: x if isinstance(x, list) else [str(x)] if pd.notna(x) else []
-            )
+            df[col] = df[col].apply(lambda x: x if isinstance(x, list) else [str(x)] if pd.notna(x) else [])
 
     # Keep only columns that exist in the dataframe and are in the columns_to_keep list
     available_columns = [col for col in columns_to_keep if col in df.columns]
@@ -1190,13 +1096,12 @@ def has_modifications(new_data, old_data):
 
 
 def replace_api_key(config: dict, api_key: str) -> dict:
-    """
-    Recursively replaces API keys in the configuration dictionary.
-    
+    """Recursively replaces API keys in the configuration dictionary.
+
     Args:
         config (dict): The configuration dictionary
         api_key (str): The new API key to use
-        
+
     Returns:
         dict: Updated configuration with new API key
     """
@@ -1213,8 +1118,7 @@ def replace_api_key(config: dict, api_key: str) -> dict:
 
 
 def transform_extracted_data(combined_result: Union[dict, list]) -> List[dict]:
-    """
-    Transform extracted data into a consistent format regardless of input structure.
+    """Transform extracted data into a consistent format regardless of input structure.
 
     Args:
         combined_result: The raw extracted data which can be in various formats
@@ -1234,10 +1138,7 @@ def transform_extracted_data(combined_result: Union[dict, list]) -> List[dict]:
                         term = {
                             "text": response.get("response_text", ""),
                             "category": response.get("assigned_category", ""),
-                            "metadata": {
-                                "response_id": response.get("response_id", ""),
-                                "reason": response.get("reason", "")
-                            }
+                            "metadata": {"response_id": response.get("response_id", ""), "reason": response.get("reason", "")},
                         }
                         transformed_terms.append(term)
             elif isinstance(data, list):
@@ -1255,8 +1156,8 @@ def transform_extracted_data(combined_result: Union[dict, list]) -> List[dict]:
                                 "end": item.get("end", []),
                                 "paper_location": item.get("paper_location", []),
                                 "paper_title": item.get("paper_title", ""),
-                                "doi": item.get("doi", "")
-                            }
+                                "doi": item.get("doi", ""),
+                            },
                         }
                         transformed_terms.append(term)
     elif isinstance(combined_result, list):
@@ -1274,15 +1175,17 @@ def transform_extracted_data(combined_result: Union[dict, list]) -> List[dict]:
                         "end": item.get("end", []),
                         "paper_location": item.get("paper_location", []),
                         "paper_title": item.get("paper_title", ""),
-                        "doi": item.get("doi", "")
-                    }
+                        "doi": item.get("doi", ""),
+                    },
                 }
                 transformed_terms.append(term)
 
     return transformed_terms
 
+
 from collections import defaultdict
 from collections.abc import MutableMapping
+
 
 def merge_dicts_preserve_structure(dicts):
     def recursive_merge(target, source):

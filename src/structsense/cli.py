@@ -3,10 +3,12 @@
 import logging
 
 import click
+import yaml
+
+from utils.utils import load_config
 
 from .app import kickoff
-from utils.utils import load_config
-import yaml
+
 logger = logging.getLogger(__name__)
 
 
@@ -18,54 +20,28 @@ def cli(ctx):
 
 
 @cli.command()
-@click.option(
-    "--config",
-    required=True,
-    type=str,
-    help="Path to the single YAML config file (ner_config.yaml)."
-)
-@click.option(
-    "--api_key",
-    required=False,
-    type=str,
-    help="Open router API key."
-)
+@click.option("--config", required=True, type=str, help="Path to the single YAML config file (ner_config.yaml).")
+@click.option("--api_key", required=False, type=str, help="Open router API key.")
 @click.option(
     "--source",
     required=True,
     help=("The source—whether a file (text or PDF), a folder, or a text string."),
 )
-@click.option(
-    "--env_file",
-    required=False,
-    type=str,
-    help="Optional path to an environment file to override the default .env file."
-)
-@click.option(
-    "--save_file",
-    required=False,
-    type=str,
-    help="Optional path to save the result as a JSON file."
-)
-@click.option(
-    "--chunking",
-    required=False,
-    default=False,
-    help="Enable text chunking for parallel processing (default: False)."
-)
+@click.option("--env_file", required=False, type=str, help="Optional path to an environment file to override the default .env file.")
+@click.option("--save_file", required=False, type=str, help="Optional path to save the result as a JSON file.")
+@click.option("--chunking", required=False, default=False, help="Enable text chunking for parallel processing (default: False).")
 def extract(config, api_key, source, env_file, save_file, chunking):
     """Extract the terms along with sentence using a single config file."""
-
     # Load the config file
     all_config = load_config(config, "all")
-    
+
     # Extract the different config sections
-    agent_config = all_config.get('agent_config', {})
-    embedder_config = all_config.get('embedder_config', {})
-    task_config = all_config.get('task_config', {})
-    knowledge_config = all_config.get('knowledge_config', {})
-    human_in_loop_config = all_config.get('human_in_loop_config', {})
-    
+    agent_config = all_config.get("agent_config", {})
+    embedder_config = all_config.get("embedder_config", {})
+    task_config = all_config.get("task_config", {})
+    knowledge_config = all_config.get("knowledge_config", {})
+    human_in_loop_config = all_config.get("human_in_loop_config", {})
+
     # Run the extraction
     result = kickoff(
         agentconfig=agent_config,
@@ -77,19 +53,20 @@ def extract(config, api_key, source, env_file, save_file, chunking):
         agent_feedback_config=human_in_loop_config,
         env_file=env_file,
         api_key=api_key,
-        enable_chunking=chunking
+        enable_chunking=chunking,
     )
-    
+
     # Output results
     click.echo("*" * 100)
     click.echo("Result")
     click.echo(result)
     click.echo("*" * 100)
-    
+
     # Save to file if requested
     if save_file:
         import json
-        with open(save_file, 'w') as f:
+
+        with open(save_file, "w") as f:
             json.dump(result, f, indent=2)
         click.echo(f"Result saved to {save_file}")
 

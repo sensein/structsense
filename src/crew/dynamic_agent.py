@@ -20,9 +20,7 @@ from crewai import LLM, Agent
 
 
 class DynamicAgent:
-    def __init__(
-        self, agents_config: list[dict], embedder_config: dict, tools: list = []
-    ):
+    def __init__(self, agents_config: list[dict], embedder_config: dict, tools: list = []):
         """Initializes the DynamicAgent class for multiple agents.
 
         Args:
@@ -41,24 +39,24 @@ class DynamicAgent:
             dict: Mapping of agent_id to Agent instance.
         """
         agent_config = self.agents_config
-        agent_role = agent_config.get("role","")
+        agent_role = agent_config.get("role", "")
         agent_goal = agent_config.get("goal", "")
         agent_backstory = agent_config.get("backstory", "")
-        llm_config = agent_config.get("llm","")
+        llm_config = agent_config.get("llm", "")
         embedder_config = self.embedder_config.get("embedder_config")
 
         agent = Agent(
-                role=agent_role,
-                goal=agent_goal,
-                backstory=agent_backstory,
-                llm=LLM(**llm_config),
-                embedder=embedder_config,
-                tools=self.tools,
-                allow_delegation=False,
-                verbose=True,
-                max_iter=5,
-                max_rpm=10,
-                max_consecutive_auto_reply=2
-            )
+            role=agent_role,
+            goal=agent_goal,
+            backstory=agent_backstory,
+            llm=LLM(**llm_config),
+            embedder=embedder_config,
+            tools=self.tools,
+            allow_delegation=False,
+            verbose=True,
+            max_iter=5,
+            max_rpm=10,
+            max_consecutive_auto_reply=2,
+        )
 
         return agent

@@ -16,65 +16,65 @@
 # @File    : humanloop.py
 # @Software: PyCharm
 
-from typing import Dict, Optional, Tuple, Union, Any, Callable, List
-import logging
 import json
-import tempfile
-import subprocess
+import logging
 import os
-import platform
 import re
+import subprocess
+import tempfile
+from typing import Any, Callable, Dict, Optional, Union
+
 
 class HumanInterventionRequired(Exception):
     """Exception raised when human intervention is required."""
+
     pass
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
+
 def parse_feedback_input(feedback_input):
-    """
-    Parse feedback input to extract both natural language text and JSON if present.
+    """Parse feedback input to extract both natural language text and JSON if present.
     Returns a dict with 'user_feedback_text' and/or 'user_feedback_json'.
     """
     feedback_input = feedback_input.strip()
     # Try to find JSON block in the input
-    json_match = re.search(r'({[\s\S]+})', feedback_input)
+    json_match = re.search(r"({[\s\S]+})", feedback_input)
     if json_match:
         json_str = json_match.group(1)
         try:
             feedback_json = json.loads(json_str)
-            text_part = feedback_input.replace(json_str, '').strip()
+            text_part = feedback_input.replace(json_str, "").strip()
             result = {}
             if text_part:
-                result['user_feedback_text'] = text_part
-            result['user_feedback_json'] = feedback_json
+                result["user_feedback_text"] = text_part
+            result["user_feedback_json"] = feedback_json
             return result
         except Exception:
             pass  # If JSON parsing fails, treat as plain text
     # If not JSON, treat as text
-    return {'user_feedback_text': feedback_input} if feedback_input else {}
+    return {"user_feedback_text": feedback_input} if feedback_input else {}
+
 
 class HumanInTheLoop:
-    """
-    Manages human-in-the-loop interactions within the flow.
+    """Manages human-in-the-loop interactions within the flow.
 
     This class provides methods for requesting human feedback, approvals,
     and interventions at critical points in the processing flow. It supports
     CLI interactions.
     """
 
-    def __init__(self,
-                 enable_human_feedback: bool = False,
-                 agent_feedback_config: Dict[str, bool] = None,
-                 input_handler: Callable = None,
-                 output_handler: Callable = None,
-                 timeout_seconds: int = 300):
-        """
-        Initialize the human-in-the-loop component.
+    def __init__(
+        self,
+        enable_human_feedback: bool = False,
+        agent_feedback_config: Dict[str, bool] = None,
+        input_handler: Callable = None,
+        output_handler: Callable = None,
+        timeout_seconds: int = 300,
+    ):
+        """Initialize the human-in-the-loop component.
 
         Args:
             enable_human_feedback: Whether human feedback is enabled globally
@@ -94,8 +94,7 @@ class HumanInTheLoop:
             logger.info(f"Agent-specific feedback configuration: {agent_feedback_config}")
 
     def is_feedback_enabled_for_agent(self, agent_name: str) -> bool:
-        """
-        Check if the feedback is enabled for the agent. First the global feedback should be enabled
+        """Check if the feedback is enabled for the agent. First the global feedback should be enabled
         and then also for the agent feedback
 
         Args:
@@ -116,8 +115,7 @@ class HumanInTheLoop:
         return self.enable_human_feedback
 
     def request_feedback(self, data: Dict, step_name: str, agent_name: Optional[str] = None) -> Dict:
-        """
-        Request human feedback on data at a particular step.
+        """Request human feedback on data at a particular step.
 
         Args:
             data: The data to review, i.e., output of the agent
@@ -196,7 +194,7 @@ class HumanInTheLoop:
                     "# Example:\n"
                     "# fix entity extraction as some are incorrect.\n"
                     "# {\n"
-                    "#   \"judged_structured_information\": { ... }\n"
+                    '#   "judged_structured_information": { ... }\n'
                     "# }\n\n"
                     "\n# --- Current Output JSON ---\n"
                     f"{json.dumps(data, indent=2)}\n"
@@ -209,15 +207,15 @@ class HumanInTheLoop:
                     self.output_handler("No feedback provided. Using original data.")
                     return data
                 # If only JSON, use as modified data; if both, merge
-                if 'user_feedback_json' in parsed and not parsed.get('user_feedback_text'):
+                if "user_feedback_json" in parsed and not parsed.get("user_feedback_text"):
                     return "feedback"
                 else:
                     # Attach text feedback to the data for the agent to interpret
                     result = data.copy() if isinstance(data, dict) else {}
-                    if 'user_feedback_json' in parsed:
-                        result['user_feedback_json'] = parsed['user_feedback_json']
-                    if 'user_feedback_text' in parsed:
-                        result['user_feedback_text'] = parsed['user_feedback_text']
+                    if "user_feedback_json" in parsed:
+                        result["user_feedback_json"] = parsed["user_feedback_json"]
+                    if "user_feedback_text" in parsed:
+                        result["user_feedback_text"] = parsed["user_feedback_text"]
                     return result
 
         except Exception as e:
@@ -227,8 +225,7 @@ class HumanInTheLoop:
             return data
 
     def request_approval(self, message: str, details: Optional[str] = None, agent_name: Optional[str] = None) -> bool:
-        """
-        Request human approval with a yes/no question.
+        """Request human approval with a yes/no question.
 
         Args:
             message: Message explaining what needs approval
@@ -256,7 +253,7 @@ class HumanInTheLoop:
                 self.output_handler(f"\nDetails:\n{details}")
 
             response = self.input_handler("\nApprove? (y/n): ").lower()
-            approved = response.startswith('y')
+            approved = response.startswith("y")
 
             if approved:
                 logger.info(f"Human approved: {message}" + (f" for agent {agent_name}" if agent_name else ""))
@@ -271,8 +268,7 @@ class HumanInTheLoop:
             return True
 
     def provide_observation(self, message: str, data: Optional[Any] = None, agent_name: Optional[str] = None) -> None:
-        """
-        Provide an observation to the human without requiring feedback.
+        """Provide an observation to the human without requiring feedback.
 
         Args:
             message: The observation message
@@ -301,8 +297,7 @@ class HumanInTheLoop:
             logger.error(f"Error providing observation: {e}")
 
     def request_confirmation(self, message: str, agent_name: Optional[str] = None) -> bool:
-        """
-        Request a simple yes/no confirmation from the human.
+        """Request a simple yes/no confirmation from the human.
 
         Args:
             message: The message to confirm
@@ -326,8 +321,8 @@ class HumanInTheLoop:
 
             while True:
                 response = self.input_handler("\nConfirm? (y/n): ").lower()
-                if response in ['y', 'n']:
-                    return response == 'y'
+                if response in ["y", "n"]:
+                    return response == "y"
                 self.output_handler("Please enter 'y' or 'n'.")
 
         except Exception as e:
@@ -335,8 +330,8 @@ class HumanInTheLoop:
             return True
 
     def open_editor_with_template(self, template: str) -> str:
-        editor = 'nano'
-        with tempfile.NamedTemporaryFile(suffix=".tmp", mode='w+', delete=False) as tf:
+        editor = "nano"
+        with tempfile.NamedTemporaryFile(suffix=".tmp", mode="w+", delete=False) as tf:
             tf.write(template)
             tf.flush()
             subprocess.call([editor, tf.name])
@@ -345,15 +340,14 @@ class HumanInTheLoop:
         os.unlink(tf.name)
         return content
 
+
 class ProgrammaticFeedbackHandler:
-    """
-    A custom handler for programmatic human feedback.
+    """A custom handler for programmatic human feedback.
     This allows you to control the feedback process programmatically.
     """
 
     def __init__(self, feedback_responses=None):
-        """
-        Initialize the custom feedback handler.
+        """Initialize the custom feedback handler.
 
         Args:
             feedback_responses: Dictionary mapping step names to feedback responses
@@ -373,17 +367,11 @@ class ProgrammaticFeedbackHandler:
         self.pending_feedback = None
         self.feedback_result = None
         self.human_feedback_processed = False
-        self.agent_feedback_config = {
-            "extractor_agent": False,
-            "alignment_agent": False,
-            "judge_agent": False,
-            "humanfeedback_agent": True
-        }
+        self.agent_feedback_config = {"extractor_agent": False, "alignment_agent": False, "judge_agent": False, "humanfeedback_agent": True}
         self.valid_choices = {"1", "2", "3", "4"}
 
     def is_feedback_enabled_for_agent(self, agent_name: str) -> bool:
-        """
-        Check if feedback is enabled for a specific agent.
+        """Check if feedback is enabled for a specific agent.
 
         Args:
             agent_name: Name of the agent to check
@@ -410,8 +398,7 @@ class ProgrammaticFeedbackHandler:
             self.human_feedback_processed = False
 
     def has_pending_feedback(self) -> bool:
-        """
-        Check if there is any pending feedback to process.
+        """Check if there is any pending feedback to process.
 
         Returns:
             Boolean indicating if there is pending feedback
@@ -419,8 +406,7 @@ class ProgrammaticFeedbackHandler:
         return self.pending_feedback is not None
 
     def validate_feedback_choice(self, choice: str) -> None:
-        """
-        Validate the feedback choice.
+        """Validate the feedback choice.
 
         Args:
             choice: The feedback choice to validate
@@ -432,8 +418,7 @@ class ProgrammaticFeedbackHandler:
             raise ValueError(f"Invalid choice: {choice}. Must be one of: {', '.join(self.valid_choices)}")
 
     def request_feedback(self, data: Dict[str, Any], step_name: str, agent_name: Optional[str] = None) -> Union[Dict[str, Any], str]:
-        """
-        Request human feedback on data at a particular step.
+        """Request human feedback on data at a particular step.
 
         Args:
             data: The data to review
@@ -451,18 +436,13 @@ class ProgrammaticFeedbackHandler:
         print(f"{'='*50}\n")
 
         self.current_step = step_name
-        self.pending_feedback = {
-            "data": data,
-            "step_name": step_name,
-            "agent_name": agent_name
-        }
+        self.pending_feedback = {"data": data, "step_name": step_name, "agent_name": agent_name}
 
         # Return "feedback" to trigger the feedback loop
         return "feedback"
 
     def provide_feedback(self, choice: str, modified_data: Optional[str] = None) -> Dict[str, Any]:
-        """
-        Provide feedback for the pending request.
+        """Provide feedback for the pending request.
 
         Args:
             choice: The feedback choice ("1" for approve, "3" for modify, etc.)
@@ -498,15 +478,15 @@ class ProgrammaticFeedbackHandler:
                 print("No feedback provided. Using original data.")
                 self.clear_pending_feedback()
                 return data
-            if 'user_feedback_json' in parsed and not parsed.get('user_feedback_text'):
+            if "user_feedback_json" in parsed and not parsed.get("user_feedback_text"):
                 self.clear_pending_feedback()
                 return "feedback"
             else:
                 result = data.copy() if isinstance(data, dict) else {}
-                if 'user_feedback_json' in parsed:
-                    result['user_feedback_json'] = parsed['user_feedback_json']
-                if 'user_feedback_text' in parsed:
-                    result['user_feedback_text'] = parsed['user_feedback_text']
+                if "user_feedback_json" in parsed:
+                    result["user_feedback_json"] = parsed["user_feedback_json"]
+                if "user_feedback_text" in parsed:
+                    result["user_feedback_text"] = parsed["user_feedback_text"]
                 self.clear_pending_feedback()
                 return "feedback"
         else:
@@ -515,8 +495,7 @@ class ProgrammaticFeedbackHandler:
             return data
 
     def get_pending_feedback(self) -> Optional[Dict[str, Any]]:
-        """
-        Get the current pending feedback request.
+        """Get the current pending feedback request.
 
         Returns:
             Dictionary containing the pending feedback request or None if no pending feedback
@@ -528,8 +507,7 @@ class ProgrammaticFeedbackHandler:
         self.pending_feedback = None
 
     def provide_observation(self, message: str, data: Optional[Any] = None, agent_name: Optional[str] = None) -> None:
-        """
-        Provide an observation to the human without requiring feedback.
+        """Provide an observation to the human without requiring feedback.
 
         Args:
             message: The observation message
@@ -546,8 +524,7 @@ class ProgrammaticFeedbackHandler:
             print(data)
 
     def request_approval(self, message: str, details: Optional[str] = None, agent_name: Optional[str] = None) -> bool:
-        """
-        Request human approval with a yes/no question.
+        """Request human approval with a yes/no question.
 
         Args:
             message: Message explaining what needs approval
