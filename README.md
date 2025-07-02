@@ -312,6 +312,28 @@ embedder_config:
     model: nomic-embed-text:latest
 ```
 
+## Running 
+### Using OpenRouter
+
+```bash
+structsense-cli extract \
+  --source somefile.pdf \
+  --api_key <YOUR_API_KEY> \
+  --config someconfig.yaml \
+  --env_file .env_file \ 
+  --save_file result.json  # optional
+```
+
+### Using Ollama (Local)
+
+```bash
+structsense-cli extract \
+  --source somefile.pdf \
+  --config someconfig.yaml \
+  --env_file .env_file \
+  --save_file result.json  # optional
+```
+
 ### Chunking
 By default chunking is false you can enable it by passing `--chunking True`.
 
