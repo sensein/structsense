@@ -73,7 +73,7 @@ jobs:
           deploy: true   # Only deploy from this configuration
     steps:
     - uses: actions/checkout@v4
-    - uses: actions/download-artifact@v3
+    - uses: actions/download-artifact@v6
       with:
         name: documentation
         path: docs
