@@ -830,7 +830,7 @@ class StructSenseFlow(Flow):
         print(extracted_result)
 
         logger.info("Starting alignment process")
-
+        start_time_align = time.time()
         # Detect task type
         task_type = self._detect_task_type()
         logger.info(f"Detected task type for alignment: {task_type}")
@@ -891,6 +891,8 @@ class StructSenseFlow(Flow):
             # Update shared state with the correct structure
             self._update_shared_state("aligned_terms", wrapped_result)
             logger.info(f"Alignment complete with aligned data")
+            end_time_align = time.time()
+            logger.info(f"Alignment process completed in {end_time_align - start_time_align:.2f} seconds")
             return wrapped_result
         else:
             logger.warning("Alignment crew returned no results")
