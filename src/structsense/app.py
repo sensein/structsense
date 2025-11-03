@@ -906,6 +906,7 @@ class StructSenseFlow(Flow):
             return None
 
         logger.info("Starting judgment of aligned information")
+        start_time_judge = time.time()
 
         # Detect task type
         task_type = self._detect_task_type()
@@ -947,6 +948,8 @@ class StructSenseFlow(Flow):
 
         self._update_shared_state("judged_terms", wrapped_result)
         logger.info(f"Judgment complete with judged data")
+        end_time_judge = time.time()
+        logger.info(f"Judgment process completed in {end_time_judge - start_time_judge:.2f} seconds")
         return wrapped_result
 
     @listen(judge_alignment)
