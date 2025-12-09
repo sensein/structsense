@@ -170,27 +170,15 @@ class StructSenseFlow(Flow):
             try:
                 inputs = {"literature": chunk}
                 extractor_crew = self._create_crew_with_knowledge(extractor_agent, extractor_task)
-                print("@"*100)
-                print("@" * 100)
-                print(f"Extractor agent with chunk data {inputs}")
-                print("@" * 100)
-                print("@" * 100)
+
                 chunk_result = extractor_crew.kickoff(inputs=inputs)
                 elapsed = time.time() - chunk_start_time
-                
-                print("*" * 100)
-                print(f"[Thread] Raw chunk result type: {type(chunk_result)}")
-                print(f"[Thread] Raw chunk result: {chunk_result}")
-                print("*" * 100)
+
                 
                 if chunk_result:
                     # Convert to dict and add debugging
                     result_dict = chunk_result.to_dict() if hasattr(chunk_result, 'to_dict') else chunk_result
-                    print("*" * 100)
-                    print(f"[Thread] Result dict: {result_dict}")
-                    print(f"[Thread] Result dict keys: {list(result_dict.keys()) if isinstance(result_dict, dict) else 'Not a dict'}")
-                    print("*" * 100)
-                    
+
                     # Check for expected keys and count items
                     expected_keys = ['terms', 'extracted_terms', 'extracted_resources', 'extracted_structured_information']
                     found_keys = []
@@ -217,14 +205,10 @@ class StructSenseFlow(Flow):
                                     break
                     
                     logger.info(f"[Thread] Finished chunk {idx+1}/{total_chunks} in {elapsed:.2f}s, got {total_items} total items")
-                    print("*" * 100)
-                    print(f"[Thread] Finished chunk {idx+1}/{total_chunks} in {elapsed:.2f}s, returning: {result_dict}")
-                    print("#" * 100)
+
                     return result_dict
                 else:
-                    print("*" * 100)
-                    print(f"[Thread] No result for chunk {idx + 1}/{total_chunks} (took {elapsed:.2f}s)")
-                    print("#" * 100)
+
                     logger.warning(f"[Thread] No result for chunk {idx+1}/{total_chunks} (took {elapsed:.2f}s)")
                     return None
             except Exception as exc:
@@ -235,8 +219,7 @@ class StructSenseFlow(Flow):
                 return None
 
         logger.info(f"Processing {total_chunks} chunks in parallel using ThreadPoolExecutor...")
-        print("*" * 100)
-        print("#" * 100)
+
         with concurrent.futures.ThreadPoolExecutor() as executor:
             futures = {executor.submit(process_chunk, chunk, i): i for i, chunk in enumerate(chunks)}
             for future in concurrent.futures.as_completed(futures):
@@ -245,7 +228,7 @@ class StructSenseFlow(Flow):
                     result = future.result()
                     if result:
                         chunk_results.append(result)
-                        print("*" * 100)
+
                         print(chunk_results)
                         print("--" * 100)
                         print(f"[Main] Collected result {result} for chunk {i+1}/{total_chunks}")
