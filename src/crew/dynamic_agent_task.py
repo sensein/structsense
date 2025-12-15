@@ -17,13 +17,13 @@
 # @Software: PyCharm
 
 from crewai import Agent, Task
-
+from typing import Any, Optional
 
 class DynamicAgentTask:
     def __init__(self, tasks_config):
         self.tasks_config = tasks_config
 
-    def build_task(self, pydantic_output, agent: Agent) -> Task:
+    def build_task(self, agent: Agent, pydantic_output: Optional[Any] = None) -> Task:
         """Creates and returns an  task assigned to the agent.
 
         Args:
@@ -32,4 +32,11 @@ class DynamicAgentTask:
         Returns:
           Task: A configured CrewAI task.
         """
-        return Task(config=self.tasks_config, output_pydantic=pydantic_output, agent=agent)
+        task_kwargs = {
+            "config": self.tasks_config,
+            "agent": agent,
+        }
+        if pydantic_output:
+            task_kwargs["output_pydantic"] = pydantic_output
+
+        return Task(**task_kwargs)
