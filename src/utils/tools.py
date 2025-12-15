@@ -16,31 +16,60 @@
 # @File    : tools.py
 # @Software: PyCharm
 
+import json
 from crewai.tools import tool
 import spacy
-import json
-from typing import List, Dict, Any
+from spacy.cli import download
 import logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
-nlp = spacy.load("en_core_web_sm")
+_nlp_model = None
+MODEL = "en_core_web_sm" #to change later to read fromconfig file.
 
-@tool("spacy_ner_tool")
+def get_nlp_model():
+    """Get or initialize the spaCy NLP model.
+
+    Automatically downloads the model if it's not found.
+    """
+    global _nlp_model
+    if _nlp_model is None:
+        try:
+            _nlp_model = spacy.load(MODEL)
+        except OSError:
+            download(MODEL)
+            _nlp_model = spacy.load(MODEL)
+    return _nlp_model
+
+
+
+@tool("extract_ner_terms")
 def extract_ner_terms(text: str) -> str:
     """
-       Extract named entities using spaCy NER and return JSON:
-       {
-         "entities": [
-           {"text": "...", "label": "...", "start": int, "end": int},
-           ...
-         ]
-       }
-       `start` and `end` are character offsets relative to THIS text (chunk).
-       """
+    Extract named entities using spaCy NER and return JSON:
+    {
+      "entities": [
+        {"text": "...", "label": "...", "start": int, "end": int},
+        ...
+      ]
+    }
+    `start` and `end` are character offsets relative to THIS text (chunk).
+
+    Args:
+        text: The text to extract entities from
+
+    Returns:
+        JSON string with entities array
+    """
+    nlp = get_nlp_model()
     doc = nlp(text)
-    entities = [
-        {"text": ent.text, "label": ent.label_, "start": ent.start_char, "end": ent.end_char}
+    ents = [
+        {
+            "text": ent.text,
+            "label": ent.label_,
+            "start": ent.start_char,
+            "end": ent.end_char,
+        }
         for ent in doc.ents
     ]
-    return json.dumps({"entities": entities}, ensure_ascii=False)
+    return json.dumps({"entities": ents}, ensure_ascii=False)
