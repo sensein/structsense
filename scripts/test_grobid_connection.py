@@ -50,7 +50,7 @@ def test_grobid_connection(grobid_url: str) -> bool:
             try:
                 version_info = response.json() if response.content else response.text
                 print(f"  Response: {version_info}")
-            except:
+            except Exception as e:
                 print(f"  Response: {response.text[:100]}")
         else:
             print(f"✗ GROBID service returned status code: {response.status_code}")

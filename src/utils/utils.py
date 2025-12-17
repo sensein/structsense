@@ -167,7 +167,7 @@ def extract_pdf_content(file_path: str, grobid_server: str, external_service: st
         logger.info(f"Using GROBID service at: {grobid_server}")
 
         try:
-            if grobid_server is None:
+            if not grobid_server:
                 # default localhost
                 extractor = GrobidArticleExtractor()
             else:
