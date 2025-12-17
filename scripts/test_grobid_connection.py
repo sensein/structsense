@@ -47,11 +47,14 @@ def test_grobid_connection(grobid_url: str) -> bool:
         if response.status_code == 200:
             print(f"✓ GROBID service is reachable")
             print(f"  Version endpoint: {version_url}")
-            try:
-                version_info = response.json() if response.content else response.text
-                print(f"  Response: {version_info}")
-            except Exception as e:
-                print(f"  Response: {response.text[:100]}")
+            if response.content:
+                try:
+                    version_info = response.json()
+                    print(f"  Response: {version_info}")
+                except (ValueError, requests.exceptions.JSONDecodeError):
+                    print(f"  Response: {response.text[:100]}")
+            else:
+                print(f"  Response: {response.text}")
         else:
             print(f"✗ GROBID service returned status code: {response.status_code}")
             return False
