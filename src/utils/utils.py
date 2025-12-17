@@ -136,38 +136,68 @@ def process_input_data(source: str):
 
 
 def extract_pdf_content(file_path: str, grobid_server: str, external_service: str) -> dict:
-    """Extracts content from a PDF file using GrobidArticleExtractor. or uses the external service
-    https://github.com/sensein/EviSense/blob/experiment/src/EviSense/shared.py
+    """Extracts content from a PDF file using GrobidArticleExtractor or an external service.
 
-    This function processes the given PDF file and extracts its contents.
+    This function processes the given PDF file and extracts its contents using either:
+    1. GROBID service (local or hosted)
+    2. External PDF extraction service
 
     Args:
         file_path (str): The path to the PDF file.
-        grobid_server (str, optional): The URL of the Grobid server. If not provided,
-            uses the default URL (http://localhost:8070).
+        grobid_server (str): The URL of the GROBID server or external service.
+            Default is http://localhost:8070 for local GROBID.
+        external_service (str): "True" to use external service, "False" for GROBID.
 
     Returns:
         dict: A dictionary containing:
-            - "metadata" (dict): Metadata information about the publications.
+            - "metadata" (dict): Metadata information about the publication.
             - "sections" (list): A list of extracted sections, where each section is a dictionary containing:
                 - "heading" (str): The heading/title of the section.
                 - "content" (str): The textual content of the section.
+
+    Raises:
+        ConnectionError: If unable to connect to GROBID/external service.
+        RequestException: If the service returns an error.
+        Exception: For other extraction errors.
+
+    Note:
+        For GROBID setup options, see docs/GROBID_SETUP.md
     """
     is_external_service = external_service.lower() == "true"
     logger.debug("*" * 100)
-    logger.debug("printing from structsense")
-    logger.debug(external_service, grobid_server)
+    logger.debug("PDF extraction configuration:")
+    logger.debug(f"  External service: {external_service}")
+    logger.debug(f"  Server URL: {grobid_server}")
     logger.debug("*" * 100)
-    if not is_external_service:
-        logging.debug("Using GROBID_SERVICE: {}".format(grobid_server))
-        if grobid_server is None:
-            # default localhost
-            extractor = GrobidArticleExtractor()
-        else:
-            extractor = GrobidArticleExtractor(grobid_url=grobid_server)
 
-        xml_content = extractor.process_pdf(file_path)
-        result = extractor.extract_content(xml_content)
+    if not is_external_service:
+        logger.info(f"Using GROBID service at: {grobid_server}")
+
+        try:
+            if grobid_server is None:
+                # default localhost
+                extractor = GrobidArticleExtractor()
+            else:
+                extractor = GrobidArticleExtractor(grobid_url=grobid_server)
+
+            xml_content = extractor.process_pdf(file_path)
+            result = extractor.extract_content(xml_content)
+
+        except RequestException as e:
+            error_msg = (
+                f"Failed to connect to GROBID service at {grobid_server}. "
+                f"Error: {str(e)}\n\n"
+                "Possible solutions:\n"
+                "1. Start GROBID with Docker: cd docker/individual/grobid-service && docker compose up -d\n"
+                "2. Use a hosted GROBID service: Set GROBID_SERVER_URL_OR_EXTERNAL_SERVICE in .env\n"
+                "3. Check if GROBID is running: curl http://localhost:8070/api/version\n\n"
+                "See docs/GROBID_SETUP.md for detailed setup instructions."
+            )
+            logger.error(error_msg)
+            raise ConnectionError(error_msg) from e
+        except Exception as e:
+            logger.error(f"Error processing PDF with GROBID: {str(e)}")
+            raise
 
         try:
             extracted_data = {"metadata": result.get("metadata", {}), "sections": []}
@@ -202,20 +232,38 @@ def extract_pdf_content(file_path: str, grobid_server: str, external_service: st
             return extracted_data
 
         except Exception as e:
-            logger.error(f"Error in extract_pdf_content: {str(e)}")
+            logger.error(f"Error processing extracted content: {str(e)}")
             raise
+
     else:
-        logging.debug("Using EXTERNAL PDF SERVICE: {}".format(grobid_server))
+        logger.info(f"Using external PDF service at: {grobid_server}")
 
-        with open(file_path, "rb") as f:
-            files = {"file": (str(file_path), f, "application/pdf")}  # convert Path to str
-            headers = {"Accept": "application/json"}
-            response = requests.post(grobid_server, files=files, headers=headers)
+        try:
+            with open(file_path, "rb") as f:
+                files = {"file": (str(file_path), f, "application/pdf")}
+                headers = {"Accept": "application/json"}
+                response = requests.post(grobid_server, files=files, headers=headers)
 
-        response.raise_for_status()
-        data = response.json()
-        print("*" * 100)
-        return data
+            response.raise_for_status()
+            data = response.json()
+            logger.info("Successfully extracted PDF content using external service")
+            return data
+
+        except RequestException as e:
+            error_msg = (
+                f"Failed to connect to external PDF service at {grobid_server}. "
+                f"Error: {str(e)}\n\n"
+                "Please verify:\n"
+                "1. The service URL is correct\n"
+                "2. The service is accessible from your network\n"
+                "3. Authentication credentials (if required) are set correctly\n\n"
+                "See docs/GROBID_SETUP.md for configuration options."
+            )
+            logger.error(error_msg)
+            raise ConnectionError(error_msg) from e
+        except Exception as e:
+            logger.error(f"Error processing PDF with external service: {str(e)}")
+            raise
 
 
 def get_weaviate_client():
