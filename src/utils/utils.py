@@ -238,7 +238,19 @@ def extract_pdf_content(file_path: str, grobid_server: str, external_service: st
                 response = requests.post(grobid_server, files=files, headers=headers)
 
             response.raise_for_status()
-            data = response.json()
+            
+            try:
+                data = response.json()
+            except ValueError as e:
+                error_msg = (
+                    f"External PDF service at {grobid_server} returned invalid JSON. "
+                    f"Response: {response.text[:200]}\n\n"
+                    "The service may not be compatible with StructSense. "
+                    "See docs/GROBID_SETUP.md for compatible services."
+                )
+                logger.error(error_msg)
+                raise ValueError(error_msg) from e
+                
             logger.info("Successfully extracted PDF content using external service")
             return data
 
