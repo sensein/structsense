@@ -51,7 +51,7 @@ def test_grobid_connection(grobid_url: str) -> bool:
                 try:
                     version_info = response.json()
                     print(f"  Response: {version_info}")
-                except (ValueError, requests.exceptions.JSONDecodeError):
+                except requests.exceptions.JSONDecodeError:
                     print(f"  Response: {response.text[:100]}")
             else:
                 print(f"  Response: {response.text}")
@@ -84,10 +84,15 @@ def test_grobid_connection(grobid_url: str) -> bool:
         # Send a minimal test request
         response = requests.post(header_url, timeout=5)
         
-        # We expect either 200 with content or 400 (bad request without file)
-        # Both indicate the service is working
-        if response.status_code in [200, 400, 500]:
+        # We expect 200 (with content) or 400 (bad request without file)
+        # Both indicate the endpoint is accessible
+        if response.status_code in [200, 400]:
             print(f"✓ processHeaderDocument endpoint is accessible")
+        elif response.status_code == 500:
+            print(f"⚠ processHeaderDocument endpoint returned 500 (Internal Server Error)")
+            print(f"  The service is reachable but may have configuration issues")
+            print(f"  Check GROBID logs for details")
+            # Continue - service is reachable even if not fully functional
         else:
             print(f"✗ Unexpected status code: {response.status_code}")
             return False
