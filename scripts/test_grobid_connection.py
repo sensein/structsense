@@ -13,6 +13,7 @@ Usage:
 """
 
 import argparse
+import json
 import os
 import sys
 from pathlib import Path
@@ -51,7 +52,7 @@ def test_grobid_connection(grobid_url: str) -> bool:
                 try:
                     version_info = response.json()
                     print(f"  Response: {version_info}")
-                except requests.exceptions.JSONDecodeError:
+                except json.JSONDecodeError:
                     print(f"  Response: {response.text[:100]}")
             else:
                 print(f"  Response: {response.text}")
