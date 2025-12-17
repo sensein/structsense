@@ -23,14 +23,6 @@ import sys
 from pathlib import Path
 from typing import Dict, List, Union
 from urllib.parse import urlparse
-import weaviate
-from weaviate.classes.init import AdditionalConfig, Timeout, Auth
-from dotenv import load_dotenv
-from weaviate.classes.config import Property, DataType, Configure, VectorDistances
-from GrobidArticleExtractor import GrobidArticleExtractor
-import requests
-import pandas as pd
-from requests.exceptions import RequestException
 
 import pandas as pd
 import requests
@@ -39,6 +31,7 @@ import yaml
 from dotenv import load_dotenv
 from GrobidArticleExtractor import GrobidArticleExtractor
 from rdflib import OWL, RDF, RDFS, Graph, Namespace, URIRef
+from requests.exceptions import RequestException
 from weaviate.classes.config import Configure, DataType, Property, VectorDistances
 from weaviate.classes.init import AdditionalConfig, Auth, Timeout
 from weaviate.util import generate_uuid5
