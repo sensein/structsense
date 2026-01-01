@@ -28,7 +28,7 @@ jobs:
       shell: bash
     # Cache Poetry dependencies to speed up builds
     - name: Cache Poetry virtualenv
-      uses: actions/cache@v3
+      uses: actions/cache@v5
       with:
         path: ~/.cache/pypoetry
         key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
