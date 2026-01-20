@@ -54,9 +54,6 @@ class DynamicAgent:
             tools=self.tools,
             allow_delegation=False,
             verbose=True,
-            max_iter=5,
-            max_rpm=10,
-            max_consecutive_auto_reply=2,
         )
 
         return agent
