@@ -351,7 +351,12 @@ def run_crew_extraction(
         'short_term_memory': getattr(crew, 'short_term_memory', None),
         'entity_memory': getattr(crew, 'entity_memory', None),
     }
-    has_memory = any(memory_config.values())
+    # Disable memory for parallel chunking to avoid SQLite database locking issues
+    # Multiple Crew instances writing to the same database causes "database is locked" errors
+    original_has_memory = any(memory_config.values())
+    has_memory = False  # Disabled for parallel chunking
+    if original_has_memory:
+        logger.warning("Memory disabled for parallel chunking to avoid SQLite database locking issues. Memory will be available for non-chunked execution.")
     crew_process = crew.process if hasattr(crew, 'process') else Process.sequential
     crew_verbose = crew.verbose if hasattr(crew, 'verbose') else False
     
@@ -360,6 +365,7 @@ def run_crew_extraction(
         
         Note: verbose is disabled for parallel execution to reduce overhead
         from CrewAI's flow management system.
+        Memory is disabled for parallel chunking to avoid SQLite database locking.
         """
         crew_start = time.time()
         os.environ["OTEL_SDK_DISABLED"] = "true"
@@ -371,10 +377,10 @@ def run_crew_extraction(
             process=crew_process,
             tracing=False,
             verbose=False,  # Disable verbose for parallel execution to reduce overhead
-            memory=has_memory,
-            long_term_memory_config=memory_config['long_term_memory_config'],
-            short_term_memory=memory_config['short_term_memory'],
-            entity_memory=memory_config['entity_memory'],
+            memory=False,  # Disabled for parallel chunking to avoid database locking
+            long_term_memory_config=None,
+            short_term_memory=None,
+            entity_memory=None,
         )
         if has_timing_logger:
             crew_creation_time = time.time() - crew_start
@@ -598,7 +604,12 @@ async def run_crew_extraction_async(
         'short_term_memory': getattr(crew, 'short_term_memory', None),
         'entity_memory': getattr(crew, 'entity_memory', None),
     }
-    has_memory = any(memory_config.values())
+    # Disable memory for parallel chunking to avoid SQLite database locking issues
+    # Multiple Crew instances writing to the same database causes "database is locked" errors
+    original_has_memory = any(memory_config.values())
+    has_memory = False  # Disabled for parallel chunking
+    if original_has_memory:
+        logger.warning("Memory disabled for parallel chunking to avoid SQLite database locking issues. Memory will be available for non-chunked execution.")
     crew_process = crew.process if hasattr(crew, 'process') else Process.sequential
     
     async def process_chunk_async(chunk_data):
@@ -607,6 +618,7 @@ async def run_crew_extraction_async(
         Note: We create a new Crew instance per chunk for thread safety.
         This is necessary because Crew instances are not thread-safe.
         However, we reuse the agents and tasks objects which are safe to share.
+        Memory is disabled for parallel chunking to avoid SQLite database locking.
         """
         idx, ch = chunk_data
         chunk_start = time.time()
@@ -624,10 +636,10 @@ async def run_crew_extraction_async(
             process=crew_process,
             tracing=False,  # Disable tracing to reduce log noise
             verbose=False,  # Disable verbose for parallel execution
-            memory=has_memory,
-            long_term_memory_config=memory_config['long_term_memory_config'],
-            short_term_memory=memory_config['short_term_memory'],
-            entity_memory=memory_config['entity_memory'],
+            memory=False,  # Disabled for parallel chunking to avoid database locking
+            long_term_memory_config=None,
+            short_term_memory=None,
+            entity_memory=None,
         )
         crew_creation_time = time.time() - crew_creation_start
         
