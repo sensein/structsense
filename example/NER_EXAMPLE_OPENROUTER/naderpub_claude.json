@@ -1,0 +1,147 @@
+{
+  "entities": [
+    {
+      "text": "al.",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 242,
+          "end": 245,
+          "global_start": 5483,
+          "global_end": 5486,
+          "sentence": "Discussion\n['Rodent behavioral experiments done under red light are believed to place the animal in dark conditions while allowing the experimenter to observe the preparation directly or by video recording (Celikel and Sakmann, 2007;Cloke et al., 2015;Diamond et al., 1999;Englund et al., 2020;van Goethem et al., 2012;Harris and Diamond, 2000;Harris et al., 1999;Jacklin et al., 2016;Nikbakht et al., 2012;Pacchiarini et al., 2020;Reid et al., 2014;Salaberry et al., 2017;Sieben et al., 2015;Vasconcelos et al., 2011;Winters and Reid, 2010)."
+        },
+        {
+          "start": 85,
+          "end": 88,
+          "global_start": 21453,
+          "global_end": 21456,
+          "sentence": "For a given orientation, we calculated the proportion of trials categorized as vertical."
+        }
+      ]
+    },
+    {
+      "text": "2016",
+      "label": "DATE",
+      "occurrences": [
+        {
+          "start": 380,
+          "end": 384,
+          "global_start": 5621,
+          "global_end": 5625,
+          "sentence": "Discussion\n['Rodent behavioral experiments done under red light are believed to place the animal in dark conditions while allowing the experimenter to observe the preparation directly or by video recording (Celikel and Sakmann, 2007;Cloke et al., 2015;Diamond et al., 1999;Englund et al., 2020;van Goethem et al., 2012;Harris and Diamond, 2000;Harris et al., 1999;Jacklin et al., 2016;Nikbakht et al., 2012;Pacchiarini et al., 2020;Reid et al., 2014;Salaberry et al., 2017;Sieben et al., 2015;Vasconcelos et al., 2011;Winters and Reid, 2010)."
+        }
+      ]
+    },
+    {
+      "text": "al.",
+      "label": "GPE",
+      "occurrences": [
+        {
+          "start": 85,
+          "end": 88,
+          "global_start": 21453,
+          "global_end": 21456,
+          "sentence": "For a given orientation, we calculated the proportion of trials categorized as vertical."
+        }
+      ]
+    },
+    {
+      "text": "10",
+      "label": "QUANTITY",
+      "occurrences": [
+        {
+          "start": 101,
+          "end": 103,
+          "global_start": 23715,
+          "global_end": 23717,
+          "sentence": "We computed a distribution of the performance values from the fitted psychometric functions based on 1000 resamples of the behavioral data."
+        }
+      ]
+    },
+    {
+      "text": "psychometric curves",
+      "label": "CONCEPT",
+      "occurrences": [
+        {
+          "start": 311,
+          "end": 330,
+          "global_start": 23118,
+          "global_end": 23137,
+          "sentence": "s determines the slope of the psychometric function, a common measure of acuity.', 'Where fitting with a sigmoid was not appropriate (Figure 2D,E), data were fit with the line y \u00bc ax \u00fe y 0 , where x is the stimulus orientation, a is the slope, and y 0 is the y-intercept.']\n\nTest of significance for the fitted psychometric curves\n['Errors around the performance value for each orientation and modality condition were expressed as a 95 binomial proportion confidence interval computed by approximating the distribution of errors about a binomially distributed observation, p, with a normal distribution:', 'where p is the proportion of correct trials (Bernoulli) and n is the number of trials.', 'For statistical tests of significance, we performed a non-parametric test based on bootstrapping, as follows."
+        }
+      ]
+    },
+    {
+      "text": "Erik Zorzin",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 0,
+          "end": 11,
+          "global_start": 24033,
+          "global_end": 24044,
+          "sentence": "Erik Zorzin assisted in spectral measurements."
+        }
+      ]
+    },
+    {
+      "text": "Diamond lab",
+      "label": "ORG",
+      "occurrences": [
+        {
+          "start": 34,
+          "end": 45,
+          "global_start": 24114,
+          "global_end": 24125,
+          "sentence": "We are grateful to members of the Diamond lab for fruitful comments and discussions.']"
+        }
+      ]
+    },
+    {
+      "text": "bootstrapping",
+      "label": "METHOD",
+      "occurrences": [
+        {
+          "start": 780,
+          "end": 793,
+          "global_start": 23587,
+          "global_end": 23600,
+          "sentence": "s determines the slope of the psychometric function, a common measure of acuity.', 'Where fitting with a sigmoid was not appropriate (Figure 2D,E), data were fit with the line y \u00bc ax \u00fe y 0 , where x is the stimulus orientation, a is the slope, and y 0 is the y-intercept.']\n\nTest of significance for the fitted psychometric curves\n['Errors around the performance value for each orientation and modality condition were expressed as a 95 binomial proportion confidence interval computed by approximating the distribution of errors about a binomially distributed observation, p, with a normal distribution:', 'where p is the proportion of correct trials (Bernoulli) and n is the number of trials.', 'For statistical tests of significance, we performed a non-parametric test based on bootstrapping, as follows."
+        }
+      ]
+    },
+    {
+      "text": "95 binomial proportion confidence interval",
+      "label": "METHOD",
+      "occurrences": [
+        {
+          "start": 433,
+          "end": 475,
+          "global_start": 23240,
+          "global_end": 23282,
+          "sentence": "s determines the slope of the psychometric function, a common measure of acuity.', 'Where fitting with a sigmoid was not appropriate (Figure 2D,E), data were fit with the line y \u00bc ax \u00fe y 0 , where x is the stimulus orientation, a is the slope, and y 0 is the y-intercept.']\n\nTest of significance for the fitted psychometric curves\n['Errors around the performance value for each orientation and modality condition were expressed as a 95 binomial proportion confidence interval computed by approximating the distribution of errors about a binomially distributed observation, p, with a normal distribution:', 'where p is the proportion of correct trials (Bernoulli) and n is the number of trials.', 'For statistical tests of significance, we performed a non-parametric test based on bootstrapping, as follows."
+        }
+      ]
+    },
+    {
+      "text": "1000",
+      "label": "QUANTITY",
+      "occurrences": [
+        {
+          "start": 101,
+          "end": 105,
+          "global_start": 23715,
+          "global_end": 23719,
+          "sentence": "We computed a distribution of the performance values from the fitted psychometric functions based on 1000 resamples of the behavioral data."
+        }
+      ]
+    }
+  ],
+  "key_terms": [],
+  "errors": [],
+  "task_type": "ner",
+  "elapsed_time": 188.45669794082642,
+  "agent_key": "extractor_agent",
+  "task_key": "extraction_task"
+}
