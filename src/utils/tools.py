@@ -104,6 +104,7 @@ def process_text_with_spacy(text):
                 "label": ent.label_,
                 "start": ent.start_char,
                 "end": ent.end_char,
+                "source_model": SPACY_MODEL,
             }
             for ent in doc.ents
         ]
@@ -153,6 +154,7 @@ def process_text_with_model(text, model_name):
                     "label": label,
                     "start": int(ent.get("start", 0)),
                     "end": int(ent.get("end", 0)),
+                    "source_model": model_name,
                 })
             except Exception as e:
                 logger.error(f"Error processing entity from {model_name}: {e}")
@@ -207,7 +209,7 @@ def extract_ner_terms(text: str) -> str:
     Extract named entities using spaCy + biomedical NER models and return JSON:
     {
       "entities": [
-        {"text": "...", "label": "...", "start": int, "end": int},
+        {"text": "...", "label": "...", "source_model": "...", "start": int, "end": int},
         ...
       ]
     }
@@ -220,12 +222,13 @@ def extract_ner_terms(text: str) -> str:
     - BioBERT genetic NER: Gene and protein entities
 
     `start` and `end` are character offsets relative to THIS text (chunk).
+    `source_model` indicates which model detected the entity.
 
     Args:
         text: The text to extract entities from
 
     Returns:
-        JSON string with entities array
+        JSON string with entities array including source model information
     """
     try:
         logger.info(f"Extracting entities from text of length {len(text)}")
