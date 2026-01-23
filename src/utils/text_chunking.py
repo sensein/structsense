@@ -163,18 +163,21 @@ def _globalize_entities(
     the sentence containing it.
 
     Uses _validate_text_presence to ensure text exists at the specified positions.
-    Any malformed entities (missing keys, wrong types) are skipped.
+    If entities don't have start/end positions, searches for the text in the chunk.
+    Any malformed entities (missing text or label) are skipped.
 
     Args:
         full_text: The complete text document
         full_doc: spaCy document for the full text
         chunk: Dictionary with "start" and "text" keys
-        chunk_entities: List of entities with "text", "label", "start", "end" keys
+        chunk_entities: List of entities with "text", "label", optionally "start", "end" keys
 
     Returns:
         List of validated entities with global offsets and sentence context
     """
     results: List[Dict[str, Any]] = []
+    chunk_start = chunk.get("start", 0)
+    chunk_text = chunk.get("text", "")
 
     for ent in chunk_entities:
         # Defensive: entity must be a dict
@@ -186,15 +189,24 @@ def _globalize_entities(
         local_start = ent.get("start")
         local_end = ent.get("end")
 
-        # Skip malformed entities
+        # Skip malformed entities (must have text and label)
         if not isinstance(ent_text, str) or not isinstance(label, str):
             continue
-        if not isinstance(local_start, int) or not isinstance(local_end, int):
-            continue
 
-        # Validate text presence and get global offsets
-        result = _validate_text_presence(full_text, chunk, ent_text, local_start, local_end)
+        # Handle entities with or without positions
+        if isinstance(local_start, int) and isinstance(local_end, int):
+            # Entity has positions - validate and use them
+            result = _validate_text_presence(full_text, chunk, ent_text, local_start, local_end)
+            if result is None:
+                # Position validation failed, try searching
+                result = _find_text_in_chunk(full_text, chunk, ent_text)
+        else:
+            # Entity doesn't have positions - search for text in chunk
+            result = _find_text_in_chunk(full_text, chunk, ent_text)
+
         if result is None:
+            # Text not found in chunk, skip this entity
+            logger.debug(f"Entity '{ent_text}' not found in chunk, skipping")
             continue
 
         global_start, global_end = result
@@ -213,6 +225,65 @@ def _globalize_entities(
         )
 
     return results
+
+
+def _find_text_in_chunk(
+    full_text: str,
+    chunk: Dict[str, Any],
+    text: str,
+) -> Optional[tuple[int, int]]:
+    """
+    Find text in the chunk region of full_text.
+    
+    Args:
+        full_text: The complete text document
+        chunk: Dictionary with "start" and "text" keys
+        text: The text to find
+        
+    Returns:
+        Tuple (global_start, global_end) if text is found, None otherwise
+    """
+    chunk_start = chunk.get("start", 0)
+    chunk_text = chunk.get("text", "")
+    
+    # Search within this chunk's region in the full text
+    region_start = chunk_start
+    region_end = min(chunk_start + len(chunk_text), len(full_text))
+    region = full_text[region_start:region_end]
+    
+    # Try exact match first (case-sensitive)
+    rel_pos = region.find(text)
+    if rel_pos == -1:
+        # Try case-insensitive match
+        region_lower = region.lower()
+        text_lower = text.lower()
+        rel_pos = region_lower.find(text_lower)
+        if rel_pos == -1:
+            # Try normalized whitespace matching
+            region_normalized = ' '.join(region.split())
+            text_normalized = ' '.join(text.split())
+            rel_pos_normalized = region_normalized.find(text_normalized)
+            if rel_pos_normalized == -1:
+                return None
+            # Map back to original position (approximate)
+            # This is a fallback - may not be perfectly accurate
+            rel_pos = region.find(text_normalized[:20]) if len(text_normalized) > 20 else -1
+            if rel_pos == -1:
+                return None
+    
+    global_start = region_start + rel_pos
+    global_end = global_start + len(text)
+    
+    # Verify the found text matches
+    if global_end > len(full_text):
+        return None
+    
+    found_text = full_text[global_start:global_end]
+    if found_text.lower() != text.lower():
+        # Found position doesn't match exactly, return None
+        return None
+    
+    return (global_start, global_end)
 
 
 def _merge_ner_entities_with_occurrences(

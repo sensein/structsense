@@ -51,7 +51,7 @@ from crewai.utilities.paths import db_storage_path
 
 # Import chunking functions and nlp model
 from .text_chunking import _chunk_doc_by_sentences
-from .tools import get_nlp_model
+from .tools import get_spacy_model
 from .utils import check_ollama_health
 from crew.dynamic_agent import DynamicAgent
 from crew.dynamic_agent_task import DynamicAgentTask
@@ -306,7 +306,7 @@ def run_crew_extraction(
         # Apply post-processing if provided
         if post_process:
             try:
-                nlp = get_nlp_model()
+                nlp = get_spacy_model()
                 full_doc = nlp(full_text)
                 processed = post_process(full_text, full_doc, {"text": full_text, "start": 0}, raw)
                 all_results.append(processed)
@@ -328,7 +328,7 @@ def run_crew_extraction(
 
     # ---------------- CHUNKED + (OPTIONAL) PARALLEL PATH ----------------
     chunking_start = time.time()
-    nlp = get_nlp_model()
+    nlp = get_spacy_model()
     full_doc = nlp(full_text)
     chunks = _chunk_doc_by_sentences(full_doc, max_chars=chunk_size)
     chunking_time = time.time() - chunking_start
@@ -565,7 +565,7 @@ async def run_crew_extraction_async(
         # Apply post-processing if provided
         if post_process:
             try:
-                nlp = get_nlp_model()
+                nlp = get_spacy_model()
                 full_doc = nlp(full_text)
                 processed = post_process(full_text, full_doc, {"text": full_text, "start": 0}, raw)
                 all_results.append(processed)
@@ -587,7 +587,7 @@ async def run_crew_extraction_async(
 
     # ---------------- CHUNKED + ASYNC PARALLEL PATH ----------------
     chunking_start = time.time()
-    nlp = get_nlp_model()
+    nlp = get_spacy_model()
     full_doc = nlp(full_text)
     chunks = _chunk_doc_by_sentences(full_doc, max_chars=chunk_size)
     chunking_time = time.time() - chunking_start

@@ -1,0 +1,3293 @@
+{
+  "entities": [
+    {
+      "text": "Rats",
+      "label": "ORG",
+      "occurrences": [
+        {
+          "start": 15,
+          "end": 19,
+          "global_start": 15,
+          "global_end": 19,
+          "sentence": "Introduction\n['Rats, like many rodents, are largely crepuscular and, even during daylight, are usually to be found in poorly illuminated environments (Macdonald et al., 1994)."
+        },
+        {
+          "start": 164,
+          "end": 168,
+          "global_start": 1868,
+          "global_end": 1872,
+          "sentence": "In the present study, we challenge the notion of form vision blindness under red light and find, contrary to expectation, good behavioral performance.']\n\nResults\n['Rats were required to categorize the orientation of a solid disk-like object with a circular boundary and raised parallel bars, alternately colored white and black, thus forming a square-wave grating (Figure 1A)."
+        },
+        {
+          "start": 0,
+          "end": 4,
+          "global_start": 3880,
+          "global_end": 3884,
+          "sentence": "Rats performed well even under peak 729 nm (Figure 2C), perceived as far-red by humans, though clearly diminished with respect to white."
+        },
+        {
+          "start": 93,
+          "end": 97,
+          "global_start": 10476,
+          "global_end": 10480,
+          "sentence": "Thus, behaviors may be documented by video while the animal performs without visual cues.', 'Rats and mice are the most frequently used laboratory mammals, ideal for research on spatial navigation (Frank et al., 2000;MacDonald et al., 2011;Moser et al., 2017;Okeefe and Nadel, 1978;Pastalkova et al., 2008;Wood et al., 2000) and the processing of tactile (Diamond et al., 2008;Fassihi et al., 2017;Zuo and Diamond, 2019) and olfactory (Chae et al., 2019;Koldaeva et al., 2019;Uchida and Mainen, 2003;Uchida et al., 2006) information."
+        },
+        {
+          "start": 0,
+          "end": 4,
+          "global_start": 11280,
+          "global_end": 11284,
+          "sentence": "Rats under broad-wavelength conditions spontaneously recognize an object even when views differ by angle, size, and position Zoccolan, 2015; such generalization is a hallmark of authentic visual perception and was once believed to belong only to primates."
+        }
+      ]
+    },
+    {
+      "text": "Macdonald",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 151,
+          "end": 160,
+          "global_start": 151,
+          "global_end": 160,
+          "sentence": "Introduction\n['Rats, like many rodents, are largely crepuscular and, even during daylight, are usually to be found in poorly illuminated environments (Macdonald et al., 1994)."
+        }
+      ]
+    },
+    {
+      "text": "Jacobs",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 86,
+          "end": 92,
+          "global_start": 262,
+          "global_end": 268,
+          "sentence": "Their retina is rod dominated, with cones making up as little as 1 of photoreceptors (Jacobs et al., 2001;La Vail, 1976)."
+        }
+      ]
+    },
+    {
+      "text": "La Vail",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 106,
+          "end": 113,
+          "global_start": 282,
+          "global_end": 289,
+          "sentence": "Their retina is rod dominated, with cones making up as little as 1 of photoreceptors (Jacobs et al., 2001;La Vail, 1976)."
+        }
+      ]
+    },
+    {
+      "text": "retina",
+      "label": "ORG",
+      "occurrences": [
+        {
+          "start": 6,
+          "end": 12,
+          "global_start": 182,
+          "global_end": 188,
+          "sentence": "Their retina is rod dominated, with cones making up as little as 1 of photoreceptors (Jacobs et al., 2001;La Vail, 1976)."
+        }
+      ]
+    },
+    {
+      "text": "rod",
+      "label": "B-Protein",
+      "occurrences": [
+        {
+          "start": 3,
+          "end": 6,
+          "global_start": 3,
+          "global_end": 6,
+          "sentence": "Introduction\n['Rats, like many rodents, are largely crepuscular and, even during daylight, are usually to be found in poorly illuminated environments (Macdonald et al., 1994)."
+        }
+      ]
+    },
+    {
+      "text": "cones",
+      "label": "B-Protein",
+      "occurrences": [
+        {
+          "start": 36,
+          "end": 41,
+          "global_start": 212,
+          "global_end": 217,
+          "sentence": "Their retina is rod dominated, with cones making up as little as 1 of photoreceptors (Jacobs et al., 2001;La Vail, 1976)."
+        }
+      ]
+    },
+    {
+      "text": "photoreceptors",
+      "label": "B-Protein",
+      "occurrences": [
+        {
+          "start": 70,
+          "end": 84,
+          "global_start": 246,
+          "global_end": 260,
+          "sentence": "Their retina is rod dominated, with cones making up as little as 1 of photoreceptors (Jacobs et al., 2001;La Vail, 1976)."
+        }
+      ]
+    },
+    {
+      "text": "Yau",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 41,
+          "end": 44,
+          "global_start": 339,
+          "global_end": 342,
+          "sentence": "Rods are about 100 times more sensitive (Yau, 1994) and allow vision under low-light conditions, with a peak spectral absorption of rhodopsin in rods in rats and mice at 498 nm (Bridges, 1959;Govardovskii et al., 2000;Lyubarsky et al., 2004)."
+        }
+      ]
+    },
+    {
+      "text": "Rods",
+      "label": "Disease",
+      "occurrences": [
+        {
+          "start": 0,
+          "end": 4,
+          "global_start": 298,
+          "global_end": 302,
+          "sentence": "Rods are about 100 times more sensitive (Yau, 1994) and allow vision under low-light conditions, with a peak spectral absorption of rhodopsin in rods in rats and mice at 498 nm (Bridges, 1959;Govardovskii et al., 2000;Lyubarsky et al., 2004)."
+        }
+      ]
+    },
+    {
+      "text": "rhodopsin",
+      "label": "Genes/Proteins",
+      "occurrences": [
+        {
+          "start": 132,
+          "end": 141,
+          "global_start": 430,
+          "global_end": 439,
+          "sentence": "Rods are about 100 times more sensitive (Yau, 1994) and allow vision under low-light conditions, with a peak spectral absorption of rhodopsin in rods in rats and mice at 498 nm (Bridges, 1959;Govardovskii et al., 2000;Lyubarsky et al., 2004)."
+        }
+      ]
+    },
+    {
+      "text": "rats",
+      "label": "Species",
+      "occurrences": [
+        {
+          "start": 153,
+          "end": 157,
+          "global_start": 451,
+          "global_end": 455,
+          "sentence": "Rods are about 100 times more sensitive (Yau, 1994) and allow vision under low-light conditions, with a peak spectral absorption of rhodopsin in rods in rats and mice at 498 nm (Bridges, 1959;Govardovskii et al., 2000;Lyubarsky et al., 2004)."
+        }
+      ]
+    },
+    {
+      "text": "mice",
+      "label": "Species",
+      "occurrences": [
+        {
+          "start": 162,
+          "end": 166,
+          "global_start": 460,
+          "global_end": 464,
+          "sentence": "Rods are about 100 times more sensitive (Yau, 1994) and allow vision under low-light conditions, with a peak spectral absorption of rhodopsin in rods in rats and mice at 498 nm (Bridges, 1959;Govardovskii et al., 2000;Lyubarsky et al., 2004)."
+        }
+      ]
+    },
+    {
+      "text": "Bridges",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 178,
+          "end": 185,
+          "global_start": 476,
+          "global_end": 483,
+          "sentence": "Rods are about 100 times more sensitive (Yau, 1994) and allow vision under low-light conditions, with a peak spectral absorption of rhodopsin in rods in rats and mice at 498 nm (Bridges, 1959;Govardovskii et al., 2000;Lyubarsky et al., 2004)."
+        }
+      ]
+    },
+    {
+      "text": "Govardovskii",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 192,
+          "end": 204,
+          "global_start": 490,
+          "global_end": 502,
+          "sentence": "Rods are about 100 times more sensitive (Yau, 1994) and allow vision under low-light conditions, with a peak spectral absorption of rhodopsin in rods in rats and mice at 498 nm (Bridges, 1959;Govardovskii et al., 2000;Lyubarsky et al., 2004)."
+        }
+      ]
+    },
+    {
+      "text": "et al.",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 205,
+          "end": 211,
+          "global_start": 503,
+          "global_end": 509,
+          "sentence": "Rods are about 100 times more sensitive (Yau, 1994) and allow vision under low-light conditions, with a peak spectral absorption of rhodopsin in rods in rats and mice at 498 nm (Bridges, 1959;Govardovskii et al., 2000;Lyubarsky et al., 2004)."
+        }
+      ]
+    },
+    {
+      "text": "Lyubarsky",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 218,
+          "end": 227,
+          "global_start": 516,
+          "global_end": 525,
+          "sentence": "Rods are about 100 times more sensitive (Yau, 1994) and allow vision under low-light conditions, with a peak spectral absorption of rhodopsin in rods in rats and mice at 498 nm (Bridges, 1959;Govardovskii et al., 2000;Lyubarsky et al., 2004)."
+        }
+      ]
+    },
+    {
+      "text": "rats",
+      "label": "ANIMAL",
+      "occurrences": [
+        {
+          "start": 9,
+          "end": 13,
+          "global_start": 550,
+          "global_end": 554,
+          "sentence": "Although rats are not color-blind (Jacobs et al., 2001;Lemmon and Anderson, 1979;Muenzinger and Reynolds, 1936;Munn and Collins, 1936;Walton and Bornemeier, 1938), they perform poorly in discriminating between nearby wavelengths, compared to humans (Walton, 1933)."
+        },
+        {
+          "start": 37,
+          "end": 41,
+          "global_start": 3656,
+          "global_end": 3660,
+          "sentence": "Figure 2A, B shows that dark-adapted rats performed the visual categorization task under 626 nm and 652 nm LEDs (perceived as red by humans) with accuracy equivalent to that under white light, refuting the common belief of functional blindness under red light."
+        },
+        {
+          "start": 91,
+          "end": 95,
+          "global_start": 4394,
+          "global_end": 4398,
+          "sentence": "Average performance was 87  2 correct under white light (confidence interval is SEM across rats)."
+        },
+        {
+          "start": 215,
+          "end": 219,
+          "global_start": 13153,
+          "global_end": 13157,
+          "sentence": "After the session, they were given access to water ad libitum for 1 hr, though they were rarely thirsty and then they were placed for several hours in a large, multistory-enriched environment to interact with other rats."
+        },
+        {
+          "start": 350,
+          "end": 354,
+          "global_start": 16170,
+          "global_end": 16174,
+          "sentence": "The spectrometer we used has a software suite that reports the values measured from the calibrated spectrometer as spectral irradiance (the power received by a surface per unit area of the measurement probe per wavelength in units of mWcm 2 nm).', 'Two infrared-sensitive video systems (Point Grey Flea, Edmund Optics, Barrington, NJ) registered the rats actions."
+        },
+        {
+          "start": 202,
+          "end": 206,
+          "global_start": 16386,
+          "global_end": 16390,
+          "sentence": "The first camera, equipped with a macro lens (Fujinon TV HF25HA-1B Lens, Fujifilm, Tokyo) mounted 25 cm above the stimulus delivery area (distance with respect to the center of stimulus), monitored the rats interaction with the object."
+        },
+        {
+          "start": 58,
+          "end": 62,
+          "global_start": 19716,
+          "global_end": 19720,
+          "sentence": "The width of the binocular field directly in front of the rats nose, generally considered the animals binocular viewing area (Mei et al., 2012), ranges from approximately 40-110, depending on head pitch (Wallace et al., 2013)."
+        }
+      ]
+    },
+    {
+      "text": "Rats",
+      "label": "ORGANISM",
+      "occurrences": [
+        {
+          "start": 0,
+          "end": 4,
+          "global_start": 806,
+          "global_end": 810,
+          "sentence": "Rats color sensitivity is based on two sets of cones with peak sensitivities in the range of ultraviolet (UV cones; peak absorption at 358-359 nm) and green (M cones; peak absorption at 509-510 nm) (Deegan and Jacobs, 1993;Jacobs et al., 1991;Sze l and Ro hlich, 1992)."
+        }
+      ]
+    },
+    {
+      "text": "cones",
+      "label": "ANATOMICAL-CONCEPT",
+      "occurrences": [
+        {
+          "start": 47,
+          "end": 52,
+          "global_start": 853,
+          "global_end": 858,
+          "sentence": "Rats color sensitivity is based on two sets of cones with peak sensitivities in the range of ultraviolet (UV cones; peak absorption at 358-359 nm) and green (M cones; peak absorption at 509-510 nm) (Deegan and Jacobs, 1993;Jacobs et al., 1991;Sze l and Ro hlich, 1992)."
+        }
+      ]
+    },
+    {
+      "text": "ultraviolet",
+      "label": "CONCEPT",
+      "occurrences": [
+        {
+          "start": 93,
+          "end": 104,
+          "global_start": 899,
+          "global_end": 910,
+          "sentence": "Rats color sensitivity is based on two sets of cones with peak sensitivities in the range of ultraviolet (UV cones; peak absorption at 358-359 nm) and green (M cones; peak absorption at 509-510 nm) (Deegan and Jacobs, 1993;Jacobs et al., 1991;Sze l and Ro hlich, 1992)."
+        }
+      ]
+    },
+    {
+      "text": "UV cones",
+      "label": "ANATOMICAL-CONCEPT",
+      "occurrences": [
+        {
+          "start": 106,
+          "end": 114,
+          "global_start": 912,
+          "global_end": 920,
+          "sentence": "Rats color sensitivity is based on two sets of cones with peak sensitivities in the range of ultraviolet (UV cones; peak absorption at 358-359 nm) and green (M cones; peak absorption at 509-510 nm) (Deegan and Jacobs, 1993;Jacobs et al., 1991;Sze l and Ro hlich, 1992)."
+        }
+      ]
+    },
+    {
+      "text": "M cones",
+      "label": "ANATOMICAL-CONCEPT",
+      "occurrences": [
+        {
+          "start": 158,
+          "end": 165,
+          "global_start": 964,
+          "global_end": 971,
+          "sentence": "Rats color sensitivity is based on two sets of cones with peak sensitivities in the range of ultraviolet (UV cones; peak absorption at 358-359 nm) and green (M cones; peak absorption at 509-510 nm) (Deegan and Jacobs, 1993;Jacobs et al., 1991;Sze l and Ro hlich, 1992)."
+        }
+      ]
+    },
+    {
+      "text": "Deegan and Jacobs",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 199,
+          "end": 216,
+          "global_start": 1005,
+          "global_end": 1022,
+          "sentence": "Rats color sensitivity is based on two sets of cones with peak sensitivities in the range of ultraviolet (UV cones; peak absorption at 358-359 nm) and green (M cones; peak absorption at 509-510 nm) (Deegan and Jacobs, 1993;Jacobs et al., 1991;Sze l and Ro hlich, 1992)."
+        },
+        {
+          "start": 226,
+          "end": 243,
+          "global_start": 7836,
+          "global_end": 7853,
+          "sentence": "Log-scaled normalized irradiance for each LED along with a template that approximates the photopigment spectral sensitivity of rats rhodopsin as well as S-opsin, M-opsin (Stockman and Sharpe, 2000).', 'Rodents lack red cones (Deegan and Jacobs, 1993;Jacobs et al., 1991;Sze l and Ro hlich, 1992), but from the inability to see red as a color, it does not necessarily follow that they cannot absorb red light through their rod-dominated retina to support form vision."
+        }
+      ]
+    },
+    {
+      "text": "Jacobs et al.",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 223,
+          "end": 236,
+          "global_start": 1029,
+          "global_end": 1042,
+          "sentence": "Rats color sensitivity is based on two sets of cones with peak sensitivities in the range of ultraviolet (UV cones; peak absorption at 358-359 nm) and green (M cones; peak absorption at 509-510 nm) (Deegan and Jacobs, 1993;Jacobs et al., 1991;Sze l and Ro hlich, 1992)."
+        },
+        {
+          "start": 250,
+          "end": 263,
+          "global_start": 7860,
+          "global_end": 7873,
+          "sentence": "Log-scaled normalized irradiance for each LED along with a template that approximates the photopigment spectral sensitivity of rats rhodopsin as well as S-opsin, M-opsin (Stockman and Sharpe, 2000).', 'Rodents lack red cones (Deegan and Jacobs, 1993;Jacobs et al., 1991;Sze l and Ro hlich, 1992), but from the inability to see red as a color, it does not necessarily follow that they cannot absorb red light through their rod-dominated retina to support form vision."
+        }
+      ]
+    },
+    {
+      "text": "electroretinogram",
+      "label": "METHOD",
+      "occurrences": [
+        {
+          "start": 10,
+          "end": 27,
+          "global_start": 1086,
+          "global_end": 1103,
+          "sentence": "Recently, electroretinogram (ERG) responses of the photopic spectral sensitivity curves of photoreceptors of rats and mice were measured throughout the UV-visible spectrum (300-700 nm) (Rocha et al., 2016)."
+        }
+      ]
+    },
+    {
+      "text": "ERG",
+      "label": "METHOD",
+      "occurrences": [
+        {
+          "start": 29,
+          "end": 32,
+          "global_start": 1105,
+          "global_end": 1108,
+          "sentence": "Recently, electroretinogram (ERG) responses of the photopic spectral sensitivity curves of photoreceptors of rats and mice were measured throughout the UV-visible spectrum (300-700 nm) (Rocha et al., 2016)."
+        }
+      ]
+    },
+    {
+      "text": "photopic spectral sensitivity curves",
+      "label": "CONCEPT",
+      "occurrences": [
+        {
+          "start": 51,
+          "end": 87,
+          "global_start": 1127,
+          "global_end": 1163,
+          "sentence": "Recently, electroretinogram (ERG) responses of the photopic spectral sensitivity curves of photoreceptors of rats and mice were measured throughout the UV-visible spectrum (300-700 nm) (Rocha et al., 2016)."
+        }
+      ]
+    },
+    {
+      "text": "photoreceptors",
+      "label": "ANATOMICAL-CONCEPT",
+      "occurrences": [
+        {
+          "start": 91,
+          "end": 105,
+          "global_start": 1167,
+          "global_end": 1181,
+          "sentence": "Recently, electroretinogram (ERG) responses of the photopic spectral sensitivity curves of photoreceptors of rats and mice were measured throughout the UV-visible spectrum (300-700 nm) (Rocha et al., 2016)."
+        }
+      ]
+    },
+    {
+      "text": "rats and mice",
+      "label": "ORGANISM",
+      "occurrences": [
+        {
+          "start": 109,
+          "end": 122,
+          "global_start": 1185,
+          "global_end": 1198,
+          "sentence": "Recently, electroretinogram (ERG) responses of the photopic spectral sensitivity curves of photoreceptors of rats and mice were measured throughout the UV-visible spectrum (300-700 nm) (Rocha et al., 2016)."
+        }
+      ]
+    },
+    {
+      "text": "UV-visible spectrum",
+      "label": "CONCEPT",
+      "occurrences": [
+        {
+          "start": 152,
+          "end": 171,
+          "global_start": 1228,
+          "global_end": 1247,
+          "sentence": "Recently, electroretinogram (ERG) responses of the photopic spectral sensitivity curves of photoreceptors of rats and mice were measured throughout the UV-visible spectrum (300-700 nm) (Rocha et al., 2016)."
+        }
+      ]
+    },
+    {
+      "text": "Rocha et al.",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 186,
+          "end": 198,
+          "global_start": 1262,
+          "global_end": 1274,
+          "sentence": "Recently, electroretinogram (ERG) responses of the photopic spectral sensitivity curves of photoreceptors of rats and mice were measured throughout the UV-visible spectrum (300-700 nm) (Rocha et al., 2016)."
+        }
+      ]
+    },
+    {
+      "text": "Wistar rats",
+      "label": "SPECIES",
+      "occurrences": [
+        {
+          "start": 55,
+          "end": 66,
+          "global_start": 1338,
+          "global_end": 1349,
+          "sentence": "These measurements identified two sensitivity peaks in Wistar rats: 362 and 502 nm; no significant response to long wavelength light (above 620 nm) was detected."
+        }
+      ]
+    },
+    {
+      "text": "red light",
+      "label": "CHEMICAL",
+      "occurrences": [
+        {
+          "start": 55,
+          "end": 64,
+          "global_start": 1500,
+          "global_end": 1509,
+          "sentence": "This study reinforced the already existing notion that red light is experienced as a total absence of usable light."
+        },
+        {
+          "start": 82,
+          "end": 91,
+          "global_start": 5186,
+          "global_end": 5195,
+          "sentence": "Therefore, performance under red LEDs is better explained by positing that enough red light was absorbed to guide the discrimination.']\n\n"
+        },
+        {
+          "start": 398,
+          "end": 407,
+          "global_start": 8008,
+          "global_end": 8017,
+          "sentence": "Log-scaled normalized irradiance for each LED along with a template that approximates the photopigment spectral sensitivity of rats rhodopsin as well as S-opsin, M-opsin (Stockman and Sharpe, 2000).', 'Rodents lack red cones (Deegan and Jacobs, 1993;Jacobs et al., 1991;Sze l and Ro hlich, 1992), but from the inability to see red as a color, it does not necessarily follow that they cannot absorb red light through their rod-dominated retina to support form vision."
+        },
+        {
+          "start": 182,
+          "end": 191,
+          "global_start": 8259,
+          "global_end": 8268,
+          "sentence": "A recent study (Niklaus et al., 2020) examined the retinal responses mediated by rods and cones of pigmented (Brown Norway) and albino (Wistar) rats in response to monochromatic far-red light of 656  10 nm in both photopic (light-adapted) and scotopic (dark-adapted) settings."
+        },
+        {
+          "start": 49,
+          "end": 58,
+          "global_start": 8603,
+          "global_end": 8612,
+          "sentence": "However, whether the photoreceptor activation by red light can lead to functionally meaningful signals has not yet been established."
+        }
+      ]
+    },
+    {
+      "text": "Niklaus et al.",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 28,
+          "end": 42,
+          "global_start": 1589,
+          "global_end": 1603,
+          "sentence": "In contrast, another study (Niklaus et al., 2020) showed significant scotopic and photopic ERG responses to red light even at low intensities."
+        },
+        {
+          "start": 16,
+          "end": 30,
+          "global_start": 8093,
+          "global_end": 8107,
+          "sentence": "A recent study (Niklaus et al., 2020) examined the retinal responses mediated by rods and cones of pigmented (Brown Norway) and albino (Wistar) rats in response to monochromatic far-red light of 656  10 nm in both photopic (light-adapted) and scotopic (dark-adapted) settings."
+        }
+      ]
+    },
+    {
+      "text": "ERG",
+      "label": "BIOLOGICAL_ENTITY",
+      "occurrences": [
+        {
+          "start": 91,
+          "end": 94,
+          "global_start": 1652,
+          "global_end": 1655,
+          "sentence": "In contrast, another study (Niklaus et al., 2020) showed significant scotopic and photopic ERG responses to red light even at low intensities."
+        },
+        {
+          "start": 58,
+          "end": 61,
+          "global_start": 8412,
+          "global_end": 8415,
+          "sentence": "Both rat strains showed significant scotopic and photopic ERG responses to red light even at low intensities."
+        }
+      ]
+    },
+    {
+      "text": "red light",
+      "label": "MISC",
+      "occurrences": [
+        {
+          "start": 77,
+          "end": 86,
+          "global_start": 1781,
+          "global_end": 1790,
+          "sentence": "In the present study, we challenge the notion of form vision blindness under red light and find, contrary to expectation, good behavioral performance.']\n\nResults\n['Rats were required to categorize the orientation of a solid disk-like object with a circular boundary and raised parallel bars, alternately colored white and black, thus forming a square-wave grating (Figure 1A)."
+        },
+        {
+          "start": 54,
+          "end": 63,
+          "global_start": 5295,
+          "global_end": 5304,
+          "sentence": "Discussion\n['Rodent behavioral experiments done under red light are believed to place the animal in dark conditions while allowing the experimenter to observe the preparation directly or by video recording (Celikel and Sakmann, 2007;Cloke et al., 2015;Diamond et al., 1999;Englund et al., 2020;van Goethem et al., 2012;Harris and Diamond, 2000;Harris et al., 1999;Jacklin et al., 2016;Nikbakht et al., 2012;Pacchiarini et al., 2020;Reid et al., 2014;Salaberry et al., 2017;Sieben et al., 2015;Vasconcelos et al., 2011;Winters and Reid, 2010)."
+        },
+        {
+          "start": 81,
+          "end": 90,
+          "global_start": 5865,
+          "global_end": 5874,
+          "sentence": "The relevant literature includes place-cell studies of rats navigating under dim red light, taken as the absence of visual input (OKeefe, 1976;Save et al., 2000;Zhang and Manahan-Vaughan, 2015;Zhang et al., 2014)."
+        }
+      ]
+    },
+    {
+      "text": "Figure 1A",
+      "label": "WORK_OF_ART",
+      "occurrences": [
+        {
+          "start": 365,
+          "end": 374,
+          "global_start": 2069,
+          "global_end": 2078,
+          "sentence": "In the present study, we challenge the notion of form vision blindness under red light and find, contrary to expectation, good behavioral performance.']\n\nResults\n['Rats were required to categorize the orientation of a solid disk-like object with a circular boundary and raised parallel bars, alternately colored white and black, thus forming a square-wave grating (Figure 1A)."
+        }
+      ]
+    },
+    {
+      "text": "Figure 1B",
+      "label": "WORK_OF_ART",
+      "occurrences": [
+        {
+          "start": 112,
+          "end": 121,
+          "global_start": 2193,
+          "global_end": 2202,
+          "sentence": "Orientations in the range of 0-45were rewarded as horizontal and orientations in the range of 45-90as vertical (Figure 1B)."
+        }
+      ]
+    },
+    {
+      "text": "rats",
+      "label": "ORG",
+      "occurrences": [
+        {
+          "start": 28,
+          "end": 32,
+          "global_start": 2302,
+          "global_end": 2306,
+          "sentence": "Each trial started with the rats head poke, which triggered the opening of an opaque gate, followed by illumination with light sources of various wavelengths."
+        },
+        {
+          "start": 27,
+          "end": 31,
+          "global_start": 3133,
+          "global_end": 3137,
+          "sentence": "Figure 1E reveals that all rats (N  4, pale curves; average curve in dark blue) performed well under white LED illumination.', 'Sessions with white light were interspersed with sessions illuminated by various narrow-band monochrome LEDs in the range of red, far-red, and infrared (Figure 1D)."
+        },
+        {
+          "start": 127,
+          "end": 131,
+          "global_start": 4144,
+          "global_end": 4148,
+          "sentence": "They performed poorly under infrared illumination, comprising 854 nm and 930 nm light (Figure 2D,E).', 'The performance (Nfour rats) under different illumination wavelengths is summarized by the cumulative proportion of trials categorized correctly across all orientations (Figure 2F)."
+        },
+        {
+          "start": 55,
+          "end": 59,
+          "global_start": 5839,
+          "global_end": 5843,
+          "sentence": "The relevant literature includes place-cell studies of rats navigating under dim red light, taken as the absence of visual input (OKeefe, 1976;Save et al., 2000;Zhang and Manahan-Vaughan, 2015;Zhang et al., 2014)."
+        },
+        {
+          "start": 144,
+          "end": 148,
+          "global_start": 8221,
+          "global_end": 8225,
+          "sentence": "A recent study (Niklaus et al., 2020) examined the retinal responses mediated by rods and cones of pigmented (Brown Norway) and albino (Wistar) rats in response to monochromatic far-red light of 656  10 nm in both photopic (light-adapted) and scotopic (dark-adapted) settings."
+        },
+        {
+          "start": 46,
+          "end": 50,
+          "global_start": 12764,
+          "global_end": 12768,
+          "sentence": "To promote motivation in the behavioral task, rats were water-deprived on days of trainingtesting."
+        },
+        {
+          "start": 49,
+          "end": 53,
+          "global_start": 19934,
+          "global_end": 19938,
+          "sentence": "The 117stimulus should thus completely cover the rats binocular visual field.', 'When all illumination sources were turned off, the ambient light magnitude was 0 cdmm 2 (Konica Minolta LS-100 luminance meter, Tokyo).']\n\nQuantification of LED emission characteristics\n"
+        },
+        {
+          "start": 182,
+          "end": 186,
+          "global_start": 20783,
+          "global_end": 20787,
+          "sentence": "Then we computed the spectral photon count for each LED (SPC l \u00f0 \u00de photons:m \u00c02 :s \u00c01 :nm \u00c01 \u00bd ):', 'Given the d \u00bc 50cm distance between the LEDs and the stimulus delivery area, the rats dilated pupil area of A pupil \u00bc 0:0314cm 2 , the rats retinal surface area of A retina \u00bc 0:8cm 2 , and the rats rod outer segment area of A rod \u00bc 4 \u00c2 10 \u00c08 cm 2 (Mayhew and Astle, 1997), we approximated the photon flux density (C) of an isotropic LED radiation pattern at each photoreceptor as:', 'Then, the photon flux per photoreceptor is:']\n\nQuantification and statistical analysis Analysis of behavioral data\n"
+        }
+      ]
+    },
+    {
+      "text": "rat",
+      "label": "ORG",
+      "occurrences": [
+        {
+          "start": 16,
+          "end": 19,
+          "global_start": 2221,
+          "global_end": 2224,
+          "sentence": "Figure 1C illustrates the sequence of events in the behavioral task."
+        },
+        {
+          "start": 91,
+          "end": 94,
+          "global_start": 6530,
+          "global_end": 6533,
+          "sentence": "(top) and exactly from the front (bottom), the latter approximating the perspective of the rat. (B) Schematic of the orientations of the stimuli and rule of the categorization task."
+        },
+        {
+          "start": 32,
+          "end": 35,
+          "global_start": 6929,
+          "global_end": 6932,
+          "sentence": "After probing the stimulus, the rat turned its head toward one spout, in this illustration left for vertical and right for horizontal."
+        },
+        {
+          "start": 213,
+          "end": 216,
+          "global_start": 13880,
+          "global_end": 13883,
+          "sentence": "Beam interruption triggered fast opening of an opaque panel (through a rotational motion of 40in 75 ms), actuated by a stepper motor, uncovering a circular hole (diameter 5 cm) in the front wall through which the rat could extend its head to see the object."
+        },
+        {
+          "start": 55,
+          "end": 58,
+          "global_start": 14120,
+          "global_end": 14123,
+          "sentence": "A transparent panel prevented direct touch.', 'The apparatus was in a Faraday cage that, with the door closed, provided acoustic, visual, and electromagnetic isolation."
+        }
+      ]
+    },
+    {
+      "text": "L or R",
+      "label": "MISC",
+      "occurrences": [
+        {
+          "start": 70,
+          "end": 76,
+          "global_start": 2594,
+          "global_end": 2600,
+          "sentence": "After observing the object, the rat turned its head toward one spout (L or R) and licked."
+        }
+      ]
+    },
+    {
+      "text": "45",
+      "label": "CARDINAL",
+      "occurrences": [
+        {
+          "start": 20,
+          "end": 22,
+          "global_start": 2634,
+          "global_end": 2636,
+          "sentence": "The boundary angle, 45, was rewarded randomly on left or right."
+        }
+      ]
+    },
+    {
+      "text": "LED array",
+      "label": "PRODUCT",
+      "occurrences": [
+        {
+          "start": 28,
+          "end": 37,
+          "global_start": 2706,
+          "global_end": 2715,
+          "sentence": "Illumination was by a white LED array or else by monochrome LEDs with peak intensities at 626 nm, 652 nm, 729 nm, 854 nm, and 930 nm as measured by spectrometer and verified by the manufacturers datasheet (Figure 1D; see Materials and methods)."
+        }
+      ]
+    },
+    {
+      "text": "monochrome LEDs",
+      "label": "PRODUCT",
+      "occurrences": [
+        {
+          "start": 49,
+          "end": 64,
+          "global_start": 2727,
+          "global_end": 2742,
+          "sentence": "Illumination was by a white LED array or else by monochrome LEDs with peak intensities at 626 nm, 652 nm, 729 nm, 854 nm, and 930 nm as measured by spectrometer and verified by the manufacturers datasheet (Figure 1D; see Materials and methods)."
+        }
+      ]
+    },
+    {
+      "text": "spectrometer",
+      "label": "DEVICE",
+      "occurrences": [
+        {
+          "start": 148,
+          "end": 160,
+          "global_start": 2826,
+          "global_end": 2838,
+          "sentence": "Illumination was by a white LED array or else by monochrome LEDs with peak intensities at 626 nm, 652 nm, 729 nm, 854 nm, and 930 nm as measured by spectrometer and verified by the manufacturers datasheet (Figure 1D; see Materials and methods)."
+        },
+        {
+          "start": 50,
+          "end": 62,
+          "global_start": 7506,
+          "global_end": 7518,
+          "sentence": "Log-scaled irradiance for each LED, measured by a spectrometer at the stimulus delivery area in units of photons:m \u00c02 :s \u00c01 :nm \u00c01 ."
+        },
+        {
+          "start": 65,
+          "end": 77,
+          "global_start": 14980,
+          "global_end": 14992,
+          "sentence": "The power spectral distributions were measured with a calibrated spectrometer and the associated software (Model: FLAME-S-XR1-ES, OceanOptics, Rochester, NY) via a visible-NIR fiber (core diameter 200 mm) attached to a cosine corrector."
+        }
+      ]
+    },
+    {
+      "text": "Figure 1D",
+      "label": "FIGURE",
+      "occurrences": [
+        {
+          "start": 206,
+          "end": 215,
+          "global_start": 2884,
+          "global_end": 2893,
+          "sentence": "Illumination was by a white LED array or else by monochrome LEDs with peak intensities at 626 nm, 652 nm, 729 nm, 854 nm, and 930 nm as measured by spectrometer and verified by the manufacturers datasheet (Figure 1D; see Materials and methods)."
+        }
+      ]
+    },
+    {
+      "text": "Materials and methods",
+      "label": "REFERENCE",
+      "occurrences": [
+        {
+          "start": 221,
+          "end": 242,
+          "global_start": 2899,
+          "global_end": 2920,
+          "sentence": "Illumination was by a white LED array or else by monochrome LEDs with peak intensities at 626 nm, 652 nm, 729 nm, 854 nm, and 930 nm as measured by spectrometer and verified by the manufacturers datasheet (Figure 1D; see Materials and methods)."
+        }
+      ]
+    },
+    {
+      "text": "cumulative Gaussian function",
+      "label": "METHOD",
+      "occurrences": [
+        {
+          "start": 74,
+          "end": 102,
+          "global_start": 2997,
+          "global_end": 3025,
+          "sentence": "Half widths were 12.1-49.1 nm.', 'To quantify rats performance, we used a cumulative Gaussian function to fit psychometric curves to the data of each rat (see Materials and methods)."
+        }
+      ]
+    },
+    {
+      "text": "psychometric curves",
+      "label": "METHOD",
+      "occurrences": [
+        {
+          "start": 110,
+          "end": 129,
+          "global_start": 3033,
+          "global_end": 3052,
+          "sentence": "Half widths were 12.1-49.1 nm.', 'To quantify rats performance, we used a cumulative Gaussian function to fit psychometric curves to the data of each rat (see Materials and methods)."
+        }
+      ]
+    },
+    {
+      "text": "Figure 1E",
+      "label": "WORK_OF_ART",
+      "occurrences": [
+        {
+          "start": 0,
+          "end": 9,
+          "global_start": 3106,
+          "global_end": 3115,
+          "sentence": "Figure 1E reveals that all rats (N  4, pale curves; average curve in dark blue) performed well under white LED illumination.', 'Sessions with white light were interspersed with sessions illuminated by various narrow-band monochrome LEDs in the range of red, far-red, and infrared (Figure 1D)."
+        }
+      ]
+    },
+    {
+      "text": "N  4",
+      "label": "CARDINAL",
+      "occurrences": [
+        {
+          "start": 33,
+          "end": 37,
+          "global_start": 3139,
+          "global_end": 3143,
+          "sentence": "Figure 1E reveals that all rats (N  4, pale curves; average curve in dark blue) performed well under white LED illumination.', 'Sessions with white light were interspersed with sessions illuminated by various narrow-band monochrome LEDs in the range of red, far-red, and infrared (Figure 1D)."
+        }
+      ]
+    },
+    {
+      "text": "pale curves",
+      "label": "MISC",
+      "occurrences": [
+        {
+          "start": 39,
+          "end": 50,
+          "global_start": 3145,
+          "global_end": 3156,
+          "sentence": "Figure 1E reveals that all rats (N  4, pale curves; average curve in dark blue) performed well under white LED illumination.', 'Sessions with white light were interspersed with sessions illuminated by various narrow-band monochrome LEDs in the range of red, far-red, and infrared (Figure 1D)."
+        }
+      ]
+    },
+    {
+      "text": "average curve",
+      "label": "MISC",
+      "occurrences": [
+        {
+          "start": 52,
+          "end": 65,
+          "global_start": 3158,
+          "global_end": 3171,
+          "sentence": "Figure 1E reveals that all rats (N  4, pale curves; average curve in dark blue) performed well under white LED illumination.', 'Sessions with white light were interspersed with sessions illuminated by various narrow-band monochrome LEDs in the range of red, far-red, and infrared (Figure 1D)."
+        }
+      ]
+    },
+    {
+      "text": "dark blue",
+      "label": "MISC",
+      "occurrences": [
+        {
+          "start": 69,
+          "end": 78,
+          "global_start": 3175,
+          "global_end": 3184,
+          "sentence": "Figure 1E reveals that all rats (N  4, pale curves; average curve in dark blue) performed well under white LED illumination.', 'Sessions with white light were interspersed with sessions illuminated by various narrow-band monochrome LEDs in the range of red, far-red, and infrared (Figure 1D)."
+        }
+      ]
+    },
+    {
+      "text": "white LED illumination",
+      "label": "MISC",
+      "occurrences": [
+        {
+          "start": 101,
+          "end": 123,
+          "global_start": 3207,
+          "global_end": 3229,
+          "sentence": "Figure 1E reveals that all rats (N  4, pale curves; average curve in dark blue) performed well under white LED illumination.', 'Sessions with white light were interspersed with sessions illuminated by various narrow-band monochrome LEDs in the range of red, far-red, and infrared (Figure 1D)."
+        }
+      ]
+    },
+    {
+      "text": "Sessions",
+      "label": "ORG",
+      "occurrences": [
+        {
+          "start": 128,
+          "end": 136,
+          "global_start": 3234,
+          "global_end": 3242,
+          "sentence": "Figure 1E reveals that all rats (N  4, pale curves; average curve in dark blue) performed well under white LED illumination.', 'Sessions with white light were interspersed with sessions illuminated by various narrow-band monochrome LEDs in the range of red, far-red, and infrared (Figure 1D)."
+        }
+      ]
+    },
+    {
+      "text": "white light",
+      "label": "CHEMICAL",
+      "occurrences": [
+        {
+          "start": 142,
+          "end": 153,
+          "global_start": 3248,
+          "global_end": 3259,
+          "sentence": "Figure 1E reveals that all rats (N  4, pale curves; average curve in dark blue) performed well under white LED illumination.', 'Sessions with white light were interspersed with sessions illuminated by various narrow-band monochrome LEDs in the range of red, far-red, and infrared (Figure 1D)."
+        }
+      ]
+    },
+    {
+      "text": "narrow-band monochrome LEDs",
+      "label": "PRODUCT",
+      "occurrences": [
+        {
+          "start": 209,
+          "end": 236,
+          "global_start": 3315,
+          "global_end": 3342,
+          "sentence": "Figure 1E reveals that all rats (N  4, pale curves; average curve in dark blue) performed well under white LED illumination.', 'Sessions with white light were interspersed with sessions illuminated by various narrow-band monochrome LEDs in the range of red, far-red, and infrared (Figure 1D)."
+        }
+      ]
+    },
+    {
+      "text": "red",
+      "label": "ORG",
+      "occurrences": [
+        {
+          "start": 253,
+          "end": 256,
+          "global_start": 3359,
+          "global_end": 3362,
+          "sentence": "Figure 1E reveals that all rats (N  4, pale curves; average curve in dark blue) performed well under white LED illumination.', 'Sessions with white light were interspersed with sessions illuminated by various narrow-band monochrome LEDs in the range of red, far-red, and infrared (Figure 1D)."
+        },
+        {
+          "start": 5,
+          "end": 8,
+          "global_start": 6626,
+          "global_end": 6629,
+          "sentence": "0-45(red) rewarded as horizontal and 45-90(solid green) rewarded as vertical.. (C)"
+        }
+      ]
+    },
+    {
+      "text": "far-red",
+      "label": "ORG",
+      "occurrences": [
+        {
+          "start": 258,
+          "end": 265,
+          "global_start": 3364,
+          "global_end": 3371,
+          "sentence": "Figure 1E reveals that all rats (N  4, pale curves; average curve in dark blue) performed well under white LED illumination.', 'Sessions with white light were interspersed with sessions illuminated by various narrow-band monochrome LEDs in the range of red, far-red, and infrared (Figure 1D)."
+        }
+      ]
+    },
+    {
+      "text": "infrared",
+      "label": "ORG",
+      "occurrences": [
+        {
+          "start": 271,
+          "end": 279,
+          "global_start": 3377,
+          "global_end": 3385,
+          "sentence": "Figure 1E reveals that all rats (N  4, pale curves; average curve in dark blue) performed well under white LED illumination.', 'Sessions with white light were interspersed with sessions illuminated by various narrow-band monochrome LEDs in the range of red, far-red, and infrared (Figure 1D)."
+        }
+      ]
+    },
+    {
+      "text": "Figure 1D",
+      "label": "WORK_OF_ART",
+      "occurrences": [
+        {
+          "start": 281,
+          "end": 290,
+          "global_start": 3387,
+          "global_end": 3396,
+          "sentence": "Figure 1E reveals that all rats (N  4, pale curves; average curve in dark blue) performed well under white LED illumination.', 'Sessions with white light were interspersed with sessions illuminated by various narrow-band monochrome LEDs in the range of red, far-red, and infrared (Figure 1D)."
+        },
+        {
+          "start": 0,
+          "end": 9,
+          "global_start": 4903,
+          "global_end": 4912,
+          "sentence": "Figure 1D shows that the infrared LEDs (854 nm and 930 nm) emitted 2-50 times higher intensity at shorter wavelength than did the red LEDs, yet performance under illumination by IR LEDs was at chance."
+        },
+        {
+          "start": 335,
+          "end": 344,
+          "global_start": 14837,
+          "global_end": 14846,
+          "sentence": "For visual testing, different light sources were used to illuminate the stimulus: a pair of six white LED arrays or various high-power monochrome LED arrays (Roithner LaserTechnik, GmbH) with peak intensities at 626 nm (LED620-66-60), 652 nm (LED660-66-60), 729 nm (LED735-66-60), 854 nm (LED850-66-60), and 930 nm (LED940-66-60) (see Figure 1D for Gaussian fits to the measured spectrum in ambient temperature)."
+        }
+      ]
+    },
+    {
+      "text": "Figure 2A, B",
+      "label": "WORK_OF_ART",
+      "occurrences": [
+        {
+          "start": 0,
+          "end": 12,
+          "global_start": 3619,
+          "global_end": 3631,
+          "sentence": "Figure 2A, B shows that dark-adapted rats performed the visual categorization task under 626 nm and 652 nm LEDs (perceived as red by humans) with accuracy equivalent to that under white light, refuting the common belief of functional blindness under red light."
+        }
+      ]
+    },
+    {
+      "text": "humans",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 133,
+          "end": 139,
+          "global_start": 3752,
+          "global_end": 3758,
+          "sentence": "Figure 2A, B shows that dark-adapted rats performed the visual categorization task under 626 nm and 652 nm LEDs (perceived as red by humans) with accuracy equivalent to that under white light, refuting the common belief of functional blindness under red light."
+        }
+      ]
+    },
+    {
+      "text": "functional blindness",
+      "label": "DISEASE",
+      "occurrences": [
+        {
+          "start": 223,
+          "end": 243,
+          "global_start": 3842,
+          "global_end": 3862,
+          "sentence": "Figure 2A, B shows that dark-adapted rats performed the visual categorization task under 626 nm and 652 nm LEDs (perceived as red by humans) with accuracy equivalent to that under white light, refuting the common belief of functional blindness under red light."
+        }
+      ]
+    },
+    {
+      "text": "729 nm",
+      "label": "QUANTITY",
+      "occurrences": [
+        {
+          "start": 36,
+          "end": 42,
+          "global_start": 3916,
+          "global_end": 3922,
+          "sentence": "Rats performed well even under peak 729 nm (Figure 2C), perceived as far-red by humans, though clearly diminished with respect to white."
+        }
+      ]
+    },
+    {
+      "text": "Figure 2C",
+      "label": "WORK_OF_ART",
+      "occurrences": [
+        {
+          "start": 44,
+          "end": 53,
+          "global_start": 3924,
+          "global_end": 3933,
+          "sentence": "Rats performed well even under peak 729 nm (Figure 2C), perceived as far-red by humans, though clearly diminished with respect to white."
+        }
+      ]
+    },
+    {
+      "text": "far-red",
+      "label": "PRODUCT",
+      "occurrences": [
+        {
+          "start": 69,
+          "end": 76,
+          "global_start": 3949,
+          "global_end": 3956,
+          "sentence": "Rats performed well even under peak 729 nm (Figure 2C), perceived as far-red by humans, though clearly diminished with respect to white."
+        }
+      ]
+    },
+    {
+      "text": "humans",
+      "label": "NORP",
+      "occurrences": [
+        {
+          "start": 80,
+          "end": 86,
+          "global_start": 3960,
+          "global_end": 3966,
+          "sentence": "Rats performed well even under peak 729 nm (Figure 2C), perceived as far-red by humans, though clearly diminished with respect to white."
+        }
+      ]
+    },
+    {
+      "text": "white",
+      "label": "COLOR",
+      "occurrences": [
+        {
+          "start": 130,
+          "end": 135,
+          "global_start": 4010,
+          "global_end": 4015,
+          "sentence": "Rats performed well even under peak 729 nm (Figure 2C), perceived as far-red by humans, though clearly diminished with respect to white."
+        }
+      ]
+    },
+    {
+      "text": "infrared",
+      "label": "PRODUCT",
+      "occurrences": [
+        {
+          "start": 28,
+          "end": 36,
+          "global_start": 4045,
+          "global_end": 4053,
+          "sentence": "They performed poorly under infrared illumination, comprising 854 nm and 930 nm light (Figure 2D,E).', 'The performance (Nfour rats) under different illumination wavelengths is summarized by the cumulative proportion of trials categorized correctly across all orientations (Figure 2F)."
+        }
+      ]
+    },
+    {
+      "text": "854 nm",
+      "label": "QUANTITY",
+      "occurrences": [
+        {
+          "start": 62,
+          "end": 68,
+          "global_start": 4079,
+          "global_end": 4085,
+          "sentence": "They performed poorly under infrared illumination, comprising 854 nm and 930 nm light (Figure 2D,E).', 'The performance (Nfour rats) under different illumination wavelengths is summarized by the cumulative proportion of trials categorized correctly across all orientations (Figure 2F)."
+        }
+      ]
+    },
+    {
+      "text": "930 nm",
+      "label": "QUANTITY",
+      "occurrences": [
+        {
+          "start": 73,
+          "end": 79,
+          "global_start": 4090,
+          "global_end": 4096,
+          "sentence": "They performed poorly under infrared illumination, comprising 854 nm and 930 nm light (Figure 2D,E).', 'The performance (Nfour rats) under different illumination wavelengths is summarized by the cumulative proportion of trials categorized correctly across all orientations (Figure 2F)."
+        }
+      ]
+    },
+    {
+      "text": "Figure 2D",
+      "label": "WORK_OF_ART",
+      "occurrences": [
+        {
+          "start": 87,
+          "end": 96,
+          "global_start": 4104,
+          "global_end": 4113,
+          "sentence": "They performed poorly under infrared illumination, comprising 854 nm and 930 nm light (Figure 2D,E).', 'The performance (Nfour rats) under different illumination wavelengths is summarized by the cumulative proportion of trials categorized correctly across all orientations (Figure 2F)."
+        },
+        {
+          "start": 134,
+          "end": 143,
+          "global_start": 22941,
+          "global_end": 22950,
+          "sentence": "s determines the slope of the psychometric function, a common measure of acuity.', 'Where fitting with a sigmoid was not appropriate (Figure 2D,E), data were fit with the line y \u00bc ax \u00fe y 0 , where x is the stimulus orientation, a is the slope, and y 0 is the y-intercept.']\n\nTest of significance for the fitted psychometric curves\n['Errors around the performance value for each orientation and modality condition were expressed as a 95 binomial proportion confidence interval computed by approximating the distribution of errors about a binomially distributed observation, p, with a normal distribution:', 'where p is the proportion of correct trials (Bernoulli) and n is the number of trials.', 'For statistical tests of significance, we performed a non-parametric test based on bootstrapping, as follows."
+        }
+      ]
+    },
+    {
+      "text": "Figure 2F",
+      "label": "WORK_OF_ART",
+      "occurrences": [
+        {
+          "start": 274,
+          "end": 283,
+          "global_start": 4291,
+          "global_end": 4300,
+          "sentence": "They performed poorly under infrared illumination, comprising 854 nm and 930 nm light (Figure 2D,E).', 'The performance (Nfour rats) under different illumination wavelengths is summarized by the cumulative proportion of trials categorized correctly across all orientations (Figure 2F)."
+        }
+      ]
+    },
+    {
+      "text": "Figure 2-figure supplement 1",
+      "label": "WORK_OF_ART",
+      "occurrences": [
+        {
+          "start": 120,
+          "end": 148,
+          "global_start": 4521,
+          "global_end": 4549,
+          "sentence": "Average performance was 84  3 under 626 nm illumination (p0.158 compared to white light; bootstrap tests illustrated in Figure 2-figure supplement 1), 86  2 under 652 nm (p0.419 compared to white light), 72  3 under 729 nm (p0.00 compared to white light), 53  2 under 854 nm (p0.257 compared to chance), and 50  1 under 930 nm average performance (p0.316 compared to chance).', 'Visual acuity under the red LEDs (626 nm and 652 nm) cannot be explained by unintended leakage toward shorter wavelengths."
+        }
+      ]
+    },
+    {
+      "text": "red LEDs",
+      "label": "MISC",
+      "occurrences": [
+        {
+          "start": 403,
+          "end": 411,
+          "global_start": 4804,
+          "global_end": 4812,
+          "sentence": "Average performance was 84  3 under 626 nm illumination (p0.158 compared to white light; bootstrap tests illustrated in Figure 2-figure supplement 1), 86  2 under 652 nm (p0.419 compared to white light), 72  3 under 729 nm (p0.00 compared to white light), 53  2 under 854 nm (p0.257 compared to chance), and 50  1 under 930 nm average performance (p0.316 compared to chance).', 'Visual acuity under the red LEDs (626 nm and 652 nm) cannot be explained by unintended leakage toward shorter wavelengths."
+        }
+      ]
+    },
+    {
+      "text": "626 nm",
+      "label": "MISC",
+      "occurrences": [
+        {
+          "start": 36,
+          "end": 42,
+          "global_start": 4437,
+          "global_end": 4443,
+          "sentence": "Average performance was 84  3 under 626 nm illumination (p0.158 compared to white light; bootstrap tests illustrated in Figure 2-figure supplement 1), 86  2 under 652 nm (p0.419 compared to white light), 72  3 under 729 nm (p0.00 compared to white light), 53  2 under 854 nm (p0.257 compared to chance), and 50  1 under 930 nm average performance (p0.316 compared to chance).', 'Visual acuity under the red LEDs (626 nm and 652 nm) cannot be explained by unintended leakage toward shorter wavelengths."
+        }
+      ]
+    },
+    {
+      "text": "652 nm",
+      "label": "MISC",
+      "occurrences": [
+        {
+          "start": 163,
+          "end": 169,
+          "global_start": 4564,
+          "global_end": 4570,
+          "sentence": "Average performance was 84  3 under 626 nm illumination (p0.158 compared to white light; bootstrap tests illustrated in Figure 2-figure supplement 1), 86  2 under 652 nm (p0.419 compared to white light), 72  3 under 729 nm (p0.00 compared to white light), 53  2 under 854 nm (p0.257 compared to chance), and 50  1 under 930 nm average performance (p0.316 compared to chance).', 'Visual acuity under the red LEDs (626 nm and 652 nm) cannot be explained by unintended leakage toward shorter wavelengths."
+        }
+      ]
+    },
+    {
+      "text": "infrared LEDs",
+      "label": "PRODUCT",
+      "occurrences": [
+        {
+          "start": 25,
+          "end": 38,
+          "global_start": 4928,
+          "global_end": 4941,
+          "sentence": "Figure 1D shows that the infrared LEDs (854 nm and 930 nm) emitted 2-50 times higher intensity at shorter wavelength than did the red LEDs, yet performance under illumination by IR LEDs was at chance."
+        },
+        {
+          "start": 82,
+          "end": 95,
+          "global_start": 7114,
+          "global_end": 7127,
+          "sentence": "See Integrating the power under the curves at wavelengths 580 nm reveals that the infrared LEDs emitted from 2 to 50 times higher intensity as compared to red LEDs, in spite of the infrared LEDs being centered at longer wavelengths (infrared 854 nm and 930 nm LEDs emitted 1.95 and 0.48 mWcm 2 , respectively, while red 626, 652, and 729 nm LEDs emitted 0.12, 0.28, and 0.04 mWcm 2 , respectively)."
+        },
+        {
+          "start": 146,
+          "end": 159,
+          "global_start": 16690,
+          "global_end": 16703,
+          "sentence": "The second camera provided a wide-angle view (Fujinon HF9HA-1B Lens, Fujifilm, Tokyo) and monitored the entire setup, illuminated with adjustable infrared LEDs, at 30 fs.', 'Reward spouts included custom-made infrared diode sensors interrupted by the tongue."
+        }
+      ]
+    },
+    {
+      "text": "red LEDs",
+      "label": "PRODUCT",
+      "occurrences": [
+        {
+          "start": 30,
+          "end": 38,
+          "global_start": 4933,
+          "global_end": 4941,
+          "sentence": "Figure 1D shows that the infrared LEDs (854 nm and 930 nm) emitted 2-50 times higher intensity at shorter wavelength than did the red LEDs, yet performance under illumination by IR LEDs was at chance."
+        },
+        {
+          "start": 87,
+          "end": 95,
+          "global_start": 7119,
+          "global_end": 7127,
+          "sentence": "See Integrating the power under the curves at wavelengths 580 nm reveals that the infrared LEDs emitted from 2 to 50 times higher intensity as compared to red LEDs, in spite of the infrared LEDs being centered at longer wavelengths (infrared 854 nm and 930 nm LEDs emitted 1.95 and 0.48 mWcm 2 , respectively, while red 626, 652, and 729 nm LEDs emitted 0.12, 0.28, and 0.04 mWcm 2 , respectively)."
+        }
+      ]
+    },
+    {
+      "text": "IR LEDs",
+      "label": "PRODUCT",
+      "occurrences": [
+        {
+          "start": 178,
+          "end": 185,
+          "global_start": 5081,
+          "global_end": 5088,
+          "sentence": "Figure 1D shows that the infrared LEDs (854 nm and 930 nm) emitted 2-50 times higher intensity at shorter wavelength than did the red LEDs, yet performance under illumination by IR LEDs was at chance."
+        }
+      ]
+    },
+    {
+      "text": "Celikel and Sakmann",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 207,
+          "end": 226,
+          "global_start": 5448,
+          "global_end": 5467,
+          "sentence": "Discussion\n['Rodent behavioral experiments done under red light are believed to place the animal in dark conditions while allowing the experimenter to observe the preparation directly or by video recording (Celikel and Sakmann, 2007;Cloke et al., 2015;Diamond et al., 1999;Englund et al., 2020;van Goethem et al., 2012;Harris and Diamond, 2000;Harris et al., 1999;Jacklin et al., 2016;Nikbakht et al., 2012;Pacchiarini et al., 2020;Reid et al., 2014;Salaberry et al., 2017;Sieben et al., 2015;Vasconcelos et al., 2011;Winters and Reid, 2010)."
+        }
+      ]
+    },
+    {
+      "text": "Cloke et al.",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 233,
+          "end": 245,
+          "global_start": 5474,
+          "global_end": 5486,
+          "sentence": "Discussion\n['Rodent behavioral experiments done under red light are believed to place the animal in dark conditions while allowing the experimenter to observe the preparation directly or by video recording (Celikel and Sakmann, 2007;Cloke et al., 2015;Diamond et al., 1999;Englund et al., 2020;van Goethem et al., 2012;Harris and Diamond, 2000;Harris et al., 1999;Jacklin et al., 2016;Nikbakht et al., 2012;Pacchiarini et al., 2020;Reid et al., 2014;Salaberry et al., 2017;Sieben et al., 2015;Vasconcelos et al., 2011;Winters and Reid, 2010)."
+        }
+      ]
+    },
+    {
+      "text": "Diamond et al.",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 252,
+          "end": 266,
+          "global_start": 5493,
+          "global_end": 5507,
+          "sentence": "Discussion\n['Rodent behavioral experiments done under red light are believed to place the animal in dark conditions while allowing the experimenter to observe the preparation directly or by video recording (Celikel and Sakmann, 2007;Cloke et al., 2015;Diamond et al., 1999;Englund et al., 2020;van Goethem et al., 2012;Harris and Diamond, 2000;Harris et al., 1999;Jacklin et al., 2016;Nikbakht et al., 2012;Pacchiarini et al., 2020;Reid et al., 2014;Salaberry et al., 2017;Sieben et al., 2015;Vasconcelos et al., 2011;Winters and Reid, 2010)."
+        },
+        {
+          "start": 356,
+          "end": 370,
+          "global_start": 10739,
+          "global_end": 10753,
+          "sentence": "Thus, behaviors may be documented by video while the animal performs without visual cues.', 'Rats and mice are the most frequently used laboratory mammals, ideal for research on spatial navigation (Frank et al., 2000;MacDonald et al., 2011;Moser et al., 2017;Okeefe and Nadel, 1978;Pastalkova et al., 2008;Wood et al., 2000) and the processing of tactile (Diamond et al., 2008;Fassihi et al., 2017;Zuo and Diamond, 2019) and olfactory (Chae et al., 2019;Koldaeva et al., 2019;Uchida and Mainen, 2003;Uchida et al., 2006) information."
+        }
+      ]
+    },
+    {
+      "text": "Englund et al.",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 273,
+          "end": 287,
+          "global_start": 5514,
+          "global_end": 5528,
+          "sentence": "Discussion\n['Rodent behavioral experiments done under red light are believed to place the animal in dark conditions while allowing the experimenter to observe the preparation directly or by video recording (Celikel and Sakmann, 2007;Cloke et al., 2015;Diamond et al., 1999;Englund et al., 2020;van Goethem et al., 2012;Harris and Diamond, 2000;Harris et al., 1999;Jacklin et al., 2016;Nikbakht et al., 2012;Pacchiarini et al., 2020;Reid et al., 2014;Salaberry et al., 2017;Sieben et al., 2015;Vasconcelos et al., 2011;Winters and Reid, 2010)."
+        }
+      ]
+    },
+    {
+      "text": "van Goethem et al.",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 294,
+          "end": 312,
+          "global_start": 5535,
+          "global_end": 5553,
+          "sentence": "Discussion\n['Rodent behavioral experiments done under red light are believed to place the animal in dark conditions while allowing the experimenter to observe the preparation directly or by video recording (Celikel and Sakmann, 2007;Cloke et al., 2015;Diamond et al., 1999;Englund et al., 2020;van Goethem et al., 2012;Harris and Diamond, 2000;Harris et al., 1999;Jacklin et al., 2016;Nikbakht et al., 2012;Pacchiarini et al., 2020;Reid et al., 2014;Salaberry et al., 2017;Sieben et al., 2015;Vasconcelos et al., 2011;Winters and Reid, 2010)."
+        }
+      ]
+    },
+    {
+      "text": "Harris and Diamond",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 319,
+          "end": 337,
+          "global_start": 5560,
+          "global_end": 5578,
+          "sentence": "Discussion\n['Rodent behavioral experiments done under red light are believed to place the animal in dark conditions while allowing the experimenter to observe the preparation directly or by video recording (Celikel and Sakmann, 2007;Cloke et al., 2015;Diamond et al., 1999;Englund et al., 2020;van Goethem et al., 2012;Harris and Diamond, 2000;Harris et al., 1999;Jacklin et al., 2016;Nikbakht et al., 2012;Pacchiarini et al., 2020;Reid et al., 2014;Salaberry et al., 2017;Sieben et al., 2015;Vasconcelos et al., 2011;Winters and Reid, 2010)."
+        }
+      ]
+    },
+    {
+      "text": "Harris et al.",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 344,
+          "end": 357,
+          "global_start": 5585,
+          "global_end": 5598,
+          "sentence": "Discussion\n['Rodent behavioral experiments done under red light are believed to place the animal in dark conditions while allowing the experimenter to observe the preparation directly or by video recording (Celikel and Sakmann, 2007;Cloke et al., 2015;Diamond et al., 1999;Englund et al., 2020;van Goethem et al., 2012;Harris and Diamond, 2000;Harris et al., 1999;Jacklin et al., 2016;Nikbakht et al., 2012;Pacchiarini et al., 2020;Reid et al., 2014;Salaberry et al., 2017;Sieben et al., 2015;Vasconcelos et al., 2011;Winters and Reid, 2010)."
+        }
+      ]
+    },
+    {
+      "text": "Jacklin et al.",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 364,
+          "end": 378,
+          "global_start": 5605,
+          "global_end": 5619,
+          "sentence": "Discussion\n['Rodent behavioral experiments done under red light are believed to place the animal in dark conditions while allowing the experimenter to observe the preparation directly or by video recording (Celikel and Sakmann, 2007;Cloke et al., 2015;Diamond et al., 1999;Englund et al., 2020;van Goethem et al., 2012;Harris and Diamond, 2000;Harris et al., 1999;Jacklin et al., 2016;Nikbakht et al., 2012;Pacchiarini et al., 2020;Reid et al., 2014;Salaberry et al., 2017;Sieben et al., 2015;Vasconcelos et al., 2011;Winters and Reid, 2010)."
+        }
+      ]
+    },
+    {
+      "text": "Nikbakht et al.",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 385,
+          "end": 400,
+          "global_start": 5626,
+          "global_end": 5641,
+          "sentence": "Discussion\n['Rodent behavioral experiments done under red light are believed to place the animal in dark conditions while allowing the experimenter to observe the preparation directly or by video recording (Celikel and Sakmann, 2007;Cloke et al., 2015;Diamond et al., 1999;Englund et al., 2020;van Goethem et al., 2012;Harris and Diamond, 2000;Harris et al., 1999;Jacklin et al., 2016;Nikbakht et al., 2012;Pacchiarini et al., 2020;Reid et al., 2014;Salaberry et al., 2017;Sieben et al., 2015;Vasconcelos et al., 2011;Winters and Reid, 2010)."
+        },
+        {
+          "start": 144,
+          "end": 159,
+          "global_start": 11196,
+          "global_end": 11211,
+          "sentence": "However, there is growing interest in the use of rodents for the study of vision, alone or combined with other modalities (Gharaei et al., 2018;Nikbakht et al., 2018;Nikbakht Nasrabadi, 2015;Sieben et al., 2015;Zoccolan, 2015)."
+        },
+        {
+          "start": 60,
+          "end": 75,
+          "global_start": 18399,
+          "global_end": 18414,
+          "sentence": "In the study that originally explored orientation judgment (Nikbakht et al., 2018), tactile exploration of the object was allowed in some trials, but the tactile condition is not considered in the present work; only visual, touch-free data are included."
+        }
+      ]
+    },
+    {
+      "text": "Pacchiarini et al.",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 407,
+          "end": 425,
+          "global_start": 5648,
+          "global_end": 5666,
+          "sentence": "Discussion\n['Rodent behavioral experiments done under red light are believed to place the animal in dark conditions while allowing the experimenter to observe the preparation directly or by video recording (Celikel and Sakmann, 2007;Cloke et al., 2015;Diamond et al., 1999;Englund et al., 2020;van Goethem et al., 2012;Harris and Diamond, 2000;Harris et al., 1999;Jacklin et al., 2016;Nikbakht et al., 2012;Pacchiarini et al., 2020;Reid et al., 2014;Salaberry et al., 2017;Sieben et al., 2015;Vasconcelos et al., 2011;Winters and Reid, 2010)."
+        }
+      ]
+    },
+    {
+      "text": "Reid et al.",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 432,
+          "end": 443,
+          "global_start": 5673,
+          "global_end": 5684,
+          "sentence": "Discussion\n['Rodent behavioral experiments done under red light are believed to place the animal in dark conditions while allowing the experimenter to observe the preparation directly or by video recording (Celikel and Sakmann, 2007;Cloke et al., 2015;Diamond et al., 1999;Englund et al., 2020;van Goethem et al., 2012;Harris and Diamond, 2000;Harris et al., 1999;Jacklin et al., 2016;Nikbakht et al., 2012;Pacchiarini et al., 2020;Reid et al., 2014;Salaberry et al., 2017;Sieben et al., 2015;Vasconcelos et al., 2011;Winters and Reid, 2010)."
+        }
+      ]
+    },
+    {
+      "text": "Salaberry et al.",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 450,
+          "end": 466,
+          "global_start": 5691,
+          "global_end": 5707,
+          "sentence": "Discussion\n['Rodent behavioral experiments done under red light are believed to place the animal in dark conditions while allowing the experimenter to observe the preparation directly or by video recording (Celikel and Sakmann, 2007;Cloke et al., 2015;Diamond et al., 1999;Englund et al., 2020;van Goethem et al., 2012;Harris and Diamond, 2000;Harris et al., 1999;Jacklin et al., 2016;Nikbakht et al., 2012;Pacchiarini et al., 2020;Reid et al., 2014;Salaberry et al., 2017;Sieben et al., 2015;Vasconcelos et al., 2011;Winters and Reid, 2010)."
+        }
+      ]
+    },
+    {
+      "text": "Sieben et al.",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 473,
+          "end": 486,
+          "global_start": 5714,
+          "global_end": 5727,
+          "sentence": "Discussion\n['Rodent behavioral experiments done under red light are believed to place the animal in dark conditions while allowing the experimenter to observe the preparation directly or by video recording (Celikel and Sakmann, 2007;Cloke et al., 2015;Diamond et al., 1999;Englund et al., 2020;van Goethem et al., 2012;Harris and Diamond, 2000;Harris et al., 1999;Jacklin et al., 2016;Nikbakht et al., 2012;Pacchiarini et al., 2020;Reid et al., 2014;Salaberry et al., 2017;Sieben et al., 2015;Vasconcelos et al., 2011;Winters and Reid, 2010)."
+        },
+        {
+          "start": 191,
+          "end": 204,
+          "global_start": 11243,
+          "global_end": 11256,
+          "sentence": "However, there is growing interest in the use of rodents for the study of vision, alone or combined with other modalities (Gharaei et al., 2018;Nikbakht et al., 2018;Nikbakht Nasrabadi, 2015;Sieben et al., 2015;Zoccolan, 2015)."
+        }
+      ]
+    },
+    {
+      "text": "Vasconcelos et al.",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 493,
+          "end": 511,
+          "global_start": 5734,
+          "global_end": 5752,
+          "sentence": "Discussion\n['Rodent behavioral experiments done under red light are believed to place the animal in dark conditions while allowing the experimenter to observe the preparation directly or by video recording (Celikel and Sakmann, 2007;Cloke et al., 2015;Diamond et al., 1999;Englund et al., 2020;van Goethem et al., 2012;Harris and Diamond, 2000;Harris et al., 1999;Jacklin et al., 2016;Nikbakht et al., 2012;Pacchiarini et al., 2020;Reid et al., 2014;Salaberry et al., 2017;Sieben et al., 2015;Vasconcelos et al., 2011;Winters and Reid, 2010)."
+        }
+      ]
+    },
+    {
+      "text": "Winters and Reid",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 518,
+          "end": 534,
+          "global_start": 5759,
+          "global_end": 5775,
+          "sentence": "Discussion\n['Rodent behavioral experiments done under red light are believed to place the animal in dark conditions while allowing the experimenter to observe the preparation directly or by video recording (Celikel and Sakmann, 2007;Cloke et al., 2015;Diamond et al., 1999;Englund et al., 2020;van Goethem et al., 2012;Harris and Diamond, 2000;Harris et al., 1999;Jacklin et al., 2016;Nikbakht et al., 2012;Pacchiarini et al., 2020;Reid et al., 2014;Salaberry et al., 2017;Sieben et al., 2015;Vasconcelos et al., 2011;Winters and Reid, 2010)."
+        }
+      ]
+    },
+    {
+      "text": "OKeefe",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 130,
+          "end": 136,
+          "global_start": 5914,
+          "global_end": 5920,
+          "sentence": "The relevant literature includes place-cell studies of rats navigating under dim red light, taken as the absence of visual input (OKeefe, 1976;Save et al., 2000;Zhang and Manahan-Vaughan, 2015;Zhang et al., 2014)."
+        }
+      ]
+    },
+    {
+      "text": "Save et al.",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 143,
+          "end": 154,
+          "global_start": 5927,
+          "global_end": 5938,
+          "sentence": "The relevant literature includes place-cell studies of rats navigating under dim red light, taken as the absence of visual input (OKeefe, 1976;Save et al., 2000;Zhang and Manahan-Vaughan, 2015;Zhang et al., 2014)."
+        }
+      ]
+    },
+    {
+      "text": "Zhang and Manahan-Vaughan",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 161,
+          "end": 186,
+          "global_start": 5945,
+          "global_end": 5970,
+          "sentence": "The relevant literature includes place-cell studies of rats navigating under dim red light, taken as the absence of visual input (OKeefe, 1976;Save et al., 2000;Zhang and Manahan-Vaughan, 2015;Zhang et al., 2014)."
+        }
+      ]
+    },
+    {
+      "text": "Zhang et al.",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 193,
+          "end": 205,
+          "global_start": 5977,
+          "global_end": 5989,
+          "sentence": "The relevant literature includes place-cell studies of rats navigating under dim red light, taken as the absence of visual input (OKeefe, 1976;Save et al., 2000;Zhang and Manahan-Vaughan, 2015;Zhang et al., 2014)."
+        }
+      ]
+    },
+    {
+      "text": "mice",
+      "label": "ORG",
+      "occurrences": [
+        {
+          "start": 47,
+          "end": 51,
+          "global_start": 6045,
+          "global_end": 6049,
+          "sentence": "In a developmental study of the visual cortex, mice were dark-reared but were allowed very brief daily exposure to red light (Kowalewski et al., 2021)."
+        },
+        {
+          "start": 102,
+          "end": 106,
+          "global_start": 10485,
+          "global_end": 10489,
+          "sentence": "Thus, behaviors may be documented by video while the animal performs without visual cues.', 'Rats and mice are the most frequently used laboratory mammals, ideal for research on spatial navigation (Frank et al., 2000;MacDonald et al., 2011;Moser et al., 2017;Okeefe and Nadel, 1978;Pastalkova et al., 2008;Wood et al., 2000) and the processing of tactile (Diamond et al., 2008;Fassihi et al., 2017;Zuo and Diamond, 2019) and olfactory (Chae et al., 2019;Koldaeva et al., 2019;Uchida and Mainen, 2003;Uchida et al., 2006) information."
+        }
+      ]
+    },
+    {
+      "text": "visual cortex",
+      "label": "ORG",
+      "occurrences": [
+        {
+          "start": 32,
+          "end": 45,
+          "global_start": 6030,
+          "global_end": 6043,
+          "sentence": "In a developmental study of the visual cortex, mice were dark-reared but were allowed very brief daily exposure to red light (Kowalewski et al., 2021)."
+        }
+      ]
+    },
+    {
+      "text": "Kowalewski et al.",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 126,
+          "end": 143,
+          "global_start": 6124,
+          "global_end": 6141,
+          "sentence": "In a developmental study of the visual cortex, mice were dark-reared but were allowed very brief daily exposure to red light (Kowalewski et al., 2021)."
+        }
+      ]
+    },
+    {
+      "text": "red illumination",
+      "label": "MISC",
+      "occurrences": [
+        {
+          "start": 13,
+          "end": 29,
+          "global_start": 6163,
+          "global_end": 6179,
+          "sentence": "Furthermore, red illumination is often used in reverse light cycle conditions in animal husbandry settings with the assumption that it will not affect rodent circadian rhythms (Emmer et al., 2018)."
+        }
+      ]
+    },
+    {
+      "text": "reverse light",
+      "label": "MISC",
+      "occurrences": [
+        {
+          "start": 47,
+          "end": 60,
+          "global_start": 6197,
+          "global_end": 6210,
+          "sentence": "Furthermore, red illumination is often used in reverse light cycle conditions in animal husbandry settings with the assumption that it will not affect rodent circadian rhythms (Emmer et al., 2018)."
+        }
+      ]
+    },
+    {
+      "text": "Emmer et al.",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 177,
+          "end": 189,
+          "global_start": 6327,
+          "global_end": 6339,
+          "sentence": "Furthermore, red illumination is often used in reverse light cycle conditions in animal husbandry settings with the assumption that it will not affect rodent circadian rhythms (Emmer et al., 2018)."
+        }
+      ]
+    },
+    {
+      "text": "rodent",
+      "label": "ORG",
+      "occurrences": [
+        {
+          "start": 151,
+          "end": 157,
+          "global_start": 6301,
+          "global_end": 6307,
+          "sentence": "Furthermore, red illumination is often used in reverse light cycle conditions in animal husbandry settings with the assumption that it will not affect rodent circadian rhythms (Emmer et al., 2018)."
+        }
+      ]
+    },
+    {
+      "text": "solid green",
+      "label": "ORG",
+      "occurrences": [
+        {
+          "start": 43,
+          "end": 54,
+          "global_start": 6664,
+          "global_end": 6675,
+          "sentence": "0-45(red) rewarded as horizontal and 45-90(solid green) rewarded as vertical.. (C)"
+        }
+      ]
+    },
+    {
+      "text": "horizontal",
+      "label": "ORG",
+      "occurrences": [
+        {
+          "start": 22,
+          "end": 32,
+          "global_start": 6643,
+          "global_end": 6653,
+          "sentence": "0-45(red) rewarded as horizontal and 45-90(solid green) rewarded as vertical.. (C)"
+        }
+      ]
+    },
+    {
+      "text": "vertical",
+      "label": "ORG",
+      "occurrences": [
+        {
+          "start": 68,
+          "end": 76,
+          "global_start": 6689,
+          "global_end": 6697,
+          "sentence": "0-45(red) rewarded as horizontal and 45-90(solid green) rewarded as vertical.. (C)"
+        }
+      ]
+    },
+    {
+      "text": "Figure supplement 2",
+      "label": "WORK_OF_ART",
+      "occurrences": [
+        {
+          "start": 4,
+          "end": 23,
+          "global_start": 7435,
+          "global_end": 7454,
+          "sentence": "See Figure supplement 2."
+        }
+      ]
+    },
+    {
+      "text": "LED",
+      "label": "PRODUCT",
+      "occurrences": [
+        {
+          "start": 31,
+          "end": 34,
+          "global_start": 7487,
+          "global_end": 7490,
+          "sentence": "Log-scaled irradiance for each LED, measured by a spectrometer at the stimulus delivery area in units of photons:m \u00c02 :s \u00c01 :nm \u00c01 ."
+        },
+        {
+          "start": 59,
+          "end": 62,
+          "global_start": 20211,
+          "global_end": 20214,
+          "sentence": "['Following the procedure of Franke et al., 2019, for each LED, we computed the following measurements, which we have included in Supplementary table 2.', 'Using the spectrophotometer measurements (P l \u00f0 \u00de W:cm \u00c02 :nm \u00c01 \u00bd ), we can calculate the spectral power density for each LED:', 'The energy of a single photon at wavelength l is', ', where c \u00bc 299; 792; 458m:s \u00c01 is the speed of light, and h \u00bc 6:62607004 \u00c2 10 \u00c034 J:s \u00bd is Plancks constant."
+        },
+        {
+          "start": 52,
+          "end": 55,
+          "global_start": 20653,
+          "global_end": 20656,
+          "sentence": "Then we computed the spectral photon count for each LED (SPC l \u00f0 \u00de photons:m \u00c02 :s \u00c01 :nm \u00c01 \u00bd ):', 'Given the d \u00bc 50cm distance between the LEDs and the stimulus delivery area, the rats dilated pupil area of A pupil \u00bc 0:0314cm 2 , the rats retinal surface area of A retina \u00bc 0:8cm 2 , and the rats rod outer segment area of A rod \u00bc 4 \u00c2 10 \u00c08 cm 2 (Mayhew and Astle, 1997), we approximated the photon flux density (C) of an isotropic LED radiation pattern at each photoreceptor as:', 'Then, the photon flux per photoreceptor is:']\n\nQuantification and statistical analysis Analysis of behavioral data\n"
+        }
+      ]
+    },
+    {
+      "text": "stimulus delivery area",
+      "label": "MISC",
+      "occurrences": [
+        {
+          "start": 70,
+          "end": 92,
+          "global_start": 7526,
+          "global_end": 7548,
+          "sentence": "Log-scaled irradiance for each LED, measured by a spectrometer at the stimulus delivery area in units of photons:m \u00c02 :s \u00c01 :nm \u00c01 ."
+        }
+      ]
+    },
+    {
+      "text": "photons",
+      "label": "MISC",
+      "occurrences": [
+        {
+          "start": 105,
+          "end": 112,
+          "global_start": 7561,
+          "global_end": 7568,
+          "sentence": "Log-scaled irradiance for each LED, measured by a spectrometer at the stimulus delivery area in units of photons:m \u00c02 :s \u00c01 :nm \u00c01 ."
+        }
+      ]
+    },
+    {
+      "text": "Figure supplement 3",
+      "label": "WORK_OF_ART",
+      "occurrences": [
+        {
+          "start": 0,
+          "end": 19,
+          "global_start": 7589,
+          "global_end": 7608,
+          "sentence": "Figure supplement 3."
+        }
+      ]
+    },
+    {
+      "text": "rats",
+      "label": "SPECIES",
+      "occurrences": [
+        {
+          "start": 127,
+          "end": 131,
+          "global_start": 7737,
+          "global_end": 7741,
+          "sentence": "Log-scaled normalized irradiance for each LED along with a template that approximates the photopigment spectral sensitivity of rats rhodopsin as well as S-opsin, M-opsin (Stockman and Sharpe, 2000).', 'Rodents lack red cones (Deegan and Jacobs, 1993;Jacobs et al., 1991;Sze l and Ro hlich, 1992), but from the inability to see red as a color, it does not necessarily follow that they cannot absorb red light through their rod-dominated retina to support form vision."
+        }
+      ]
+    },
+    {
+      "text": "rhodopsin",
+      "label": "GENE_OR_GENE_PRODUCT",
+      "occurrences": [
+        {
+          "start": 132,
+          "end": 141,
+          "global_start": 7742,
+          "global_end": 7751,
+          "sentence": "Log-scaled normalized irradiance for each LED along with a template that approximates the photopigment spectral sensitivity of rats rhodopsin as well as S-opsin, M-opsin (Stockman and Sharpe, 2000).', 'Rodents lack red cones (Deegan and Jacobs, 1993;Jacobs et al., 1991;Sze l and Ro hlich, 1992), but from the inability to see red as a color, it does not necessarily follow that they cannot absorb red light through their rod-dominated retina to support form vision."
+        }
+      ]
+    },
+    {
+      "text": "S-opsin",
+      "label": "GENE_OR_GENE_PRODUCT",
+      "occurrences": [
+        {
+          "start": 153,
+          "end": 160,
+          "global_start": 7763,
+          "global_end": 7770,
+          "sentence": "Log-scaled normalized irradiance for each LED along with a template that approximates the photopigment spectral sensitivity of rats rhodopsin as well as S-opsin, M-opsin (Stockman and Sharpe, 2000).', 'Rodents lack red cones (Deegan and Jacobs, 1993;Jacobs et al., 1991;Sze l and Ro hlich, 1992), but from the inability to see red as a color, it does not necessarily follow that they cannot absorb red light through their rod-dominated retina to support form vision."
+        }
+      ]
+    },
+    {
+      "text": "M-opsin",
+      "label": "GENE_OR_GENE_PRODUCT",
+      "occurrences": [
+        {
+          "start": 162,
+          "end": 169,
+          "global_start": 7772,
+          "global_end": 7779,
+          "sentence": "Log-scaled normalized irradiance for each LED along with a template that approximates the photopigment spectral sensitivity of rats rhodopsin as well as S-opsin, M-opsin (Stockman and Sharpe, 2000).', 'Rodents lack red cones (Deegan and Jacobs, 1993;Jacobs et al., 1991;Sze l and Ro hlich, 1992), but from the inability to see red as a color, it does not necessarily follow that they cannot absorb red light through their rod-dominated retina to support form vision."
+        }
+      ]
+    },
+    {
+      "text": "Stockman and Sharpe",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 171,
+          "end": 190,
+          "global_start": 7781,
+          "global_end": 7800,
+          "sentence": "Log-scaled normalized irradiance for each LED along with a template that approximates the photopigment spectral sensitivity of rats rhodopsin as well as S-opsin, M-opsin (Stockman and Sharpe, 2000).', 'Rodents lack red cones (Deegan and Jacobs, 1993;Jacobs et al., 1991;Sze l and Ro hlich, 1992), but from the inability to see red as a color, it does not necessarily follow that they cannot absorb red light through their rod-dominated retina to support form vision."
+        }
+      ]
+    },
+    {
+      "text": "Rodents",
+      "label": "SPECIES",
+      "occurrences": [
+        {
+          "start": 202,
+          "end": 209,
+          "global_start": 7812,
+          "global_end": 7819,
+          "sentence": "Log-scaled normalized irradiance for each LED along with a template that approximates the photopigment spectral sensitivity of rats rhodopsin as well as S-opsin, M-opsin (Stockman and Sharpe, 2000).', 'Rodents lack red cones (Deegan and Jacobs, 1993;Jacobs et al., 1991;Sze l and Ro hlich, 1992), but from the inability to see red as a color, it does not necessarily follow that they cannot absorb red light through their rod-dominated retina to support form vision."
+        }
+      ]
+    },
+    {
+      "text": "red cones",
+      "label": "ANATOMICAL_STRUCTURE",
+      "occurrences": [
+        {
+          "start": 215,
+          "end": 224,
+          "global_start": 7825,
+          "global_end": 7834,
+          "sentence": "Log-scaled normalized irradiance for each LED along with a template that approximates the photopigment spectral sensitivity of rats rhodopsin as well as S-opsin, M-opsin (Stockman and Sharpe, 2000).', 'Rodents lack red cones (Deegan and Jacobs, 1993;Jacobs et al., 1991;Sze l and Ro hlich, 1992), but from the inability to see red as a color, it does not necessarily follow that they cannot absorb red light through their rod-dominated retina to support form vision."
+        }
+      ]
+    },
+    {
+      "text": "Sze l and Ro hlich",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 270,
+          "end": 288,
+          "global_start": 7880,
+          "global_end": 7898,
+          "sentence": "Log-scaled normalized irradiance for each LED along with a template that approximates the photopigment spectral sensitivity of rats rhodopsin as well as S-opsin, M-opsin (Stockman and Sharpe, 2000).', 'Rodents lack red cones (Deegan and Jacobs, 1993;Jacobs et al., 1991;Sze l and Ro hlich, 1992), but from the inability to see red as a color, it does not necessarily follow that they cannot absorb red light through their rod-dominated retina to support form vision."
+        }
+      ]
+    },
+    {
+      "text": "retina",
+      "label": "ANATOMICAL_STRUCTURE",
+      "occurrences": [
+        {
+          "start": 436,
+          "end": 442,
+          "global_start": 8046,
+          "global_end": 8052,
+          "sentence": "Log-scaled normalized irradiance for each LED along with a template that approximates the photopigment spectral sensitivity of rats rhodopsin as well as S-opsin, M-opsin (Stockman and Sharpe, 2000).', 'Rodents lack red cones (Deegan and Jacobs, 1993;Jacobs et al., 1991;Sze l and Ro hlich, 1992), but from the inability to see red as a color, it does not necessarily follow that they cannot absorb red light through their rod-dominated retina to support form vision."
+        },
+        {
+          "start": 241,
+          "end": 247,
+          "global_start": 9370,
+          "global_end": 9376,
+          "sentence": "Although our study does not include direct measures of photoreceptor sensitivity, the results indicate that mechanisms must exist for converting miniscule quantities of receptor activation into meaningful signals, perhaps through some cross-retina population code."
+        }
+      ]
+    },
+    {
+      "text": "Brown Norway",
+      "label": "ORG",
+      "occurrences": [
+        {
+          "start": 110,
+          "end": 122,
+          "global_start": 8187,
+          "global_end": 8199,
+          "sentence": "A recent study (Niklaus et al., 2020) examined the retinal responses mediated by rods and cones of pigmented (Brown Norway) and albino (Wistar) rats in response to monochromatic far-red light of 656  10 nm in both photopic (light-adapted) and scotopic (dark-adapted) settings."
+        }
+      ]
+    },
+    {
+      "text": "Wistar",
+      "label": "ORG",
+      "occurrences": [
+        {
+          "start": 136,
+          "end": 142,
+          "global_start": 8213,
+          "global_end": 8219,
+          "sentence": "A recent study (Niklaus et al., 2020) examined the retinal responses mediated by rods and cones of pigmented (Brown Norway) and albino (Wistar) rats in response to monochromatic far-red light of 656  10 nm in both photopic (light-adapted) and scotopic (dark-adapted) settings."
+        }
+      ]
+    },
+    {
+      "text": "photopic",
+      "label": "CONCEPT",
+      "occurrences": [
+        {
+          "start": 214,
+          "end": 222,
+          "global_start": 8291,
+          "global_end": 8299,
+          "sentence": "A recent study (Niklaus et al., 2020) examined the retinal responses mediated by rods and cones of pigmented (Brown Norway) and albino (Wistar) rats in response to monochromatic far-red light of 656  10 nm in both photopic (light-adapted) and scotopic (dark-adapted) settings."
+        }
+      ]
+    },
+    {
+      "text": "scotopic",
+      "label": "CONCEPT",
+      "occurrences": [
+        {
+          "start": 243,
+          "end": 251,
+          "global_start": 8320,
+          "global_end": 8328,
+          "sentence": "A recent study (Niklaus et al., 2020) examined the retinal responses mediated by rods and cones of pigmented (Brown Norway) and albino (Wistar) rats in response to monochromatic far-red light of 656  10 nm in both photopic (light-adapted) and scotopic (dark-adapted) settings."
+        }
+      ]
+    },
+    {
+      "text": "far-red light",
+      "label": "CHEMICAL",
+      "occurrences": [
+        {
+          "start": 178,
+          "end": 191,
+          "global_start": 8255,
+          "global_end": 8268,
+          "sentence": "A recent study (Niklaus et al., 2020) examined the retinal responses mediated by rods and cones of pigmented (Brown Norway) and albino (Wistar) rats in response to monochromatic far-red light of 656  10 nm in both photopic (light-adapted) and scotopic (dark-adapted) settings."
+        }
+      ]
+    },
+    {
+      "text": "retinal receptors",
+      "label": "B-Cell",
+      "occurrences": [
+        {
+          "start": 14,
+          "end": 31,
+          "global_start": 8701,
+          "global_end": 8718,
+          "sentence": "Excitation of retinal receptors by red light does not, by itself, indicate behavioral availability of the signal."
+        }
+      ]
+    },
+    {
+      "text": "circadian rhythms",
+      "label": "Disease",
+      "occurrences": [
+        {
+          "start": 45,
+          "end": 62,
+          "global_start": 8846,
+          "global_end": 8863,
+          "sentence": "For instance, red light might act to entrain circadian rhythms, unconscious to the animal."
+        }
+      ]
+    },
+    {
+      "text": "mice",
+      "label": "ANIMAL",
+      "occurrences": [
+        {
+          "start": 19,
+          "end": 23,
+          "global_start": 8911,
+          "global_end": 8915,
+          "sentence": "The sensitivity of mice is emphasized by the finding that red illumination delivered into the brain in an optogenetic protocol evoked a behavioral artifact in mice performing a visually guided discrimination task (Danskin et al., 2015)."
+        }
+      ]
+    },
+    {
+      "text": "red illumination",
+      "label": "CHEMICAL",
+      "occurrences": [
+        {
+          "start": 58,
+          "end": 74,
+          "global_start": 8950,
+          "global_end": 8966,
+          "sentence": "The sensitivity of mice is emphasized by the finding that red illumination delivered into the brain in an optogenetic protocol evoked a behavioral artifact in mice performing a visually guided discrimination task (Danskin et al., 2015)."
+        }
+      ]
+    },
+    {
+      "text": "optogenetic",
+      "label": "METHOD",
+      "occurrences": [
+        {
+          "start": 106,
+          "end": 117,
+          "global_start": 8998,
+          "global_end": 9009,
+          "sentence": "The sensitivity of mice is emphasized by the finding that red illumination delivered into the brain in an optogenetic protocol evoked a behavioral artifact in mice performing a visually guided discrimination task (Danskin et al., 2015)."
+        }
+      ]
+    },
+    {
+      "text": "Danskin et al.",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 214,
+          "end": 228,
+          "global_start": 9106,
+          "global_end": 9120,
+          "sentence": "The sensitivity of mice is emphasized by the finding that red illumination delivered into the brain in an optogenetic protocol evoked a behavioral artifact in mice performing a visually guided discrimination task (Danskin et al., 2015)."
+        }
+      ]
+    },
+    {
+      "text": "photoreceptor sensitivity",
+      "label": "CONCEPT",
+      "occurrences": [
+        {
+          "start": 55,
+          "end": 80,
+          "global_start": 9184,
+          "global_end": 9209,
+          "sentence": "Although our study does not include direct measures of photoreceptor sensitivity, the results indicate that mechanisms must exist for converting miniscule quantities of receptor activation into meaningful signals, perhaps through some cross-retina population code."
+        }
+      ]
+    },
+    {
+      "text": "receptor activation",
+      "label": "CONCEPT",
+      "occurrences": [
+        {
+          "start": 169,
+          "end": 188,
+          "global_start": 9298,
+          "global_end": 9317,
+          "sentence": "Although our study does not include direct measures of photoreceptor sensitivity, the results indicate that mechanisms must exist for converting miniscule quantities of receptor activation into meaningful signals, perhaps through some cross-retina population code."
+        }
+      ]
+    },
+    {
+      "text": "photoreceptor",
+      "label": "ANATOMICAL_CONCEPT",
+      "occurrences": [
+        {
+          "start": 47,
+          "end": 60,
+          "global_start": 9441,
+          "global_end": 9454,
+          "sentence": "It is interesting to note the possibility that photoreceptors could respond to longer wavelengths through a nonlinear optical process including two-photon activation of photopigments (Palczewska et al., 2014;Vinberg et al., 2019), although the emission intensities used in our work are many orders of magnitude lower than those used in two-photon studies (Palczewska et al., 2014).', 'In the present work, Long-Evans rats demonstrated substantial visual form capacity under illumination by LEDs emitting long-wavelength red and far-red light -LEDs that are low cost, easy to use, and thus common in the laboratory."
+        }
+      ]
+    },
+    {
+      "text": "spatial navigation",
+      "label": "CONCEPT",
+      "occurrences": [
+        {
+          "start": 178,
+          "end": 196,
+          "global_start": 10561,
+          "global_end": 10579,
+          "sentence": "Thus, behaviors may be documented by video while the animal performs without visual cues.', 'Rats and mice are the most frequently used laboratory mammals, ideal for research on spatial navigation (Frank et al., 2000;MacDonald et al., 2011;Moser et al., 2017;Okeefe and Nadel, 1978;Pastalkova et al., 2008;Wood et al., 2000) and the processing of tactile (Diamond et al., 2008;Fassihi et al., 2017;Zuo and Diamond, 2019) and olfactory (Chae et al., 2019;Koldaeva et al., 2019;Uchida and Mainen, 2003;Uchida et al., 2006) information."
+        }
+      ]
+    },
+    {
+      "text": "Frank et al.",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 198,
+          "end": 210,
+          "global_start": 10581,
+          "global_end": 10593,
+          "sentence": "Thus, behaviors may be documented by video while the animal performs without visual cues.', 'Rats and mice are the most frequently used laboratory mammals, ideal for research on spatial navigation (Frank et al., 2000;MacDonald et al., 2011;Moser et al., 2017;Okeefe and Nadel, 1978;Pastalkova et al., 2008;Wood et al., 2000) and the processing of tactile (Diamond et al., 2008;Fassihi et al., 2017;Zuo and Diamond, 2019) and olfactory (Chae et al., 2019;Koldaeva et al., 2019;Uchida and Mainen, 2003;Uchida et al., 2006) information."
+        }
+      ]
+    },
+    {
+      "text": "MacDonald et al.",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 217,
+          "end": 233,
+          "global_start": 10600,
+          "global_end": 10616,
+          "sentence": "Thus, behaviors may be documented by video while the animal performs without visual cues.', 'Rats and mice are the most frequently used laboratory mammals, ideal for research on spatial navigation (Frank et al., 2000;MacDonald et al., 2011;Moser et al., 2017;Okeefe and Nadel, 1978;Pastalkova et al., 2008;Wood et al., 2000) and the processing of tactile (Diamond et al., 2008;Fassihi et al., 2017;Zuo and Diamond, 2019) and olfactory (Chae et al., 2019;Koldaeva et al., 2019;Uchida and Mainen, 2003;Uchida et al., 2006) information."
+        }
+      ]
+    },
+    {
+      "text": "Moser et al.",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 240,
+          "end": 252,
+          "global_start": 10623,
+          "global_end": 10635,
+          "sentence": "Thus, behaviors may be documented by video while the animal performs without visual cues.', 'Rats and mice are the most frequently used laboratory mammals, ideal for research on spatial navigation (Frank et al., 2000;MacDonald et al., 2011;Moser et al., 2017;Okeefe and Nadel, 1978;Pastalkova et al., 2008;Wood et al., 2000) and the processing of tactile (Diamond et al., 2008;Fassihi et al., 2017;Zuo and Diamond, 2019) and olfactory (Chae et al., 2019;Koldaeva et al., 2019;Uchida and Mainen, 2003;Uchida et al., 2006) information."
+        }
+      ]
+    },
+    {
+      "text": "Okeefe and Nadel",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 259,
+          "end": 275,
+          "global_start": 10642,
+          "global_end": 10658,
+          "sentence": "Thus, behaviors may be documented by video while the animal performs without visual cues.', 'Rats and mice are the most frequently used laboratory mammals, ideal for research on spatial navigation (Frank et al., 2000;MacDonald et al., 2011;Moser et al., 2017;Okeefe and Nadel, 1978;Pastalkova et al., 2008;Wood et al., 2000) and the processing of tactile (Diamond et al., 2008;Fassihi et al., 2017;Zuo and Diamond, 2019) and olfactory (Chae et al., 2019;Koldaeva et al., 2019;Uchida and Mainen, 2003;Uchida et al., 2006) information."
+        }
+      ]
+    },
+    {
+      "text": "Pastalkova et al.",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 282,
+          "end": 299,
+          "global_start": 10665,
+          "global_end": 10682,
+          "sentence": "Thus, behaviors may be documented by video while the animal performs without visual cues.', 'Rats and mice are the most frequently used laboratory mammals, ideal for research on spatial navigation (Frank et al., 2000;MacDonald et al., 2011;Moser et al., 2017;Okeefe and Nadel, 1978;Pastalkova et al., 2008;Wood et al., 2000) and the processing of tactile (Diamond et al., 2008;Fassihi et al., 2017;Zuo and Diamond, 2019) and olfactory (Chae et al., 2019;Koldaeva et al., 2019;Uchida and Mainen, 2003;Uchida et al., 2006) information."
+        }
+      ]
+    },
+    {
+      "text": "Wood et al.",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 306,
+          "end": 317,
+          "global_start": 10689,
+          "global_end": 10700,
+          "sentence": "Thus, behaviors may be documented by video while the animal performs without visual cues.', 'Rats and mice are the most frequently used laboratory mammals, ideal for research on spatial navigation (Frank et al., 2000;MacDonald et al., 2011;Moser et al., 2017;Okeefe and Nadel, 1978;Pastalkova et al., 2008;Wood et al., 2000) and the processing of tactile (Diamond et al., 2008;Fassihi et al., 2017;Zuo and Diamond, 2019) and olfactory (Chae et al., 2019;Koldaeva et al., 2019;Uchida and Mainen, 2003;Uchida et al., 2006) information."
+        }
+      ]
+    },
+    {
+      "text": "tactile",
+      "label": "CONCEPT",
+      "occurrences": [
+        {
+          "start": 347,
+          "end": 354,
+          "global_start": 10730,
+          "global_end": 10737,
+          "sentence": "Thus, behaviors may be documented by video while the animal performs without visual cues.', 'Rats and mice are the most frequently used laboratory mammals, ideal for research on spatial navigation (Frank et al., 2000;MacDonald et al., 2011;Moser et al., 2017;Okeefe and Nadel, 1978;Pastalkova et al., 2008;Wood et al., 2000) and the processing of tactile (Diamond et al., 2008;Fassihi et al., 2017;Zuo and Diamond, 2019) and olfactory (Chae et al., 2019;Koldaeva et al., 2019;Uchida and Mainen, 2003;Uchida et al., 2006) information."
+        }
+      ]
+    },
+    {
+      "text": "Fassihi et al.",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 377,
+          "end": 391,
+          "global_start": 10760,
+          "global_end": 10774,
+          "sentence": "Thus, behaviors may be documented by video while the animal performs without visual cues.', 'Rats and mice are the most frequently used laboratory mammals, ideal for research on spatial navigation (Frank et al., 2000;MacDonald et al., 2011;Moser et al., 2017;Okeefe and Nadel, 1978;Pastalkova et al., 2008;Wood et al., 2000) and the processing of tactile (Diamond et al., 2008;Fassihi et al., 2017;Zuo and Diamond, 2019) and olfactory (Chae et al., 2019;Koldaeva et al., 2019;Uchida and Mainen, 2003;Uchida et al., 2006) information."
+        }
+      ]
+    },
+    {
+      "text": "Zuo and Diamond",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 398,
+          "end": 413,
+          "global_start": 10781,
+          "global_end": 10796,
+          "sentence": "Thus, behaviors may be documented by video while the animal performs without visual cues.', 'Rats and mice are the most frequently used laboratory mammals, ideal for research on spatial navigation (Frank et al., 2000;MacDonald et al., 2011;Moser et al., 2017;Okeefe and Nadel, 1978;Pastalkova et al., 2008;Wood et al., 2000) and the processing of tactile (Diamond et al., 2008;Fassihi et al., 2017;Zuo and Diamond, 2019) and olfactory (Chae et al., 2019;Koldaeva et al., 2019;Uchida and Mainen, 2003;Uchida et al., 2006) information."
+        }
+      ]
+    },
+    {
+      "text": "olfactory",
+      "label": "CONCEPT",
+      "occurrences": [
+        {
+          "start": 425,
+          "end": 434,
+          "global_start": 10808,
+          "global_end": 10817,
+          "sentence": "Thus, behaviors may be documented by video while the animal performs without visual cues.', 'Rats and mice are the most frequently used laboratory mammals, ideal for research on spatial navigation (Frank et al., 2000;MacDonald et al., 2011;Moser et al., 2017;Okeefe and Nadel, 1978;Pastalkova et al., 2008;Wood et al., 2000) and the processing of tactile (Diamond et al., 2008;Fassihi et al., 2017;Zuo and Diamond, 2019) and olfactory (Chae et al., 2019;Koldaeva et al., 2019;Uchida and Mainen, 2003;Uchida et al., 2006) information."
+        }
+      ]
+    },
+    {
+      "text": "Chae et al.",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 436,
+          "end": 447,
+          "global_start": 10819,
+          "global_end": 10830,
+          "sentence": "Thus, behaviors may be documented by video while the animal performs without visual cues.', 'Rats and mice are the most frequently used laboratory mammals, ideal for research on spatial navigation (Frank et al., 2000;MacDonald et al., 2011;Moser et al., 2017;Okeefe and Nadel, 1978;Pastalkova et al., 2008;Wood et al., 2000) and the processing of tactile (Diamond et al., 2008;Fassihi et al., 2017;Zuo and Diamond, 2019) and olfactory (Chae et al., 2019;Koldaeva et al., 2019;Uchida and Mainen, 2003;Uchida et al., 2006) information."
+        }
+      ]
+    },
+    {
+      "text": "Koldaeva et al.",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 454,
+          "end": 469,
+          "global_start": 10837,
+          "global_end": 10852,
+          "sentence": "Thus, behaviors may be documented by video while the animal performs without visual cues.', 'Rats and mice are the most frequently used laboratory mammals, ideal for research on spatial navigation (Frank et al., 2000;MacDonald et al., 2011;Moser et al., 2017;Okeefe and Nadel, 1978;Pastalkova et al., 2008;Wood et al., 2000) and the processing of tactile (Diamond et al., 2008;Fassihi et al., 2017;Zuo and Diamond, 2019) and olfactory (Chae et al., 2019;Koldaeva et al., 2019;Uchida and Mainen, 2003;Uchida et al., 2006) information."
+        }
+      ]
+    },
+    {
+      "text": "Uchida and Mainen",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 476,
+          "end": 493,
+          "global_start": 10859,
+          "global_end": 10876,
+          "sentence": "Thus, behaviors may be documented by video while the animal performs without visual cues.', 'Rats and mice are the most frequently used laboratory mammals, ideal for research on spatial navigation (Frank et al., 2000;MacDonald et al., 2011;Moser et al., 2017;Okeefe and Nadel, 1978;Pastalkova et al., 2008;Wood et al., 2000) and the processing of tactile (Diamond et al., 2008;Fassihi et al., 2017;Zuo and Diamond, 2019) and olfactory (Chae et al., 2019;Koldaeva et al., 2019;Uchida and Mainen, 2003;Uchida et al., 2006) information."
+        }
+      ]
+    },
+    {
+      "text": "Uchida et al.",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 500,
+          "end": 513,
+          "global_start": 10883,
+          "global_end": 10896,
+          "sentence": "Thus, behaviors may be documented by video while the animal performs without visual cues.', 'Rats and mice are the most frequently used laboratory mammals, ideal for research on spatial navigation (Frank et al., 2000;MacDonald et al., 2011;Moser et al., 2017;Okeefe and Nadel, 1978;Pastalkova et al., 2008;Wood et al., 2000) and the processing of tactile (Diamond et al., 2008;Fassihi et al., 2017;Zuo and Diamond, 2019) and olfactory (Chae et al., 2019;Koldaeva et al., 2019;Uchida and Mainen, 2003;Uchida et al., 2006) information."
+        }
+      ]
+    },
+    {
+      "text": "Neuroscientists",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 0,
+          "end": 15,
+          "global_start": 10917,
+          "global_end": 10932,
+          "sentence": "Neuroscientists have not traditionally attributed to rodents the wide range of visual perceptual functions characteristic of primates."
+        }
+      ]
+    },
+    {
+      "text": "rodents",
+      "label": "ORG",
+      "occurrences": [
+        {
+          "start": 53,
+          "end": 60,
+          "global_start": 10970,
+          "global_end": 10977,
+          "sentence": "Neuroscientists have not traditionally attributed to rodents the wide range of visual perceptual functions characteristic of primates."
+        }
+      ]
+    },
+    {
+      "text": "primates",
+      "label": "ORG",
+      "occurrences": [
+        {
+          "start": 125,
+          "end": 133,
+          "global_start": 11042,
+          "global_end": 11050,
+          "sentence": "Neuroscientists have not traditionally attributed to rodents the wide range of visual perceptual functions characteristic of primates."
+        },
+        {
+          "start": 246,
+          "end": 254,
+          "global_start": 11526,
+          "global_end": 11534,
+          "sentence": "Rats under broad-wavelength conditions spontaneously recognize an object even when views differ by angle, size, and position Zoccolan, 2015; such generalization is a hallmark of authentic visual perception and was once believed to belong only to primates."
+        }
+      ]
+    },
+    {
+      "text": "Gharaei et al.",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 123,
+          "end": 137,
+          "global_start": 11175,
+          "global_end": 11189,
+          "sentence": "However, there is growing interest in the use of rodents for the study of vision, alone or combined with other modalities (Gharaei et al., 2018;Nikbakht et al., 2018;Nikbakht Nasrabadi, 2015;Sieben et al., 2015;Zoccolan, 2015)."
+        }
+      ]
+    },
+    {
+      "text": "Nikbakht Nasrabadi",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 166,
+          "end": 184,
+          "global_start": 11218,
+          "global_end": 11236,
+          "sentence": "However, there is growing interest in the use of rodents for the study of vision, alone or combined with other modalities (Gharaei et al., 2018;Nikbakht et al., 2018;Nikbakht Nasrabadi, 2015;Sieben et al., 2015;Zoccolan, 2015)."
+        }
+      ]
+    },
+    {
+      "text": "Zoccolan",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 211,
+          "end": 219,
+          "global_start": 11263,
+          "global_end": 11271,
+          "sentence": "However, there is growing interest in the use of rodents for the study of vision, alone or combined with other modalities (Gharaei et al., 2018;Nikbakht et al., 2018;Nikbakht Nasrabadi, 2015;Sieben et al., 2015;Zoccolan, 2015)."
+        },
+        {
+          "start": 125,
+          "end": 133,
+          "global_start": 11405,
+          "global_end": 11413,
+          "sentence": "Rats under broad-wavelength conditions spontaneously recognize an object even when views differ by angle, size, and position Zoccolan, 2015; such generalization is a hallmark of authentic visual perception and was once believed to belong only to primates."
+        }
+      ]
+    },
+    {
+      "text": "Long-Evans rats",
+      "label": "ANIMAL",
+      "occurrences": [
+        {
+          "start": 313,
+          "end": 328,
+          "global_start": 12355,
+          "global_end": 12370,
+          "sentence": "A complete understanding of the visual processing of these animals is important not only in the design and control of the behavioral and physiological experiments but also to ensure optimal environmental lighting conditions for their well-being in laboratory settings.']\n\nExperimental subject details\n['Four male Long-Evans rats (Charles River Laboratories, Calco, Italy) were used."
+        }
+      ]
+    },
+    {
+      "text": "Charles River Laboratories",
+      "label": "ORG",
+      "occurrences": [
+        {
+          "start": 330,
+          "end": 356,
+          "global_start": 12372,
+          "global_end": 12398,
+          "sentence": "A complete understanding of the visual processing of these animals is important not only in the design and control of the behavioral and physiological experiments but also to ensure optimal environmental lighting conditions for their well-being in laboratory settings.']\n\nExperimental subject details\n['Four male Long-Evans rats (Charles River Laboratories, Calco, Italy) were used."
+        }
+      ]
+    },
+    {
+      "text": "Calco",
+      "label": "GPE",
+      "occurrences": [
+        {
+          "start": 358,
+          "end": 363,
+          "global_start": 12400,
+          "global_end": 12405,
+          "sentence": "A complete understanding of the visual processing of these animals is important not only in the design and control of the behavioral and physiological experiments but also to ensure optimal environmental lighting conditions for their well-being in laboratory settings.']\n\nExperimental subject details\n['Four male Long-Evans rats (Charles River Laboratories, Calco, Italy) were used."
+        }
+      ]
+    },
+    {
+      "text": "Italy",
+      "label": "GPE",
+      "occurrences": [
+        {
+          "start": 365,
+          "end": 370,
+          "global_start": 12407,
+          "global_end": 12412,
+          "sentence": "A complete understanding of the visual processing of these animals is important not only in the design and control of the behavioral and physiological experiments but also to ensure optimal environmental lighting conditions for their well-being in laboratory settings.']\n\nExperimental subject details\n['Four male Long-Evans rats (Charles River Laboratories, Calco, Italy) were used."
+        }
+      ]
+    },
+    {
+      "text": "veterinarian",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 34,
+          "end": 46,
+          "global_start": 13193,
+          "global_end": 13205,
+          "sentence": "Animals were examined weekly by a veterinarian."
+        }
+      ]
+    },
+    {
+      "text": "Faraday cage",
+      "label": "PRODUCT",
+      "occurrences": [
+        {
+          "start": 70,
+          "end": 82,
+          "global_start": 14135,
+          "global_end": 14147,
+          "sentence": "A transparent panel prevented direct touch.', 'The apparatus was in a Faraday cage that, with the door closed, provided acoustic, visual, and electromagnetic isolation."
+        }
+      ]
+    },
+    {
+      "text": "OSRAM Opto Semiconductors GmbH",
+      "label": "ORG",
+      "occurrences": [
+        {
+          "start": 45,
+          "end": 75,
+          "global_start": 14279,
+          "global_end": 14309,
+          "sentence": "An array of 12 infrared emitters (l  930 nm, OSRAM Opto Semiconductors GmbH, Germany) illuminated the stimulus port to permit the investigator to monitor behavior and to execute video recording."
+        }
+      ]
+    },
+    {
+      "text": "Germany",
+      "label": "GPE",
+      "occurrences": [
+        {
+          "start": 77,
+          "end": 84,
+          "global_start": 14311,
+          "global_end": 14318,
+          "sentence": "An array of 12 infrared emitters (l  930 nm, OSRAM Opto Semiconductors GmbH, Germany) illuminated the stimulus port to permit the investigator to monitor behavior and to execute video recording."
+        }
+      ]
+    },
+    {
+      "text": "white LED arrays",
+      "label": "PRODUCT",
+      "occurrences": [
+        {
+          "start": 96,
+          "end": 112,
+          "global_start": 14598,
+          "global_end": 14614,
+          "sentence": "For visual testing, different light sources were used to illuminate the stimulus: a pair of six white LED arrays or various high-power monochrome LED arrays (Roithner LaserTechnik, GmbH) with peak intensities at 626 nm (LED620-66-60), 652 nm (LED660-66-60), 729 nm (LED735-66-60), 854 nm (LED850-66-60), and 930 nm (LED940-66-60) (see Figure 1D for Gaussian fits to the measured spectrum in ambient temperature)."
+        }
+      ]
+    },
+    {
+      "text": "monochrome LED arrays",
+      "label": "PRODUCT",
+      "occurrences": [
+        {
+          "start": 135,
+          "end": 156,
+          "global_start": 14637,
+          "global_end": 14658,
+          "sentence": "For visual testing, different light sources were used to illuminate the stimulus: a pair of six white LED arrays or various high-power monochrome LED arrays (Roithner LaserTechnik, GmbH) with peak intensities at 626 nm (LED620-66-60), 652 nm (LED660-66-60), 729 nm (LED735-66-60), 854 nm (LED850-66-60), and 930 nm (LED940-66-60) (see Figure 1D for Gaussian fits to the measured spectrum in ambient temperature)."
+        }
+      ]
+    },
+    {
+      "text": "Roithner LaserTechnik, GmbH",
+      "label": "ORG",
+      "occurrences": [
+        {
+          "start": 158,
+          "end": 185,
+          "global_start": 14660,
+          "global_end": 14687,
+          "sentence": "For visual testing, different light sources were used to illuminate the stimulus: a pair of six white LED arrays or various high-power monochrome LED arrays (Roithner LaserTechnik, GmbH) with peak intensities at 626 nm (LED620-66-60), 652 nm (LED660-66-60), 729 nm (LED735-66-60), 854 nm (LED850-66-60), and 930 nm (LED940-66-60) (see Figure 1D for Gaussian fits to the measured spectrum in ambient temperature)."
+        }
+      ]
+    },
+    {
+      "text": "FLAME-S-XR1-ES",
+      "label": "PRODUCT",
+      "occurrences": [
+        {
+          "start": 114,
+          "end": 128,
+          "global_start": 15029,
+          "global_end": 15043,
+          "sentence": "The power spectral distributions were measured with a calibrated spectrometer and the associated software (Model: FLAME-S-XR1-ES, OceanOptics, Rochester, NY) via a visible-NIR fiber (core diameter 200 mm) attached to a cosine corrector."
+        }
+      ]
+    },
+    {
+      "text": "OceanOptics",
+      "label": "ORG",
+      "occurrences": [
+        {
+          "start": 130,
+          "end": 141,
+          "global_start": 15045,
+          "global_end": 15056,
+          "sentence": "The power spectral distributions were measured with a calibrated spectrometer and the associated software (Model: FLAME-S-XR1-ES, OceanOptics, Rochester, NY) via a visible-NIR fiber (core diameter 200 mm) attached to a cosine corrector."
+        },
+        {
+          "start": 99,
+          "end": 110,
+          "global_start": 15393,
+          "global_end": 15404,
+          "sentence": "The spectrometer was calibrated using a Deuterium-Halogen calibration light source unit (DH-3 plus OceanOptics, Rochester, NY)."
+        }
+      ]
+    },
+    {
+      "text": "Rochester",
+      "label": "GPE",
+      "occurrences": [
+        {
+          "start": 143,
+          "end": 152,
+          "global_start": 15058,
+          "global_end": 15067,
+          "sentence": "The power spectral distributions were measured with a calibrated spectrometer and the associated software (Model: FLAME-S-XR1-ES, OceanOptics, Rochester, NY) via a visible-NIR fiber (core diameter 200 mm) attached to a cosine corrector."
+        },
+        {
+          "start": 112,
+          "end": 121,
+          "global_start": 15406,
+          "global_end": 15415,
+          "sentence": "The spectrometer was calibrated using a Deuterium-Halogen calibration light source unit (DH-3 plus OceanOptics, Rochester, NY)."
+        }
+      ]
+    },
+    {
+      "text": "NY",
+      "label": "GPE",
+      "occurrences": [
+        {
+          "start": 154,
+          "end": 156,
+          "global_start": 15069,
+          "global_end": 15071,
+          "sentence": "The power spectral distributions were measured with a calibrated spectrometer and the associated software (Model: FLAME-S-XR1-ES, OceanOptics, Rochester, NY) via a visible-NIR fiber (core diameter 200 mm) attached to a cosine corrector."
+        },
+        {
+          "start": 123,
+          "end": 125,
+          "global_start": 15417,
+          "global_end": 15419,
+          "sentence": "The spectrometer was calibrated using a Deuterium-Halogen calibration light source unit (DH-3 plus OceanOptics, Rochester, NY)."
+        }
+      ]
+    },
+    {
+      "text": "cosine corrector",
+      "label": "PRODUCT",
+      "occurrences": [
+        {
+          "start": 219,
+          "end": 235,
+          "global_start": 15134,
+          "global_end": 15150,
+          "sentence": "The power spectral distributions were measured with a calibrated spectrometer and the associated software (Model: FLAME-S-XR1-ES, OceanOptics, Rochester, NY) via a visible-NIR fiber (core diameter 200 mm) attached to a cosine corrector."
+        }
+      ]
+    },
+    {
+      "text": "Deuterium-Halogen",
+      "label": "MISC",
+      "occurrences": [
+        {
+          "start": 40,
+          "end": 57,
+          "global_start": 15334,
+          "global_end": 15351,
+          "sentence": "The spectrometer was calibrated using a Deuterium-Halogen calibration light source unit (DH-3 plus OceanOptics, Rochester, NY)."
+        }
+      ]
+    },
+    {
+      "text": "DH-3 plus",
+      "label": "PRODUCT",
+      "occurrences": [
+        {
+          "start": 89,
+          "end": 98,
+          "global_start": 15383,
+          "global_end": 15392,
+          "sentence": "The spectrometer was calibrated using a Deuterium-Halogen calibration light source unit (DH-3 plus OceanOptics, Rochester, NY)."
+        }
+      ]
+    },
+    {
+      "text": "National Institute of Standards and Technology",
+      "label": "ORG",
+      "occurrences": [
+        {
+          "start": 106,
+          "end": 152,
+          "global_start": 15635,
+          "global_end": 15681,
+          "sentence": "The spectral intensities emitted by this source are calibrated according to the intensity standard of the National Institute of Standards and Technology (NIST)."
+        }
+      ]
+    },
+    {
+      "text": "NIST",
+      "label": "ORG",
+      "occurrences": [
+        {
+          "start": 154,
+          "end": 158,
+          "global_start": 15683,
+          "global_end": 15687,
+          "sentence": "The spectral intensities emitted by this source are calibrated according to the intensity standard of the National Institute of Standards and Technology (NIST)."
+        }
+      ]
+    },
+    {
+      "text": "spectrometer",
+      "label": "PRODUCT",
+      "occurrences": [
+        {
+          "start": 4,
+          "end": 16,
+          "global_start": 15694,
+          "global_end": 15706,
+          "sentence": "The spectrometer calibration procedure accounts for the different sensitivities of the spectrometer across different wavelengths."
+        }
+      ]
+    },
+    {
+      "text": "calibrated spectrometer",
+      "label": "PRODUCT",
+      "occurrences": [
+        {
+          "start": 88,
+          "end": 111,
+          "global_start": 15908,
+          "global_end": 15931,
+          "sentence": "The spectrometer we used has a software suite that reports the values measured from the calibrated spectrometer as spectral irradiance (the power received by a surface per unit area of the measurement probe per wavelength in units of mWcm 2 nm).', 'Two infrared-sensitive video systems (Point Grey Flea, Edmund Optics, Barrington, NJ) registered the rats actions."
+        }
+      ]
+    },
+    {
+      "text": "spectral irradiance",
+      "label": "CONCEPT",
+      "occurrences": [
+        {
+          "start": 115,
+          "end": 134,
+          "global_start": 15935,
+          "global_end": 15954,
+          "sentence": "The spectrometer we used has a software suite that reports the values measured from the calibrated spectrometer as spectral irradiance (the power received by a surface per unit area of the measurement probe per wavelength in units of mWcm 2 nm).', 'Two infrared-sensitive video systems (Point Grey Flea, Edmund Optics, Barrington, NJ) registered the rats actions."
+        }
+      ]
+    },
+    {
+      "text": "Two infrared-sensitive video systems",
+      "label": "PRODUCT",
+      "occurrences": [
+        {
+          "start": 249,
+          "end": 285,
+          "global_start": 16069,
+          "global_end": 16105,
+          "sentence": "The spectrometer we used has a software suite that reports the values measured from the calibrated spectrometer as spectral irradiance (the power received by a surface per unit area of the measurement probe per wavelength in units of mWcm 2 nm).', 'Two infrared-sensitive video systems (Point Grey Flea, Edmund Optics, Barrington, NJ) registered the rats actions."
+        }
+      ]
+    },
+    {
+      "text": "Point Grey Flea",
+      "label": "PRODUCT",
+      "occurrences": [
+        {
+          "start": 287,
+          "end": 302,
+          "global_start": 16107,
+          "global_end": 16122,
+          "sentence": "The spectrometer we used has a software suite that reports the values measured from the calibrated spectrometer as spectral irradiance (the power received by a surface per unit area of the measurement probe per wavelength in units of mWcm 2 nm).', 'Two infrared-sensitive video systems (Point Grey Flea, Edmund Optics, Barrington, NJ) registered the rats actions."
+        }
+      ]
+    },
+    {
+      "text": "Edmund Optics",
+      "label": "ORG",
+      "occurrences": [
+        {
+          "start": 304,
+          "end": 317,
+          "global_start": 16124,
+          "global_end": 16137,
+          "sentence": "The spectrometer we used has a software suite that reports the values measured from the calibrated spectrometer as spectral irradiance (the power received by a surface per unit area of the measurement probe per wavelength in units of mWcm 2 nm).', 'Two infrared-sensitive video systems (Point Grey Flea, Edmund Optics, Barrington, NJ) registered the rats actions."
+        }
+      ]
+    },
+    {
+      "text": "Barrington, NJ",
+      "label": "GPE",
+      "occurrences": [
+        {
+          "start": 319,
+          "end": 333,
+          "global_start": 16139,
+          "global_end": 16153,
+          "sentence": "The spectrometer we used has a software suite that reports the values measured from the calibrated spectrometer as spectral irradiance (the power received by a surface per unit area of the measurement probe per wavelength in units of mWcm 2 nm).', 'Two infrared-sensitive video systems (Point Grey Flea, Edmund Optics, Barrington, NJ) registered the rats actions."
+        }
+      ]
+    },
+    {
+      "text": "Fujinon TV HF25HA-1B Lens",
+      "label": "PRODUCT",
+      "occurrences": [
+        {
+          "start": 46,
+          "end": 71,
+          "global_start": 16230,
+          "global_end": 16255,
+          "sentence": "The first camera, equipped with a macro lens (Fujinon TV HF25HA-1B Lens, Fujifilm, Tokyo) mounted 25 cm above the stimulus delivery area (distance with respect to the center of stimulus), monitored the rats interaction with the object."
+        }
+      ]
+    },
+    {
+      "text": "Fujifilm",
+      "label": "ORG",
+      "occurrences": [
+        {
+          "start": 73,
+          "end": 81,
+          "global_start": 16257,
+          "global_end": 16265,
+          "sentence": "The first camera, equipped with a macro lens (Fujinon TV HF25HA-1B Lens, Fujifilm, Tokyo) mounted 25 cm above the stimulus delivery area (distance with respect to the center of stimulus), monitored the rats interaction with the object."
+        },
+        {
+          "start": 69,
+          "end": 77,
+          "global_start": 16613,
+          "global_end": 16621,
+          "sentence": "The second camera provided a wide-angle view (Fujinon HF9HA-1B Lens, Fujifilm, Tokyo) and monitored the entire setup, illuminated with adjustable infrared LEDs, at 30 fs.', 'Reward spouts included custom-made infrared diode sensors interrupted by the tongue."
+        }
+      ]
+    },
+    {
+      "text": "Fujinon HF9HA-1B Lens",
+      "label": "PRODUCT",
+      "occurrences": [
+        {
+          "start": 46,
+          "end": 67,
+          "global_start": 16590,
+          "global_end": 16611,
+          "sentence": "The second camera provided a wide-angle view (Fujinon HF9HA-1B Lens, Fujifilm, Tokyo) and monitored the entire setup, illuminated with adjustable infrared LEDs, at 30 fs.', 'Reward spouts included custom-made infrared diode sensors interrupted by the tongue."
+        }
+      ]
+    },
+    {
+      "text": "Tokyo",
+      "label": "GPE",
+      "occurrences": [
+        {
+          "start": 79,
+          "end": 84,
+          "global_start": 16623,
+          "global_end": 16628,
+          "sentence": "The second camera provided a wide-angle view (Fujinon HF9HA-1B Lens, Fujifilm, Tokyo) and monitored the entire setup, illuminated with adjustable infrared LEDs, at 30 fs.', 'Reward spouts included custom-made infrared diode sensors interrupted by the tongue."
+        },
+        {
+          "start": 209,
+          "end": 214,
+          "global_start": 20094,
+          "global_end": 20099,
+          "sentence": "The 117stimulus should thus completely cover the rats binocular visual field.', 'When all illumination sources were turned off, the ambient light magnitude was 0 cdmm 2 (Konica Minolta LS-100 luminance meter, Tokyo).']\n\nQuantification of LED emission characteristics\n"
+        }
+      ]
+    },
+    {
+      "text": "infrared diode sensors",
+      "label": "PRODUCT",
+      "occurrences": [
+        {
+          "start": 209,
+          "end": 231,
+          "global_start": 16753,
+          "global_end": 16775,
+          "sentence": "The second camera provided a wide-angle view (Fujinon HF9HA-1B Lens, Fujifilm, Tokyo) and monitored the entire setup, illuminated with adjustable infrared LEDs, at 30 fs.', 'Reward spouts included custom-made infrared diode sensors interrupted by the tongue."
+        }
+      ]
+    },
+    {
+      "text": "NE-500 programmable OEM",
+      "label": "PRODUCT",
+      "occurrences": [
+        {
+          "start": 73,
+          "end": 96,
+          "global_start": 16876,
+          "global_end": 16899,
+          "sentence": "Only the licking signal from the correct spout triggered the pump motor (NE-500 programmable OEM; New Era Pump Systems, mounted on a vibration-cancellation pedestal) to extrude the reward, 0.05 mL per trial of diluted pear juice."
+        }
+      ]
+    },
+    {
+      "text": "New Era Pump Systems",
+      "label": "ORG",
+      "occurrences": [
+        {
+          "start": 98,
+          "end": 118,
+          "global_start": 16901,
+          "global_end": 16921,
+          "sentence": "Only the licking signal from the correct spout triggered the pump motor (NE-500 programmable OEM; New Era Pump Systems, mounted on a vibration-cancellation pedestal) to extrude the reward, 0.05 mL per trial of diluted pear juice."
+        }
+      ]
+    },
+    {
+      "text": "LabVIEW",
+      "label": "PRODUCT",
+      "occurrences": [
+        {
+          "start": 159,
+          "end": 166,
+          "global_start": 17283,
+          "global_end": 17290,
+          "sentence": "Before the next trial began, the motor on which the stimulus was mounted rotated to generate the next orientation.', 'Custom-made software was developed using LabVIEW (National Instruments, Austin, TX)."
+        }
+      ]
+    },
+    {
+      "text": "National Instruments",
+      "label": "ORG",
+      "occurrences": [
+        {
+          "start": 168,
+          "end": 188,
+          "global_start": 17292,
+          "global_end": 17312,
+          "sentence": "Before the next trial began, the motor on which the stimulus was mounted rotated to generate the next orientation.', 'Custom-made software was developed using LabVIEW (National Instruments, Austin, TX)."
+        }
+      ]
+    },
+    {
+      "text": "Austin",
+      "label": "GPE",
+      "occurrences": [
+        {
+          "start": 190,
+          "end": 196,
+          "global_start": 17314,
+          "global_end": 17320,
+          "sentence": "Before the next trial began, the motor on which the stimulus was mounted rotated to generate the next orientation.', 'Custom-made software was developed using LabVIEW (National Instruments, Austin, TX)."
+        }
+      ]
+    },
+    {
+      "text": "TX",
+      "label": "GPE",
+      "occurrences": [
+        {
+          "start": 198,
+          "end": 200,
+          "global_start": 17322,
+          "global_end": 17324,
+          "sentence": "Before the next trial began, the motor on which the stimulus was mounted rotated to generate the next orientation.', 'Custom-made software was developed using LabVIEW (National Instruments, Austin, TX)."
+        }
+      ]
+    },
+    {
+      "text": "AVR32",
+      "label": "PRODUCT",
+      "occurrences": [
+        {
+          "start": 3,
+          "end": 8,
+          "global_start": 17330,
+          "global_end": 17335,
+          "sentence": "An AVR32 board (National Instruments) and multiple Arduino Shields (National Instruments) acquired all sensor signals and controlled the motors, LEDs, and the reward syringe pumps."
+        }
+      ]
+    },
+    {
+      "text": "Arduino Shields",
+      "label": "PRODUCT",
+      "occurrences": [
+        {
+          "start": 51,
+          "end": 66,
+          "global_start": 17378,
+          "global_end": 17393,
+          "sentence": "An AVR32 board (National Instruments) and multiple Arduino Shields (National Instruments) acquired all sensor signals and controlled the motors, LEDs, and the reward syringe pumps."
+        }
+      ]
+    },
+    {
+      "text": "Powers and Green",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 62,
+          "end": 78,
+          "global_start": 19633,
+          "global_end": 19649,
+          "sentence": "Rats also have a large depth of focus, from 7 cm to infinity (Powers and Green, 1978)."
+        }
+      ]
+    },
+    {
+      "text": "Mei et al",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 126,
+          "end": 135,
+          "global_start": 19784,
+          "global_end": 19793,
+          "sentence": "The width of the binocular field directly in front of the rats nose, generally considered the animals binocular viewing area (Mei et al., 2012), ranges from approximately 40-110, depending on head pitch (Wallace et al., 2013)."
+        }
+      ]
+    },
+    {
+      "text": "Wallace et al",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 204,
+          "end": 217,
+          "global_start": 19862,
+          "global_end": 19875,
+          "sentence": "The width of the binocular field directly in front of the rats nose, generally considered the animals binocular viewing area (Mei et al., 2012), ranges from approximately 40-110, depending on head pitch (Wallace et al., 2013)."
+        }
+      ]
+    },
+    {
+      "text": "Konica Minolta LS-100 luminance meter",
+      "label": "PRODUCT",
+      "occurrences": [
+        {
+          "start": 170,
+          "end": 207,
+          "global_start": 20055,
+          "global_end": 20092,
+          "sentence": "The 117stimulus should thus completely cover the rats binocular visual field.', 'When all illumination sources were turned off, the ambient light magnitude was 0 cdmm 2 (Konica Minolta LS-100 luminance meter, Tokyo).']\n\nQuantification of LED emission characteristics\n"
+        }
+      ]
+    },
+    {
+      "text": "Franke et al.",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 29,
+          "end": 42,
+          "global_start": 20181,
+          "global_end": 20194,
+          "sentence": "['Following the procedure of Franke et al., 2019, for each LED, we computed the following measurements, which we have included in Supplementary table 2.', 'Using the spectrophotometer measurements (P l \u00f0 \u00de W:cm \u00c02 :nm \u00c01 \u00bd ), we can calculate the spectral power density for each LED:', 'The energy of a single photon at wavelength l is', ', where c \u00bc 299; 792; 458m:s \u00c01 is the speed of light, and h \u00bc 6:62607004 \u00c2 10 \u00c034 J:s \u00bd is Plancks constant."
+        }
+      ]
+    },
+    {
+      "text": "spectrophotometer",
+      "label": "DEVICE",
+      "occurrences": [
+        {
+          "start": 166,
+          "end": 183,
+          "global_start": 20318,
+          "global_end": 20335,
+          "sentence": "['Following the procedure of Franke et al., 2019, for each LED, we computed the following measurements, which we have included in Supplementary table 2.', 'Using the spectrophotometer measurements (P l \u00f0 \u00de W:cm \u00c02 :nm \u00c01 \u00bd ), we can calculate the spectral power density for each LED:', 'The energy of a single photon at wavelength l is', ', where c \u00bc 299; 792; 458m:s \u00c01 is the speed of light, and h \u00bc 6:62607004 \u00c2 10 \u00c034 J:s \u00bd is Plancks constant."
+        }
+      ]
+    },
+    {
+      "text": "light",
+      "label": "PHYSICS",
+      "occurrences": [
+        {
+          "start": 387,
+          "end": 392,
+          "global_start": 20539,
+          "global_end": 20544,
+          "sentence": "['Following the procedure of Franke et al., 2019, for each LED, we computed the following measurements, which we have included in Supplementary table 2.', 'Using the spectrophotometer measurements (P l \u00f0 \u00de W:cm \u00c02 :nm \u00c01 \u00bd ), we can calculate the spectral power density for each LED:', 'The energy of a single photon at wavelength l is', ', where c \u00bc 299; 792; 458m:s \u00c01 is the speed of light, and h \u00bc 6:62607004 \u00c2 10 \u00c034 J:s \u00bd is Plancks constant."
+        }
+      ]
+    },
+    {
+      "text": "Plancks constant",
+      "label": "PHYSICS",
+      "occurrences": [
+        {
+          "start": 431,
+          "end": 447,
+          "global_start": 20583,
+          "global_end": 20599,
+          "sentence": "['Following the procedure of Franke et al., 2019, for each LED, we computed the following measurements, which we have included in Supplementary table 2.', 'Using the spectrophotometer measurements (P l \u00f0 \u00de W:cm \u00c02 :nm \u00c01 \u00bd ), we can calculate the spectral power density for each LED:', 'The energy of a single photon at wavelength l is', ', where c \u00bc 299; 792; 458m:s \u00c01 is the speed of light, and h \u00bc 6:62607004 \u00c2 10 \u00c034 J:s \u00bd is Plancks constant."
+        }
+      ]
+    },
+    {
+      "text": "pupil",
+      "label": "ORG",
+      "occurrences": [
+        {
+          "start": 195,
+          "end": 200,
+          "global_start": 20796,
+          "global_end": 20801,
+          "sentence": "Then we computed the spectral photon count for each LED (SPC l \u00f0 \u00de photons:m \u00c02 :s \u00c01 :nm \u00c01 \u00bd ):', 'Given the d \u00bc 50cm distance between the LEDs and the stimulus delivery area, the rats dilated pupil area of A pupil \u00bc 0:0314cm 2 , the rats retinal surface area of A retina \u00bc 0:8cm 2 , and the rats rod outer segment area of A rod \u00bc 4 \u00c2 10 \u00c08 cm 2 (Mayhew and Astle, 1997), we approximated the photon flux density (C) of an isotropic LED radiation pattern at each photoreceptor as:', 'Then, the photon flux per photoreceptor is:']\n\nQuantification and statistical analysis Analysis of behavioral data\n"
+        }
+      ]
+    },
+    {
+      "text": "retinal surface",
+      "label": "ORG",
+      "occurrences": [
+        {
+          "start": 241,
+          "end": 256,
+          "global_start": 20842,
+          "global_end": 20857,
+          "sentence": "Then we computed the spectral photon count for each LED (SPC l \u00f0 \u00de photons:m \u00c02 :s \u00c01 :nm \u00c01 \u00bd ):', 'Given the d \u00bc 50cm distance between the LEDs and the stimulus delivery area, the rats dilated pupil area of A pupil \u00bc 0:0314cm 2 , the rats retinal surface area of A retina \u00bc 0:8cm 2 , and the rats rod outer segment area of A rod \u00bc 4 \u00c2 10 \u00c08 cm 2 (Mayhew and Astle, 1997), we approximated the photon flux density (C) of an isotropic LED radiation pattern at each photoreceptor as:', 'Then, the photon flux per photoreceptor is:']\n\nQuantification and statistical analysis Analysis of behavioral data\n"
+        }
+      ]
+    },
+    {
+      "text": "rod outer segment",
+      "label": "ORG",
+      "occurrences": [
+        {
+          "start": 299,
+          "end": 316,
+          "global_start": 20900,
+          "global_end": 20917,
+          "sentence": "Then we computed the spectral photon count for each LED (SPC l \u00f0 \u00de photons:m \u00c02 :s \u00c01 :nm \u00c01 \u00bd ):', 'Given the d \u00bc 50cm distance between the LEDs and the stimulus delivery area, the rats dilated pupil area of A pupil \u00bc 0:0314cm 2 , the rats retinal surface area of A retina \u00bc 0:8cm 2 , and the rats rod outer segment area of A rod \u00bc 4 \u00c2 10 \u00c08 cm 2 (Mayhew and Astle, 1997), we approximated the photon flux density (C) of an isotropic LED radiation pattern at each photoreceptor as:', 'Then, the photon flux per photoreceptor is:']\n\nQuantification and statistical analysis Analysis of behavioral data\n"
+        }
+      ]
+    },
+    {
+      "text": "Mayhew and Astle",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 349,
+          "end": 365,
+          "global_start": 20950,
+          "global_end": 20966,
+          "sentence": "Then we computed the spectral photon count for each LED (SPC l \u00f0 \u00de photons:m \u00c02 :s \u00c01 :nm \u00c01 \u00bd ):', 'Given the d \u00bc 50cm distance between the LEDs and the stimulus delivery area, the rats dilated pupil area of A pupil \u00bc 0:0314cm 2 , the rats retinal surface area of A retina \u00bc 0:8cm 2 , and the rats rod outer segment area of A rod \u00bc 4 \u00c2 10 \u00c08 cm 2 (Mayhew and Astle, 1997), we approximated the photon flux density (C) of an isotropic LED radiation pattern at each photoreceptor as:', 'Then, the photon flux per photoreceptor is:']\n\nQuantification and statistical analysis Analysis of behavioral data\n"
+        }
+      ]
+    },
+    {
+      "text": "photoreceptor",
+      "label": "ORG",
+      "occurrences": [
+        {
+          "start": 464,
+          "end": 477,
+          "global_start": 21065,
+          "global_end": 21078,
+          "sentence": "Then we computed the spectral photon count for each LED (SPC l \u00f0 \u00de photons:m \u00c02 :s \u00c01 :nm \u00c01 \u00bd ):', 'Given the d \u00bc 50cm distance between the LEDs and the stimulus delivery area, the rats dilated pupil area of A pupil \u00bc 0:0314cm 2 , the rats retinal surface area of A retina \u00bc 0:8cm 2 , and the rats rod outer segment area of A rod \u00bc 4 \u00c2 10 \u00c08 cm 2 (Mayhew and Astle, 1997), we approximated the photon flux density (C) of an isotropic LED radiation pattern at each photoreceptor as:', 'Then, the photon flux per photoreceptor is:']\n\nQuantification and statistical analysis Analysis of behavioral data\n"
+        }
+      ]
+    },
+    {
+      "text": "MATLAB",
+      "label": "SOFTWARE",
+      "occurrences": [
+        {
+          "start": 47,
+          "end": 53,
+          "global_start": 22217,
+          "global_end": 22223,
+          "sentence": "The parameter estimation was then performed in MATLAB using maximum-likelihood estimation:', 'The two-parameter function, F x; ; s \u00f0 \u00de, is defined by a cumulative Gaussian distribution, as follows:', 'where x is the stimulus orientation, g is the lower bound of the function , and l is the lapse rate."
+        }
+      ]
+    },
+    {
+      "text": "cumulative Gaussian distribution",
+      "label": "METHOD",
+      "occurrences": [
+        {
+          "start": 152,
+          "end": 184,
+          "global_start": 22322,
+          "global_end": 22354,
+          "sentence": "The parameter estimation was then performed in MATLAB using maximum-likelihood estimation:', 'The two-parameter function, F x; ; s \u00f0 \u00de, is defined by a cumulative Gaussian distribution, as follows:', 'where x is the stimulus orientation, g is the lower bound of the function , and l is the lapse rate."
+        }
+      ]
+    },
+    {
+      "text": "psychometric function",
+      "label": "METHOD",
+      "occurrences": [
+        {
+          "start": 103,
+          "end": 124,
+          "global_start": 22676,
+          "global_end": 22697,
+          "sentence": "is the mean of the probability distribution that determines the displacement along the abscissa of the psychometric function -a reflection of the subjects bias -and s is the standard deviation of the cumulative Gaussian distribution."
+        }
+      ]
+    },
+    {
+      "text": "Gaussian distribution",
+      "label": "METHOD",
+      "occurrences": [
+        {
+          "start": 211,
+          "end": 232,
+          "global_start": 22784,
+          "global_end": 22805,
+          "sentence": "is the mean of the probability distribution that determines the displacement along the abscissa of the psychometric function -a reflection of the subjects bias -and s is the standard deviation of the cumulative Gaussian distribution."
+        }
+      ]
+    },
+    {
+      "text": "Bernoulli",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 652,
+          "end": 661,
+          "global_start": 23459,
+          "global_end": 23468,
+          "sentence": "s determines the slope of the psychometric function, a common measure of acuity.', 'Where fitting with a sigmoid was not appropriate (Figure 2D,E), data were fit with the line y \u00bc ax \u00fe y 0 , where x is the stimulus orientation, a is the slope, and y 0 is the y-intercept.']\n\nTest of significance for the fitted psychometric curves\n['Errors around the performance value for each orientation and modality condition were expressed as a 95 binomial proportion confidence interval computed by approximating the distribution of errors about a binomially distributed observation, p, with a normal distribution:', 'where p is the proportion of correct trials (Bernoulli) and n is the number of trials.', 'For statistical tests of significance, we performed a non-parametric test based on bootstrapping, as follows."
+        }
+      ]
+    },
+    {
+      "text": "Erik Zorzin",
+      "label": "PERSON",
+      "occurrences": [
+        {
+          "start": 0,
+          "end": 11,
+          "global_start": 24033,
+          "global_end": 24044,
+          "sentence": "Erik Zorzin assisted in spectral measurements."
+        }
+      ]
+    },
+    {
+      "text": "Diamond lab",
+      "label": "ORG",
+      "occurrences": [
+        {
+          "start": 34,
+          "end": 45,
+          "global_start": 24114,
+          "global_end": 24125,
+          "sentence": "We are grateful to members of the Diamond lab for fruitful comments and discussions.']"
+        }
+      ]
+    }
+  ],
+  "key_terms": [
+    "45",
+    "Deegan and Jacobs",
+    "ERG",
+    "Jacobs et al.",
+    "L or R",
+    "M cones",
+    "Rats",
+    "Rocha et al.",
+    "UV cones",
+    "UV-visible spectrum",
+    "cones",
+    "electroretinogram",
+    "far-red",
+    "infrared",
+    "monochrome LEDs",
+    "photopic spectral sensitivity curves",
+    "photoreceptors",
+    "rat",
+    "rats",
+    "rats and mice",
+    "red",
+    "ultraviolet",
+    "white LED",
+    "white light"
+  ],
+  "errors": [],
+  "task_type": "ner",
+  "elapsed_time": 420.11476397514343,
+  "agent_key": "extractor_agent",
+  "task_key": "extraction_task"
+}
