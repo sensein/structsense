@@ -1,0 +1,5069 @@
+{
+  "entities": [
+    {
+      "text": "Rats",
+      "label": "SPECIES",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "SPECIES",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "Rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "retina",
+      "label": "ORGAN",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGAN",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "retina"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rods",
+      "label": "CELL_TYPE",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "CELL_TYPE",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "rods"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "cones",
+      "label": "CELL_TYPE",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "CELL_TYPE",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "cones"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "photoreceptors",
+      "label": "CELL_TYPE",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "CELL_TYPE",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "photoreceptors"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Rods",
+      "label": "CELL_TYPE",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "CELL_TYPE",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "Rods"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rhodopsin",
+      "label": "PROTEIN",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PROTEIN",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "BioBERT genetic NER",
+              "weight": 1.0,
+              "text": "rhodopsin"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rods",
+      "label": "CELL_TYPE",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "CELL_TYPE",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "rods"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rats",
+      "label": "SPECIES",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "SPECIES",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "mice",
+      "label": "SPECIES",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "SPECIES",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "mice"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rats",
+      "label": "SPECIES",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "SPECIES",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "humans",
+      "label": "SPECIES",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "SPECIES",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "humans"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Rats",
+      "label": "ORGANISM",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGANISM",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "Rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "cones",
+      "label": "CELL",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "CELL",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "cones"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "cones",
+      "label": "CELL",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "CELL",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "cones"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "M cones",
+      "label": "CELL",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "CELL",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "M cones"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "photoreceptors",
+      "label": "CELL",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "CELL",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "photoreceptors"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rats",
+      "label": "ORGANISM",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGANISM",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "mice",
+      "label": "ORGANISM",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGANISM",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "mice"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "photoreceptors",
+      "label": "CELL",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "CELL",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "photoreceptors"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Wistar rats",
+      "label": "ORGANISM",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGANISM",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "Wistar rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "red light",
+      "label": "DISEASE",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "DISEASE",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "NCBI-disease",
+              "weight": 1.0,
+              "text": "red light"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Niklaus et al.",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Niklaus et al."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Rats",
+      "label": "DISEASE",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "DISEASE",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "NCBI-disease",
+              "weight": 1.0,
+              "text": "Rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Rats",
+      "label": "Organism",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "Organism",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "Rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "LED",
+      "label": "ENTITY",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ENTITY",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "LED"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "LEDs",
+      "label": "ENTITY",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ENTITY",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "LEDs"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rats",
+      "label": "ENTITY",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ENTITY",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rats",
+      "label": "NORP",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "NORP",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rats",
+      "label": "ENTITY",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ENTITY",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rats",
+      "label": "Animal",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "Animal",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rats",
+      "label": "Animal",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "Animal",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rats",
+      "label": "Animal",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "Animal",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rats",
+      "label": "Animal",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "Animal",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rats",
+      "label": "Animal",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "Animal",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rats",
+      "label": "Animal",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "Animal",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "blindness",
+      "label": "Disease",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "Disease",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "NCBI-disease",
+              "weight": 1.0,
+              "text": "blindness"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Figure 2-figure supplement 1",
+      "label": "WORK_OF_ART",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "WORK_OF_ART",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Figure 2-figure supplement 1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Figure 1D",
+      "label": "WORK_OF_ART",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "WORK_OF_ART",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Figure 1D"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Rodent",
+      "label": "General biomedical entity",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "General biomedical entity",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "Rodent"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "red light",
+      "label": "Other entities",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "Other entities",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "red light"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Celikel",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Celikel"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Sakmann",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Sakmann"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Cloke",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Cloke"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Diamond",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Diamond"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Englund",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Englund"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "van Goethem",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "van Goethem"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Harris",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Harris"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Diamond",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Diamond"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Jacklin",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Jacklin"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Nikbakht",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Nikbakht"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Pacchiarini",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Pacchiarini"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Reid",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Reid"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Salaberry",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Salaberry"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Sieben",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Sieben"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Vasconcelos",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Vasconcelos"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Winters",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Winters"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Reid",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Reid"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rats",
+      "label": "Animal",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "Animal",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "red light",
+      "label": "Other entities",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "Other entities",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "red light"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "OKeefe",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "OKeefe"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Save",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Save"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Zhang",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Zhang"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Manahan-Vaughan",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Manahan-Vaughan"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Zhang",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Zhang"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "visual cortex",
+      "label": "Anatomical structure",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "Anatomical structure",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "visual cortex"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "mice",
+      "label": "Animal",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "Animal",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "mice"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "red light",
+      "label": "Other entities",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "Other entities",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "red light"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Kowalewski",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Kowalewski"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "circadian rhythms",
+      "label": "PROCESS",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PROCESS",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "circadian rhythms"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "animals",
+      "label": "ORGANISM",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGANISM",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "animals"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rat",
+      "label": "ORGANISM",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGANISM",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "rat"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Emmer et al.",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Emmer et al."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Figure supplement 2",
+      "label": "WORK_OF_ART",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "WORK_OF_ART",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Figure supplement 2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Figure supplement 3",
+      "label": "WORK_OF_ART",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "WORK_OF_ART",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Figure supplement 3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rhodopsin",
+      "label": "PROTEIN",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PROTEIN",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "BioBERT genetic NER",
+              "weight": 1.0,
+              "text": "rhodopsin"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Stockman and Sharpe",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Stockman and Sharpe"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Rodents",
+      "label": "ORGANISM",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGANISM",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "Rodents"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "cones",
+      "label": "CELL",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "CELL",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "cones"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Deegan and Jacobs",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Deegan and Jacobs"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "retina",
+      "label": "ORGAN",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGAN",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "retina"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rods",
+      "label": "CELL",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "CELL",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "rods"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Niklaus et al.",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Niklaus et al."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rods",
+      "label": "CELL",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "CELL",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "rods"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "cones",
+      "label": "CELL",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "CELL",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "cones"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rats",
+      "label": "ORGANISM",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGANISM",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rats",
+      "label": "ORGANISM",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGANISM",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rats",
+      "label": "ORGANISM",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGANISM",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "red light",
+      "label": "Entity",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "Entity",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "red light"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "retinal receptors",
+      "label": "CELL",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "CELL",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "retinal receptors"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "red light",
+      "label": "Entity",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "Entity",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "red light"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "red light",
+      "label": "Entity",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "Entity",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "red light"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "circadian rhythms",
+      "label": "PROCESS",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PROCESS",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "circadian rhythms"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "mice",
+      "label": "ORGANISM",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGANISM",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "mice"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "red illumination",
+      "label": "Entity",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "Entity",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "red illumination"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "brain",
+      "label": "ORGAN",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGAN",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "brain"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "mice",
+      "label": "ORGANISM",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGANISM",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "mice"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "photoreceptor sensitivity",
+      "label": "PROCESS",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PROCESS",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "photoreceptor sensitivity"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "retina",
+      "label": "ORGAN",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGAN",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "retina"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "photoreceptors",
+      "label": "CELL_TYPE",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "CELL_TYPE",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "photoreceptors"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "photopigments",
+      "label": "PROTEIN",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PROTEIN",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "BioBERT genetic NER",
+              "weight": 1.0,
+              "text": "photopigments"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Palczewska",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Palczewska"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Vinberg",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Vinberg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Palczewska",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Palczewska"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Long-Evans rats",
+      "label": "ORGANISM",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGANISM",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "Long-Evans rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "LEDs",
+      "label": "ENTITY",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ENTITY",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "LEDs"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "LEDs",
+      "label": "ENTITY",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ENTITY",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "LEDs"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "silicone detectors",
+      "label": "PRODUCT",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PRODUCT",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "silicone detectors"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "CMOS",
+      "label": "PRODUCT",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PRODUCT",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "CMOS"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "CCDs",
+      "label": "PRODUCT",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PRODUCT",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "CCDs"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Rats",
+      "label": "ORGANISM",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGANISM",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "Rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "mice",
+      "label": "ORGANISM",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGANISM",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "mice"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "spatial navigation",
+      "label": "PROCESS",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PROCESS",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "spatial navigation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Frank et al.",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Frank et al."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "MacDonald et al.",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "MacDonald et al."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Moser et al.",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Moser et al."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Okeefe and Nadel",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Okeefe and Nadel"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Pastalkova et al.",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Pastalkova et al."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Wood et al.",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Wood et al."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "tactile",
+      "label": "PROCESS",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PROCESS",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "tactile"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Diamond et al.",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Diamond et al."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Fassihi et al.",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Fassihi et al."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Zuo and Diamond",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Zuo and Diamond"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "olfactory",
+      "label": "PROCESS",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PROCESS",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "olfactory"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Chae et al.",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Chae et al."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Koldaeva et al.",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Koldaeva et al."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Uchida and Mainen",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Uchida and Mainen"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Uchida et al.",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Uchida et al."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rodents",
+      "label": "ORGANISM",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGANISM",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "rodents"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "primates",
+      "label": "ORGANISM",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGANISM",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "primates"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rodents",
+      "label": "ORGANISM",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGANISM",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "rodents"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "vision",
+      "label": "PROCESS",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PROCESS",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "vision"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Gharaei et al.",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Gharaei et al."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Nikbakht et al.",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Nikbakht et al."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Nikbakht Nasrabadi",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Nikbakht Nasrabadi"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Sieben et al.",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Sieben et al."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Zoccolan",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Zoccolan"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Rats",
+      "label": "ORGANISM",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGANISM",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "Rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Zoccolan",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Zoccolan"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "primates",
+      "label": "ORGANISM",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGANISM",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "primates"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "neuronal circuits",
+      "label": "PROCESS",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PROCESS",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "neuronal circuits"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Crochet et al.",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Crochet et al."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Matteucci and Zoccolan",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Matteucci and Zoccolan"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Matteucci et al.",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Matteucci et al."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Steinmetz et al.",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Steinmetz et al."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Tafazoli et al.",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Tafazoli et al."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Long-Evans",
+      "label": "ORGANISM",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGANISM",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "Long-Evans"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rats",
+      "label": "ORGANISM",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGANISM",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Charles River Laboratories",
+      "label": "ORG",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORG",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Charles River Laboratories"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Calco",
+      "label": "GPE",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "GPE",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Calco"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Italy",
+      "label": "GPE",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "GPE",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Italy"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "animals",
+      "label": "ORGANISM",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGANISM",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "animals"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rats",
+      "label": "ORGANISM",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGANISM",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rats",
+      "label": "ORGANISM",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGANISM",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rats",
+      "label": "Animal",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "Animal",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Animals",
+      "label": "Animal",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "Animal",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "Animals"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Ethics Committee of SISSA",
+      "label": "ORG",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORG",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Ethics Committee of SISSA"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Italian Health Ministry",
+      "label": "ORG",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORG",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Italian Health Ministry"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Figure 1-figure supplement 1",
+      "label": "WORK_OF_ART",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "WORK_OF_ART",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Figure 1-figure supplement 1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rat",
+      "label": "Animal",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "Animal",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "rat"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rat",
+      "label": "ORGANISM",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGANISM",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "rat"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "OSRAM Opto Semiconductors GmbH",
+      "label": "ORG",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORG",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "OSRAM Opto Semiconductors GmbH"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Germany",
+      "label": "GPE",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "GPE",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Germany"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Roithner LaserTechnik",
+      "label": "ORG",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORG",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Roithner LaserTechnik"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "GmbH",
+      "label": "ORG",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORG",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "GmbH"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Figure 1D",
+      "label": "WORK_OF_ART",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "WORK_OF_ART",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Figure 1D"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "OceanOptics",
+      "label": "ORG",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORG",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "OceanOptics"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Rochester",
+      "label": "GPE",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "GPE",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Rochester"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "NY",
+      "label": "GPE",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "GPE",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "NY"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "OceanOptics",
+      "label": "ORG",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORG",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "OceanOptics"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Rochester",
+      "label": "GPE",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "GPE",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Rochester"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "NY",
+      "label": "GPE",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "GPE",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "NY"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "National Institute of Standards and Technology",
+      "label": "ORG",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORG",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "National Institute of Standards and Technology"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "NIST",
+      "label": "ORG",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORG",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "NIST"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rats",
+      "label": "Animal",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "Animal",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rats",
+      "label": "Animal",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "Animal",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Point Grey Flea",
+      "label": "PRODUCT",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PRODUCT",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Point Grey Flea"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Edmund Optics",
+      "label": "ORG",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORG",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Edmund Optics"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Barrington",
+      "label": "GPE",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "GPE",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Barrington"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "NJ",
+      "label": "GPE",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "GPE",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "NJ"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Fujinon TV HF25HA-1B Lens",
+      "label": "PRODUCT",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PRODUCT",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Fujinon TV HF25HA-1B Lens"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Fujifilm",
+      "label": "ORG",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORG",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Fujifilm"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Tokyo",
+      "label": "GPE",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "GPE",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Tokyo"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Fujinon HF9HA-1B Lens",
+      "label": "PRODUCT",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PRODUCT",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Fujinon HF9HA-1B Lens"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Fujifilm",
+      "label": "ORG",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORG",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Fujifilm"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Tokyo",
+      "label": "GPE",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "GPE",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Tokyo"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "NE-500 programmable OEM",
+      "label": "PRODUCT",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PRODUCT",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "NE-500 programmable OEM"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "New Era Pump Systems",
+      "label": "ORG",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORG",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "New Era Pump Systems"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "LabVIEW",
+      "label": "PRODUCT",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PRODUCT",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "LabVIEW"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "National Instruments",
+      "label": "ORG",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORG",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "National Instruments"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Austin",
+      "label": "GPE",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "GPE",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Austin"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "TX",
+      "label": "GPE",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "GPE",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "TX"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "AVR32 board",
+      "label": "PRODUCT",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PRODUCT",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "AVR32 board"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "National Instruments",
+      "label": "ORG",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORG",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "National Instruments"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Arduino Shields",
+      "label": "PRODUCT",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PRODUCT",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Arduino Shields"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "National Instruments",
+      "label": "ORG",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORG",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "National Instruments"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "BFB Technologies",
+      "label": "ORG",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORG",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "BFB Technologies"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Figure 1A",
+      "label": "WORK_OF_ART",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "WORK_OF_ART",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Figure 1A"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Figure 1B",
+      "label": "WORK_OF_ART",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "WORK_OF_ART",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Figure 1B"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Nikbakht et al.",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Nikbakht et al."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "tactile exploration",
+      "label": "PROCESS",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PROCESS",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "tactile exploration"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "orientation judgment",
+      "label": "PROCESS",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PROCESS",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "orientation judgment"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Long-Evans rats",
+      "label": "ORGANISM",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGANISM",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "Long-Evans rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Prusky et al.",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Prusky et al."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Rats",
+      "label": "ORGANISM",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGANISM",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "Rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Powers and Green",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Powers and Green"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rats",
+      "label": "ORGANISM",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGANISM",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "animals",
+      "label": "ORGANISM",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGANISM",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "animals"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Mei et al.",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Mei et al."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Wallace et al.",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Wallace et al."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rats",
+      "label": "ORGANISM",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGANISM",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Konica Minolta LS-100",
+      "label": "PRODUCT",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PRODUCT",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Konica Minolta LS-100"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Tokyo",
+      "label": "GPE",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "GPE",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Tokyo"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Franke et al.",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Franke et al."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "LED",
+      "label": "ENTITY",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ENTITY",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "LED"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "LED",
+      "label": "ENTITY",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ENTITY",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "LED"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "LED",
+      "label": "ENTITY",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ENTITY",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "LED"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "LEDs",
+      "label": "ENTITY",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ENTITY",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "LEDs"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rats",
+      "label": "ORGANISM",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGANISM",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "pupil",
+      "label": "ORGAN",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGAN",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "pupil"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "retina",
+      "label": "ORGAN",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGAN",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "retina"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rod",
+      "label": "CELL_TYPE",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "CELL_TYPE",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "rod"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Mayhew and Astle",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Mayhew and Astle"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "photoreceptor",
+      "label": "CELL_TYPE",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "CELL_TYPE",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "photoreceptor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "photoreceptor",
+      "label": "CELL_TYPE",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "CELL_TYPE",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "photoreceptor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "MATLAB",
+      "label": "PRODUCT",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PRODUCT",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "MATLAB"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "MathWorks",
+      "label": "ORG",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORG",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "MathWorks"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Natick",
+      "label": "GPE",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "GPE",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Natick"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "MA",
+      "label": "GPE",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "GPE",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "MA"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "LabVIEW",
+      "label": "PRODUCT",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PRODUCT",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "LabVIEW"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rats",
+      "label": "ORGANISM",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGANISM",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rats",
+      "label": "ORGANISM",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGANISM",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "rats",
+      "label": "ORGANISM",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORGANISM",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "text": "rats"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Wichmann and Hill",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Wichmann and Hill"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "MATLAB",
+      "label": "PRODUCT",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PRODUCT",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "MATLAB"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "MA",
+      "label": "GPE",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "GPE",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "MA"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Erik Zorzin",
+      "label": "PERSON",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Erik Zorzin"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Diamond lab",
+      "label": "ORG",
+      "start": 0,
+      "end": 0,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "provenance": [
+        {
+          "label": "ORG",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "text": "Diamond lab"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "key_terms": [
+    "CCDs",
+    "CMOS",
+    "Deegan and Jacobs",
+    "Figure supplement 2",
+    "Figure supplement 3",
+    "LEDs",
+    "Long-Evans rats",
+    "Niklaus et al.",
+    "Rodents",
+    "Stockman and Sharpe",
+    "blindness",
+    "chae et al.",
+    "cones",
+    "diamond et al.",
+    "diamond lab",
+    "erik zorzin",
+    "fassihi et al.",
+    "frank et al.",
+    "gharaei et al.",
+    "koldaeva et al.",
+    "labview",
+    "led",
+    "ma",
+    "macdonald et al.",
+    "mathworks",
+    "matlab",
+    "mayhew and astle",
+    "mice",
+    "moser et al.",
+    "natick",
+    "nikbakht et al.",
+    "nikbakht nasrabadi",
+    "okeefe and nadel",
+    "olfactory",
+    "pastalkova et al.",
+    "photopigments",
+    "photoreceptor",
+    "photoreceptors",
+    "primates",
+    "rats",
+    "retina",
+    "rhodopsin",
+    "rodents",
+    "rods",
+    "sieben et al.",
+    "silicone detectors",
+    "spatial navigation",
+    "tactile",
+    "uchida and mainen",
+    "uchida et al.",
+    "vision",
+    "wood et al.",
+    "zoccolan",
+    "zuo and diamond"
+  ],
+  "metadata": {
+    "total_chunks": 29,
+    "chunks_with_entities": 28,
+    "entities_before_merge": 238,
+    "entities_after_merge": 238
+  },
+  "errors": [],
+  "task_type": "ner",
+  "elapsed_time": 148.34546494483948,
+  "agent_key": "extractor_agent",
+  "task_key": "extraction_task"
+}
