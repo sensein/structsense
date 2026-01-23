@@ -212,17 +212,21 @@ def _globalize_entities(
         global_start, global_end = result
         sentence_info = _get_sentence_info_for_span(full_doc, global_start, global_end)
 
-        results.append(
-            {
-                "text": ent_text,
-                "label": label,
-                "global_start": global_start,  # Global position in full document
-                "global_end": global_end,      # Global position in full document
-                "sentence": sentence_info["sentence"],
-                "sentence_start": sentence_info["sentence_start_offset"],  # Relative to sentence start
-                "sentence_end": sentence_info["sentence_end_offset"],      # Relative to sentence start
-            }
-        )
+        result_ent = {
+            "text": ent_text,
+            "label": label,
+            "global_start": global_start,  # Global position in full document
+            "global_end": global_end,      # Global position in full document
+            "sentence": sentence_info["sentence"],
+            "sentence_start": sentence_info["sentence_start_offset"],  # Relative to sentence start
+            "sentence_end": sentence_info["sentence_end_offset"],      # Relative to sentence start
+        }
+        
+        # Preserve source_model if present
+        if "source_model" in ent:
+            result_ent["source_model"] = ent["source_model"]
+        
+        results.append(result_ent)
 
     return results
 
@@ -292,11 +296,12 @@ def _merge_ner_entities_with_occurrences(
     """
     Merge entities with the same (text, label) and accumulate all their locations.
 
-    Input entities: {text, label, global_start, global_end, sentence, sentence_start, sentence_end}
+    Input entities: {text, label, global_start, global_end, sentence, sentence_start, sentence_end, source_model?}
     Output:
       {
         "text": str,
         "label": str,
+        "source_models": [str],       # List of all unique source models that detected this entity
         "occurrences": [
           {
             "start": int,             # Sentence-level position (relative to sentence start)
@@ -304,16 +309,17 @@ def _merge_ner_entities_with_occurrences(
             "global_start": int,      # Global position in full document
             "global_end": int,        # Global position in full document
             "sentence": str,           # Full sentence text
+            "source_model": str,      # Source model for this specific occurrence (if available)
           },
           ...
         ]
       }
 
     Args:
-        entities: List of entities with global and sentence-level positions
+        entities: List of entities with global and sentence-level positions, optionally including source_model
 
     Returns:
-        List of merged entities with occurrences
+        List of merged entities with occurrences and source model information
     """
     merged: Dict[tuple, Dict[str, Any]] = {}
 
@@ -328,13 +334,21 @@ def _merge_ner_entities_with_occurrences(
             "global_end": ent.get("global_end", ent.get("end", 0)),        # Global position
             "sentence": ent.get("sentence", ""),
         }
+        
+        # Preserve source_model in occurrence if present
+        if "source_model" in ent:
+            occ["source_model"] = ent["source_model"]
 
         if key not in merged:
             merged[key] = {
                 "text": ent["text"],
                 "label": ent["label"],
                 "occurrences": [occ],
+                "source_models": set(),  # Collect all unique source models
             }
+            # Add source_model to the set if present
+            if "source_model" in ent:
+                merged[key]["source_models"].add(ent["source_model"])
         else:
             # Check for duplicate based on global positions
             if not any(
@@ -342,5 +356,14 @@ def _merge_ner_entities_with_occurrences(
                 for o in merged[key]["occurrences"]
             ):
                 merged[key]["occurrences"].append(occ)
+                # Add source_model to the set if present
+                if "source_model" in ent:
+                    merged[key]["source_models"].add(ent["source_model"])
 
-    return list(merged.values())
+    # Convert sets to sorted lists for JSON serialization
+    result = []
+    for merged_ent in merged.values():
+        merged_ent["source_models"] = sorted(list(merged_ent["source_models"])) if merged_ent["source_models"] else []
+        result.append(merged_ent)
+    
+    return result
