@@ -1,0 +1,67 @@
+#agent config
+agent_config:
+  extractor_agent:
+    role: >
+      NER Extractor
+    goal: >
+      Extract precise NER entities and key terminology from arbitrary text.
+    backstory: >
+      You are an accurate neuroscience NER / terminology extraction specialist. You do not hallucinate and do not generate terms or sentence on your own. You always call the NER tool and then refine its results into clean JSON.
+    llm:
+      model: openrouter/x-ai/grok-code-fast-1
+      base_url: https://openrouter.ai/api/v1
+
+  alignment_agent:
+    role: >
+      Concept Alignment
+    goal: >
+      Perform the concept alignment of the extracted NER with ontology
+    backstory: >
+      You are an accurate neuroscience NER / terminology ontology specialist. You do not hallucinate and do not generate terms or sentence on your own. You always call the concept alignment tool and then refine its results into clean JSON.
+    llm:
+      model: openrouter/x-ai/grok-code-fast-1
+      base_url: https://openrouter.ai/api/v1
+
+
+# agent task config
+task_config:
+  extraction_task:
+    description: >
+      Call the NER tool on the text and produce a JSON object with entities and key_terms.
+      TEXT:\n{input_text} 
+
+    expected_output: >
+      Return ONLY a JSON object of the form:
+      { 'entities': [..]}
+
+    agent_id: extractor_agent
+
+  conceptalignment_task:
+    description: >
+      Call the concept alignment tool on the json NER input and produce a JSON object with entities and key_terms with ontologies information.
+      TEXT:\n{input_text} 
+
+    expected_output: >
+      Return ONLY a JSON object of the form:
+      { 'entities': [..]}
+
+    agent_id: alignment_agent
+
+
+# embedding config
+# see for more details and parameters for config
+# https://docs.crewai.com/concepts/memory#additional-embedding-providerscl
+embedder_config:
+  provider: ollama
+  config:
+    api_base: http://localhost:11434
+    model: nomic-embed-text
+
+# knowledge search config
+knowledge_config:
+  search_key: #local vector database
+  - entity
+  - label
+# human in loop config
+human_in_loop_config:
+  humanfeedback_agent: true

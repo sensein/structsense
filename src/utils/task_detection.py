@@ -192,6 +192,29 @@ DEFAULT_TAXONOMY: Dict[str, Union[str, Dict[str, Any]]] = {
     ),
 }
 
+# ----------------------------
+# Tools by task type (taxonomy-aligned)
+# ----------------------------
+# Task types that get tools; all others get no tools. Keys must match taxonomy task_type.
+# Tool names are resolved to CrewAI tool instances in task_tools.get_tools_for_task_type().
+TOOLS_BY_TASK_TYPE: Dict[str, List[str]] = {
+    "ner": ["extract_ner_terms"],
+    "keyphrase_extraction": ["extract_ner_terms"],
+    # extraction, structured_extraction, relation_extraction, etc. → no entry = no tools
+}
+
+
+def get_tool_names_for_task_type(task_type: str) -> List[str]:
+    """
+    Return the list of tool names associated with the given task type (from taxonomy).
+
+    Used for dynamic tool selection: only task types listed in TOOLS_BY_TASK_TYPE
+    receive tools; all others return an empty list.
+    """
+    if not task_type:
+        return []
+    return list(TOOLS_BY_TASK_TYPE.get(str(task_type).strip().lower(), []))
+
 
 def _split_taxonomy(
     taxonomy: Dict[str, Union[str, Dict[str, Any]]]
