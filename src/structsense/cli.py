@@ -5,9 +5,12 @@ import logging
 import click
 import yaml
 
-from utils.utils import load_config
+from utils.utils import load_config, process_input_data
+from dotenv import load_dotenv
+import os
+import asyncio
 
-from .app import kickoff
+from .app import StructSenseFlow
 
 logger = logging.getLogger(__name__)
 
@@ -29,8 +32,10 @@ def cli(ctx):
 )
 @click.option("--env_file", required=False, type=str, help="Optional path to an environment file to override the default .env file.")
 @click.option("--save_file", required=False, type=str, help="Optional path to save the result as a JSON file.")
-@click.option("--chunking", required=False, default=False, help="Enable text chunking for parallel processing (default: False).")
-def extract(config, api_key, source, env_file, save_file, chunking):
+@click.option("--chunk_size", required=False, type=int, default=None, help="Chunk size in characters (None = no chunking).")
+@click.option("--max_workers", required=False, type=int, default=None, help="Maximum parallel workers (None = auto).")
+@click.option("--enable_chunking", required=False, default=False, is_flag=True, help="Enable chunking (uses default chunk_size if --chunk_size not provided).")
+def extract(config, api_key, source, env_file, save_file, chunk_size, max_workers, enable_chunking):
     """Extract the terms along with sentence using a single config file."""
     # Load the config file
     all_config = load_config(config, "all")
@@ -39,22 +44,22 @@ def extract(config, api_key, source, env_file, save_file, chunking):
     agent_config = all_config.get("agent_config", {})
     embedder_config = all_config.get("embedder_config", {})
     task_config = all_config.get("task_config", {})
-    knowledge_config = all_config.get("knowledge_config", {})
-    human_in_loop_config = all_config.get("human_in_loop_config", {})
 
-    # Run the extraction
-    result = kickoff(
-        agentconfig=agent_config,
-        taskconfig=task_config,
-        embedderconfig=embedder_config,
-        knowledgeconfig=knowledge_config,
+    # Use StructSenseFlow as the single entry point
+    flow = StructSenseFlow(
+        agent_config=agent_config,
+        task_config=task_config,
+        embedder_config=embedder_config,
         input_source=source,
-        enable_human_feedback=True,
-        agent_feedback_config=human_in_loop_config,
         env_file=env_file,
         api_key=api_key,
-        enable_chunking=chunking,
+        enable_chunking=enable_chunking,
+        chunk_size=chunk_size,
+        max_workers=max_workers,
     )
+    
+    # Run the kickoff method
+    result = asyncio.run(flow.kickoff())
 
     # Output results
     click.echo("*" * 100)
@@ -71,75 +76,92 @@ def extract(config, api_key, source, env_file, save_file, chunking):
         click.echo(f"Result saved to {save_file}")
 
 
-# @cli.command(
-#     help="Run the Structured Information Extraction (SIE) pipeline using default configurations. For custom configs, use 'extract'."
-# )
-# @click.option(
-#     "--api_key",
-#     required=False,
-#     type=str,
-#     help="API key (e.g., OpenRouter)."
-# )
-# @click.option(
-#     "--source",
-#     required=True,
-#     type=str,
-#     help="The source—whether a file (text or PDF), a folder, or a text string."
-# )
-# @click.option(
-#     "--env_file",
-#     required=False,
-#     type=str,
-#     help="Optional path to an environment file to override the default .env file."
-# )
-# @click.option(
-#     "--save_file",
-#     required=False,
-#     type=str,
-#     help="Optional path to save the result as a JSON file."
-# )
-# @click.option(
-#     "--chunking",
-#     is_flag=True,
-#     default=False,
-#     help="Enable text chunking for parallel processing (default: False)."
-# )
-# def sie(api_key, source, env_file, save_file, chunking):
-#     """
-#     Run the Structured Information Extraction (SIE) pipeline using the default config file.
-#     """
-#     import os
-#     default_config_path = os.path.join(
-#         os.path.dirname(__file__), "default_config_sie", "ner_config.yaml"
-#     )
-#     with open(default_config_path, 'r') as f:
-#         all_config = yaml.safe_load(f)
-#     agent_config = all_config.get('agent_config', {})
-#     embedder_config = all_config.get('embedder_config', {})
-#     task_config = all_config.get('task_config', {})
-#     knowledge_config = all_config.get('knowledge_config', {})
-#     human_in_loop_config = all_config.get('human_in_loop_config', {})
-#     result = kickoff(
-#         agentconfig=agent_config,
-#         taskconfig=task_config,
-#         embedderconfig=embedder_config,
-#         knowledgeconfig=knowledge_config,
-#         input_source=source,
-#         enable_human_feedback=True,
-#         agent_feedback_config=human_in_loop_config,
-#         env_file=env_file,
-#         api_key=api_key,
-#         enable_chunking=chunking
-#     )
-#     click.echo("*" * 100)
-#     click.echo("Result")
-#     click.echo(result)
-#     click.echo("*" * 100)
-#     if save_file:
-#         import json
-#         with open(save_file, 'w') as f:
-#             json.dump(result, f, indent=2)
-#         click.echo(f"Result saved to {save_file}")
+@cli.command()
+@click.option("--config", required=True, type=str, help="Path to the single YAML config file.")
+@click.option("--agent_key", required=True, type=str, help="Key for the agent in agent_config (e.g., 'extractor_agent').")
+@click.option("--task_key", required=True, type=str, help="Key for the task in task_config (e.g., 'extraction_task').")
+@click.option("--source", required=True, help="The source—whether a file (text or PDF), a folder, or a text string.")
+@click.option("--api_key", required=False, type=str, help="Open router API key.")
+@click.option("--env_file", required=False, type=str, help="Optional path to an environment file.")
+@click.option("--save_file", required=False, type=str, help="Optional path to save the result as a JSON file.")
+@click.option("--chunk_size", required=False, type=int, default=None, help="Chunk size in characters (None = no chunking).")
+@click.option("--max_workers", required=False, type=int, default=None, help="Maximum parallel workers (None = auto).")
+@click.option("--enable_chunking", required=False, default=False, is_flag=True, help="Enable chunking (uses default chunk_size if --chunk_size not provided).")
+def run_agent(config, agent_key, task_key, source, api_key, env_file, save_file, chunk_size, max_workers, enable_chunking):
+    """Run a specific agent-task combination directly with full control.
+    
+    This command gives you direct control over how each agent runs without
+    using the default flow pattern. You can specify exactly which agent
+    and task to run, with custom chunking and parallel processing settings.
+    """
+    # Load environment variables
+    if env_file:
+        load_dotenv(env_file, override=True)
+        logger.info(f"Loaded environment variables from {env_file}")
+    else:
+        load_dotenv()
+        logger.info("Loaded environment variables from default .env")
+
+    # Set API key if provided
+    if api_key:
+        os.environ["OPENROUTER_API_KEY"] = api_key
+        logger.info("Set OPENROUTER_API_KEY in environment")
+
+    # Load the config file
+    all_config = load_config(config, "all")
+
+    # Extract the different config sections
+    agent_config = all_config.get("agent_config", {})
+    embedder_config = all_config.get("embedder_config", {})
+    task_config = all_config.get("task_config", {})
+    knowledge_config = all_config.get("knowledge_config", {})
+
+    # Replace API key if provided
+    if api_key:
+        from utils.utils import replace_api_key
+        agent_config = replace_api_key(agent_config, api_key)
+        embedder_config = replace_api_key(embedder_config, api_key)
+
+    # Initialize the flow (it will process input_source internally)
+    flow = StructSenseFlow(
+        agent_config=agent_config,
+        task_config=task_config,
+        embedder_config=embedder_config,
+        knowledge_config=knowledge_config,
+        input_source=source,
+        env_file=env_file,
+        api_key=api_key,
+        enable_human_feedback=False,
+        enable_chunking=enable_chunking,
+        chunk_size=chunk_size,
+        max_workers=max_workers,
+    )
+
+    # Run the specific agent-task directly
+    result = asyncio.run(flow.run_agent_task(
+        agent_key=agent_key,
+        task_key=task_key,
+        chunk_size=chunk_size if chunk_size else (flow.chunk_size if enable_chunking else None),
+        max_workers=max_workers,
+        pydantic_output_class=None,
+    ))
+
+    # Output results
+    click.echo("*" * 100)
+    click.echo(f"Result for agent '{agent_key}' / task '{task_key}'")
+    click.echo(f"Elapsed time: {result.get('elapsed_time', 'N/A')} seconds")
+    click.echo(f"Errors: {len(result.get('errors', []))}")
+    click.echo("*" * 100)
+    
+    # Pretty print results
+    import json
+    click.echo(json.dumps(result, indent=2, default=str))
+
+    # Save to file if requested
+    if save_file:
+        with open(save_file, "w") as f:
+            json.dump(result, f, indent=2, default=str)
+        click.echo(f"\nResult saved to {save_file}")
 
 
 if __name__ == "__main__":
