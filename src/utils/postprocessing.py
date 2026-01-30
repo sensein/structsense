@@ -511,16 +511,356 @@ def merge_generic_results(
 
 
 # ============================================================
+# RESOURCE EXTRACTION POST-PROCESSING
+# ============================================================
+def _normalize_resource_for_merge(res: Dict[str, Any]) -> Dict[str, Any]:
+    """Normalize a single resource dict from chunk output (name/mentions) to a common shape."""
+    name = (res.get("name") or res.get("resource_name") or "").strip()
+    return {
+        "name": name,
+        "description": res.get("description") or "",
+        "type": (res.get("type") or "").strip(),
+        "category": res.get("category") or "",
+        "target": res.get("target") or "",
+        "specific_target": res.get("specific_target") or "",
+        "url": res.get("url"),
+        "key_features": res.get("key_features") or [],
+        "performance": res.get("performance") or "",
+        "model_architecture": res.get("model_architecture") or "",
+        "mapped_target_concept": res.get("mapped_target_concept") or [],
+        "mapped_specific_target_concept": res.get("mapped_specific_target_concept") or [],
+        "mentions": res.get("mentions") or {},
+    }
+
+
+def _resource_group_key(res: Dict[str, Any]) -> tuple:
+    """Key for grouping same resource across chunks (normalized name + type)."""
+    name = (res.get("name") or "").strip().lower()
+    rtype = (res.get("type") or "").strip().lower()
+    return (name or "unknown", rtype or "unknown")
+
+
+def _build_mentions_dict(
+    datasets: List[str],
+    models: List[str],
+    papers: List[str],
+    tools: List[str],
+    benchmarks: List[str],
+) -> Dict[str, Any]:
+    """Build mentions dict with only non-empty lists (omit null/empty)."""
+    out: Dict[str, Any] = {}
+    if datasets:
+        out["datasets"] = datasets
+    if models:
+        out["related_models"] = models
+    if papers:
+        out["related_papers"] = papers
+    if tools:
+        out["tools"] = tools
+    if benchmarks:
+        out["benchmarks"] = benchmarks
+    return out
+
+
+def _merge_mention_lists(*lists: Any) -> List[str]:
+    """Dedupe and sort non-empty string items from multiple lists; preserve order."""
+    seen = set()
+    out = []
+    for lst in lists:
+        if not isinstance(lst, list):
+            continue
+        for x in lst:
+            if isinstance(x, str):
+                s = x.strip()
+                if s and s not in seen:
+                    seen.add(s)
+                    out.append(s)
+    return out
+
+
+def _merge_resources_into_one(group: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """Merge a group of normalized resource dicts into one final-schema resource (scalar fields)."""
+    # Prefer longest/most complete scalar fields
+    best = max(group, key=lambda r: (len(r.get("description") or ""), len(r.get("name") or "")))
+    mentions_all = [r.get("mentions") or {} for r in group]
+
+    # Merge mention lists; support both input keys (models, papers) and output keys (related_models, related_papers)
+    def get_mention_list(m: Dict[str, Any], *keys: str) -> List[str]:
+        for k in keys:
+            v = m.get(k)
+            if isinstance(v, list):
+                return v
+            if v is not None and not isinstance(v, list):
+                return [str(v)] if str(v).strip() else []
+        return []
+
+    datasets = _merge_mention_lists(*(get_mention_list(m, "datasets") for m in mentions_all))
+    models = _merge_mention_lists(
+        *(get_mention_list(m, "related_models", "models") for m in mentions_all)
+    )
+    papers = _merge_mention_lists(
+        *(get_mention_list(m, "related_papers", "papers") for m in mentions_all)
+    )
+    tools = _merge_mention_lists(*(get_mention_list(m, "tools") for m in mentions_all))
+    benchmarks = _merge_mention_lists(*(get_mention_list(m, "benchmarks") for m in mentions_all))
+
+    # First non-empty type/category/target/specific_target/url/performance/model_architecture
+    def first_non_empty(*vals: Any) -> Any:
+        for v in vals:
+            if v is not None and str(v).strip():
+                return v
+        return None
+
+    type_ = first_non_empty(*(r.get("type") for r in group)) or ""
+    category = first_non_empty(*(r.get("category") for r in group)) or ""
+    target = first_non_empty(*(r.get("target") for r in group)) or ""
+    specific_target = first_non_empty(*(r.get("specific_target") for r in group)) or "N/A"
+    url = first_non_empty(*(r.get("url") for r in group))
+    performance = first_non_empty(*(r.get("performance") for r in group)) or ""
+    model_architecture = first_non_empty(*(r.get("model_architecture") for r in group)) or ""
+
+    # Longest description
+    description = max((r.get("description") or "" for r in group), key=len)
+    name = best.get("name") or ""
+
+    # Merge key_features and mapped_* (dedupe by string repr or id)
+    key_features = _merge_mention_lists(*(r.get("key_features") for r in group))
+    mapped_target = []
+    seen_target = set()
+    for r in group:
+        for item in r.get("mapped_target_concept") or []:
+            if isinstance(item, dict):
+                uid = item.get("id") or item.get("label") or str(item)
+                if uid not in seen_target:
+                    seen_target.add(uid)
+                    mapped_target.append(item)
+            elif item not in seen_target:
+                seen_target.add(item)
+                mapped_target.append(item)
+    mapped_specific = []
+    seen_specific = set()
+    for r in group:
+        for item in r.get("mapped_specific_target_concept") or []:
+            if isinstance(item, dict):
+                uid = item.get("id") or item.get("label") or str(item)
+                if uid not in seen_specific:
+                    seen_specific.add(uid)
+                    mapped_specific.append(item)
+            elif item not in seen_specific:
+                seen_specific.add(item)
+                mapped_specific.append(item)
+
+    return {
+        "resource_name": name,
+        "description": description,
+        "type": type_,
+        "category": category,
+        "target": target,
+        "specific_target": specific_target,
+        "mapped_target_concept": mapped_target,
+        "mapped_specific_target_concept": mapped_specific,
+        "key_features": key_features,
+        "performance": performance,
+        "url": url,
+        "model_architecture": model_architecture,
+        "mentions": _build_mentions_dict(datasets, models, papers, tools, benchmarks),
+    }
+
+
+def _aggregate_resources_into_one(all_resources: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """
+    Merge all resources into a single resource object where each field is a list.
+    Use when the desired output is one aggregated resource with list-valued fields.
+    """
+    if not all_resources:
+        return {
+            "resource_name": [],
+            "description": [],
+            "type": [],
+            "category": [],
+            "target": [],
+            "specific_target": [],
+            "mapped_target_concept": [],
+            "mapped_specific_target_concept": [],
+            "key_features": [],
+            "performance": [],
+            "url": [],
+            "model_architecture": [],
+            "mentions": {},
+        }
+
+    def get_mention_list(m: Dict[str, Any], *keys: str) -> List[str]:
+        for k in keys:
+            v = m.get(k)
+            if isinstance(v, list):
+                return v
+            if v is not None and not isinstance(v, list):
+                return [str(v)] if str(v).strip() else []
+        return []
+
+    mentions_all = [r.get("mentions") or {} for r in all_resources]
+    datasets = _merge_mention_lists(*(get_mention_list(m, "datasets") for m in mentions_all))
+    models = _merge_mention_lists(
+        *(get_mention_list(m, "related_models", "models") for m in mentions_all)
+    )
+    papers = _merge_mention_lists(
+        *(get_mention_list(m, "related_papers", "papers") for m in mentions_all)
+    )
+    tools = _merge_mention_lists(*(get_mention_list(m, "tools") for m in mentions_all))
+    benchmarks = _merge_mention_lists(*(get_mention_list(m, "benchmarks") for m in mentions_all))
+
+    # Scalar fields as lists (one entry per resource, preserve order)
+    resource_name = [r.get("name") or "" for r in all_resources]
+    description = [r.get("description") or "" for r in all_resources]
+    type_list = [r.get("type") or "" for r in all_resources]
+    category_list = [r.get("category") or "" for r in all_resources]
+    target_list = [r.get("target") or "" for r in all_resources]
+    specific_target_list = [r.get("specific_target") or "" for r in all_resources]
+    url_list = [r.get("url") for r in all_resources if r.get("url") is not None]
+    performance_list = [r.get("performance") or "" for r in all_resources if (r.get("performance") or "").strip()]
+    model_architecture_list = [
+        r.get("model_architecture") or "" for r in all_resources
+        if (r.get("model_architecture") or "").strip()
+    ]
+
+    key_features = _merge_mention_lists(*(r.get("key_features") for r in all_resources))
+    mapped_target = []
+    seen_target = set()
+    for r in all_resources:
+        for item in r.get("mapped_target_concept") or []:
+            if isinstance(item, dict):
+                uid = item.get("id") or item.get("label") or str(item)
+                if uid not in seen_target:
+                    seen_target.add(uid)
+                    mapped_target.append(item)
+            elif item not in seen_target:
+                seen_target.add(item)
+                mapped_target.append(item)
+    mapped_specific = []
+    seen_specific = set()
+    for r in all_resources:
+        for item in r.get("mapped_specific_target_concept") or []:
+            if isinstance(item, dict):
+                uid = item.get("id") or item.get("label") or str(item)
+                if uid not in seen_specific:
+                    seen_specific.add(uid)
+                    mapped_specific.append(item)
+            elif item not in seen_specific:
+                seen_specific.add(item)
+                mapped_specific.append(item)
+
+    return {
+        "resource_name": resource_name,
+        "description": description,
+        "type": type_list,
+        "category": category_list,
+        "target": target_list,
+        "specific_target": specific_target_list,
+        "mapped_target_concept": mapped_target,
+        "mapped_specific_target_concept": mapped_specific,
+        "key_features": key_features,
+        "performance": performance_list if performance_list else [],
+        "url": url_list,
+        "model_architecture": model_architecture_list if model_architecture_list else [],
+        "mentions": _build_mentions_dict(datasets, models, papers, tools, benchmarks),
+    }
+
+
+def resource_extraction_post_process(
+        full_text: str,
+        full_doc: Any,
+        chunk: Dict[str, Any],
+        raw_result: Dict[str, Any],
+) -> Dict[str, Any]:
+    """
+    Normalize chunk output for resource extraction.
+
+    Accepts raw_result with "resource" (single object) or "resources" (list)
+    and returns a dict with "resources" list for the merger to consume.
+    """
+    if not isinstance(raw_result, dict):
+        return {"resources": []}
+
+    # Single resource under "resource" key
+    if "resource" in raw_result:
+        r = raw_result["resource"]
+        if isinstance(r, dict):
+            return {"resources": [_normalize_resource_for_merge(r)]}
+        return {"resources": []}
+
+    # List under "resources" key
+    if "resources" in raw_result:
+        raw_list = raw_result["resources"]
+        if isinstance(raw_list, list):
+            resources = [
+                _normalize_resource_for_merge(x)
+                for x in raw_list
+                if isinstance(x, dict)
+            ]
+            return {"resources": resources}
+        return {"resources": []}
+
+    # Top-level dict looks like a resource (has name or resource_name)
+    if raw_result.get("name") or raw_result.get("resource_name"):
+        return {"resources": [_normalize_resource_for_merge(raw_result)]}
+
+    return {"resources": []}
+
+
+def merge_resource_results(
+        results: List[Dict[str, Any]],
+        full_text: str,
+) -> Dict[str, Any]:
+    """
+    Merge resource extraction results from multiple chunks into one aggregated resource.
+
+    All resources are merged into a single resource object where each field is a list:
+    resource_name, description, type, category, target, specific_target, url,
+    performance, model_architecture (each a list); key_features, mapped_target_concept,
+    mapped_specific_target_concept (merged deduped lists); mentions (datasets,
+    related_models, related_papers, tools, benchmarks) as merged deduped lists.
+    Judge fields (judge_score, judge_rationale, feedback_response) are left for later agents.
+    """
+    all_resources: List[Dict[str, Any]] = []
+    for processed in results:
+        if not isinstance(processed, dict):
+            continue
+        resources = processed.get("resources")
+        if isinstance(resources, list):
+            all_resources.extend(resources)
+        # Also accept chunk that returned a single "resource" (post_process normalizes to "resources")
+        if "resource" in processed and isinstance(processed["resource"], dict):
+            all_resources.append(_normalize_resource_for_merge(processed["resource"]))
+
+    if not all_resources:
+        return {"resources": []}
+
+    # Normalize so all items have same shape
+    normalized = [_normalize_resource_for_merge(res) for res in all_resources]
+
+    # Merge all into one resource with list-valued fields
+    aggregated = _aggregate_resources_into_one(normalized)
+
+    logger.info(
+        f"Resource merge: {len(all_resources)} raw resources -> 1 aggregated resource (list-valued fields)"
+    )
+
+    return {"resources": [aggregated]}
+
+
+# ============================================================
 # TASK REGISTRY
 # ============================================================
 _TASK_POST_PROCESSORS: Dict[str, Callable] = {
     "ner": ner_post_process,
     "extraction": generic_extraction_post_process,
+    "resource": resource_extraction_post_process,
 }
 
 _TASK_MERGERS: Dict[str, Callable] = {
     "ner": merge_ner_results,
     "extraction": merge_generic_results,
+    "resource": merge_resource_results,
 }
 
 
