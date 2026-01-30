@@ -54,6 +54,12 @@ DEFAULT_TAXONOMY: Dict[str, Union[str, Dict[str, Any]]] = {
         "Use when you have a template like {patient_age, diagnosis, medication_list} or "
         "{paper_title, method, dataset, results}. Prioritize completeness, correct typing, and traceability to source spans."
     ),
+    "resource": (
+        "Extract resources that a paper or document targets: datasets, tools, models, software, benchmarks, and related papers. "
+        "Output is a list of resource objects with name, description, type (Dataset, Tool, Model, etc.), category, target, "
+        "specific_target, url, and mentions (datasets, models, tools, papers). Use when the task asks for resource extraction, "
+        "extracted resources, or structured resource schema with mentions."
+    ),
 
     # ----------------------------
     # Marr’s framework extraction (3-level organization) - see https://github.com/sensein/ner_reader/blob/main/docs/README_marr_system.md
