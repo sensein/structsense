@@ -77,6 +77,7 @@ def _run_crew_on_retry(
     text: str,
     input_key: str = "input_text",
     default_result: Optional[Dict[str, Any]] = None,
+    extra_inputs: Optional[Dict[str, Any]] = None,
 ) -> Dict[str, Any]:
     """
     Crew runner (generic) - Synchronous version.
@@ -86,6 +87,7 @@ def _run_crew_on_retry(
         text: The input text to process
         input_key: The key to use in the inputs dict (default: "input_text")
         default_result: Default result dict if parsing fails (default: empty dict)
+        extra_inputs: Optional extra key-value inputs merged into crew inputs (e.g. modification_context)
 
     Returns:
         Dict with parsed results. If both attempts fail, returns:
@@ -93,10 +95,13 @@ def _run_crew_on_retry(
     """
     if default_result is None:
         default_result = {}
+    inputs = {input_key: text}
+    if extra_inputs:
+        inputs.update(extra_inputs)
 
     def attempt() -> Dict[str, Any]:
         try:
-            res = crew.kickoff(inputs={input_key: text})
+            res = crew.kickoff(inputs=inputs)
 
             # Different possible shapes:
             if isinstance(res, str):
@@ -143,10 +148,11 @@ async def _run_crew_on_retry_async(
     text: str,
     input_key: str = "input_text",
     default_result: Optional[Dict[str, Any]] = None,
+    extra_inputs: Optional[Dict[str, Any]] = None,
 ) -> Dict[str, Any]:
     """
     SAFE + RETRY-ONCE Crew runner (generic) - Async version.
-    
+
     Tries to use native async akickoff() if available, otherwise falls back to
     kickoff_async() (thread-based) or synchronous kickoff() in a thread pool.
     See: https://docs.crewai.com/en/learn/kickoff-async
@@ -156,6 +162,7 @@ async def _run_crew_on_retry_async(
         text: The input text to process
         input_key: The key to use in the inputs dict (default: "input_text")
         default_result: Default result dict if parsing fails (default: empty dict)
+        extra_inputs: Optional extra key-value inputs merged into crew inputs
 
     Returns:
         Dict with parsed results. If both attempts fail, returns:
@@ -163,6 +170,9 @@ async def _run_crew_on_retry_async(
     """
     if default_result is None:
         default_result = {}
+    inputs = {input_key: text}
+    if extra_inputs:
+        inputs.update(extra_inputs)
 
     # Check if akickoff is available (newer CrewAI versions)
     has_akickoff = hasattr(crew, 'akickoff')
@@ -182,14 +192,14 @@ async def _run_crew_on_retry_async(
         try:
             # Try native async akickoff() first (best performance)
             if has_akickoff:
-                res = await crew.akickoff(inputs={input_key: text})
+                res = await crew.akickoff(inputs=inputs)
             # Fall back to thread-based async wrapper
             elif has_kickoff_async:
-                res = await crew.kickoff_async(inputs={input_key: text})
+                res = await crew.kickoff_async(inputs=inputs)
             # Last resort: run sync kickoff in thread pool
             else:
                 loop = asyncio.get_event_loop()
-                res = await loop.run_in_executor(None, lambda: crew.kickoff(inputs={input_key: text}))
+                res = await loop.run_in_executor(None, lambda: crew.kickoff(inputs=inputs))
 
             # Different possible shapes:
             if isinstance(res, str):
@@ -242,6 +252,7 @@ def run_crew_extraction(
     input_key: str = "input_text",
     default_result: Optional[Dict[str, Any]] = None,
     post_process: Optional[Callable[[str, Any, Dict[str, Any], Dict[str, Any]], Dict[str, Any]]] = None,
+    extra_inputs: Optional[Dict[str, Any]] = None,
 ) -> Dict[str, Any]:
     """
     Generic robust crew extraction pipeline.
@@ -266,6 +277,7 @@ def run_crew_extraction(
         default_result: Default result structure if parsing fails
         post_process: Optional function to post-process results.
                      Signature: (full_text, full_doc, chunk, raw_result) -> processed_result
+        extra_inputs: Optional extra key-value inputs merged into crew inputs (e.g. modification_context)
 
     Returns:
         {
@@ -291,7 +303,7 @@ def run_crew_extraction(
     # ---------------- NO CHUNKING PATH ----------------
     if not chunk_size or len(full_text) <= chunk_size:
         exec_start = time.time()
-        raw = _run_crew_on_retry(crew, full_text, input_key, default_result)
+        raw = _run_crew_on_retry(crew, full_text, input_key, default_result, extra_inputs)
         exec_time = time.time() - exec_start
         if has_timing_logger:
             timing_logger.info(f"  Single execution (no chunking): {exec_time:.3f}s")
@@ -400,7 +412,7 @@ def run_crew_extraction(
         
         # Run extraction
         exec_start = time.time()
-        raw = _run_crew_on_retry(crew, ch["text"], input_key, default_result)
+        raw = _run_crew_on_retry(crew, ch["text"], input_key, default_result, extra_inputs)
         exec_time = time.time() - exec_start
         
         chunk_time = time.time() - chunk_start
@@ -506,6 +518,7 @@ async def run_crew_extraction_async(
     input_key: str = "input_text",
     default_result: Optional[Dict[str, Any]] = None,
     post_process: Optional[Callable[[str, Any, Dict[str, Any], Dict[str, Any]], Dict[str, Any]]] = None,
+    extra_inputs: Optional[Dict[str, Any]] = None,
 ) -> Dict[str, Any]:
     """
     Async version of run_crew_extraction using native async execution.
@@ -550,7 +563,7 @@ async def run_crew_extraction_async(
     # ---------------- NO CHUNKING PATH ----------------
     if not chunk_size or len(full_text) <= chunk_size:
         exec_start = time.time()
-        raw = await _run_crew_on_retry_async(crew, full_text, input_key, default_result)
+        raw = await _run_crew_on_retry_async(crew, full_text, input_key, default_result, extra_inputs)
         exec_time = time.time() - exec_start
         if has_timing_logger:
             timing_logger.info(f"  Single execution (no chunking, async): {exec_time:.3f}s")
@@ -645,7 +658,7 @@ async def run_crew_extraction_async(
         
         # Run extraction with async
         exec_start = time.time()
-        raw = await _run_crew_on_retry_async(chunk_crew, ch["text"], input_key, default_result)
+        raw = await _run_crew_on_retry_async(chunk_crew, ch["text"], input_key, default_result, extra_inputs)
         exec_time = time.time() - exec_start
         
         chunk_time = time.time() - chunk_start

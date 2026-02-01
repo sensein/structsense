@@ -1,3 +1,4 @@
+import json
 import logging
 import os
 import time
@@ -57,6 +58,7 @@ from utils.postprocessing import (
     get_post_processor,
     get_result_merger,
 )
+from .humanloop import HumanInTheLoop
 
 
 # Start memory tracking
@@ -122,6 +124,16 @@ def setup_timing_logger():
 class ConfigError(Exception):
     """Exception raised for configuration errors."""
     pass
+
+
+# Mapping from task_key to the input placeholder name expected by that task in the pipeline.
+# Used when chaining agents: each stage receives the previous stage's output under this key.
+PIPELINE_INPUT_KEY_MAP = {
+    "extraction_task": "input_text",
+    "alignment_task": "extracted_structured_information",
+    "judge_task": "aligned_structured_information",
+    "humanfeedback_task": "judged_structured_information_with_human_feedback",
+}
 
 
 class StructSenseFlow:
@@ -309,7 +321,12 @@ class StructSenseFlow:
         self.enable_chunking = enable_chunking
         self.chunk_size = chunk_size or 2000  # Default chunk size
         self.max_workers = max_workers
-        self.agent_feedback_config = agent_feedback_config
+        self.agent_feedback_config = agent_feedback_config or {}
+        # Human-in-the-loop for feedback before humanfeedback_agent (see humanloop.py)
+        self.human_loop = HumanInTheLoop(
+            enable_human_feedback=enable_human_feedback,
+            agent_feedback_config=self.agent_feedback_config,
+        )
 
 
 
@@ -326,13 +343,14 @@ class StructSenseFlow:
         post_process: Optional[Any] = None,
         input_key: str = "input_text",
         default_result: Optional[Dict[str, Any]] = None,
+        extra_inputs: Optional[Dict[str, Any]] = None,
     ) -> Dict[str, Any]:
         """
         Run a specific agent-task combination directly with full control.
-        
-        This method gives you direct control over how each agent runs without
-        using CrewAI flow patterns. Supports both sync and async execution.
-        
+
+        Tools are selected per agent/task via _get_detected_task_type and get_tools_for_agent.
+        Supports chunking and post-processing for extraction; optional extra_inputs for multi-placeholder tasks.
+
         Args:
             agent_key: Key for the agent in agent_config
             task_key: Key for the task in task_config
@@ -343,7 +361,8 @@ class StructSenseFlow:
             post_process: Optional post-processing function
             input_key: Key to use in crew inputs dict
             default_result: Default result structure if parsing fails
-            
+            extra_inputs: Optional extra key-value inputs for crew (e.g. modification_context, user_feedback_text)
+
         Returns:
             Dict with results, raw_results, and errors
         """
@@ -408,6 +427,7 @@ class StructSenseFlow:
                 input_key=input_key,
                 default_result=default_result or {},
                 post_process=post_process,
+                extra_inputs=extra_inputs,
             )
         else:
             # Use synchronous execution for single chunk or no chunking
@@ -419,6 +439,7 @@ class StructSenseFlow:
                 input_key=input_key,
                 default_result=default_result or {},
                 post_process=post_process,
+                extra_inputs=extra_inputs,
             )
 
         elapsed_time = time.time() - start_time
@@ -623,23 +644,38 @@ class StructSenseFlow:
             logger.error(f"StructSenseFlow execution failed: {str(e)}")
             raise
 
-    async def information_extraction_task(self, text: Optional[str] = None):
-        """Extract structured information from the source text using direct agent execution."""
+    async def information_extraction_task(
+        self,
+        text: Optional[str] = None,
+        modification_context: Optional[str] = None,
+        user_feedback_text: Optional[str] = None,
+    ):
+        """Run the full pipeline: all agent-task pairs from config in order, passing each result to the next.
+        """
         if text is None:
             text = self.source_text
 
         start_time = time.time()
-        logger.info("Starting structured information extraction")
+        logger.info("Starting structured information extraction (full pipeline)")
 
         # Check Ollama health (optional - won't fail if unavailable)
         if not check_ollama_health():
             logger.warning("Ollama health check failed, continuing anyway")
 
-        # Dynamic task type (taxonomy-aligned) for post-processor and merger
-        task_type = self._get_detected_task_type("extractor_agent", "extraction_task")
-        logger.info(f"Detected task type: {task_type}")
+        ordered_pairs = self._get_ordered_agent_task_pairs()
+        if not ordered_pairs:
+            logger.warning("No agent-task pairs found in config")
+            return {
+                "errors": [{"scope": "pipeline", "index": None, "error": "No agent-task pairs in config"}],
+                "task_type": "extraction",
+                "elapsed_time": time.time() - start_time,
+            }
 
-        # Map taxonomy task_type to post-processor key (ner, resource, extraction)
+        # First-stage task type drives post-processor and merger (extraction only)
+        first_agent_key, first_task_key = ordered_pairs[0]
+        task_type = self._get_detected_task_type(first_agent_key, first_task_key)
+        logger.info(f"Detected task type (first stage): {task_type}")
+
         if task_type == "ner":
             post_process_key = "ner"
         elif task_type in ("resource", "structured_extraction"):
@@ -648,34 +684,92 @@ class StructSenseFlow:
             post_process_key = "extraction"
         post_processor = get_post_processor(post_process_key)
         result_merger = get_result_merger(post_process_key)
-
-        # Get default result based on task type
         default_result = self._get_default_result_for_task(task_type)
 
-        # Run extractor agent directly with task-dependent post-processing
-        result = await self.run_agent_task(
-            agent_key="extractor_agent",
-            task_key="extraction_task",
-            text=text,
-            pydantic_output_class=None,
-            chunk_size=None if not self.enable_chunking else self.chunk_size,
-            max_workers=self.max_workers,
-            post_process=post_processor,
-            default_result=default_result,
-        )
+        all_errors = []
+        pipeline_stages = {}
+        prev_output = None
 
-        # Merge results using task-dependent merger
-        merged_results = result_merger(result["results"], text)
+        for idx, (agent_key, task_key) in enumerate(ordered_pairs):
+            is_first_stage = idx == 0
+            input_key = PIPELINE_INPUT_KEY_MAP.get(task_key, "input_text")
+
+            if is_first_stage:
+                # First stage: source text, chunking, post-processing, merger
+                stage_text = text
+                stage_chunk_size = self.chunk_size if self.enable_chunking else None
+                stage_post_process = post_processor
+                stage_default_result = default_result
+            else:
+                # Downstream stages: previous stage output as JSON, no chunking
+                if prev_output is None:
+                    logger.warning(f"Skipping {agent_key}/{task_key}: no previous output")
+                    continue
+                stage_text = json.dumps(prev_output, indent=2) if isinstance(prev_output, dict) else str(prev_output)
+                stage_chunk_size = None
+                stage_post_process = None
+                stage_default_result = self._get_default_result_for_task(
+                    self._get_detected_task_type(agent_key, task_key)
+                )
+
+            # Optional extra inputs for humanfeedback_task (from humanloop or explicit args)
+            extra_inputs = None
+            if task_key == "humanfeedback_task":
+                extra_inputs = {}
+                # Use humanloop to request feedback when enabled and no explicit feedback passed
+                if modification_context is None and user_feedback_text is None and self.human_loop.is_feedback_enabled_for_agent("humanfeedback_agent"):
+                    feedback_result = self.human_loop.request_feedback(
+                        prev_output,
+                        step_name="human_feedback_processing",
+                        agent_name="humanfeedback_agent",
+                    )
+                    if isinstance(feedback_result, dict):
+                        if feedback_result.get("user_feedback_text"):
+                            extra_inputs["user_feedback_text"] = feedback_result["user_feedback_text"]
+                        if feedback_result.get("user_feedback_json") is not None:
+                            extra_inputs["modification_context"] = json.dumps(feedback_result["user_feedback_json"], indent=2)
+                if modification_context is not None:
+                    extra_inputs["modification_context"] = modification_context
+                if user_feedback_text is not None:
+                    extra_inputs["user_feedback_text"] = user_feedback_text
+                if not extra_inputs:
+                    extra_inputs = None
+
+            result = await self.run_agent_task(
+                agent_key=agent_key,
+                task_key=task_key,
+                text=stage_text,
+                pydantic_output_class=None,
+                chunk_size=stage_chunk_size,
+                max_workers=self.max_workers,
+                post_process=stage_post_process,
+                input_key=input_key,
+                default_result=stage_default_result,
+                extra_inputs=extra_inputs,
+            )
+
+            all_errors.extend(result.get("errors", []))
+
+            if is_first_stage:
+                merged = result_merger(result["results"], text)
+                prev_output = merged
+                pipeline_stages[task_key] = merged
+            else:
+                raw = result["results"][0] if result.get("results") else prev_output
+                prev_output = raw
+                pipeline_stages[task_key] = raw
 
         elapsed_time = time.time() - start_time
-        logger.info(f"Extraction completed in {elapsed_time:.2f} seconds")
+        logger.info(f"Pipeline completed in {elapsed_time:.2f} seconds ({len(ordered_pairs)} stages)")
 
-        return {
-            **merged_results,
-            "errors": result["errors"],
-            "task_type": task_type,
-            "elapsed_time": elapsed_time,
-        }
+        # Build result: last stage output at top level, plus errors/task_type/elapsed_time/pipeline_stages
+        final = dict(prev_output) if isinstance(prev_output, dict) else {}
+        final["errors"] = all_errors
+        final["task_type"] = task_type
+        final["elapsed_time"] = elapsed_time
+        final["pipeline_stages"] = pipeline_stages
+        # Backward compat: if only extraction ran, top-level already has merged result; if full pipeline, keep last stage at top and use pipeline_stages for per-stage outputs
+        return final
 
     def _get_default_result_for_task(self, task_type: str) -> Dict[str, Any]:
         """Get default result structure based on task type."""
@@ -687,8 +781,17 @@ class StructSenseFlow:
         }
         return defaults.get(task_type, {})
 
-
-
+    def _get_ordered_agent_task_pairs(self) -> list:
+        """Return list of (agent_key, task_key) in config order for pipeline execution."""
+        pairs = []
+        for task_key_iter, task_data in self.task_config.items():
+            if isinstance(task_data, dict) and "agent_id" in task_data:
+                agent_key_iter = task_data["agent_id"]
+                if agent_key_iter in self.agent_config:
+                    pairs.append((agent_key_iter, task_key_iter))
+        if not pairs and "extractor_agent" in self.agent_config and "extraction_task" in self.task_config:
+            pairs = [("extractor_agent", "extraction_task")]
+        return pairs
 
     def _get_detected_task_type(self, agent_key: str, task_key: str) -> str:
         """Detect task type for tool selection and merging (taxonomy-aligned).

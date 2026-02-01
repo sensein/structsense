@@ -1,0 +1,301 @@
+{
+  "entities": [],
+  "key_terms": [],
+  "metadata": {
+    "total_chunks": 67,
+    "chunks_with_entities": 0,
+    "entities_before_merge": 0,
+    "entities_after_merge": 0
+  },
+  "errors": [
+    {
+      "scope": "chunk",
+      "index": 10,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"Provider returned error\",\"code\":400,\"metadata\":{\"raw\":\"{\\n  \\\"error\\\": {\\n    \\\"message\\\": \\\"This model's maximum context length is 128000 tokens. However, you requested 131756 tokens (115372 in the messages, 16384 in the completion). Please reduce the length of the messages or completion.\\\",\\n    \\\"type\\\": \\\"invalid_request_error\\\",\\n    \\\"param\\\": \\\"messages\\\",\\n    \\\"code\\\": \\\"context_length_exceeded\\\"\\n  }\\n}\",\"provider_name\":\"Azure\",\"is_byok\":false}},\"user_id\":\"org_2zgQ2qGsirk1cTSrGRA2wK9Qot6\"}"
+    },
+    {
+      "scope": "chunk",
+      "index": 11,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"Provider returned error\",\"code\":400,\"metadata\":{\"raw\":\"{\\n  \\\"error\\\": {\\n    \\\"message\\\": \\\"This model's maximum context length is 128000 tokens. However, you requested 137380 tokens (120996 in the messages, 16384 in the completion). Please reduce the length of the messages or completion.\\\",\\n    \\\"type\\\": \\\"invalid_request_error\\\",\\n    \\\"param\\\": \\\"messages\\\",\\n    \\\"code\\\": \\\"context_length_exceeded\\\"\\n  }\\n}\",\"provider_name\":\"Azure\",\"is_byok\":false}},\"user_id\":\"org_2zgQ2qGsirk1cTSrGRA2wK9Qot6\"}"
+    },
+    {
+      "scope": "chunk",
+      "index": 12,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"Provider returned error\",\"code\":400,\"metadata\":{\"raw\":\"{\\n  \\\"error\\\": {\\n    \\\"message\\\": \\\"This model's maximum context length is 128000 tokens. However, you requested 142928 tokens (126544 in the messages, 16384 in the completion). Please reduce the length of the messages or completion.\\\",\\n    \\\"type\\\": \\\"invalid_request_error\\\",\\n    \\\"param\\\": \\\"messages\\\",\\n    \\\"code\\\": \\\"context_length_exceeded\\\"\\n  }\\n}\",\"provider_name\":\"Azure\",\"is_byok\":false}},\"user_id\":\"org_2zgQ2qGsirk1cTSrGRA2wK9Qot6\"}"
+    },
+    {
+      "scope": "chunk",
+      "index": 13,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"Provider returned error\",\"code\":400,\"metadata\":{\"raw\":\"{\\n  \\\"error\\\": {\\n    \\\"message\\\": \\\"This model's maximum context length is 128000 tokens. However, your messages resulted in 131772 tokens. Please reduce the length of the messages.\\\",\\n    \\\"type\\\": \\\"invalid_request_error\\\",\\n    \\\"param\\\": \\\"messages\\\",\\n    \\\"code\\\": \\\"context_length_exceeded\\\"\\n  }\\n}\",\"provider_name\":\"Azure\",\"is_byok\":false}},\"user_id\":\"org_2zgQ2qGsirk1cTSrGRA2wK9Qot6\"}"
+    },
+    {
+      "scope": "chunk",
+      "index": 14,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 128614 tokens (128614 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 15,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 135250 tokens (135250 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 16,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 141875 tokens (141875 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 17,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 148442 tokens (148442 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 18,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 155086 tokens (155086 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 19,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 161640 tokens (161640 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 20,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 168120 tokens (168120 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 21,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 174746 tokens (174746 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 22,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 181311 tokens (181311 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 23,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 187931 tokens (187931 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 24,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 194514 tokens (194514 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 25,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 200869 tokens (200869 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 26,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 207523 tokens (207523 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 27,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 213979 tokens (213979 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 28,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 220631 tokens (220631 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 29,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 227309 tokens (227309 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 30,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 233686 tokens (233686 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 31,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 240190 tokens (240190 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 32,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 246721 tokens (246721 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 33,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 252541 tokens (252541 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 34,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 259183 tokens (259183 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 35,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 265738 tokens (265738 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 36,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 272387 tokens (272387 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 37,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 278764 tokens (278764 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 38,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 285343 tokens (285343 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 39,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 291843 tokens (291843 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 40,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 298337 tokens (298337 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 41,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 304982 tokens (304982 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 42,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 311611 tokens (311611 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 43,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 318182 tokens (318182 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 44,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 324836 tokens (324836 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 45,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 331496 tokens (331496 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 46,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 337837 tokens (337837 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 47,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 344350 tokens (344350 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 48,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 350950 tokens (350950 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 49,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 357629 tokens (357629 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 50,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 364210 tokens (364210 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 51,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 370729 tokens (370729 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 52,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 377256 tokens (377256 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 53,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 383870 tokens (383870 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 54,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 390501 tokens (390501 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 55,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 396823 tokens (396823 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 56,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 403434 tokens (403434 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 57,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 410023 tokens (410023 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 58,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 416544 tokens (416544 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 59,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 423062 tokens (423062 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 60,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 429680 tokens (429680 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 61,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 436291 tokens (436291 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 62,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 442738 tokens (442738 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 63,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 449437 tokens (449437 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 64,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 456001 tokens (456001 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 65,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 462634 tokens (462634 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 66,
+      "error": "litellm.BadRequestError: OpenrouterException - {\"error\":{\"message\":\"This endpoint's maximum context length is 128000 tokens. However, you requested about 469055 tokens (469055 of text input). Please reduce the length of either one, or use the \\\"middle-out\\\" transform to compress your prompt automatically.\",\"code\":400,\"metadata\":{\"provider_name\":null}}}"
+    }
+  ],
+  "task_type": "ner",
+  "elapsed_time": 441.9248888492584,
+  "agent_key": "extractor_agent",
+  "task_key": "extraction_task"
+}
