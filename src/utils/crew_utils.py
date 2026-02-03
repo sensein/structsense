@@ -52,7 +52,7 @@ from crewai.utilities.paths import db_storage_path
 
 # Import chunking functions and nlp model
 from .text_chunking import _chunk_doc_by_sentences
-from .tools import get_spacy_model
+from .ner_tool import get_spacy_model
 from .utils import check_ollama_health
 from crew.dynamic_agent import DynamicAgent
 from crew.dynamic_agent_task import DynamicAgentTask

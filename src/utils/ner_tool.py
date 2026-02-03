@@ -13,7 +13,7 @@
 # @Author  : Tek Raj Chhetri
 # @Email   : tekraj@mit.edu
 # @Web     : https://tekrajchhetri.com/
-# @File    : tools.py
+# @File    : ner_tool.py
 # @Software: PyCharm
 
 import json

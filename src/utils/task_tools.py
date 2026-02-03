@@ -62,7 +62,7 @@ def _resolve_tool(name: str) -> Any:
     global _TOOL_REGISTRY
     if name not in _TOOL_REGISTRY:
         if name == "extract_ner_terms":
-            from .tools import extract_ner_terms
+            from .ner_tool import extract_ner_terms
             _TOOL_REGISTRY[name] = extract_ner_terms
         else:
             logger.warning(f"Unknown tool name '{name}', skipping")
