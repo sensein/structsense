@@ -17,7 +17,11 @@
 # @Software: PyCharm
 
 import json
+import os
+from typing import Any, Dict, List, Optional
+
 from crewai.tools import tool
+from openai import OpenAI
 from transformers import pipeline, AutoModelForTokenClassification, AutoTokenizer
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import spacy
@@ -39,11 +43,48 @@ HF_MODEL_NAMES = [
 # spaCy model
 SPACY_MODEL = "en_core_web_sm"
 
+# Source label for LLM-based NER (for postprocessing weights)
+LLM_NER_SOURCE_MODEL = "llm_ner"
+
 # Cache for loaded models to avoid reloading
 MODEL_CACHE = {}
 _spacy_nlp = None
 _device = None
 _models_warmed_up = False
+
+# Optional domain context for LLM-based NER (set by app when attaching tool with agent/task config)
+_ner_domain_context: Optional[Dict[str, Any]] = None
+
+
+def set_ner_domain_context(
+    agent_role: str = "",
+    agent_goal: str = "",
+    task_description: str = "",
+    llm_config: Optional[Dict[str, Any]] = None,
+    api_key: Optional[str] = None,
+    enable_llm_ner: bool = True,
+) -> None:
+    """Set domain context for extract_ner_terms so it also runs LLM-based NER. Call before attaching the tool to the agent."""
+    global _ner_domain_context
+    _ner_domain_context = {
+        "agent_role": (agent_role or "").strip(),
+        "agent_goal": (agent_goal or "").strip(),
+        "task_description": (task_description or "").strip(),
+        "llm_config": llm_config or {},
+        "api_key": api_key,
+        "enable_llm_ner": bool(enable_llm_ner),
+    } if (agent_role or agent_goal or task_description) and enable_llm_ner else None
+
+
+def clear_ner_domain_context() -> None:
+    """Clear domain context so extract_ner_terms runs ML-only."""
+    global _ner_domain_context
+    _ner_domain_context = None
+
+
+def get_ner_domain_context() -> Optional[Dict[str, Any]]:
+    """Return current domain context for NER (for tests)."""
+    return _ner_domain_context
 
 
 def get_device():
@@ -308,10 +349,175 @@ def extract_all_entities(text, max_workers=4):
     return all_entities
 
 
+def _find_entity_span(text: str, entity_text: str) -> tuple:
+    """
+    Find first occurrence of entity_text in text (case-insensitive search).
+    Returns (start, end) character offsets, or (0, 0) if not found.
+    """
+    if not entity_text or not text:
+        return (0, 0)
+    ent = entity_text.strip()
+    if not ent:
+        return (0, 0)
+    text_lower = text.lower()
+    ent_lower = ent.lower()
+    idx = text_lower.find(ent_lower)
+    if idx == -1:
+        return (0, 0)
+    return (idx, idx + len(ent))
+
+
+def _safe_parse_llm_json(raw_text: str) -> Dict[str, Any]:
+    """Extract JSON object from LLM output (may be wrapped in markdown or text)."""
+    if not raw_text or not raw_text.strip():
+        return {}
+    text = raw_text.strip()
+    # Try direct parse first
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        pass
+    # Try to find JSON object in text
+    start = text.find("{")
+    end = text.rfind("}")
+    if start != -1 and end != -1 and end > start:
+        candidate = text[start : end + 1]
+        try:
+            return json.loads(candidate)
+        except json.JSONDecodeError:
+            pass
+    return {}
+
+
+def extract_entities_with_llm(
+    text: str,
+    agent_role: str = "",
+    agent_goal: str = "",
+    task_description: str = "",
+    llm_config: Optional[Dict[str, Any]] = None,
+    api_key: Optional[str] = None,
+) -> List[Dict[str, Any]]:
+    """
+    Extract named entities using an LLM with domain context from extractor agent
+    role, goal, and task description. Returns entities in the same format as
+    ML-based NER: {"entity", "label", "start", "end", "source_model"}.
+
+    Args:
+        text: Input text to extract entities from.
+        agent_role: Extractor agent role (domain context).
+        agent_goal: Extractor agent goal (domain context).
+        task_description: Extraction task description (domain context).
+        llm_config: Optional dict with "model" and "base_url" for OpenAI-compatible API.
+        api_key: Optional API key; falls back to OPENROUTER_API_KEY env.
+
+    Returns:
+        List of entity dicts with entity, label, start, end, source_model.
+    """
+    if not text or not text.strip():
+        return []
+
+    api_key = api_key or os.environ.get("OPENROUTER_API_KEY") or os.environ.get("OPENAI_API_KEY")
+    if not api_key:
+        logger.warning("No API key for LLM NER; skipping LLM-based extraction.")
+        return []
+
+    llm_config = llm_config or {} 
+    base_url = llm_config.get("base_url") or "https://openrouter.ai/api/v1"
+    model = llm_config.get("model") or "openai/gpt-4o-mini"
+    # OpenRouter expects model ID without "openrouter/" prefix (e.g. openai/gpt-4o-mini)
+    if "openrouter" in (base_url or "") and isinstance(model, str) and model.startswith("openrouter/"):
+        model = model.replace("openrouter/", "", 1)
+        logger.info(f"LLM NER: normalized OpenRouter model ID to {model!r}")
+
+    print(f"[LLM NER] base_url={base_url!r}, model={model!r}, text_len={len(text)}")
+    logger.info(f"LLM NER: base_url={base_url!r}, model={model!r}")
+
+    domain_context = ""
+    if agent_role or agent_goal or task_description:
+        parts = []
+        if agent_role:
+            parts.append(f"Agent role: {agent_role.strip()}")
+        if agent_goal:
+            parts.append(f"Agent goal: {agent_goal.strip()}")
+        if task_description:
+            # Truncate very long task description for prompt
+            desc = task_description.strip()
+            if len(desc) > 1500:
+                desc = desc[:1500] + "..."
+            parts.append(f"Task description: {desc}")
+        domain_context = "\n".join(parts)
+    else:
+        domain_context = "Extract named entities (domain-specific types, such as anatomical regions, experimental conditions based on domains like neurosceice, biomedical)."
+
+    prompt = f"""You are a named entity recognition (NER) expert. Given the domain context below, extract ALL named entities from the input text.
+
+Domain context:
+{domain_context}
+
+Output MUST be a single JSON object with exactly one key "entities", whose value is a list of objects. Each object must have:
+- "entity": the exact span of text (substring of the input)
+- "label": the entity type (e.g. BRAIN_REGION, CELL_TYPE, DISEASE, GENE, PERSON, ORGANIZATION)
+
+Do not include "start" or "end" in the output; they will be computed from the text.
+
+Input text:
+---
+{text[:12000]}
+---
+
+Return only the JSON object, no other text."""
+
+    try:
+        print("[LLM NER] Calling API...")
+        client = OpenAI(base_url=base_url, api_key=api_key)
+        response = client.chat.completions.create(
+            model=model,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        raw_text = (response.choices[0].message.content or "").strip()
+        data = _safe_parse_llm_json(raw_text)
+        entities_raw = data.get("entities", [])
+        if not isinstance(entities_raw, list):
+            entities_raw = []
+        print(f"[LLM NER] API success: parsed {len(entities_raw)} entities from response")
+        logger.info(f"LLM NER: API success, {len(entities_raw)} entities")
+    except Exception as e:
+        print(f"[LLM NER] API error: {e}")
+        logger.error(f"LLM NER API error (base_url={base_url!r}, model={model!r}): {e}")
+        return []
+
+    entities = []
+    for item in entities_raw:
+        if not isinstance(item, dict):
+            continue
+        ent_text = (item.get("entity") or item.get("word") or "").strip()
+        label = (item.get("label") or item.get("entity_group") or "UNKNOWN").strip()
+        if not ent_text:
+            continue
+        start, end = _find_entity_span(text, ent_text)
+        entities.append({
+            "entity": ent_text,
+            "label": canonical_label(label),
+            "start": start,
+            "end": end,
+            "source_model": LLM_NER_SOURCE_MODEL,
+        })
+    if entities:
+        logger.info(f"✓ LLM NER: Found {len(entities)} entities")
+    return entities
+
+
 @tool("extract_ner_terms")
 def extract_ner_terms(text: str) -> str:
     """
-    Extract named entities using spaCy + biomedical NER models and return JSON:
+    Extract named entities using ML models (spaCy + biomedical) and, when domain
+    context is set by the app, LLM-based NER. All combined into one tool.
+
+    Always runs: spaCy + biomedical NER models. If set_ner_domain_context() was
+    called with extractor agent role/task description and LLM config, also runs
+    LLM-based NER and merges results. Output format is the same either way.
+
+    Returns JSON:
     {
       "entities": [
         {"entity": "...", "label": "...", "source_model": "...", "start": int, "end": int},
@@ -319,12 +525,8 @@ def extract_ner_terms(text: str) -> str:
       ]
     }
 
-    Uses:
-    - spaCy (en_core_web_sm): General named entities
-    - d4data/biomedical-ner-all: General biomedical entities
-    - BC5CDR models: Chemical and disease entities
-    - NCBI-disease models: Disease entities
-    - BioBERT genetic NER: Gene and protein entities
+    ML models: spaCy (en_core_web_sm), d4data/biomedical-ner-all, BC5CDR chemical/disease,
+    NCBI-disease, BioBERT genetic NER. When context is set, adds LLM NER (source_model: llm_ner).
 
     `start` and `end` are character offsets relative to THIS text (chunk).
     `source_model` indicates which model detected the entity.
@@ -338,13 +540,24 @@ def extract_ner_terms(text: str) -> str:
     try:
         logger.info(f"Extracting entities from text of length {len(text)}")
 
-        # Extract all entities (models warmed up automatically)
         entities = extract_all_entities(text, max_workers=4)
 
+        ctx = get_ner_domain_context()
+        if ctx and ctx.get("enable_llm_ner"):
+            print("[LLM NER] Domain context set, running LLM-based NER...")
+            llm_entities = extract_entities_with_llm(
+                text,
+                agent_role=ctx.get("agent_role") or "",
+                agent_goal=ctx.get("agent_goal") or "",
+                task_description=ctx.get("task_description") or "",
+                llm_config=ctx.get("llm_config"),
+                api_key=ctx.get("api_key"),
+            )
+            if llm_entities:
+                entities = entities + llm_entities
+
         result = {"entities": entities}
-
         logger.info(f"Successfully extracted {len(entities)} entities")
-
         return json.dumps(result, ensure_ascii=False)
 
     except Exception as e:

@@ -39,6 +39,7 @@ logger = logging.getLogger(__name__)
 MODEL_WEIGHTS = {
     "d4data/biomedical-ner-all": 5.0,
     "alvaroalon2/biobert_genetic_ner": 4.0,
+    "llm_ner": 3.9,  # LLM-based NER with domain context (extractor agent role/task) basically perform llm call
     "mobashgr/BC5CDR-chem-WLT-384-BioELECTRA-Pubmed-ENS-20-5": 3.0,
     "mobashgr/NCBI-disease-WLT-256-SciBERT-13INS": 2.0,
     "en_core_web_sm": 1.0,
@@ -49,6 +50,7 @@ MODEL_NAME_MAPPING = {
     "spacy (en_core_web_sm)": "en_core_web_sm",
     "spacy": "en_core_web_sm",
     "en_core_web_sm": "en_core_web_sm",
+    "llm_ner": "llm_ner",
 }
 
 # Generic/uninformative labels to filter out (typically from spaCy)
