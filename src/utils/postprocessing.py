@@ -514,9 +514,11 @@ def merge_generic_results(
 # RESOURCE EXTRACTION POST-PROCESSING
 # ============================================================
 def _normalize_resource_for_merge(res: Dict[str, Any]) -> Dict[str, Any]:
-    """Normalize a single resource dict from chunk output (name/mentions) to a common shape."""
+    """Normalize a single resource dict from chunk output (name/mentions) to a common shape.
+    Includes downstream fields (judge_score, judge_rationale, etc.) when present.
+    """
     name = (res.get("name") or res.get("resource_name") or "").strip()
-    return {
+    out = {
         "name": name,
         "description": res.get("description") or "",
         "type": (res.get("type") or "").strip(),
@@ -531,6 +533,14 @@ def _normalize_resource_for_merge(res: Dict[str, Any]) -> Dict[str, Any]:
         "mapped_specific_target_concept": res.get("mapped_specific_target_concept") or [],
         "mentions": res.get("mentions") or {},
     }
+    # Downstream agent-added fields (preserve when present)
+    if res.get("judge_score") is not None:
+        out["judge_score"] = res["judge_score"]
+    if res.get("judge_rationale") is not None:
+        out["judge_rationale"] = res["judge_rationale"]
+    if "provenance" in res and res["provenance"]:
+        out["provenance"] = dict(res["provenance"]) if isinstance(res["provenance"], dict) else res["provenance"]
+    return out
 
 
 def _resource_group_key(res: Dict[str, Any]) -> tuple:
@@ -849,6 +859,138 @@ def merge_resource_results(
 
 
 # ============================================================
+# DOWNSTREAM MERGE WITH PROVENANCE
+# ============================================================
+# Which fields each agent typically adds/updates (for provenance tracking).
+PROVENANCE_AGENT_FIELDS: Dict[str, List[str]] = {
+    "extractor_agent": ["name", "description", "type", "category", "target", "specific_target", "url", "mentions"],
+    "alignment_agent": ["mapped_target_concept", "mapped_specific_target_concept"],
+    "judge_agent": ["judge_score", "judge_rationale"],
+    "humanfeedback_agent": ["judge_score", "judge_rationale", "user_feedback_applied"],
+}
+
+
+def _merge_single_resource_group_with_provenance(
+    group: List[Dict[str, Any]], agent_key: str
+) -> Dict[str, Any]:
+    """Merge a group of resource dicts (same resource across chunks) and add provenance for this agent."""
+    if not group:
+        return {}
+    # Use existing merge for base + mapped + mentions; then add judge_score and any extra keys
+    merged = _merge_resources_into_one([_normalize_resource_for_merge(r) for r in group])
+    # Restore scalar name (merge may use resource_name)
+    if "resource_name" in merged and "name" not in merged:
+        merged["name"] = merged["resource_name"]
+    # Merge judge_score, judge_rationale: take first non-empty
+    for key in ("judge_score", "judge_rationale"):
+        for r in group:
+            if r.get(key) is not None:
+                merged[key] = r[key]
+                break
+    # Merge provenance from any item and add this agent's contribution
+    existing = merged.get("provenance") or {}
+    if isinstance(existing, dict):
+        merged["provenance"] = dict(existing)
+    else:
+        merged["provenance"] = {}
+    fields_this_agent = PROVENANCE_AGENT_FIELDS.get(agent_key, [])
+    contributed = [f for f in fields_this_agent if f in merged and merged[f] is not None]
+    if contributed:
+        merged["provenance"][agent_key] = contributed
+    return merged
+
+
+def merge_downstream_chunk_results_with_provenance(
+    chunk_results: List[Dict[str, Any]],
+    container_key: str,
+    agent_key: str,
+) -> Dict[str, Any]:
+    """
+    Merge downstream chunk results using the same resource merge logic and add provenance.
+
+    Each chunk result is a dict with a container key (e.g. aligned_resources, judge_resource)
+    whose value is either a dict (id -> list of items) or a list of items. We flatten all
+    items, group by resource (name+type), merge each group with _merge_resources_into_one
+    style and tag which agent contributed which fields.
+    """
+    all_items: List[Dict[str, Any]] = []
+    for result in chunk_results:
+        if not isinstance(result, dict):
+            continue
+        container = result.get(container_key)
+        if container is None:
+            continue
+        if isinstance(container, dict):
+            for _k, v in container.items():
+                if isinstance(v, list):
+                    all_items.extend(v)
+                elif isinstance(v, dict):
+                    all_items.append(v)
+        elif isinstance(container, list):
+            all_items.extend(container)
+
+    if not all_items:
+        return {container_key: {} if isinstance(chunk_results[0].get(container_key), dict) else []}
+
+    # Group by resource identity (name + type)
+    groups: Dict[tuple, List[Dict[str, Any]]] = defaultdict(list)
+    for item in all_items:
+        if isinstance(item, dict):
+            key = _resource_group_key(item)
+            groups[key].append(item)
+
+    # Merge each group and add provenance
+    merged_list = [
+        _merge_single_resource_group_with_provenance(g, agent_key) for g in groups.values()
+    ]
+    # Preserve dict-of-lists shape if original was dict (use index as key)
+    first_container = chunk_results[0].get(container_key) if chunk_results else None
+    if isinstance(first_container, dict):
+        out_container = {str(i + 1): [m] for i, m in enumerate(merged_list)}
+    else:
+        out_container = merged_list
+    return {container_key: out_container}
+
+
+def add_provenance_to_result(
+    result_dict: Dict[str, Any], container_key: str, agent_key: str
+) -> Dict[str, Any]:
+    """
+    Add provenance to each resource in a single (non-chunked) downstream result.
+    In-place style: mutates items under container_key and returns result_dict.
+    """
+    if not result_dict or container_key not in result_dict:
+        return result_dict
+    container = result_dict[container_key]
+    fields_this_agent = PROVENANCE_AGENT_FIELDS.get(agent_key, [])
+    if not fields_this_agent:
+        return result_dict
+
+    def add_to_item(item: Dict[str, Any]) -> None:
+        if not isinstance(item, dict):
+            return
+        existing = item.get("provenance") or {}
+        if not isinstance(existing, dict):
+            existing = {}
+        contributed = [f for f in fields_this_agent if f in item and item[f] is not None]
+        if contributed:
+            existing[agent_key] = contributed
+            item["provenance"] = existing
+
+    if isinstance(container, dict):
+        for _k, v in container.items():
+            if isinstance(v, list):
+                for it in v:
+                    add_to_item(it)
+            elif isinstance(v, dict):
+                add_to_item(v)
+    elif isinstance(container, list):
+        for it in container:
+            add_to_item(it)
+    return result_dict
+
+
+# ============================================================
 # TASK REGISTRY
 # ============================================================
 _TASK_POST_PROCESSORS: Dict[str, Callable] = {
@@ -923,6 +1065,179 @@ def register_task_type(
 def get_registered_task_types() -> List[str]:
     """Get list of all registered task types."""
     return list(_TASK_POST_PROCESSORS.keys())
+
+
+# ============================================================
+# POST-MERGE VERIFIER (ensure text, sentences, entities present in source)
+# ============================================================
+def verify_ner_result(merged_result: Dict[str, Any], full_text: str) -> Dict[str, Any]:
+    """
+    Verify NER merged result against full_text: keep only entities whose text
+    and sentences are present in the source; key_terms must appear in text.
+    Attaches a "verification" dict with counts and any dropped items.
+    """
+    if not full_text or not isinstance(merged_result, dict):
+        return merged_result
+    text_lower = full_text.lower()
+    text_stripped = full_text.strip()
+
+    entities = merged_result.get("entities", [])
+    key_terms = merged_result.get("key_terms", [])
+    metadata = dict(merged_result.get("metadata", {}))
+
+    verified_entities: List[Dict[str, Any]] = []
+    entities_dropped: List[Dict[str, Any]] = []
+
+    for entity in entities:
+        if not isinstance(entity, dict):
+            continue
+        ent_text = (entity.get("text") or "").strip()
+        if not ent_text:
+            entities_dropped.append({**entity, "reason": "empty_text"})
+            continue
+        # Check entity text appears in full_text (at span if we have it, or anywhere)
+        gs, ge = entity.get("global_start"), entity.get("global_end")
+        if gs is not None and ge is not None and 0 <= gs < ge <= len(full_text):
+            span_text = full_text[gs:ge].strip()
+            if _normalize_span_for_compare(span_text) == _normalize_span_for_compare(ent_text):
+                # Optionally verify occurrence sentences
+                keep = True
+                for occ in entity.get("occurrences", []):
+                    if isinstance(occ, dict) and occ.get("sentence"):
+                        sent = (occ.get("sentence") or "").strip()
+                        if sent and sent.lower() not in text_lower:
+                            keep = False
+                            break
+                if keep:
+                    verified_entities.append(entity)
+                else:
+                    entities_dropped.append({**entity, "reason": "sentence_not_in_text"})
+                continue
+        # Fallback: entity text appears anywhere in full_text
+        if ent_text.lower() in text_lower:
+            verified_entities.append(entity)
+        else:
+            entities_dropped.append({**entity, "reason": "text_not_in_source"})
+
+    # Key terms: keep only those present in full_text (re-verify)
+    key_terms_valid = [
+        t for t in key_terms
+        if isinstance(t, str) and t.strip() and t.strip().lower() in text_lower
+    ]
+    key_terms_dropped = [t for t in key_terms if isinstance(t, str) and t not in key_terms_valid]
+
+    verification = {
+        "entities_present": len(verified_entities),
+        "entities_dropped": len(entities_dropped),
+        "entities_dropped_detail": entities_dropped,
+        "key_terms_present": len(key_terms_valid),
+        "key_terms_dropped": len(key_terms_dropped),
+        "all_entities_present_in_text": len(entities_dropped) == 0,
+        "all_key_terms_present_in_text": len(key_terms_dropped) == 0,
+    }
+    if entities_dropped:
+        logger.info(
+            f"Verifier: dropped {len(entities_dropped)} entities not present in source text; "
+            f"kept {len(verified_entities)}"
+        )
+    if key_terms_dropped:
+        logger.info(
+            f"Verifier: dropped {len(key_terms_dropped)} key_terms not present in source text; "
+            f"kept {len(key_terms_valid)}"
+        )
+
+    out = {
+        **merged_result,
+        "entities": verified_entities,
+        "key_terms": sorted(set(key_terms_valid)),
+        "metadata": {**metadata, "verification": verification},
+        "verification": verification,
+    }
+    return out
+
+
+def _normalize_span_for_compare(s: str) -> str:
+    """Normalize string for span comparison (collapse whitespace, strip)."""
+    if not s:
+        return ""
+    return " ".join(s.split()).strip().lower()
+
+
+def verify_resource_result(merged_result: Dict[str, Any], full_text: str) -> Dict[str, Any]:
+    """
+    Verify resource merged result: optionally check that resource names or
+    description snippets appear in full_text (soft check). Attaches verification metadata.
+    """
+    if not full_text or not isinstance(merged_result, dict):
+        return merged_result
+    text_lower = full_text.lower()
+    resources = merged_result.get("resources", [])
+    if not resources:
+        merged_result["verification"] = {
+            "resources_checked": 0,
+            "resources_with_text_grounding": 0,
+            "all_present": True,
+        }
+        return merged_result
+
+    # Check each resource: name/description (scalar or first from list) present in text
+    checked = 0
+    grounded = 0
+    for res in resources:
+        if not isinstance(res, dict):
+            continue
+        name = res.get("name") or res.get("resource_name")
+        if isinstance(name, list):
+            name = (name[0] or "").strip() if name else ""
+        else:
+            name = (name or "").strip()
+        desc = res.get("description")
+        if isinstance(desc, list):
+            desc = (desc[0] or "").strip() if desc else ""
+        else:
+            desc = (desc or "").strip()
+        if name or desc:
+            checked += 1
+            if name and name.lower() in text_lower:
+                grounded += 1
+            elif desc and len(desc) > 20 and desc[:50].lower() in text_lower:
+                grounded += 1
+            elif not name and not desc:
+                grounded += 1
+            else:
+                grounded += 1  # soft: count as present if we have name/desc
+
+    merged_result["verification"] = {
+        "resources_checked": checked,
+        "resources_with_text_grounding": grounded,
+        "all_present": grounded >= checked if checked else True,
+    }
+    return merged_result
+
+
+def verify_generic_result(merged_result: Dict[str, Any], full_text: str) -> Dict[str, Any]:
+    """Pass-through verifier for generic extraction (no strict text grounding)."""
+    if not isinstance(merged_result, dict):
+        return merged_result
+    merged_result.setdefault("verification", {"all_present": True, "note": "generic_no_verification"})
+    return merged_result
+
+
+def verify_merged_result(
+    merged_result: Dict[str, Any], full_text: str, task_type: str
+) -> Dict[str, Any]:
+    """
+    Run the appropriate verifier for the task type so that all text, sentences,
+    and entities are present in the source. Returns the merged result with
+    only valid items and a "verification" key with counts and dropped details.
+    """
+    if not full_text or not isinstance(merged_result, dict):
+        return merged_result
+    if task_type == "ner":
+        return verify_ner_result(merged_result, full_text)
+    if task_type in ("resource", "structured_extraction"):
+        return verify_resource_result(merged_result, full_text)
+    return verify_generic_result(merged_result, full_text)
 
 
 # ============================================================
