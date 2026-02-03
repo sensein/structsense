@@ -200,7 +200,7 @@ def process_text_with_spacy(text):
 
         entities = [
             {
-                "text": ent.text,
+                "entity": ent.text,
                 "label": ent.label_,
                 "start": ent.start_char,
                 "end": ent.end_char,
@@ -249,7 +249,7 @@ def process_text_with_model(text, model_name):
                 label = canonical_label(str(group))
 
                 entities.append({
-                    "text": token_text,
+                    "entity": token_text,
                     "label": label,
                     "start": int(ent.get("start", 0)),
                     "end": int(ent.get("end", 0)),
@@ -314,7 +314,7 @@ def extract_ner_terms(text: str) -> str:
     Extract named entities using spaCy + biomedical NER models and return JSON:
     {
       "entities": [
-        {"text": "...", "label": "...", "source_model": "...", "start": int, "end": int},
+        {"entity": "...", "label": "...", "source_model": "...", "start": int, "end": int},
         ...
       ]
     }

@@ -156,8 +156,8 @@ def entities_are_similar(e1: Dict[str, Any], e2: Dict[str, Any],
         return False
 
     # Check text similarity
-    text1 = e1.get("text", "").lower().strip()
-    text2 = e2.get("text", "").lower().strip()
+    text1 = e1.get("entity", "").lower().strip()
+    text2 = e2.get("entity", "").lower().strip()
 
     if text1 == text2:
         return True
@@ -246,7 +246,7 @@ def _merge_ner_entities_with_weighted_voting(
             label_provenance[label].append({
                 "source_model": source,
                 "weight": weight,
-                "text": entity.get("text", "")
+                "entity": entity.get("entity", "")
             })
 
         # Select winning label (highest weighted vote)
@@ -256,7 +256,7 @@ def _merge_ner_entities_with_weighted_voting(
 
         # Use the longest/most complete text for the winning label
         winning_entities = [e for e in group if e.get("label") == winning_label]
-        best_entity = max(winning_entities, key=lambda e: len(e.get("text", "")))
+        best_entity = max(winning_entities, key=lambda e: len(e.get("entity", "")))
 
         # Calculate span (use widest span from all entities; prefer global span)
         min_start = min(_entity_span(e)[0] for e in group)
@@ -299,7 +299,7 @@ def _merge_ner_entities_with_weighted_voting(
         occurrences = sorted(occurrences, key=lambda o: o["global_start"])
 
         merged_entity = {
-            "text": best_entity.get("text", ""),
+            "entity": best_entity.get("entity", ""),
             "label": winning_label,
             "start": min_start,
             "end": max_end,
@@ -332,7 +332,7 @@ def ner_post_process(
     Args:
         full_text: The complete text document
         full_doc: spaCy document for the full text
-        chunk: Dictionary with "text" and "start" keys
+        chunk: Dictionary with "entity" and "start" keys
         raw_result: Raw result from crew execution
 
     Returns:
@@ -434,7 +434,7 @@ def generic_extraction_post_process(
     Args:
         full_text: The complete text document
         full_doc: spaCy document for the full text
-        chunk: Dictionary with "text" and "start" keys
+        chunk: Dictionary with "entity" and "start" keys
         raw_result: Raw result from crew execution
 
     Returns:
@@ -1091,7 +1091,7 @@ def verify_ner_result(merged_result: Dict[str, Any], full_text: str) -> Dict[str
     for entity in entities:
         if not isinstance(entity, dict):
             continue
-        ent_text = (entity.get("text") or "").strip()
+        ent_text = (entity.get("entity") or "").strip()
         if not ent_text:
             entities_dropped.append({**entity, "reason": "empty_text"})
             continue
