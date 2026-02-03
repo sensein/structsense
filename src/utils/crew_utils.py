@@ -16,6 +16,7 @@
 # @File    : crew_utils.py
 # @Software: PyCharm
 
+import copy
 import json
 import os
 import logging
@@ -55,6 +56,10 @@ from .tools import get_spacy_model
 from .utils import check_ollama_health
 from crew.dynamic_agent import DynamicAgent
 from crew.dynamic_agent_task import DynamicAgentTask
+
+# Import new context management modules
+from .agent_context import AgentContext, ThreadSafeMemory
+from .context_window_manager import ContextWindowManager
 
 logger = logging.getLogger(__name__)
 
@@ -253,9 +258,13 @@ def run_crew_extraction(
     default_result: Optional[Dict[str, Any]] = None,
     post_process: Optional[Callable[[str, Any, Dict[str, Any], Dict[str, Any]], Dict[str, Any]]] = None,
     extra_inputs: Optional[Dict[str, Any]] = None,
+    max_chunk_chars: Optional[int] = None,
+    agent_context: Optional[AgentContext] = None,
+    shared_memory: Optional[ThreadSafeMemory] = None,
+    context_manager: Optional[ContextWindowManager] = None,
 ) -> Dict[str, Any]:
     """
-    Generic robust crew extraction pipeline.
+    Generic robust crew extraction pipeline with enhanced context management.
 
     - If chunk_size is None or text is shorter than chunk_size:
         * Run once on full text.
@@ -278,6 +287,11 @@ def run_crew_extraction(
         post_process: Optional function to post-process results.
                      Signature: (full_text, full_doc, chunk, raw_result) -> processed_result
         extra_inputs: Optional extra key-value inputs merged into crew inputs (e.g. modification_context)
+        max_chunk_chars: Optional cap on chunk_size (chars) so chunk + prompt stays under model context.
+                        E.g. 25000 for 128k-token models. None = no cap.
+        agent_context: Optional AgentContext for multi-agent context passing
+        shared_memory: Optional ThreadSafeMemory for parallel execution
+        context_manager: Optional ContextWindowManager for token limit management
 
     Returns:
         {
@@ -315,22 +329,23 @@ def run_crew_extraction(
 
         all_raw_results.append(raw)
 
-        # Apply post-processing if provided
-        if post_process:
-            try:
-                nlp = get_spacy_model()
-                full_doc = nlp(full_text)
-                processed = post_process(full_text, full_doc, {"text": full_text, "start": 0}, raw)
-                all_results.append(processed)
-            except Exception as e:
-                errors.append({
-                    "scope": "full",
-                    "index": None,
-                    "error": f"Post-processing failed: {e}"
-                })
+        # Only add to all_results when there was no error, so merge uses only good results
+        if "error" not in raw:
+            if post_process:
+                try:
+                    nlp = get_spacy_model()
+                    full_doc = nlp(full_text)
+                    processed = post_process(full_text, full_doc, {"text": full_text, "start": 0}, raw)
+                    all_results.append(processed)
+                except Exception as e:
+                    errors.append({
+                        "scope": "full",
+                        "index": None,
+                        "error": f"Post-processing failed: {e}"
+                    })
+                    all_results.append(raw)
+            else:
                 all_results.append(raw)
-        else:
-            all_results.append(raw)
 
         return {
             "results": all_results,
@@ -339,10 +354,16 @@ def run_crew_extraction(
         }
 
     # ---------------- CHUNKED + (OPTIONAL) PARALLEL PATH ----------------
+    # Cap chunk_size by max_chunk_chars so (chunk + prompt) stays under model context (token-safe)
+    effective_chunk_size = chunk_size
+    if max_chunk_chars is not None and (effective_chunk_size is None or effective_chunk_size > max_chunk_chars):
+        effective_chunk_size = max_chunk_chars
+        if chunk_size and chunk_size > max_chunk_chars and has_timing_logger:
+            timing_logger.info(f"  Chunk size capped to {max_chunk_chars} chars (max_chunk_chars) for model context limit")
     chunking_start = time.time()
     nlp = get_spacy_model()
     full_doc = nlp(full_text)
-    chunks = _chunk_doc_by_sentences(full_doc, max_chars=chunk_size)
+    chunks = _chunk_doc_by_sentences(full_doc, max_chars=effective_chunk_size)
     chunking_time = time.time() - chunking_start
     if has_timing_logger:
         timing_logger.info(f"  Chunking: {chunking_time:.3f}s ({len(chunks)} chunks created)")
@@ -371,21 +392,77 @@ def run_crew_extraction(
         logger.warning("Memory disabled for parallel chunking to avoid SQLite database locking issues. Memory will be available for non-chunked execution.")
     crew_process = crew.process if hasattr(crew, 'process') else Process.sequential
     crew_verbose = crew.verbose if hasattr(crew, 'verbose') else False
-    
+
+    def _copy_agents_tasks_for_chunk():
+        """Return a copy of agents and tasks so each chunk's Crew has isolated state.
+        Prevents context/token accumulation when the same Task/Agent objects are mutated during kickoff.
+
+        NOTE: Recreates agents/tasks from scratch instead of deep-copying to avoid
+        "cannot pickle '_thread.RLock' object" error with CrewAI's internal locks.
+        """
+        try:
+            # Try deep copy first (faster if it works)
+            return copy.deepcopy(agents), copy.deepcopy(tasks)
+        except Exception as e:
+            # Deep copy failed (likely due to thread locks)
+            # Recreate agents/tasks from config instead
+            logger.debug(
+                f"Deep-copy failed ({e}). Recreating agents/tasks from config for chunk isolation."
+            )
+
+            # Recreate agents - get config from existing agent
+            new_agents = []
+            for agent in agents:
+                try:
+                    # Extract agent configuration
+                    new_agent = Agent(
+                        role=agent.role,
+                        goal=agent.goal,
+                        backstory=agent.backstory,
+                        llm=agent.llm,  # LLM objects are usually safe to share
+                        tools=agent.tools.copy() if hasattr(agent.tools, 'copy') else agent.tools,
+                        allow_delegation=agent.allow_delegation if hasattr(agent, 'allow_delegation') else False,
+                        verbose=agent.verbose if hasattr(agent, 'verbose') else False,
+                    )
+                    new_agents.append(new_agent)
+                except Exception as agent_error:
+                    logger.warning(f"Failed to recreate agent: {agent_error}. Using original.")
+                    new_agents.append(agent)
+
+            # Recreate tasks - get config from existing task
+            new_tasks = []
+            for i, task in enumerate(tasks):
+                try:
+                    # Extract task configuration
+                    new_task = Task(
+                        description=task.description,
+                        expected_output=task.expected_output,
+                        agent=new_agents[i] if i < len(new_agents) else task.agent,
+                        output_pydantic=task.output_pydantic if hasattr(task, 'output_pydantic') else None,
+                    )
+                    new_tasks.append(new_task)
+                except Exception as task_error:
+                    logger.warning(f"Failed to recreate task: {task_error}. Using original.")
+                    new_tasks.append(task)
+
+            return new_agents, new_tasks
+
     def create_crew_for_chunk():
         """Create a new Crew instance for thread safety.
         
         Note: verbose is disabled for parallel execution to reduce overhead
         from CrewAI's flow management system.
         Memory is disabled for parallel chunking to avoid SQLite database locking.
+        Each chunk gets its own copy of agents/tasks to avoid context accumulation (token limit errors).
         """
         crew_start = time.time()
         os.environ["OTEL_SDK_DISABLED"] = "true"
         os.environ["CREWAI_DISABLE_TELEMETRY"] = "true"
         os.environ["CREWAI_TRACING_ENABLED"] = "false"
+        chunk_agents, chunk_tasks = _copy_agents_tasks_for_chunk()
         crew = Crew(
-            agents=agents,
-            tasks=tasks,
+            agents=chunk_agents,
+            tasks=chunk_tasks,
             process=crew_process,
             tracing=False,
             verbose=False,  # Disable verbose for parallel execution to reduce overhead
@@ -458,21 +535,22 @@ def run_crew_extraction(
 
                 all_raw_results.append(raw)
 
-                # Apply post-processing if provided
+                # Only add to all_results when there was no error, so merge keeps "last good" from successful chunks
                 post_start = time.time()
-                if post_process:
-                    try:
-                        processed = post_process(full_text, full_doc, chunk, raw)
-                        all_results.append(processed)
-                    except Exception as e:
-                        errors.append({
-                            "scope": "chunk",
-                            "index": idx,
-                            "error": f"Post-processing failed: {e}"
-                        })
+                if "error" not in raw:
+                    if post_process:
+                        try:
+                            processed = post_process(full_text, full_doc, chunk, raw)
+                            all_results.append(processed)
+                        except Exception as e:
+                            errors.append({
+                                "scope": "chunk",
+                                "index": idx,
+                                "error": f"Post-processing failed: {e}"
+                            })
+                            all_results.append(raw)
+                    else:
                         all_results.append(raw)
-                else:
-                    all_results.append(raw)
                 post_time = time.time() - post_start
                 
                 if has_timing_logger and (idx < 5 or idx % 10 == 0):  # Log first 5 and every 10th chunk
@@ -519,6 +597,10 @@ async def run_crew_extraction_async(
     default_result: Optional[Dict[str, Any]] = None,
     post_process: Optional[Callable[[str, Any, Dict[str, Any], Dict[str, Any]], Dict[str, Any]]] = None,
     extra_inputs: Optional[Dict[str, Any]] = None,
+    max_chunk_chars: Optional[int] = None,
+    agent_context: Optional[AgentContext] = None,
+    shared_memory: Optional[ThreadSafeMemory] = None,
+    context_manager: Optional[ContextWindowManager] = None,
 ) -> Dict[str, Any]:
     """
     Async version of run_crew_extraction using native async execution.
@@ -538,6 +620,9 @@ async def run_crew_extraction_async(
         default_result: Default result structure if parsing fails
         post_process: Optional function to post-process results.
                      Signature: (full_text, full_doc, chunk, raw_result) -> processed_result
+        extra_inputs: Optional extra key-value inputs merged into crew inputs
+        max_chunk_chars: Optional cap on chunk_size (chars) so chunk + prompt stays under model context.
+                        E.g. 25000 for 128k-token models. None = no cap.
 
     Returns:
         {
@@ -575,22 +660,23 @@ async def run_crew_extraction_async(
 
         all_raw_results.append(raw)
 
-        # Apply post-processing if provided
-        if post_process:
-            try:
-                nlp = get_spacy_model()
-                full_doc = nlp(full_text)
-                processed = post_process(full_text, full_doc, {"text": full_text, "start": 0}, raw)
-                all_results.append(processed)
-            except Exception as e:
-                errors.append({
-                    "scope": "full",
-                    "index": None,
-                    "error": f"Post-processing failed: {e}"
-                })
+        # Only add to all_results when there was no error, so merge uses only good results
+        if "error" not in raw:
+            if post_process:
+                try:
+                    nlp = get_spacy_model()
+                    full_doc = nlp(full_text)
+                    processed = post_process(full_text, full_doc, {"text": full_text, "start": 0}, raw)
+                    all_results.append(processed)
+                except Exception as e:
+                    errors.append({
+                        "scope": "full",
+                        "index": None,
+                        "error": f"Post-processing failed: {e}"
+                    })
+                    all_results.append(raw)
+            else:
                 all_results.append(raw)
-        else:
-            all_results.append(raw)
 
         return {
             "results": all_results,
@@ -599,15 +685,20 @@ async def run_crew_extraction_async(
         }
 
     # ---------------- CHUNKED + ASYNC PARALLEL PATH ----------------
+    # Cap chunk_size by max_chunk_chars so (chunk + prompt) stays under model context (token-safe)
+    effective_chunk_size = chunk_size
+    if max_chunk_chars is not None and (effective_chunk_size is None or effective_chunk_size > max_chunk_chars):
+        effective_chunk_size = max_chunk_chars
+        if chunk_size and chunk_size > max_chunk_chars and has_timing_logger:
+            timing_logger.info(f"  Chunk size capped to {max_chunk_chars} chars (max_chunk_chars) for model context limit")
     chunking_start = time.time()
     nlp = get_spacy_model()
     full_doc = nlp(full_text)
-    chunks = _chunk_doc_by_sentences(full_doc, max_chars=chunk_size)
+    chunks = _chunk_doc_by_sentences(full_doc, max_chars=effective_chunk_size)
     chunking_time = time.time() - chunking_start
     if has_timing_logger:
         timing_logger.info(f"  Chunking: {chunking_time:.3f}s ({len(chunks)} chunks created)")
-        timing_logger.info(f"  Note: Creating {len(chunks)} Crew instances (one per chunk) for thread safety")
-        timing_logger.info(f"        Agents and tasks are reused, so overhead is minimal")
+        timing_logger.info(f"  Note: Creating {len(chunks)} Crew instances (one per chunk) with isolated agents/tasks")
 
     # Extract agent and task from the crew for creating new instances per async task
     agents = crew.agents if hasattr(crew, 'agents') else []
@@ -624,28 +715,77 @@ async def run_crew_extraction_async(
     if original_has_memory:
         logger.warning("Memory disabled for parallel chunking to avoid SQLite database locking issues. Memory will be available for non-chunked execution.")
     crew_process = crew.process if hasattr(crew, 'process') else Process.sequential
-    
+
+    def _copy_agents_tasks_async():
+        """Return a copy of agents and tasks so each chunk's Crew has isolated state.
+
+        NOTE: Recreates agents/tasks from scratch instead of deep-copying to avoid
+        "cannot pickle '_thread.RLock' object" error with CrewAI's internal locks.
+        """
+        try:
+            # Try deep copy first (faster if it works)
+            return copy.deepcopy(agents), copy.deepcopy(tasks)
+        except Exception as e:
+            # Deep copy failed (likely due to thread locks)
+            # Recreate agents/tasks from config instead
+            logger.debug(
+                f"Deep-copy failed ({e}). Recreating agents/tasks from config for chunk isolation."
+            )
+
+            # Recreate agents
+            new_agents = []
+            for agent in agents:
+                try:
+                    new_agent = Agent(
+                        role=agent.role,
+                        goal=agent.goal,
+                        backstory=agent.backstory,
+                        llm=agent.llm,
+                        tools=agent.tools.copy() if hasattr(agent.tools, 'copy') else agent.tools,
+                        allow_delegation=agent.allow_delegation if hasattr(agent, 'allow_delegation') else False,
+                        verbose=agent.verbose if hasattr(agent, 'verbose') else False,
+                    )
+                    new_agents.append(new_agent)
+                except Exception as agent_error:
+                    logger.warning(f"Failed to recreate agent: {agent_error}. Using original.")
+                    new_agents.append(agent)
+
+            # Recreate tasks
+            new_tasks = []
+            for i, task in enumerate(tasks):
+                try:
+                    new_task = Task(
+                        description=task.description,
+                        expected_output=task.expected_output,
+                        agent=new_agents[i] if i < len(new_agents) else task.agent,
+                        output_pydantic=task.output_pydantic if hasattr(task, 'output_pydantic') else None,
+                    )
+                    new_tasks.append(new_task)
+                except Exception as task_error:
+                    logger.warning(f"Failed to recreate task: {task_error}. Using original.")
+                    new_tasks.append(task)
+
+            return new_agents, new_tasks
+
     async def process_chunk_async(chunk_data):
         """Process a single chunk with async execution and detailed timing.
         
         Note: We create a new Crew instance per chunk for thread safety.
-        This is necessary because Crew instances are not thread-safe.
-        However, we reuse the agents and tasks objects which are safe to share.
+        Each chunk gets its own copy of agents/tasks to avoid context accumulation (token limit errors).
         Memory is disabled for parallel chunking to avoid SQLite database locking.
         """
         idx, ch = chunk_data
         chunk_start = time.time()
         
-        # Create crew for this chunk
-        # Note: One Crew per chunk is required for thread safety
-        # but agents/tasks are reused (they're safe to share)
+        # Create crew for this chunk with isolated agents/tasks (avoids token accumulation)
         crew_creation_start = time.time()
         os.environ["OTEL_SDK_DISABLED"] = "true"
         os.environ["CREWAI_DISABLE_TELEMETRY"] = "true"
         os.environ["CREWAI_TRACING_ENABLED"] = "false"
+        chunk_agents, chunk_tasks = _copy_agents_tasks_async()
         chunk_crew = Crew(
-            agents=agents,  # Reused - safe to share
-            tasks=tasks,   # Reused - safe to share
+            agents=chunk_agents,
+            tasks=chunk_tasks,
             process=crew_process,
             tracing=False,  # Disable tracing to reduce log noise
             verbose=False,  # Disable verbose for parallel execution
@@ -732,21 +872,22 @@ async def run_crew_extraction_async(
 
         all_raw_results.append(raw)
 
-        # Apply post-processing if provided
+        # Only add to all_results when there was no error, so merge keeps "last good" from successful chunks
         post_start = time.time()
-        if post_process:
-            try:
-                processed = post_process(full_text, full_doc, chunk, raw)
-                all_results.append(processed)
-            except Exception as e:
-                errors.append({
-                    "scope": "chunk",
-                    "index": idx,
-                    "error": f"Post-processing failed: {e}"
-                })
+        if "error" not in raw:
+            if post_process:
+                try:
+                    processed = post_process(full_text, full_doc, chunk, raw)
+                    all_results.append(processed)
+                except Exception as e:
+                    errors.append({
+                        "scope": "chunk",
+                        "index": idx,
+                        "error": f"Post-processing failed: {e}"
+                    })
+                    all_results.append(raw)
+            else:
                 all_results.append(raw)
-        else:
-            all_results.append(raw)
         post_time = time.time() - post_start
         
         if has_timing_logger and (idx < 5 or idx % 10 == 0):
