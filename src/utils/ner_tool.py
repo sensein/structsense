@@ -416,16 +416,28 @@ def extract_entities_with_llm(
     if not text or not text.strip():
         return []
 
-    api_key = api_key or os.environ.get("OPENROUTER_API_KEY") or os.environ.get("OPENAI_API_KEY")
-    if not api_key:
-        logger.warning("No API key for LLM NER; skipping LLM-based extraction.")
-        return []
-
-    llm_config = llm_config or {} 
+    llm_config = llm_config or {}
     base_url = llm_config.get("base_url") or "https://openrouter.ai/api/v1"
     model = llm_config.get("model") or "openai/gpt-4o-mini"
+
+    # Ollama endpoints don't require an API key
+    base_lower = (base_url or "").lower()
+    is_ollama_or_local = (
+        "ollama" in base_lower
+        or "localhost" in base_lower
+        or "127.0.0.1" in base_lower
+        or base_lower.startswith("http://")
+    )
+    api_key = api_key or os.environ.get("OPENROUTER_API_KEY") or os.environ.get("OPENAI_API_KEY")
+    if not is_ollama_or_local and not api_key:
+        logger.warning(
+            "No API key for LLM NER (OpenRouter/OpenAI); skipping LLM-based extraction. "
+            "Use Ollama/local base_url or set OPENROUTER_API_KEY/OPENAI_API_KEY for cloud models."
+        )
+        return []
+
     # OpenRouter expects model ID without "openrouter/" prefix (e.g. openai/gpt-4o-mini)
-    if "openrouter" in (base_url or "") and isinstance(model, str) and model.startswith("openrouter/"):
+    if "openrouter" in base_lower and isinstance(model, str) and model.startswith("openrouter/"):
         model = model.replace("openrouter/", "", 1)
         logger.info(f"LLM NER: normalized OpenRouter model ID to {model!r}")
 
