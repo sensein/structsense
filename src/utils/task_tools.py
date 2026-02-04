@@ -27,7 +27,7 @@ logger = logging.getLogger(__name__)
 # tools when resolving; order is generic first, then task-specific (deduped by name).
 GENERIC_TOOLS_BY_STAGE: Dict[str, List[str]] = {
     "extractor_agent": [],
-    "alignment_agent": [],
+    "alignment_agent": ["concept_mapping_tool"],
     "judge_agent": [],
     "human_feedback": [],
 }
@@ -102,6 +102,15 @@ def _resolve_tool(
         if name not in _TOOL_REGISTRY:
             from .ner_tool import extract_ner_terms
             _TOOL_REGISTRY[name] = extract_ner_terms
+        return _TOOL_REGISTRY.get(name)
+    if name == "concept_mapping_tool":
+        if name not in _TOOL_REGISTRY:
+            try:
+                from .conceptmappingtool import ConceptMappingTool
+                _TOOL_REGISTRY[name] = ConceptMappingTool()
+            except ValueError as e:
+                logger.warning(f"ConceptMappingTool not registered (missing BIOPORTAL_API_KEY): {e}")
+                return None
         return _TOOL_REGISTRY.get(name)
     if name not in _TOOL_REGISTRY:
         logger.warning(f"Unknown tool name '{name}', skipping")

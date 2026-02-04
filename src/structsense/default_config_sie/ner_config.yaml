@@ -208,7 +208,8 @@ task_config:
 
   alignment_task:
     description: >
-      Perform concept alignment on the extracted structured information by mapping each entity  to a matching concept (class) from a given ontology or schema.
+      Perform concept alignment on the extracted structured information by mapping each entity to a matching concept (class) from a given ontology or schema.
+      You have the Concept Mapping Tool: use it to map entities, resources, and key terms to ontologies (e.g. BioPortal). Add ontology_id, ontology_label, ontology, and concept_mapping_provenance to each mapped concept: set concept_mapping_provenance to "tool" when the mapping comes from the Concept Mapping Tool, or "llm_knowledge" when from your own knowledge.
 
       Inputs: {extracted_structured_information}
 

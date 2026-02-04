@@ -21,7 +21,8 @@ This module provides the task-specific post-processing functions.
 """
 
 import logging
-from typing import Dict, Any, List, Callable, Optional
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from typing import Dict, Any, List, Callable, Optional, Tuple
 from collections import defaultdict
 
 from .text_chunking import (
@@ -1240,6 +1241,170 @@ def verify_merged_result(
     if task_type in ("resource", "structured_extraction"):
         return verify_resource_result(merged_result, full_text)
     return verify_generic_result(merged_result, full_text)
+
+
+# ============================================================
+# CONCEPT MAPPING (ONTOLOGY_ID, ONTOLOGY_LABEL, ONTOLOGY)
+# ============================================================
+
+def _concept_map_one_term(text: str, tool: Any) -> Dict[str, Any]:  # noqa: ANN401
+    """
+    Map a single term using ConceptMappingTool. Returns dict with
+    ontology_id, ontology_label, ontology (or None if no match/error).
+    """
+    if not (text and str(text).strip()):
+        return {"ontology_id": None, "ontology_label": None, "ontology": None}
+    text = str(text).strip()
+    try:
+        out = tool._run(text=text, max_results=1, ontologies=None)
+        if isinstance(out, dict) and "error" not in out:
+            return {
+                "ontology_id": out.get("ontology_id"),
+                "ontology_label": out.get("ontology_label"),
+                "ontology": out.get("ontology"),
+            }
+    except Exception as e:
+        logger.debug("Concept mapping failed for %r: %s", text, e)
+    return {"ontology_id": None, "ontology_label": None, "ontology": None}
+
+
+def apply_concept_mapping_to_result(
+    result: Dict[str, Any],
+    max_workers: int = 8,
+) -> Dict[str, Any]:
+    """
+    For each entity, resource (name, target, specific_target), and key_term in result,
+    concept-map the term in parallel and add ontology_id, ontology_label, ontology
+    to each item. Updates result in place and returns it.
+
+    Expects result to contain some of: entities, resources, key_terms; also handles
+    judge_ner_terms (id -> list of entity dicts) and aligned_resources.
+    """
+    try:
+        from .conceptmappingtool import ConceptMappingTool
+        tool = ConceptMappingTool()
+    except (ValueError, ImportError) as e:
+        logger.warning("Concept mapping skipped (ConceptMappingTool unavailable): %s", e)
+        return result
+
+    # ---- Collect (term_key, target_container, target_key_or_index) ----
+    # term_key: unique string to map (we'll map once per unique term)
+    # target_container: list or dict we'll update
+    # target_key_or_index: key in container (for dict) or index (for list) and optional sub_key for nested (e.g. target_ontology_id)
+    tasks: List[Tuple[str, Any, Any, Optional[str]]] = []  # (term, container, index_or_key, suffix)
+
+    def add_term(term: str, container: Any, index_or_key: Any, suffix: Optional[str] = None) -> None:
+        if term and str(term).strip():
+            tasks.append((str(term).strip(), container, index_or_key, suffix))
+
+    # Entities: add ontology_* to each entity (map entity text)
+    entities = result.get("entities", [])
+    if isinstance(entities, list):
+        for i, ent in enumerate(entities):
+            if isinstance(ent, dict):
+                add_term(ent.get("entity") or "", entities, i, "entity")
+
+    # Resources: map name, target, specific_target per resource
+    resources = result.get("resources", [])
+    if isinstance(resources, list):
+        for i, res in enumerate(resources):
+            if not isinstance(res, dict):
+                continue
+            add_term(res.get("name") or res.get("resource_name") or "", resources, i, "name")
+            add_term(res.get("target") or "", resources, i, "target")
+            add_term(res.get("specific_target") or "", resources, i, "specific_target")
+
+    # key_terms: list of strings -> will become list of {term, ontology_id, ontology_label, ontology}
+    key_terms_raw = result.get("key_terms", [])
+    key_terms_tasks: List[Tuple[str, int]] = []  # (term, index for new list)
+    if isinstance(key_terms_raw, list):
+        for j, t in enumerate(key_terms_raw):
+            term = t if isinstance(t, str) else (t.get("term") if isinstance(t, dict) else str(t))
+            if term and str(term).strip():
+                key_terms_tasks.append((str(term).strip(), j))
+
+    # judge_ner_terms: dict id -> list of entity dicts; add ontology_* to each entity
+    judge_ner = result.get("judge_ner_terms", {})
+    judge_entity_tasks: List[Tuple[Any, str, int, int]] = []  # (list_ref, id, list_idx, entity_idx)
+    if isinstance(judge_ner, dict):
+        for rid, elist in judge_ner.items():
+            if isinstance(elist, list):
+                for eidx, ent in enumerate(elist):
+                    if isinstance(ent, dict) and (ent.get("entity") or "").strip():
+                        judge_entity_tasks.append((elist, rid, eidx, eidx))
+
+    # ---- Build unique term -> mapping result ----
+    unique_terms: Dict[str, Dict[str, Any]] = {}
+    terms_order: List[str] = []
+    for term, container, index_or_key, suffix in tasks:
+        if term not in unique_terms:
+            terms_order.append(term)
+    for term, _ in key_terms_tasks:
+        if term not in unique_terms:
+            terms_order.append(term)
+    for list_ref, rid, _, eidx in judge_entity_tasks:
+        ent = list_ref[eidx] if eidx < len(list_ref) else {}
+        if isinstance(ent, dict):
+            term = (ent.get("entity") or "").strip()
+            if term and term not in unique_terms:
+                terms_order.append(term)
+
+    # Run concept mapping in parallel
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        future_to_term = {executor.submit(_concept_map_one_term, term, tool): term for term in terms_order}
+        for future in as_completed(future_to_term):
+            term = future_to_term[future]
+            try:
+                unique_terms[term] = future.result()
+            except Exception as e:
+                logger.debug("Concept mapping task failed for %r: %s", term, e)
+                unique_terms[term] = {"ontology_id": None, "ontology_label": None, "ontology": None}
+
+    # ---- Apply mappings back (provenance = "tool" when mapping comes from Concept Mapping Tool) ----
+    def set_ontology(item: Dict[str, Any], mapping: Dict[str, Any], prefix: str = "", provenance: str = "tool") -> None:
+        pre = prefix or ""
+        item[pre + "ontology_id"] = mapping.get("ontology_id")
+        item[pre + "ontology_label"] = mapping.get("ontology_label")
+        item[pre + "ontology"] = mapping.get("ontology")
+        item[pre + "concept_mapping_provenance"] = provenance
+
+    for term, container, index_or_key, suffix in tasks:
+        mapping = unique_terms.get(term, {})
+        if isinstance(container, list) and isinstance(index_or_key, int) and 0 <= index_or_key < len(container):
+            item = container[index_or_key]
+            if isinstance(item, dict):
+                if suffix == "name":
+                    set_ontology(item, mapping, provenance="tool")
+                elif suffix == "target":
+                    set_ontology(item, mapping, "target_", provenance="tool")
+                elif suffix == "specific_target":
+                    set_ontology(item, mapping, "specific_target_", provenance="tool")
+                else:
+                    set_ontology(item, mapping, provenance="tool")
+
+    for list_ref, rid, _, eidx in judge_entity_tasks:
+        if not isinstance(list_ref, list) or eidx >= len(list_ref):
+            continue
+        ent = list_ref[eidx]
+        if isinstance(ent, dict):
+            term = (ent.get("entity") or "").strip()
+            set_ontology(ent, unique_terms.get(term, {}), prefix="", provenance="tool")
+
+    # key_terms: replace with list of {term, ontology_id, ontology_label, ontology, concept_mapping_provenance}
+    if key_terms_tasks:
+        new_key_terms = []
+        for term, j in key_terms_tasks:
+            m = unique_terms.get(term, {})
+            new_key_terms.append({
+                "term": term,
+                "ontology_id": m.get("ontology_id"),
+                "ontology_label": m.get("ontology_label"),
+                "ontology": m.get("ontology"),
+                "concept_mapping_provenance": "tool",
+            })
+        result["key_terms"] = new_key_terms
+
+    return result
 
 
 # ============================================================

@@ -32,10 +32,12 @@ def cli(ctx):
 )
 @click.option("--env_file", required=False, type=str, help="Optional path to an environment file to override the default .env file.")
 @click.option("--save_file", required=False, type=str, help="Optional path to save the result as a JSON file.")
-@click.option("--chunk_size", required=False, type=int, default=None, help="Chunk size in characters (None = no chunking).")
+@click.option("--chunk_size", required=False, type=int, default=None, help="Chunk size in characters for extraction (None = no chunking).")
 @click.option("--max_workers", required=False, type=int, default=None, help="Maximum parallel workers (None = auto).")
 @click.option("--enable_chunking", required=False, default=False, is_flag=True, help="Enable chunking (uses default chunk_size if --chunk_size not provided).")
-def extract(config, api_key, source, env_file, save_file, chunk_size, max_workers, enable_chunking):
+@click.option("--downstream_max_input_chars", required=False, type=int, default=None, help="Max input chars for alignment/judge/humanfeedback (default 80000).")
+@click.option("--max_extraction_chunk_chars", required=False, type=int, default=None, help="Cap extraction chunk size in chars so chunk+prompt stays under model context (default 25000 for 128k models). None = no cap.")
+def extract(config, api_key, source, env_file, save_file, chunk_size, max_workers, enable_chunking, downstream_max_input_chars, max_extraction_chunk_chars):
     """Extract the terms along with sentence using a single config file."""
     # Load the config file
     all_config = load_config(config, "all")
@@ -56,10 +58,12 @@ def extract(config, api_key, source, env_file, save_file, chunk_size, max_worker
         enable_chunking=enable_chunking,
         chunk_size=chunk_size,
         max_workers=max_workers,
+        downstream_max_input_chars=downstream_max_input_chars,
+        max_extraction_chunk_chars=max_extraction_chunk_chars,
     )
     
-    # Run the kickoff method
-    result = asyncio.run(flow.kickoff())
+    # Run the full pipeline (extraction → alignment → judge → humanfeedback)
+    result = asyncio.run(flow.information_extraction_task())
 
     # Output results
     click.echo("*" * 100)
@@ -84,10 +88,12 @@ def extract(config, api_key, source, env_file, save_file, chunk_size, max_worker
 @click.option("--api_key", required=False, type=str, help="Open router API key.")
 @click.option("--env_file", required=False, type=str, help="Optional path to an environment file.")
 @click.option("--save_file", required=False, type=str, help="Optional path to save the result as a JSON file.")
-@click.option("--chunk_size", required=False, type=int, default=None, help="Chunk size in characters (None = no chunking).")
+@click.option("--chunk_size", required=False, type=int, default=None, help="Chunk size in characters for extraction (None = no chunking).")
 @click.option("--max_workers", required=False, type=int, default=None, help="Maximum parallel workers (None = auto).")
 @click.option("--enable_chunking", required=False, default=False, is_flag=True, help="Enable chunking (uses default chunk_size if --chunk_size not provided).")
-def run_agent(config, agent_key, task_key, source, api_key, env_file, save_file, chunk_size, max_workers, enable_chunking):
+@click.option("--downstream_max_input_chars", required=False, type=int, default=None, help="Max input chars for alignment/judge/humanfeedback when running pipeline (default 80000).")
+@click.option("--max_extraction_chunk_chars", required=False, type=int, default=None, help="Cap extraction chunk size in chars for model context (default 25000). None = no cap.")
+def run_agent(config, agent_key, task_key, source, api_key, env_file, save_file, chunk_size, max_workers, enable_chunking, downstream_max_input_chars, max_extraction_chunk_chars):
     """Run a specific agent-task combination directly with full control.
     
     This command gives you direct control over how each agent runs without
@@ -135,6 +141,8 @@ def run_agent(config, agent_key, task_key, source, api_key, env_file, save_file,
         enable_chunking=enable_chunking,
         chunk_size=chunk_size,
         max_workers=max_workers,
+        downstream_max_input_chars=downstream_max_input_chars,
+        max_extraction_chunk_chars=max_extraction_chunk_chars,
     )
 
     # Run the specific agent-task directly
