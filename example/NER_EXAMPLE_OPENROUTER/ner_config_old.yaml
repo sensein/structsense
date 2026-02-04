@@ -4,7 +4,7 @@ agent_config:
     role: >
       Neuroscience NER Extractor Agent
     goal: >
-      Extract named entities and key terms from neuroscience text {input_text}. Process by paragraph, chunk as needed. Return structured JSON.
+      Extract named entities and key terms from neuroscience text {input_text}.  Return structured JSON.
     backstory: >
       You are an AI assistant for neuroscience NER. You do not hallucinate. Output strict JSON: entities and key_terms.
     llm:

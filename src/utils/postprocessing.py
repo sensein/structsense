@@ -1281,21 +1281,22 @@ def apply_concept_mapping_to_result(
     judge_ner_terms (id -> list of entity dicts) and aligned_resources.
     """
     try:
-        from .conceptmappingtool import ConceptMappingTool
+        from .conceptmappingtool import ConceptMappingTool, _sanitize_text as _sanitize_term
         tool = ConceptMappingTool()
     except (ValueError, ImportError) as e:
         logger.warning("Concept mapping skipped (ConceptMappingTool unavailable): %s", e)
         return result
 
     # ---- Collect (term_key, target_container, target_key_or_index) ----
-    # term_key: unique string to map (we'll map once per unique term)
+    # term_key: unique string to map (sanitized so extra chars/whitespace don't cause duplicate API calls)
     # target_container: list or dict we'll update
     # target_key_or_index: key in container (for dict) or index (for list) and optional sub_key for nested (e.g. target_ontology_id)
     tasks: List[Tuple[str, Any, Any, Optional[str]]] = []  # (term, container, index_or_key, suffix)
 
     def add_term(term: str, container: Any, index_or_key: Any, suffix: Optional[str] = None) -> None:
-        if term and str(term).strip():
-            tasks.append((str(term).strip(), container, index_or_key, suffix))
+        cleaned = _sanitize_term(term) if term is not None else ""
+        if cleaned:
+            tasks.append((cleaned, container, index_or_key, suffix))
 
     # Entities: add ontology_* to each entity (map entity text)
     entities = result.get("entities", [])
@@ -1320,8 +1321,9 @@ def apply_concept_mapping_to_result(
     if isinstance(key_terms_raw, list):
         for j, t in enumerate(key_terms_raw):
             term = t if isinstance(t, str) else (t.get("term") if isinstance(t, dict) else str(t))
-            if term and str(term).strip():
-                key_terms_tasks.append((str(term).strip(), j))
+            cleaned = _sanitize_term(term) if term is not None else ""
+            if cleaned:
+                key_terms_tasks.append((cleaned, j))
 
     # judge_ner_terms: dict id -> list of entity dicts; add ontology_* to each entity
     judge_ner = result.get("judge_ner_terms", {})
@@ -1345,7 +1347,7 @@ def apply_concept_mapping_to_result(
     for list_ref, rid, _, eidx in judge_entity_tasks:
         ent = list_ref[eidx] if eidx < len(list_ref) else {}
         if isinstance(ent, dict):
-            term = (ent.get("entity") or "").strip()
+            term = _sanitize_term(ent.get("entity") or "")
             if term and term not in unique_terms:
                 terms_order.append(term)
 
@@ -1387,7 +1389,7 @@ def apply_concept_mapping_to_result(
             continue
         ent = list_ref[eidx]
         if isinstance(ent, dict):
-            term = (ent.get("entity") or "").strip()
+            term = _sanitize_term(ent.get("entity") or "")
             set_ontology(ent, unique_terms.get(term, {}), prefix="", provenance="tool")
 
     # key_terms: replace with list of {term, ontology_id, ontology_label, ontology, concept_mapping_provenance}
