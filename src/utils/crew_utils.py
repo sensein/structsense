@@ -16,6 +16,7 @@
 # @File    : crew_utils.py
 # @Software: PyCharm
 
+import ast
 import copy
 import json
 import os
@@ -62,6 +63,47 @@ from .agent_context import AgentContext, ThreadSafeMemory
 from .context_window_manager import ContextWindowManager
 
 logger = logging.getLogger(__name__)
+
+
+def _parse_crew_output_string(s: str) -> Optional[Dict[str, Any]]:
+    """
+    Parse Crew/LLM output string that may be JSON or Python dict literal.
+    When Crew returns e.g. {'entities': [], 'key_terms': []} (single quotes),
+    json.loads fails; this tries ast.literal_eval and JSON extraction so we
+    don't lose alignment/judge/humanfeedback results.
+    """
+    if not s or not isinstance(s, str):
+        return None
+    s = s.strip()
+    # 1) Standard JSON
+    try:
+        out = json.loads(s)
+        return out if isinstance(out, dict) else None
+    except json.JSONDecodeError:
+        pass
+    # 2) Python dict literal (single quotes, True/False/None)
+    try:
+        out = ast.literal_eval(s)
+        return out if isinstance(out, dict) else None
+    except (ValueError, SyntaxError):
+        pass
+    # 3) Extract outermost {...} and try again (handles markdown or extra text)
+    start = s.find("{")
+    end = s.rfind("}")
+    if start != -1 and end != -1 and end > start:
+        substring = s[start : end + 1]
+        try:
+            out = json.loads(substring)
+            return out if isinstance(out, dict) else None
+        except json.JSONDecodeError:
+            pass
+        try:
+            out = ast.literal_eval(substring)
+            return out if isinstance(out, dict) else None
+        except (ValueError, SyntaxError):
+            pass
+    return None
+
 
 # Suppress warning logs
 logging.getLogger("pydantic").setLevel(logging.ERROR)
@@ -110,13 +152,24 @@ def _run_crew_on_retry(
 
             # Different possible shapes:
             if isinstance(res, str):
-                return json.loads(res)
+                try:
+                    return json.loads(res)
+                except json.JSONDecodeError:
+                    parsed = _parse_crew_output_string(res)
+                    if isinstance(parsed, dict):
+                        logger.info("Parsed Crew output from non-JSON string (fallback).")
+                        return parsed
+                    raise
 
             raw = getattr(res, "raw", res)
             if isinstance(raw, str):
                 try:
                     return json.loads(raw)
                 except json.JSONDecodeError:
+                    parsed = _parse_crew_output_string(raw)
+                    if isinstance(parsed, dict):
+                        logger.info("Parsed Crew output from non-JSON string (fallback).")
+                        return parsed
                     print("[WARN] Crew returned non-JSON string; returning default.")
                     return default_result.copy()
 
@@ -208,13 +261,24 @@ async def _run_crew_on_retry_async(
 
             # Different possible shapes:
             if isinstance(res, str):
-                return json.loads(res)
+                try:
+                    return json.loads(res)
+                except json.JSONDecodeError:
+                    parsed = _parse_crew_output_string(res)
+                    if isinstance(parsed, dict):
+                        logger.info("Parsed Crew output from non-JSON string (fallback).")
+                        return parsed
+                    raise
 
             raw = getattr(res, "raw", res)
             if isinstance(raw, str):
                 try:
                     return json.loads(raw)
                 except json.JSONDecodeError:
+                    parsed = _parse_crew_output_string(raw)
+                    if isinstance(parsed, dict):
+                        logger.info("Parsed Crew output from non-JSON string (fallback).")
+                        return parsed
                     print("[WARN] Crew returned non-JSON string; returning default.")
                     return default_result.copy()
 

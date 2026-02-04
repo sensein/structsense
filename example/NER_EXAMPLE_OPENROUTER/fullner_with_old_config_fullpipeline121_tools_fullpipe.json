@@ -1,0 +1,249 @@
+{
+  "entities": [],
+  "key_terms": [],
+  "resources": [],
+  "aligned_resources": [],
+  "judge_resource": [],
+  "errors": [],
+  "task_type": "ner",
+  "elapsed_time": 3487.736656188965,
+  "stage_timings": {
+    "extractor_agent_extraction_task": 159.80474400520325,
+    "alignment_agent_alignment_task": 3320.1264429092407,
+    "judge_agent_judge_task": 3.624608039855957,
+    "humanfeedback_agent_humanfeedback_task": 3.485576868057251
+  },
+  "pipeline_stages": {
+    "extraction_task": {
+      "entities": [],
+      "key_terms": [
+        "LEDs",
+        "LabVIEW",
+        "MATLAB",
+        "Plancks constant",
+        "Rodent",
+        "authentic visual perception",
+        "average performance",
+        "broad-wavelength conditions",
+        "circadian rhythms",
+        "dark conditions",
+        "dark-adapted rats",
+        "dark-reared",
+        "dim red light",
+        "functional blindness",
+        "illumination",
+        "illumination wavelengths",
+        "neuronal circuits",
+        "object orientation",
+        "olfactory",
+        "performance",
+        "place-cell studies",
+        "red illumination",
+        "red light",
+        "sensory-perceptual cognition",
+        "spatial navigation",
+        "tactile",
+        "video recording",
+        "vision",
+        "visual categorization task",
+        "wavelengths",
+        "white light"
+      ],
+      "metadata": {
+        "total_chunks": 14,
+        "chunks_with_entities": 0,
+        "entities_before_merge": 0,
+        "entities_after_merge": 0,
+        "verification": {
+          "entities_present": 0,
+          "entities_dropped": 0,
+          "entities_dropped_detail": [],
+          "key_terms_present": 31,
+          "key_terms_dropped": 0,
+          "all_entities_present_in_text": true,
+          "all_key_terms_present_in_text": true
+        }
+      },
+      "verification": {
+        "entities_present": 0,
+        "entities_dropped": 0,
+        "entities_dropped_detail": [],
+        "key_terms_present": 31,
+        "key_terms_dropped": 0,
+        "all_entities_present_in_text": true,
+        "all_key_terms_present_in_text": true
+      }
+    },
+    "alignment_task": {
+      "entities": [],
+      "key_terms": []
+    },
+    "judge_task": {
+      "entities": [],
+      "key_terms": [],
+      "resources": [],
+      "aligned_resources": [],
+      "judge_resource": []
+    },
+    "humanfeedback_task": {
+      "entities": [],
+      "key_terms": [],
+      "resources": [],
+      "aligned_resources": [],
+      "judge_resource": []
+    }
+  },
+  "token_usage": {
+    "total": 346,
+    "limit": 100000,
+    "utilization_pct": 0.346,
+    "by_agent": {
+      "extractor_agent": 312,
+      "alignment_agent": 10,
+      "judge_agent": 24
+    }
+  },
+  "context_management": {
+    "agents_tracked": 3,
+    "shared_memory_keys": 0,
+    "agent_context": {
+      "agent_results": {
+        "extractor_agent": [
+          {
+            "agent_key": "extractor_agent",
+            "task_key": "extraction_task",
+            "chunk_id": null,
+            "result": {
+              "entities": [],
+              "key_terms": [
+                "LEDs",
+                "LabVIEW",
+                "MATLAB",
+                "Plancks constant",
+                "Rodent",
+                "authentic visual perception",
+                "average performance",
+                "broad-wavelength conditions",
+                "circadian rhythms",
+                "dark conditions",
+                "dark-adapted rats",
+                "dark-reared",
+                "dim red light",
+                "functional blindness",
+                "illumination",
+                "illumination wavelengths",
+                "neuronal circuits",
+                "object orientation",
+                "olfactory",
+                "performance",
+                "place-cell studies",
+                "red illumination",
+                "red light",
+                "sensory-perceptual cognition",
+                "spatial navigation",
+                "tactile",
+                "video recording",
+                "vision",
+                "visual categorization task",
+                "wavelengths",
+                "white light"
+              ],
+              "metadata": {
+                "total_chunks": 14,
+                "chunks_with_entities": 0,
+                "entities_before_merge": 0,
+                "entities_after_merge": 0,
+                "verification": {
+                  "entities_present": 0,
+                  "entities_dropped": 0,
+                  "entities_dropped_detail": [],
+                  "key_terms_present": 31,
+                  "key_terms_dropped": 0,
+                  "all_entities_present_in_text": true,
+                  "all_key_terms_present_in_text": true
+                }
+              },
+              "verification": {
+                "entities_present": 0,
+                "entities_dropped": 0,
+                "entities_dropped_detail": [],
+                "key_terms_present": 31,
+                "key_terms_dropped": 0,
+                "all_entities_present_in_text": true,
+                "all_key_terms_present_in_text": true
+              }
+            },
+            "confidence": 0.0,
+            "metadata": {
+              "stage_index": 0
+            },
+            "token_count": 312
+          }
+        ],
+        "alignment_agent": [
+          {
+            "agent_key": "alignment_agent",
+            "task_key": "alignment_task",
+            "chunk_id": null,
+            "result": {
+              "entities": [],
+              "key_terms": []
+            },
+            "confidence": 0.0,
+            "metadata": {
+              "stage_index": 1
+            },
+            "token_count": 10
+          }
+        ],
+        "judge_agent": [
+          {
+            "agent_key": "judge_agent",
+            "task_key": "judge_task",
+            "chunk_id": null,
+            "result": {
+              "entities": [],
+              "key_terms": [],
+              "resources": [],
+              "aligned_resources": [],
+              "judge_resource": []
+            },
+            "confidence": 0.0,
+            "metadata": {
+              "stage_index": 2
+            },
+            "token_count": 24
+          }
+        ]
+      },
+      "confidence_scores": {
+        "extractor_agent": 0.0,
+        "alignment_agent": 0.0,
+        "judge_agent": 0.0
+      },
+      "entity_mappings": {},
+      "metadata": {},
+      "total_tokens": 346
+    }
+  },
+  "metadata": {
+    "verification": {
+      "entities_present": 0,
+      "entities_dropped": 0,
+      "entities_dropped_detail": [],
+      "key_terms_present": 0,
+      "key_terms_dropped": 0,
+      "all_entities_present_in_text": true,
+      "all_key_terms_present_in_text": true
+    }
+  },
+  "verification": {
+    "entities_present": 0,
+    "entities_dropped": 0,
+    "entities_dropped_detail": [],
+    "key_terms_present": 0,
+    "key_terms_dropped": 0,
+    "all_entities_present_in_text": true,
+    "all_key_terms_present_in_text": true
+  }
+}

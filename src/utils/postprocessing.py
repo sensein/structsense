@@ -21,6 +21,7 @@ This module provides the task-specific post-processing functions.
 """
 
 import logging
+import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import Dict, Any, List, Callable, Optional, Tuple
 from collections import defaultdict
@@ -1279,6 +1280,10 @@ def apply_concept_mapping_to_result(
 
     Expects result to contain some of: entities, resources, key_terms; also handles
     judge_ner_terms (id -> list of entity dicts) and aligned_resources.
+
+    Speed: Results are deduplicated by term (one API call per unique term). Optional
+    env CONCEPT_MAPPING_MAX_TERMS caps how many unique terms are mapped (rest get null).
+    ConceptMappingTool uses an in-memory cache and BIOPORTAL_REQUEST_INTERVAL (lower = faster, risk 429).
     """
     try:
         from .conceptmappingtool import ConceptMappingTool, _sanitize_text as _sanitize_term
@@ -1351,6 +1356,25 @@ def apply_concept_mapping_to_result(
             if term and term not in unique_terms:
                 terms_order.append(term)
 
+    # Optional cap to speed up large results: only map first N unique terms (env CONCEPT_MAPPING_MAX_TERMS)
+    max_terms_to_map: Optional[int] = None
+    try:
+        n = os.getenv("CONCEPT_MAPPING_MAX_TERMS")
+        if n is not None:
+            max_terms_to_map = max(1, int(n))
+    except (TypeError, ValueError):
+        pass
+    if max_terms_to_map is not None and len(terms_order) > max_terms_to_map:
+        skipped_count = len(terms_order) - max_terms_to_map
+        for term in terms_order[max_terms_to_map:]:
+            unique_terms[term] = {"ontology_id": None, "ontology_label": None, "ontology": None}
+        terms_order = terms_order[:max_terms_to_map]
+        logger.info(
+            "Concept mapping capped to %s terms (CONCEPT_MAPPING_MAX_TERMS); %s terms skipped (no API call)",
+            max_terms_to_map,
+            skipped_count,
+        )
+
     # Run concept mapping in parallel
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         future_to_term = {executor.submit(_concept_map_one_term, term, tool): term for term in terms_order}
@@ -1363,11 +1387,17 @@ def apply_concept_mapping_to_result(
                 unique_terms[term] = {"ontology_id": None, "ontology_label": None, "ontology": None}
 
     # ---- Apply mappings back (provenance = "tool" when mapping comes from Concept Mapping Tool) ----
+    def _top1(val: Any) -> Any:
+        """Alignment result = top 1 only: single value or first element of list."""
+        if isinstance(val, list) and val:
+            return val[0]
+        return val
+
     def set_ontology(item: Dict[str, Any], mapping: Dict[str, Any], prefix: str = "", provenance: str = "tool") -> None:
         pre = prefix or ""
-        item[pre + "ontology_id"] = mapping.get("ontology_id")
-        item[pre + "ontology_label"] = mapping.get("ontology_label")
-        item[pre + "ontology"] = mapping.get("ontology")
+        item[pre + "ontology_id"] = _top1(mapping.get("ontology_id"))
+        item[pre + "ontology_label"] = _top1(mapping.get("ontology_label"))
+        item[pre + "ontology"] = _top1(mapping.get("ontology"))
         item[pre + "concept_mapping_provenance"] = provenance
 
     for term, container, index_or_key, suffix in tasks:
@@ -1399,9 +1429,9 @@ def apply_concept_mapping_to_result(
             m = unique_terms.get(term, {})
             new_key_terms.append({
                 "term": term,
-                "ontology_id": m.get("ontology_id"),
-                "ontology_label": m.get("ontology_label"),
-                "ontology": m.get("ontology"),
+                "ontology_id": _top1(m.get("ontology_id")),
+                "ontology_label": _top1(m.get("ontology_label")),
+                "ontology": _top1(m.get("ontology")),
                 "concept_mapping_provenance": "tool",
             })
         result["key_terms"] = new_key_terms
