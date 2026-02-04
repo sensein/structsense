@@ -17,11 +17,14 @@
 # @Software: PyCharm
 
 """
-Unified CrewAI Tool for Ontology Concept Mapping using BioPortal API
+CrewAI Tool for Ontology Concept Mapping using BioPortal API
 Automatically handles single or batch mapping based on input
 """
 
 import os
+import re
+import time
+import threading
 import requests
 import logging
 from typing import Optional, Type
@@ -32,14 +35,68 @@ from .types import ConceptMappingInput
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("ConceptMappingTool")
 
+# Max length for a single concept/sentence sent to the API (avoid oversized or malformed queries)
+MAX_QUERY_LENGTH = 500
 
-DEFAULT_MAX_CONCEPT_MAPPING_RESULTS = max(
-    1,
-    min(
-        int(os.getenv("MAX_CONCEPT_MAPPING_RESULTS", "1")),
-        50,  # safety
-    ),
-)
+# Throttle BioPortal API to avoid 429 Rate Limit (min seconds between requests)
+_bioportal_throttle_lock = threading.Lock()
+_bioportal_last_request_time = 0.0
+# Default 0.7s between requests; set BIOPORTAL_REQUEST_INTERVAL=1.0 if you still see 429s
+BIOPORTAL_MIN_REQUEST_INTERVAL = float(os.getenv("BIOPORTAL_REQUEST_INTERVAL", "0.7"))
+# After a 429, wait this many extra seconds before next request (backoff)
+BIOPORTAL_BACKOFF_AFTER_429 = float(os.getenv("BIOPORTAL_BACKOFF_AFTER_429", "2.0"))
+
+
+def _sanitize_text(text: Optional[str]) -> str:
+    """
+    Robust sanitization for tool input: coerce to str, strip, normalize whitespace,
+    remove control characters, and truncate to a safe length.
+    """
+    if text is None:
+        return ""
+    s = str(text)
+    # Strip leading/trailing whitespace and normalize line endings
+    s = s.strip().replace("\r\n", " ").replace("\r", " ").replace("\n", " ")
+    # Collapse multiple spaces/tabs into one
+    s = re.sub(r"[ \t]+", " ", s)
+    # Remove control characters (C0/C1 and other non-printable)
+    s = "".join(c for c in s if c.isprintable() or c.isspace())
+    s = s.strip()
+    if len(s) > MAX_QUERY_LENGTH:
+        s = s[:MAX_QUERY_LENGTH].rstrip()
+    return s
+
+
+def _sanitize_ontologies_raw(ontologies: Optional[str]) -> Optional[str]:
+    """Strip and normalize ontologies string; return None if empty."""
+    if ontologies is None:
+        return None
+    s = str(ontologies).strip()
+    return s if s else None
+
+
+def _env_max_results() -> int:
+    """Read at runtime so load_dotenv() in app is respected. Default 1 = top-1 alignment result."""
+    try:
+        n = int(os.getenv("MAX_CONCEPT_MAPPING_RESULTS", "1"))
+        return max(1, min(n, 50))
+    except (TypeError, ValueError):
+        return 1
+
+
+def _normalize_max_results(value, default: Optional[int] = None) -> int:
+    """Ensure max_results is an int in [1, 20]. Handles None, list, or bad types from agent input."""
+    if default is None:
+        default = _env_max_results()
+    if value is None:
+        return default
+    if isinstance(value, list):
+        value = value[0] if value else default
+    try:
+        n = int(value)
+        return max(1, min(n, 20))
+    except (TypeError, ValueError):
+        return default
 
 class ConceptMappingTool(BaseTool):
     """
@@ -179,7 +236,7 @@ class ConceptMappingTool(BaseTool):
 
     name: str = "Concept Mapping Tool"
     description: str = (
-        "Maps biomedical/scientific text or concepts to ontology identifiers (IRIs) and labels. "
+        "Maps biomedical/neuroscientific text or concepts to ontology identifiers (IRIs) and labels. "
         "Supports single concepts, multiple concepts (comma-separated), or sentences. "
         "Useful for diseases, genes, proteins, chemicals, anatomical structures, etc. "
         "Automatically detects relevant ontologies. "
@@ -220,26 +277,61 @@ class ConceptMappingTool(BaseTool):
         # Now we can set session after super().__init__
         object.__setattr__(self, 'session', requests.Session())
         self.session.headers.update({"Authorization": f"apikey token={api_key}"})
-        logger.info("ConceptMappingTool initialized successfully")
+        logger.info(
+            "ConceptMappingTool initialized (BIOPORTAL_API_KEY is set; "
+            "requests are throttled to avoid 429 rate limit)"
+        )
 
     def _make_request(self, endpoint: str, params: dict = None) -> Optional[dict]:
-        """Make API request with error handling"""
+        """Make API request with throttling and error handling. Uses BIOPORTAL_API_KEY in Authorization header."""
+        global _bioportal_last_request_time
         url = f"{self.base_url}{endpoint}"
         params = params or {}
 
-        try:
-            response = self.session.get(url, params=params, timeout=10)
+        with _bioportal_throttle_lock:
+            now = time.monotonic()
+            wait = BIOPORTAL_MIN_REQUEST_INTERVAL - (now - _bioportal_last_request_time)
+            if wait > 0:
+                time.sleep(wait)
+            try:
+                response = self.session.get(url, params=params, timeout=10)
+                _bioportal_last_request_time = time.monotonic()
+            except Exception as e:
+                logger.error(f"Request failed: {e}")
+                return None
+
+        if response.status_code == 200:
+            return response.json()
+        if response.status_code == 429:
+            logger.warning(
+                "BioPortal API rate limit (429). Retrying once after %.1fs; "
+                "set BIOPORTAL_REQUEST_INTERVAL=1.0 or BIOPORTAL_BACKOFF_AFTER_429=3 to reduce 429s.",
+                BIOPORTAL_BACKOFF_AFTER_429,
+            )
+            # One retry after backoff delay
+            time.sleep(BIOPORTAL_BACKOFF_AFTER_429)
+            with _bioportal_throttle_lock:
+                try:
+                    response = self.session.get(url, params=params, timeout=10)
+                    _bioportal_last_request_time = time.monotonic()
+                except Exception as e:
+                    logger.error(f"Retry request failed: {e}")
+                    return None
             if response.status_code == 200:
                 return response.json()
-            else:
-                logger.warning(f"API error {response.status_code}")
-                return None
-        except Exception as e:
-            logger.error(f"Request failed: {e}")
-            return None
+            # Still 429 or other error: push next request time so next call waits longer (backoff)
+            with _bioportal_throttle_lock:
+                _bioportal_last_request_time = time.monotonic() + BIOPORTAL_BACKOFF_AFTER_429
+        else:
+            logger.warning(f"API error {response.status_code}")
+        return None
 
     def _recommend_ontologies(self, text: str, max_ontologies: int = 10) -> list:
         """Use Recommender API to auto-detect relevant ontologies"""
+        text = _sanitize_text(text)
+        if not text:
+            logger.info("Using fallback ontologies (empty input)")
+            return ["SNOMEDCT", "MONDO", "NCIT", "GO", "HP", "CHEBI"]
         params = {
             "input": text,
             "input_type": 1,
@@ -249,16 +341,28 @@ class ConceptMappingTool(BaseTool):
         result = self._make_request("/recommender", params)
 
         if not result:
-            # Fallback to common ontologies
-            logger.info("Using fallback ontologies")
+            # Fallback when recommender fails (e.g. 429 rate limit or network)
+            logger.debug("Using fallback ontologies (recommender unavailable or 429)")
+            return ["SNOMEDCT", "MONDO", "NCIT", "GO", "HP", "CHEBI"]
+
+        if not isinstance(result, list):
+            logger.debug("Using fallback ontologies (recommender did not return list)")
             return ["SNOMEDCT", "MONDO", "NCIT", "GO", "HP", "CHEBI"]
 
         ontologies = []
         for item in result[:max_ontologies]:
-            ontology_info = item.get("ontologies", [{}])[0]
-            acronym = ontology_info.get("acronym", "")
-            score = item.get("evaluationScore", 0)
-
+            if not isinstance(item, dict):
+                continue
+            ont_list = item.get("ontologies")
+            if not isinstance(ont_list, list) or not ont_list:
+                continue
+            ontology_info = ont_list[0] if isinstance(ont_list[0], dict) else {}
+            acronym = (ontology_info.get("acronym") or "").strip()
+            score = item.get("evaluationScore")
+            try:
+                score = float(score) if score is not None else 0.0
+            except (TypeError, ValueError):
+                score = 0.0
             if acronym and score > 0.1:
                 ontologies.append(acronym)
 
@@ -287,24 +391,41 @@ class ConceptMappingTool(BaseTool):
             self,
             text: str,
             ontology_list: Optional[list],
-            max_results: int = DEFAULT_MAX_CONCEPT_MAPPING_RESULTS,
+            max_results: Optional[int] = None,
     ) -> dict:
         """Map a single concept to ontology IRIs and labels"""
+        max_results = _normalize_max_results(max_results)
         # Auto-detect ontologies if not specified
         if ontology_list is None:
             ontology_list = self._recommend_ontologies(text)
 
-        # Search for concepts
+        # Search for concepts (ensure q is a non-empty string)
+        query = _sanitize_text(text) if text else ""
+        if not query:
+            return {
+                "error": f"No valid text to map: {text!r}",
+                "ontology_id": None,
+                "ontology_label": None
+            }
         params = {
-            "q": text,
+            "q": query,
             "pagesize": min(max_results, 20),
             "also_search_obsolete": "false"
         }
+        if ontology_list and isinstance(ontology_list, list):
+            acrons = [str(o).strip() for o in ontology_list if str(o).strip()]
+            if acrons:
+                params["ontologies"] = ",".join(acrons)
 
-        if ontology_list:
-            params["ontologies"] = ",".join(ontology_list)
-
-        result = self._make_request("/search", params)
+        try:
+            result = self._make_request("/search", params)
+        except Exception as e:
+            logger.debug("Concept mapping request failed for %r: %s", query[:80] if query else "", e)
+            return {
+                "error": "Concept mapping failed",
+                "ontology_id": None,
+                "ontology_label": None
+            }
 
         if not result or "collection" not in result:
             return {
@@ -313,18 +434,35 @@ class ConceptMappingTool(BaseTool):
                 "ontology_label": None
             }
 
-        # Extract IRI and label pairs
-        matches = []
-        for item in result["collection"][:max_results]:
-            iri = item.get("@id", "")
-            label = item.get("prefLabel", "")
-            ontology = item.get("links", {}).get("ontology", "").split("/")[-1]
+        collection = result.get("collection")
+        if not isinstance(collection, list):
+            return {
+                "error": f"No ontology matches found for: {text}",
+                "ontology_id": None,
+                "ontology_label": None
+            }
 
-            if iri and label:
+        # Extract IRI and label pairs (guard against non-dict items or missing fields)
+        matches = []
+        for item in collection[:max_results]:
+            if not isinstance(item, dict):
+                continue
+            iri = item.get("@id") or item.get("iri") or ""
+            label = item.get("prefLabel") or item.get("label") or ""
+            links = item.get("links")
+            if isinstance(links, dict):
+                ont_url = links.get("ontology")
+                ontology = (ont_url.split("/")[-1]) if isinstance(ont_url, str) and ont_url else ""
+            else:
+                ontology = ""
+
+            iri_str = str(iri).strip() if iri else ""
+            label_str = str(label).strip() if label else ""
+            if iri_str and label_str:
                 matches.append({
-                    "iri": iri,
-                    "label": label,
-                    "ontology": ontology
+                    "iri": iri_str,
+                    "label": label_str,
+                    "ontology": str(ontology).strip() if ontology else "",
                 })
 
         if not matches:
@@ -359,8 +497,14 @@ class ConceptMappingTool(BaseTool):
             ontology_list: Optional[list]
     ) -> dict:
         """Map multiple concepts (comma-separated) to ontologies"""
-        # Parse input texts
-        text_list = [t.strip() for t in text.split(",") if t.strip()]
+        # Parse and sanitize each concept (avoid empty or junk from extra chars)
+        seen = set()
+        text_list = []
+        for t in text.split(","):
+            cleaned = _sanitize_text(t)
+            if cleaned and cleaned not in seen:
+                seen.add(cleaned)
+                text_list.append(cleaned)
 
         if not text_list:
             return {"error": "No valid concepts provided"}
@@ -382,7 +526,7 @@ class ConceptMappingTool(BaseTool):
     def _run(
             self,
             text: str,
-            max_results: int = 1,
+            max_results: Optional[int] = None,
             ontologies: Optional[str] = None
     ) -> dict:
         """
@@ -429,10 +573,23 @@ class ConceptMappingTool(BaseTool):
                 }
             }
         """
-        # Parse ontologies if provided
+        # Normalize max_results (agent may pass None or wrong type)
+        max_results = _normalize_max_results(max_results)
+
+        # Sanitize text (strip, normalize whitespace, remove control chars, truncate)
+        text = _sanitize_text(text)
+        if not text:
+            return {
+                "error": "No valid text provided for concept mapping",
+                "ontology_id": None,
+                "ontology_label": None,
+            }
+
+        # Parse ontologies if provided (only non-empty acronyms)
         ontology_list = None
-        if ontologies:
-            ontology_list = [o.strip() for o in ontologies.split(",")]
+        raw_ontologies = _sanitize_ontologies_raw(ontologies)
+        if raw_ontologies:
+            ontology_list = [o.strip() for o in raw_ontologies.split(",") if o.strip()]
 
         # Determine if batch or single
         is_batch = self._is_batch_input(text)
