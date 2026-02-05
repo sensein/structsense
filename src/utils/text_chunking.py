@@ -184,13 +184,18 @@ def _globalize_entities(
         if not isinstance(ent, dict):
             continue
 
-        ent_text = ent.get("text")
+        # Accept both "entity" and "text" (task/LLM often use "entity", NER tool uses "entity")
+        ent_text = ent.get("entity") or ent.get("text")
+        if isinstance(ent_text, str):
+            ent_text = ent_text.strip()
+        else:
+            ent_text = ""
         label = ent.get("label")
         local_start = ent.get("start")
         local_end = ent.get("end")
 
         # Skip malformed entities (must have text and label)
-        if not isinstance(ent_text, str) or not isinstance(label, str):
+        if not ent_text or not isinstance(label, str):
             continue
 
         # Handle entities with or without positions
@@ -213,13 +218,14 @@ def _globalize_entities(
         sentence_info = _get_sentence_info_for_span(full_doc, global_start, global_end)
 
         result_ent = {
+            "entity": ent_text,  # Pipeline and verifier expect "entity"
             "text": ent_text,
             "label": label,
-            "global_start": global_start,  # Global position in full document
-            "global_end": global_end,      # Global position in full document
+            "global_start": global_start,
+            "global_end": global_end,
             "sentence": sentence_info["sentence"],
-            "sentence_start": sentence_info["sentence_start_offset"],  # Relative to sentence start
-            "sentence_end": sentence_info["sentence_end_offset"],      # Relative to sentence start
+            "sentence_start": sentence_info["sentence_start_offset"],
+            "sentence_end": sentence_info["sentence_end_offset"],
         }
         
         # Preserve source_model if present
