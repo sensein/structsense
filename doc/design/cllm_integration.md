@@ -9,7 +9,7 @@ CLLM implements a 4-stage workflow for scientific claim verification:
 3. **Peer Review Evaluation**: Group claims based on peer review commentary
 4. **Compare Results**: Compare LLM and peer review evaluations
 
-## MVP 
+## MVP
 Ingest assertions and evidence from scientific papers into the knowledge graph using CLLM, with the following steps:
 1. **Input**: Accept PDF and XML/Text inputs of scientific papers.
 2. **CLLM Processing**: Run the CLLM workflow to extract claims and evaluate them using LLM review.
