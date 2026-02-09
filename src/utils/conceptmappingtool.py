@@ -41,10 +41,94 @@ MAX_QUERY_LENGTH = 500
 # Throttle BioPortal API to avoid 429 Rate Limit (min seconds between requests)
 _bioportal_throttle_lock = threading.Lock()
 _bioportal_last_request_time = 0.0
-# Default 0.7s between requests; set BIOPORTAL_REQUEST_INTERVAL=1.0 if you still see 429s
-BIOPORTAL_MIN_REQUEST_INTERVAL = float(os.getenv("BIOPORTAL_REQUEST_INTERVAL", "0.7"))
-# After a 429, wait this many extra seconds before next request (backoff)
-BIOPORTAL_BACKOFF_AFTER_429 = float(os.getenv("BIOPORTAL_BACKOFF_AFTER_429", "2.0"))
+def _bioportal_interval() -> float:
+    """Read at request time so .env is respected. Lower = faster, but may hit 429."""
+    try:
+        return max(0.2, float(os.getenv("BIOPORTAL_REQUEST_INTERVAL", "0.7")))
+    except (TypeError, ValueError):
+        return 0.7
+
+
+def _bioportal_backoff() -> float:
+    try:
+        return max(0.5, float(os.getenv("BIOPORTAL_BACKOFF_AFTER_429", "2.0")))
+    except (TypeError, ValueError):
+        return 2.0
+
+# In-memory cache: term -> mapping result. Speeds up large runs when same term appears often or across runs.
+_CONCEPT_MAPPING_CACHE: dict = {}
+_CONCEPT_MAPPING_CACHE_LOCK = threading.Lock()
+
+# Session capture: when alignment (or other) agent uses the tool, we record input/output here
+# so the pipeline can preserve concept_mapping in the final result without re-running at end.
+_ALIGNMENT_TOOL_OUTPUTS: list = []
+_ALIGNMENT_TOOL_OUTPUTS_LOCK = threading.Lock()
+
+
+def clear_alignment_tool_outputs() -> None:
+    """Clear recorded tool outputs. Call before running the alignment stage so we only capture alignment's tool calls."""
+    with _ALIGNMENT_TOOL_OUTPUTS_LOCK:
+        _ALIGNMENT_TOOL_OUTPUTS.clear()
+
+
+def get_alignment_tool_outputs() -> list:
+    """Return a copy of recorded tool outputs (input + output) from the current alignment stage."""
+    with _ALIGNMENT_TOOL_OUTPUTS_LOCK:
+        return list(_ALIGNMENT_TOOL_OUTPUTS)
+
+
+def format_alignment_tool_outputs_as_concept_mapping(session_outputs: list) -> list:
+    """
+    Convert session_outputs from get_alignment_tool_outputs() into the concept_mapping list format:
+    [{"term": str, "source": "alignment_agent_tool", "ontology_id", "ontology_label", "ontology", "concept_mapping_provenance": "tool"}, ...].
+    Uses top-1 when ontology_id/ontology_label/ontology are lists.
+    """
+    result = []
+    for item in session_outputs:
+        if not isinstance(item, dict):
+            continue
+        inp = item.get("input") or ""
+        out = item.get("output")
+        if not isinstance(out, dict) or "error" in out:
+            continue
+
+        def _top1(v):
+            if isinstance(v, list) and v:
+                return v[0]
+            return v
+
+        # Batch: out = {term: {ontology_id, ontology_label, ontology}, ...}
+        if any(k not in ("ontology_id", "ontology_label", "ontology", "error") for k in out):
+            for term, mapping in out.items():
+                if not isinstance(mapping, dict) or mapping.get("error"):
+                    continue
+                result.append({
+                    "term": term,
+                    "source": "alignment_agent_tool",
+                    "ontology_id": _top1(mapping.get("ontology_id")),
+                    "ontology_label": _top1(mapping.get("ontology_label")),
+                    "ontology": _top1(mapping.get("ontology")),
+                    "concept_mapping_provenance": "tool",
+                })
+        else:
+            # Single concept: out = {ontology_id, ontology_label, ontology}
+            result.append({
+                "term": inp,
+                "source": "alignment_agent_tool",
+                "ontology_id": _top1(out.get("ontology_id")),
+                "ontology_label": _top1(out.get("ontology_label")),
+                "ontology": _top1(out.get("ontology")),
+                "concept_mapping_provenance": "tool",
+            })
+    return result
+
+
+def _concept_mapping_cache_max_size() -> int:
+    """Max cache entries (read at use time so .env is respected)."""
+    try:
+        return max(100, int(os.getenv("CONCEPT_MAPPING_CACHE_SIZE", "2000")))
+    except (TypeError, ValueError):
+        return 2000
 
 
 def _sanitize_text(text: Optional[str]) -> str:
@@ -288,9 +372,10 @@ class ConceptMappingTool(BaseTool):
         url = f"{self.base_url}{endpoint}"
         params = params or {}
 
+        interval = _bioportal_interval()
         with _bioportal_throttle_lock:
             now = time.monotonic()
-            wait = BIOPORTAL_MIN_REQUEST_INTERVAL - (now - _bioportal_last_request_time)
+            wait = interval - (now - _bioportal_last_request_time)
             if wait > 0:
                 time.sleep(wait)
             try:
@@ -303,13 +388,13 @@ class ConceptMappingTool(BaseTool):
         if response.status_code == 200:
             return response.json()
         if response.status_code == 429:
+            backoff = _bioportal_backoff()
             logger.warning(
                 "BioPortal API rate limit (429). Retrying once after %.1fs; "
                 "set BIOPORTAL_REQUEST_INTERVAL=1.0 or BIOPORTAL_BACKOFF_AFTER_429=3 to reduce 429s.",
-                BIOPORTAL_BACKOFF_AFTER_429,
+                backoff,
             )
-            # One retry after backoff delay
-            time.sleep(BIOPORTAL_BACKOFF_AFTER_429)
+            time.sleep(backoff)
             with _bioportal_throttle_lock:
                 try:
                     response = self.session.get(url, params=params, timeout=10)
@@ -319,9 +404,8 @@ class ConceptMappingTool(BaseTool):
                     return None
             if response.status_code == 200:
                 return response.json()
-            # Still 429 or other error: push next request time so next call waits longer (backoff)
             with _bioportal_throttle_lock:
-                _bioportal_last_request_time = time.monotonic() + BIOPORTAL_BACKOFF_AFTER_429
+                _bioportal_last_request_time = time.monotonic() + backoff
         else:
             logger.warning(f"API error {response.status_code}")
         return None
@@ -393,13 +477,8 @@ class ConceptMappingTool(BaseTool):
             ontology_list: Optional[list],
             max_results: Optional[int] = None,
     ) -> dict:
-        """Map a single concept to ontology IRIs and labels"""
+        """Map a single concept to ontology IRIs and labels. Uses in-memory cache to avoid duplicate API calls."""
         max_results = _normalize_max_results(max_results)
-        # Auto-detect ontologies if not specified
-        if ontology_list is None:
-            ontology_list = self._recommend_ontologies(text)
-
-        # Search for concepts (ensure q is a non-empty string)
         query = _sanitize_text(text) if text else ""
         if not query:
             return {
@@ -407,6 +486,15 @@ class ConceptMappingTool(BaseTool):
                 "ontology_id": None,
                 "ontology_label": None
             }
+        # Cache lookup (same term = one API call across entities and runs)
+        cache_key = f"{query}|{max_results}"
+        with _CONCEPT_MAPPING_CACHE_LOCK:
+            if cache_key in _CONCEPT_MAPPING_CACHE:
+                return dict(_CONCEPT_MAPPING_CACHE[cache_key])
+        # Auto-detect ontologies if not specified
+        if ontology_list is None:
+            ontology_list = self._recommend_ontologies(text)
+
         params = {
             "q": query,
             "pagesize": min(max_results, 20),
@@ -474,21 +562,25 @@ class ConceptMappingTool(BaseTool):
 
         logger.info(f"Mapped '{text}' to {len(matches)} concepts")
 
-        # Return format based on number of results
+        # Return format based on number of results; store in cache for reuse
         if max_results == 1 or len(matches) == 1:
-            # Single result - return as single values
-            return {
+            out = {
                 "ontology_id": matches[0]["iri"],
                 "ontology_label": matches[0]["label"],
                 "ontology": matches[0]["ontology"]
             }
         else:
-            # Multiple results - return as lists
-            return {
+            out = {
                 "ontology_id": [m["iri"] for m in matches],
                 "ontology_label": [m["label"] for m in matches],
                 "ontology": [m["ontology"] for m in matches]
             }
+        with _CONCEPT_MAPPING_CACHE_LOCK:
+            max_size = _concept_mapping_cache_max_size()
+            if len(_CONCEPT_MAPPING_CACHE) >= max_size:
+                _CONCEPT_MAPPING_CACHE.pop(next(iter(_CONCEPT_MAPPING_CACHE)), None)
+            _CONCEPT_MAPPING_CACHE[cache_key] = out
+        return out
 
     def _map_batch_concepts(
             self,
@@ -596,9 +688,15 @@ class ConceptMappingTool(BaseTool):
 
         if is_batch:
             logger.info(f"Detected batch input: {text}")
-            return self._map_batch_concepts(text, max_results, ontology_list)
+            out = self._map_batch_concepts(text, max_results, ontology_list)
         else:
             logger.info(f"Detected single input: {text}")
-            return self._map_single_concept(text, max_results, ontology_list)
+            out = self._map_single_concept(text, max_results, ontology_list)
+
+        # Record for pipeline so alignment agent's concept mapping can be preserved in final result
+        if isinstance(out, dict) and "error" not in out:
+            with _ALIGNMENT_TOOL_OUTPUTS_LOCK:
+                _ALIGNMENT_TOOL_OUTPUTS.append({"input": text, "output": dict(out)})
+        return out
 
 
