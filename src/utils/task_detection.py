@@ -329,13 +329,19 @@ def detect_task_type(
 
     logger.info("Running LLM-based task detection...")
 
+    base_url = (llm_config.get("base_url") or "").lower()
+    model = llm_config.get("model") or "openai/gpt-4o-mini"
+    # OpenRouter expects model ID without "openrouter/" prefix (e.g. openai/gpt-4o-mini)
+    if "openrouter" in base_url and isinstance(model, str) and model.startswith("openrouter/"):
+        model = model.replace("openrouter/", "", 1)
+
     client = OpenAI(
         base_url=llm_config["base_url"],
         api_key=api_key,
     )
 
     completion_response = client.chat.completions.create(
-        model=llm_config["model"] or "x-ai/grok-4.1-fast",
+        model=model,
         messages=[{"role": "user", "content": prompt}],
         extra_body={"reasoning": {"enabled": True}},
     )
