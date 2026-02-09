@@ -32,6 +32,7 @@ class AlignedTermsDynamic(BaseModel):
 class JudgedTermsDynamic(BaseModel):
     judged_structured_information: Any
 
+
 class ConceptMappingInput(BaseModel):
     """Input schema for ConceptMappingTool"""
     text: str = Field(
@@ -44,7 +45,7 @@ class ConceptMappingInput(BaseModel):
         )
     )
     max_results: int = Field(
-        default=5,
+        default=1,
         description="Maximum number of results per concept (1-20)"
     )
     ontologies: Optional[str] = Field(
