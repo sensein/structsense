@@ -1,0 +1,1137 @@
+{
+  "entities": [
+    {
+      "entity": "TH94252310589",
+      "label": "FUNDING_AGENCY",
+      "start": 30,
+      "end": 43,
+      "weighted_score": 0.565,
+      "model_count": 2,
+      "occurrences": [
+        {
+          "start": 30,
+          "end": 38,
+          "global_start": 30,
+          "global_end": 38,
+          "sentence": "Untitled Section 1\n['Defense (TH94252310589) to DJZ and VEK."
+        },
+        {
+          "start": 30,
+          "end": 43,
+          "global_start": 30,
+          "global_end": 43,
+          "sentence": "Untitled Section 1\n['Defense (TH94252310589) to DJZ and VEK."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "FUNDING_AGENCY",
+          "vote_weight": 3.9,
+          "sources": [
+            {
+              "source_model": "llm_ner",
+              "weight": 3.9,
+              "entity": "TH94252310589"
+            }
+          ]
+        },
+        {
+          "label": "bio",
+          "vote_weight": 3.0,
+          "sources": [
+            {
+              "source_model": "mobashgr/BC5CDR-chem-WLT-384-BioELECTRA-Pubmed-ENS-20-5",
+              "weight": 3.0,
+              "entity": "th942523"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "DJZ",
+      "label": "PERSON",
+      "start": 48,
+      "end": 51,
+      "weighted_score": 0.796,
+      "model_count": 2,
+      "occurrences": [
+        {
+          "start": 48,
+          "end": 51,
+          "global_start": 48,
+          "global_end": 51,
+          "sentence": "Untitled Section 1\n['Defense (TH94252310589) to DJZ and VEK."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 3.9,
+          "sources": [
+            {
+              "source_model": "llm_ner",
+              "weight": 3.9,
+              "entity": "DJZ"
+            }
+          ]
+        },
+        {
+          "label": "ORG",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "entity": "DJZ"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "VEK",
+      "label": "PERSON",
+      "start": 56,
+      "end": 59,
+      "weighted_score": 0.796,
+      "model_count": 2,
+      "occurrences": [
+        {
+          "start": 56,
+          "end": 59,
+          "global_start": 56,
+          "global_end": 59,
+          "sentence": "Untitled Section 1\n['Defense (TH94252310589) to DJZ and VEK."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "PERSON",
+          "vote_weight": 3.9,
+          "sources": [
+            {
+              "source_model": "llm_ner",
+              "weight": 3.9,
+              "entity": "VEK"
+            }
+          ]
+        },
+        {
+          "label": "ORG",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "entity": "VEK"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "imaging",
+      "label": "Diagnostic_procedure",
+      "start": 61,
+      "end": 68,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "occurrences": [
+        {
+          "start": 0,
+          "end": 7,
+          "global_start": 61,
+          "global_end": 68,
+          "sentence": "Imaging was performed using the MICA Leica microscope in the Division of Neuropathology, supported by the Johns Hopkins Alzheimers Disease Research Center (ADRC; P30 AG066507), and support was also provided by P30 EY001765."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "Diagnostic_procedure",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "entity": "imaging"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "mica leica microscope",
+      "label": "Detailed_description",
+      "start": 93,
+      "end": 114,
+      "weighted_score": 0.505,
+      "model_count": 3,
+      "occurrences": [
+        {
+          "start": 32,
+          "end": 53,
+          "global_start": 93,
+          "global_end": 114,
+          "sentence": "Imaging was performed using the MICA Leica microscope in the Division of Neuropathology, supported by the Johns Hopkins Alzheimers Disease Research Center (ADRC; P30 AG066507), and support was also provided by P30 EY001765."
+        },
+        {
+          "start": 32,
+          "end": 42,
+          "global_start": 93,
+          "global_end": 103,
+          "sentence": "Imaging was performed using the MICA Leica microscope in the Division of Neuropathology, supported by the Johns Hopkins Alzheimers Disease Research Center (ADRC; P30 AG066507), and support was also provided by P30 EY001765."
+        },
+        {
+          "start": 37,
+          "end": 42,
+          "global_start": 98,
+          "global_end": 103,
+          "sentence": "Imaging was performed using the MICA Leica microscope in the Division of Neuropathology, supported by the Johns Hopkins Alzheimers Disease Research Center (ADRC; P30 AG066507), and support was also provided by P30 EY001765."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "Detailed_description",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "entity": "mica leica microscope"
+            }
+          ]
+        },
+        {
+          "label": "MICROSCOPE",
+          "vote_weight": 3.9,
+          "sources": [
+            {
+              "source_model": "llm_ner",
+              "weight": 3.9,
+              "entity": "MICA Leica"
+            }
+          ]
+        },
+        {
+          "label": "PRODUCT",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "entity": "Leica"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Division of Neuropathology",
+      "label": "ORGANIZATION",
+      "start": 118,
+      "end": 148,
+      "weighted_score": 0.796,
+      "model_count": 2,
+      "occurrences": [
+        {
+          "start": 57,
+          "end": 87,
+          "global_start": 118,
+          "global_end": 148,
+          "sentence": "Imaging was performed using the MICA Leica microscope in the Division of Neuropathology, supported by the Johns Hopkins Alzheimers Disease Research Center (ADRC; P30 AG066507), and support was also provided by P30 EY001765."
+        },
+        {
+          "start": 61,
+          "end": 87,
+          "global_start": 122,
+          "global_end": 148,
+          "sentence": "Imaging was performed using the MICA Leica microscope in the Division of Neuropathology, supported by the Johns Hopkins Alzheimers Disease Research Center (ADRC; P30 AG066507), and support was also provided by P30 EY001765."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "ORGANIZATION",
+          "vote_weight": 3.9,
+          "sources": [
+            {
+              "source_model": "llm_ner",
+              "weight": 3.9,
+              "entity": "Division of Neuropathology"
+            }
+          ]
+        },
+        {
+          "label": "ORG",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "entity": "the Division of Neuropathology"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Johns Hopkins Alzheimers Disease Research Center",
+      "label": "ORGANIZATION",
+      "start": 167,
+      "end": 215,
+      "weighted_score": 0.661,
+      "model_count": 2,
+      "occurrences": [
+        {
+          "start": 106,
+          "end": 154,
+          "global_start": 167,
+          "global_end": 215,
+          "sentence": "Imaging was performed using the MICA Leica microscope in the Division of Neuropathology, supported by the Johns Hopkins Alzheimers Disease Research Center (ADRC; P30 AG066507), and support was also provided by P30 EY001765."
+        },
+        {
+          "start": 120,
+          "end": 138,
+          "global_start": 181,
+          "global_end": 199,
+          "sentence": "Imaging was performed using the MICA Leica microscope in the Division of Neuropathology, supported by the Johns Hopkins Alzheimers Disease Research Center (ADRC; P30 AG066507), and support was also provided by P30 EY001765."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "ORGANIZATION",
+          "vote_weight": 3.9,
+          "sources": [
+            {
+              "source_model": "llm_ner",
+              "weight": 3.9,
+              "entity": "Johns Hopkins Alzheimers Disease Research Center"
+            }
+          ]
+        },
+        {
+          "label": "bio",
+          "vote_weight": 2.0,
+          "sources": [
+            {
+              "source_model": "mobashgr/NCBI-disease-WLT-256-SciBERT-13INS",
+              "weight": 2.0,
+              "entity": "alzheimers disease"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "ADRC",
+      "label": "ORGANIZATION",
+      "start": 217,
+      "end": 221,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "occurrences": [
+        {
+          "start": 156,
+          "end": 160,
+          "global_start": 217,
+          "global_end": 221,
+          "sentence": "Imaging was performed using the MICA Leica microscope in the Division of Neuropathology, supported by the Johns Hopkins Alzheimers Disease Research Center (ADRC; P30 AG066507), and support was also provided by P30 EY001765."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "ORGANIZATION",
+          "vote_weight": 3.9,
+          "sources": [
+            {
+              "source_model": "llm_ner",
+              "weight": 3.9,
+              "entity": "ADRC"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "P30 AG066507",
+      "label": "FUNDING_AGENCY",
+      "start": 223,
+      "end": 235,
+      "weighted_score": 0.796,
+      "model_count": 2,
+      "occurrences": [
+        {
+          "start": 162,
+          "end": 165,
+          "global_start": 223,
+          "global_end": 226,
+          "sentence": "Imaging was performed using the MICA Leica microscope in the Division of Neuropathology, supported by the Johns Hopkins Alzheimers Disease Research Center (ADRC; P30 AG066507), and support was also provided by P30 EY001765."
+        },
+        {
+          "start": 162,
+          "end": 174,
+          "global_start": 223,
+          "global_end": 235,
+          "sentence": "Imaging was performed using the MICA Leica microscope in the Division of Neuropathology, supported by the Johns Hopkins Alzheimers Disease Research Center (ADRC; P30 AG066507), and support was also provided by P30 EY001765."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "FUNDING_AGENCY",
+          "vote_weight": 3.9,
+          "sources": [
+            {
+              "source_model": "llm_ner",
+              "weight": 3.9,
+              "entity": "P30 AG066507"
+            }
+          ]
+        },
+        {
+          "label": "ORG",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "entity": "P30"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "P30 EY001765",
+      "label": "FUNDING_AGENCY",
+      "start": 271,
+      "end": 283,
+      "weighted_score": 0.494,
+      "model_count": 3,
+      "occurrences": [
+        {
+          "start": 210,
+          "end": 222,
+          "global_start": 271,
+          "global_end": 283,
+          "sentence": "Imaging was performed using the MICA Leica microscope in the Division of Neuropathology, supported by the Johns Hopkins Alzheimers Disease Research Center (ADRC; P30 AG066507), and support was also provided by P30 EY001765."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "FUNDING_AGENCY",
+          "vote_weight": 3.9,
+          "sources": [
+            {
+              "source_model": "llm_ner",
+              "weight": 3.9,
+              "entity": "P30 EY001765"
+            }
+          ]
+        },
+        {
+          "label": "bio",
+          "vote_weight": 3.0,
+          "sources": [
+            {
+              "source_model": "mobashgr/BC5CDR-chem-WLT-384-BioELECTRA-Pubmed-ENS-20-5",
+              "weight": 3.0,
+              "entity": "p30 ey001765"
+            }
+          ]
+        },
+        {
+          "label": "PRODUCT",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "entity": "P30 EY001765"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "collateral sprouting",
+      "label": "MECHANISM",
+      "start": 449,
+      "end": 469,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "occurrences": [
+        {
+          "start": 28,
+          "end": 48,
+          "global_start": 449,
+          "global_end": 469,
+          "sentence": "]\n\nSignificance\n['Homotypic collateral sprouting -the process by which uninjured axons from the same neuronal source extend new branches to reinnervate targets deprived of their original connections-is a fundamental yet understudied mechanism for CNS repair following injury."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "MECHANISM",
+          "vote_weight": 3.9,
+          "sources": [
+            {
+              "source_model": "llm_ner",
+              "weight": 3.9,
+              "entity": "collateral sprouting"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "ax",
+      "label": "Disease_disorder",
+      "start": 502,
+      "end": 504,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "occurrences": [
+        {
+          "start": 81,
+          "end": 83,
+          "global_start": 502,
+          "global_end": 504,
+          "sentence": "]\n\nSignificance\n['Homotypic collateral sprouting -the process by which uninjured axons from the same neuronal source extend new branches to reinnervate targets deprived of their original connections-is a fundamental yet understudied mechanism for CNS repair following injury."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "Disease_disorder",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "entity": "ax"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "source",
+      "label": "Detailed_description",
+      "start": 531,
+      "end": 537,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "occurrences": [
+        {
+          "start": 110,
+          "end": 116,
+          "global_start": 531,
+          "global_end": 537,
+          "sentence": "]\n\nSignificance\n['Homotypic collateral sprouting -the process by which uninjured axons from the same neuronal source extend new branches to reinnervate targets deprived of their original connections-is a fundamental yet understudied mechanism for CNS repair following injury."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "Detailed_description",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "entity": "source"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "branches",
+      "label": "Detailed_description",
+      "start": 549,
+      "end": 557,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "occurrences": [
+        {
+          "start": 128,
+          "end": 136,
+          "global_start": 549,
+          "global_end": 557,
+          "sentence": "]\n\nSignificance\n['Homotypic collateral sprouting -the process by which uninjured axons from the same neuronal source extend new branches to reinnervate targets deprived of their original connections-is a fundamental yet understudied mechanism for CNS repair following injury."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "Detailed_description",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "entity": "branches"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "CNS",
+      "label": "ANATOMY",
+      "start": 668,
+      "end": 671,
+      "weighted_score": 0.796,
+      "model_count": 2,
+      "occurrences": [
+        {
+          "start": 247,
+          "end": 250,
+          "global_start": 668,
+          "global_end": 671,
+          "sentence": "]\n\nSignificance\n['Homotypic collateral sprouting -the process by which uninjured axons from the same neuronal source extend new branches to reinnervate targets deprived of their original connections-is a fundamental yet understudied mechanism for CNS repair following injury."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "ANATOMY",
+          "vote_weight": 3.9,
+          "sources": [
+            {
+              "source_model": "llm_ner",
+              "weight": 3.9,
+              "entity": "CNS"
+            }
+          ]
+        },
+        {
+          "label": "ORG",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "entity": "CNS"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "repair",
+      "label": "Sign_symptom",
+      "start": 672,
+      "end": 678,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "occurrences": [
+        {
+          "start": 251,
+          "end": 257,
+          "global_start": 672,
+          "global_end": 678,
+          "sentence": "]\n\nSignificance\n['Homotypic collateral sprouting -the process by which uninjured axons from the same neuronal source extend new branches to reinnervate targets deprived of their original connections-is a fundamental yet understudied mechanism for CNS repair following injury."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "Sign_symptom",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "entity": "repair"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "injury",
+      "label": "Disease_disorder",
+      "start": 689,
+      "end": 695,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "occurrences": [
+        {
+          "start": 268,
+          "end": 274,
+          "global_start": 689,
+          "global_end": 695,
+          "sentence": "]\n\nSignificance\n['Homotypic collateral sprouting -the process by which uninjured axons from the same neuronal source extend new branches to reinnervate targets deprived of their original connections-is a fundamental yet understudied mechanism for CNS repair following injury."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "Disease_disorder",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "entity": "injury"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "homo",
+      "label": "Detailed_description",
+      "start": 772,
+      "end": 776,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "occurrences": [
+        {
+          "start": 75,
+          "end": 79,
+          "global_start": 772,
+          "global_end": 776,
+          "sentence": "Unlike heterotypic sprouting, involving sprouting from unrelated pathways, homotypic sprouting offers potential to restore circuit architecture after partial lesions."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "Detailed_description",
+          "vote_weight": 10.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "entity": "homo"
+            },
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "entity": "homo"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "diffuse",
+      "label": "Detailed_description",
+      "start": 893,
+      "end": 914,
+      "weighted_score": 0.714,
+      "model_count": 2,
+      "occurrences": [
+        {
+          "start": 29,
+          "end": 36,
+          "global_start": 893,
+          "global_end": 900,
+          "sentence": "Here, we employed a model of diffuse axonal injury in the mouse visual system to examine this mechanism."
+        },
+        {
+          "start": 29,
+          "end": 50,
+          "global_start": 893,
+          "global_end": 914,
+          "sentence": "Here, we employed a model of diffuse axonal injury in the mouse visual system to examine this mechanism."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "Detailed_description",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "entity": "diffuse"
+            }
+          ]
+        },
+        {
+          "label": "bio",
+          "vote_weight": 2.0,
+          "sources": [
+            {
+              "source_model": "mobashgr/NCBI-disease-WLT-256-SciBERT-13INS",
+              "weight": 2.0,
+              "entity": "diffuse axonal injury"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "axonal injury",
+      "label": "INJURY_TYPE",
+      "start": 901,
+      "end": 914,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "occurrences": [
+        {
+          "start": 37,
+          "end": 50,
+          "global_start": 901,
+          "global_end": 914,
+          "sentence": "Here, we employed a model of diffuse axonal injury in the mouse visual system to examine this mechanism."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "INJURY_TYPE",
+          "vote_weight": 3.9,
+          "sources": [
+            {
+              "source_model": "llm_ner",
+              "weight": 3.9,
+              "entity": "axonal injury"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "mouse visual system",
+      "label": "ANATOMY",
+      "start": 922,
+      "end": 941,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "occurrences": [
+        {
+          "start": 58,
+          "end": 77,
+          "global_start": 922,
+          "global_end": 941,
+          "sentence": "Here, we employed a model of diffuse axonal injury in the mouse visual system to examine this mechanism."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "ANATOMY",
+          "vote_weight": 3.9,
+          "sources": [
+            {
+              "source_model": "llm_ner",
+              "weight": 3.9,
+              "entity": "mouse visual system"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "retinal ganglion cell axons",
+      "label": "CELL_TYPE",
+      "start": 1005,
+      "end": 1032,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "occurrences": [
+        {
+          "start": 36,
+          "end": 63,
+          "global_start": 1005,
+          "global_end": 1032,
+          "sentence": "Our research demonstrates surviving retinal ganglion cell axons can re-establish terminal fields, achieving structural and functional connectivity."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "CELL_TYPE",
+          "vote_weight": 3.9,
+          "sources": [
+            {
+              "source_model": "llm_ner",
+              "weight": 3.9,
+              "entity": "retinal ganglion cell axons"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "sex differences",
+      "label": "PHENOMENON",
+      "start": 1156,
+      "end": 1171,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "occurrences": [
+        {
+          "start": 39,
+          "end": 54,
+          "global_start": 1156,
+          "global_end": 1171,
+          "sentence": "Importantly, we discovered significant sex differences: female mice showed delayedincomplete recovery compared to males."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "PHENOMENON",
+          "vote_weight": 3.9,
+          "sources": [
+            {
+              "source_model": "llm_ner",
+              "weight": 3.9,
+              "entity": "sex differences"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "female",
+      "label": "Detailed_description",
+      "start": 1173,
+      "end": 1184,
+      "weighted_score": 0.562,
+      "model_count": 2,
+      "occurrences": [
+        {
+          "start": 56,
+          "end": 62,
+          "global_start": 1173,
+          "global_end": 1179,
+          "sentence": "Importantly, we discovered significant sex differences: female mice showed delayedincomplete recovery compared to males."
+        },
+        {
+          "start": 56,
+          "end": 67,
+          "global_start": 1173,
+          "global_end": 1184,
+          "sentence": "Importantly, we discovered significant sex differences: female mice showed delayedincomplete recovery compared to males."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "Detailed_description",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "entity": "female"
+            }
+          ]
+        },
+        {
+          "label": "SPECIES",
+          "vote_weight": 3.9,
+          "sources": [
+            {
+              "source_model": "llm_ner",
+              "weight": 3.9,
+              "entity": "female mice"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "delayed",
+      "label": "Sign_symptom",
+      "start": 1192,
+      "end": 1199,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "occurrences": [
+        {
+          "start": 75,
+          "end": 82,
+          "global_start": 1192,
+          "global_end": 1199,
+          "sentence": "Importantly, we discovered significant sex differences: female mice showed delayedincomplete recovery compared to males."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "Sign_symptom",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "entity": "delayed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "recovery",
+      "label": "Sign_symptom",
+      "start": 1210,
+      "end": 1218,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "occurrences": [
+        {
+          "start": 93,
+          "end": 101,
+          "global_start": 1210,
+          "global_end": 1218,
+          "sentence": "Importantly, we discovered significant sex differences: female mice showed delayedincomplete recovery compared to males."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "Sign_symptom",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "entity": "recovery"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "males",
+      "label": "SPECIES",
+      "start": 1231,
+      "end": 1236,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "occurrences": [
+        {
+          "start": 114,
+          "end": 119,
+          "global_start": 1231,
+          "global_end": 1236,
+          "sentence": "Importantly, we discovered significant sex differences: female mice showed delayedincomplete recovery compared to males."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "SPECIES",
+          "vote_weight": 3.9,
+          "sources": [
+            {
+              "source_model": "llm_ner",
+              "weight": 3.9,
+              "entity": "males"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "brain",
+      "label": "Biological_structure",
+      "start": 1283,
+      "end": 1288,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "occurrences": [
+        {
+          "start": 45,
+          "end": 50,
+          "global_start": 1283,
+          "global_end": 1288,
+          "sentence": "These findings provide evidence of repair of brain circuits perturbed by TBI and the role of homotypic sprouting.']"
+        }
+      ],
+      "provenance": [
+        {
+          "label": "Biological_structure",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "entity": "brain"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "tb",
+      "label": "Disease_disorder",
+      "start": 1311,
+      "end": 1314,
+      "weighted_score": 0.505,
+      "model_count": 3,
+      "occurrences": [
+        {
+          "start": 73,
+          "end": 76,
+          "global_start": 1311,
+          "global_end": 1314,
+          "sentence": "These findings provide evidence of repair of brain circuits perturbed by TBI and the role of homotypic sprouting.']"
+        },
+        {
+          "start": 73,
+          "end": 75,
+          "global_start": 1311,
+          "global_end": 1313,
+          "sentence": "These findings provide evidence of repair of brain circuits perturbed by TBI and the role of homotypic sprouting.']"
+        }
+      ],
+      "provenance": [
+        {
+          "label": "Disease_disorder",
+          "vote_weight": 5.0,
+          "sources": [
+            {
+              "source_model": "d4data/biomedical-ner-all",
+              "weight": 5.0,
+              "entity": "tb"
+            }
+          ]
+        },
+        {
+          "label": "INJURY_TYPE",
+          "vote_weight": 3.9,
+          "sources": [
+            {
+              "source_model": "llm_ner",
+              "weight": 3.9,
+              "entity": "TBI"
+            }
+          ]
+        },
+        {
+          "label": "ORG",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "en_core_web_sm",
+              "weight": 1.0,
+              "entity": "TBI"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "key_terms": [],
+  "metadata": {
+    "total_chunks": 1,
+    "chunks_with_entities": 1,
+    "entities_before_merge": 45,
+    "entities_after_merge": 29,
+    "verification": {
+      "entities_present": 29,
+      "entities_dropped": 0,
+      "entities_dropped_detail": [],
+      "key_terms_present": 0,
+      "key_terms_dropped": 0,
+      "all_entities_present_in_text": true,
+      "all_key_terms_present_in_text": true
+    }
+  },
+  "verification": {
+    "entities_present": 29,
+    "entities_dropped": 0,
+    "entities_dropped_detail": [],
+    "key_terms_present": 0,
+    "key_terms_dropped": 0,
+    "all_entities_present_in_text": true,
+    "all_key_terms_present_in_text": true
+  },
+  "errors": [],
+  "task_type": "ner",
+  "elapsed_time": 70.79636192321777,
+  "agent_key": "extractor_agent",
+  "task_key": "extraction_task"
+}

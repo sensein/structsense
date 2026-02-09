@@ -1,0 +1,635 @@
+rm{
+  "entities": [
+    {
+      "entity": "Defense",
+      "label": "ORGANIZATION",
+      "start": 21,
+      "end": 28,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "occurrences": [
+        {
+          "start": 21,
+          "end": 28,
+          "global_start": 21,
+          "global_end": 28,
+          "sentence": "Untitled Section 1\n['Defense (TH94252310589) to DJZ and VEK."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "ORGANIZATION",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "extractor_agent",
+              "weight": 1.0,
+              "entity": "Defense"
+            }
+          ]
+        }
+      ],
+      "ontology_id": "http://www.projecthalo.com/aura#Defense",
+      "ontology_label": "Defense",
+      "ontology": "AURA",
+      "concept_mapping_provenance": "tool",
+      "judge_score": 1.0,
+      "remarks": "Entity correctly identified as an organization with full and unambiguous support from the text.",
+      "label_ontology_id": "http://purl.obolibrary.org/obo/OBI_0000245",
+      "label_ontology_label": "organization",
+      "label_ontology": "CCONT",
+      "label_concept_mapping_provenance": "tool"
+    },
+    {
+      "entity": "DJZ",
+      "label": "ORG",
+      "start": 48,
+      "end": 51,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "occurrences": [
+        {
+          "start": 48,
+          "end": 51,
+          "global_start": 48,
+          "global_end": 51,
+          "sentence": "Untitled Section 1\n['Defense (TH94252310589) to DJZ and VEK."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "ORG",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "extractor_agent",
+              "weight": 1.0,
+              "entity": "DJZ"
+            }
+          ]
+        }
+      ],
+      "ontology_id": null,
+      "ontology_label": null,
+      "ontology": null,
+      "concept_mapping_provenance": "tool",
+      "judge_score": 1.0,
+      "remarks": "Entity accurately identified, matching the context as an organization.",
+      "label_ontology_id": "http://phenomebrowser.net/ontologies/mesh/mesh.owl#C109272",
+      "label_ontology_label": "ORG 21465",
+      "label_ontology": "RH-MESH",
+      "label_concept_mapping_provenance": "tool"
+    },
+    {
+      "entity": "VEK",
+      "label": "ORG",
+      "start": 56,
+      "end": 59,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "occurrences": [
+        {
+          "start": 56,
+          "end": 59,
+          "global_start": 56,
+          "global_end": 59,
+          "sentence": "Untitled Section 1\n['Defense (TH94252310589) to DJZ and VEK."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "ORG",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "extractor_agent",
+              "weight": 1.0,
+              "entity": "VEK"
+            }
+          ]
+        }
+      ],
+      "ontology_id": null,
+      "ontology_label": null,
+      "ontology": null,
+      "concept_mapping_provenance": "tool",
+      "judge_score": 1.0,
+      "remarks": "Correctly identified as an organization within the provided context.",
+      "label_ontology_id": "http://phenomebrowser.net/ontologies/mesh/mesh.owl#C109272",
+      "label_ontology_label": "ORG 21465",
+      "label_ontology": "RH-MESH",
+      "label_concept_mapping_provenance": "tool"
+    },
+    {
+      "entity": "Leica",
+      "label": "PRODUCT",
+      "start": 98,
+      "end": 103,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "occurrences": [
+        {
+          "start": 37,
+          "end": 42,
+          "global_start": 98,
+          "global_end": 103,
+          "sentence": "Imaging was performed using the MICA Leica microscope in the Division of Neuropathology, supported by the Johns Hopkins Alzheimers Disease Research Center (ADRC; P30 AG066507), and support was also provided by P30 EY001765."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "PRODUCT",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "extractor_agent",
+              "weight": 1.0,
+              "entity": "Leica"
+            }
+          ]
+        }
+      ],
+      "ontology_id": "http://purl.obolibrary.org/obo/GAZ_00382380",
+      "ontology_label": "Leica",
+      "ontology": "GAZ",
+      "concept_mapping_provenance": "tool",
+      "judge_score": 1.0,
+      "remarks": "Identified correctly as a product, fitting well in the context of the usage described.",
+      "label_ontology_id": "http://www.projecthalo.com/aura#Product",
+      "label_ontology_label": "Product",
+      "label_ontology": "AURA",
+      "label_concept_mapping_provenance": "tool"
+    },
+    {
+      "entity": "the Division of Neuropathology",
+      "label": "ORG",
+      "start": 118,
+      "end": 148,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "occurrences": [
+        {
+          "start": 57,
+          "end": 87,
+          "global_start": 118,
+          "global_end": 148,
+          "sentence": "Imaging was performed using the MICA Leica microscope in the Division of Neuropathology, supported by the Johns Hopkins Alzheimers Disease Research Center (ADRC; P30 AG066507), and support was also provided by P30 EY001765."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "ORG",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "extractor_agent",
+              "weight": 1.0,
+              "entity": "the Division of Neuropathology"
+            }
+          ]
+        }
+      ],
+      "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#C0876934",
+      "ontology_label": "neuropathology",
+      "ontology": "OCHV",
+      "concept_mapping_provenance": "tool",
+      "judge_score": 1.0,
+      "remarks": "Accurately recognized as an organization; well-supported by context.",
+      "label_ontology_id": "http://phenomebrowser.net/ontologies/mesh/mesh.owl#C109272",
+      "label_ontology_label": "ORG 21465",
+      "label_ontology": "RH-MESH",
+      "label_concept_mapping_provenance": "tool"
+    },
+    {
+      "entity": "Johns Hopkins Alzheimers Disease Research Center",
+      "label": "ORG",
+      "start": 167,
+      "end": 215,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "occurrences": [
+        {
+          "start": 106,
+          "end": 154,
+          "global_start": 167,
+          "global_end": 215,
+          "sentence": "Imaging was performed using the MICA Leica microscope in the Division of Neuropathology, supported by the Johns Hopkins Alzheimers Disease Research Center (ADRC; P30 AG066507), and support was also provided by P30 EY001765."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "ORG",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "extractor_agent",
+              "weight": 1.0,
+              "entity": "Johns Hopkins Alzheimers Disease Research Center"
+            }
+          ]
+        }
+      ],
+      "ontology_id": "http://purl.obolibrary.org/obo/GAZ_00145328",
+      "ontology_label": "Johns Hopkins Glacier",
+      "ontology": "GAZ",
+      "concept_mapping_provenance": "tool",
+      "judge_score": 1.0,
+      "remarks": "Thoroughly identified; matches the provided context and organization type.",
+      "label_ontology_id": "http://phenomebrowser.net/ontologies/mesh/mesh.owl#C109272",
+      "label_ontology_label": "ORG 21465",
+      "label_ontology": "RH-MESH",
+      "label_concept_mapping_provenance": "tool"
+    },
+    {
+      "entity": "ADRC",
+      "label": "ORG",
+      "start": 217,
+      "end": 221,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "occurrences": [
+        {
+          "start": 156,
+          "end": 160,
+          "global_start": 217,
+          "global_end": 221,
+          "sentence": "Imaging was performed using the MICA Leica microscope in the Division of Neuropathology, supported by the Johns Hopkins Alzheimers Disease Research Center (ADRC; P30 AG066507), and support was also provided by P30 EY001765."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "ORG",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "extractor_agent",
+              "weight": 1.0,
+              "entity": "ADRC"
+            }
+          ]
+        }
+      ],
+      "ontology_id": "http://purl.bioontology.org/ontology/PDQ/CDR0000589135",
+      "ontology_label": "adipose-derived regenerative cells",
+      "ontology": "PDQ",
+      "concept_mapping_provenance": "tool",
+      "judge_score": 1.0,
+      "remarks": "Correctly interpreted as part of an organization; contextually accurate.",
+      "label_ontology_id": "http://phenomebrowser.net/ontologies/mesh/mesh.owl#C109272",
+      "label_ontology_label": "ORG 21465",
+      "label_ontology": "RH-MESH",
+      "label_concept_mapping_provenance": "tool"
+    },
+    {
+      "entity": "P30 AG066507",
+      "label": "GRANT",
+      "start": 223,
+      "end": 235,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "occurrences": [
+        {
+          "start": 162,
+          "end": 174,
+          "global_start": 223,
+          "global_end": 235,
+          "sentence": "Imaging was performed using the MICA Leica microscope in the Division of Neuropathology, supported by the Johns Hopkins Alzheimers Disease Research Center (ADRC; P30 AG066507), and support was also provided by P30 EY001765."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "GRANT",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "extractor_agent",
+              "weight": 1.0,
+              "entity": "P30 AG066507"
+            }
+          ]
+        }
+      ],
+      "ontology_id": "http://purl.bioontology.org/ontology/MESH/C106367",
+      "ontology_label": "cytochrome p30",
+      "ontology": "MESH",
+      "concept_mapping_provenance": "tool",
+      "judge_score": 1.0,
+      "remarks": "Accurately classified as a grant; sentence context supports the identification.",
+      "label_ontology_id": "https://w3id.org/linkml/valuesets/FundingType#GRANT",
+      "label_ontology_label": "GRANT",
+      "label_ontology": "VALUESETS",
+      "label_concept_mapping_provenance": "tool"
+    },
+    {
+      "entity": "P30 EY001765",
+      "label": "GRANT",
+      "start": 271,
+      "end": 283,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "occurrences": [
+        {
+          "start": 210,
+          "end": 222,
+          "global_start": 271,
+          "global_end": 283,
+          "sentence": "Imaging was performed using the MICA Leica microscope in the Division of Neuropathology, supported by the Johns Hopkins Alzheimers Disease Research Center (ADRC; P30 AG066507), and support was also provided by P30 EY001765."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "GRANT",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "extractor_agent",
+              "weight": 1.0,
+              "entity": "P30 EY001765"
+            }
+          ]
+        }
+      ],
+      "ontology_id": "http://purl.bioontology.org/ontology/MESH/C106367",
+      "ontology_label": "cytochrome p30",
+      "ontology": "MESH",
+      "concept_mapping_provenance": "tool",
+      "judge_score": 1.0,
+      "remarks": "Approved as a grant; aligns well with the surrounding text.",
+      "label_ontology_id": "https://w3id.org/linkml/valuesets/FundingType#GRANT",
+      "label_ontology_label": "GRANT",
+      "label_ontology": "VALUESETS",
+      "label_concept_mapping_provenance": "tool"
+    },
+    {
+      "entity": "homotypic collateral sprouting",
+      "label": "MECHANISM",
+      "start": 439,
+      "end": 469,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "occurrences": [
+        {
+          "start": 18,
+          "end": 48,
+          "global_start": 439,
+          "global_end": 469,
+          "sentence": "]\n\nSignificance\n['Homotypic collateral sprouting -the process by which uninjured axons from the same neuronal source extend new branches to reinnervate targets deprived of their original connections-is a fundamental yet understudied mechanism for CNS repair following injury."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "MECHANISM",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "extractor_agent",
+              "weight": 1.0,
+              "entity": "homotypic collateral sprouting"
+            }
+          ]
+        }
+      ],
+      "ontology_id": "http://purl.obolibrary.org/obo/GO_0048668",
+      "ontology_label": "collateral sprouting",
+      "ontology": "GO",
+      "concept_mapping_provenance": "tool",
+      "judge_score": 1.0,
+      "remarks": "Correctly identified as a mechanism; well defined in the context provided.",
+      "label_ontology_id": "http://www.semanticweb.org/cjf/ontologies/2022/8/NeuralReprogrammingOntology(NRO)#Mechanism",
+      "label_ontology_label": "Mechanism",
+      "label_ontology": "NRO",
+      "label_concept_mapping_provenance": "tool"
+    },
+    {
+      "entity": "CNS",
+      "label": "ORG",
+      "start": 668,
+      "end": 671,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "occurrences": [
+        {
+          "start": 247,
+          "end": 250,
+          "global_start": 668,
+          "global_end": 671,
+          "sentence": "]\n\nSignificance\n['Homotypic collateral sprouting -the process by which uninjured axons from the same neuronal source extend new branches to reinnervate targets deprived of their original connections-is a fundamental yet understudied mechanism for CNS repair following injury."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "ORG",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "extractor_agent",
+              "weight": 1.0,
+              "entity": "CNS"
+            }
+          ]
+        }
+      ],
+      "ontology_id": "http://purl.jp/bio/4/id/200906047768068685",
+      "ontology_label": "CNS",
+      "ontology": "IOBC",
+      "concept_mapping_provenance": "tool",
+      "judge_score": 1.0,
+      "remarks": "Effectively identified; context supports the meaning as an organization.",
+      "label_ontology_id": "http://phenomebrowser.net/ontologies/mesh/mesh.owl#C109272",
+      "label_ontology_label": "ORG 21465",
+      "label_ontology": "RH-MESH",
+      "label_concept_mapping_provenance": "tool"
+    },
+    {
+      "entity": "female mice",
+      "label": "ANIMAL",
+      "start": 1173,
+      "end": 1184,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "occurrences": [
+        {
+          "start": 56,
+          "end": 67,
+          "global_start": 1173,
+          "global_end": 1184,
+          "sentence": "Importantly, we discovered significant sex differences: female mice showed delayedincomplete recovery compared to males."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "ANIMAL",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "extractor_agent",
+              "weight": 1.0,
+              "entity": "female mice"
+            }
+          ]
+        }
+      ],
+      "ontology_id": "http://purl.obolibrary.org/obo/MP_0001356",
+      "ontology_label": "increased aggression towards female mice",
+      "ontology": "MP",
+      "concept_mapping_provenance": "tool",
+      "judge_score": 1.0,
+      "remarks": "Correctly identified within the context as a type of animal; supports biological research.",
+      "label_ontology_id": "http://www.limics.fr/ontologies/ontoDOME#Animal",
+      "label_ontology_label": "animal",
+      "label_ontology": "ONTONEPHRO",
+      "label_concept_mapping_provenance": "tool"
+    },
+    {
+      "entity": "males",
+      "label": "ANIMAL",
+      "start": 1231,
+      "end": 1236,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "occurrences": [
+        {
+          "start": 114,
+          "end": 119,
+          "global_start": 1231,
+          "global_end": 1236,
+          "sentence": "Importantly, we discovered significant sex differences: female mice showed delayedincomplete recovery compared to males."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "ANIMAL",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "extractor_agent",
+              "weight": 1.0,
+              "entity": "males"
+            }
+          ]
+        }
+      ],
+      "ontology_id": "http://www.semanticweb.org/sun/ontologies/AD-CDE#males",
+      "ontology_label": "males",
+      "ontology": "AD-CDO",
+      "concept_mapping_provenance": "tool",
+      "judge_score": 1.0,
+      "remarks": "Accurately identified as a type of animal; supports the context of discussion on sex differences.",
+      "label_ontology_id": "http://www.limics.fr/ontologies/ontoDOME#Animal",
+      "label_ontology_label": "animal",
+      "label_ontology": "ONTONEPHRO",
+      "label_concept_mapping_provenance": "tool"
+    },
+    {
+      "entity": "TBI",
+      "label": "ORG",
+      "start": 1311,
+      "end": 1314,
+      "weighted_score": 1.0,
+      "model_count": 1,
+      "occurrences": [
+        {
+          "start": 73,
+          "end": 76,
+          "global_start": 1311,
+          "global_end": 1314,
+          "sentence": "These findings provide evidence of repair of brain circuits perturbed by TBI and the role of homotypic sprouting."
+        }
+      ],
+      "provenance": [
+        {
+          "label": "ORG",
+          "vote_weight": 1.0,
+          "sources": [
+            {
+              "source_model": "extractor_agent",
+              "weight": 1.0,
+              "entity": "TBI"
+            }
+          ]
+        }
+      ],
+      "ontology_id": "http://data.doremus.org/vocabulary/iaml/mop/tbi",
+      "ontology_label": "biwa",
+      "ontology": "IAML-MOP",
+      "concept_mapping_provenance": "tool",
+      "judge_score": 1.0,
+      "remarks": "Correctly categorized as an organization; contextually appropriate regarding brain injury.",
+      "label_ontology_id": "http://phenomebrowser.net/ontologies/mesh/mesh.owl#C109272",
+      "label_ontology_label": "ORG 21465",
+      "label_ontology": "RH-MESH",
+      "label_concept_mapping_provenance": "tool"
+    }
+  ],
+  "key_terms": [
+    {
+      "term": "CNS repair",
+      "ontology_id": "http://scai.fraunhofer.de/MSOntology#CNS_repair",
+      "ontology_label": "CNS repair",
+      "ontology": "MSO",
+      "concept_mapping_provenance": "tool"
+    },
+    {
+      "term": "circuit architecture",
+      "ontology_id": "http://www.projecthalo.com/aura#Circuit",
+      "ontology_label": "Circuit",
+      "ontology": "AURA",
+      "concept_mapping_provenance": "tool"
+    },
+    {
+      "term": "functional connectivity",
+      "ontology_id": "http://doe-generated-ontology.com/OntoAD#AD000167",
+      "ontology_label": "functional connectivity",
+      "ontology": "ONTOAD",
+      "concept_mapping_provenance": "tool"
+    },
+    {
+      "term": "homotypic sprouting",
+      "ontology_id": "http://regenbase.org/ontology#RB_0000320",
+      "ontology_label": "sprouting",
+      "ontology": "RB",
+      "concept_mapping_provenance": "tool"
+    },
+    {
+      "term": "retinal ganglion cell axons",
+      "ontology_id": "http://purl.obolibrary.org/obo/TAO_0009310",
+      "ontology_label": "retinal ganglion cell",
+      "ontology": "TAO",
+      "concept_mapping_provenance": "tool"
+    },
+    {
+      "term": "sex differences",
+      "ontology_id": "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C127168",
+      "ontology_label": "Sex Chromosome Differences of Sex Development",
+      "ontology": "NCIT",
+      "concept_mapping_provenance": "tool"
+    }
+  ],
+  "metadata": {
+    "total_chunks": 1,
+    "chunks_with_entities": 1,
+    "entities_before_merge": 14,
+    "entities_after_merge": 14,
+    "verification": {
+      "entities_present": 14,
+      "entities_dropped": 0,
+      "entities_dropped_detail": [],
+      "key_terms_present": 6,
+      "key_terms_dropped": 0,
+      "all_entities_present_in_text": true,
+      "all_key_terms_present_in_text": true
+    }
+  },
+  "verification": {
+    "entities_present": 14,
+    "entities_dropped": 0,
+    "entities_dropped_detail": [],
+    "key_terms_present": 6,
+    "key_terms_dropped": 0,
+    "all_entities_present_in_text": true,
+    "all_key_terms_present_in_text": true
+  },
+  "errors": [],
+  "task_type": "ner",
+  "elapsed_time": 180.2890281677246
+}
