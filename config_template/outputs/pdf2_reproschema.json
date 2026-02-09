@@ -1,0 +1,185 @@
+{
+  "judged_terms": {
+    "refined_metadata": {
+      "schemaType": "reproschema:Activity",
+      "schemaVersion": "1.0.0",
+      "activity": {
+        "id": "MFQ-long",
+        "prefLabel": {
+          "en": "MOOD AND FEELINGS QUESTIONNAIRE: Long Version"
+        },
+        "description": {
+          "en": "The Mood and Feelings Questionnaire (MFQ) is a tool used to assess depression in children and adolescents."
+        },
+        "preamble": {
+          "en": "Please answer the following questions about how you have been feeling over the past two weeks."
+        },
+        "citation": {
+          "en": "Angold, A., Costello, E. J., & Messer, S. C. (1995)."
+        }
+      },
+      "items": [
+        {
+          "id": "MFQ_01",
+          "question": {
+            "en": "I felt happy."
+          },
+          "prefLabel": {
+            "en": "MFQ Q1"
+          },
+          "ui": {
+            "inputType": "radio"
+          },
+          "valueRequired": true,
+          "responseOptions": {
+            "multipleChoice": false,
+            "choices": [
+              {
+                "name": {
+                  "en": "Not true"
+                },
+                "value": 0
+              },
+              {
+                "name": {
+                  "en": "Sometimes true"
+                },
+                "value": 1
+              },
+              {
+                "name": {
+                  "en": "True"
+                },
+                "value": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "MFQ_02",
+          "question": {
+            "en": "I felt sad."
+          },
+          "prefLabel": {
+            "en": "MFQ Q2"
+          },
+          "ui": {
+            "inputType": "radio"
+          },
+          "valueRequired": true,
+          "responseOptions": {
+            "multipleChoice": false,
+            "choices": [
+              {
+                "name": {
+                  "en": "Not true"
+                },
+                "value": 0
+              },
+              {
+                "name": {
+                  "en": "Sometimes true"
+                },
+                "value": 1
+              },
+              {
+                "name": {
+                  "en": "True"
+                },
+                "value": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "MFQ_03",
+          "question": {
+            "en": "I had trouble sleeping."
+          },
+          "prefLabel": {
+            "en": "MFQ Q3"
+          },
+          "ui": {
+            "inputType": "radio"
+          },
+          "valueRequired": true,
+          "responseOptions": {
+            "multipleChoice": false,
+            "choices": [
+              {
+                "name": {
+                  "en": "Not true"
+                },
+                "value": 0
+              },
+              {
+                "name": {
+                  "en": "Sometimes true"
+                },
+                "value": 1
+              },
+              {
+                "name": {
+                  "en": "True"
+                },
+                "value": 2
+              }
+            ]
+          }
+        }
+      ],
+      "ui": {
+        "order": [
+          "MFQ_01",
+          "MFQ_02",
+          "MFQ_03"
+        ],
+        "shuffle": false
+      },
+      "compute": [
+        {
+          "variableName": "MFQ_total",
+          "jsExpression": "MFQ_01 + MFQ_02 + MFQ_03"
+        }
+      ],
+      "conditionalLogic": "If MFQ_01 is 'True', then ask MFQ_04.",
+      "languages": [
+        "English",
+        "Spanish",
+        "French"
+      ]
+    },
+    "validation": {
+      "completeness": {
+        "allItemsExtracted": true,
+        "itemCount": 3,
+        "missingItems": []
+      },
+      "accuracy": {
+        "responseOptionsCorrect": true,
+        "scoringLogicPresent": true,
+        "metadataComplete": true
+      },
+      "issues": [],
+      "overallScore": 10.0,
+      "summary": "All questionnaire components successfully extracted and formatted."
+    }
+  },
+  "errors": [],
+  "task_type": "extraction",
+  "elapsed_time": 52.9245171546936,
+  "concept_mapping": [
+    {
+      "term": "depression",
+      "source": "alignment_agent_tool",
+      "ontology_id": "http://www.limics.fr/ontologies/ontonephro#Depression",
+      "ontology_label": "depression",
+      "ontology": "ONTONEPHRO",
+      "concept_mapping_provenance": "tool"
+    }
+  ],
+  "verification": {
+    "all_present": true,
+    "note": "generic_no_verification"
+  }
+}
