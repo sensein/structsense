@@ -1,0 +1,190 @@
+{
+  "judged_terms": {
+    "refined_metadata": {
+      "schemaType": "reproschema:Activity",
+      "schemaVersion": "1.0.0",
+      "activity": {
+        "id": "generic_activity",
+        "prefLabel": {
+          "en": "Generic Activity"
+        },
+        "description": {
+          "en": "This is a generic activity with no specific details."
+        },
+        "preamble": {
+          "en": "Instructions for the activity."
+        },
+        "citation": {
+          "en": "Not applicable"
+        }
+      },
+      "items": [],
+      "ui": {
+        "order": [],
+        "shuffle": false
+      },
+      "compute": [],
+      "issues": [
+        {
+          "type": "Missing Items",
+          "description": "No questions or response options were extracted."
+        },
+        {
+          "type": "Missing Scoring Logic",
+          "description": "There is no scoring logic or computed scores present."
+        }
+      ]
+    }
+  },
+  "validation": {
+    "completeness": {
+      "allItemsExtracted": false,
+      "itemCount": 0,
+      "missingItems": [
+        "No items present in the extraction"
+      ]
+    },
+    "accuracy": {
+      "responseOptionsCorrect": false,
+      "scoringLogicPresent": false,
+      "metadataComplete": true
+    },
+    "issues": [
+      {
+        "type": "Missing Items",
+        "description": "No questions or response options were extracted."
+      },
+      {
+        "type": "Missing Scoring Logic",
+        "description": "There is no scoring logic or computed scores present."
+      }
+    ],
+    "overallScore": 2.0,
+    "summary": "The extraction is incomplete as no questionnaire components were extracted."
+  },
+  "changes_applied": [
+    "Reviewed and reaffirmed the completeness and accuracy criteria.",
+    "Clarified that no response options or items were extracted, maintaining transparency about missing elements."
+  ],
+  "errors": [],
+  "task_type": "extraction",
+  "elapsed_time": 42.882696866989136,
+  "verification": {
+    "all_present": true,
+    "note": "generic_no_verification"
+  },
+  "concept_mapping": [
+    {
+      "term": "reproschema:Activity",
+      "source": "judged_terms.refined_metadata.schemaType",
+      "ontology_id": null,
+      "ontology_label": null,
+      "ontology": null,
+      "concept_mapping_provenance": "tool"
+    },
+    {
+      "term": "generic_activity",
+      "source": "judged_terms.refined_metadata.activity.id",
+      "ontology_id": null,
+      "ontology_label": null,
+      "ontology": null,
+      "concept_mapping_provenance": "tool"
+    },
+    {
+      "term": "Generic Activity",
+      "source": "judged_terms.refined_metadata.activity.prefLabel.en",
+      "ontology_id": "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C151960",
+      "ontology_label": "Generic",
+      "ontology": "NCIT",
+      "concept_mapping_provenance": "tool"
+    },
+    {
+      "term": "This is a generic activity with no specific details.",
+      "source": "judged_terms.refined_metadata.activity.description.en",
+      "ontology_id": "http://purl.bioontology.org/ontology/LNC/LP133458-2",
+      "ontology_label": "This is a close-knit neighborhood",
+      "ontology": "LOINC",
+      "concept_mapping_provenance": "tool"
+    },
+    {
+      "term": "Instructions for the activity.",
+      "source": "judged_terms.refined_metadata.activity.preamble.en",
+      "ontology_id": "https://rsna.org/roadmap/ROADMAP_03601",
+      "ontology_label": "instructions for use",
+      "ontology": "ROADMAP",
+      "concept_mapping_provenance": "tool"
+    },
+    {
+      "term": "Not applicable",
+      "source": "judged_terms.refined_metadata.activity.citation.en",
+      "ontology_id": "http://ontology.lst.tfo.upm.es/BD2D/patho#Extracapsular_Spread@@5",
+      "ontology_label": "Not applicable",
+      "ontology": "HENECON",
+      "concept_mapping_provenance": "tool"
+    },
+    {
+      "term": "Missing Items",
+      "source": "judged_terms.refined_metadata.issues[0].type",
+      "ontology_id": "http://hl7.org/fhir/Items",
+      "ontology_label": "Items",
+      "ontology": "HERO",
+      "concept_mapping_provenance": "tool"
+    },
+    {
+      "term": "No questions or response options were extracted.",
+      "source": "judged_terms.refined_metadata.issues[0].description",
+      "ontology_id": "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C25374",
+      "ontology_label": "Options",
+      "ontology": "NCIT",
+      "concept_mapping_provenance": "tool"
+    },
+    {
+      "term": "Missing Scoring Logic",
+      "source": "judged_terms.refined_metadata.issues[1].type",
+      "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#7528",
+      "ontology_label": "logic",
+      "ontology": "OCHV",
+      "concept_mapping_provenance": "tool"
+    },
+    {
+      "term": "There is no scoring logic or computed scores present.",
+      "source": "judged_terms.refined_metadata.issues[1].description",
+      "ontology_id": "http://purl.bioontology.org/ontology/LNC/LA16229-9",
+      "ontology_label": "There is no pubic hair.",
+      "ontology": "LOINC",
+      "concept_mapping_provenance": "tool"
+    },
+    {
+      "term": "No items present in the extraction",
+      "source": "validation.completeness.missingItems[0]",
+      "ontology_id": "http://purl.bioontology.org/ontology/SNOMEDCT/396796000",
+      "ontology_label": "No tumor present in specimen",
+      "ontology": "SNOMEDCT",
+      "concept_mapping_provenance": "tool"
+    },
+    {
+      "term": "The extraction is incomplete as no questionnaire components were extracted.",
+      "source": "validation.summary",
+      "ontology_id": "http://purl.obolibrary.org/obo/MVC_0000491",
+      "ontology_label": "extracted",
+      "ontology": "MIXSCV",
+      "concept_mapping_provenance": "tool"
+    },
+    {
+      "term": "Reviewed and reaffirmed the completeness and accuracy criteria.",
+      "source": "changes_applied[0]",
+      "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#C0439812",
+      "ontology_label": "completeness",
+      "ontology": "OCHV",
+      "concept_mapping_provenance": "tool"
+    },
+    {
+      "term": "Clarified that no response options or items were extracted, maintaining transparency about missing elements.",
+      "source": "changes_applied[1]",
+      "ontology_id": "http://purl.bioontology.org/ontology/SNOMEDCT/223487003",
+      "ontology_label": "Discussion about options",
+      "ontology": "SNOMEDCT",
+      "concept_mapping_provenance": "tool"
+    }
+  ]
+}

@@ -1,0 +1,364 @@
+{
+  "errors": [],
+  "task_type": "resource",
+  "elapsed_time": 198.33159399032593,
+  "resources": [
+    {
+      "resource_name": "ViTPose",
+      "description": "A simple transformer baseline model for pose estimation that achieves state-of-the-art performance using vision transformers as backbones, simplifying the encoder and decoder structures while maintaining scalability and flexibility.",
+      "type": "Model",
+      "category": "Pose Estimation",
+      "target": "Human",
+      "specific_target": "Keypoint Detection",
+      "mapped_target_concept": [
+        {
+          "id": "http://www.co-ode.org/ontologies/galen#Human",
+          "label": "Human",
+          "ontology": "GALEN",
+          "concept_mapping_provenance": "llm_knowledge"
+        }
+      ],
+      "mapped_specific_target_concept": [
+        {
+          "specific_target": "Keypoint Detection",
+          "mapped_target_concept": {
+            "label": "Keypoint detection",
+            "id": "https://identifiers.org/ito:ITO_00783",
+            "ontology": "ITO",
+            "concept_mapping_provenance": "llm_knowledge"
+          }
+        },
+        {
+          "specific_target": "Keypoint Estimation",
+          "mapped_target_concept": {
+            "label": "Keypoint detection",
+            "id": "https://identifiers.org/ito:ITO_00783",
+            "ontology": "ITO",
+            "concept_mapping_provenance": "llm_knowledge"
+          }
+        },
+        {
+          "specific_target": "17 Keypoints for MS COCO",
+          "mapped_target_concept": {
+            "label": "17-Hydroxyprogesterone:MCnc:Pt:Bld.dot:Qn:LC/MS/MS",
+            "id": "http://purl.bioontology.org/ontology/LNC/92726-9",
+            "ontology": "LOINC",
+            "concept_mapping_provenance": "llm_knowledge"
+          }
+        },
+        {
+          "specific_target": "Occluded Individuals",
+          "mapped_target_concept": {
+            "label": "Occluded",
+            "id": "http://purl.bioontology.org/ontology/SNOMEDCT/263823007",
+            "ontology": "SNOMEDCT",
+            "concept_mapping_provenance": "llm_knowledge"
+          }
+        },
+        {
+          "specific_target": "Pose Estimation",
+          "mapped_target_concept": {
+            "label": "Pose estimation",
+            "id": "https://identifiers.org/ito:ITO_00781",
+            "ontology": "ITO",
+            "concept_mapping_provenance": "llm_knowledge"
+          }
+        },
+        {
+          "specific_target": "Keypoints",
+          "mapped_target_concept": {
+            "label": "Pose estimation",
+            "id": "https://identifiers.org/ito:ITO_00781",
+            "ontology": "ITO",
+            "concept_mapping_provenance": "llm_knowledge"
+          }
+        },
+        {
+          "specific_target": "Pose Estimation across varying resolutions",
+          "mapped_target_concept": {
+            "label": "Pose estimation",
+            "id": "https://identifiers.org/ito:ITO_00781",
+            "ontology": "ITO",
+            "concept_mapping_provenance": "llm_knowledge"
+          }
+        },
+        {
+          "specific_target": "Pose Estimation from Images",
+          "mapped_target_concept": {
+            "label": "Pose estimation",
+            "id": "https://identifiers.org/ito:ITO_00781",
+            "ontology": "ITO",
+            "concept_mapping_provenance": "llm_knowledge"
+          }
+        }
+      ],
+      "key_features": [],
+      "performance": "",
+      "url": "null",
+      "model_architecture": "",
+      "mentions": {
+        "datasets": [
+          "MS COCO Keypoint",
+          "MS COCO Keypoint test-dev",
+          "ImageNet-1K",
+          "Smaller unlabelled pose datasets",
+          "MS COCO",
+          "ImageNet",
+          "AI Challenger",
+          "Multiple Pose Estimation Datasets",
+          "MS COCO Keypoint val set",
+          "ImageNet-1k",
+          "MPII",
+          "CrowdPose"
+        ],
+        "related_models": [
+          "PRTR",
+          "TokenPose",
+          "TransPose",
+          "HRFormer",
+          "Vision Transformers",
+          "Vision Transformer",
+          "Transformers",
+          "Knowledge Distillation Methods",
+          "Student-Teacher Networks",
+          "SimpleBaseline",
+          "ViTPose-B",
+          "ViTPose-L",
+          "ViTPose-H",
+          "ViTPose-G",
+          "ViTPose"
+        ],
+        "related_papers": [
+          "Masked Image Modeling",
+          "The simplicity of ViTPose",
+          "MAE",
+          "Attention Mechanism for Vision Transformers",
+          "Transferability of ViTPose",
+          "HRNet",
+          "HRFormer"
+        ],
+        "benchmarks": [
+          "keypoint estimation benchmarks",
+          "AP"
+        ]
+      },
+      "name": "ViTPose",
+      "provenance": {
+        "alignment_agent": [
+          "mapped_target_concept",
+          "mapped_specific_target_concept"
+        ],
+        "judge_agent": [
+          "judge_score"
+        ]
+      },
+      "judge_score": 0.95
+    },
+    {
+      "resource_name": "ViTPose Scalable Model",
+      "description": "A scalable model for keypoint estimation that utilizes a vision transformer backbone, allowing the adjustment of model size by changing the number of transformer layers and feature dimensions.",
+      "type": "Model",
+      "category": "Pose Estimation",
+      "target": "Human",
+      "specific_target": "Keypoint Estimation",
+      "mapped_target_concept": [
+        {
+          "id": "http://www.co-ode.org/ontologies/galen#Human",
+          "label": "Human",
+          "ontology": "GALEN",
+          "concept_mapping_provenance": "llm_knowledge"
+        }
+      ],
+      "mapped_specific_target_concept": [
+        {
+          "specific_target": "Keypoint Estimation",
+          "mapped_target_concept": {
+            "label": "Keypoint detection",
+            "id": "https://identifiers.org/ito:ITO_00755",
+            "ontology": "ITO",
+            "concept_mapping_provenance": "llm_knowledge"
+          }
+        },
+        {
+          "specific_target": "17 Keypoints for MS COCO",
+          "mapped_target_concept": {
+            "label": "17-Hydroxyprogesterone:MCnc:Pt:Bld.dot:Qn:LC/MS/MS",
+            "id": "http://purl.bioontology.org/ontology/LNC/92726-9",
+            "ontology": "LOINC",
+            "concept_mapping_provenance": "llm_knowledge"
+          }
+        }
+      ],
+      "key_features": [],
+      "performance": "",
+      "url": "null",
+      "model_architecture": "",
+      "mentions": {
+        "datasets": [
+          "MS COCO Keypoint",
+          "MS COCO Keypoint test-dev",
+          "ImageNet-1K",
+          "Smaller unlabelled pose datasets",
+          "MS COCO",
+          "ImageNet",
+          "AI Challenger",
+          "Multiple Pose Estimation Datasets",
+          "MS COCO Keypoint val set",
+          "ImageNet-1k",
+          "MPII",
+          "CrowdPose"
+        ],
+        "related_models": [
+          "PRTR",
+          "TokenPose",
+          "TransPose",
+          "HRFormer",
+          "Vision Transformers",
+          "Vision Transformer",
+          "Transformers",
+          "Knowledge Distillation Methods",
+          "Student-Teacher Networks",
+          "SimpleBaseline",
+          "ViTPose-B",
+          "ViTPose-L",
+          "ViTPose-H",
+          "ViTPose-G",
+          "ViTPose"
+        ],
+        "related_papers": [
+          "Masked Image Modeling",
+          "The simplicity of ViTPose",
+          "MAE",
+          "Attention Mechanism for Vision Transformers",
+          "Transferability of ViTPose",
+          "HRNet",
+          "HRFormer"
+        ],
+        "benchmarks": [
+          "keypoint estimation benchmarks",
+          "AP"
+        ]
+      },
+      "name": "ViTPose Scalable Model",
+      "provenance": {
+        "alignment_agent": [
+          "mapped_target_concept",
+          "mapped_specific_target_concept"
+        ],
+        "judge_agent": [
+          "judge_score"
+        ]
+      },
+      "judge_score": 0.9
+    },
+    {
+      "resource_name": "ViTPose Model",
+      "description": "A scalable model for keypoint estimation that utilizes a vision transformer backbone, allowing the adjustment of model size by changing the number of transformer layers and feature dimensions.",
+      "type": "Model",
+      "category": "Pose Estimation",
+      "target": "Human",
+      "specific_target": "Keypoint Detection",
+      "mapped_target_concept": [
+        {
+          "id": "http://www.co-ode.org/ontologies/galen#Human",
+          "label": "Human",
+          "ontology": "GALEN",
+          "concept_mapping_provenance": "llm_knowledge"
+        }
+      ],
+      "mapped_specific_target_concept": [
+        {
+          "specific_target": "Keypoint Detection",
+          "mapped_target_concept": {
+            "label": "Keypoint detection",
+            "id": "https://identifiers.org/ito:ITO_00783",
+            "ontology": "ITO",
+            "concept_mapping_provenance": "llm_knowledge"
+          }
+        },
+        {
+          "specific_target": "Keypoints",
+          "mapped_target_concept": {
+            "label": "Keypoint detection",
+            "id": "https://identifiers.org/ito:ITO_00783",
+            "ontology": "ITO",
+            "concept_mapping_provenance": "llm_knowledge"
+          }
+        },
+        {
+          "specific_target": "17 Keypoints for MS COCO",
+          "mapped_target_concept": {
+            "label": "17-Hydroxyprogesterone:MCnc:Pt:Bld.dot:Qn:LC/MS/MS",
+            "id": "http://purl.bioontology.org/ontology/LNC/92726-9",
+            "ontology": "LOINC",
+            "concept_mapping_provenance": "llm_knowledge"
+          }
+        }
+      ],
+      "key_features": [],
+      "performance": "",
+      "url": "null",
+      "model_architecture": "",
+      "mentions": {},
+      "name": "ViTPose Model",
+      "provenance": {
+        "alignment_agent": [
+          "mapped_target_concept",
+          "mapped_specific_target_concept"
+        ],
+        "judge_agent": [
+          "judge_score"
+        ]
+      },
+      "judge_score": 0.92
+    },
+    {
+      "resource_name": "OCHuman Dataset",
+      "description": "A dataset designed for the evaluation of pose estimation models, specifically focusing on the challenges presented by occlusions in human pose estimation.",
+      "type": "Dataset",
+      "category": "Pose Estimation",
+      "target": "Human",
+      "specific_target": "Occluded Individuals",
+      "mapped_target_concept": [
+        {
+          "id": "http://www.co-ode.org/ontologies/galen#Human",
+          "label": "Human",
+          "ontology": "GALEN",
+          "concept_mapping_provenance": "llm_knowledge"
+        }
+      ],
+      "mapped_specific_target_concept": [
+        {
+          "specific_target": "Occluded Individuals",
+          "mapped_target_concept": {
+            "label": "Occluded",
+            "id": "http://purl.bioontology.org/ontology/SNOMEDCT/263823007",
+            "ontology": "SNOMEDCT",
+            "concept_mapping_provenance": "llm_knowledge"
+          }
+        }
+      ],
+      "key_features": [],
+      "performance": "",
+      "url": "null",
+      "model_architecture": "",
+      "mentions": {},
+      "name": "OCHuman Dataset",
+      "provenance": {
+        "alignment_agent": [
+          "mapped_target_concept",
+          "mapped_specific_target_concept"
+        ],
+        "judge_agent": [
+          "judge_score"
+        ]
+      },
+      "judge_score": 0.8
+    }
+  ],
+  "verification": {
+    "resources_checked": 0,
+    "resources_with_text_grounding": 0,
+    "all_present": true
+  }
+}
