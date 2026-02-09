@@ -18,6 +18,7 @@ example/.structsense_env
 # Distribution / packaging
 .Python
 src/tests
+internal_docs/
 build/
 develop-eggs/
 dist/
