@@ -1108,8 +1108,8 @@ def replace_api_key(config: dict, api_key: str) -> dict:
     if isinstance(config, dict):
         for key, value in config.items():
             if key == "llm" and isinstance(value, dict):
-                if "api_key" in value:
-                    value["api_key"] = api_key
+                # Always set api_key so LLM gets it (config may not have had the key)
+                value["api_key"] = api_key
             elif isinstance(value, (dict, list)):
                 config[key] = replace_api_key(value, api_key)
     elif isinstance(config, list):
