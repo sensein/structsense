@@ -1,7 +1,10 @@
 # What's Changed?
+This document highlights the major changes made to the `StructSense`.
+## New Changes
 
 ---
-### 1. Include Specialized tools, such as `NER tool`
+### 1. Implemented a new specialized `NER tool` for Named Entity Recognition to improve accuracy.
+The current version implements the following specialized tool (see figure) for NER task using both LLM based approach and domain specific models.
 ![](docs/design_docs/ner_tool.png)
 ### 2. Implements the specialized concept mapping tool, `Concept Mapping tool`, avoiding the need for manually maintaining the ontology database.
 - The concept mapping tool implements features such as throttling (see default values below), i.e., minimum seconds between BioPortal requests (throttle; lower = faster, higher 429 risk). This done to take into account the rate limit of the bioportal.
@@ -16,7 +19,19 @@
     | `CONCEPT_MAPPING_MAX_TERMS` | `postprocessing.py` | — | Optional cap on how many unique terms are mapped in batch (rest get null). |
     
 - To avoid the continuous API call, it implements the inmemory caching (to be replaced with new caching mechanism), i.e., `_CONCEPT_MAPPING_CACHE` (dict). The cache size is default `2000` set with `CONCEPT_MAPPING_CACHE_SIZE`. The FIFO-style cache eviction is applied, i.e., when the cache is full, one oldest entry is removed before inserting a new one. The lookup is done using `_map_single_concept()` before making an API call.
-### Implements automatic task detection
+### 3. Implements automatic task detection
+This version of **`StructSense`** introduces automatic task detection to support accurate task-to-tool mapping, enabling agents to invoke the most relevant tools for a given task.
+
+The implementation combines an **LLM-based classifier** with a **heuristic fallback (e.g., see table below)** that relies on keyword matching from the task description, ensuring robustness when the LLM signal is weak or unavailable.
+| Condition (keywords in description) | Returned task type |
+|-------------------------------------|--------------------|
+| `"ner"` or `"named entity"` or `"entity"` | `ner` |
+| `"resource"` and (`"extract"` or `"dataset"` or `"tool"` or `"model"`) | `resource` |
+| `"structured extraction"` or `"structured_extraction"` | `structured_extraction` |
+| Otherwise | `extraction` |
+
+Task detection is executed **once per stage** at the point where tools and post-processing are selected (e.g., `kickoff`, `information_extraction_task`).  
+In the full pipeline, the **first stage’s task type** determines the post-processing key and the default result shape. While each stage may theoretically define its own task type, the initial stage serves as the canonical reference for downstream processing.
 
 ---
 ## Legacy
