@@ -1,8 +1,20 @@
 # What's Changed?
 
 ---
-### 1. Include Specialized tools, such as `NER tool` and `Concept Mapping tool`.
-
+### 1. Include Specialized tools, such as `NER tool`
+### Implements the specialized concept mapping tool, `Concept Mapping tool`, avoiding the need for manually maintaining the ontology database.
+- The concept mapping tool implements features such as throttling (see default values below), i.e., minimum seconds between BioPortal requests (throttle; lower = faster, higher 429 risk). This done to take into account the rate limit of the bioportal.
+    
+    | Variable | Where used | Default | Description |
+    |----------|------------|---------|-------------|
+    | `BIOPORTAL_API_KEY` | `conceptmappingtool.py` | — | **Required** for ConceptMappingTool. Used in Authorization header. |
+    | `BIOPORTAL_REQUEST_INTERVAL` | `conceptmappingtool.py` | `0.7` | Min seconds between BioPortal requests (throttle; lower = faster, higher 429 risk). |
+    | `BIOPORTAL_BACKOFF_AFTER_429` | `conceptmappingtool.py` | `2.0` | Backoff seconds after 429. |
+    | `MAX_CONCEPT_MAPPING_RESULTS` | `conceptmappingtool.py` | `1` | Top-N results per concept (1–50). |
+    | `CONCEPT_MAPPING_CACHE_SIZE` | `conceptmappingtool.py` | `2000` | Max in-memory cache entries for concept mapping. |
+    | `CONCEPT_MAPPING_MAX_TERMS` | `postprocessing.py` | — | Optional cap on how many unique terms are mapped in batch (rest get null). |
+    
+- To avoid the continuous API call, it implements the inmemory caching (to be replaced with new caching mechanism), i.e., `_CONCEPT_MAPPING_CACHE` (dict). The cache size is default `2000` set with `CONCEPT_MAPPING_CACHE_SIZE`. The FIFO-style cache eviction is applied, i.e., when the cache is full, one oldest entry is removed before inserting a new one. The lookup is done using `_map_single_concept()` before making an API call.
 ---
 ### 2. No longer using Weaviate vector database
 We are no longer using the Weaviate vector database; therefore, the following keys are not required at this time. The utility code and corresponding environment variables remain in the codebase due to planned future use.
