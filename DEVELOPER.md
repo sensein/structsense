@@ -90,3 +90,45 @@ Tools are attached **per stage (agent) and per task type**. The flow is:
             return _TOOL_REGISTRY.get(name)
     ```
 - For tools supporting new task types, update the taxonomy to include the corresponding task definition.
+
+###  Task types & post-processing Information
+
+The pipeline detects **task type** from the extractor task description (LLM or heuristic) and applies matching post-processors and mergers:
+
+| Task type                | Post-processor   | Merge behavior |
+|--------------------------|------------------|----------------|
+| **ner**                  | NER              | Weighted voting; entities with `occurrences`, `provenance`, `weighted_score` |
+| **resource** / **structured_extraction** | Resource | All resources merged into **one** aggregated resource with **list-valued** fields (`resource_name`, `description`, `type`, etc. as lists; `mentions` merged and deduped) |
+| **extraction** (generic) | Pass-through     | Concatenate list values per key |
+
+- **NER output schema** (per entity): `text`, `label`, `start`, `end`, `weighted_score`, `model_count`, `occurrences` (list of `{start, end, global_start, global_end, sentence}`), `provenance` (labels and source models with weights).
+- **Resource output**: Single aggregated resource with list fields (e.g. `resource_name`: list of names, `mentions.datasets` / `mentions.related_models` / `mentions.related_papers` merged across all extracted resources).
+
+**Final output shape (all tasks):** The pipeline returns only **task-specific** keys (no intermediate agent containers). NER: `entities`, `key_terms`, `verification`, `errors`, `task_type`, `elapsed_time`. Resource: `resources`, `verification`, `errors`, `task_type`, `elapsed_time`. Provenance is added by default for all stages (extractor, alignment, judge, human feedback).
+
+---
+
+### Tools Information
+
+Tools are resolved **per stage (agent) and task type** so different agents and tasks can use different tools.
+
+- **Stage (agent)**  
+  Only the **extractor** stage receives tools by default; **alignment**, **judge**, and **human_feedback** use no tools (LLM-only).
+
+- **Generic tools**  
+  An agent can have **generic** tools that apply to **all** task types (e.g. a shared search or lookup). Configured in `GENERIC_TOOLS_BY_STAGE` in `src/utils/task_tools.py`.
+
+- **Task-specific tools**  
+  Task types (e.g. `ner`, `keyphrase_extraction`) get additional tools (e.g. `extract_ner_terms`). Configured in `TOOLS_BY_TASK_TYPE` (in `task_detection`) for the extractor and in `TOOLS_BY_STAGE_AND_TASK` for other agents.
+
+**Current mapping:**
+
+| Stage             | Task types with tools     | Tools              |
+|-------------------|---------------------------|--------------------|
+| extractor_agent   | ner, keyphrase_extraction | extract_ner_terms   |
+| extractor_agent   | extraction, resource, …   | (none)             |
+| alignment_agent   | (all)                     | (none)             |
+| judge_agent       | (all)                     | (none)             |
+| human_feedback    | (all)                     | (none)             |
+
+To add tools: extend `TOOLS_BY_TASK_TYPE` (extractor) or `TOOLS_BY_STAGE_AND_TASK` (any agent), and/or add generic tools in `GENERIC_TOOLS_BY_STAGE`; register new tool names in `_resolve_tool` in `src/utils/task_tools.py`.
