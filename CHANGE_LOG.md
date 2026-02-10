@@ -30,8 +30,48 @@ The implementation combines an **LLM-based classifier** with a **heuristic fallb
 | `"structured extraction"` or `"structured_extraction"` | `structured_extraction` |
 | Otherwise | `extraction` |
 
-Task detection is executed **once per stage** at the point where tools and post-processing are selected (e.g., `kickoff`, `information_extraction_task`).  
+Task detection is executed **once per stage** at the point where tools and post-processing are selected (e.g., `information_extraction_task`).  
 In the full pipeline, the **first stage’s task type** determines the post-processing key and the default result shape. While each stage may theoretically define its own task type, the initial stage serves as the canonical reference for downstream processing.
+
+### 4. Fixed chunking behavior
+The current implementation resolves previous issues with **chunking**. In earlier versions, chunking did not function correctly, which caused extraction and downstream processing to behave unexpectedly when handling chunked inputs.
+
+### 5. Task-dependent post-processing
+
+This version introduces task-specific post-processing logic, such as merging results across multiple chunks  and globalizing chunk-level outputs into a unified result.
+These enhancements, e.g., `ner_post_process` `merge_ner_results` for NER are implemented in `postprocessing.py`.
+
+### 6. Agent context manager
+This version of **StructSense** also introduces a **context manager** to support tasks such as **token compression**, enabling more controlled and efficient handling of contextual information during processing.
+
+- **File:** `src/utils/context_window_manager.py`
+Handles token budgeting and compression for downstream agents.
+- **Key Components:**
+  - `ContextWindowManager`
+  - `prepare_for_downstream_agent`
+  - `estimate_tokens
+
+- **File:** `src/utils/downstream_agent_helper.py`
+Prepares inputs for alignment, judge, and human feedback agents, and merges results produced across multiple chunks.
+
+- **Key Components:**
+  - `prepare_alignment_agent_input`
+  - `prepare_judge_agent_input`
+  - `prepare_humanfeedback_agent_input`
+  - `merge_structured_chunk_results`
+
+- **File:** `src/utils/agent_context.py`
+Maintains per-agent results, state, and confidence information in a thread-safe manner.
+- **Key Components:**
+  - `AgentContext`
+  - `ThreadSafeMemory`
+
+### Partial Runs
+
+This version of **StructSense** supports **partial execution**, allowing you to run individual agents independently instead of executing the full pipeline.
+
+For detailed examples and usage instructions, see the **[tutorial](tutorial/)** directory.
+
 
 ---
 ## Legacy
