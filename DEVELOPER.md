@@ -45,3 +45,48 @@ The other functions include tool registration and invocation and merging results
 - **`src/utils/utils.py`**: Provides shared utilities for input handling, configuration loading, external service integration (e.g., `Grobid PDF extraction`, `Weaviate` (not used see [Change Log](CHANGE_LOG.md)), `Ollama`), and data transformation across the pipeline.
 - **`src/utils/mlops.py`**: Provides lightweight MLOps integration by conditionally enabling experiment monitoring (e.g., `Weights & Biases` or `MLflow`) based on environment configuration.
 
+## Adding a New Tool
+
+### Overview
+
+Tools are attached **per stage (agent) and per task type**. The flow is:
+- **Task type** is detected from the extractor task description (`task_detection.py`).
+- **Tool names** for that (agent_key, task_type) come from `task_tools.py` (generic + task-specific).
+- **Tool names** are resolved to **CrewAI tool instances** in `_resolve_tool()` in `task_tools.py`. 
+- The agent is built with those tools; CrewAI runs the agent and the LLM can **call** the tools during execution.
+
+### Steps to Add a New Tool
+-  Implement the tool. For organization purpose, please place tools under `src/utils/` directory and please ensure the tool’s **name** and **description** are clear so the LLM knows when to call it.
+- Register the tool name for a task type and/or stage.
+
+| Purpose                                                           | File | What to change |
+|-------------------------------------------------------------------|------|----------------|
+| Tool only for **extractor** for a specific task type (e.g. `ner`) | `src/utils/task_detection.py` | Add an entry to **`TOOLS_BY_TASK_TYPE`**: e.g. `"ner": ["extract_ner_terms", "your_new_tool"]`. Keys must match the **taxonomy** task types (ner, resource, extraction, keyphrase_extraction, etc.). |
+| Tool for **all task types** of an agent (e.g. alignment)          | `src/utils/task_tools.py` | Add the tool name to **`GENERIC_TOOLS_BY_STAGE`**: e.g. `"alignment_agent": ["concept_mapping_tool", "your_new_tool"]`. |
+| Tool for a specific (agent, task_type) not covered above          | `src/utils/task_tools.py` | Ensure the task type exists in **`TOOLS_BY_STAGE_AND_TASK`** (it references `TOOLS_BY_TASK_TYPE` for extractor). For other agents, add a mapping under **`TOOLS_BY_STAGE_AND_TASK`** for that agent and task type. |
+- To add a new tool, update `_resolve_tool(name, ...)` in `src/utils/task_tools.py` to map the tool name to its corresponding function or instantiated class.
+
+    **Example (function tool):**
+    
+    ```python
+    # In task_tools.py _resolve_tool()
+    if name == "your_new_tool":
+        if name not in _TOOL_REGISTRY:
+            from .your_module import your_tool_func
+            _TOOL_REGISTRY[name] = your_tool_func
+        return _TOOL_REGISTRY.get(name)
+    ```
+    **Example (e.g. ConceptMappingTool):**
+
+    ```python
+        if name == "concept_mapping_tool":
+            if name not in _TOOL_REGISTRY:
+                try:
+                    from .conceptmappingtool import ConceptMappingTool
+                    _TOOL_REGISTRY[name] = ConceptMappingTool()
+                except ValueError as e:
+                    logger.warning(f"ConceptMappingTool not registered (missing BIOPORTAL_API_KEY): {e}")
+                    return None
+            return _TOOL_REGISTRY.get(name)
+    ```
+- For tools supporting new task types, update the taxonomy to include the corresponding task definition.
