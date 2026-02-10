@@ -283,6 +283,9 @@ class ContextWindowManager:
                         logger.debug(f"Truncated '{key}' list: {len(truncated_list)}/{len(value)} items kept")
                         truncated[f"{key}_truncated"] = True
                         truncated[f"{key}_original_count"] = len(value)
+                        # Ensure downstream always gets expected key: keep at least one item when source had content
+                        if not truncated_list and value:
+                            truncated_list = [value[0]]
                         break
 
                 if truncated_list:
@@ -377,17 +380,21 @@ class ContextWindowManager:
             "_original_token_count": self.estimate_tokens(results)
         }
 
-        # Create counts and statistics
+        # Downstream agents (e.g. judge) expect "entities", "key_terms", "resources" as lists.
+        # Always emit those keys as lists (sample if needed) so structure is preserved.
+        list_keys_preserve = ["entities", "key_terms", "resources", "aligned_resources", "judge_resource"]
         for key, value in results.items():
             if isinstance(value, list):
                 summary[f"{key}_count"] = len(value)
-                # Keep a small sample
                 sample_size = min(5, len(value))
-                summary[f"{key}_sample"] = value[:sample_size]
+                sample = value[:sample_size]
+                summary[f"{key}_sample"] = sample
+                # Preserve expected key so judge gets e.g. entities: [...] not only entities_sample
+                if key in list_keys_preserve:
+                    summary[key] = sample
             elif isinstance(value, dict):
                 summary[f"{key}_keys"] = list(value.keys())
             else:
-                # Keep simple values
                 summary[key] = value
 
         return summary
