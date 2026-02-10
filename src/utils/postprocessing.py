@@ -29,7 +29,7 @@ Key functions (for generated docs)
 - :func:`get_result_merger` – Return the merging function for a task type.
   Used to combine chunk results (e.g. merge_ner_results, merge_resource_results).
 - :func:`register_task_type` – Register a new task type with custom post-processor
-  and merger (e.g. when adding a new use case; see internal_docs/DEVELOPER_1.md).
+  and merger (e.g. when adding a new use case;).
 - :func:`get_registered_task_types` – List all registered task types.
 
 Other important functions
@@ -1195,11 +1195,6 @@ def register_task_type(
     result_merger : callable
         Function to merge a list of chunk results into one structure (e.g. with
         provenance). Signature typically (results: list, full_text: str) -> dict.
-
-    Note
-    ----
-    See internal_docs/DEVELOPER_1.md (Section 7) for the full checklist when adding
-    a new task type (config, task_tools, task_detection, and postprocessing).
     """
     _TASK_POST_PROCESSORS[task_type] = post_processor
     _TASK_MERGERS[task_type] = result_merger
