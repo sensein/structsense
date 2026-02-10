@@ -247,3 +247,11 @@ ENABLE_CREW_MEMORY=false
 ENABLE_CREW_MEMORY=false
 ```
 </details>
+
+<details>
+<summary><strong>❗ Performance vs. Accuracy Trade-offs</strong></summary>
+
+**Trade-off**
+
+- Using smaller chunk sizes can improve extraction accuracy, but as chunk size decreases, processing time increases for the agent.
+</details>
