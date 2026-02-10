@@ -25,7 +25,7 @@ import time
 import asyncio
 import warnings
 from pathlib import Path
-from typing import List, Dict, Any, Optional, Callable, Tuple
+from typing import List, Dict, Any, Optional, Callable, Tuple, cast
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # Disable all warnings
@@ -50,10 +50,14 @@ from crewai.memory import EntityMemory, LongTermMemory, ShortTermMemory
 from crewai.memory.storage.ltm_sqlite_storage import LTMSQLiteStorage
 from crewai.memory.storage.rag_storage import RAGStorage
 from crewai.utilities.paths import db_storage_path
+from crewai.rag.config.utils import set_rag_config
+from crewai.rag.embeddings.factory import build_embedder
+from crewai.rag.chromadb.config import ChromaDBConfig
+from crewai.rag.chromadb.types import ChromaEmbeddingFunctionWrapper
+from chromadb.config import Settings
 
-# Import chunking functions and nlp model
+# Import chunking functions (ner_tool is imported lazily where needed to avoid pulling in transformers/torch at import time)
 from .text_chunking import _chunk_doc_by_sentences
-from .ner_tool import get_spacy_model
 from .utils import check_ollama_health
 from crew.dynamic_agent import DynamicAgent
 from crew.dynamic_agent_task import DynamicAgentTask
@@ -105,6 +109,67 @@ def _parse_crew_output_string(s: str) -> Optional[Dict[str, Any]]:
     return None
 
 
+def _extract_all_json_blobs(s: str) -> List[Dict[str, Any]]:
+    """
+    Extract every top-level {...} dict from a string (e.g. multiple Final Answer blocks).
+    Uses brace matching so nested braces are handled. Tries JSON then ast.literal_eval per blob.
+    """
+    if not s or not isinstance(s, str):
+        return []
+    out: List[Dict[str, Any]] = []
+    i = 0
+    while i < len(s):
+        if s[i] == "{":
+            depth = 0
+            start = i
+            for j in range(i, len(s)):
+                if s[j] == "{":
+                    depth += 1
+                elif s[j] == "}":
+                    depth -= 1
+                    if depth == 0:
+                        substring = s[start : j + 1]
+                        parsed = None
+                        try:
+                            parsed = json.loads(substring)
+                        except json.JSONDecodeError:
+                            try:
+                                parsed = ast.literal_eval(substring)
+                            except (ValueError, SyntaxError):
+                                pass
+                        if isinstance(parsed, dict):
+                            out.append(parsed)
+                        i = j + 1
+                        break
+            else:
+                i += 1
+        else:
+            i += 1
+    return out
+
+
+def _parse_crew_output_alignment_blobs(s: str) -> Optional[Any]:
+    """
+    When the alignment agent returns multiple Final Answer JSON blocks in one run,
+    extract all blobs that have aligned_resources so the caller can merge them
+    in postprocessing (merge_downstream_chunk_results_with_provenance).
+    Returns: list of dicts when 2+ blobs with aligned_resources; single dict when 1; None when 0.
+    """
+    blobs = _extract_all_json_blobs(s)
+    if not blobs:
+        return None
+    candidates = [b for b in blobs if isinstance(b.get("aligned_resources"), dict)]
+    if len(candidates) >= 2:
+        logger.info(
+            "Extracted %s alignment blobs for merge (combining in postprocessing).",
+            len(candidates),
+        )
+        return candidates
+    if len(candidates) == 1:
+        return candidates[0]
+    return blobs[0] if blobs else None
+
+
 # Suppress warning logs
 logging.getLogger("pydantic").setLevel(logging.ERROR)
 logging.getLogger("pydantic_core").setLevel(logging.ERROR)
@@ -125,6 +190,7 @@ def _run_crew_on_retry(
     input_key: str = "input_text",
     default_result: Optional[Dict[str, Any]] = None,
     extra_inputs: Optional[Dict[str, Any]] = None,
+    pick_richest_alignment: bool = False,
 ) -> Dict[str, Any]:
     """
     Crew runner (generic) - Synchronous version.
@@ -135,6 +201,8 @@ def _run_crew_on_retry(
         input_key: The key to use in the inputs dict (default: "input_text")
         default_result: Default result dict if parsing fails (default: empty dict)
         extra_inputs: Optional extra key-value inputs merged into crew inputs (e.g. modification_context)
+        pick_richest_alignment: If True, when output is a string with multiple JSON blobs (e.g. alignment
+            Final Answer blocks), parse all and return the one with richest aligned_resources.
 
     Returns:
         Dict with parsed results. If both attempts fail, returns:
@@ -146,7 +214,16 @@ def _run_crew_on_retry(
     if extra_inputs:
         inputs.update(extra_inputs)
 
-    def attempt() -> Dict[str, Any]:
+    def _parse_raw_string(raw_str: str) -> Optional[Any]:
+        # When True (alignment for resource): extract all blobs with aligned_resources for merge in postprocessing.
+        if pick_richest_alignment:
+            parsed = _parse_crew_output_alignment_blobs(raw_str)
+            if parsed is not None:
+                return parsed  # list of dicts or single dict
+        out = _parse_crew_output_string(raw_str)
+        return out
+
+    def attempt() -> Any:
         try:
             res = crew.kickoff(inputs=inputs)
 
@@ -155,7 +232,7 @@ def _run_crew_on_retry(
                 try:
                     return json.loads(res)
                 except json.JSONDecodeError:
-                    parsed = _parse_crew_output_string(res)
+                    parsed = _parse_raw_string(res)
                     if isinstance(parsed, dict):
                         logger.info("Parsed Crew output from non-JSON string (fallback).")
                         return parsed
@@ -166,10 +243,14 @@ def _run_crew_on_retry(
                 try:
                     return json.loads(raw)
                 except json.JSONDecodeError:
-                    parsed = _parse_crew_output_string(raw)
-                    if isinstance(parsed, dict):
-                        logger.info("Parsed Crew output from non-JSON string (fallback).")
-                        return parsed
+                    parsed = _parse_raw_string(raw)
+                    if parsed is not None:
+                        if isinstance(parsed, list):
+                            logger.info("Parsed Crew output: %s blobs for merge in postprocessing.", len(parsed))
+                            return parsed
+                        if isinstance(parsed, dict):
+                            logger.info("Parsed Crew output from non-JSON string (fallback).")
+                            return parsed
                     print("[WARN] Crew returned non-JSON string; returning default.")
                     return default_result.copy()
 
@@ -184,14 +265,14 @@ def _run_crew_on_retry(
 
     # First try
     r1 = attempt()
-    if "error" not in r1:
+    if isinstance(r1, list) or "error" not in r1:
         return r1
 
     print(f"[WARN] First attempt failed: {r1['error']}. Retrying once...")
 
     # Second try
     r2 = attempt()
-    if "error" not in r2:
+    if isinstance(r2, list) or "error" not in r2:
         print("[OK] Retry succeeded.")
         return r2
 
@@ -207,6 +288,7 @@ async def _run_crew_on_retry_async(
     input_key: str = "input_text",
     default_result: Optional[Dict[str, Any]] = None,
     extra_inputs: Optional[Dict[str, Any]] = None,
+    pick_richest_alignment: bool = False,
 ) -> Dict[str, Any]:
     """
     SAFE + RETRY-ONCE Crew runner (generic) - Async version.
@@ -221,6 +303,8 @@ async def _run_crew_on_retry_async(
         input_key: The key to use in the inputs dict (default: "input_text")
         default_result: Default result dict if parsing fails (default: empty dict)
         extra_inputs: Optional extra key-value inputs merged into crew inputs
+        pick_richest_alignment: If True, when output is a string with multiple JSON blobs,
+            parse all and return the one with richest aligned_resources.
 
     Returns:
         Dict with parsed results. If both attempts fail, returns:
@@ -231,6 +315,13 @@ async def _run_crew_on_retry_async(
     inputs = {input_key: text}
     if extra_inputs:
         inputs.update(extra_inputs)
+
+    def _parse_raw_string(raw_str: str) -> Optional[Any]:
+        if pick_richest_alignment:
+            parsed = _parse_crew_output_alignment_blobs(raw_str)
+            if parsed is not None:
+                return parsed
+        return _parse_crew_output_string(raw_str)
 
     # Check if akickoff is available (newer CrewAI versions)
     has_akickoff = hasattr(crew, 'akickoff')
@@ -264,7 +355,7 @@ async def _run_crew_on_retry_async(
                 try:
                     return json.loads(res)
                 except json.JSONDecodeError:
-                    parsed = _parse_crew_output_string(res)
+                    parsed = _parse_raw_string(res)
                     if isinstance(parsed, dict):
                         logger.info("Parsed Crew output from non-JSON string (fallback).")
                         return parsed
@@ -275,10 +366,14 @@ async def _run_crew_on_retry_async(
                 try:
                     return json.loads(raw)
                 except json.JSONDecodeError:
-                    parsed = _parse_crew_output_string(raw)
-                    if isinstance(parsed, dict):
-                        logger.info("Parsed Crew output from non-JSON string (fallback).")
-                        return parsed
+                    parsed = _parse_raw_string(raw)
+                    if parsed is not None:
+                        if isinstance(parsed, list):
+                            logger.info("Parsed Crew output: %s blobs for merge in postprocessing.", len(parsed))
+                            return parsed
+                        if isinstance(parsed, dict):
+                            logger.info("Parsed Crew output from non-JSON string (fallback).")
+                            return parsed
                     print("[WARN] Crew returned non-JSON string; returning default.")
                     return default_result.copy()
 
@@ -293,14 +388,14 @@ async def _run_crew_on_retry_async(
 
     # First try
     r1 = await attempt()
-    if "error" not in r1:
+    if isinstance(r1, list) or "error" not in r1:
         return r1
 
     print(f"[WARN] First attempt failed: {r1['error']}. Retrying once...")
 
     # Second try
     r2 = await attempt()
-    if "error" not in r2:
+    if isinstance(r2, list) or "error" not in r2:
         print("[OK] Retry succeeded.")
         return r2
 
@@ -326,6 +421,7 @@ def run_crew_extraction(
     agent_context: Optional[AgentContext] = None,
     shared_memory: Optional[ThreadSafeMemory] = None,
     context_manager: Optional[ContextWindowManager] = None,
+    pick_richest_alignment: bool = False,
 ) -> Dict[str, Any]:
     """
     Generic robust crew extraction pipeline with enhanced context management.
@@ -381,10 +477,23 @@ def run_crew_extraction(
     # ---------------- NO CHUNKING PATH ----------------
     if not chunk_size or len(full_text) <= chunk_size:
         exec_start = time.time()
-        raw = _run_crew_on_retry(crew, full_text, input_key, default_result, extra_inputs)
+        raw = _run_crew_on_retry(
+            crew, full_text, input_key, default_result, extra_inputs,
+            pick_richest_alignment=pick_richest_alignment,
+        )
         exec_time = time.time() - exec_start
         if has_timing_logger:
             timing_logger.info(f"  Single execution (no chunking): {exec_time:.3f}s")
+
+        # Multiple blobs from alignment (for merge in postprocessing)
+        if isinstance(raw, list):
+            all_raw_results.extend(raw)
+            all_results.extend(raw)
+            return {
+                "results": all_results,
+                "raw_results": all_raw_results,
+                "errors": errors,
+            }
 
         if "error" in raw:
             errors.append(
@@ -397,6 +506,7 @@ def run_crew_extraction(
         if "error" not in raw:
             if post_process:
                 try:
+                    from .ner_tool import get_spacy_model
                     nlp = get_spacy_model()
                     full_doc = nlp(full_text)
                     processed = post_process(full_text, full_doc, {"text": full_text, "start": 0}, raw)
@@ -425,6 +535,7 @@ def run_crew_extraction(
         if chunk_size and chunk_size > max_chunk_chars and has_timing_logger:
             timing_logger.info(f"  Chunk size capped to {max_chunk_chars} chars (max_chunk_chars) for model context limit")
     chunking_start = time.time()
+    from .ner_tool import get_spacy_model
     nlp = get_spacy_model()
     full_doc = nlp(full_text)
     chunks = _chunk_doc_by_sentences(full_doc, max_chars=effective_chunk_size)
@@ -665,6 +776,7 @@ async def run_crew_extraction_async(
     agent_context: Optional[AgentContext] = None,
     shared_memory: Optional[ThreadSafeMemory] = None,
     context_manager: Optional[ContextWindowManager] = None,
+    pick_richest_alignment: bool = False,
 ) -> Dict[str, Any]:
     """
     Async version of run_crew_extraction using native async execution.
@@ -712,10 +824,23 @@ async def run_crew_extraction_async(
     # ---------------- NO CHUNKING PATH ----------------
     if not chunk_size or len(full_text) <= chunk_size:
         exec_start = time.time()
-        raw = await _run_crew_on_retry_async(crew, full_text, input_key, default_result, extra_inputs)
+        raw = await _run_crew_on_retry_async(
+            crew, full_text, input_key, default_result, extra_inputs,
+            pick_richest_alignment=pick_richest_alignment,
+        )
         exec_time = time.time() - exec_start
         if has_timing_logger:
             timing_logger.info(f"  Single execution (no chunking, async): {exec_time:.3f}s")
+
+        # Multiple blobs from alignment (for merge in postprocessing)
+        if isinstance(raw, list):
+            all_raw_results.extend(raw)
+            all_results.extend(raw)
+            return {
+                "results": all_results,
+                "raw_results": all_raw_results,
+                "errors": errors,
+            }
 
         if "error" in raw:
             errors.append(
@@ -728,6 +853,7 @@ async def run_crew_extraction_async(
         if "error" not in raw:
             if post_process:
                 try:
+                    from .ner_tool import get_spacy_model
                     nlp = get_spacy_model()
                     full_doc = nlp(full_text)
                     processed = post_process(full_text, full_doc, {"text": full_text, "start": 0}, raw)
@@ -756,6 +882,7 @@ async def run_crew_extraction_async(
         if chunk_size and chunk_size > max_chunk_chars and has_timing_logger:
             timing_logger.info(f"  Chunk size capped to {max_chunk_chars} chars (max_chunk_chars) for model context limit")
     chunking_start = time.time()
+    from .ner_tool import get_spacy_model
     nlp = get_spacy_model()
     full_doc = nlp(full_text)
     chunks = _chunk_doc_by_sentences(full_doc, max_chars=effective_chunk_size)
@@ -983,6 +1110,27 @@ async def run_crew_extraction_async(
     }
 
 
+# Default instruction so alignment agent uses the Concept Mapping Tool when attached (even if config doesn't mention it).
+_ALIGNMENT_CONCEPT_MAPPING_INSTRUCTION = (
+    " You have the Concept Mapping Tool: use it to map terms (e.g. entities, target, specific_target, type, category) "
+    "to ontologies (e.g. BioPortal). Set concept_mapping_provenance to \"tool\" when using the tool, "
+    "or \"llm_knowledge\" when using your own knowledge."
+)
+
+
+def _inject_alignment_concept_mapping_instruction(task_cfg: Dict[str, Any]) -> None:
+    """If task description/expected_output doesn't mention the Concept Mapping Tool, append default instruction."""
+    if not task_cfg or not isinstance(task_cfg, dict):
+        return
+    combined = " ".join(
+        str(task_cfg.get(k) or "") for k in ("description", "expected_output") if task_cfg.get(k)
+    ).lower()
+    if "concept mapping" in combined or "concept_mapping" in combined:
+        return
+    desc = (task_cfg.get("description") or "").strip()
+    task_cfg["description"] = (desc + _ALIGNMENT_CONCEPT_MAPPING_INSTRUCTION).strip()
+
+
 # ============================================================
 # AGENT & TASK INITIALIZATION
 # ============================================================
@@ -1018,6 +1166,11 @@ def initialize_agent_and_task(
             print(f"[ERROR] Task key '{task_key}' not found in task_config")
             return None, None
 
+        # Alignment agent: inject default Concept Mapping Tool instruction so the tool is used even when config doesn't mention it
+        task_cfg = copy.deepcopy(task_config[task_key]) if isinstance(task_config.get(task_key), dict) else {}
+        if agent_key == "alignment_agent" and (tools or []):
+            _inject_alignment_concept_mapping_instruction(task_cfg)
+
         # Match the usage pattern from app.py - pass dict directly
         agent_init = DynamicAgent(
             agents_config=agent_config[agent_key],  # Pass dict directly (type hint may be incorrect)
@@ -1026,7 +1179,7 @@ def initialize_agent_and_task(
         )
         
         task_init = DynamicAgentTask(
-            tasks_config=task_config[task_key]
+            tasks_config=task_cfg
         )
 
         # Build agent - structsense build_agent() returns a single Agent
@@ -1114,6 +1267,24 @@ def initialize_memory(
             not check_ollama_health()):
             logger.warning("Ollama embedder configured but Ollama not available. Disabling memory to prevent errors.")
             return None, None, None
+
+        # Set global RAG config to our embedder so any get_rag_client() fallback uses it
+        # instead of default OpenAI (avoids OPENAI_API_KEY errors when using Ollama/other).
+        try:
+            embedding_function = build_embedder(embedder_config_for_rag)
+            _ = embedding_function(["test"])
+            global_rag_config = ChromaDBConfig(
+                settings=Settings(
+                    persist_directory=str(storage_path),
+                    allow_reset=True,
+                    is_persistent=True,
+                ),
+                embedding_function=cast(ChromaEmbeddingFunctionWrapper, embedding_function),
+            )
+            set_rag_config(global_rag_config)
+            logger.info("Global RAG config set to configured embedder (avoids OpenAI default)")
+        except Exception as e:
+            logger.warning(f"Could not set global RAG config to configured embedder: {e}. Memory may still work per-storage.")
 
         rag_storage_config = {
             "embedder_config": embedder_config_for_rag,

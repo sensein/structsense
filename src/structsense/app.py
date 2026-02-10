@@ -206,10 +206,30 @@ DOWNSTREAM_CONTAINER_KEYS = (
 
 
 class StructSenseFlow:
-    """A workflow for structured information extraction, alignment, and judgment using CrewAI.
-    Includes improved crew communication and shared memory.
-    
-    This is the single entry point for all extraction workflows.
+    """Workflow for structured information extraction, alignment, and judgment using CrewAI.
+
+    Single entry point for all extraction workflows. Supports chunked parallel
+    extraction, multi-stage pipeline (extraction → alignment → judge → humanfeedback),
+    context management, and token-window handling for downstream agents.
+
+    Attributes
+    ----------
+    source_text : str
+        Input text used when no override is passed to kickoff/information_extraction_task.
+    agent_config : dict
+        Loaded agent configuration (role, goal, llm, etc.).
+    task_config : dict
+        Loaded task configuration (description, agent_id, etc.).
+    enable_chunking : bool
+        Whether to split long text into chunks and process in parallel.
+    token_limit : int
+        Max tokens for downstream agent context (e.g. 100000 for 128k models).
+
+    See Also
+    --------
+    information_extraction_task : Run the full pipeline (recommended).
+    kickoff : Run a single agent-task pair.
+    run_agent_task : Low-level single agent-task with full control.
     """
 
     def __init__(
@@ -231,6 +251,50 @@ class StructSenseFlow:
             max_extraction_chunk_chars: Optional[int] = None,
             return_full_pipeline_details: bool = False,
     ):
+        """Initialize StructSenseFlow with config paths and input.
+
+        Parameters
+        ----------
+        agent_config : str or dict
+            Path to agent YAML/JSON or dict (role, goal, llm per agent).
+        task_config : str or dict
+            Path to task YAML/JSON or dict (description, agent_id per task).
+        embedder_config : str or dict
+            Path to embedder config or dict (used for memory/embedding).
+        source_text : str, optional
+            Raw text to process. Not used if ``input_source`` is provided.
+        input_source : str or dict, optional
+            File path, URL, or dict; takes precedence over ``source_text``.
+            Processed by :func:`utils.utils.process_input_data`.
+        enable_human_feedback : bool, optional
+            Whether to run the humanfeedback stage. Default False.
+        enable_chunking : bool, optional
+            If True, split text into chunks and run extraction in parallel.
+        knowledge_config : str or dict, optional
+            Optional knowledge-base config.
+        agent_feedback_config : dict, optional
+            Per-agent flags for feedback (e.g. which agents accept feedback).
+        env_file : str, optional
+            Path to .env file; loaded with override=True if set.
+        api_key : str, optional
+            If set, stored in ``OPENROUTER_API_KEY`` for LLM calls.
+        chunk_size : int, optional
+            Max characters per chunk when chunking is enabled.
+        max_workers : int, optional
+            Max parallel workers for chunked extraction.
+        downstream_max_input_chars : int, optional
+            Cap on input size for downstream agents (before token management).
+        max_extraction_chunk_chars : int, optional
+            Cap on chunk size for extraction agent context.
+        return_full_pipeline_details : bool, optional
+            If True, result includes pipeline_stages, token_usage, context_management.
+
+        Raises
+        ------
+        ConfigError
+            If neither ``source_text`` nor ``input_source`` is provided, or
+            if input processing fails or yields no valid text.
+        """
         super().__init__()
         
         # Setup environment first

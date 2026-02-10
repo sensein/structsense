@@ -1,16 +1,32 @@
 # -*- coding: utf-8 -*-
-"""
-Resolve task-type tool names to CrewAI tool instances.
+"""Resolve task-type tool names to CrewAI tool instances for the pipeline.
 
-Defines which tools are used at which stage (agent) and for which task type:
-  - GENERIC_TOOLS_BY_STAGE: agent_key -> list of tool names (applied to all tasks for that agent)
-  - TOOLS_BY_STAGE_AND_TASK: (agent_key, task_type) -> list of task-specific tool names
-  - get_tools_for_agent(agent_key, task_type, ...): returns generic + task-specific, resolved
+This module defines which tools are attached to which agent and task type.
+Tools are resolved lazily (e.g. NER tool created with domain context when
+agent_config/task_config/task_key are provided).
 
-When agent_config, task_config, and task_key are provided, the NER tool is created with
-domain context (agent role, goal, task description) so LLM-based NER can perform
-domain-specific extraction. These informations are taken from the configuration file.
-Final tools for (agent, task) = generic_tools(agent) + task_specific_tools(agent, task).
+Module-level mappings (for generated docs)
+------------------------------------------
+- **GENERIC_TOOLS_BY_STAGE** (dict): ``agent_key`` → list of tool names applied to
+  all task types for that agent (e.g. alignment_agent → ``["concept_mapping_tool"]``).
+- **TOOLS_BY_STAGE_AND_TASK** (dict): ``agent_key`` → ``task_type`` → list of
+  task-specific tool names. E.g. extractor_agent + ``ner`` → ``["extract_ner_terms"]``.
+- **AGENTS_THAT_USE_TOOLS** (frozenset): Agent keys that may have tools (others get []).
+
+Key functions
+-------------
+- :func:`get_tools_for_agent` – Return resolved tool instances for a given
+  agent and task type (used by :class:`structsense.app.StructSenseFlow`).
+- :func:`get_tool_names_for_agent` – Return tool names only (generic + task-specific).
+- :func:`get_tools_for_task_type` – Return tools by task type only (no agent filter).
+- :func:`_resolve_tool` – Resolve a single tool name to a CrewAI tool instance;
+  for ``extract_ner_terms``, pass agent_config/task_config/agent_key/task_key for
+  domain-aware LLM NER.
+
+See Also
+--------
+- :mod:`task_detection` – Defines :data:`TOOLS_BY_TASK_TYPE` used here.
+- :mod:`structsense.app` – Uses :func:`get_tools_for_agent` when initializing agents.
 """
 import logging
 import os
@@ -70,10 +86,30 @@ def _resolve_tool(
 ) -> Any:
     """Resolve a tool name to a CrewAI tool instance (lazy import).
 
-    When name is 'extract_ner_terms' and agent_config, task_config, agent_key, and
-    task_key are provided, returns a domain-aware NER tool that uses the extractor
-    agent's role/goal and task description for LLM-based NER. Otherwise returns
-    the default (ML-only) tool.
+    For ``extract_ner_terms``, when agent_config, task_config, agent_key, and
+    task_key are provided, returns a domain-aware NER tool that uses the
+    extractor agent's role, goal, and task description for LLM-based NER.
+    Otherwise returns the default (ML-only) NER tool. For ``concept_mapping_tool``,
+    returns :class:`.conceptmappingtool.ConceptMappingTool` (requires BIOPORTAL_API_KEY).
+
+    Parameters
+    ----------
+    name : str
+        Tool name (e.g. ``extract_ner_terms``, ``concept_mapping_tool``).
+    agent_config : dict, optional
+        Agent config dict; used for domain-aware NER when name is ``extract_ner_terms``.
+    task_config : dict, optional
+        Task config dict; used for task description in NER context.
+    agent_key : str, optional
+        Agent key (e.g. ``extractor_agent``); used to read role/goal from agent_config.
+    task_key : str, optional
+        Task key (e.g. ``extraction_task``); used to read description from task_config.
+
+    Returns
+    -------
+    object or None
+        CrewAI-compatible tool instance, or None if unknown name or (for concept_mapping_tool)
+        registration failed (e.g. missing API key).
     """
     global _TOOL_REGISTRY
     if name == "extract_ner_terms":
@@ -208,8 +244,15 @@ def get_tools_for_agent(
         task_config: Optional task config dict (for domain-aware NER tool).
         task_key: Optional task key (e.g. extraction_task) for task description.
 
-    Returns:
-        List of tool instances; empty list if this (stage, task_type) has no tools.
+    Returns
+    -------
+    list
+        Resolved CrewAI tool instances; empty list if this (stage, task_type) has no tools.
+
+    See Also
+    --------
+    get_tool_names_for_agent : Tool names only (no resolution).
+    _resolve_tool : Resolve a single tool name with optional domain context.
     """
     names = get_tool_names_for_agent(agent_key, task_type)
     if not names:

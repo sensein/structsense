@@ -1,3 +1,24 @@
+"""Task-type detection from task configuration (LLM-based taxonomy classification).
+
+This module classifies the extractor task (e.g. from task description in config)
+into a canonical task type (ner, resource, extraction, keyphrase_extraction, etc.)
+so the pipeline can attach the right tools and post-processors.
+
+Key components
+--------------
+- **DEFAULT_TAXONOMY** (dict): Task type → description (and optional schema/context).
+  Used to build the classification prompt. Includes ner, resource, extraction,
+  keyphrase_extraction, relation_extraction, marr_extraction, etc.
+- **TOOLS_BY_TASK_TYPE** (dict): Task type → list of tool names (e.g. ner → ["extract_ner_terms"]).
+  Consumed by :mod:`task_tools` when resolving tools for the extractor agent.
+- :class:`TaskDetection` : Dataclass holding task_type, confidence, rationale, and raw LLM output.
+- :func:`detect_task_type` : Run LLM-based classification and return :class:`TaskDetection`.
+
+See Also
+--------
+- :mod:`task_tools` – Uses :data:`TOOLS_BY_TASK_TYPE` to attach tools per task type.
+- :mod:`postprocessing` – Uses task type to select post-processor and result merger.
+"""
 import json
 from dataclasses import dataclass
 from typing import Dict, Any, Optional, List, Union, Tuple
@@ -6,8 +27,24 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 @dataclass
 class TaskDetection:
+    """Structured result of LLM-based task-type detection.
+
+    Attributes
+    ----------
+    task_type : str
+        Canonical type from taxonomy (e.g. ner, resource, extraction).
+    confidence : float
+        Confidence score in [0.0, 1.0].
+    labels : list of str
+        Optional sublabels (e.g. "multi_label", "few_shot").
+    rationale : str
+        Short explanation from the model.
+    raw : dict
+        Full parsed JSON from the LLM response.
+    """
     task_type: str                  # canonical type from taxonomy
     confidence: float               # 0.0 - 1.0
     labels: List[str]               # optional sublabels (e.g., "multi_label", "few_shot")
@@ -201,8 +238,8 @@ DEFAULT_TAXONOMY: Dict[str, Union[str, Dict[str, Any]]] = {
 # ----------------------------
 # Tools by task type (taxonomy-aligned)
 # ----------------------------
-# Task types that get tools; all others get no tools. Keys must match taxonomy task_type.
-# Tool names are resolved to CrewAI tool instances in task_tools.get_tools_for_task_type().
+#: Task type → list of tool names for the extractor agent. Keys must match taxonomy.
+#: Used by :mod:`task_tools` to resolve tools; task types not listed get no tools.
 TOOLS_BY_TASK_TYPE: Dict[str, List[str]] = {
     "ner": ["extract_ner_terms"],
     "keyphrase_extraction": ["extract_ner_terms"],
@@ -211,11 +248,20 @@ TOOLS_BY_TASK_TYPE: Dict[str, List[str]] = {
 
 
 def get_tool_names_for_task_type(task_type: str) -> List[str]:
-    """
-    Return the list of tool names associated with the given task type (from taxonomy).
+    """Return tool names for a task type from :data:`TOOLS_BY_TASK_TYPE`.
 
-    Used for dynamic tool selection: only task types listed in TOOLS_BY_TASK_TYPE
-    receive tools; all others return an empty list.
+    Only task types listed in :data:`TOOLS_BY_TASK_TYPE` receive tools;
+    all others return an empty list.
+
+    Parameters
+    ----------
+    task_type : str
+        Canonical task type (e.g. from :func:`detect_task_type`).
+
+    Returns
+    -------
+    list of str
+        Tool names to resolve via :func:`task_tools._resolve_tool`.
     """
     if not task_type:
         return []
@@ -311,16 +357,33 @@ def detect_task_type(
     llm_config: Dict[str, Any],
     taxonomy: Optional[Dict[str, Union[str, Dict[str, Any]]]] = None,
 ) -> TaskDetection:
-    """
-    Intelligent LLM-based task detection.
+    """Classify task type from task configuration using an LLM and taxonomy.
 
-    Args:
-        taskconfig: crew AI task configuration
-        api_key: openrouter api key
-        taxonomy: optional rich taxonomy dict; defaults to DEFAULT_TAXONOMY
+    Sends the task config (e.g. task description) and taxonomy to the configured
+    LLM (OpenRouter/OpenAI) and parses the response into a single task_type
+    with confidence and rationale. Used by the pipeline to select tools and
+    post-processors.
 
-    Returns:
-        TaskDetection: structured detection output.
+    Parameters
+    ----------
+    taskconfig : str
+        CrewAI task configuration (typically JSON or string with task description).
+    api_key : str
+        API key for the LLM (e.g. OpenRouter or OpenAI).
+    llm_config : dict
+        LLM settings: ``base_url``, ``model``, and any provider-specific options.
+    taxonomy : dict, optional
+        Task type → description (and optional context). Defaults to :data:`DEFAULT_TAXONOMY`.
+
+    Returns
+    -------
+    TaskDetection
+        Structured result with task_type, confidence, labels, rationale, and raw JSON.
+
+    Raises
+    ------
+    ValueError
+        If the LLM output is not valid JSON or does not match the expected schema.
     """
     taxonomy = taxonomy or DEFAULT_TAXONOMY
 

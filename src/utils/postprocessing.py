@@ -16,8 +16,33 @@
 # @File    : postprocessing.py
 # @Software: PyCharm
 
-"""
-This module provides the task-specific post-processing functions.
+"""Task-specific post-processing and result merging for the pipeline.
+
+This module provides post-processors (per-chunk cleanup/normalization) and
+result mergers (combine chunk results into one structure with provenance).
+The pipeline selects them by task type (ner, resource, extraction, etc.).
+
+Key functions (for generated docs)
+---------------------------------
+- :func:`get_post_processor` – Return the post-processing function for a task type.
+  Used after each chunk is processed by the extraction agent.
+- :func:`get_result_merger` – Return the merging function for a task type.
+  Used to combine chunk results (e.g. merge_ner_results, merge_resource_results).
+- :func:`register_task_type` – Register a new task type with custom post-processor
+  and merger (e.g. when adding a new use case; see internal_docs/DEVELOPER_1.md).
+- :func:`get_registered_task_types` – List all registered task types.
+
+Other important functions
+-------------------------
+- :func:`merge_downstream_chunk_results_with_provenance` – Merge downstream stage
+  chunk outputs (alignment/judge) with provenance.
+- :func:`verify_merged_result` – Verify entities/text against source; used after merging.
+- :func:`normalize_final_result_for_output` – Normalize keys and structure for API output.
+
+See Also
+--------
+- :mod:`task_detection` – Task type detection; task type drives selection here.
+- :mod:`structsense.app` – Uses get_post_processor and get_result_merger per task type.
 """
 
 import logging
@@ -1096,17 +1121,25 @@ _TASK_MERGERS: Dict[str, Callable] = {
 
 
 def get_post_processor(task_type: str) -> Callable:
-    """
-    Get the post-processing function for a given task type.
+    """Return the post-processing function for a given task type.
 
-    Args:
-        task_type: The task type identifier (e.g., "ner", "extraction")
+    The post-processor is applied to each chunk's raw output before merging.
+    Unknown task types fall back to :func:`generic_extraction_post_process`.
 
-    Returns:
-        Post-processing function
+    Parameters
+    ----------
+    task_type : str
+        Task type identifier (e.g. ``ner``, ``extraction``, ``resource``).
+        Must match a key in the internal registry (see :func:`register_task_type`).
 
-    Raises:
-        ValueError: If task_type is not registered
+    Returns
+    -------
+    callable
+        Post-processing function with signature suitable for chunk output.
+
+    Note
+    ----
+    To add a new task type, use :func:`register_task_type` before running the pipeline.
     """
     if task_type not in _TASK_POST_PROCESSORS:
         logger.warning(f"Unknown task type '{task_type}', using generic post-processor")
@@ -1115,17 +1148,25 @@ def get_post_processor(task_type: str) -> Callable:
 
 
 def get_result_merger(task_type: str) -> Callable:
-    """
-    Get the result merging function for a given task type.
+    """Return the result merging function for a given task type.
 
-    Args:
-        task_type: The task type identifier (e.g., "ner", "extraction")
+    The merger combines per-chunk results (e.g. list of entity lists) into
+    a single structure (e.g. deduplicated entities with provenance).
+    Unknown task types fall back to :func:`merge_generic_results`.
 
-    Returns:
-        Result merging function
+    Parameters
+    ----------
+    task_type : str
+        Task type identifier (e.g. ``ner``, ``extraction``, ``resource``).
 
-    Raises:
-        ValueError: If task_type is not registered
+    Returns
+    -------
+    callable
+        Merging function; typically (list of chunk results, full_text) → merged dict.
+
+    See Also
+    --------
+    register_task_type : Register a custom merger for a new task type.
     """
     if task_type not in _TASK_MERGERS:
         logger.warning(f"Unknown task type '{task_type}', using generic merger")
@@ -1138,13 +1179,27 @@ def register_task_type(
         post_processor: Callable,
         result_merger: Callable,
 ) -> None:
-    """
-    Register a new task type with its post-processor and merger.
+    """Register a new task type with its post-processor and result merger.
 
-    Args:
-        task_type: The task type identifier
-        post_processor: Function to post-process chunk results
-        result_merger: Function to merge results from multiple chunks
+    Call this before running the pipeline when adding a new use case (e.g. a new
+    extractor task type) so that :func:`get_post_processor` and :func:`get_result_merger`
+    return your functions for this task type.
+
+    Parameters
+    ----------
+    task_type : str
+        Task type identifier (e.g. ``my_custom_extraction``). Should match the
+        type returned by :func:`task_detection.detect_task_type` for your task config.
+    post_processor : callable
+        Function to post-process each chunk's raw output (e.g. normalize, filter).
+    result_merger : callable
+        Function to merge a list of chunk results into one structure (e.g. with
+        provenance). Signature typically (results: list, full_text: str) -> dict.
+
+    Note
+    ----
+    See internal_docs/DEVELOPER_1.md (Section 7) for the full checklist when adding
+    a new task type (config, task_tools, task_detection, and postprocessing).
     """
     _TASK_POST_PROCESSORS[task_type] = post_processor
     _TASK_MERGERS[task_type] = result_merger
@@ -1152,7 +1207,14 @@ def register_task_type(
 
 
 def get_registered_task_types() -> List[str]:
-    """Get list of all registered task types."""
+    """Return the list of all registered task types.
+
+    Returns
+    -------
+    list of str
+        Keys for which :func:`get_post_processor` and :func:`get_result_merger`
+        return custom functions (e.g. ``ner``, ``resource``, ``extraction``).
+    """
     return list(_TASK_POST_PROCESSORS.keys())
 
 
