@@ -1,3 +1,34 @@
+"""StructSense main application and pipeline orchestration.
+
+This module provides the primary entry point for structured information extraction
+via the :class:`StructSenseFlow` class. It runs a multi-agent CrewAI pipeline
+(extraction → alignment → judge → humanfeedback) with context management and
+token-window handling.
+
+Key classes and functions
+-------------------------
+- :class:`StructSenseFlow` – Main orchestrator; use :meth:`~StructSenseFlow.information_extraction_task`
+  for the full pipeline or :meth:`~StructSenseFlow.kickoff` for a single agent-task.
+- :meth:`StructSenseFlow.information_extraction_task` – Recommended entry point for production
+  (full pipeline with token management).
+- :meth:`StructSenseFlow.kickoff` – Run a single agent-task pair.
+- :meth:`StructSenseFlow.extraction` – Run only the extraction agent.
+- :meth:`StructSenseFlow.run_agent_task` – Low-level single agent-task with full control.
+
+Key constants (used when chaining pipeline stages)
+--------------------------------------------------
+- :data:`PIPELINE_INPUT_KEY_MAP` – Maps each task_key to the input placeholder name
+  the next stage expects (e.g. extraction_task → input_text, alignment_task → extracted_structured_information).
+- :data:`TASK_KEY_TO_CONTAINER_KEY` – Maps task_key to the container key in that task's
+  output for merging and provenance (e.g. extraction_task → resources or extracted_terms).
+- :data:`DOWNSTREAM_CONTAINER_KEYS` – All known container keys used in NER/resource pipelines.
+
+See also
+--------
+- :mod:`utils.task_tools` – Tool resolution per agent and task type.
+- :mod:`utils.postprocessing` – Post-processors and result mergers per task type.
+- :mod:`utils.task_detection` – Task-type detection from config.
+"""
 import json
 import logging
 import os
@@ -61,6 +92,9 @@ from utils.postprocessing import (
     add_provenance_to_result,
     verify_merged_result,
     apply_concept_mapping_to_result,
+    normalize_final_result_for_output,
+    promote_canonical_resources_for_resource_task,
+    ensure_resource_mapped_concepts_provenance,
 )
 from .humanloop import HumanInTheLoop
 
@@ -71,6 +105,13 @@ from utils.downstream_agent_helper import (
     prepare_alignment_agent_input,
     prepare_judge_agent_input,
     prepare_humanfeedback_agent_input,
+    split_structured_payload,
+    merge_structured_chunk_results,
+)
+from utils.conceptmappingtool import (
+    clear_alignment_tool_outputs,
+    get_alignment_tool_outputs,
+    format_alignment_tool_outputs_as_concept_mapping,
 )
 
 
@@ -139,8 +180,9 @@ class ConfigError(Exception):
     pass
 
 
-# Mapping from task_key to the input placeholder name expected by that task in the pipeline.
-# Used when chaining agents: each stage receives the previous stage's output under this key.
+#: Maps each pipeline task_key to the input placeholder name the next stage expects.
+#: Used when chaining agents: each stage receives the previous stage's output under this key.
+#: Example: alignment_task receives extraction output as ``extracted_structured_information``.
 PIPELINE_INPUT_KEY_MAP = {
     "extraction_task": "input_text",
     "alignment_task": "extracted_structured_information",
@@ -148,14 +190,19 @@ PIPELINE_INPUT_KEY_MAP = {
     "humanfeedback_task": "judged_structured_information_with_human_feedback",
 }
 
-# Mapping from task_key to the container key in that task's output (for merge + provenance).
+#: Maps task_key to the container key in that task's output (for merge and provenance).
+#: NER uses extracted_terms, aligned_ner_terms, judge_ner_terms; resource uses resources, aligned_resources, judge_resource.
 TASK_KEY_TO_CONTAINER_KEY = {
-    "extraction_task": "resources",
+    "extraction_task": "resources",  # resource; NER uses extracted_terms (detected at runtime)
     "alignment_task": "aligned_resources",
     "judge_task": "judge_resource",
     "humanfeedback_task": "judge_resource",
 }
-DOWNSTREAM_CONTAINER_KEYS = ("extracted_resources", "aligned_resources", "judge_resource", "resources")
+#: All known container keys used when merging or validating NER/resource pipeline results.
+DOWNSTREAM_CONTAINER_KEYS = (
+    "extracted_terms", "aligned_ner_terms", "judge_ner_terms",  # NER
+    "extracted_resources", "aligned_resources", "judge_resource", "resources",  # resource / generic
+)
 
 
 class StructSenseFlow:
@@ -182,6 +229,7 @@ class StructSenseFlow:
             max_workers: Optional[int] = None,
             downstream_max_input_chars: Optional[int] = None,
             max_extraction_chunk_chars: Optional[int] = None,
+            return_full_pipeline_details: bool = False,
     ):
         super().__init__()
         
@@ -192,6 +240,8 @@ class StructSenseFlow:
         else:
             load_dotenv()
             logger.info("Loaded environment variables from default .env")
+
+        # Human feedback: off by default; may be set from YAML human_in_loop_config when loading a combined config, then overridden by ENABLE_HUMAN_FEEDBACK env if set (see after config load).
 
         # Set API key in environment if provided
         if api_key:
@@ -276,15 +326,38 @@ class StructSenseFlow:
         try:
             # Load configs if they are file paths, otherwise use as-is
             if isinstance(agent_config, str):
-                self.agent_config = load_config(agent_config, "agent_config")
+                loaded = load_config(agent_config, "agent_config")
+                # Combined YAML may have top-level agent_config, task_config, human_in_loop_config
+                if isinstance(loaded, dict) and "agent_config" in loaded:
+                    if "human_in_loop_config" in loaded and "ENABLE_HUMAN_FEEDBACK" not in os.environ:
+                        hil = loaded.get("human_in_loop_config") or {}
+                        enable_human_feedback = str_to_bool(str(hil.get("humanfeedback_agent", enable_human_feedback)))
+                        logger.info("Human feedback set from config human_in_loop_config.humanfeedback_agent -> %s", enable_human_feedback)
+                    self.agent_config = loaded.get("agent_config", loaded)
+                else:
+                    self.agent_config = loaded
             else:
                 self.agent_config = agent_config
-                
+
             if isinstance(task_config, str):
-                self.task_config = load_config(task_config, "task_config")
+                loaded = load_config(task_config, "task_config")
+                if isinstance(loaded, dict) and "task_config" in loaded:
+                    if "human_in_loop_config" in loaded and "ENABLE_HUMAN_FEEDBACK" not in os.environ:
+                        hil = loaded.get("human_in_loop_config") or {}
+                        enable_human_feedback = str_to_bool(str(hil.get("humanfeedback_agent", enable_human_feedback)))
+                        logger.info("Human feedback set from config human_in_loop_config.humanfeedback_agent -> %s", enable_human_feedback)
+                    self.task_config = loaded.get("task_config", loaded)
+                else:
+                    self.task_config = loaded
             else:
                 self.task_config = task_config
-                
+
+            # Env override: ENABLE_HUMAN_FEEDBACK takes precedence over config file
+            if "ENABLE_HUMAN_FEEDBACK" in os.environ:
+                enable_human_feedback = str_to_bool(os.environ["ENABLE_HUMAN_FEEDBACK"])
+                logger.info("Human feedback overridden by env ENABLE_HUMAN_FEEDBACK=%s -> %s", os.environ["ENABLE_HUMAN_FEEDBACK"], enable_human_feedback)
+            self.enable_human_feedback = enable_human_feedback
+
             if isinstance(embedder_config, str):
                 self.embedder_config = load_config(embedder_config, "embedder_config")
             else:
@@ -309,14 +382,15 @@ class StructSenseFlow:
         
         setup_monitoring()
         
-        # Initialize memory
+        # Crew memory (long/short/entity) is off by default; not recommended with local models.
+        # Set ENABLE_CREW_MEMORY=true to enable (requires embedder_config, e.g. Ollama).
+        enable_crew_memory = str_to_bool(os.environ.get("ENABLE_CREW_MEMORY", "false"))
         self.long_term_memory = None
         self.short_term_memory = None
         self.entity_memory = None
-        
-        if self.embedder_config:
+
+        if enable_crew_memory and self.embedder_config:
             try:
-                # Check if using Ollama and if it's available
                 embedder_provider = None
                 if isinstance(self.embedder_config, dict):
                     embedder_provider = self.embedder_config.get("provider")
@@ -328,7 +402,6 @@ class StructSenseFlow:
                                 embedder_config=self.embedder_config
                             )
                     else:
-                        # Non-Ollama embedder (e.g., OpenAI)
                         self.long_term_memory, self.short_term_memory, self.entity_memory = initialize_memory(
                             embedder_config=self.embedder_config
                         )
@@ -336,11 +409,12 @@ class StructSenseFlow:
                     self.long_term_memory, self.short_term_memory, self.entity_memory = initialize_memory(
                         embedder_config=self.embedder_config
                     )
-                
                 if any([self.long_term_memory, self.short_term_memory, self.entity_memory]):
-                    logger.info("Memory systems initialized successfully")
+                    logger.info("Crew memory systems initialized successfully")
             except Exception as e:
                 logger.warning(f"Failed to initialize memory: {e}. Continuing without memory.")
+        elif not enable_crew_memory:
+            logger.info("Crew memory disabled (ENABLE_CREW_MEMORY=false, default). Set ENABLE_CREW_MEMORY=true to enable.")
         
         self.enable_chunking = enable_chunking
         self.chunk_size = chunk_size or 2000  # Default chunk size
@@ -351,6 +425,7 @@ class StructSenseFlow:
         # Cap extraction chunk size so (chunk + prompt) stays under model context; token limits vary by model.
         # Default 25000 chars (~6k tokens) leaves room for task prompt on 128k models. None = no cap.
         self.max_extraction_chunk_chars = max_extraction_chunk_chars if max_extraction_chunk_chars is not None else 25_000
+        self.return_full_pipeline_details = return_full_pipeline_details
         self.agent_feedback_config = agent_feedback_config or {}
         # Human-in-the-loop for feedback before humanfeedback_agent (see humanloop.py)
         self.human_loop = HumanInTheLoop(
@@ -471,6 +546,13 @@ class StructSenseFlow:
             max_workers = self.max_workers
 
         # Use async execution for better concurrency when chunking is enabled
+        # For resource/structured_extraction alignment: extract all aligned_resources blobs and return as list
+        # so app.py can combine them in postprocessing (merge_downstream_chunk_results_with_provenance).
+        # NER, extraction (e.g. pdf2_reproschema), judge, humanfeedback: single parse only.
+        pick_richest = (
+            task_key == "alignment_task"
+            and task_type in ("resource", "structured_extraction")
+        )
         if self.enable_chunking and chunk_size:
             result = await run_crew_extraction_async(
                 crew=crew,
@@ -485,6 +567,7 @@ class StructSenseFlow:
                 agent_context=self.agent_context,
                 shared_memory=self.shared_memory,
                 context_manager=self.context_manager,
+                pick_richest_alignment=pick_richest,
             )
         else:
             # Use synchronous execution for single chunk or no chunking
@@ -501,6 +584,7 @@ class StructSenseFlow:
                 agent_context=self.agent_context,
                 shared_memory=self.shared_memory,
                 context_manager=self.context_manager,
+                pick_richest_alignment=pick_richest,
             )
 
         elapsed_time = time.time() - start_time
@@ -746,11 +830,11 @@ class StructSenseFlow:
             user_feedback_text: Optional user feedback for humanfeedback stage
 
         Returns:
-            Dict with final results from all pipeline stages including:
-            - entities, resources, key_terms (final output)
-            - pipeline_stages (results from each agent)
-            - token_usage (token statistics)
-            - context_management (agent context tracking)
+            Dict with final results. By default (return_full_pipeline_details=False):
+            - entities, resources, key_terms (final output only, no repetition)
+            - errors, task_type, elapsed_time
+            When return_full_pipeline_details=True also includes:
+            - pipeline_stages, stage_timings, token_usage, context_management
 
         Note:
             This is the recommended method for production use. For single-agent
@@ -794,16 +878,23 @@ class StructSenseFlow:
         pipeline_stages = {}
         stage_timings = {}  # Track execution time for each stage
         prev_output = None
+        humanfeedback_aborted_by_user = False  # Option 4: set when user aborts feedback step (save judge result)
+        human_approved_skip_concept_mapping = False  # Option 1: when user approves, save result as-is without concept mapping
 
         for idx, (agent_key, task_key) in enumerate(ordered_pairs):
             stage_start_time = time.time()  # Start timing this stage
             is_first_stage = idx == 0
             input_key = PIPELINE_INPUT_KEY_MAP.get(task_key, "input_text")
             extra_inputs = None  # Initialize for each stage
+            humanfeedback_approved_skip_run = False  # Option 1 or 4: skip running humanfeedback agent
 
             logger.info("=" * 80)
             logger.info(f"STAGE {idx + 1}/{len(ordered_pairs)}: {agent_key} / {task_key}")
             logger.info("=" * 80)
+
+            # Clear alignment-stage tool outputs so we only capture this stage's concept mapping (for extraction)
+            if task_key == "alignment_task":
+                clear_alignment_tool_outputs()
 
             if is_first_stage:
                 # First stage: source text, chunking, post-processing, merger
@@ -885,9 +976,9 @@ class StructSenseFlow:
                     self._get_detected_task_type(agent_key, task_key)
                 )
 
-            # Optional extra inputs for humanfeedback_task (from humanloop or explicit args)
+            # Human feedback receives judge output: prev_output at this point is the judge stage result
             if task_key == "humanfeedback_task" and prev_output is not None:
-                # Collect user feedback
+                # Collect user feedback (1=Approve, 2=View, 3=Modify, 4=Abort)
                 feedback_text = user_feedback_text
                 if feedback_text is None and self.human_loop.is_feedback_enabled_for_agent("humanfeedback_agent"):
                     feedback_result = self.human_loop.request_feedback(
@@ -896,27 +987,45 @@ class StructSenseFlow:
                         agent_name="humanfeedback_agent",
                     )
                     if isinstance(feedback_result, dict):
-                        feedback_text = feedback_result.get("user_feedback_text", "")
-                        if feedback_result.get("user_feedback_json") is not None:
-                            # Merge modification_context into feedback_text if needed
-                            mod_context = json.dumps(feedback_result["user_feedback_json"], indent=2)
-                            feedback_text = f"{feedback_text}\n\nModification Context:\n{mod_context}"
+                        if feedback_result.get("_human_abort_feedback"):
+                            # Option 4: skip humanfeedback agent, save judge output as final (not full pipeline abort)
+                            pipeline_stages[task_key] = prev_output
+                            humanfeedback_approved_skip_run = True
+                            humanfeedback_aborted_by_user = True
+                            logger.info("[humanfeedback_agent] Skipping LLM run (user aborted feedback step). Judge result will be saved.")
+                        elif feedback_result.get("_human_approved_skip_agent"):
+                            # Option 1: keep judge output as final; do not overwrite prev_output (it already holds judge output)
+                            pipeline_stages[task_key] = prev_output
+                            humanfeedback_approved_skip_run = True
+                            human_approved_skip_concept_mapping = True
+                            logger.info("[humanfeedback_agent] Skipping LLM run (user approved judge output).")
+                        else:
+                            feedback_text = feedback_result.get("user_feedback_text", "")
+                            if feedback_result.get("user_feedback_json") is not None:
+                                mod_context = json.dumps(feedback_result["user_feedback_json"], indent=2)
+                                feedback_text = f"{feedback_text}\n\nModification Context:\n{mod_context}"
 
-                # If still no feedback, use a default
-                if not feedback_text:
-                    feedback_text = modification_context or "No specific feedback provided."
+                if not humanfeedback_approved_skip_run:
+                    # If still no feedback, use a default (only when we will run the agent)
+                    if not feedback_text:
+                        feedback_text = modification_context or "No specific feedback provided."
 
-                # Prepare token-managed input for humanfeedback agent
-                logger.info(f"[{agent_key}] Preparing token-managed input for humanfeedback agent")
-                managed_input = prepare_humanfeedback_agent_input(
-                    judge_results=prev_output,
-                    user_feedback=feedback_text,
-                    agent_context=self.agent_context,
-                    context_manager=self.context_manager,
-                    max_tokens=self.token_limit
-                )
-                extra_inputs = managed_input
-                stage_text = None  # Will use extra_inputs instead
+                    # Prepare token-managed input for humanfeedback agent (only when running agent)
+                    alignment_for_human = None
+                    alignment_ctx = self.agent_context.get_latest_result("alignment_agent") if self.agent_context else None
+                    if alignment_ctx:
+                        alignment_for_human = alignment_ctx.result
+                    logger.info(f"[{agent_key}] Preparing token-managed input for humanfeedback agent")
+                    managed_input = prepare_humanfeedback_agent_input(
+                        judge_results=prev_output,
+                        user_feedback=feedback_text,
+                        alignment_results=alignment_for_human,
+                        agent_context=self.agent_context,
+                        context_manager=self.context_manager,
+                        max_tokens=self.token_limit
+                    )
+                    extra_inputs = managed_input
+                    stage_text = None  # Will use extra_inputs instead
             elif task_key != "humanfeedback_task" and not is_first_stage and extra_inputs is None:
                 # For other downstream stages, extra_inputs was set above
                 pass
@@ -961,35 +1070,140 @@ class StructSenseFlow:
                     else:
                         prev_output = self._merge_downstream_chunk_results(downstream_results)
                 pipeline_stages[task_key] = prev_output
+            elif humanfeedback_approved_skip_run:
+                # Option 1 (Approve): prev_output and pipeline_stages already set; no agent run
+                pass
             else:
-                result = await self.run_agent_task(
-                    agent_key=agent_key,
-                    task_key=task_key,
-                    text=stage_text,
-                    pydantic_output_class=None,
-                    chunk_size=stage_chunk_size,
-                    max_workers=self.max_workers,
-                    post_process=stage_post_process,
-                    input_key=input_key,
-                    default_result=stage_default_result,
-                    extra_inputs=extra_inputs,
+                # Token-based chunking for alignment/judge/humanfeedback when payload exceeds context limit
+                use_chunked = (
+                    not is_first_stage
+                    and extra_inputs
+                    and task_key in ("alignment_task", "judge_task", "humanfeedback_task")
                 )
+                payload_key = (
+                    "extracted_structured_information" if task_key == "alignment_task"
+                    else "aligned_structured_information" if task_key == "judge_task"
+                    else "judged_structured_information_with_human_feedback"
+                )
+                payload = extra_inputs.get(payload_key) if use_chunked else None
+                token_budget = int(self.token_limit * 0.6)
+                over_limit = (
+                    isinstance(payload, dict)
+                    and self.context_manager.estimate_tokens(payload) > token_budget
+                )
+                if use_chunked and over_limit:
+                    chunks = split_structured_payload(
+                        payload,
+                        self.context_manager,
+                        token_budget,
+                        max_entities_per_chunk=70,
+                        max_key_terms_per_chunk=25,
+                        max_resources_per_chunk=15,
+                    )
+                    async def run_one_structured_chunk(chunk_payload: Dict[str, Any]) -> Dict[str, Any]:
+                        chunk_inputs = {**extra_inputs, payload_key: chunk_payload}
+                        return await self.run_agent_task(
+                            agent_key=agent_key,
+                            task_key=task_key,
+                            text=None,
+                            pydantic_output_class=None,
+                            chunk_size=None,
+                            max_workers=1,
+                            post_process=None,
+                            input_key=PIPELINE_INPUT_KEY_MAP.get(task_key, "input_text"),
+                            default_result=stage_default_result,
+                            extra_inputs=chunk_inputs,
+                        )
 
-                all_errors.extend(result.get("errors", []))
+                    if len(chunks) > 1:
+                        logger.info(
+                            "[%s] Running %s chunks in parallel (payload over token limit)",
+                            task_key,
+                            len(chunks),
+                        )
+                        chunk_results = await asyncio.gather(*[run_one_structured_chunk(c) for c in chunks])
+                    else:
+                        chunk_results = [await run_one_structured_chunk(chunks[0])]
 
-                if is_first_stage:
-                    merged = result_merger(result["results"], text)
-                    merged = verify_merged_result(merged, text, task_type)
-                    prev_output = merged
-                    pipeline_stages[task_key] = merged
+                    for r in chunk_results:
+                        all_errors.extend(r.get("errors", []))
+                    raw_list = [r["results"][0] for r in chunk_results if r.get("results") and isinstance(r["results"][0], dict)]
+                    if raw_list:
+                        ckey = TASK_KEY_TO_CONTAINER_KEY.get(task_key) or self._detect_container_key(raw_list[0])
+                        # For alignment/judge with multiple chunks: use resource-aware merge so tool-backed concepts (real IDs) beat N/A
+                        if ckey and task_key in ("alignment_task", "judge_task") and len(raw_list) > 1:
+                            prev_output = merge_downstream_chunk_results_with_provenance(raw_list, ckey, agent_key)
+                        else:
+                            prev_output = merge_structured_chunk_results(raw_list)
+                            if isinstance(prev_output, dict) and ckey:
+                                add_provenance_to_result(prev_output, ckey, agent_key)
+                        pipeline_stages[task_key] = prev_output
+                    else:
+                        result = chunk_results[0] if chunk_results else {}
+                        prev_output = result.get("results", [{}])[0] if result.get("results") else prev_output
+                        pipeline_stages[task_key] = prev_output
                 else:
-                    raw = result["results"][0] if result.get("results") else prev_output
-                    if isinstance(raw, dict):
-                        container_key = TASK_KEY_TO_CONTAINER_KEY.get(task_key) or self._detect_container_key(raw)
-                        if container_key:
-                            add_provenance_to_result(raw, container_key, agent_key)
-                    prev_output = raw
-                    pipeline_stages[task_key] = raw
+                    if task_key == "humanfeedback_task":
+                        logger.info(
+                            "[humanfeedback_agent] Running agent with your feedback (Modify path). "
+                            "Input keys: %s",
+                            list(extra_inputs.keys()) if extra_inputs else [],
+                        )
+                    result = await self.run_agent_task(
+                        agent_key=agent_key,
+                        task_key=task_key,
+                        text=stage_text,
+                        pydantic_output_class=None,
+                        chunk_size=stage_chunk_size,
+                        max_workers=self.max_workers,
+                        post_process=stage_post_process,
+                        input_key=input_key,
+                        default_result=stage_default_result,
+                        extra_inputs=extra_inputs,
+                    )
+
+                    all_errors.extend(result.get("errors", []))
+
+                    if is_first_stage:
+                        merged = result_merger(result["results"], text)
+                        merged = verify_merged_result(merged, text, task_type)
+                        prev_output = merged
+                        pipeline_stages[task_key] = merged
+                        # Add provenance for extraction stage by default (NER and resource)
+                        ext_container = self._detect_container_key(merged)
+                        if ext_container:
+                            add_provenance_to_result(merged, ext_container, "extractor_agent")
+                    else:
+                        results_list = result.get("results") or []
+                        # Combine multiple blobs (e.g. alignment Final Answer blocks) via postprocessing merge
+                        if len(results_list) > 1 and task_key in ("alignment_task", "judge_task"):
+                            ckey = TASK_KEY_TO_CONTAINER_KEY.get(task_key) or self._detect_container_key(results_list[0])
+                            if ckey:
+                                prev_output = merge_downstream_chunk_results_with_provenance(
+                                    results_list, ckey, agent_key
+                                )
+                                pipeline_stages[task_key] = prev_output
+                            else:
+                                prev_output = results_list[0] if results_list else prev_output
+                                pipeline_stages[task_key] = prev_output
+                        else:
+                            raw = results_list[0] if results_list else prev_output
+                            if isinstance(raw, dict):
+                                container_key = TASK_KEY_TO_CONTAINER_KEY.get(task_key) or self._detect_container_key(raw)
+                                if container_key:
+                                    add_provenance_to_result(raw, container_key, agent_key)
+                            prev_output = raw
+                            pipeline_stages[task_key] = raw
+
+            # Preserve alignment agent's concept mapping tool output only for extraction (pdf2_reproschema).
+            # For NER and resource we do not inject concept_mapping into prev_output so judge input shape is unchanged.
+            if task_key == "alignment_task" and task_type == "extraction" and isinstance(prev_output, dict):
+                session_outputs = get_alignment_tool_outputs()
+                if session_outputs:
+                    concept_mapping_list = format_alignment_tool_outputs_as_concept_mapping(session_outputs)
+                    if concept_mapping_list:
+                        prev_output["concept_mapping"] = concept_mapping_list
+                        logger.info("Preserved %d concept mappings from alignment agent tool output", len(concept_mapping_list))
 
             # Record stage timing
             stage_elapsed = time.time() - stage_start_time
@@ -1018,40 +1232,91 @@ class StructSenseFlow:
         logger.info(f"Shared memory: {self.shared_memory.get_stats()['total_keys']} keys stored")
         logger.info("=" * 80)
 
-        # Build result: last stage output at top level, plus errors/task_type/elapsed_time/pipeline_stages
+        # Build result: last stage output (human feedback if enabled, else judge). Each stage extends the previous.
+        # Unwrap if LLM returned output nested under pipeline placeholder key (e.g. judged_structured_information_with_human_feedback)
         final = dict(prev_output) if isinstance(prev_output, dict) else {}
+        if humanfeedback_aborted_by_user:
+            final["human_feedback_skipped"] = True  # User chose Abort; judge result saved without feedback step
+        unwrap_keys = (
+            "judged_structured_information_with_human_feedback",
+            "aligned_structured_information",
+            "extracted_structured_information",
+        )
+        if isinstance(final, dict) and len(final) >= 1:
+            for key in unwrap_keys:
+                inner = final.get(key)
+                if isinstance(inner, dict) and (
+                    "entities" in inner or "key_terms" in inner or "resources" in inner or "judge_resource" in inner
+                ):
+                    # Use inner as base so entities/key_terms are at top level; keep other top-level keys
+                    rest = {k: v for k, v in final.items() if k != key}
+                    final = {**inner, **rest}
+                    logger.debug("Unwrapped final result from key %s", key)
+                    break
         final["errors"] = all_errors
         final["task_type"] = task_type
         final["elapsed_time"] = elapsed_time
-        final["stage_timings"] = stage_timings  # Add stage timings to output
-        final["pipeline_stages"] = pipeline_stages
 
-        # Add token usage info
-        final["token_usage"] = {
-            "total": total_tokens,
-            "limit": self.token_limit,
-            "utilization_pct": utilization_pct,
-            "by_agent": {
-                agent_key: sum(r.token_count for r in results)
-                for agent_key, results in self.agent_context.agent_results.items()
+        # For extraction: carry over concept_mapping from alignment stage (judge/humanfeedback overwrite prev_output)
+        if task_type == "extraction" and pipeline_stages.get("alignment_task") and isinstance(pipeline_stages["alignment_task"], dict):
+            alignment_cm = pipeline_stages["alignment_task"].get("concept_mapping")
+            if isinstance(alignment_cm, list) and alignment_cm:
+                final["concept_mapping"] = alignment_cm
+
+        # Include pipeline details only when requested (avoids repeating entities and heavy metadata)
+        if self.return_full_pipeline_details:
+            final["stage_timings"] = stage_timings
+            final["pipeline_stages"] = pipeline_stages
+            final["token_usage"] = {
+                "total": total_tokens,
+                "limit": self.token_limit,
+                "utilization_pct": utilization_pct,
+                "by_agent": {
+                    agent_key: sum(r.token_count for r in results)
+                    for agent_key, results in self.agent_context.agent_results.items()
+                }
             }
-        }
-
-        # Add context management stats
-        final["context_management"] = {
-            "agents_tracked": len(self.agent_context.agent_results),
-            "shared_memory_keys": self.shared_memory.get_stats()['total_keys'],
-            "agent_context": self.agent_context.to_dict()
-        }
+            final["context_management"] = {
+                "agents_tracked": len(self.agent_context.agent_results),
+                "shared_memory_keys": self.shared_memory.get_stats()['total_keys'],
+                "agent_context": self.agent_context.to_dict()
+            }
 
         # End-of-pipeline verifier: ensure all text, sentences, entities present in source
         final = verify_merged_result(final, text, task_type)
 
-        # Concept mapping enabled by default when alignment_task ran: add ontology_id, ontology_label, ontology to entities/resources/key_terms (uses same max_workers as pipeline)
-        if any(task_key == "alignment_task" for _agent_key, task_key in ordered_pairs):
-            logger.info("Applying concept mapping to entities, resources, and key_terms (parallel, max_workers=%s)", self.max_workers or 8)
-            final = apply_concept_mapping_to_result(final, max_workers=self.max_workers or 8)
+        # Resource task: promote judge/aligned output into final["resources"] so concept mapping and output use refined list (with mapped_* from alignment/judge)
+        if task_type in ("resource", "structured_extraction"):
+            # Inject alignment stage so promote can prefer alignment's rich mapped_* when judge output is thin (e.g. after approve)
+            if pipeline_stages.get("alignment_task") and isinstance(pipeline_stages["alignment_task"], dict):
+                al = pipeline_stages["alignment_task"].get("aligned_resources")
+                if al is not None:
+                    final["aligned_resources"] = al
+            promote_canonical_resources_for_resource_task(final)
 
+        # Concept mapping at end: run only when user modified (option 3). Do not run when user approved (1) or aborted (4).
+        # Skip flags are only set when human feedback was shown and user chose 1 or 4; NER/extraction/resource
+        # behave unchanged when human feedback is disabled or when user chose Modify (3).
+        skip_end_concept_mapping = human_approved_skip_concept_mapping or humanfeedback_aborted_by_user
+        if skip_end_concept_mapping:
+            logger.info("Saving result without end concept mapping (user approved or aborted; no modification).")
+            # Ensure resource mapped concepts have provenance (tool vs llm_knowledge) when we did not run end concept mapping
+            if task_type in ("resource", "structured_extraction") and isinstance(final.get("resources"), list) and final["resources"]:
+                ensure_resource_mapped_concepts_provenance(final["resources"])
+        else:
+            extraction_has_alignment_concept_mapping = (
+                task_type == "extraction"
+                and isinstance(final.get("concept_mapping"), list)
+                and len(final.get("concept_mapping", [])) > 0
+            )
+            if extraction_has_alignment_concept_mapping:
+                logger.info("Using concept_mapping from alignment agent tool output (skipping end-of-pipeline concept mapping for extraction).")
+            else:
+                logger.info("Applying concept mapping (task_type=%s, parallel, max_workers=%s)", task_type, self.max_workers or 8)
+                final = apply_concept_mapping_to_result(final, task_type=task_type, max_workers=self.max_workers or 8)
+
+        # Keep only task-specific canonical output (no separate aligned/judge keys), like NER.
+        final = normalize_final_result_for_output(final, task_type)
         return final
 
     def _get_default_result_for_task(self, task_type: str) -> Dict[str, Any]:
@@ -1074,7 +1339,9 @@ class StructSenseFlow:
         return None
 
     def _get_ordered_agent_task_pairs(self) -> list:
-        """Return list of (agent_key, task_key) in config order for pipeline execution."""
+        """Return list of (agent_key, task_key) in config order for pipeline execution.
+        Human-feedback stage is included only when enable_human_feedback is True.
+        """
         pairs = []
         for task_key_iter, task_data in self.task_config.items():
             if isinstance(task_data, dict) and "agent_id" in task_data:
@@ -1083,6 +1350,9 @@ class StructSenseFlow:
                     pairs.append((agent_key_iter, task_key_iter))
         if not pairs and "extractor_agent" in self.agent_config and "extraction_task" in self.task_config:
             pairs = [("extractor_agent", "extraction_task")]
+        # Exclude humanfeedback stage when human feedback is disabled
+        if not self.enable_human_feedback:
+            pairs = [p for p in pairs if p != ("humanfeedback_agent", "humanfeedback_task")]
         return pairs
 
     def _split_downstream_payload(self, payload: Dict[str, Any], max_chars: int) -> list:

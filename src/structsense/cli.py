@@ -46,6 +46,12 @@ def extract(config, api_key, source, env_file, save_file, chunk_size, max_worker
     agent_config = all_config.get("agent_config", {})
     embedder_config = all_config.get("embedder_config", {})
     task_config = all_config.get("task_config", {})
+    # Human-in-the-loop: from YAML human_in_loop_config (env ENABLE_HUMAN_FEEDBACK still overrides inside StructSenseFlow)
+    human_in_loop = all_config.get("human_in_loop_config") or {}
+    enable_human_feedback = bool(human_in_loop.get("humanfeedback_agent", False))
+    if "ENABLE_HUMAN_FEEDBACK" in os.environ:
+        from utils.utils import str_to_bool
+        enable_human_feedback = str_to_bool(os.environ["ENABLE_HUMAN_FEEDBACK"])
 
     # Use StructSenseFlow as the single entry point
     flow = StructSenseFlow(
@@ -55,6 +61,7 @@ def extract(config, api_key, source, env_file, save_file, chunk_size, max_worker
         input_source=source,
         env_file=env_file,
         api_key=api_key,
+        enable_human_feedback=enable_human_feedback,
         enable_chunking=enable_chunking,
         chunk_size=chunk_size,
         max_workers=max_workers,
