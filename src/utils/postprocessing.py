@@ -32,7 +32,6 @@ from .text_chunking import (
 
 logger = logging.getLogger(__name__)
 
-
 # ============================================================
 # MODEL PRIORITY AND WEIGHTS
 # ============================================================
@@ -234,6 +233,17 @@ def _merge_ner_entities_with_weighted_voting(
     # Step 3: Process each group with weighted voting
     merged = []
 
+    # Fallback when entity has no source_model: use first from group, else "extractor_agent" (preserve extractor provenance)
+    def _effective_source_model(entity: Dict[str, Any], group: List[Dict[str, Any]]) -> str:
+        raw = entity.get("source_model") or ""
+        if isinstance(raw, str) and raw.strip():
+            return normalize_model_name(raw.strip())
+        for e in group:
+            r = e.get("source_model")
+            if isinstance(r, str) and r.strip():
+                return normalize_model_name(r.strip())
+        return "extractor_agent"
+
     for group in groups:
         # Collect label votes with weights
         label_votes = defaultdict(float)
@@ -241,9 +251,7 @@ def _merge_ner_entities_with_weighted_voting(
 
         for entity in group:
             label = entity.get("label", "UNKNOWN")
-            source = entity.get("source_model", "unknown")
-            # Normalize model name
-            source = normalize_model_name(source)
+            source = _effective_source_model(entity, group)
             weight = get_model_weight(source)
 
             label_votes[label] += weight
@@ -266,8 +274,8 @@ def _merge_ner_entities_with_weighted_voting(
         min_start = min(_entity_span(e)[0] for e in group)
         max_end = max(_entity_span(e)[1] for e in group)
 
-        # Collect all source models involved (normalized)
-        all_sources = list(set(normalize_model_name(e.get("source_model", "unknown")) for e in group))
+        # Collect all source models involved (normalized; preserve from extractor, fallback extractor_agent)
+        all_sources = list(set(_effective_source_model(e, group) for e in group))
 
         # Build provenance: all labels predicted with their sources
         provenance = []
@@ -517,6 +525,82 @@ def merge_generic_results(
 # ============================================================
 # RESOURCE EXTRACTION POST-PROCESSING
 # ============================================================
+# Keys that LLM/configs may use for extraction output; we accept any of these so format changes don't break the pipeline.
+RESOURCE_EXTRACTION_CONTAINER_KEYS = (
+    "extracted_resources",  # BBQS format: {"1": [{...}], "2": [...]}
+    "resources",            # list of resource objects
+    "resource",             # single resource object
+)
+
+
+def _looks_like_resource(d: Any) -> bool:
+    """True if d is a dict that looks like a resource (has at least one core field)."""
+    if not isinstance(d, dict):
+        return False
+    return bool(
+        d.get("name") or d.get("resource_name") or d.get("description")
+        or d.get("type") or d.get("category") or d.get("target")
+    )
+
+
+def _collect_resources_from_value(value: Any) -> List[Dict[str, Any]]:
+    """Recursively collect resource-like dicts from a value (list, dict, or single dict)."""
+    out: List[Dict[str, Any]] = []
+    if isinstance(value, dict):
+        if _looks_like_resource(value):
+            out.append(value)
+        else:
+            for _k, v in value.items():
+                out.extend(_collect_resources_from_value(v))
+    elif isinstance(value, list):
+        for item in value:
+            out.extend(_collect_resources_from_value(item))
+    return out
+
+
+def _extract_resources_from_raw(raw_result: Dict[str, Any]) -> List[Dict[str, Any]]:
+    """
+    Extract a flat list of resource-like dicts from raw LLM output.
+    Tries known container keys first; if none found, scans the dict for any resource-like objects.
+    """
+    if not isinstance(raw_result, dict):
+        return []
+
+    # 1) Known keys (order: most specific first)
+    for key in RESOURCE_EXTRACTION_CONTAINER_KEYS:
+        if key not in raw_result:
+            continue
+        val = raw_result[key]
+        if val is None:
+            continue
+        if key == "resource":
+            if isinstance(val, dict) and _looks_like_resource(val):
+                return [val]
+            continue
+        if key == "resources" and isinstance(val, list):
+            items = [x for x in val if isinstance(x, dict) and _looks_like_resource(x)]
+            if items:
+                return items
+            continue
+        if key == "extracted_resources" and isinstance(val, dict):
+            all_items: List[Dict[str, Any]] = []
+            for _k, v in val.items():
+                if isinstance(v, list):
+                    all_items.extend(x for x in v if isinstance(x, dict) and _looks_like_resource(x))
+                elif isinstance(v, dict) and _looks_like_resource(v):
+                    all_items.append(v)
+            if all_items:
+                return all_items
+            continue
+
+    # 2) Heuristic: scan top-level and one level of nesting for resource-like dicts
+    collected = _collect_resources_from_value(raw_result)
+    if collected:
+        return collected
+
+    return []
+
+
 def _normalize_resource_for_merge(res: Dict[str, Any]) -> Dict[str, Any]:
     """Normalize a single resource dict from chunk output (name/mentions) to a common shape.
     Includes downstream fields (judge_score, judge_rationale, etc.) when present.
@@ -637,32 +721,40 @@ def _merge_resources_into_one(group: List[Dict[str, Any]]) -> Dict[str, Any]:
     description = max((r.get("description") or "" for r in group), key=len)
     name = best.get("name") or ""
 
-    # Merge key_features and mapped_* (dedupe by string repr or id)
+    # Merge key_features and mapped_* (dedupe; prefer tool-backed entries with real ontology IDs over N/A)
+    def _has_real_id(d: Any) -> bool:
+        if not isinstance(d, dict):
+            return False
+        i = d.get("id") or d.get("mapped_target_concept", {}).get("id") if isinstance(d.get("mapped_target_concept"), dict) else None
+        return bool(i and str(i).strip().startswith(("http://", "https://")))
+
     key_features = _merge_mention_lists(*(r.get("key_features") for r in group))
-    mapped_target = []
-    seen_target = set()
+    # mapped_target_concept: by (id or label) keep best (prefer real IRI over N/A)
+    target_by_key: Dict[str, Dict[str, Any]] = {}
     for r in group:
         for item in r.get("mapped_target_concept") or []:
-            if isinstance(item, dict):
-                uid = item.get("id") or item.get("label") or str(item)
-                if uid not in seen_target:
-                    seen_target.add(uid)
-                    mapped_target.append(item)
-            elif item not in seen_target:
-                seen_target.add(item)
-                mapped_target.append(item)
-    mapped_specific = []
-    seen_specific = set()
+            if not isinstance(item, dict):
+                continue
+            uid = (item.get("id") or item.get("label") or str(item) or "").strip()
+            if not uid:
+                uid = str(item)
+            if uid not in target_by_key or (_has_real_id(item) and not _has_real_id(target_by_key[uid])):
+                target_by_key[uid] = item
+    mapped_target = list(target_by_key.values())
+
+    # mapped_specific_target_concept: by normalized specific_target keep best (prefer inner real IRI over N/A)
+    specific_by_key: Dict[str, Dict[str, Any]] = {}
     for r in group:
         for item in r.get("mapped_specific_target_concept") or []:
-            if isinstance(item, dict):
-                uid = item.get("id") or item.get("label") or str(item)
-                if uid not in seen_specific:
-                    seen_specific.add(uid)
-                    mapped_specific.append(item)
-            elif item not in seen_specific:
-                seen_specific.add(item)
-                mapped_specific.append(item)
+            if not isinstance(item, dict):
+                continue
+            st = (item.get("specific_target") or "").strip().lower()
+            if not st:
+                st = str(item.get("mapped_target_concept") or item)
+            existing = specific_by_key.get(st)
+            if existing is None or (_has_real_id(item) and not _has_real_id(existing)):
+                specific_by_key[st] = item
+    mapped_specific = list(specific_by_key.values())
 
     return {
         "resource_name": name,
@@ -789,36 +881,22 @@ def resource_extraction_post_process(
     """
     Normalize chunk output for resource extraction.
 
-    Accepts raw_result with "resource" (single object) or "resources" (list)
-    and returns a dict with "resources" list for the merger to consume.
+    Accepts any raw_result shape: known keys (extracted_resources, resources, resource)
+    or a heuristic scan for resource-like dicts (name, description, type, category, etc.).
+    Always returns {"resources": [...]} for the merger so downstream never receives empty
+    content due to format variation.
     """
-    if not isinstance(raw_result, dict):
+    items = _extract_resources_from_raw(raw_result)
+    if not items:
         return {"resources": []}
-
-    # Single resource under "resource" key
-    if "resource" in raw_result:
-        r = raw_result["resource"]
-        if isinstance(r, dict):
-            return {"resources": [_normalize_resource_for_merge(r)]}
-        return {"resources": []}
-
-    # List under "resources" key
-    if "resources" in raw_result:
-        raw_list = raw_result["resources"]
-        if isinstance(raw_list, list):
-            resources = [
-                _normalize_resource_for_merge(x)
-                for x in raw_list
-                if isinstance(x, dict)
-            ]
-            return {"resources": resources}
-        return {"resources": []}
-
-    # Top-level dict looks like a resource (has name or resource_name)
-    if raw_result.get("name") or raw_result.get("resource_name"):
-        return {"resources": [_normalize_resource_for_merge(raw_result)]}
-
-    return {"resources": []}
+    normalized = [_normalize_resource_for_merge(r) for r in items]
+    if len(normalized) != len(items):
+        logger.debug(
+            "resource_extraction_post_process: extracted %d items, normalized %d",
+            len(items),
+            len(normalized),
+        )
+    return {"resources": normalized}
 
 
 def merge_resource_results(
@@ -866,11 +944,18 @@ def merge_resource_results(
 # DOWNSTREAM MERGE WITH PROVENANCE
 # ============================================================
 # Which fields each agent typically adds/updates (for provenance tracking).
+# Used for both NER and resource (and other) tasks; each item only gets fields it actually has.
 PROVENANCE_AGENT_FIELDS: Dict[str, List[str]] = {
-    "extractor_agent": ["name", "description", "type", "category", "target", "specific_target", "url", "mentions"],
-    "alignment_agent": ["mapped_target_concept", "mapped_specific_target_concept"],
-    "judge_agent": ["judge_score", "judge_rationale"],
-    "humanfeedback_agent": ["judge_score", "judge_rationale", "user_feedback_applied"],
+    "extractor_agent": [
+        "name", "description", "type", "category", "target", "specific_target", "url", "mentions",
+        "entity", "label", "sentence", "start", "end", "remarks", "paper_location", "paper_title", "doi",
+    ],
+    "alignment_agent": [
+        "mapped_target_concept", "mapped_specific_target_concept",
+        "ontology_id", "ontology_label", "ontology", "concept_mapping_provenance",
+    ],
+    "judge_agent": ["judge_score", "judge_rationale", "remarks"],
+    "humanfeedback_agent": ["judge_score", "judge_rationale", "user_feedback_applied", "remarks"],
 }
 
 
@@ -1244,9 +1329,347 @@ def verify_merged_result(
     return verify_generic_result(merged_result, full_text)
 
 
+# Keys that are intermediate agent outputs; stripped from final result so output is task-specific only (like NER).
+INTERMEDIATE_CONTAINER_KEYS_NER = ("extracted_terms", "aligned_ner_terms", "judge_ner_terms")
+INTERMEDIATE_CONTAINER_KEYS_RESOURCE = ("extracted_resources", "aligned_resources", "judge_resource")
+
+
+def _resource_has_rich_mapped_concepts(res: Dict[str, Any]) -> bool:
+    """True if resource has multiple mapped_specific_target_concept or any concept with non-N/A id."""
+    if not isinstance(res, dict):
+        return False
+    mst = res.get("mapped_specific_target_concept") or []
+    if len(mst) > 1:
+        return True
+    mtc = res.get("mapped_target_concept") or []
+    for c in mtc:
+        if isinstance(c, dict) and c.get("id") and str(c.get("id", "")).upper() not in ("N/A", "NA", "NULL", ""):
+            return True
+    for item in mst:
+        inner = item.get("mapped_target_concept") if isinstance(item, dict) else None
+        if isinstance(inner, dict) and inner.get("id") and str(inner.get("id", "")).upper() not in ("N/A", "NA", "NULL", ""):
+            return True
+    return False
+
+
+def promote_canonical_resources_for_resource_task(final: Dict[str, Any]) -> None:
+    """
+    For resource/structured_extraction: set final["resources"] to the refined list from
+    judge_resource or aligned_resources when present, so concept mapping and final output
+    use the same list (with mapped_target_concept etc. from alignment/judge), not the
+    extraction-merge list which has empty mapped_*.
+    Prefers aligned_resources when they have richer mapped_* (multiple specific_target entries
+    or real ontology IDs); otherwise uses judge. Merges judge_score from judge into the
+    chosen list when possible.
+    """
+    if not isinstance(final, dict):
+        return
+    judge = final.get("judge_resource")
+    aligned = final.get("aligned_resources")
+    resources = final.get("resources") or []
+    judge_flat = _flatten_container_to_list(judge) if judge is not None else []
+    aligned_flat = _flatten_container_to_list(aligned) if aligned is not None else []
+    flat: List[Dict[str, Any]] = []
+    if aligned_flat and any(_resource_has_rich_mapped_concepts(r) for r in aligned_flat):
+        flat = aligned_flat
+    elif judge_flat:
+        flat = judge_flat
+    elif aligned_flat:
+        flat = aligned_flat
+    elif isinstance(resources, list) and resources:
+        flat = resources
+    else:
+        flat = _flatten_container_to_list(resources) if isinstance(resources, dict) else []
+    if flat and judge_flat:
+        name_to_judge = {}
+        for jr in judge_flat:
+            if isinstance(jr, dict):
+                n = (jr.get("name") or jr.get("resource_name") or "").strip()
+                if n:
+                    name_to_judge[n] = jr
+        for res in flat:
+            if not isinstance(res, dict):
+                continue
+            n = (res.get("name") or res.get("resource_name") or "").strip()
+            judge_res = name_to_judge.get(n) if n else (judge_flat[0] if judge_flat and isinstance(judge_flat[0], dict) else None)
+            if judge_res and "judge_score" in judge_res:
+                res["judge_score"] = judge_res.get("judge_score")
+                # Ensure provenance shows judge_agent (rich output like NER)
+                res.setdefault("provenance", {})
+                if isinstance(res["provenance"], dict):
+                    jprovenance = judge_res.get("provenance") or {}
+                    res["provenance"]["judge_agent"] = (
+                        jprovenance.get("judge_agent") if isinstance(jprovenance, dict) else None
+                    ) or ["judge_score"]
+    if flat:
+        for res in flat:
+            if isinstance(res, dict):
+                res.pop("judge_resource", None)
+                res.pop("aligned_resources", None)
+        final["resources"] = flat
+
+
+def _flatten_container_to_list(container: Any) -> List[Dict[str, Any]]:
+    """Turn dict-of-lists (e.g. {'1': [...], '2': [...]}) or list into a single list of items."""
+    if isinstance(container, list):
+        return [x for x in container if isinstance(x, dict)]
+    if isinstance(container, dict):
+        out: List[Dict[str, Any]] = []
+        for _k, v in container.items():
+            if isinstance(v, list):
+                out.extend(x for x in v if isinstance(x, dict))
+            elif isinstance(v, dict):
+                out.append(v)
+        return out
+    return []
+
+
+def normalize_final_result_for_output(final: Dict[str, Any], task_type: str) -> Dict[str, Any]:
+    """
+    Keep only the task-specific canonical output and metadata; remove intermediate
+    agent containers so the JSON matches NER style (no separate aligned/judge keys).
+
+    - NER: keep entities, key_terms, verification, errors, task_type, elapsed_time, metadata.
+    - Resource: keep resources, verification, errors, task_type, elapsed_time.
+    """
+    if not isinstance(final, dict):
+        return final
+    task_type = (task_type or "").strip().lower()
+
+    allowed = {"errors", "task_type", "elapsed_time", "verification", "metadata", "human_feedback_skipped"}
+    if task_type == "ner":
+        allowed |= {"entities", "key_terms"}
+        for key in INTERMEDIATE_CONTAINER_KEYS_NER:
+            final.pop(key, None)
+        # If entities/key_terms missing but judge_ner_terms present, flatten
+        if not final.get("entities") and not final.get("key_terms"):
+            jn = final.get("judge_ner_terms")
+            if jn and isinstance(jn, dict):
+                entities = _flatten_container_to_list(jn)
+                final["entities"] = entities
+                final["key_terms"] = final.get("key_terms") or []
+        final.pop("judge_ner_terms", None)
+        for key in list(final):
+            if key not in allowed:
+                final.pop(key, None)
+        return final
+    elif task_type in ("resource", "structured_extraction"):
+        # Keep canonical resources list (concept mapping runs on final["resources"]); drop intermediate keys only.
+        resources = final.get("resources") or []
+        if not isinstance(resources, list):
+            resources = _flatten_container_to_list(resources) if isinstance(resources, dict) else []
+        if not resources and isinstance(final.get("resource"), dict) and _looks_like_resource(final["resource"]):
+            resources = [final["resource"]]
+        out = {
+            "errors": final.get("errors", []),
+            "task_type": final.get("task_type", task_type),
+            "elapsed_time": final.get("elapsed_time"),
+            "resources": resources,
+            "verification": final.get("verification", {}),
+        }
+        if final.get("human_feedback_skipped") is not None:
+            out["human_feedback_skipped"] = final["human_feedback_skipped"]
+        return out
+    else:
+        # generic: drop intermediate keys only
+        for key in list(INTERMEDIATE_CONTAINER_KEYS_NER) + list(INTERMEDIATE_CONTAINER_KEYS_RESOURCE):
+            final.pop(key, None)
+        return final
+
+
 # ============================================================
 # CONCEPT MAPPING (ONTOLOGY_ID, ONTOLOGY_LABEL, ONTOLOGY)
 # ============================================================
+
+def _resource_organize_mapped_concepts(res: Dict[str, Any]) -> None:
+    """
+    Populate structured mapped_* concept fields from flat ontology_* fields.
+    Each concept object follows the NER-like shape: id, label, ontology, and
+    concept_mapping_provenance ("tool" | "llm_knowledge") so provenance is clear
+    per concept, same as entity-level ontology_id/ontology_label/concept_mapping_provenance in NER.
+    When flat fields were filled by the Concept Mapping Tool (provenance "tool"), prefer them
+    over alignment-provided mapped_* so that tool usage is reflected in the final output.
+    """
+    if not isinstance(res, dict):
+        return
+
+    def _provenance(res: Dict[str, Any], key: str, default: str = "tool") -> str:
+        v = res.get(key)
+        if isinstance(v, str) and v.strip():
+            return v.strip()
+        return default
+
+    def _has_flat_tool(prefix: str) -> bool:
+        """True if flat ontology fields for this slot were set by the tool (provenance "tool")."""
+        prov_key = (prefix + "concept_mapping_provenance") if prefix else "concept_mapping_provenance"
+        return _provenance(res, prov_key, "") == "tool"
+
+    def _first(val: Any) -> Any:
+        if isinstance(val, list) and val:
+            return val[0]
+        return val
+
+    # mapped_name_concept from top-level ontology_id / ontology_label / ontology (resource name)
+    oid = res.get("ontology_id")
+    olabel = res.get("ontology_label")
+    oont = res.get("ontology")
+    use_name_flat = (oid is not None or olabel is not None or oont is not None)
+    if use_name_flat and (not res.get("mapped_name_concept") or _has_flat_tool("")):
+        oid, olabel, oont = _first(oid), _first(olabel), _first(oont)
+        prov = _provenance(res, "concept_mapping_provenance")
+        res["mapped_name_concept"] = [{"id": oid, "label": olabel, "ontology": oont, "concept_mapping_provenance": prov}]
+
+    # mapped_target_concept from target_ontology_* (prefer flat when tool wrote them so provenance shows "tool")
+    tid = res.get("target_ontology_id")
+    tlabel = res.get("target_ontology_label")
+    tont = res.get("target_ontology")
+    use_target_flat = (tid is not None or tlabel is not None or tont is not None)
+    if use_target_flat and (not res.get("mapped_target_concept") or _has_flat_tool("target_")):
+        tid, tlabel, tont = _first(tid), _first(tlabel), _first(tont)
+        prov = _provenance(res, "target_concept_mapping_provenance")
+        res["mapped_target_concept"] = [
+            {"id": tid, "label": tlabel, "ontology": tont, "concept_mapping_provenance": prov}
+        ]
+
+    # mapped_specific_target_concept from specific_target + specific_target_ontology_*
+    # Do not replace when resource already has multiple entries (from alignment); only set provenance.
+    sid = res.get("specific_target_ontology_id")
+    slabel = res.get("specific_target_ontology_label")
+    sont = res.get("specific_target_ontology")
+    st = res.get("specific_target")
+    existing_mst = res.get("mapped_specific_target_concept")
+    use_specific_flat = (st is not None or sid is not None or slabel is not None or sont is not None)
+    replace_mst = (
+        use_specific_flat
+        and (not existing_mst or (len(existing_mst) <= 1 and _has_flat_tool("specific_target_")))
+    )
+    if replace_mst:
+        sid, slabel, sont = _first(sid), _first(slabel), _first(sont)
+        if isinstance(st, list):
+            st = st[0] if st else (str(st) if st else "")
+        if st is None:
+            st = ""
+        prov = _provenance(res, "specific_target_concept_mapping_provenance")
+        mc = {"id": sid, "label": slabel, "ontology": sont, "concept_mapping_provenance": prov}
+        res["mapped_specific_target_concept"] = [{"specific_target": str(st) if st else "", "mapped_target_concept": mc}]
+
+    # mapped_type_concept from type_ontology_*
+    type_id = res.get("type_ontology_id")
+    type_label = res.get("type_ontology_label")
+    type_ont = res.get("type_ontology")
+    use_type_flat = (type_id is not None or type_label is not None or type_ont is not None)
+    if use_type_flat and (not res.get("mapped_type_concept") or _has_flat_tool("type_")):
+        type_id = _first(type_id)
+        type_label = _first(type_label)
+        type_ont = _first(type_ont)
+        prov = _provenance(res, "type_concept_mapping_provenance")
+        res["mapped_type_concept"] = [{"id": type_id, "label": type_label, "ontology": type_ont, "concept_mapping_provenance": prov}]
+
+    # mapped_category_concept from category_ontology_*
+    cat_id = res.get("category_ontology_id")
+    cat_label = res.get("category_ontology_label")
+    cat_ont = res.get("category_ontology")
+    use_cat_flat = (cat_id is not None or cat_label is not None or cat_ont is not None)
+    if use_cat_flat and (not res.get("mapped_category_concept") or _has_flat_tool("category_")):
+        cat_id = _first(cat_id)
+        cat_label = _first(cat_label)
+        cat_ont = _first(cat_ont)
+        prov = _provenance(res, "category_concept_mapping_provenance")
+        res["mapped_category_concept"] = [{"id": cat_id, "label": cat_label, "ontology": cat_ont, "concept_mapping_provenance": prov}]
+
+    # Map structured key -> flat provenance key prefix (so we know if the tool was used for this slot)
+    _key_to_flat_prefix = {
+        "mapped_target_concept": "target_",
+        "mapped_specific_target_concept": "specific_target_",
+        "mapped_name_concept": "",
+        "mapped_type_concept": "type_",
+        "mapped_category_concept": "category_",
+    }
+    # Ensure existing mapped_* have concept_mapping_provenance. If the tool was used for this slot
+    # (flat provenance "tool"), use "tool"; otherwise "llm_knowledge". Keep provenance only on the
+    # concept itself (inner mapped_target_concept for specific_target), not duplicated on the wrapper.
+    for key in ("mapped_target_concept", "mapped_specific_target_concept", "mapped_name_concept", "mapped_type_concept", "mapped_category_concept"):
+        val = res.get(key)
+        if not isinstance(val, list):
+            continue
+        prov_for_slot = "tool" if _has_flat_tool(_key_to_flat_prefix[key]) else "llm_knowledge"
+        for item in val:
+            if not isinstance(item, dict):
+                continue
+            # Set provenance on the concept (inner) for mapped_specific_target_concept; on the item for others
+            inner = item.get("mapped_target_concept")
+            if isinstance(inner, dict):
+                if "concept_mapping_provenance" not in inner or not inner["concept_mapping_provenance"]:
+                    inner["concept_mapping_provenance"] = prov_for_slot
+                # Single provenance: keep only on inner concept, remove from outer wrapper
+                item.pop("concept_mapping_provenance", None)
+            else:
+                if "concept_mapping_provenance" not in item or not item["concept_mapping_provenance"]:
+                    item["concept_mapping_provenance"] = prov_for_slot
+
+
+# Flat concept-mapping keys to remove from resources so output only has structured mapped_* fields.
+_RESOURCE_FLAT_ONTOLOGY_KEYS = (
+    "ontology_id", "ontology_label", "ontology", "concept_mapping_provenance",
+    "target_ontology_id", "target_ontology_label", "target_ontology", "target_concept_mapping_provenance",
+    "specific_target_ontology_id", "specific_target_ontology_label", "specific_target_ontology",
+    "specific_target_concept_mapping_provenance",
+    "type_ontology_id", "type_ontology_label", "type_ontology", "type_concept_mapping_provenance",
+    "category_ontology_id", "category_ontology_label", "category_ontology", "category_concept_mapping_provenance",
+)
+
+
+def _resource_strip_flat_ontology_fields(res: Dict[str, Any]) -> None:
+    """Remove flat ontology_* fields from a resource so output only has structured mapped_* and mentions_with_ontology."""
+    if not isinstance(res, dict):
+        return
+    for key in _RESOURCE_FLAT_ONTOLOGY_KEYS:
+        res.pop(key, None)
+
+
+def _concept_has_real_iri(d: Dict[str, Any]) -> bool:
+    """True if concept dict has an id that is a real IRI (http/https), not N/A."""
+    if not isinstance(d, dict):
+        return False
+    i = d.get("id") or (d.get("mapped_target_concept") or {}).get("id") if isinstance(d.get("mapped_target_concept"), dict) else None
+    if not i or not isinstance(i, str):
+        return False
+    i = i.strip().upper()
+    if i in ("N/A", "NA", "NULL", ""):
+        return False
+    return i.startswith(("HTTP://", "HTTPS://"))
+
+
+def ensure_resource_mapped_concepts_provenance(resources: List[Dict[str, Any]]) -> None:
+    """
+    Ensure every mapped_* concept on each resource has concept_mapping_provenance
+    ("tool" or "llm_knowledge"). Use "tool" when the concept has a real ontology IRI
+    (from alignment's Concept Mapping Tool); otherwise "llm_knowledge". Call when
+    concept mapping is skipped (e.g. user approved) so output still has provenance.
+    Accepts a list of resource dicts, or a single resource dict (normalized to list of one).
+    """
+    if isinstance(resources, dict) and _looks_like_resource(resources):
+        resources = [resources]
+    if not isinstance(resources, list):
+        return
+    for res in resources:
+        if not isinstance(res, dict):
+            continue
+        for key in ("mapped_target_concept", "mapped_specific_target_concept", "mapped_name_concept", "mapped_type_concept", "mapped_category_concept"):
+            val = res.get(key)
+            if not isinstance(val, list):
+                continue
+            for item in val:
+                if not isinstance(item, dict):
+                    continue
+                inner = item.get("mapped_target_concept")
+                if isinstance(inner, dict):
+                    # Always set from IRI: real IRI => "tool" (from Concept Mapping Tool), else "llm_knowledge"
+                    inner["concept_mapping_provenance"] = "tool" if _concept_has_real_iri(inner) else "llm_knowledge"
+                    item.pop("concept_mapping_provenance", None)
+                else:
+                    item["concept_mapping_provenance"] = "tool" if _concept_has_real_iri(item) else "llm_knowledge"
+
 
 def _concept_map_one_term(text: str, tool: Any) -> Dict[str, Any]:  # noqa: ANN401
     """
@@ -1269,17 +1692,110 @@ def _concept_map_one_term(text: str, tool: Any) -> Dict[str, Any]:  # noqa: ANN4
     return {"ontology_id": None, "ontology_label": None, "ontology": None}
 
 
+# Keys that are metadata or already handled by task-specific concept mapping (do not collect as "generic" terms)
+_GENERIC_SKIP_TOP_KEYS = frozenset({
+    "errors", "elapsed_time", "task_type", "verification", "metadata", "human_feedback_skipped",
+    "pipeline_stages", "stage_timings", "token_usage", "context_management",
+})
+# Keys under which we already do task-specific mapping; when task is ner/resource, skip these to avoid duplicate work
+_TASK_SPECIFIC_CONTAINER_KEYS = frozenset({"entities", "resources", "key_terms", "judge_ner_terms"})
+# String values that are not meaningful terms for concept mapping
+_GENERIC_SKIP_VALUES = frozenset({"true", "false", "null", "yes", "no", "n/a", "na", ""})
+
+
+def _collect_terms_from_result_generic(
+    payload: Any,
+    path: str = "",
+    sanitize_fn: Optional[Callable[[str], str]] = None,
+    skip_top_keys: Optional[frozenset] = None,
+    max_depth: int = 12,
+    min_len: int = 2,
+    max_len: int = 600,
+    _depth: int = 0,
+) -> List[Tuple[str, str]]:
+    """
+    Recursively collect term-like string values from any nested structure (dict/list).
+    Returns list of (sanitized_term, path) for concept mapping. Path is a readable path like
+    "judged_terms.refined_metadata.activity.description" or "aligned_terms.items[0].question".
+    Used when task type is unknown or extraction so concept mapping works without hardcoded shapes.
+    """
+    out: List[Tuple[str, str]] = []
+    skip_top = skip_top_keys or frozenset()
+    sanitize = sanitize_fn or (lambda s: (s or "").strip())
+
+    def is_term_like(s: str) -> bool:
+        if not s or len(s) < min_len or len(s) > max_len:
+            return False
+        s_lower = s.strip().lower()
+        if s_lower in _GENERIC_SKIP_VALUES:
+            return False
+        if s.strip().startswith(("http://", "https://")):
+            return False
+        if s.strip().replace(".", "").replace("-", "").isdigit():
+            return False
+        return True
+
+    if _depth > max_depth:
+        return out
+
+    if isinstance(payload, dict):
+        for k, v in payload.items():
+            if path == "" and k in skip_top:
+                continue
+            next_path = f"{path}.{k}" if path else k
+            if isinstance(v, str):
+                if is_term_like(v):
+                    term = sanitize(v)
+                    if term:
+                        out.append((term, next_path))
+            elif isinstance(v, (dict, list)):
+                out.extend(
+                    _collect_terms_from_result_generic(
+                        v, next_path, sanitize_fn, None, max_depth, min_len, max_len, _depth + 1
+                    )
+                )
+            # skip numbers, bools, None
+        return out
+
+    if isinstance(payload, list):
+        for i, item in enumerate(payload):
+            next_path = f"{path}[{i}]"
+            if isinstance(item, str):
+                if is_term_like(item):
+                    term = sanitize(item)
+                    if term:
+                        out.append((term, next_path))
+            elif isinstance(item, (dict, list)):
+                out.extend(
+                    _collect_terms_from_result_generic(
+                        item, next_path, sanitize_fn, None, max_depth, min_len, max_len, _depth + 1
+                    )
+                )
+        return out
+
+    return out
+
+
 def apply_concept_mapping_to_result(
     result: Dict[str, Any],
+    task_type: Optional[str] = None,
     max_workers: int = 8,
 ) -> Dict[str, Any]:
     """
-    For each entity, resource (name, target, specific_target), and key_term in result,
-    concept-map the term in parallel and add ontology_id, ontology_label, ontology
-    to each item. Updates result in place and returns it.
+    Concept-map terms from the extractor output and add ontology_id, ontology_label,
+    ontology to each item. Task-aware:
+    - NER: entities (entity text and label) and key_terms.
+    - Resource / structured_extraction: resources — name, type, category, target,
+      specific_target, and all mention lists (related_models, datasets, tools,
+      related_papers, benchmarks); key_terms.
+    - Extraction or unknown task_type: no hardcoded shape. Terms are collected
+      generically by recursively walking the result and collecting term-like string
+      values (with path tracking). result["concept_mapping"] is set so concept
+      mapping works for any pipeline output without code changes.
 
-    Expects result to contain some of: entities, resources, key_terms; also handles
-    judge_ner_terms (id -> list of entity dicts) and aligned_resources.
+    Expects result to contain some of: entities, resources, key_terms; or any nested
+    structure for extraction/unknown task. Also handles judge_ner_terms. Updates
+    result in place and returns it.
 
     Speed: Results are deduplicated by term (one API call per unique term). Optional
     env CONCEPT_MAPPING_MAX_TERMS caps how many unique terms are mapped (rest get null).
@@ -1290,35 +1806,71 @@ def apply_concept_mapping_to_result(
         tool = ConceptMappingTool()
     except (ValueError, ImportError) as e:
         logger.warning("Concept mapping skipped (ConceptMappingTool unavailable): %s", e)
+        # Important: even when tool is unavailable, keep resource outputs consistent by
+        # ensuring mapped_* concepts have concept_mapping_provenance (defaults to "llm_knowledge").
+        t = (task_type or "").strip().lower()
+        if t in ("resource", "structured_extraction"):
+            resources_list = result.get("resources")
+            if not isinstance(resources_list, list) and isinstance(result.get("resource"), dict) and _looks_like_resource(result["resource"]):
+                resources_list = [result["resource"]]
+                result["resources"] = resources_list
+            if isinstance(resources_list, list):
+                ensure_resource_mapped_concepts_provenance(resources_list)
         return result
 
-    # ---- Collect (term_key, target_container, target_key_or_index) ----
-    # term_key: unique string to map (sanitized so extra chars/whitespace don't cause duplicate API calls)
+    # ---- Task-aware: what to map from extractor output ----
+    t = (task_type or "").strip().lower()
+
+    # ---- Collect (term_key, target_container, target_key_or_index, suffix) ----
+    # term_key: unique string to map (sanitized)
     # target_container: list or dict we'll update
-    # target_key_or_index: key in container (for dict) or index (for list) and optional sub_key for nested (e.g. target_ontology_id)
+    # target_key_or_index: index (for list) or key (for dict)
+    # suffix: entity|label|name|type|category|target|specific_target (for apply-back)
     tasks: List[Tuple[str, Any, Any, Optional[str]]] = []  # (term, container, index_or_key, suffix)
+    # For resource mentions: (term, resources_list, resource_index, mention_key, item_index)
+    mention_tasks: List[Tuple[str, List[Dict[str, Any]], int, str, int]] = []
 
     def add_term(term: str, container: Any, index_or_key: Any, suffix: Optional[str] = None) -> None:
         cleaned = _sanitize_term(term) if term is not None else ""
         if cleaned:
             tasks.append((cleaned, container, index_or_key, suffix))
 
-    # Entities: add ontology_* to each entity (map entity text)
+    # Entities: map entity text; for NER also map entity label
     entities = result.get("entities", [])
     if isinstance(entities, list):
         for i, ent in enumerate(entities):
             if isinstance(ent, dict):
                 add_term(ent.get("entity") or "", entities, i, "entity")
+                if t == "ner":
+                    add_term(ent.get("label") or "", entities, i, "label")
 
-    # Resources: map name, target, specific_target per resource
+    # Resources: name, target, specific_target always; for resource/structured_extraction add type, category, and mention lists (models, datasets, tools, etc.)
+    # Normalize single "resource" (dict) to "resources" (list of one) so the same logic runs for both
     resources = result.get("resources", [])
+    if not (isinstance(resources, list) and resources) and isinstance(result.get("resource"), dict) and _looks_like_resource(result["resource"]):
+        result["resources"] = [result["resource"]]
+        resources = result["resources"]
     if isinstance(resources, list):
+        mention_keys = ("related_models", "models", "datasets", "tools", "related_papers", "papers", "benchmarks")
         for i, res in enumerate(resources):
             if not isinstance(res, dict):
                 continue
             add_term(res.get("name") or res.get("resource_name") or "", resources, i, "name")
             add_term(res.get("target") or "", resources, i, "target")
             add_term(res.get("specific_target") or "", resources, i, "specific_target")
+            if t in ("resource", "structured_extraction"):
+                add_term(res.get("type") or "", resources, i, "type")
+                add_term(res.get("category") or "", resources, i, "category")
+                mentions = res.get("mentions") or {}
+                if isinstance(mentions, dict):
+                    for mk in mention_keys:
+                        lst = mentions.get(mk)
+                        if isinstance(lst, list):
+                            for j, val in enumerate(lst):
+                                if isinstance(val, str) and val.strip():
+                                    term_clean = _sanitize_term(val)
+                                    if term_clean:
+                                        mention_tasks.append((term_clean, resources, i, mk, j))
 
     # key_terms: list of strings -> will become list of {term, ontology_id, ontology_label, ontology}
     key_terms_raw = result.get("key_terms", [])
@@ -1340,6 +1892,20 @@ def apply_concept_mapping_to_result(
                     if isinstance(ent, dict) and (ent.get("entity") or "").strip():
                         judge_entity_tasks.append((elist, rid, eidx, eidx))
 
+    # Generic term collection when task is extraction or unknown: walk result and collect term-like
+    # strings so concept mapping works for any output shape without hardcoded task logic.
+    generic_term_tasks: List[Tuple[str, str]] = []  # (term, path) for concept_mapping list
+    use_generic_collector = t == "extraction" or t not in ("ner", "resource", "structured_extraction")
+    if use_generic_collector:
+        skip_top = _GENERIC_SKIP_TOP_KEYS | _TASK_SPECIFIC_CONTAINER_KEYS
+        raw = _collect_terms_from_result_generic(result, path="", sanitize_fn=_sanitize_term, skip_top_keys=skip_top)
+        # Dedupe by term (keep first path) so each unique term is mapped once
+        seen = set()
+        for term, src in raw:
+            if term and term not in seen:
+                seen.add(term)
+                generic_term_tasks.append((term, src))
+
     # ---- Build unique term -> mapping result ----
     unique_terms: Dict[str, Dict[str, Any]] = {}
     terms_order: List[str] = []
@@ -1349,12 +1915,18 @@ def apply_concept_mapping_to_result(
     for term, _ in key_terms_tasks:
         if term not in unique_terms:
             terms_order.append(term)
+    for term, _res_list, _res_i, _mk, _j in mention_tasks:
+        if term not in unique_terms:
+            terms_order.append(term)
     for list_ref, rid, _, eidx in judge_entity_tasks:
         ent = list_ref[eidx] if eidx < len(list_ref) else {}
         if isinstance(ent, dict):
             term = _sanitize_term(ent.get("entity") or "")
             if term and term not in unique_terms:
                 terms_order.append(term)
+    for term, _ in generic_term_tasks:
+        if term and term not in unique_terms:
+            terms_order.append(term)
 
     # Optional cap to speed up large results: only map first N unique terms (env CONCEPT_MAPPING_MAX_TERMS)
     max_terms_to_map: Optional[int] = None
@@ -1411,8 +1983,37 @@ def apply_concept_mapping_to_result(
                     set_ontology(item, mapping, "target_", provenance="tool")
                 elif suffix == "specific_target":
                     set_ontology(item, mapping, "specific_target_", provenance="tool")
+                elif suffix == "type":
+                    set_ontology(item, mapping, "type_", provenance="tool")
+                elif suffix == "category":
+                    set_ontology(item, mapping, "category_", provenance="tool")
+                elif suffix == "label":
+                    set_ontology(item, mapping, "label_", provenance="tool")
                 else:
                     set_ontology(item, mapping, provenance="tool")
+
+    # Resource mentions: build mentions_with_ontology per resource (related_models, datasets, tools, etc.)
+    for term, res_list, res_i, mk, j in mention_tasks:
+        mapping = unique_terms.get(term, {})
+        if res_i >= len(res_list) or not isinstance(res_list[res_i], dict):
+            continue
+        res = res_list[res_i]
+        mentions = res.get("mentions") or {}
+        lst = mentions.get(mk) if isinstance(mentions, dict) else None
+        if not isinstance(lst, list) or j >= len(lst):
+            continue
+        if "mentions_with_ontology" not in res:
+            res["mentions_with_ontology"] = {}
+        if mk not in res["mentions_with_ontology"]:
+            res["mentions_with_ontology"][mk] = [{} for _ in range(len(lst))]
+        if j < len(res["mentions_with_ontology"][mk]):
+            res["mentions_with_ontology"][mk][j] = {
+                "name": term,
+                "ontology_id": _top1(mapping.get("ontology_id")),
+                "ontology_label": _top1(mapping.get("ontology_label")),
+                "ontology": _top1(mapping.get("ontology")),
+                "concept_mapping_provenance": "tool",
+            }
 
     for list_ref, rid, _, eidx in judge_entity_tasks:
         if not isinstance(list_ref, list) or eidx >= len(list_ref):
@@ -1435,6 +2036,57 @@ def apply_concept_mapping_to_result(
                 "concept_mapping_provenance": "tool",
             })
         result["key_terms"] = new_key_terms
+
+    # Generic / extraction: add concept_mapping list so output reflects tool usage for any task shape
+    if use_generic_collector and generic_term_tasks:
+        result["concept_mapping"] = []
+        for term, source in generic_term_tasks:
+            m = unique_terms.get(term, {})
+            result["concept_mapping"].append({
+                "term": term,
+                "source": source,
+                "ontology_id": _top1(m.get("ontology_id")),
+                "ontology_label": _top1(m.get("ontology_label")),
+                "ontology": _top1(m.get("ontology")),
+                "concept_mapping_provenance": "tool",
+            })
+
+    # Resources: ensure flat provenance is set so _resource_organize_mapped_concepts sees "tool" for each slot we process (handles both "resources" list and single "resource" normalized above)
+    resources_list = result.get("resources")
+    if not isinstance(resources_list, list) and isinstance(result.get("resource"), dict) and _looks_like_resource(result["resource"]):
+        result["resources"] = [result["resource"]]
+        resources_list = result["resources"]
+    if isinstance(resources_list, list):
+        for res in resources_list:
+            if not isinstance(res, dict):
+                continue
+            prov = res.get("provenance") or {}
+            if isinstance(prov, dict) and prov.get("concept_mapping_provenance") == "tool":
+                res["target_concept_mapping_provenance"] = res.get("target_concept_mapping_provenance") or "tool"
+            if res.get("mapped_target_concept_provenance") == "tool":
+                res["target_concept_mapping_provenance"] = "tool"
+            mst_provens = res.get("mapped_specific_target_concept_provenances")
+            if isinstance(mst_provens, list) and any(
+                isinstance(p, dict) and p.get("provenance") == "tool" for p in mst_provens
+            ):
+                res["specific_target_concept_mapping_provenance"] = res.get("specific_target_concept_mapping_provenance") or "tool"
+            # If any mapped concept has a real IRI (tool output), mark as tool
+            for item in (res.get("mapped_specific_target_concept") or []):
+                inner = item.get("mapped_target_concept") if isinstance(item, dict) else None
+                if isinstance(inner, dict) and inner.get("id") and str(inner.get("id", "")).startswith(("http://", "https://")):
+                    res["specific_target_concept_mapping_provenance"] = res.get("specific_target_concept_mapping_provenance") or "tool"
+                    break
+            mtc_list = res.get("mapped_target_concept") or []
+            if isinstance(mtc_list, list):
+                for c in mtc_list:
+                    if isinstance(c, dict) and c.get("id") and str(c.get("id", "")).startswith(("http://", "https://")):
+                        res["target_concept_mapping_provenance"] = res.get("target_concept_mapping_provenance") or "tool"
+                        break
+            # Only set flat provenance from alignment/real IRI above; do not force "tool" for every field (would mislabel llm_knowledge as tool)
+        for res in resources_list:
+            if isinstance(res, dict):
+                _resource_organize_mapped_concepts(res)
+                _resource_strip_flat_ontology_fields(res)
 
     return result
 
