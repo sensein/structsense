@@ -1,0 +1,156 @@
+# BBQS Resource Extraction - agent config
+
+agent_config:
+  extractor_agent:
+    role: >
+      Brain and Behavior Quantification and Synchronization (BBQS) Resource Extractor Agent
+    goal: >
+      Extract a single structured resource entry per input relevant to BBQS. Capture related subjects as secondary mentions.
+    backstory: >
+      You are a research assistant for the BBQS consortium (NIH-funded: tools, datasets, models, benchmarks for brain-behavior research).
+      Extract the primary resource only; reference other entities (datasets, benchmarks, tools) under a `mentions` field. Do not hallucinate. Return valid JSON only.
+    llm:
+      model: openrouter/openai/gpt-4o-mini
+      base_url: https://openrouter.ai/api/v1
+
+  alignment_agent:
+    role: >
+      BBQS Concept Alignment Agent
+    goal: >
+      Align extracted resource metadata with BBQS controlled vocabularies and domain schemas.
+    backstory: >
+      You normalize resource fields (type, category, target, specific_target) using existing schemas and ontologies (e.g. BTO, NCBITaxon). Correct typos and ambiguities. Return one updated resource in JSON; mentions may be left as-is or annotated.
+    llm:
+      model: openrouter/openai/gpt-4o-mini
+      base_url: https://openrouter.ai/api/v1
+
+  judge_agent:
+    role: >
+      BBQS Judge Agent
+    goal: >
+      Evaluate {aligned_structured_information} against BBQS standards and output structured JSON with a confidence score and rationale.
+    backstory: >
+      You are a reviewer for the BBQS resource pipeline and do not hallucinate. Score only the primary resource (not mentions). Return confidence 0–1, rationale, and preserve original fields with evaluation metadata in JSON.
+    llm:
+      model: openrouter/openai/gpt-4o-mini
+      base_url: https://openrouter.ai/api/v1
+
+  humanfeedback_agent:
+    role: >
+      BBQS Human Feedback Processor Agent
+    goal: >
+      Evaluate {judged_structured_information_with_human_feedback} and incorporate human expert feedback.
+    backstory: >
+      You act as a human domain expert reviewer for BBQS and do not hallucinate. Score only the primary resource. Return confidence 0–1, rationale, and preserve fields; process user feedback. Output JSON.
+    llm:
+      model: openrouter/openai/gpt-4o-mini
+      base_url: https://openrouter.ai/api/v1
+
+# agent task config
+task_config:
+  extraction_task:
+    description: >
+      Extract structured metadata for one BBQS resource from {input_text}. One resource per input; put other referenced resources under `mentions` only.
+
+      Return JSON with: name, description, type (Model, Dataset, Paper, Tool, Benchmark, Leaderboard), category, target, specific_target, url, mentions (optional: models, datasets, benchmarks, papers). Use null if missing. Do not copy the example verbatim.
+
+      Resource:
+      { input_text }
+
+    expected_output: >
+      output format: json
+      Example:
+      "extracted_resources": {
+        "1": [{
+          "name": "DeepLabCut Model Zoo - SuperAnimal-Quadruped",
+          "description": "Pre-trained model for quadruped animal pose estimation using DeepLabCut.",
+          "type": "Model",
+          "category": "Pose Estimation",
+          "target": "Animal",
+          "specific_target": "Quadruped, Horse, Mice",
+          "url": "https://deeplabcut.github.io/DeepLabCut/docs/ModelZoo.html",
+          "mentions": {
+            "datasets": ["Quadruped-80K", "AnimalPose"],
+            "benchmarks": ["AP-10K", "AnimalPose"],
+            "models": ["DeepLabCut"]
+          }
+        }]
+      }
+
+    agent_id: extractor_agent
+
+  alignment_task:
+    description: >
+      Align the extractor output to BBQS concepts. Map entities to matching concepts from existing resources/ontologies (e.g. BTO, NCBITaxon). If no match, use N/A.
+
+      Inputs: {extracted_structured_information}
+
+      Add mapped_target_concept (id, label, ontology) for target and mapped_specific_target_concept per specific_target. Preserve name, description, type, category, target, specific_target, url, mentions.
+
+    expected_output: >
+      output format: json
+      Example:
+      "aligned_resources": {
+        "1": [{
+          "name": "DeepLabCut Model Zoo - SuperAnimal-Quadruped",
+          "description": "Pre-trained model for quadruped animal pose estimation.",
+          "type": "Model",
+          "category": "Pose Estimation",
+          "target": "Animal",
+          "mapped_target_concept": [{"id": "http://purl.obolibrary.org/obo/BTO_0000042", "label": "animal", "ontology": "BTO"}],
+          "specific_target": "Quadruped, Horse, Mice",
+          "mapped_specific_target_concept": [
+            {"specific_target": "Mice", "mapped_target_concept": {"label": "Mus musculus", "id": "NCBITaxon:10090", "ontology": "NCBITaxon"}}
+          ],
+          "url": "https://deeplabcut.github.io/DeepLabCut/docs/ModelZoo.html",
+          "mentions": {"datasets": ["Quadruped-80K"], "benchmarks": ["AP-10K"], "models": ["DeepLabCut"]}
+        }]
+      }
+
+    agent_id: alignment_agent
+
+  judge_task:
+    description: >
+      Evaluate {aligned_structured_information}: (1) Assess alignment quality with BBQS standards, (2) Assign judge_score 0–1, (3) Append judge_score to the resource. Preserve all aligned fields.
+
+    expected_output: >
+      output format: json
+      Example:
+      "judge_resource": {
+        "1": [{
+          "name": "DeepLabCut Model Zoo - SuperAnimal-Quadruped",
+          "description": "Pre-trained model for quadruped animal pose estimation.",
+          "type": "Model",
+          "category": "Pose Estimation",
+          "target": "Animal",
+          "mapped_target_concept": [{"id": "http://purl.obolibrary.org/obo/BTO_0000042", "label": "animal", "ontology": "BTO"}],
+          "specific_target": "Quadruped, Horse, Mice",
+          "mapped_specific_target_concept": [{"specific_target": "Mice", "mapped_target_concept": {"label": "Mus musculus", "id": "NCBITaxon:10090", "ontology": "NCBITaxon"}}],
+          "url": "https://deeplabcut.github.io/DeepLabCut/docs/ModelZoo.html",
+          "mentions": {"datasets": ["Quadruped-80K"], "models": ["DeepLabCut"]},
+          "judge_score": 0.95
+        }]
+      }
+
+    agent_id: judge_agent
+
+  humanfeedback_task:
+    description: >
+      Evaluate {judged_structured_information_with_human_feedback} as human expert: (1) Assess alignment with BBQS standards, (2) Assign judge_score 0–1, (3) Apply user feedback. Do not reduce the number of extracted resources.
+
+      modification_context: {modification_context}
+      user_feedback_text: {user_feedback_text}
+
+    expected_output: >
+      output format: json
+      Same structure as judge_task output (judge_resource with "1", "2", ...). Preserve all fields; add or update judge_score and process user_feedback_text in remarks/rationale if needed.
+
+    agent_id: humanfeedback_agent
+
+# embedding config
+# https://docs.crewai.com/concepts/memory#additional-embedding-providers
+embedder_config:
+  provider: ollama
+  config:
+    api_base: http://localhost:11434
+    model: nomic-embed-text

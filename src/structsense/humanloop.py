@@ -163,9 +163,16 @@ class HumanInTheLoop:
             choice = self.input_handler("Enter choice (1/2/3/4): ")
 
             if choice == "1":
-                # user has approved the agent output without modification, so proceed
+                # User approved without modification: skip humanfeedback agent, use judge output as final
                 logger.info(f"Human approved {step_name} data" + (f" for agent {agent_name}" if agent_name else ""))
+                if isinstance(data, dict):
+                    return {**data, "_human_approved_skip_agent": True}
                 return data
+            elif choice == "4":
+                # Abort humanfeedback only: do not run humanfeedback agent; save judge output as final
+                logger.info("Human chose Abort (skip feedback step, save previous result)")
+                self.output_handler("Skipping human feedback step. Previous (judge) result will be saved.")
+                return {"_human_abort_feedback": True}
             elif choice == "2":
                 # View the agent output
                 self.output_handler("\nView Agent Output:")
@@ -187,10 +194,12 @@ class HumanInTheLoop:
                 return self.request_feedback(data, step_name, agent_name)
             elif choice == "3":
                 self.output_handler("Opening your default editor for feedback...")
+                self.output_handler("When done: SAVE and CLOSE the editor (e.g. nano: Ctrl+O, Enter, then Ctrl+X). You do not need to press 1/3/4 again.")
                 # Prepare template with instructions and current output JSON
                 template = (
                     "# Enter your feedback below. You may write natural language above, and/or edit the JSON below.\n"
                     "# Lines starting with # will be ignored.\n"
+                    "# When done: SAVE and CLOSE this file (nano: Ctrl+O, Enter, Ctrl+X). No need to press 1/3/4 in the terminal.\n"
                     "# Example:\n"
                     "# fix entity extraction as some are incorrect.\n"
                     "# {\n"
@@ -206,18 +215,24 @@ class HumanInTheLoop:
                 if not parsed:
                     self.output_handler("No feedback provided. Using original data.")
                     return data
-                # If only JSON, use as modified data; if both, merge
-                if "user_feedback_json" in parsed and not parsed.get("user_feedback_text"):
-                    return "feedback"
-                else:
-                    # Attach text feedback to the data for the agent to interpret
-                    result = data.copy() if isinstance(data, dict) else {}
-                    if "user_feedback_json" in parsed:
-                        result["user_feedback_json"] = parsed["user_feedback_json"]
-                    if "user_feedback_text" in parsed:
-                        result["user_feedback_text"] = parsed["user_feedback_text"]
-                    return result
+                # Always return a dict so the app can run the humanfeedback agent with your feedback.
+                # If only JSON: pass it as user_feedback_json and add a short user_feedback_text so the agent runs with context.
+                result = data.copy() if isinstance(data, dict) else {}
+                if "user_feedback_json" in parsed:
+                    result["user_feedback_json"] = parsed["user_feedback_json"]
+                if "user_feedback_text" in parsed:
+                    result["user_feedback_text"] = parsed["user_feedback_text"]
+                elif "user_feedback_json" in parsed:
+                    # Only JSON provided: give the agent a clear instruction so it runs and applies the JSON
+                    result["user_feedback_text"] = "Apply the modifications in the Modification Context (JSON) below."
+                return result
+            else:
+                # Invalid or empty choice; re-prompt
+                self.output_handler("Invalid choice. Please enter 1, 2, 3, or 4.")
+                return self.request_feedback(data, step_name, agent_name)
 
+        except HumanInterventionRequired:
+            raise
         except Exception as e:
             if not isinstance(e, HumanInterventionRequired):
                 logger.error(f"Error during human feedback: {e}")
@@ -478,17 +493,16 @@ class ProgrammaticFeedbackHandler:
                 print("No feedback provided. Using original data.")
                 self.clear_pending_feedback()
                 return data
-            if "user_feedback_json" in parsed and not parsed.get("user_feedback_text"):
-                self.clear_pending_feedback()
-                return "feedback"
-            else:
-                result = data.copy() if isinstance(data, dict) else {}
-                if "user_feedback_json" in parsed:
-                    result["user_feedback_json"] = parsed["user_feedback_json"]
-                if "user_feedback_text" in parsed:
-                    result["user_feedback_text"] = parsed["user_feedback_text"]
-                self.clear_pending_feedback()
-                return "feedback"
+            # Always return a dict so the app can run the humanfeedback agent (same as request_feedback Option 3).
+            result = data.copy() if isinstance(data, dict) else {}
+            if "user_feedback_json" in parsed:
+                result["user_feedback_json"] = parsed["user_feedback_json"]
+            if "user_feedback_text" in parsed:
+                result["user_feedback_text"] = parsed["user_feedback_text"]
+            elif "user_feedback_json" in parsed:
+                result["user_feedback_text"] = "Apply the modifications in the Modification Context (JSON) below."
+            self.clear_pending_feedback()
+            return result
         else:
             print(f"Invalid choice: {choice}")
             self.clear_pending_feedback()

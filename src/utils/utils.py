@@ -1108,8 +1108,8 @@ def replace_api_key(config: dict, api_key: str) -> dict:
     if isinstance(config, dict):
         for key, value in config.items():
             if key == "llm" and isinstance(value, dict):
-                if "api_key" in value:
-                    value["api_key"] = api_key
+                # Always set api_key so LLM gets it (config may not have had the key)
+                value["api_key"] = api_key
             elif isinstance(value, (dict, list)):
                 config[key] = replace_api_key(value, api_key)
     elif isinstance(config, list):
@@ -1207,3 +1207,35 @@ def merge_dicts_preserve_structure(dicts):
         recursive_merge(merged, d)
 
     return merged
+
+
+def str_to_bool(s):
+    """
+    Convert a string to boolean value.
+    
+    Args:
+        s: String, boolean, or None to convert
+        
+    Returns:
+        bool: True if string is 'true' (case-insensitive), False otherwise
+    """
+    if isinstance(s, bool):
+        return s
+    if s is None:
+        return False
+    return str(s).strip().lower() == 'true'
+
+
+def check_ollama_health() -> bool:
+    """
+    Check if Ollama is available and healthy.
+    
+    Returns:
+        bool: True if Ollama is available, False otherwise
+    """
+    try:
+        import requests
+        response = requests.get("http://localhost:11434/api/tags", timeout=2)
+        return response.status_code == 200
+    except Exception:
+        return False  # Ollama not available

@@ -1,0 +1,400 @@
+{
+  "errors": [],
+  "task_type": "resource",
+  "elapsed_time": 170.87322974205017,
+  "resources": [
+    {
+      "resource_name": "ViTPose",
+      "description": "A simple baseline model proposed for human pose estimation, leveraging the capabilities of a plain vision transformer.",
+      "type": "Model",
+      "category": "Pose Estimation",
+      "target": "Human",
+      "specific_target": "Keypoint Detection",
+      "mapped_target_concept": [
+        {
+          "id": "http://www.co-ode.org/ontologies/galen#Human",
+          "label": "Human",
+          "ontology": "GALEN",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_specific_target_concept": [
+        {
+          "specific_target": "Keypoint Detection",
+          "mapped_target_concept": {
+            "label": "Pose estimation",
+            "id": "https://identifiers.org/ito:ITO_00781",
+            "ontology": "ITO",
+            "concept_mapping_provenance": "tool"
+          }
+        },
+        {
+          "specific_target": "Pose Estimation",
+          "mapped_target_concept": {
+            "label": "Pose estimation",
+            "id": "https://identifiers.org/ito:ITO_00781",
+            "ontology": "ITO",
+            "concept_mapping_provenance": "tool"
+          }
+        },
+        {
+          "specific_target": "Occluded People",
+          "mapped_target_concept": {
+            "label": "Occluded",
+            "id": "http://purl.bioontology.org/ontology/SNOMEDCT/263823007",
+            "ontology": "SNOMEDCT",
+            "concept_mapping_provenance": "tool"
+          }
+        },
+        {
+          "specific_target": "Occluded Individuals",
+          "mapped_target_concept": {
+            "label": "Occluded",
+            "id": "http://purl.bioontology.org/ontology/SNOMEDCT/263823007",
+            "ontology": "SNOMEDCT",
+            "concept_mapping_provenance": "tool"
+          }
+        },
+        {
+          "specific_target": "Pose Estimation with Keypoints",
+          "mapped_target_concept": {
+            "label": "Pose estimation",
+            "id": "https://identifiers.org/ito:ITO_00781",
+            "ontology": "ITO",
+            "concept_mapping_provenance": "tool"
+          }
+        },
+        {
+          "specific_target": "Keypoint Estimation",
+          "mapped_target_concept": {
+            "label": "Keypoint detection",
+            "id": "https://identifiers.org/ito:ITO_00783",
+            "ontology": "ITO",
+            "concept_mapping_provenance": "tool"
+          }
+        },
+        {
+          "specific_target": "Pose Estimation in Images",
+          "mapped_target_concept": {
+            "label": "Pose estimation",
+            "id": "https://identifiers.org/ito:ITO_00781",
+            "ontology": "ITO",
+            "concept_mapping_provenance": "tool"
+          }
+        }
+      ],
+      "key_features": [],
+      "performance": "",
+      "url": [],
+      "model_architecture": "",
+      "mentions": {
+        "datasets": [
+          "MS COCO Keypoint",
+          "ImageNet-1K",
+          "small unlabelled pose datasets",
+          "MS COCO",
+          "ImageNet",
+          "AI Challenger",
+          "Pose Estimation Datasets",
+          "MPII",
+          "CrowdPose"
+        ],
+        "related_models": [
+          "PRTR",
+          "TokenPose",
+          "TransPose",
+          "HRFormer",
+          "Vision Transformers",
+          "ViTPose",
+          "ViT-B",
+          "ViT-L",
+          "ViT-H",
+          "ViTAE-G",
+          "Knowledge Distillation",
+          "Teacher-Student Networks",
+          "SimpleBaseline",
+          "ViTPose-B",
+          "ViTPose-L",
+          "ViTPose-H",
+          "ViTPose-G"
+        ],
+        "related_papers": [
+          "Masked Image Modeling (MAE)",
+          "Pose Estimation using Vision Transformers",
+          "MAE",
+          "HRNet",
+          "HRFormer"
+        ],
+        "benchmarks": [
+          "Bigdet 7"
+        ]
+      },
+      "name": "ViTPose",
+      "provenance": {
+        "alignment_agent": [
+          "mapped_target_concept",
+          "mapped_specific_target_concept"
+        ],
+        "judge_agent": [
+          "judge_score"
+        ]
+      },
+      "judge_score": 0.95,
+      "mentions_with_ontology": {
+        "related_models": [
+          {
+            "name": "PRTR",
+            "ontology_id": "http://purl.obolibrary.org/obo/OGG_3000879679",
+            "ontology_label": "prtR",
+            "ontology": "OGG",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "TokenPose",
+            "ontology_id": null,
+            "ontology_label": null,
+            "ontology": null,
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "TransPose",
+            "ontology_id": "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C176482",
+            "ontology_label": "Transposed",
+            "ontology": "NCIT",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRFormer",
+            "ontology_id": null,
+            "ontology_label": null,
+            "ontology": null,
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Vision Transformers",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#49104",
+            "ontology_label": "transformers",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViTPose",
+            "ontology_id": null,
+            "ontology_label": null,
+            "ontology": null,
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViT-B",
+            "ontology_id": "http://purl.obolibrary.org/obo/OMIT_0034191",
+            "ontology_label": "VIT",
+            "ontology": "OMIT",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViT-L",
+            "ontology_id": "http://purl.bioontology.org/ontology/MESH/C515948",
+            "ontology_label": "Vit-l-escence Trans Ice",
+            "ontology": "MESH",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViT-H",
+            "ontology_id": "http://purl.obolibrary.org/obo/OMIT_0034191",
+            "ontology_label": "VIT",
+            "ontology": "OMIT",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViTAE-G",
+            "ontology_id": "http://www.radlex.org/RID/RID6885",
+            "ontology_label": "arbor vitae",
+            "ontology": "RADLEX",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Knowledge Distillation",
+            "ontology_id": "https://identifiers.org/ito:ITO_17642",
+            "ontology_label": "Knowledge Distillation",
+            "ontology": "ITO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Teacher-Student Networks",
+            "ontology_id": "http://purl.bioontology.org/ontology/SNOMEDCT/158896005",
+            "ontology_label": "Teacher training teacher",
+            "ontology": "SNOMEDCT",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "SimpleBaseline",
+            "ontology_id": null,
+            "ontology_label": null,
+            "ontology": null,
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViTPose-B",
+            "ontology_id": "http://purl.obolibrary.org/obo/MIRO_00000027",
+            "ontology_label": "b/b",
+            "ontology": "MIRO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViTPose-L",
+            "ontology_id": "http://purl.bioontology.org/ontology/LNC/LA30674-8",
+            "ontology_label": "L/L",
+            "ontology": "LOINC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViTPose-H",
+            "ontology_id": "http://www.limics.org/hrdo/rdfns#pat_id_17774",
+            "ontology_label": "H syndrome",
+            "ontology": "HRDO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViTPose-G",
+            "ontology_id": "http://purl.obolibrary.org/obo/CHEBI_86623",
+            "ontology_label": "G a G b G",
+            "ontology": "CHEBI",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "datasets": [
+          {
+            "name": "MS COCO Keypoint",
+            "ontology_id": "https://identifiers.org/ito:ITO_53725",
+            "ontology_label": "COCO - Keypoint detection benchmarking",
+            "ontology": "ITO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ImageNet-1K",
+            "ontology_id": "https://identifiers.org/ito:ITO_59459",
+            "ontology_label": "ImageNet-1K vs ImageNet-O - Out-of-distribution detection benchmarking",
+            "ontology": "ITO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "small unlabelled pose datasets",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCD/Xa1hg",
+            "ontology_label": "Sample unlabelled",
+            "ontology": "RCD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MS COCO",
+            "ontology_id": "https://identifiers.org/ito:ITO_33785",
+            "ontology_label": "MS-COCO - Multi-Label Classification benchmarking",
+            "ontology": "ITO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ImageNet",
+            "ontology_id": "https://identifiers.org/ito:ITO_61415",
+            "ontology_label": "ImageNet -  benchmarking",
+            "ontology": "ITO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "AI Challenger",
+            "ontology_id": "http://purl.obolibrary.org/obo/GAZ_00142811",
+            "ontology_label": "Challenger Plateau",
+            "ontology": "GAZ",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Pose Estimation Datasets",
+            "ontology_id": "https://identifiers.org/ito:ITO_00781",
+            "ontology_label": "Pose estimation",
+            "ontology": "ITO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MPII",
+            "ontology_id": "https://identifiers.org/ito:ITO_53710",
+            "ontology_label": "MPII - Pose estimation benchmarking",
+            "ontology": "ITO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "CrowdPose",
+            "ontology_id": "https://identifiers.org/ito:ITO_53619",
+            "ontology_label": "CrowdPose - Pose estimation benchmarking",
+            "ontology": "ITO",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "related_papers": [
+          {
+            "name": "Masked Image Modeling (MAE)",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#16786",
+            "ontology_label": "masked",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Pose Estimation using Vision Transformers",
+            "ontology_id": "https://identifiers.org/ito:ITO_00781",
+            "ontology_label": "Pose estimation",
+            "ontology": "ITO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MAE",
+            "ontology_id": "http://www.semanticweb.org/DIASUS/OntoSINASC#Mae",
+            "ontology_label": "Mother",
+            "ontology": "ONTOSINASC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet",
+            "ontology_id": null,
+            "ontology_label": null,
+            "ontology": null,
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRFormer",
+            "ontology_id": null,
+            "ontology_label": null,
+            "ontology": null,
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "benchmarks": [
+          {
+            "name": "Bigdet 7",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCD/wx03r",
+            "ontology_label": "7+7",
+            "ontology": "RCD",
+            "concept_mapping_provenance": "tool"
+          }
+        ]
+      },
+      "mapped_type_concept": [
+        {
+          "id": "http://www.projecthalo.com/aura#Model",
+          "label": "Model",
+          "ontology": "AURA",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_category_concept": [
+        {
+          "id": "https://identifiers.org/ito:ITO_00781",
+          "label": "Pose estimation",
+          "ontology": "ITO",
+          "concept_mapping_provenance": "tool"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "resources_checked": 0,
+    "resources_with_text_grounding": 0,
+    "all_present": true
+  }
+}

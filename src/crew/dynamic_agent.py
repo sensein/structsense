@@ -16,27 +16,56 @@
 # @File    : dynamic_agent.py
 # @Software: PyCharm
 
+"""Build CrewAI agents from configuration.
+
+This module provides :class:`DynamicAgent`, which creates a CrewAI :class:`Agent`
+from role, goal, backstory, LLM, and embedder config. Used as an alternative
+to initializing agents directly when config is loaded from YAML/JSON.
+
+See Also
+--------
+- :mod:`crew.dynamic_agent_task` – Build tasks from config.
+- :mod:`utils.crew_utils` – :func:`initialize_agent_and_task` used by the main pipeline.
+"""
+
 from crewai import LLM, Agent
 
 
 class DynamicAgent:
-    def __init__(self, agents_config: list[dict], embedder_config: dict, tools: list = []):
-        """Initializes the DynamicAgent class for multiple agents.
+    """Builds CrewAI agents from configuration dictionaries.
 
-        Args:
-            agents_config (list): List of agent configuration dictionaries.
-            embedder_config (dict): Embedding configuration.
-            tools (list): Optional list of tools shared across agents.
+    Uses :class:`crewai.Agent` with :class:`crewai.LLM` and optional embedder
+    and tools. Configuration is expected to provide role, goal, backstory, and llm.
+    """
+
+    def __init__(self, agents_config: list[dict], embedder_config: dict, tools: list = []):
+        """Initialize the builder with agent and embedder config.
+
+        Parameters
+        ----------
+        agents_config : list of dict
+            List of agent configuration dictionaries. Each dict may contain
+            ``role``, ``goal``, ``backstory``, ``llm`` (passed to :class:`crewai.LLM`).
+        embedder_config : dict
+            Embedding configuration; typically includes ``embedder_config``
+            for the CrewAI embedder.
+        tools : list, optional
+            Optional list of CrewAI tools to attach to the agent. Default ``[]``.
         """
         self.agents_config = agents_config
         self.embedder_config = embedder_config
         self.tools = tools
 
-    def build_agent(self) -> dict:
-        """Builds and returns agents mapped by ID.
+    def build_agent(self) -> Agent:
+        """Build and return a single CrewAI agent from the stored config.
 
-        Returns:
-            dict: Mapping of agent_id to Agent instance.
+        Uses the first / current agent configuration (role, goal, backstory, llm)
+        and the embedder/tools set at construction.
+
+        Returns
+        -------
+        Agent
+            A configured :class:`crewai.Agent` instance.
         """
         agent_config = self.agents_config
         agent_role = agent_config.get("role", "")
@@ -54,9 +83,6 @@ class DynamicAgent:
             tools=self.tools,
             allow_delegation=False,
             verbose=True,
-            max_iter=5,
-            max_rpm=10,
-            max_consecutive_auto_reply=2,
         )
 
         return agent

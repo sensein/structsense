@@ -1,0 +1,760 @@
+{
+  "results": [
+    {
+      "extracted_resources": {
+        "1": [
+          {
+            "name": "ViTPose",
+            "description": "A simple baseline model for human pose estimation that demonstrates the potential of plain vision transformers on the MS COCO Keypoint dataset.",
+            "type": "Model",
+            "category": "Pose Estimation",
+            "target": "Human",
+            "specific_target": "Pose Estimation",
+            "url": null,
+            "mentions": {
+              "datasets": [
+                "MS COCO Keypoint"
+              ],
+              "models": [
+                "PRTR",
+                "TokenPose",
+                "TransPose",
+                "HRFormer"
+              ],
+              "papers": []
+            }
+          }
+        ]
+      }
+    },
+    {
+      "extracted_resources": {
+        "1": [
+          {
+            "name": "ViTPose",
+            "description": "A simple and solid transformer baseline for pose estimation achieving state-of-the-art performance with strong feature representation abilities.",
+            "type": "Model",
+            "category": "Pose Estimation",
+            "target": "Human",
+            "specific_target": "Keypoint estimation",
+            "url": null,
+            "mentions": {
+              "datasets": [
+                "MS COCO Keypoint test-dev"
+              ],
+              "models": [
+                "Vision Transformers"
+              ],
+              "papers": [
+                "Masked Image Modeling (MAE)"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "extracted_resources": {
+        "1": [
+          {
+            "name": "ViTPose",
+            "description": "A baseline model for pose estimation using plain vision transformers, aimed at improving performance without relying on CNNs for feature extraction.",
+            "type": "Model",
+            "category": "Pose Estimation",
+            "target": "Human Pose",
+            "specific_target": null,
+            "url": null,
+            "mentions": {
+              "datasets": [
+                "ImageNet-1K"
+              ],
+              "papers": [
+                "TransPose",
+                "TokenPose",
+                "HRFormer"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "extracted_resources": {
+        "1": [
+          {
+            "name": "ViTPose",
+            "description": "A simple yet effective vision transformer model for pose estimation tasks, focusing on structure simplicity and exploring the capabilities of plain non-hierarchical vision transformers.",
+            "type": "Model",
+            "category": "Pose Estimation",
+            "target": "Human",
+            "specific_target": "Keypoint Localization",
+            "url": null,
+            "mentions": {
+              "datasets": [
+                "ImageNet-1K",
+                "Unlabeled Pose Datasets"
+              ],
+              "papers": [
+                "ViTPose: Vision Transformers for Pose Estimation"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "extracted_resources": {
+        "1": [
+          {
+            "name": "ViTPose",
+            "description": "A pose estimation model that utilizes a vision transformer backbone for effective keypoint localization through a streamlined decoder structure.",
+            "type": "Model",
+            "category": "Pose Estimation",
+            "target": "Human",
+            "specific_target": "Keypoint estimation",
+            "url": null,
+            "mentions": {
+              "datasets": [
+                "MS COCO"
+              ],
+              "models": [
+                "Classic Decoder",
+                "Transformer-based Decoders"
+              ],
+              "papers": []
+            }
+          }
+        ]
+      }
+    },
+    {
+      "extracted_resources": {
+        "1": [
+          {
+            "name": "ViTPose",
+            "description": "A flexible pose estimation model that can learn initialization from various data scales while achieving competitive performance with limited pose data.",
+            "type": "Model",
+            "category": "Pose Estimation",
+            "target": "Human Pose",
+            "specific_target": null,
+            "url": null,
+            "mentions": {
+              "datasets": [
+                "MS COCO",
+                "AI Challenger"
+              ],
+              "models": [
+                "ViT-B",
+                "ViT-L",
+                "ViT-H",
+                "ViTAE-G"
+              ],
+              "papers": [
+                "ImageNet",
+                "MAE"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "extracted_resources": {
+        "1": [
+          {
+            "name": "ViTPose",
+            "description": "A vision transformer model designed for human pose estimation with improved performance on higher resolution inputs through adaptive attention mechanisms.",
+            "type": "Model",
+            "category": "Pose Estimation",
+            "target": "Human",
+            "specific_target": "Pose Estimation on MS COCO",
+            "url": null,
+            "mentions": {
+              "datasets": [
+                "MS COCO"
+              ],
+              "papers": [
+                "ViTPose: Vision Transformer for Human Pose Estimation"
+              ],
+              "models": []
+            }
+          }
+        ]
+      }
+    },
+    {
+      "extracted_resources": {
+        "1": [
+          {
+            "name": "ViTPose Model for Pose Estimation",
+            "description": "A lightweight model using multiple decoders for efficient pose estimation across various datasets by sharing a backbone encoder.",
+            "type": "Model",
+            "category": "Pose Estimation",
+            "target": "Human",
+            "specific_target": null,
+            "url": null,
+            "mentions": {
+              "models": [
+                "Knowledge Distillation"
+              ],
+              "datasets": [
+                "Multiple Pose Estimation Datasets"
+              ],
+              "papers": [
+                "Token-based distillation method"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "extracted_resources": {
+        "1": [
+          {
+            "name": "ViTPose",
+            "description": "A model for human pose estimation utilizing a top-down approach based on Vision Transformers. It estimates keypoints of detected person instances with architecture optimizations.",
+            "type": "Model",
+            "category": "Pose Estimation",
+            "target": "Human",
+            "specific_target": "Keypoint Detection",
+            "url": null,
+            "mentions": {
+              "datasets": [
+                "MS COCO Keypoint"
+              ],
+              "models": [
+                "ViTPose-B",
+                "ViTPose-L",
+                "ViTPose-H",
+                "SimpleBaseline"
+              ],
+              "tools": [
+                "mmpose"
+              ],
+              "papers": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "extracted_resources": {
+        "1": [
+          {
+            "name": "ViTPose",
+            "description": "A pose estimation model utilizing vision transformers that demonstrates strong scalability and representation ability, with minimal performance drop using simple decoders.",
+            "type": "Model",
+            "category": "Pose Estimation",
+            "target": "Human",
+            "specific_target": "Pose Estimation with Different Input Resolutions",
+            "url": null,
+            "mentions": {
+              "datasets": [
+                "ImageNet-1K",
+                "MS COCO",
+                "AI Challenger"
+              ],
+              "models": [
+                "ViT-B",
+                "ViT-L",
+                "ViT-H"
+              ],
+              "papers": [
+                "HRNet",
+                "HRFormer"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "extracted_resources": {
+        "1": [
+          {
+            "name": "ViTPose",
+            "description": "A vision transformer model specifically designed for pose estimation tasks, capable of generating high-resolution features through varying downsampling ratios and employing window attention mechanisms to overcome computational limitations.",
+            "type": "Model",
+            "category": "Pose Estimation",
+            "target": "Human Pose",
+            "specific_target": null,
+            "url": null,
+            "mentions": {
+              "datasets": [
+                "MS COCO",
+                "AI Challenger",
+                "MPII"
+              ],
+              "benchmarks": null,
+              "models": null,
+              "papers": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "extracted_resources": {
+        "1": [
+          {
+            "name": "ViTPose Model",
+            "description": "Advanced pose estimation model utilizing ViTAE-G backbone and trained on MS COCO and AI Challenger datasets, achieving state-of-the-art performance in human pose estimation.",
+            "type": "Model",
+            "category": "Pose Estimation",
+            "target": "Human",
+            "specific_target": "Human Pose Estimation",
+            "url": null,
+            "mentions": {
+              "datasets": [
+                "MS COCO",
+                "AI Challenger"
+              ],
+              "benchmarks": [
+                "SOTA Performance"
+              ],
+              "models": [
+                "ViTPose-L",
+                "ViTPose-B",
+                "ViTPose-G"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "extracted_resources": {
+        "1": [
+          {
+            "name": "ViTPose",
+            "description": "A simple yet effective vision transformer baseline for human pose estimation that achieves state-of-the-art performance on the MS COCO dataset.",
+            "type": "Model",
+            "category": "Pose Estimation",
+            "target": "Human",
+            "specific_target": "Pose Estimation",
+            "url": null,
+            "mentions": {
+              "datasets": [
+                "MS COCO",
+                "AI Challenger",
+                "MPII",
+                "CrowdPose"
+              ],
+              "models": [
+                "ViTAE-G"
+              ],
+              "papers": [],
+              "benchmarks": []
+            }
+          }
+        ]
+      }
+    },
+    {
+      "extracted_resources": {
+        "1": [
+          {
+            "name": "OCHuman 54 Dataset",
+            "description": "A dataset designed to evaluate models' performance in estimating poses of occluded individuals.",
+            "type": "Dataset",
+            "category": "Pose Estimation",
+            "target": "Human",
+            "specific_target": "Occluded Individuals",
+            "url": null,
+            "mentions": {
+              "datasets": [
+                "AI Challenger",
+                "MPII"
+              ],
+              "models": [
+                "ViTPose"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "raw_results": [
+    {
+      "extracted_resources": {
+        "1": [
+          {
+            "name": "ViTPose",
+            "description": "A simple baseline model for human pose estimation that demonstrates the potential of plain vision transformers on the MS COCO Keypoint dataset.",
+            "type": "Model",
+            "category": "Pose Estimation",
+            "target": "Human",
+            "specific_target": "Pose Estimation",
+            "url": null,
+            "mentions": {
+              "datasets": [
+                "MS COCO Keypoint"
+              ],
+              "models": [
+                "PRTR",
+                "TokenPose",
+                "TransPose",
+                "HRFormer"
+              ],
+              "papers": []
+            }
+          }
+        ]
+      }
+    },
+    {
+      "extracted_resources": {
+        "1": [
+          {
+            "name": "ViTPose",
+            "description": "A simple and solid transformer baseline for pose estimation achieving state-of-the-art performance with strong feature representation abilities.",
+            "type": "Model",
+            "category": "Pose Estimation",
+            "target": "Human",
+            "specific_target": "Keypoint estimation",
+            "url": null,
+            "mentions": {
+              "datasets": [
+                "MS COCO Keypoint test-dev"
+              ],
+              "models": [
+                "Vision Transformers"
+              ],
+              "papers": [
+                "Masked Image Modeling (MAE)"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "extracted_resources": {
+        "1": [
+          {
+            "name": "ViTPose",
+            "description": "A baseline model for pose estimation using plain vision transformers, aimed at improving performance without relying on CNNs for feature extraction.",
+            "type": "Model",
+            "category": "Pose Estimation",
+            "target": "Human Pose",
+            "specific_target": null,
+            "url": null,
+            "mentions": {
+              "datasets": [
+                "ImageNet-1K"
+              ],
+              "papers": [
+                "TransPose",
+                "TokenPose",
+                "HRFormer"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "extracted_resources": {
+        "1": [
+          {
+            "name": "ViTPose",
+            "description": "A simple yet effective vision transformer model for pose estimation tasks, focusing on structure simplicity and exploring the capabilities of plain non-hierarchical vision transformers.",
+            "type": "Model",
+            "category": "Pose Estimation",
+            "target": "Human",
+            "specific_target": "Keypoint Localization",
+            "url": null,
+            "mentions": {
+              "datasets": [
+                "ImageNet-1K",
+                "Unlabeled Pose Datasets"
+              ],
+              "papers": [
+                "ViTPose: Vision Transformers for Pose Estimation"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "extracted_resources": {
+        "1": [
+          {
+            "name": "ViTPose",
+            "description": "A pose estimation model that utilizes a vision transformer backbone for effective keypoint localization through a streamlined decoder structure.",
+            "type": "Model",
+            "category": "Pose Estimation",
+            "target": "Human",
+            "specific_target": "Keypoint estimation",
+            "url": null,
+            "mentions": {
+              "datasets": [
+                "MS COCO"
+              ],
+              "models": [
+                "Classic Decoder",
+                "Transformer-based Decoders"
+              ],
+              "papers": []
+            }
+          }
+        ]
+      }
+    },
+    {
+      "extracted_resources": {
+        "1": [
+          {
+            "name": "ViTPose",
+            "description": "A flexible pose estimation model that can learn initialization from various data scales while achieving competitive performance with limited pose data.",
+            "type": "Model",
+            "category": "Pose Estimation",
+            "target": "Human Pose",
+            "specific_target": null,
+            "url": null,
+            "mentions": {
+              "datasets": [
+                "MS COCO",
+                "AI Challenger"
+              ],
+              "models": [
+                "ViT-B",
+                "ViT-L",
+                "ViT-H",
+                "ViTAE-G"
+              ],
+              "papers": [
+                "ImageNet",
+                "MAE"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "extracted_resources": {
+        "1": [
+          {
+            "name": "ViTPose",
+            "description": "A vision transformer model designed for human pose estimation with improved performance on higher resolution inputs through adaptive attention mechanisms.",
+            "type": "Model",
+            "category": "Pose Estimation",
+            "target": "Human",
+            "specific_target": "Pose Estimation on MS COCO",
+            "url": null,
+            "mentions": {
+              "datasets": [
+                "MS COCO"
+              ],
+              "papers": [
+                "ViTPose: Vision Transformer for Human Pose Estimation"
+              ],
+              "models": []
+            }
+          }
+        ]
+      }
+    },
+    {
+      "extracted_resources": {
+        "1": [
+          {
+            "name": "ViTPose Model for Pose Estimation",
+            "description": "A lightweight model using multiple decoders for efficient pose estimation across various datasets by sharing a backbone encoder.",
+            "type": "Model",
+            "category": "Pose Estimation",
+            "target": "Human",
+            "specific_target": null,
+            "url": null,
+            "mentions": {
+              "models": [
+                "Knowledge Distillation"
+              ],
+              "datasets": [
+                "Multiple Pose Estimation Datasets"
+              ],
+              "papers": [
+                "Token-based distillation method"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "extracted_resources": {
+        "1": [
+          {
+            "name": "ViTPose",
+            "description": "A model for human pose estimation utilizing a top-down approach based on Vision Transformers. It estimates keypoints of detected person instances with architecture optimizations.",
+            "type": "Model",
+            "category": "Pose Estimation",
+            "target": "Human",
+            "specific_target": "Keypoint Detection",
+            "url": null,
+            "mentions": {
+              "datasets": [
+                "MS COCO Keypoint"
+              ],
+              "models": [
+                "ViTPose-B",
+                "ViTPose-L",
+                "ViTPose-H",
+                "SimpleBaseline"
+              ],
+              "tools": [
+                "mmpose"
+              ],
+              "papers": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "extracted_resources": {
+        "1": [
+          {
+            "name": "ViTPose",
+            "description": "A pose estimation model utilizing vision transformers that demonstrates strong scalability and representation ability, with minimal performance drop using simple decoders.",
+            "type": "Model",
+            "category": "Pose Estimation",
+            "target": "Human",
+            "specific_target": "Pose Estimation with Different Input Resolutions",
+            "url": null,
+            "mentions": {
+              "datasets": [
+                "ImageNet-1K",
+                "MS COCO",
+                "AI Challenger"
+              ],
+              "models": [
+                "ViT-B",
+                "ViT-L",
+                "ViT-H"
+              ],
+              "papers": [
+                "HRNet",
+                "HRFormer"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "extracted_resources": {
+        "1": [
+          {
+            "name": "ViTPose",
+            "description": "A vision transformer model specifically designed for pose estimation tasks, capable of generating high-resolution features through varying downsampling ratios and employing window attention mechanisms to overcome computational limitations.",
+            "type": "Model",
+            "category": "Pose Estimation",
+            "target": "Human Pose",
+            "specific_target": null,
+            "url": null,
+            "mentions": {
+              "datasets": [
+                "MS COCO",
+                "AI Challenger",
+                "MPII"
+              ],
+              "benchmarks": null,
+              "models": null,
+              "papers": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "extracted_resources": {
+        "1": [
+          {
+            "name": "ViTPose Model",
+            "description": "Advanced pose estimation model utilizing ViTAE-G backbone and trained on MS COCO and AI Challenger datasets, achieving state-of-the-art performance in human pose estimation.",
+            "type": "Model",
+            "category": "Pose Estimation",
+            "target": "Human",
+            "specific_target": "Human Pose Estimation",
+            "url": null,
+            "mentions": {
+              "datasets": [
+                "MS COCO",
+                "AI Challenger"
+              ],
+              "benchmarks": [
+                "SOTA Performance"
+              ],
+              "models": [
+                "ViTPose-L",
+                "ViTPose-B",
+                "ViTPose-G"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "extracted_resources": {
+        "1": [
+          {
+            "name": "ViTPose",
+            "description": "A simple yet effective vision transformer baseline for human pose estimation that achieves state-of-the-art performance on the MS COCO dataset.",
+            "type": "Model",
+            "category": "Pose Estimation",
+            "target": "Human",
+            "specific_target": "Pose Estimation",
+            "url": null,
+            "mentions": {
+              "datasets": [
+                "MS COCO",
+                "AI Challenger",
+                "MPII",
+                "CrowdPose"
+              ],
+              "models": [
+                "ViTAE-G"
+              ],
+              "papers": [],
+              "benchmarks": []
+            }
+          }
+        ]
+      }
+    },
+    {
+      "extracted_resources": {
+        "1": [
+          {
+            "name": "OCHuman 54 Dataset",
+            "description": "A dataset designed to evaluate models' performance in estimating poses of occluded individuals.",
+            "type": "Dataset",
+            "category": "Pose Estimation",
+            "target": "Human",
+            "specific_target": "Occluded Individuals",
+            "url": null,
+            "mentions": {
+              "datasets": [
+                "AI Challenger",
+                "MPII"
+              ],
+              "models": [
+                "ViTPose"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [],
+  "elapsed_time": 9.358117818832397,
+  "agent_key": "extractor_agent",
+  "task_key": "extraction_task"
+}

@@ -1,51 +1,178 @@
-import concurrent.futures
+"""StructSense main application and pipeline orchestration.
+
+This module provides the primary entry point for structured information extraction
+via the :class:`StructSenseFlow` class. It runs a multi-agent CrewAI pipeline
+(extraction → alignment → judge → humanfeedback) with context management and
+token-window handling.
+
+Key classes and functions
+-------------------------
+- :class:`StructSenseFlow` – Main orchestrator; use :meth:`~StructSenseFlow.information_extraction_task`
+  for the full pipeline or :meth:`~StructSenseFlow.kickoff` for a single agent-task.
+- :meth:`StructSenseFlow.information_extraction_task` – Recommended entry point for production
+  (full pipeline with token management).
+- :meth:`StructSenseFlow.kickoff` – Run a single agent-task pair.
+- :meth:`StructSenseFlow.extraction` – Run only the extraction agent.
+- :meth:`StructSenseFlow.run_agent_task` – Low-level single agent-task with full control.
+
+Key constants (used when chaining pipeline stages)
+--------------------------------------------------
+- :data:`PIPELINE_INPUT_KEY_MAP` – Maps each task_key to the input placeholder name
+  the next stage expects (e.g. extraction_task → input_text, alignment_task → extracted_structured_information).
+- :data:`TASK_KEY_TO_CONTAINER_KEY` – Maps task_key to the container key in that task's
+  output for merging and provenance (e.g. extraction_task → resources or extracted_terms).
+- :data:`DOWNSTREAM_CONTAINER_KEYS` – All known container keys used in NER/resource pipelines.
+
+See also
+--------
+- :mod:`utils.task_tools` – Tool resolution per agent and task type.
+- :mod:`utils.postprocessing` – Post-processors and result mergers per task type.
+- :mod:`utils.task_detection` – Task-type detection from config.
+"""
+import json
 import logging
 import os
 import time
 import tracemalloc
 import asyncio
+from pathlib import Path
+from datetime import datetime
 
 # Filter warnings at the beginning
 import warnings
-from pathlib import Path
 from typing import Any, Dict, Optional, Tuple, Union
 
+# Disable all warnings including Pydantic serialization warnings
 warnings.filterwarnings("ignore")
-from crewai import Crew
-from crewai.flow.flow import Flow, listen, start
-from crewai.knowledge.source.string_knowledge_source import StringKnowledgeSource
-from crewai.memory import EntityMemory, LongTermMemory, ShortTermMemory
-from crewai.memory.storage.ltm_sqlite_storage import LTMSQLiteStorage
-from crewai.memory.storage.rag_storage import RAGStorage
-from crewai.utilities.paths import db_storage_path
+# Specifically suppress Pydantic warnings
+warnings.filterwarnings("ignore", category=UserWarning, module="pydantic")
+warnings.filterwarnings("ignore", category=UserWarning)
+# Suppress Pydantic-related warnings using string patterns
+warnings.filterwarnings("ignore", message=".*Pydantic.*")
+warnings.filterwarnings("ignore", message=".*serialization.*")
+warnings.filterwarnings("ignore", message=".*Expected.*fields.*")
+warnings.filterwarnings("ignore", message=".*PydanticSerialization.*")
+
+# Disable CrewAI tracing and telemetry BEFORE importing crewai
+# This must be set before any crewai imports
+os.environ["CREWAI_TRACING_ENABLED"] = "false"
+os.environ["CREWAI_DISABLE_TELEMETRY"] = "true"
+os.environ["OTEL_SDK_DISABLED"] = "true"
+# Also disable interactive prompts and telemetry messages
+os.environ["CREWAI_DISABLE_INTERACTIVE"] = "true"
+# Suppress telemetry output messages
+os.environ["CREWAI_TELEMETRY_OPT_OUT"] = "true"
+
+from crewai import Crew, Process
 from dotenv import load_dotenv
 
-from crew.dynamic_agent import DynamicAgent
-from crew.dynamic_agent_task import DynamicAgentTask
-from utils.ontology_knowedge_tool import OntologyKnowledgeTool
-from utils.text_chunking import split_text_into_chunks, merge_json_chunks  # merge_chunk_results
-from utils.types import AlignedTermsDynamic, ExtractedTermsDynamic, JudgedTermsDynamic
 from utils.utils import (
-    has_modifications,
     load_config,
     process_input_data,
     replace_api_key,
+    str_to_bool,
+    check_ollama_health,
+)
+from utils.task_detection import detect_task_type
+from utils.task_tools import get_tools_for_agent
+from utils.crew_utils import initialize_memory
+from utils.mlops import setup_monitoring
+
+from utils.text_chunking import (
+    _chunk_doc_by_sentences,
+    _get_sentence_info_for_span,
+    _validate_text_presence,
+    _globalize_entities,
+)
+from utils.crew_utils import run_crew_extraction, run_crew_extraction_async, initialize_agent_and_task
+from utils.postprocessing import (
+    get_post_processor,
+    get_result_merger,
+    merge_downstream_chunk_results_with_provenance,
+    add_provenance_to_result,
+    verify_merged_result,
+    apply_concept_mapping_to_result,
+    normalize_final_result_for_output,
+    promote_canonical_resources_for_resource_task,
+    ensure_resource_mapped_concepts_provenance,
+)
+from .humanloop import HumanInTheLoop
+
+# Import enhanced context management
+from utils.agent_context import AgentContext, ThreadSafeMemory
+from utils.context_window_manager import ContextWindowManager
+from utils.downstream_agent_helper import (
+    prepare_alignment_agent_input,
+    prepare_judge_agent_input,
+    prepare_humanfeedback_agent_input,
+    split_structured_payload,
+    merge_structured_chunk_results,
+)
+from utils.conceptmappingtool import (
+    clear_alignment_tool_outputs,
+    get_alignment_tool_outputs,
+    format_alignment_tool_outputs_as_concept_mapping,
 )
 
-from .humanloop import HumanInTheLoop, ProgrammaticFeedbackHandler
-
-# Add new import for hardcoded configs
-# from .default_config_sie_ner import get_agent_config, NER_TASK_CONFIG, EMBEDDER_CONFIG, HUMAN_IN_LOOP_CONFIG, SEARCH_ONTOLOGY_KNOWLEDGE_CONFIG
 
 # Start memory tracking
 tracemalloc.start()
 
-# Configure logging
+# Configure logging - filter out warnings
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - [%(threadName)s] - %(message)s"
 )
 logger = logging.getLogger(__name__)
+
+# Suppress warning logs from specific modules
+logging.getLogger("pydantic").setLevel(logging.ERROR)
+logging.getLogger("pydantic_core").setLevel(logging.ERROR)
+logging.getLogger("crewai").setLevel(logging.INFO)  # Keep INFO, suppress WARNING
+# Suppress CrewAI telemetry and tracing messages
+logging.getLogger("crewai.telemetry").setLevel(logging.CRITICAL)
+logging.getLogger("crewai.tracing").setLevel(logging.CRITICAL)
+logging.getLogger("crewai.memory").setLevel(logging.WARNING)  # Only show warnings/errors from memory
+# Suppress all UserWarning messages
+logging.captureWarnings(True)
+warnings.simplefilter("ignore", UserWarning)
+warnings.simplefilter("ignore", category=UserWarning)
+# Suppress Pydantic serialization warnings specifically (using string patterns)
+warnings.filterwarnings("ignore", message=".*Pydantic.*")
+warnings.filterwarnings("ignore", message=".*serialization.*")
+warnings.filterwarnings("ignore", message=".*Expected.*fields.*")
+
+# Setup timing logger to separate file
+def setup_timing_logger():
+    """Setup a separate logger for timing information."""
+    timing_log_dir = Path(os.getcwd()) / "timing_logs"
+    timing_log_dir.mkdir(exist_ok=True)
+    
+    timing_log_file = timing_log_dir / f"timing_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+    
+    timing_logger = logging.getLogger("timing")
+    timing_logger.setLevel(logging.INFO)
+    
+    # Remove existing handlers
+    for handler in timing_logger.handlers[:]:
+        timing_logger.removeHandler(handler)
+    
+    # File handler for timing log
+    file_handler = logging.FileHandler(timing_log_file)
+    file_handler.setLevel(logging.INFO)
+    file_formatter = logging.Formatter("%(asctime)s - %(message)s")
+    file_handler.setFormatter(file_formatter)
+    timing_logger.addHandler(file_handler)
+    
+    # Also log to console
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(logging.INFO)
+    console_handler.setFormatter(file_formatter)
+    timing_logger.addHandler(console_handler)
+    
+    timing_logger.propagate = False
+    
+    return timing_logger, str(timing_log_file)
 
 
 class ConfigError(Exception):
@@ -53,1212 +180,124 @@ class ConfigError(Exception):
     pass
 
 
-class StructSenseFlow(Flow):
-    """A workflow for structured information extraction, alignment, and judgment using CrewAI.
-    Includes improved crew communication and shared memory.
+#: Maps each pipeline task_key to the input placeholder name the next stage expects.
+#: Used when chaining agents: each stage receives the previous stage's output under this key.
+#: Example: alignment_task receives extraction output as ``extracted_structured_information``.
+PIPELINE_INPUT_KEY_MAP = {
+    "extraction_task": "input_text",
+    "alignment_task": "extracted_structured_information",
+    "judge_task": "aligned_structured_information",
+    "humanfeedback_task": "judged_structured_information_with_human_feedback",
+}
+
+#: Maps task_key to the container key in that task's output (for merge and provenance).
+#: NER uses extracted_terms, aligned_ner_terms, judge_ner_terms; resource uses resources, aligned_resources, judge_resource.
+TASK_KEY_TO_CONTAINER_KEY = {
+    "extraction_task": "resources",  # resource; NER uses extracted_terms (detected at runtime)
+    "alignment_task": "aligned_resources",
+    "judge_task": "judge_resource",
+    "humanfeedback_task": "judge_resource",
+}
+#: All known container keys used when merging or validating NER/resource pipeline results.
+DOWNSTREAM_CONTAINER_KEYS = (
+    "extracted_terms", "aligned_ner_terms", "judge_ner_terms",  # NER
+    "extracted_resources", "aligned_resources", "judge_resource", "resources",  # resource / generic
+)
+
+
+class StructSenseFlow:
+    """Workflow for structured information extraction, alignment, and judgment using CrewAI.
+
+    Single entry point for all extraction workflows. Supports chunked parallel
+    extraction, multi-stage pipeline (extraction → alignment → judge → humanfeedback),
+    context management, and token-window handling for downstream agents.
+
+    Attributes
+    ----------
+    source_text : str
+        Input text used when no override is passed to kickoff/information_extraction_task.
+    agent_config : dict
+        Loaded agent configuration (role, goal, llm, etc.).
+    task_config : dict
+        Loaded task configuration (description, agent_id, etc.).
+    enable_chunking : bool
+        Whether to split long text into chunks and process in parallel.
+    token_limit : int
+        Max tokens for downstream agent context (e.g. 100000 for 128k models).
+
+    See Also
+    --------
+    information_extraction_task : Run the full pipeline (recommended).
+    kickoff : Run a single agent-task pair.
+    run_agent_task : Low-level single agent-task with full control.
     """
 
     def __init__(
             self,
-            agent_config: str,
-            task_config: str,
-            embedder_config: str,
-            source_text: str,
-            knowledge_config: Optional[str] = None,
+            agent_config: Union[str, dict],
+            task_config: Union[str, dict],
+            embedder_config: Union[str, dict],
+            source_text: Optional[str] = None,
+            input_source: Optional[Union[str, dict]] = None,
             enable_human_feedback: bool = False,
-            agent_feedback_config: Dict[str, bool] = None,
+            enable_chunking: bool = False,
+            knowledge_config: Optional[Union[str, dict]] = None,
+            agent_feedback_config: Optional[Dict[str, bool]] = None,
             env_file: Optional[str] = None,
-            enable_chunking: bool = False
+            api_key: Optional[str] = None,
+            chunk_size: Optional[int] = None,
+            max_workers: Optional[int] = None,
+            downstream_max_input_chars: Optional[int] = None,
+            max_extraction_chunk_chars: Optional[int] = None,
+            return_full_pipeline_details: bool = False,
     ):
+        """Initialize StructSenseFlow with config paths and input.
+
+        Parameters
+        ----------
+        agent_config : str or dict
+            Path to agent YAML/JSON or dict (role, goal, llm per agent).
+        task_config : str or dict
+            Path to task YAML/JSON or dict (description, agent_id per task).
+        embedder_config : str or dict
+            Path to embedder config or dict (used for memory/embedding).
+        source_text : str, optional
+            Raw text to process. Not used if ``input_source`` is provided.
+        input_source : str or dict, optional
+            File path, URL, or dict; takes precedence over ``source_text``.
+            Processed by :func:`utils.utils.process_input_data`.
+        enable_human_feedback : bool, optional
+            Whether to run the humanfeedback stage. Default False.
+        enable_chunking : bool, optional
+            If True, split text into chunks and run extraction in parallel.
+        knowledge_config : str or dict, optional
+            Optional knowledge-base config.
+        agent_feedback_config : dict, optional
+            Per-agent flags for feedback (e.g. which agents accept feedback).
+        env_file : str, optional
+            Path to .env file; loaded with override=True if set.
+        api_key : str, optional
+            If set, stored in ``OPENROUTER_API_KEY`` for LLM calls.
+        chunk_size : int, optional
+            Max characters per chunk when chunking is enabled.
+        max_workers : int, optional
+            Max parallel workers for chunked extraction.
+        downstream_max_input_chars : int, optional
+            Cap on input size for downstream agents (before token management).
+        max_extraction_chunk_chars : int, optional
+            Cap on chunk size for extraction agent context.
+        return_full_pipeline_details : bool, optional
+            If True, result includes pipeline_stages, token_usage, context_management.
+
+        Raises
+        ------
+        ConfigError
+            If neither ``source_text`` nor ``input_source`` is provided, or
+            if input processing fails or yields no valid text.
+        """
         super().__init__()
-        logger.info(f"Initializing StructSenseFlow with source: {source_text}")
-        self.source_text = source_text
-        self.enable_human_feedback = enable_human_feedback
-        self.human = HumanInTheLoop(
-            enable_human_feedback=enable_human_feedback,
-            agent_feedback_config=agent_feedback_config
-        )
-        try:
-            self.agent_config = load_config(agent_config, "agent_config")
-            self.task_config = load_config(task_config, "task_config")
-            self.embedder_config = load_config(embedder_config, "embedder_config")
-            if knowledge_config is None:
-                os.environ["ENABLE_KG_SOURCE"] = "false"
-                self.knowledge_config = {"search_key": {}}
-            else:
-                self.knowledge_config = load_config(knowledge_config, "knowledge_config")
-        except Exception as e:
-            logger.error(f"Configuration loading failed: {e}")
-            raise ConfigError(f"Failed to load configurations: {str(e)}")
-        self._setup_monitoring()
-        self._initialize_memory()
-        self.shared_state = {
-            "extracted_terms": None,
-            "aligned_terms": None,
-            "judged_terms": None,
-            "feedback_terms": None,
-            "current_step": None,
-            "last_error": None
-        }
-        self.enable_chunking = enable_chunking
-
-    @start()
-    def process_inputs(self):
-        """Start processing the input data."""
-        logger.info("Starting structured information processing flow")
-        self._update_shared_state("process_inputs", self.source_text)
-
-    @listen(process_inputs)
-    async def extracted_structured_information(self):
-        """Extract structured information from the source text."""
-        start_time = time.time()
-        logger.info("Starting structured information extraction")
-
-        # Check Ollama health
-        if not self._check_ollama_health():
-            return None
-
-        # Detect task type
-        task_type = self._detect_task_type()
-        logger.info(f"Detected task type: {task_type}")
-
-        # Initialize extractor components
-        extractor_agent, extractor_task = self._initialize_agent_and_task(
-            "extractor_agent",
-            "extraction_task",
-            ExtractedTermsDynamic
-        )
-
-        if not extractor_agent or not extractor_task:
-            logger.error("Extractor initialization failed")
-            return None
-
-        if self.enable_chunking:
-            logger.info("Chunking is enabled - processing text in chunks")
-            return await self._extract_with_chunking(extractor_agent, extractor_task, start_time, task_type)
-        else:
-            logger.info("Chunking is disabled - processing text as single chunk")
-            return await self._extract_without_chunking(extractor_agent, extractor_task, start_time, task_type)
-
-    async def _extract_with_chunking(self, extractor_agent, extractor_task, start_time, task_type):
-        """Extract information using chunking approach."""
-        # Split text into chunks for parallel processing
-        logger.info("Splitting text into chunks for parallel processing...")
-        try:
-            chunks = split_text_into_chunks(self.source_text)
-            logger.info(f"Split text into {len(chunks)} chunks for parallel processing")
-            logger.debug(f"Chunk sizes: {[len(chunk) for chunk in chunks]}")
-        except Exception as e:
-            logger.error(f"Failed to split text into chunks: {e}")
-            # Fallback to single chunk
-            chunks = [self.source_text]
-            logger.info("Using fallback single chunk processing")
-
-        if not chunks:
-            logger.error("No chunks created from text splitting")
-            return None
-
-        chunk_results = []
-        total_chunks = len(chunks)
-
-        def process_chunk(chunk, idx):
-            print("*"*100)
-            print(f"[Thread] Starting processing for chunk {idx+1}/{total_chunks} (size: {len(chunk)} chars)")
-            print("#"*100)
-            logger.info(f"[Thread] Starting processing for chunk {idx+1}/{total_chunks} (size: {len(chunk)} chars)")
-            chunk_start_time = time.time()
-            try:
-                inputs = {"literature": chunk}
-                extractor_crew = self._create_crew_with_knowledge(extractor_agent, extractor_task)
-                print("@"*100)
-                print("@" * 100)
-                print(f"Extractor agent with chunk data {inputs}")
-                print("@" * 100)
-                print("@" * 100)
-                chunk_result = extractor_crew.kickoff(inputs=inputs)
-                elapsed = time.time() - chunk_start_time
-                
-                print("*" * 100)
-                print(f"[Thread] Raw chunk result type: {type(chunk_result)}")
-                print(f"[Thread] Raw chunk result: {chunk_result}")
-                print("*" * 100)
-                
-                if chunk_result:
-                    # Convert to dict and add debugging
-                    result_dict = chunk_result.to_dict() if hasattr(chunk_result, 'to_dict') else chunk_result
-                    print("*" * 100)
-                    print(f"[Thread] Result dict: {result_dict}")
-                    print(f"[Thread] Result dict keys: {list(result_dict.keys()) if isinstance(result_dict, dict) else 'Not a dict'}")
-                    print("*" * 100)
-                    
-                    # Check for expected keys and count items
-                    expected_keys = ['terms', 'extracted_terms', 'extracted_resources', 'extracted_structured_information']
-                    found_keys = []
-                    total_items = 0
-                    
-                    for key in expected_keys:
-                        if isinstance(result_dict, dict) and key in result_dict:
-                            found_keys.append(key)
-                            items = result_dict[key]
-                            item_count = len(items) if isinstance(items, list) else 'non-list'
-                            total_items += len(items) if isinstance(items, list) else 0
-                            print(f"[Thread] Found key '{key}' with {item_count} items")
-                    
-                    if not found_keys:
-                        print(f"[Thread] WARNING: No expected keys found in result. Available keys: {list(result_dict.keys()) if isinstance(result_dict, dict) else 'Not a dict'}")
-                        # Try to extract any list-like data
-                        if isinstance(result_dict, dict):
-                            for key, value in result_dict.items():
-                                if isinstance(value, list) and len(value) > 0:
-                                    print(f"[Thread] Found list data in key '{key}' with {len(value)} items")
-                                    # Create a proper structure
-                                    result_dict = {'terms': value}
-                                    total_items = len(value)
-                                    break
-                    
-                    logger.info(f"[Thread] Finished chunk {idx+1}/{total_chunks} in {elapsed:.2f}s, got {total_items} total items")
-                    print("*" * 100)
-                    print(f"[Thread] Finished chunk {idx+1}/{total_chunks} in {elapsed:.2f}s, returning: {result_dict}")
-                    print("#" * 100)
-                    return result_dict
-                else:
-                    print("*" * 100)
-                    print(f"[Thread] No result for chunk {idx + 1}/{total_chunks} (took {elapsed:.2f}s)")
-                    print("#" * 100)
-                    logger.warning(f"[Thread] No result for chunk {idx+1}/{total_chunks} (took {elapsed:.2f}s)")
-                    return None
-            except Exception as exc:
-                logger.error(f"[Thread] Exception in chunk {idx+1}/{total_chunks}: {exc}")
-                print(f"[Thread] Exception details: {exc}")
-                import traceback
-                print(f"[Thread] Traceback: {traceback.format_exc()}")
-                return None
-
-        logger.info(f"Processing {total_chunks} chunks in parallel using ThreadPoolExecutor...")
-        print("*" * 100)
-        print("#" * 100)
-        with concurrent.futures.ThreadPoolExecutor() as executor:
-            futures = {executor.submit(process_chunk, chunk, i): i for i, chunk in enumerate(chunks)}
-            for future in concurrent.futures.as_completed(futures):
-                i = futures[future]
-                try:
-                    result = future.result()
-                    if result:
-                        chunk_results.append(result)
-                        print("*" * 100)
-                        print(chunk_results)
-                        print("--" * 100)
-                        print(f"[Main] Collected result {result} for chunk {i+1}/{total_chunks}")
-                        print("*" * 100)
-                        logger.info(f"[Main] Collected result for chunk {i+1}/{total_chunks}")
-                    else:
-                        logger.warning(f"[Main] No result for chunk {i+1}/{total_chunks}")
-                except Exception as exc:
-                    logger.error(f"[Main] Exception collecting chunk {i+1}/{total_chunks}: {exc}")
-
-        print("*" * 100)
-        print(f"All chunks processed. {(chunk_results)} out of {total_chunks} returned results.")
-        logger.info(f"All chunks processed. {len(chunk_results)} out of {total_chunks} returned results.")
-        print("$*" * 100)
-        if not chunk_results:
-            logger.warning("No results from any chunks")
-            return None
-
-        # Validate chunk results before merging
-        valid_results = []
-        total_items_before_merge = 0
         
-        for i, result in enumerate(chunk_results):
-            if result and isinstance(result, dict):
-                valid_results.append(result)
-                # Count items in this result
-                items_in_result = 0
-                for key, value in result.items():
-                    if isinstance(value, list):
-                        items_in_result += len(value)
-                total_items_before_merge += items_in_result
-                logger.info(f"Valid result from chunk {i+1}: {items_in_result} total items across all keys")
-            else:
-                logger.warning(f"Invalid result from chunk {i+1}: {type(result)}")
-
-        if not valid_results:
-            logger.error("No valid results from any chunks")
-            return None
-
-        logger.info(f"Total items before merging: {total_items_before_merge}")
-
-        # Merge chunk results
-        try:
-            combined_result = merge_json_chunks(valid_results)
-            logger.info(f"Successfully merged {len(valid_results)} chunk results")
-            
-            # Count items after merging
-            total_items_after_merge = 0
-            for key, value in combined_result.items():
-                if isinstance(value, list):
-                    total_items_after_merge += len(value)
-            logger.info(f"Total items after merging: {total_items_after_merge}")
-            
-        except Exception as e:
-            logger.error(f"Failed to merge chunk results: {e}")
-            # Fallback: combine all terms manually
-            all_terms = []
-            for result in valid_results:
-                for key, value in result.items():
-                    if isinstance(value, list):
-                        all_terms.extend(value)
-            combined_result = {'terms': all_terms}
-            logger.info(f"Used fallback merging, got {len(all_terms)} total terms")
-        
-        # Transform the data into the expected format for alignment
-        logger.info(f"Combined result before transformation: {combined_result}")
-        transformed_terms = self._transform_extracted_data(combined_result)
-        logger.info(f"Transformed terms: {transformed_terms}")
-        
-        # Wrap data according to task type
-        wrapped_result = self._wrap_data_for_next_step(transformed_terms, task_type, "extraction")
-        logger.info(f"Wrapped result: {wrapped_result}")
-        
-        # Update shared state with transformed terms
-        self._update_shared_state("extracted_terms", wrapped_result)
-        
-        total_time = time.time() - start_time
-        logger.info(f"Extraction complete with {len(transformed_terms)} terms in {total_time:.2f} seconds")
-        return wrapped_result
-
-    async def _extract_without_chunking(self, extractor_agent, extractor_task, start_time, task_type):
-        """Extract information without chunking - process entire text at once."""
-        logger.info("Processing entire text without chunking")
-        
-        max_retries = 3
-        retry_delay = 5  # seconds
-        
-        for attempt in range(max_retries):
-            try:
-                inputs = {"literature": self.source_text}
-                extractor_crew = self._create_crew_with_knowledge(extractor_agent, extractor_task)
-                
-                logger.info(f"Running extractor crew on full text (attempt {attempt + 1}/{max_retries})")
-                extractor_result = extractor_crew.kickoff(inputs=inputs)
-                
-                if not extractor_result:
-                    logger.warning("Extractor crew returned no results")
-                    if attempt < max_retries - 1:
-                        logger.info(f"Retrying in {retry_delay} seconds...")
-                        await asyncio.sleep(retry_delay)
-                        continue
-                    return None
-
-                result_dict = extractor_result.to_dict()
-                logger.info(f"Extraction complete with {len(result_dict.get('terms', []))} terms")
-                
-                # Transform the data into the expected format for alignment
-                logger.info(f"Result dict before transformation: {result_dict}")
-                transformed_terms = self._transform_extracted_data(result_dict)
-                logger.info(f"Transformed terms: {transformed_terms}")
-                
-                # Wrap data according to task type
-                wrapped_result = self._wrap_data_for_next_step(transformed_terms, task_type, "extraction")
-                
-                # Update shared state with transformed terms
-                self._update_shared_state("extracted_terms", wrapped_result)
-                
-                total_time = time.time() - start_time
-                logger.info(f"Extraction complete with {len(transformed_terms)} terms in {total_time:.2f} seconds")
-                return wrapped_result
-                
-            except Exception as e:
-                error_msg = str(e)
-                logger.error(f"Error during non-chunked extraction (attempt {attempt + 1}/{max_retries}): {error_msg}")
-                
-                # Check if it's a timeout error
-                if "timeout" in error_msg.lower() or "connection timed out" in error_msg.lower():
-                    logger.warning("Timeout detected - this might be due to Ollama model being overloaded")
-                    logger.info("💡 Tips to improve Ollama performance:")
-                    logger.info("   1. Ensure you have enough RAM (at least 8GB free)")
-                    logger.info("   2. Close other applications using GPU/CPU")
-                    logger.info("   3. Try using a smaller model (e.g., llama3.1:8b instead of llama3.2:latest)")
-                    logger.info("   4. Restart Ollama: 'ollama stop && ollama start'")
-                    logger.info("   5. Check Ollama logs: 'ollama logs'")
-                    if attempt < max_retries - 1:
-                        logger.info(f"Retrying in {retry_delay * (attempt + 1)} seconds...")
-                        await asyncio.sleep(retry_delay * (attempt + 1))
-                        continue
-                
-                # For other errors, don't retry immediately
-                if attempt < max_retries - 1:
-                    logger.info(f"Retrying in {retry_delay} seconds...")
-                    await asyncio.sleep(retry_delay)
-                    continue
-                
-                logger.error(f"All {max_retries} attempts failed. Returning None.")
-                return None
-
-    def _check_ollama_health(self) -> bool:
-        """Check if Ollama is running and responsive."""
-        try:
-            import httpx
-            import json
-            
-            # Check if any agent is using Ollama
-            using_ollama = False
-            for agent_key, agent_config in self.agent_config.items():
-                llm_config = agent_config.get("llm", {})
-                if isinstance(llm_config, dict) and "ollama" in llm_config.get("model", "").lower():
-                    using_ollama = True
-                    break
-            
-            if not using_ollama:
-                return True  # Not using Ollama, so no need to check
-            
-            # Test Ollama connection
-            with httpx.Client(timeout=10.0) as client:
-                response = client.get(
-                    "http://localhost:11434/api/tags",
-                    headers={"Content-Type": "application/json"}
-                )
-                if response.status_code == 200:
-                    logger.info("Ollama is running and responsive")
-                    return True
-                else:
-                    logger.warning(f"Ollama responded with status code: {response.status_code}")
-                    return False
-                    
-        except Exception as e:
-            logger.warning(f"Ollama health check failed: {e}")
-            return False
-
-    def _setup_monitoring(self) -> None:
-        """Set up monitoring tools if enabled."""
-        if os.getenv("ENABLE_WEIGHTSANDBIAS", "false").lower() == "true":
-            try:
-                import weave
-                weave.init(project_name="StructSense")
-                logger.info("Weights & Biases monitoring enabled")
-            except ImportError:
-                logger.warning("Weights & Biases package not found, monitoring disabled")
-
-        if os.getenv("ENABLE_MLFLOW", "false").lower() == "true":
-            try:
-                import mlflow
-                mlflow.crewai.autolog()
-                mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URL", "http://localhost:5000"))
-                mlflow.set_experiment("StructSense")
-                logger.info("MLflow monitoring enabled")
-            except ImportError:
-                logger.warning("MLflow package not found, monitoring disabled")
-
-    def _initialize_memory(self) -> None:
-        """Initialize memory storage systems for the flow."""
-        try:
-            memory_path = Path(os.getcwd()) / "crew_memory"
-            os.environ["CREWAI_STORAGE_DIR"] = str(memory_path)
-            storage_path = db_storage_path()
-
-            # Debug storage path
-            logger.info(f"Storage path: {storage_path}")
-            logger.info(f"Path exists: {os.path.exists(storage_path)}")
-            logger.info(
-                f"Is writable: {os.access(storage_path, os.W_OK) if os.path.exists(storage_path) else 'Path does not exist'}")
-
-            # Create with proper permissions
-            if not os.path.exists(storage_path):
-                os.makedirs(storage_path, mode=0o755, exist_ok=True)
-                logger.info(f"Created storage directory: {storage_path}")
-
-            # DEBUG: Print embedder_config before passing to RAGStorage
-            print("DEBUG: embedder_config for RAGStorage:", self.embedder_config)
-            
-            # Check if embedder config is compatible
-            embedder_config_for_rag = None
-            if isinstance(self.embedder_config, dict) and 'provider' in self.embedder_config:
-                embedder_config_for_rag = self.embedder_config
-            elif isinstance(self.embedder_config, dict) and 'embedder_config' in self.embedder_config:
-                embedder_config_for_rag = self.embedder_config['embedder_config']
-            else:
-                embedder_config_for_rag = self.embedder_config  # fallback
-
-            # Check if using Ollama embedder but not running Ollama
-            if (isinstance(embedder_config_for_rag, dict) and 
-                embedder_config_for_rag.get('provider') == 'ollama' and
-                not self._check_ollama_health()):
-                logger.warning("Ollama embedder configured but Ollama not available. Disabling memory to prevent errors.")
-                # Initialize with None to disable memory
-                self.long_term_memory = None
-                self.short_term_memory = None
-                self.entity_memory = None
-                return
-
-            rag_storage_config = {
-                "embedder_config": embedder_config_for_rag,
-                "type": "short_term",
-                "path": str(storage_path),
-            }
-
-            long_term_storage = f"{storage_path}/long_term_memory_storage.db"
-
-            # Initialize memory components with error handling
-            try:
-                self.long_term_memory = LongTermMemory(
-                    storage=LTMSQLiteStorage(db_path=str(long_term_storage))
-                )
-                logger.info("Long-term memory initialized successfully")
-            except Exception as e:
-                logger.warning(f"Failed to initialize long-term memory: {e}")
-                self.long_term_memory = None
-
-            try:
-                self.short_term_memory = ShortTermMemory(
-                    storage=RAGStorage(**rag_storage_config)
-                )
-                logger.info("Short-term memory initialized successfully")
-            except Exception as e:
-                logger.warning(f"Failed to initialize short-term memory: {e}")
-                self.short_term_memory = None
-
-            try:
-                self.entity_memory = EntityMemory(
-                    storage=RAGStorage(**rag_storage_config)
-                )
-                logger.info("Entity memory initialized successfully")
-            except Exception as e:
-                logger.warning(f"Failed to initialize entity memory: {e}")
-                self.entity_memory = None
-
-            if all([self.long_term_memory, self.short_term_memory, self.entity_memory]):
-                logger.info("All memory systems initialized successfully")
-            else:
-                logger.warning("Some memory systems failed to initialize - continuing without full memory support")
-
-        except Exception as e:
-            error_msg = f"Failed to initialize memory systems: {str(e)}"
-            logger.error(error_msg)
-            # Don't raise error, just disable memory
-            self.long_term_memory = None
-            self.short_term_memory = None
-            self.entity_memory = None
-            logger.info("Continuing without memory systems")
-
-    def _initialize_agent_and_task(
-            self,
-            agent_key: str,
-            task_key: str,
-            pydantic_output_class
-    ) -> Tuple[Optional[object], Optional[object]]:
-        """Initialize an agent and its associated task.
-
-        Args:
-            agent_key: Key for the agent in agent configuration
-            task_key: Key for the task in task configuration
-            pydantic_output_class: Pydantic class for structured output
-
-        Returns:
-            Tuple containing the initialized agent and task
-        """
-        try:
-            print(f"[DEBUG] agent_key: {agent_key}")
-            print(f"[DEBUG] task_key: {task_key}")
-            print(f"[DEBUG] agent_config for {agent_key}: {self.agent_config.get(agent_key)}")
-            print(f"[DEBUG] task_config for {task_key}: {self.task_config.get(task_key)}")
-            agent_init = DynamicAgent(
-                agents_config=self.agent_config[agent_key],
-                embedder_config=self.embedder_config
-            )
-            task_init = DynamicAgentTask(
-                tasks_config=self.task_config[task_key]
-            )
-
-            agent = agent_init.build_agent()
-            task = task_init.build_task(pydantic_output=pydantic_output_class, agent=agent)
-
-            if not task:
-                logger.error(f"{task_key} initialization failed")
-                return None, None
-
-            logger.info(f"Successfully initialized {agent_key} and {task_key}")
-            return agent, task
-
-        except Exception as e:
-            logger.error(f"{agent_key}/{task_key} initialization failed: {e}")
-            return None, None
-
-    def _should_enable_knowledge_source(self) -> bool:
-        """Check if knowledge source should be enabled."""
-        try:
-            # Check if knowledge source is explicitly disabled
-            if os.getenv("ENABLE_KG_SOURCE", "false").lower() == "false":
-                logger.info("Knowledge source explicitly disabled via ENABLE_KG_SOURCE=false")
-                return False
-            
-            # Check if knowledge config is properly configured
-            if not self.knowledge_config or not isinstance(self.knowledge_config, dict):
-                logger.info("No knowledge config provided, disabling knowledge source")
-                return False
-            
-            if 'search_key' not in self.knowledge_config:
-                logger.info("No search_key in knowledge config, disabling knowledge source")
-                return False
-            
-            search_keys = self.knowledge_config.get('search_key', [])
-            if not search_keys or not isinstance(search_keys, list) or len(search_keys) == 0:
-                logger.info("Empty or invalid search_key in knowledge config, disabling knowledge source")
-                return False
-            
-            logger.info(f"Knowledge source enabled with search keys: {search_keys}")
-            return True
-            
-        except Exception as e:
-            logger.warning(f"Error checking knowledge source configuration: {e}")
-            return False
-
-    def _create_crew_with_knowledge(
-            self,
-            agent,
-            task,
-            data_for_knowledge_tool: Optional[Dict] = None
-    ) -> Crew:
-        """Create a Crew instance with or without knowledge sources based on configuration.
-
-        Args:
-            agent: The agent to use in the crew
-            task: The task to execute
-            data_for_knowledge_tool: Data to provide to the knowledge tool if enabled
-
-        Returns:
-            Configured Crew instance
-        """
-        crew_config = {
-            "agents": [agent],
-            "tasks": [task],
-            "verbose": True,
-        }
-
-        # Add memory only if available
-        if self.long_term_memory is not None:
-            crew_config["long_term_memory_config"] = self.long_term_memory
-        if self.short_term_memory is not None:
-            crew_config["short_term_memory"] = self.short_term_memory
-        if self.entity_memory is not None:
-            crew_config["entity_memory"] = self.entity_memory
-        
-        # Only enable memory if at least one memory system is available
-        if any([self.long_term_memory, self.short_term_memory, self.entity_memory]):
-            crew_config["memory"] = True
-        else:
-            crew_config["memory"] = False
-            logger.info("No memory systems available - running without memory")
-
-        # Add knowledge sources if enabled
-        if self._should_enable_knowledge_source() and data_for_knowledge_tool:
-            try:
-                # Format the data for the OntologyKnowledgeTool
-                formatted_data = {}
-                if isinstance(data_for_knowledge_tool, dict):
-                    for key, value in data_for_knowledge_tool.items():
-                        if isinstance(value, list):
-                            formatted_data[key] = value
-                        elif isinstance(value, dict):
-                            formatted_data[key] = [value]
-                        else:
-                            formatted_data[key] = [{"entity": str(value)}]
-                else:
-                    formatted_data = {"terms": [{"entity": str(data_for_knowledge_tool)}]}
-
-                custom_source = OntologyKnowledgeTool(
-                    formatted_data,
-                    self.knowledge_config["search_key"]
-                )
-
-                logger.debug("Knowledge source result:")
-                logger.debug(custom_source)
-
-                ksrc = StringKnowledgeSource(content=custom_source)
-                crew_config["knowledge_sources"] = [ksrc]
-                logger.info("Knowledge source added to crew configuration")
-                
-            except Exception as e:
-                logger.warning(f"Failed to create knowledge source: {e}")
-                logger.info("Continuing without knowledge source")
-        else:
-            logger.info("Knowledge source not enabled or no data provided")
-
-        return Crew(**crew_config)
-
-    def _update_shared_state(self, key: str, value: Any) -> None:
-        """Update shared state and notify other crews"""
-        self.shared_state[key] = value
-        self.shared_state["current_step"] = key
-        logger.info(f"Updated shared state: {key}")
-
-    def _get_shared_state(self, key: str) -> Any:
-        """Get value from shared state"""
-        return self.shared_state.get(key)
-
-    def _convert_sets_to_lists(self, data):
-        """Convert any sets in the data structure to lists."""
-        if isinstance(data, set):
-            return list(data)
-        elif isinstance(data, dict):
-            return {k: self._convert_sets_to_lists(v) for k, v in data.items()}
-        elif isinstance(data, list):
-            return [self._convert_sets_to_lists(item) for item in data]
-        return data
-
-    def _transform_extracted_data(self, combined_result):
-        """Transform extracted data from chunk results into the expected format."""
-        if not combined_result:
-            logger.warning("No combined result to transform")
-            return []
-        
-        logger.info(f"Transforming combined result of type: {type(combined_result)}")
-        
-        # Handle different possible structures
-        if isinstance(combined_result, dict):
-            # For BBQS tasks, look for extracted_structured_information first
-            if 'extracted_structured_information' in combined_result:
-                extracted_info = combined_result['extracted_structured_information']
-                logger.info(f"Found 'extracted_structured_information' with type: {type(extracted_info)}")
-                
-                # Handle nested dictionary structure (like extracted_terms with numbered keys)
-                if isinstance(extracted_info, dict):
-                    terms = []
-                    for key, value in extracted_info.items():
-                        if isinstance(value, list):
-                            terms.extend(value)
-                            logger.debug(f"Added {len(value)} items from list key '{key}'")
-                        elif isinstance(value, dict):
-                            terms.append(value)
-                            logger.debug(f"Added 1 item from dict key '{key}'")
-                        else:
-                            terms.append(value)
-                            logger.debug(f"Added 1 item from key '{key}'")
-                    logger.info(f"Extracted {len(terms)} entities from nested structure")
-                elif isinstance(extracted_info, list):
-                    terms = extracted_info
-                    logger.info(f"Using list of {len(terms)} resources")
-                else:
-                    terms = [extracted_info]
-                    logger.info("Converted non-dict/list to list")
-                    
-            elif 'extracted_terms' in combined_result:
-                extracted_terms = combined_result['extracted_terms']
-                logger.info(f"Found 'extracted_terms' key with type: {type(extracted_terms)}")
-                
-                # Handle nested dictionary structure (like numbered keys "1", "2", etc.)
-                if isinstance(extracted_terms, dict):
-                    terms = []
-                    for key, value in extracted_terms.items():
-                        if isinstance(value, list):
-                            terms.extend(value)
-                            logger.debug(f"Added {len(value)} items from list key '{key}'")
-                        elif isinstance(value, dict):
-                            terms.append(value)
-                            logger.debug(f"Added 1 item from dict key '{key}'")
-                        else:
-                            terms.append(value)
-                            logger.debug(f"Added 1 item from key '{key}'")
-                    logger.info(f"Extracted {len(terms)} entities from extracted_terms structure")
-                elif isinstance(extracted_terms, list):
-                    terms = extracted_terms
-                    logger.info(f"Using list of {len(terms)} extracted terms")
-                else:
-                    terms = [extracted_terms]
-                    logger.info("Converted extracted_terms to list")
-                    
-            elif 'extracted_resources' in combined_result:
-                extracted_resources = combined_result['extracted_resources']
-                logger.info(f"Found 'extracted_resources' key with type: {type(extracted_resources)}")
-                
-                # Handle nested dictionary structure
-                if isinstance(extracted_resources, dict):
-                    terms = []
-                    for key, value in extracted_resources.items():
-                        if isinstance(value, list):
-                            terms.extend(value)
-                            logger.debug(f"Added {len(value)} items from list key '{key}'")
-                        elif isinstance(value, dict):
-                            terms.append(value)
-                            logger.debug(f"Added 1 item from dict key '{key}'")
-                        else:
-                            terms.append(value)
-                            logger.debug(f"Added 1 item from key '{key}'")
-                    logger.info(f"Extracted {len(terms)} entities from extracted_resources structure")
-                elif isinstance(extracted_resources, list):
-                    terms = extracted_resources
-                    logger.info(f"Using list of {len(terms)} extracted resources")
-                else:
-                    terms = [extracted_resources]
-                    logger.info("Converted extracted_resources to list")
-            else:
-                # If no clear structure, try to extract terms from the dict
-                terms = []
-                for key, value in combined_result.items():
-                    logger.debug(f"Processing key '{key}' with value type: {type(value)}")
-                    if isinstance(value, list):
-                        terms.extend(value)
-                        logger.debug(f"Added {len(value)} items from list key '{key}'")
-                    elif isinstance(value, dict) and 'terms' in value:
-                        terms.extend(value['terms'])
-                        logger.debug(f"Added {len(value['terms'])} items from dict key '{key}'")
-                    elif isinstance(value, dict) and 'extracted_terms' in value:
-                        terms.extend(value['extracted_terms'])
-                        logger.debug(f"Added {len(value['extracted_terms'])} items from dict key '{key}'")
-                    elif isinstance(value, dict) and 'extracted_resources' in value:
-                        terms.extend(value['extracted_resources'])
-                        logger.debug(f"Added {len(value['extracted_resources'])} items from dict key '{key}'")
-                logger.info(f"Extracted {len(terms)} terms from dictionary structure")
-        elif isinstance(combined_result, list):
-            terms = combined_result
-            logger.info(f"Processing list structure with {len(terms)} items")
-        else:
-            logger.warning(f"Unexpected combined_result type: {type(combined_result)}")
-            return []
-        
-        # Ensure terms is a list
-        if not isinstance(terms, list):
-            logger.warning(f"Terms is not a list: {type(terms)}, converting...")
-            try:
-                terms = list(terms) if hasattr(terms, '__iter__') else [terms]
-            except Exception as e:
-                logger.error(f"Failed to convert terms to list: {e}")
-                return []
-        
-        # Remove duplicates while preserving order
-        seen = set()
-        unique_terms = []
-        for i, term in enumerate(terms):
-            try:
-                if isinstance(term, dict):
-                    # Create a hashable representation for comparison
-                    term_key = str(sorted(term.items()))
-                    if term_key not in seen:
-                        seen.add(term_key)
-                        unique_terms.append(term)
-                else:
-                    if term not in seen:
-                        seen.add(term)
-                        unique_terms.append(term)
-            except Exception as e:
-                logger.warning(f"Error processing term {i}: {e}")
-                continue
-        
-        logger.info(f"Transformed {len(terms)} terms to {len(unique_terms)} unique terms")
-        return unique_terms
-
-    @listen(extracted_structured_information)
-    async def align_structured_information(self, extracted_result):
-        """Align extracted information with ontology using CrewAI."""
-        if not extracted_result:
-            logger.warning("No structured information extracted. Skipping alignment.")
-            return None
-
-        print("#"*100)
-        print(extracted_result)
-
-        logger.info("Starting alignment process")
-        
-        # Detect task type
-        task_type = self._detect_task_type()
-        logger.info(f"Detected task type for alignment: {task_type}")
-
-        # Initialize alignment components
-        alignment_agent, alignment_task = self._initialize_agent_and_task(
-            "alignment_agent",
-            "alignment_task",
-            AlignedTermsDynamic
-        )
-
-        print("-"*100)
-        print(f"alignment_agent {alignment_agent}")
-        print("+" * 100)
-        print(f"alignment_task {alignment_task}")
-        print("#" * 100)
-
-        if not alignment_agent or not alignment_task:
-            logger.error("Alignment agent initialization failed")
-            return None
-
-        # Convert any sets to lists in the extracted result
-        processed_result = self._convert_sets_to_lists(extracted_result)
-        
-        # Extract the actual extracted data from the wrapper
-        actual_extracted_data = self._extract_data_from_result(processed_result, task_type, "extraction")
-        logger.info(f"Extracted data for alignment: {type(actual_extracted_data)}")
-        
-        # Convert any sets in shared_state to lists
-        processed_shared_state = self._convert_sets_to_lists(self.shared_state)
-
-        # Create and run the alignment crew
-        alignment_crew = self._create_crew_with_knowledge(
-            alignment_agent,
-            alignment_task,
-            actual_extracted_data
-        )
-
-        # Process the alignment
-        alignment_result = alignment_crew.kickoff(inputs={
-            "extracted_structured_information": actual_extracted_data,
-            "shared_state": processed_shared_state,
-            "alignment_context": "Process the extracted information and align it with the ontology. Also take note of the shared_state that contains results from other agents as well."
-        })
-
-        print("="*100)
-        print("Alignment Result:")
-        print(alignment_result)
-        print("="*100)
-
-        if alignment_result:
-            result_dict = alignment_result.to_dict()
-            print("="*100)
-            print("Result Dict:")
-            print(result_dict)
-            print("="*100)
-            
-            # Extract the actual aligned data from the wrapper
-            actual_aligned_data = self._extract_data_from_result(result_dict, task_type, "alignment")
-            
-            # Wrap data according to task type
-            wrapped_result = self._wrap_data_for_next_step(actual_aligned_data, task_type, "alignment")
-            
-            # Update shared state with the correct structure
-            self._update_shared_state("aligned_terms", wrapped_result)
-            logger.info(f"Alignment complete with aligned data")
-            return wrapped_result
-        else:
-            logger.warning("Alignment crew returned no results")
-            return None
-
-    @listen(align_structured_information)
-    async def judge_alignment(self, aligned_info):
-        """Judge the quality of the alignment between extracted and reference terms."""
-        if not aligned_info:
-            logger.warning("No aligned information available. Skipping judgment.")
-            return None
-
-        logger.info("Starting judgment of aligned information")
-        
-        # Detect task type
-        task_type = self._detect_task_type()
-        logger.info(f"Detected task type for judgment: {task_type}")
-
-        # Initialize judge components
-        judge_agent, judge_task = self._initialize_agent_and_task(
-            "judge_agent",
-            "judge_task",
-            JudgedTermsDynamic
-        )
-
-        if not judge_agent or not judge_task:
-            logger.error("Judge initialization failed")
-            return None
-
-        # Create and run the judge crew with access to all previous results
-        judge_crew = self._create_crew_with_knowledge(
-            judge_agent,
-            judge_task,
-            aligned_info
-        )
-
-        # Extract the actual aligned data from the wrapper
-        actual_aligned_data = self._extract_data_from_result(aligned_info, task_type, "alignment")
-        logger.info(f"Extracted aligned data for judgment: {type(actual_aligned_data)}")
-
-        judge_result = judge_crew.kickoff(inputs={
-            "aligned_structured_information": actual_aligned_data,
-            "shared_state": self.shared_state  # Pass shared state
-        })
-
-        if not judge_result:
-            logger.warning("Judge crew returned no results")
-            return None
-
-        # Update shared state and return results
-        result_dict = judge_result.to_dict()
-        
-        # Extract the actual judged data from the wrapper
-        actual_judged_data = self._extract_data_from_result(result_dict, task_type, "judgment")
-        
-        # Wrap data according to task type
-        wrapped_result = self._wrap_data_for_next_step(actual_judged_data, task_type, "judgment")
-        
-        self._update_shared_state("judged_terms", wrapped_result)
-        logger.info(f"Judgment complete with judged data")
-        return wrapped_result
-
-    @listen(judge_alignment)
-    async def human_feedback(self, judge_result):
-        """Process human feedback and generate improved final output."""
-        if not judge_result:
-            logger.warning("No judge result available. Skipping human feedback processing.")
-            return None
-
-        logger.info("Starting human feedback processing")
-
-        # Detect task type
-        task_type = self._detect_task_type()
-        logger.info(f"Detected task type for human feedback: {task_type}")
-
-        # Extract the actual judged data from the wrapper (moved outside the if block)
-        actual_judged_data = self._extract_data_from_result(judge_result, task_type, "judgment")
-        logger.info(f"Extracted judged data for feedback: {type(actual_judged_data)}")
-
-        # First, request feedback on the judge's results
-        if self.enable_human_feedback:
-            feedback_dict = self.human.request_feedback(
-                data=actual_judged_data,
-                step_name="human_feedback_processing",
-                agent_name="humanfeedback_agent"
-            )
-            print(f"Debug: Feedback dictionary passed to human feedback agent: {feedback_dict}")
-        else:
-            # if not enabled human feedback we return the judge result as default
-            feedback_dict = judge_result
-
-        # If no feedback was provided, use the judge result
-        if feedback_dict is None:
-            logger.info("No feedback provided. Using judge result.")
-            return judge_result
-
-        # Ensure feedback_dict is a dictionary
-        if isinstance(feedback_dict, str):
-            feedback_dict = {"user_feedback_text": feedback_dict}
-
-        # Check if user actually modified the data (not just approved)
-        # The human feedback handler returns the original data for option 1 (Approve)
-        # and modified data for option 3 (Modify)
-        user_modified_data = has_modifications(feedback_dict, actual_judged_data)
-
-        # Only run the human feedback agent if the user actually modified the data
-        if user_modified_data:
-            logger.info("User modified data, running human feedback agent")
-            logger.info("*" * 100)
-            logger.info("Data modified, running modification crew")
-            logger.info("*" * 100)
-
-            # Check for natural language text in feedback
-            if isinstance(feedback_dict, dict) and 'user_feedback_text' in feedback_dict:
-                logger.info(f"Natural language feedback: {feedback_dict['user_feedback_text']}")
-
-            # Initialize human feedback components
-            humanfeedback_agent, humanfeedback_task = self._initialize_agent_and_task(
-                "humanfeedback_agent",
-                "humanfeedback_task",
-                JudgedTermsDynamic
-            )
-
-            if not humanfeedback_agent or not humanfeedback_task:
-                logger.error("Human feedback agent initialization failed")
-                return judge_result
-
-            # Format the data for the OntologyKnowledgeTool
-            formatted_data = {}
-            if isinstance(feedback_dict, dict):
-                for key, value in feedback_dict.items():
-                    if isinstance(value, list):
-                        formatted_data[key] = value
-                    elif isinstance(value, dict):
-                        formatted_data[key] = [value]
-                    else:
-                        formatted_data[key] = [{"entity": str(value)}]
-            else:
-                formatted_data = {"terms": [{"entity": str(feedback_dict)}]}
-
-            # Create and run the modification crew with modified data
-            modification_crew = self._create_crew_with_knowledge(
-                humanfeedback_agent,
-                humanfeedback_task,
-                formatted_data
-            )
-
-            # Process the modifications
-            user_feedback_text = feedback_dict.get('user_feedback_text', '') if isinstance(feedback_dict, dict) else ''
-
-            modified_result = modification_crew.kickoff(inputs={
-                "judged_structured_information_with_human_feedback": feedback_dict,
-                "aligned_structured_information": feedback_dict,
-                "shared_state": self.shared_state,
-                "modification_context": "Process the requrested user feedback. Also take note of the shared_state that contains results from other agents as well. User Feedback Handling: If the input includes modifications previously made based on human/user feedback: Detect and respect these changes (e.g., altered extracted terms). Do not overwrite user-modified terms. Instead, annotate in remarks that user-defined values were retained and evaluated accordingly.",
-                "user_feedback_text": user_feedback_text
-            })
-
-            if modified_result:
-                feedback_dict = modified_result.to_dict()
-
-                # Extract the actual feedback data from the wrapper
-                actual_feedback_data = self._extract_data_from_result(feedback_dict, task_type, "human_feedback")
-
-                # Wrap data according to task type
-                wrapped_result = self._wrap_data_for_next_step(actual_feedback_data, task_type, "human_feedback")
-
-                self._update_shared_state("feedback_terms", wrapped_result)
-            else:
-                logger.warning("Modification processing returned no results")
-                return judge_result
-        else:
-            logger.info("User approved data without modifications, skipping human feedback agent")
-            # Use the original judge result since user just approved
-            feedback_dict = judge_result
-
-        # Update state with final results
-        self.state["humanfeedback_information"] = feedback_dict
-        self.state["current_step"] = "human_feedback_complete"
-
-        logger.info(f"Human feedback processing complete")
-        return feedback_dict
-
-    def _detect_task_type(self) -> str:
-        """Detect the type of task based on agent configurations."""
-        try:
-            extractor_role = self.agent_config.get("extractor_agent", {}).get("role", "").lower()
-            
-            if "ner" in extractor_role or "named entity" in extractor_role:
-                return "ner"
-            elif "bbqs" in extractor_role or "resource" in extractor_role:
-                return "bbqs"
-            elif "extract" in extractor_role:
-                return "generic"
-            else:
-                return "generic"
-        except Exception as e:
-            logger.warning(f"Could not detect task type: {e}")
-            return "generic"
-
-    def _get_expected_output_keys(self, task_type: str, step: str) -> dict:
-        """Get expected output keys for different task types and steps."""
-        key_mappings = {
-            "ner": {
-                "extraction": "extracted_terms",
-                "alignment": "aligned_ner_terms", 
-                "judgment": "judge_ner_terms",
-                "human_feedback": "judge_ner_terms"
-            },
-            "bbqs": {
-                "extraction": "extracted_resources",
-                "alignment": "aligned_resources",
-                "judgment": "judge_resource", 
-                "human_feedback": "judge_resource"
-            },
-            "generic": {
-                "extraction": "extracted_terms",
-                "alignment": "aligned_terms",
-                "judgment": "judged_terms",
-                "human_feedback": "judged_terms"
-            }
-        }
-        
-        return key_mappings.get(task_type, key_mappings["generic"])
-
-    def _extract_data_from_result(self, result: dict, task_type: str, step: str) -> Any:
-        """Extract the actual data from result wrapper based on task type and step."""
-        if not result or not isinstance(result, dict):
-            return result
-        
-        expected_keys = self._get_expected_output_keys(task_type, step)
-        step_key = step.replace("_", "")  # Remove underscores for key matching
-        
-        # Try the expected key for this step
-        if step_key in expected_keys:
-            expected_key = expected_keys[step_key]
-            if expected_key in result:
-                logger.info(f"Found data under expected key '{expected_key}' for {task_type} {step}")
-                return result[expected_key]
-        
-        # Try common wrapper keys
-        common_wrappers = [
-            "extracted_terms", "extracted_resources", "extracted_structured_information",
-            "aligned_terms", "aligned_resources", "aligned_ner_terms", "aligned_structured_information", 
-            "judged_terms", "judge_resource", "judge_ner_terms", "judged_structured_information"
-        ]
-        
-        for wrapper in common_wrappers:
-            if wrapper in result:
-                logger.info(f"Found data under wrapper key '{wrapper}' for {task_type} {step}")
-                return result[wrapper]
-        
-        # If no wrapper found, return the result as-is
-        logger.info(f"No wrapper key found, using result directly for {task_type} {step}")
-        return result
-
-    def _wrap_data_for_next_step(self, data: Any, task_type: str, step: str) -> dict:
-        """Wrap data in the expected structure for the next step."""
-        expected_keys = self._get_expected_output_keys(task_type, step)
-        step_key = step.replace("_", "")
-        
-        if step_key in expected_keys:
-            wrapper_key = expected_keys[step_key]
-            return {wrapper_key: data}
-        else:
-            # Fallback to generic wrapper
-            return {f"{step}_data": data}
-
-
-def str_to_bool(s):
-    if isinstance(s, bool):
-        return s
-    if s is None:
-        return False
-    return str(s).strip().lower() == 'true'
-
-
-def kickoff(
-        agentconfig: Union[str, dict],
-        taskconfig: Union[str, dict],
-        embedderconfig: Union[str, dict],
-        input_source: Union[str, dict],
-        knowledgeconfig: Optional[Union[str, dict]] = None,
-        enable_human_feedback: bool = True,
-        agent_feedback_config: Optional[Dict[str, bool]] = None,
-        feedback_handler: Optional[ProgrammaticFeedbackHandler] = None,
-        env_file: Optional[str] = None,
-        api_key: Optional[str] = None,
-        enable_chunking: bool = False
-) -> Union[Dict[str, Any], str]:
-    """Kickoff the StructSense flow with the given configurations.
-
-    Args:
-        agentconfig: Agent configuration file path or dictionary
-        taskconfig: Task configuration file path or dictionary
-        embedderconfig: Embedder configuration file path or dictionary
-        input_source: Input source file path or dictionary
-        knowledgeconfig: Optional knowledge configuration file path or dictionary
-        enable_human_feedback: Whether to enable human feedback
-        agent_feedback_config: Optional agent feedback configuration
-        feedback_handler: Optional feedback handler
-        env_file: Optional environment file path
-        api_key: Optional API key to replace in configs
-        enable_chunking: Whether to enable chunking
-
-    Returns:
-        Union[Dict[str, Any], str]: The result of the flow execution
-    """
-    try:
-        logger.info("Starting StructSense flow...")
-        logger.info("#" * 100)
-        logger.info(f"Starting {enable_human_feedback}")
-        logger.info("#" * 100)
-        enable_human_feedback = str_to_bool(enable_human_feedback)
-        try:
-            if agent_feedback_config is not None:
-                agent_feedback_config = load_config(agent_feedback_config, "agent_feedback_config")
-                agent_feedback_config_bool = {
-                    k: str_to_bool(v) for k, v in agent_feedback_config.items()
-                }
-            else:
-                agent_feedback_config_bool = {
-                    "extractor_agent": False,
-                    "alignment_agent": False,
-                    "judge_agent": False,
-                    "humanfeedback_agent": True
-                }
-        except Exception:
-            agent_feedback_config_bool = {
-                "extractor_agent": False,
-                "alignment_agent": False,
-                "judge_agent": False,
-                "humanfeedback_agent": True
-            }
-
-        # Load environment variables from env_file if provided, else use the one setup using export command
+        # Setup environment first
         if env_file:
             load_dotenv(env_file, override=True)
             logger.info(f"Loaded environment variables from {env_file} (override=True)")
@@ -1266,63 +305,1326 @@ def kickoff(
             load_dotenv()
             logger.info("Loaded environment variables from default .env")
 
+        # Human feedback: off by default; may be set from YAML human_in_loop_config when loading a combined config, then overridden by ENABLE_HUMAN_FEEDBACK env if set (see after config load).
+
         # Set API key in environment if provided
         if api_key:
             os.environ["OPENROUTER_API_KEY"] = api_key
             logger.info("Set OPENROUTER_API_KEY in environment")
 
-        # Process input data
-        processed_string = process_input_data(input_source)
+        # Disable CrewAI tracing and telemetry to reduce log noise
+        if "CREWAI_TRACING_ENABLED" not in os.environ:
+            os.environ["CREWAI_TRACING_ENABLED"] = "false"
+        if "CREWAI_DISABLE_TELEMETRY" not in os.environ:
+            os.environ["CREWAI_DISABLE_TELEMETRY"] = "true"
+        if "OTEL_SDK_DISABLED" not in os.environ:
+            os.environ["OTEL_SDK_DISABLED"] = "true"
+        if "CREWAI_TELEMETRY_OPT_OUT" not in os.environ:
+            os.environ["CREWAI_TELEMETRY_OPT_OUT"] = "true"
 
-        # Load configs if they are file paths
-        if isinstance(agentconfig, str):
-            agentconfig = load_config(agentconfig, "agent")
-        if isinstance(taskconfig, str):
-            taskconfig = load_config(taskconfig, "task")
-        if isinstance(embedderconfig, str):
-            embedderconfig = load_config(embedderconfig, "embedder")
-        if isinstance(knowledgeconfig, str):
-            knowledgeconfig = load_config(knowledgeconfig, "knowledge")
+        # Process input source if provided (takes precedence over source_text)
+        if input_source is not None:
+            processed_data = process_input_data(input_source)
+            # Convert processed data to string
+            if isinstance(processed_data, dict):
+                if "sections" in processed_data:
+                    text_parts = []
+                    for section in processed_data.get("sections", []):
+                        if isinstance(section, dict):
+                            heading = section.get("heading", "")
+                            content = section.get("content", "")
+                            if heading:
+                                text_parts.append(f"{heading}\n{content}")
+                            else:
+                                text_parts.append(content)
+                    self.source_text = "\n\n".join(text_parts)
+                elif "text" in processed_data:
+                    title = processed_data.get("title", "")
+                    text = processed_data.get("text", "")
+                    if title and text:
+                        self.source_text = f"{title}\n\n{text}"
+                    elif text:
+                        self.source_text = text
+                    else:
+                        self.source_text = str(processed_data)
+                elif "error" in processed_data:
+                    error_msg = processed_data.get("error", "Unknown error processing input")
+                    raise ConfigError(f"Input processing failed: {error_msg}")
+                else:
+                    # Unknown dict format, try to extract text-like values
+                    text_parts = []
+                    for key, value in processed_data.items():
+                        if isinstance(value, str) and len(value) > 10:
+                            text_parts.append(value)
+                        elif isinstance(value, list):
+                            for item in value:
+                                if isinstance(item, str):
+                                    text_parts.append(item)
+                                elif isinstance(item, dict) and "content" in item:
+                                    text_parts.append(item.get("content", ""))
+                    if text_parts:
+                        self.source_text = "\n\n".join(text_parts)
+                    else:
+                        logger.warning(f"Unknown dict format from process_input_data: {list(processed_data.keys())}")
+                        self.source_text = str(processed_data)
+            elif isinstance(processed_data, list):
+                logger.warning("List input detected, converting to string representation")
+                self.source_text = "\n".join(str(item) for item in processed_data)
+            else:
+                self.source_text = processed_data
+        elif source_text is not None:
+            self.source_text = source_text
+        else:
+            raise ConfigError("Either source_text or input_source must be provided")
 
-        # Replace API key if provided
-        if api_key:
-            agentconfig = replace_api_key(agentconfig, api_key)
-            embedderconfig = replace_api_key(embedderconfig, api_key)
+        # Validate that we have text to process
+        if not self.source_text or not isinstance(self.source_text, str):
+            raise ConfigError("No valid text content could be extracted from input source")
+        
+        if len(self.source_text.strip()) == 0:
+            raise ConfigError("Extracted text is empty")
 
-        # Initialize and run the flow
+        logger.info(f"Initializing StructSenseFlow with source text (length: {len(self.source_text)} chars)")
+        self.enable_human_feedback = enable_human_feedback
+
+        try:
+            # Load configs if they are file paths, otherwise use as-is
+            if isinstance(agent_config, str):
+                loaded = load_config(agent_config, "agent_config")
+                # Combined YAML may have top-level agent_config, task_config, human_in_loop_config
+                if isinstance(loaded, dict) and "agent_config" in loaded:
+                    if "human_in_loop_config" in loaded and "ENABLE_HUMAN_FEEDBACK" not in os.environ:
+                        hil = loaded.get("human_in_loop_config") or {}
+                        enable_human_feedback = str_to_bool(str(hil.get("humanfeedback_agent", enable_human_feedback)))
+                        logger.info("Human feedback set from config human_in_loop_config.humanfeedback_agent -> %s", enable_human_feedback)
+                    self.agent_config = loaded.get("agent_config", loaded)
+                else:
+                    self.agent_config = loaded
+            else:
+                self.agent_config = agent_config
+
+            if isinstance(task_config, str):
+                loaded = load_config(task_config, "task_config")
+                if isinstance(loaded, dict) and "task_config" in loaded:
+                    if "human_in_loop_config" in loaded and "ENABLE_HUMAN_FEEDBACK" not in os.environ:
+                        hil = loaded.get("human_in_loop_config") or {}
+                        enable_human_feedback = str_to_bool(str(hil.get("humanfeedback_agent", enable_human_feedback)))
+                        logger.info("Human feedback set from config human_in_loop_config.humanfeedback_agent -> %s", enable_human_feedback)
+                    self.task_config = loaded.get("task_config", loaded)
+                else:
+                    self.task_config = loaded
+            else:
+                self.task_config = task_config
+
+            # Env override: ENABLE_HUMAN_FEEDBACK takes precedence over config file
+            if "ENABLE_HUMAN_FEEDBACK" in os.environ:
+                enable_human_feedback = str_to_bool(os.environ["ENABLE_HUMAN_FEEDBACK"])
+                logger.info("Human feedback overridden by env ENABLE_HUMAN_FEEDBACK=%s -> %s", os.environ["ENABLE_HUMAN_FEEDBACK"], enable_human_feedback)
+            self.enable_human_feedback = enable_human_feedback
+
+            if isinstance(embedder_config, str):
+                self.embedder_config = load_config(embedder_config, "embedder_config")
+            else:
+                self.embedder_config = embedder_config
+                
+            if knowledge_config:
+                if isinstance(knowledge_config, str):
+                    self.knowledge_config = load_config(knowledge_config, "knowledge_config")
+                else:
+                    self.knowledge_config = knowledge_config
+            else:
+                self.knowledge_config = None
+
+            # Replace API key in configs if provided
+            if api_key:
+                self.agent_config = replace_api_key(self.agent_config, api_key)
+                self.embedder_config = replace_api_key(self.embedder_config, api_key)
+                
+        except Exception as e:
+            logger.error(f"Configuration loading failed: {e}")
+            raise ConfigError(f"Failed to load configurations: {str(e)}")
+        
+        setup_monitoring()
+        
+        # Crew memory (long/short/entity) is off by default; not recommended with local models.
+        # Set ENABLE_CREW_MEMORY=true to enable (requires embedder_config, e.g. Ollama).
+        enable_crew_memory = str_to_bool(os.environ.get("ENABLE_CREW_MEMORY", "false"))
+        self.long_term_memory = None
+        self.short_term_memory = None
+        self.entity_memory = None
+
+        if enable_crew_memory and self.embedder_config:
+            try:
+                embedder_provider = None
+                if isinstance(self.embedder_config, dict):
+                    embedder_provider = self.embedder_config.get("provider")
+                    if embedder_provider == "ollama":
+                        if not check_ollama_health():
+                            logger.warning("Ollama not available, disabling memory")
+                        else:
+                            self.long_term_memory, self.short_term_memory, self.entity_memory = initialize_memory(
+                                embedder_config=self.embedder_config
+                            )
+                    else:
+                        self.long_term_memory, self.short_term_memory, self.entity_memory = initialize_memory(
+                            embedder_config=self.embedder_config
+                        )
+                else:
+                    self.long_term_memory, self.short_term_memory, self.entity_memory = initialize_memory(
+                        embedder_config=self.embedder_config
+                    )
+                if any([self.long_term_memory, self.short_term_memory, self.entity_memory]):
+                    logger.info("Crew memory systems initialized successfully")
+            except Exception as e:
+                logger.warning(f"Failed to initialize memory: {e}. Continuing without memory.")
+        elif not enable_crew_memory:
+            logger.info("Crew memory disabled (ENABLE_CREW_MEMORY=false, default). Set ENABLE_CREW_MEMORY=true to enable.")
+        
+        self.enable_chunking = enable_chunking
+        self.chunk_size = chunk_size or 2000  # Default chunk size
+        self.max_workers = max_workers
+        # Max input size (chars) for downstream agents (alignment, judge, humanfeedback) to avoid context limit.
+        # Default ~80k chars (~20k tokens); 128k tokens ≈ 512k chars.
+        self.downstream_max_input_chars = downstream_max_input_chars if downstream_max_input_chars is not None else 80_000
+        # Cap extraction chunk size so (chunk + prompt) stays under model context; token limits vary by model.
+        # Default 25000 chars (~6k tokens) leaves room for task prompt on 128k models. None = no cap.
+        self.max_extraction_chunk_chars = max_extraction_chunk_chars if max_extraction_chunk_chars is not None else 25_000
+        self.return_full_pipeline_details = return_full_pipeline_details
+        self.agent_feedback_config = agent_feedback_config or {}
+        # Human-in-the-loop for feedback before humanfeedback_agent (see humanloop.py)
+        self.human_loop = HumanInTheLoop(
+            enable_human_feedback=enable_human_feedback,
+            agent_feedback_config=self.agent_feedback_config,
+        )
+
+        # Initialize enhanced context management (always enabled)
+        # Token limit based on model context (128k tokens ≈ 512k chars, use ~100k tokens = ~400k chars)
+        self.token_limit = 100000  # Conservative limit for 128k token models
+        self.agent_context = AgentContext(max_tokens=self.token_limit)
+        self.shared_memory = ThreadSafeMemory()
+        self.context_manager = ContextWindowManager(
+            max_tokens=self.token_limit,
+            reserve_tokens=2000  # Reserve for prompts
+        )
+
+        logger.info("Enhanced context management initialized:")
+        logger.info(f"  - Token limit: {self.token_limit}")
+        logger.info(f"  - Available tokens: {self.context_manager.available_tokens}")
+        logger.info(f"  - Thread-safe memory: enabled")
+        logger.info(f"  - Context passing: enabled")
+
+
+
+
+
+    async def run_agent_task(
+        self,
+        agent_key: str,
+        task_key: str,
+        text: Optional[str] = None,
+        pydantic_output_class: Optional[Any] = None,
+        chunk_size: Optional[int] = None,
+        max_workers: Optional[int] = None,
+        post_process: Optional[Any] = None,
+        input_key: str = "input_text",
+        default_result: Optional[Dict[str, Any]] = None,
+        extra_inputs: Optional[Dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
+        """
+        Run a specific agent-task combination directly with full control.
+
+        Tools are selected per agent/task via _get_detected_task_type and get_tools_for_agent.
+        Supports chunking and post-processing for extraction; optional extra_inputs for multi-placeholder tasks.
+
+        Args:
+            agent_key: Key for the agent in agent_config
+            task_key: Key for the task in task_config
+            text: Input text to process (uses self.source_text if None)
+            pydantic_output_class: Optional Pydantic class for structured output
+            chunk_size: Maximum chunk size (None = no chunking, uses self.chunk_size if enabled)
+            max_workers: Maximum parallel workers (None = auto, uses self.max_workers if set)
+            post_process: Optional post-processing function
+            input_key: Key to use in crew inputs dict
+            default_result: Default result structure if parsing fails
+            extra_inputs: Optional extra key-value inputs for crew (e.g. modification_context, user_feedback_text)
+
+        Returns:
+            Dict with results, raw_results, and errors
+        """
+        start_time = time.time()
+        logger.info(f"Running agent '{agent_key}' with task '{task_key}'")
+
+        # Use provided text or fall back to instance source_text
+        if text is None:
+            text = self.source_text
+
+        # Detect task type; attach tools only for stages that use them (e.g. extractor_agent)
+        # and also pass agent and task configuration for tools e.g., for using the llm call ...
+        task_type = self._get_detected_task_type(agent_key, task_key)
+        tools = get_tools_for_agent(
+            agent_key,
+            task_type,
+            agent_config=self.agent_config,
+            task_config=self.task_config,
+            task_key=task_key,
+        )
+
+        # Initialize agent and task with dynamic tools
+        agent, task = self._initialize_agent_and_task(
+            agent_key=agent_key,
+            task_key=task_key,
+            pydantic_output_class=pydantic_output_class,
+            tools=tools,
+        )
+
+        if not agent or not task:
+            logger.error(f"Failed to initialize {agent_key}/{task_key}")
+            return {
+                "results": [],
+                "raw_results": [],
+                "errors": [{"scope": "initialization", "index": None, "error": f"Failed to initialize {agent_key}/{task_key}"}],
+            }
+
+        # Create a minimal crew just for this agent-task pair
+        has_memory = any([self.long_term_memory, self.short_term_memory, self.entity_memory])
+        crew = Crew(
+            agents=[agent],
+            tasks=[task],
+            process=Process.sequential,
+            verbose=True,
+            tracing=False,  # Disable tracing to reduce log noise
+            memory=has_memory,
+            long_term_memory_config=self.long_term_memory if self.long_term_memory else None,
+            short_term_memory=self.short_term_memory if self.short_term_memory else None,
+            entity_memory=self.entity_memory if self.entity_memory else None,
+        )
+
+        # Determine chunk size and max_workers
+        if chunk_size is None:
+            if self.enable_chunking:
+                chunk_size = self.chunk_size
+            else:
+                chunk_size = None  # No chunking
+        
+        if max_workers is None:
+            max_workers = self.max_workers
+
+        # Use async execution for better concurrency when chunking is enabled
+        # For resource/structured_extraction alignment: extract all aligned_resources blobs and return as list
+        # so app.py can combine them in postprocessing (merge_downstream_chunk_results_with_provenance).
+        # NER, extraction (e.g. pdf2_reproschema), judge, humanfeedback: single parse only.
+        pick_richest = (
+            task_key == "alignment_task"
+            and task_type in ("resource", "structured_extraction")
+        )
+        if self.enable_chunking and chunk_size:
+            result = await run_crew_extraction_async(
+                crew=crew,
+                text=text,
+                chunk_size=chunk_size,
+                max_workers=max_workers,
+                input_key=input_key,
+                default_result=default_result or {},
+                post_process=post_process,
+                extra_inputs=extra_inputs,
+                max_chunk_chars=self.max_extraction_chunk_chars,
+                agent_context=self.agent_context,
+                shared_memory=self.shared_memory,
+                context_manager=self.context_manager,
+                pick_richest_alignment=pick_richest,
+            )
+        else:
+            # Use synchronous execution for single chunk or no chunking
+            result = run_crew_extraction(
+                crew=crew,
+                text=text,
+                chunk_size=None,
+                max_workers=max_workers,
+                input_key=input_key,
+                default_result=default_result or {},
+                post_process=post_process,
+                extra_inputs=extra_inputs,
+                max_chunk_chars=self.max_extraction_chunk_chars,
+                agent_context=self.agent_context,
+                shared_memory=self.shared_memory,
+                context_manager=self.context_manager,
+                pick_richest_alignment=pick_richest,
+            )
+
+        elapsed_time = time.time() - start_time
+        logger.info(f"Agent '{agent_key}' completed in {elapsed_time:.2f} seconds")
+
+        result["elapsed_time"] = elapsed_time
+        result["agent_key"] = agent_key
+        result["task_key"] = task_key
+        return result
+
+    async def kickoff(
+        self,
+        agent_key: Optional[str] = None,
+        task_key: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        """
+        Run a SINGLE agent-task pair (not the full pipeline).
+
+        This method runs only ONE agent-task pair from your config. For the full
+        multi-agent pipeline (extraction → alignment → judge → humanfeedback),
+        use information_extraction_task() instead.
+
+        Args:
+            agent_key: Optional specific agent key (auto-discovered if None - uses first pair)
+            task_key: Optional specific task key (auto-discovered if None - uses first pair)
+
+        Returns:
+            Dict with results from the single agent execution
+
+        Note:
+            For full pipeline execution, use information_extraction_task() instead.
+        """
+        # Setup timing logger for this execution
+        timing_logger, timing_log_file = setup_timing_logger()
+        total_start_time = time.time()
+        
+        timing_logger.info("=" * 100)
+        timing_logger.info("TIMING LOG - Agent Execution")
+        timing_logger.info("=" * 100)
+        timing_logger.info(f"Timing log file: {timing_log_file}")
+        timing_logger.info(f"Chunking enabled: {self.enable_chunking}, Chunk size: {self.chunk_size}, Max workers: {self.max_workers}")
+        timing_logger.info("-" * 100)
+        
+        try:
+            logger.info("Starting StructSenseFlow extraction...")
+            
+            # Timing: Config loading (already done in __init__, but log it)
+            config_start = time.time()
+            config_time = time.time() - config_start
+            timing_logger.info(f"Config loading: {config_time:.3f}s (already loaded in __init__)")
+            
+            # Timing: Agent/task initialization
+            init_start = time.time()
+            effective_chunk_size = self.chunk_size if self.enable_chunking else None
+            
+            # Find agent-task pairs from config if not provided
+            if agent_key is None or task_key is None:
+                agent_task_pairs = []
+                for task_key_iter, task_data in self.task_config.items():
+                    if isinstance(task_data, dict) and "agent_id" in task_data:
+                        agent_key_iter = task_data["agent_id"]
+                        if agent_key_iter in self.agent_config:
+                            agent_task_pairs.append((agent_key_iter, task_key_iter))
+                            logger.info(f"Found agent-task pair: {agent_key_iter} -> {task_key_iter}")
+                
+                if not agent_task_pairs:
+                    logger.warning("No agent-task pairs found in config. Trying default extractor_agent/extraction_task")
+                    if "extractor_agent" in self.agent_config and "extraction_task" in self.task_config:
+                        agent_task_pairs = [("extractor_agent", "extraction_task")]
+                    else:
+                        return {"error": "No valid agent-task pairs found in config", "entities": [], "key_terms": []}
+                
+                # Use first pair if not specified
+                if agent_key is None or task_key is None:
+                    agent_key, task_key = agent_task_pairs[0]
+
+            logger.info(f"Running agent '{agent_key}' with task '{task_key}'")
+
+            # Dynamic task type detection; tools only for extractor stage (alignment/judge/human_feedback get none)
+            task_type = self._get_detected_task_type(agent_key, task_key)
+            tools = get_tools_for_agent(
+                agent_key,
+                task_type,
+                agent_config=self.agent_config,
+                task_config=self.task_config,
+                task_key=task_key,
+            )
+
+            # Map taxonomy task_type to post-processor key (ner, resource, extraction)
+            if task_type == "ner":
+                post_process_key = "ner"
+            elif task_type in ("resource", "structured_extraction"):
+                post_process_key = "resource"
+            else:
+                post_process_key = "extraction"
+            post_processor = get_post_processor(post_process_key)
+            result_merger = get_result_merger(post_process_key)
+
+            # Get default result based on task type
+            default_result = self._get_default_result_for_task(task_type)
+
+            # Initialize agent and task with dynamic tools
+            agent, task = self._initialize_agent_and_task(
+                agent_key=agent_key,
+                task_key=task_key,
+                pydantic_output_class=None,
+                tools=tools,
+            )
+            
+            if not agent or not task:
+                logger.error(f"Failed to initialize {agent_key}/{task_key}")
+                return {"error": f"Failed to initialize {agent_key}/{task_key}", "entities": [], "key_terms": []}
+            
+            init_time = time.time() - init_start
+            timing_logger.info(f"Agent/task initialization: {init_time:.3f}s")
+            
+            # Timing: Memory initialization (already done in __init__, but log it)
+            memory_start = time.time()
+            has_memory = any([self.long_term_memory, self.short_term_memory, self.entity_memory])
+            memory_time = time.time() - memory_start
+            timing_logger.info(f"Memory initialization: {memory_time:.3f}s (already initialized in __init__, enabled: {has_memory})")
+            
+            # Timing: Crew creation
+            crew_start = time.time()
+            use_verbose = not (self.enable_chunking and effective_chunk_size)
+            crew = Crew(
+                agents=[agent],
+                tasks=[task],
+                process=Process.sequential,
+                verbose=use_verbose,
+                tracing=False,
+                memory=has_memory,
+                long_term_memory_config=self.long_term_memory if self.long_term_memory else None,
+                short_term_memory=self.short_term_memory if self.short_term_memory else None,
+                entity_memory=self.entity_memory if self.entity_memory else None,
+            )
+            crew_time = time.time() - crew_start
+            timing_logger.info(f"Crew creation: {crew_time:.3f}s")
+            
+            # Timing: Extraction execution
+            extraction_start = time.time()
+            timing_logger.info("-" * 100)
+            timing_logger.info("Starting extraction execution...")
+            
+            # Use async execution for better concurrency when chunking is enabled
+            if self.enable_chunking and effective_chunk_size:
+                timing_logger.info("Using async execution (akickoff) for better concurrency...")
+                result = await run_crew_extraction_async(
+                    crew=crew,
+                    text=self.source_text,
+                    chunk_size=effective_chunk_size,
+                    max_workers=self.max_workers,
+                    input_key="input_text",
+                    default_result=default_result,
+                    post_process=post_processor,
+                )
+            else:
+                # Use synchronous execution for single chunk or no chunking
+                result = run_crew_extraction(
+                    crew=crew,
+                    text=self.source_text,
+                    chunk_size=None,
+                    max_workers=self.max_workers,
+                    input_key="input_text",
+                    default_result=default_result,
+                    post_process=post_processor,
+                )
+            
+            extraction_time = time.time() - extraction_start
+            timing_logger.info(f"Extraction execution: {extraction_time:.3f}s")
+            timing_logger.info(f"  - Chunks processed: {len(result.get('results', []))}")
+            timing_logger.info(f"  - Errors: {len(result.get('errors', []))}")
+            
+            # Timing: Result merging
+            merge_start = time.time()
+            merged_results = result_merger(result["results"], self.source_text)
+            merge_time = time.time() - merge_start
+            timing_logger.info(f"Result merging: {merge_time:.3f}s")
+            # Verifier: ensure entities, text, sentences present in source
+            merged_results = verify_merged_result(merged_results, self.source_text, task_type)
+            
+            # Total time
+            total_time = time.time() - total_start_time
+            timing_logger.info("-" * 100)
+            timing_logger.info("TIMING SUMMARY:")
+            timing_logger.info(f"  Config loading:       {config_time:.3f}s ({config_time/total_time*100:.1f}%)")
+            timing_logger.info(f"  Agent/task init:       {init_time:.3f}s ({init_time/total_time*100:.1f}%)")
+            timing_logger.info(f"  Memory initialization: {memory_time:.3f}s ({memory_time/total_time*100:.1f}%)")
+            timing_logger.info(f"  Crew creation:         {crew_time:.3f}s ({crew_time/total_time*100:.1f}%)")
+            timing_logger.info(f"  Extraction execution:  {extraction_time:.3f}s ({extraction_time/total_time*100:.1f}%)")
+            timing_logger.info(f"  Result merging:       {merge_time:.3f}s ({merge_time/total_time*100:.1f}%)")
+            timing_logger.info("-" * 100)
+            timing_logger.info(f"TOTAL TIME: {total_time:.3f}s ({total_time/60:.2f} minutes)")
+            timing_logger.info("=" * 100)
+            timing_logger.info(f"Timing log saved to: {timing_log_file}")
+            timing_logger.info("=" * 100)
+
+            logger.info("#"*100)
+            logger.info(f"Extraction completed in {total_time:.2f} seconds ({total_time/60:.2f} minutes)")
+            logger.info(f"Timing details saved to: {timing_log_file}")
+            logger.info("#"*100)
+            
+            return {
+                **merged_results,
+                "errors": result["errors"],
+                "task_type": task_type,
+                "elapsed_time": total_time,
+                "agent_key": agent_key,
+                "task_key": task_key,
+            }
+
+        except Exception as e:
+            logger.error(f"StructSenseFlow execution failed: {str(e)}")
+            raise
+
+    async def extraction(self) -> Dict[str, Any]:
+        """
+        Convenience method to run ONLY the extraction agent.
+
+        This is a shortcut for kickoff("extractor_agent", "extraction_task").
+        For the full multi-agent pipeline, use information_extraction_task() instead.
+
+        Returns:
+            Dict with extraction results only
+        """
+        return await self.kickoff(agent_key="extractor_agent", task_key="extraction_task")
+
+    async def information_extraction_task(
+        self,
+        text: Optional[str] = None,
+        modification_context: Optional[str] = None,
+        user_feedback_text: Optional[str] = None,
+    ):
+        """
+        Run the FULL multi-agent pipeline with context management.
+
+        Executes all agents in sequence: extraction → alignment → judge → humanfeedback
+        Each stage receives context from previous stages with automatic token management.
+
+        Args:
+            text: Optional input text (uses self.source_text if None)
+            modification_context: Optional context for modifications
+            user_feedback_text: Optional user feedback for humanfeedback stage
+
+        Returns:
+            Dict with final results. By default (return_full_pipeline_details=False):
+            - entities, resources, key_terms (final output only, no repetition)
+            - errors, task_type, elapsed_time
+            When return_full_pipeline_details=True also includes:
+            - pipeline_stages, stage_timings, token_usage, context_management
+
+        Note:
+            This is the recommended method for production use. For single-agent
+            execution, use kickoff() or extraction() instead.
+        """
+        if text is None:
+            text = self.source_text
+
+        start_time = time.time()
+        logger.info("Starting structured information extraction (full pipeline)")
+
+        # Check Ollama health (optional - won't fail if unavailable)
+        if not check_ollama_health():
+            logger.warning("Ollama health check failed, continuing anyway")
+
+        ordered_pairs = self._get_ordered_agent_task_pairs()
+        if not ordered_pairs:
+            logger.warning("No agent-task pairs found in config")
+            return {
+                "errors": [{"scope": "pipeline", "index": None, "error": "No agent-task pairs in config"}],
+                "task_type": "extraction",
+                "elapsed_time": time.time() - start_time,
+            }
+
+        # First-stage task type drives post-processor and merger (extraction only)
+        first_agent_key, first_task_key = ordered_pairs[0]
+        task_type = self._get_detected_task_type(first_agent_key, first_task_key)
+        logger.info(f"Detected task type (first stage): {task_type}")
+
+        if task_type == "ner":
+            post_process_key = "ner"
+        elif task_type in ("resource", "structured_extraction"):
+            post_process_key = "resource"
+        else:
+            post_process_key = "extraction"
+        post_processor = get_post_processor(post_process_key)
+        result_merger = get_result_merger(post_process_key)
+        default_result = self._get_default_result_for_task(task_type)
+
+        all_errors = []
+        pipeline_stages = {}
+        stage_timings = {}  # Track execution time for each stage
+        prev_output = None
+        humanfeedback_aborted_by_user = False  # Option 4: set when user aborts feedback step (save judge result)
+        human_approved_skip_concept_mapping = False  # Option 1: when user approves, save result as-is without concept mapping
+
+        for idx, (agent_key, task_key) in enumerate(ordered_pairs):
+            stage_start_time = time.time()  # Start timing this stage
+            is_first_stage = idx == 0
+            input_key = PIPELINE_INPUT_KEY_MAP.get(task_key, "input_text")
+            extra_inputs = None  # Initialize for each stage
+            humanfeedback_approved_skip_run = False  # Option 1 or 4: skip running humanfeedback agent
+
+            logger.info("=" * 80)
+            logger.info(f"STAGE {idx + 1}/{len(ordered_pairs)}: {agent_key} / {task_key}")
+            logger.info("=" * 80)
+
+            # Clear alignment-stage tool outputs so we only capture this stage's concept mapping (for extraction)
+            if task_key == "alignment_task":
+                clear_alignment_tool_outputs()
+
+            if is_first_stage:
+                # First stage: source text, chunking, post-processing, merger
+                stage_text = text
+                stage_chunk_size = self.chunk_size if self.enable_chunking else None
+                stage_post_process = post_processor
+                stage_default_result = default_result
+            else:
+                # Downstream stages: prepare token-managed input for alignment, judge, or humanfeedback
+                if prev_output is None:
+                    logger.warning(f"Skipping {agent_key}/{task_key}: no previous output")
+                    continue
+
+                # Store previous agent result in context
+                prev_agent_key, prev_task_key = ordered_pairs[idx - 1]
+                self.agent_context.add_agent_result(
+                    agent_key=prev_agent_key,
+                    task_key=prev_task_key,
+                    result=prev_output,
+                    confidence=prev_output.get("confidence", 0.0) if isinstance(prev_output, dict) else 0.0,
+                    metadata={"stage_index": idx - 1}
+                )
+
+                # Prepare token-managed input based on agent type
+                if task_key == "alignment_task":
+                    logger.info(f"[{agent_key}] Preparing token-managed input for alignment agent")
+                    managed_input = prepare_alignment_agent_input(
+                        extraction_results=prev_output,
+                        original_text=text,
+                        agent_context=self.agent_context,
+                        context_manager=self.context_manager,
+                        max_tokens=self.token_limit
+                    )
+                    # Use managed input as extra_inputs
+                    extra_inputs = managed_input
+                    stage_text = None  # Will use extra_inputs instead
+                elif task_key == "judge_task":
+                    logger.info(f"[{agent_key}] Preparing token-managed input for judge agent")
+                    # Get extraction results from context if available
+                    extraction_results = None
+                    if idx >= 2:  # There was an extraction stage before alignment
+                        extraction_agent_key, extraction_task_key = ordered_pairs[0]
+                        extraction_result = self.agent_context.get_latest_result(extraction_agent_key)
+                        if extraction_result:
+                            extraction_results = extraction_result.result
+
+                    managed_input = prepare_judge_agent_input(
+                        alignment_results=prev_output,
+                        extraction_results=extraction_results,
+                        agent_context=self.agent_context,
+                        context_manager=self.context_manager,
+                        max_tokens=self.token_limit
+                    )
+                    extra_inputs = managed_input
+                    stage_text = None  # Will use extra_inputs instead
+                else:
+                    # For other downstream stages or if not alignment/judge, use JSON string
+                    stage_text = json.dumps(prev_output, indent=2) if isinstance(prev_output, dict) else str(prev_output)
+
+                    # Check token limit and compress if needed
+                    current_tokens = self.context_manager.count_tokens(stage_text)
+                    if current_tokens > self.token_limit:
+                        logger.warning(
+                            f"[{agent_key}] Input exceeds token limit ({current_tokens}/{self.token_limit}). "
+                            "Applying compression..."
+                        )
+                        compressed = self.context_manager.prepare_for_downstream_agent(
+                            results=prev_output if isinstance(prev_output, dict) else {"output": prev_output},
+                            agent_key=agent_key,
+                            max_tokens=self.token_limit
+                        )
+                        stage_text = json.dumps(compressed, indent=2)
+                        final_tokens = self.context_manager.count_tokens(stage_text)
+                        logger.info(f"[{agent_key}] Compressed: {current_tokens} -> {final_tokens} tokens")
+
+                stage_chunk_size = None
+                stage_post_process = None
+                stage_default_result = self._get_default_result_for_task(
+                    self._get_detected_task_type(agent_key, task_key)
+                )
+
+            # Human feedback receives judge output: prev_output at this point is the judge stage result
+            if task_key == "humanfeedback_task" and prev_output is not None:
+                # Collect user feedback (1=Approve, 2=View, 3=Modify, 4=Abort)
+                feedback_text = user_feedback_text
+                if feedback_text is None and self.human_loop.is_feedback_enabled_for_agent("humanfeedback_agent"):
+                    feedback_result = self.human_loop.request_feedback(
+                        prev_output,
+                        step_name="human_feedback_processing",
+                        agent_name="humanfeedback_agent",
+                    )
+                    if isinstance(feedback_result, dict):
+                        if feedback_result.get("_human_abort_feedback"):
+                            # Option 4: skip humanfeedback agent, save judge output as final (not full pipeline abort)
+                            pipeline_stages[task_key] = prev_output
+                            humanfeedback_approved_skip_run = True
+                            humanfeedback_aborted_by_user = True
+                            logger.info("[humanfeedback_agent] Skipping LLM run (user aborted feedback step). Judge result will be saved.")
+                        elif feedback_result.get("_human_approved_skip_agent"):
+                            # Option 1: keep judge output as final; do not overwrite prev_output (it already holds judge output)
+                            pipeline_stages[task_key] = prev_output
+                            humanfeedback_approved_skip_run = True
+                            human_approved_skip_concept_mapping = True
+                            logger.info("[humanfeedback_agent] Skipping LLM run (user approved judge output).")
+                        else:
+                            feedback_text = feedback_result.get("user_feedback_text", "")
+                            if feedback_result.get("user_feedback_json") is not None:
+                                mod_context = json.dumps(feedback_result["user_feedback_json"], indent=2)
+                                feedback_text = f"{feedback_text}\n\nModification Context:\n{mod_context}"
+
+                if not humanfeedback_approved_skip_run:
+                    # If still no feedback, use a default (only when we will run the agent)
+                    if not feedback_text:
+                        feedback_text = modification_context or "No specific feedback provided."
+
+                    # Prepare token-managed input for humanfeedback agent (only when running agent)
+                    alignment_for_human = None
+                    alignment_ctx = self.agent_context.get_latest_result("alignment_agent") if self.agent_context else None
+                    if alignment_ctx:
+                        alignment_for_human = alignment_ctx.result
+                    logger.info(f"[{agent_key}] Preparing token-managed input for humanfeedback agent")
+                    managed_input = prepare_humanfeedback_agent_input(
+                        judge_results=prev_output,
+                        user_feedback=feedback_text,
+                        alignment_results=alignment_for_human,
+                        agent_context=self.agent_context,
+                        context_manager=self.context_manager,
+                        max_tokens=self.token_limit
+                    )
+                    extra_inputs = managed_input
+                    stage_text = None  # Will use extra_inputs instead
+            elif task_key != "humanfeedback_task" and not is_first_stage and extra_inputs is None:
+                # For other downstream stages, extra_inputs was set above
+                pass
+
+            # Downstream stages: chunk merged result → process chunks in parallel → merge (avoids context-length errors)
+            # Only when stage_text is used (not token-managed alignment/judge/humanfeedback) and over char limit
+            if (
+                not is_first_stage
+                and stage_text is not None
+                and isinstance(prev_output, dict)
+                and len(stage_text) > self.downstream_max_input_chars
+            ):
+                chunks = self._split_downstream_payload(prev_output, self.downstream_max_input_chars)
+                logger.info(f"Downstream {task_key}: splitting into {len(chunks)} chunks (input {len(stage_text)} chars > {self.downstream_max_input_chars})")
+                # Process each chunk in parallel, then merge into one clean result for the next stage
+                async def run_one_chunk(chunk_payload: Dict[str, Any]) -> Dict[str, Any]:
+                    chunk_text = json.dumps(chunk_payload, indent=2)
+                    return await self.run_agent_task(
+                        agent_key=agent_key,
+                        task_key=task_key,
+                        text=chunk_text,
+                        pydantic_output_class=None,
+                        chunk_size=None,
+                        max_workers=1,
+                        post_process=None,
+                        input_key=input_key,
+                        default_result=stage_default_result,
+                        extra_inputs=extra_inputs,
+                    )
+                chunk_results = await asyncio.gather(*[run_one_chunk(c) for c in chunks])
+                downstream_results = []
+                for result in chunk_results:
+                    all_errors.extend(result.get("errors", []))
+                    if result.get("results"):
+                        downstream_results.append(result["results"][0])
+                if downstream_results:
+                    container_key = TASK_KEY_TO_CONTAINER_KEY.get(task_key) or self._detect_container_key(downstream_results[0])
+                    if container_key:
+                        prev_output = merge_downstream_chunk_results_with_provenance(
+                            downstream_results, container_key, agent_key
+                        )
+                    else:
+                        prev_output = self._merge_downstream_chunk_results(downstream_results)
+                pipeline_stages[task_key] = prev_output
+            elif humanfeedback_approved_skip_run:
+                # Option 1 (Approve): prev_output and pipeline_stages already set; no agent run
+                pass
+            else:
+                # Token-based chunking for alignment/judge/humanfeedback when payload exceeds context limit
+                use_chunked = (
+                    not is_first_stage
+                    and extra_inputs
+                    and task_key in ("alignment_task", "judge_task", "humanfeedback_task")
+                )
+                payload_key = (
+                    "extracted_structured_information" if task_key == "alignment_task"
+                    else "aligned_structured_information" if task_key == "judge_task"
+                    else "judged_structured_information_with_human_feedback"
+                )
+                payload = extra_inputs.get(payload_key) if use_chunked else None
+                token_budget = int(self.token_limit * 0.6)
+                over_limit = (
+                    isinstance(payload, dict)
+                    and self.context_manager.estimate_tokens(payload) > token_budget
+                )
+                if use_chunked and over_limit:
+                    chunks = split_structured_payload(
+                        payload,
+                        self.context_manager,
+                        token_budget,
+                        max_entities_per_chunk=70,
+                        max_key_terms_per_chunk=25,
+                        max_resources_per_chunk=15,
+                    )
+                    async def run_one_structured_chunk(chunk_payload: Dict[str, Any]) -> Dict[str, Any]:
+                        chunk_inputs = {**extra_inputs, payload_key: chunk_payload}
+                        return await self.run_agent_task(
+                            agent_key=agent_key,
+                            task_key=task_key,
+                            text=None,
+                            pydantic_output_class=None,
+                            chunk_size=None,
+                            max_workers=1,
+                            post_process=None,
+                            input_key=PIPELINE_INPUT_KEY_MAP.get(task_key, "input_text"),
+                            default_result=stage_default_result,
+                            extra_inputs=chunk_inputs,
+                        )
+
+                    if len(chunks) > 1:
+                        logger.info(
+                            "[%s] Running %s chunks in parallel (payload over token limit)",
+                            task_key,
+                            len(chunks),
+                        )
+                        chunk_results = await asyncio.gather(*[run_one_structured_chunk(c) for c in chunks])
+                    else:
+                        chunk_results = [await run_one_structured_chunk(chunks[0])]
+
+                    for r in chunk_results:
+                        all_errors.extend(r.get("errors", []))
+                    raw_list = [r["results"][0] for r in chunk_results if r.get("results") and isinstance(r["results"][0], dict)]
+                    if raw_list:
+                        ckey = TASK_KEY_TO_CONTAINER_KEY.get(task_key) or self._detect_container_key(raw_list[0])
+                        # For alignment/judge with multiple chunks: use resource-aware merge so tool-backed concepts (real IDs) beat N/A
+                        if ckey and task_key in ("alignment_task", "judge_task") and len(raw_list) > 1:
+                            prev_output = merge_downstream_chunk_results_with_provenance(raw_list, ckey, agent_key)
+                        else:
+                            prev_output = merge_structured_chunk_results(raw_list)
+                            if isinstance(prev_output, dict) and ckey:
+                                add_provenance_to_result(prev_output, ckey, agent_key)
+                        pipeline_stages[task_key] = prev_output
+                    else:
+                        result = chunk_results[0] if chunk_results else {}
+                        prev_output = result.get("results", [{}])[0] if result.get("results") else prev_output
+                        pipeline_stages[task_key] = prev_output
+                else:
+                    if task_key == "humanfeedback_task":
+                        logger.info(
+                            "[humanfeedback_agent] Running agent with your feedback (Modify path). "
+                            "Input keys: %s",
+                            list(extra_inputs.keys()) if extra_inputs else [],
+                        )
+                    result = await self.run_agent_task(
+                        agent_key=agent_key,
+                        task_key=task_key,
+                        text=stage_text,
+                        pydantic_output_class=None,
+                        chunk_size=stage_chunk_size,
+                        max_workers=self.max_workers,
+                        post_process=stage_post_process,
+                        input_key=input_key,
+                        default_result=stage_default_result,
+                        extra_inputs=extra_inputs,
+                    )
+
+                    all_errors.extend(result.get("errors", []))
+
+                    if is_first_stage:
+                        merged = result_merger(result["results"], text)
+                        merged = verify_merged_result(merged, text, task_type)
+                        prev_output = merged
+                        pipeline_stages[task_key] = merged
+                        # Add provenance for extraction stage by default (NER and resource)
+                        ext_container = self._detect_container_key(merged)
+                        if ext_container:
+                            add_provenance_to_result(merged, ext_container, "extractor_agent")
+                    else:
+                        results_list = result.get("results") or []
+                        # Combine multiple blobs (e.g. alignment Final Answer blocks) via postprocessing merge
+                        if len(results_list) > 1 and task_key in ("alignment_task", "judge_task"):
+                            ckey = TASK_KEY_TO_CONTAINER_KEY.get(task_key) or self._detect_container_key(results_list[0])
+                            if ckey:
+                                prev_output = merge_downstream_chunk_results_with_provenance(
+                                    results_list, ckey, agent_key
+                                )
+                                pipeline_stages[task_key] = prev_output
+                            else:
+                                prev_output = results_list[0] if results_list else prev_output
+                                pipeline_stages[task_key] = prev_output
+                        else:
+                            raw = results_list[0] if results_list else prev_output
+                            if isinstance(raw, dict):
+                                container_key = TASK_KEY_TO_CONTAINER_KEY.get(task_key) or self._detect_container_key(raw)
+                                if container_key:
+                                    add_provenance_to_result(raw, container_key, agent_key)
+                            prev_output = raw
+                            pipeline_stages[task_key] = raw
+
+            # Preserve alignment agent's concept mapping tool output only for extraction (pdf2_reproschema).
+            # For NER and resource we do not inject concept_mapping into prev_output so judge input shape is unchanged.
+            if task_key == "alignment_task" and task_type == "extraction" and isinstance(prev_output, dict):
+                session_outputs = get_alignment_tool_outputs()
+                if session_outputs:
+                    concept_mapping_list = format_alignment_tool_outputs_as_concept_mapping(session_outputs)
+                    if concept_mapping_list:
+                        prev_output["concept_mapping"] = concept_mapping_list
+                        logger.info("Preserved %d concept mappings from alignment agent tool output", len(concept_mapping_list))
+
+            # Record stage timing
+            stage_elapsed = time.time() - stage_start_time
+            stage_timings[f"{agent_key}_{task_key}"] = stage_elapsed
+            logger.info(f"[{agent_key}] Completed in {stage_elapsed:.2f}s")
+
+        elapsed_time = time.time() - start_time
+
+        # Log token usage statistics
+        total_tokens = self.agent_context.get_total_tokens()
+        utilization_pct = (total_tokens / self.token_limit) * 100 if self.token_limit > 0 else 0
+
+        logger.info("=" * 80)
+        logger.info("PIPELINE EXECUTION SUMMARY")
+        logger.info("=" * 80)
+        logger.info(f"Total time: {elapsed_time:.2f}s ({elapsed_time/60:.2f} minutes)")
+        logger.info(f"Stages: {len(ordered_pairs)}")
+        logger.info("")
+        logger.info("Stage Timings:")
+        for stage_name, stage_time in stage_timings.items():
+            pct = (stage_time / elapsed_time * 100) if elapsed_time > 0 else 0
+            logger.info(f"  {stage_name:50s} {stage_time:8.2f}s ({pct:5.1f}%)")
+        logger.info("")
+        logger.info(f"Token usage: {total_tokens:,} / {self.token_limit:,} ({utilization_pct:.1f}%)")
+        logger.info(f"Context management: {len(self.agent_context.agent_results)} agents tracked")
+        logger.info(f"Shared memory: {self.shared_memory.get_stats()['total_keys']} keys stored")
+        logger.info("=" * 80)
+
+        # Build result: last stage output (human feedback if enabled, else judge). Each stage extends the previous.
+        # Unwrap if LLM returned output nested under pipeline placeholder key (e.g. judged_structured_information_with_human_feedback)
+        final = dict(prev_output) if isinstance(prev_output, dict) else {}
+        if humanfeedback_aborted_by_user:
+            final["human_feedback_skipped"] = True  # User chose Abort; judge result saved without feedback step
+        unwrap_keys = (
+            "judged_structured_information_with_human_feedback",
+            "aligned_structured_information",
+            "extracted_structured_information",
+        )
+        if isinstance(final, dict) and len(final) >= 1:
+            for key in unwrap_keys:
+                inner = final.get(key)
+                if isinstance(inner, dict) and (
+                    "entities" in inner or "key_terms" in inner or "resources" in inner or "judge_resource" in inner
+                ):
+                    # Use inner as base so entities/key_terms are at top level; keep other top-level keys
+                    rest = {k: v for k, v in final.items() if k != key}
+                    final = {**inner, **rest}
+                    logger.debug("Unwrapped final result from key %s", key)
+                    break
+        final["errors"] = all_errors
+        final["task_type"] = task_type
+        final["elapsed_time"] = elapsed_time
+
+        # For extraction: carry over concept_mapping from alignment stage (judge/humanfeedback overwrite prev_output)
+        if task_type == "extraction" and pipeline_stages.get("alignment_task") and isinstance(pipeline_stages["alignment_task"], dict):
+            alignment_cm = pipeline_stages["alignment_task"].get("concept_mapping")
+            if isinstance(alignment_cm, list) and alignment_cm:
+                final["concept_mapping"] = alignment_cm
+
+        # Include pipeline details only when requested (avoids repeating entities and heavy metadata)
+        if self.return_full_pipeline_details:
+            final["stage_timings"] = stage_timings
+            final["pipeline_stages"] = pipeline_stages
+            final["token_usage"] = {
+                "total": total_tokens,
+                "limit": self.token_limit,
+                "utilization_pct": utilization_pct,
+                "by_agent": {
+                    agent_key: sum(r.token_count for r in results)
+                    for agent_key, results in self.agent_context.agent_results.items()
+                }
+            }
+            final["context_management"] = {
+                "agents_tracked": len(self.agent_context.agent_results),
+                "shared_memory_keys": self.shared_memory.get_stats()['total_keys'],
+                "agent_context": self.agent_context.to_dict()
+            }
+
+        # End-of-pipeline verifier: ensure all text, sentences, entities present in source
+        final = verify_merged_result(final, text, task_type)
+
+        # Resource task: promote judge/aligned output into final["resources"] so concept mapping and output use refined list (with mapped_* from alignment/judge)
+        if task_type in ("resource", "structured_extraction"):
+            # Inject alignment stage so promote can prefer alignment's rich mapped_* when judge output is thin (e.g. after approve)
+            if pipeline_stages.get("alignment_task") and isinstance(pipeline_stages["alignment_task"], dict):
+                al = pipeline_stages["alignment_task"].get("aligned_resources")
+                if al is not None:
+                    final["aligned_resources"] = al
+            promote_canonical_resources_for_resource_task(final)
+
+        # Concept mapping at end: run only when user modified (option 3). Do not run when user approved (1) or aborted (4).
+        # Skip flags are only set when human feedback was shown and user chose 1 or 4; NER/extraction/resource
+        # behave unchanged when human feedback is disabled or when user chose Modify (3).
+        skip_end_concept_mapping = human_approved_skip_concept_mapping or humanfeedback_aborted_by_user
+        if skip_end_concept_mapping:
+            logger.info("Saving result without end concept mapping (user approved or aborted; no modification).")
+            # Ensure resource mapped concepts have provenance (tool vs llm_knowledge) when we did not run end concept mapping
+            if task_type in ("resource", "structured_extraction") and isinstance(final.get("resources"), list) and final["resources"]:
+                ensure_resource_mapped_concepts_provenance(final["resources"])
+        else:
+            extraction_has_alignment_concept_mapping = (
+                task_type == "extraction"
+                and isinstance(final.get("concept_mapping"), list)
+                and len(final.get("concept_mapping", [])) > 0
+            )
+            if extraction_has_alignment_concept_mapping:
+                logger.info("Using concept_mapping from alignment agent tool output (skipping end-of-pipeline concept mapping for extraction).")
+            else:
+                logger.info("Applying concept mapping (task_type=%s, parallel, max_workers=%s)", task_type, self.max_workers or 8)
+                final = apply_concept_mapping_to_result(final, task_type=task_type, max_workers=self.max_workers or 8)
+
+        # Keep only task-specific canonical output (no separate aligned/judge keys), like NER.
+        final = normalize_final_result_for_output(final, task_type)
+        return final
+
+    def _get_default_result_for_task(self, task_type: str) -> Dict[str, Any]:
+        """Get default result structure based on task type."""
+        defaults = {
+            "ner": {"entities": [], "key_terms": []},
+            "extraction": {},
+            "resource": {"resources": []},
+            "structured_extraction": {"resources": []},
+        }
+        return defaults.get(task_type, {})
+
+    def _detect_container_key(self, result_dict: Dict[str, Any]) -> Optional[str]:
+        """Return the first known container key present in result_dict, or None."""
+        if not isinstance(result_dict, dict):
+            return None
+        for key in DOWNSTREAM_CONTAINER_KEYS:
+            if key in result_dict and result_dict[key] is not None:
+                return key
+        return None
+
+    def _get_ordered_agent_task_pairs(self) -> list:
+        """Return list of (agent_key, task_key) in config order for pipeline execution.
+        Human-feedback stage is included only when enable_human_feedback is True.
+        """
+        pairs = []
+        for task_key_iter, task_data in self.task_config.items():
+            if isinstance(task_data, dict) and "agent_id" in task_data:
+                agent_key_iter = task_data["agent_id"]
+                if agent_key_iter in self.agent_config:
+                    pairs.append((agent_key_iter, task_key_iter))
+        if not pairs and "extractor_agent" in self.agent_config and "extraction_task" in self.task_config:
+            pairs = [("extractor_agent", "extraction_task")]
+        # Exclude humanfeedback stage when human feedback is disabled
+        if not self.enable_human_feedback:
+            pairs = [p for p in pairs if p != ("humanfeedback_agent", "humanfeedback_task")]
+        return pairs
+
+    def _split_downstream_payload(self, payload: Dict[str, Any], max_chars: int) -> list:
+        """Split a downstream payload into chunks so each chunk's JSON size is <= max_chars.
+
+        Looks for a container key (extracted_resources, aligned_resources, judge_resource, resources)
+        whose value is a dict (id -> list) or a list; splits that into batches and returns a list of
+        payload dicts (same structure, subset of items per chunk).
+        """
+        if not isinstance(payload, dict):
+            return [payload] if payload is not None else []
+        serialized = json.dumps(payload, indent=2)
+        if len(serialized) <= max_chars:
+            return [payload]
+
+        # Prefer known container keys in order
+        container_keys = ("extracted_resources", "aligned_resources", "judge_resource", "resources", "extracted_structured_information", "aligned_structured_information", "judged_structured_information_with_human_feedback")
+        container_key = None
+        container = None
+        for key in container_keys:
+            if key in payload and payload[key] is not None:
+                val = payload[key]
+                if isinstance(val, dict) or isinstance(val, list):
+                    container_key = key
+                    container = val
+                    break
+        if container_key is None:
+            # Fallback: pick first key that is dict or list
+            for key, val in payload.items():
+                if isinstance(val, dict) and val or isinstance(val, list) and val:
+                    container_key = key
+                    container = val
+                    break
+        if container_key is None:
+            return [payload]
+
+        if isinstance(container, list):
+            # Split list into batches by size
+            batches = []
+            current = []
+            current_size = 2  # "[]"
+            for item in container:
+                item_str = json.dumps(item)
+                if current_size + len(item_str) + 2 > max_chars and current:
+                    batches.append(current)
+                    current = []
+                    current_size = 2
+                current.append(item)
+                current_size += len(item_str) + 2
+            if current:
+                batches.append(current)
+            return [
+                {**{k: v for k, v in payload.items() if k != container_key}, container_key: batch}
+                for batch in batches
+            ]
+
+        # container is dict (id -> list or value)
+        keys_order = list(container.keys())
+        batches = []
+        current_keys = []
+        current_payload = {k: v for k, v in payload.items() if k != container_key}
+        current_sub = {}
+        current_size = len(json.dumps(current_payload)) + 20
+        for k in keys_order:
+            v = container[k]
+            v_str = json.dumps(v)
+            if current_size + len(k) + len(v_str) + 4 > max_chars and current_sub:
+                batches.append({**current_payload, container_key: dict(current_sub)})
+                current_sub = {}
+                current_size = len(json.dumps(current_payload)) + 20
+            current_sub[k] = v
+            current_size += len(k) + len(v_str) + 4
+        if current_sub:
+            batches.append({**current_payload, container_key: dict(current_sub)})
+        return batches if batches else [payload]
+
+    def _merge_downstream_chunk_results(self, chunk_results: list) -> Dict[str, Any]:
+        """Merge results from multiple downstream chunk runs into one payload.
+
+        Each chunk result is a dict (e.g. aligned_resources, judge_resource). We merge by
+        updating the same container key from each result.
+        """
+        if not chunk_results:
+            return {}
+        if len(chunk_results) == 1:
+            return dict(chunk_results[0]) if isinstance(chunk_results[0], dict) else {}
+
+        merged = {}
+        container_keys = ("extracted_resources", "aligned_resources", "judge_resource", "resources")
+        for result in chunk_results:
+            if not isinstance(result, dict):
+                continue
+            for key, value in result.items():
+                if key in container_keys and value is not None:
+                    if key not in merged:
+                        merged[key] = {} if isinstance(value, dict) else []
+                    if isinstance(value, dict) and isinstance(merged[key], dict):
+                        merged[key].update(value)
+                    elif isinstance(value, list) and isinstance(merged[key], list):
+                        merged[key].extend(value)
+                elif key not in merged:
+                    merged[key] = value
+        return merged
+
+    def _get_detected_task_type(self, agent_key: str, task_key: str) -> str:
+        """Detect task type for tool selection and merging (taxonomy-aligned).
+
+        Uses LLM-based detect_task_type when API key and LLM config are available;
+        otherwise falls back to a heuristic so resource/structured extraction get
+        no NER tool and correct post-processor/merger.
+        """
+        task_data = self.task_config.get(task_key) or {}
+        description = task_data.get("description", "") or ""
+        if not description and isinstance(task_data, dict):
+            description = str(task_data)
+        api_key = os.environ.get("OPENROUTER_API_KEY")
+        agent_id = task_data.get("agent_id", agent_key)
+        llm_config = (self.agent_config.get(agent_id) or {}).get("llm") or {}
+        if api_key and llm_config and (llm_config.get("model") or llm_config.get("base_url")):
+            try:
+                result = detect_task_type(
+                    taskconfig=description,
+                    api_key=api_key,
+                    llm_config=llm_config,
+                )
+                logger.info(f"Detected task type '{result.task_type}' (confidence={result.confidence:.2f})")
+                return result.task_type
+            except Exception as e:
+                logger.warning(f"Task detection failed: {e}, using heuristic")
+        # Heuristic: NER vs resource vs extraction
+        text = (description or str(self.task_config)).lower()
+        if "ner" in text or "named entity" in text or "entity" in text:
+            return "ner"
+        if "resource" in text and ("extract" in text or "dataset" in text or "tool" in text or "model" in text):
+            return "resource"
+        if "structured extraction" in text or "structured_extraction" in text:
+            return "structured_extraction"
+        return "extraction"
+
+    def _initialize_agent_and_task(
+            self,
+            agent_key: str,
+            task_key: str,
+            pydantic_output_class: Optional[Any] = None,
+            tools: Optional[list] = None,
+    ) -> Tuple[Optional[object], Optional[object]]:
+        """Initialize an agent and its associated task.
+
+        Uses the robust initialization from crew_utils. Tools are chosen
+        dynamically from the detected task type (only NER/keyphrase get tools).
+        """
+        return initialize_agent_and_task(
+            agent_config=self.agent_config,
+            task_config=self.task_config,
+            agent_key=agent_key,
+            task_key=task_key,
+            embedder_config=self.embedder_config,
+            tools=tools if tools is not None else [],
+            pydantic_output=pydantic_output_class,
+        )
+
+
+
+
+async def kickoff(
+        agentconfig: Union[str, dict],
+        taskconfig: Union[str, dict],
+        embedderconfig: Union[str, dict],
+        input_source: Union[str, dict],
+        knowledgeconfig: Optional[Union[str, dict]] = None,
+        enable_human_feedback: bool = True,
+        agent_feedback_config: Optional[Dict[str, bool]] = None,
+        env_file: Optional[str] = None,
+        api_key: Optional[str] = None,
+        enable_chunking: bool = False,
+        chunk_size: Optional[int] = None,
+        max_workers: Optional[int] = None,
+        downstream_max_input_chars: Optional[int] = None,
+        max_extraction_chunk_chars: Optional[int] = None,
+) -> Union[Dict[str, Any], str]:
+    """
+    Standalone kickoff function for backward compatibility.
+    
+    This function now uses StructSenseFlow internally as the single entry point.
+    All functionality is preserved.
+    """
+    # Use StructSenseFlow as the single entry point
+    try:
         flow = StructSenseFlow(
             agent_config=agentconfig,
             task_config=taskconfig,
             embedder_config=embedderconfig,
+            input_source=input_source,
             knowledge_config=knowledgeconfig,
-            source_text=processed_string,
             enable_human_feedback=enable_human_feedback,
-            agent_feedback_config=agent_feedback_config_bool,
+            agent_feedback_config=agent_feedback_config,
             env_file=env_file,
-            enable_chunking=enable_chunking
+            api_key=api_key,
+            enable_chunking=enable_chunking,
+            chunk_size=chunk_size,
+            max_workers=max_workers,
+            downstream_max_input_chars=downstream_max_input_chars,
+            max_extraction_chunk_chars=max_extraction_chunk_chars,
         )
-
-        # Use custom feedback handler if provided
-        if feedback_handler:
-            flow.human = feedback_handler
-            # Set the feedback handler's input and output handlers to use print
-            feedback_handler.input_handler = lambda x: "3"  # Always return "3" for modify
-            feedback_handler.output_handler = print
-
-        # Run the flow
-        result = flow.kickoff()
-
-        # If feedback is required, return the feedback request
-        if result == "feedback":
-            if feedback_handler and feedback_handler.has_pending_feedback():
-                return "feedback"
-            else:
-                logger.warning("No pending feedback found but result was 'feedback'")
-                return None
-
-        logger.info("Flow completed successfully")
-        return result
-
+        
+        # Run the kickoff method
+        return await flow.kickoff()
+        
     except Exception as e:
-        logger.error(f"Flow execution failed: {str(e)}")
+        logger.error(f"Kickoff execution failed: {str(e)}")
         raise
