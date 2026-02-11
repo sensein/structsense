@@ -18,7 +18,7 @@ jobs:
       with:  # no need for the history
         fetch-depth: 1
     - name: Install poetry
-      run: pip install poetry==2.1.3
+      run: pip install poetry==2.3.2
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v5
       with:
