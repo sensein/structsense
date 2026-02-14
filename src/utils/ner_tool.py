@@ -124,7 +124,7 @@ def get_spacy_model():
         except OSError:
             raise OSError(
                 f"spaCy model '{SPACY_MODEL}' is not installed. "
-                f"Install it with: python -m spacy download {SPACY_MODEL}"
+                f"Run 'poetry install' or 'uv sync' to install project dependencies."
             ) from None
     return _spacy_nlp
 
