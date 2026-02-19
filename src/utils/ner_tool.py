@@ -25,6 +25,7 @@ from openai import OpenAI
 from transformers import pipeline, AutoModelForTokenClassification, AutoTokenizer
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import spacy
+from spacy.cli import download
 import torch
 import logging
 
@@ -122,10 +123,9 @@ def get_spacy_model():
         try:
             _spacy_nlp = spacy.load(SPACY_MODEL)
         except OSError:
-            raise OSError(
-                f"spaCy model '{SPACY_MODEL}' is not installed. "
-                f"Run 'poetry install' or 'uv sync' to install project dependencies."
-            ) from None
+            logger.info(f"Downloading spaCy model: {SPACY_MODEL}")
+            download(SPACY_MODEL)
+            _spacy_nlp = spacy.load(SPACY_MODEL)
     return _spacy_nlp
 
 
