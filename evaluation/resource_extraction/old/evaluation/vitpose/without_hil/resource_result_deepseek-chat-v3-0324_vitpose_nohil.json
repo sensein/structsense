@@ -1,0 +1,38 @@
+{
+  "judge_resource": {
+    "1": [
+      {
+        "name": "ViTPose",
+        "description": "ViTPose is a vision transformer-based model for human pose estimation. It employs plain and non-hierarchical vision transformers as backbones to extract features for a given person instance and a lightweight decoder for pose estimation. The model demonstrates simplicity in structure, scalability in model size, flexibility in training paradigm, and transferability of knowledge between models. ViTPose-B, ViTPose-L, and ViTPose-H variants are available, with the largest model achieving 80.9 AP on the MS COCO test-dev set.",
+        "type": "Model",
+        "category": "Pose Estimation",
+        "target": "Human",
+        "mapped_target_concept": [
+          {
+            "id": "http://purl.obolibrary.org/obo/NCBITaxon_9606",
+            "label": "Homo sapiens",
+            "ontology": "NCBITaxon"
+          }
+        ],
+        "specific_target": null,
+        "url": "https://github.com/ViTAE-Transformer/ViTPose",
+        "mentions": {
+          "datasets": [
+            "MS COCO Keypoint Detection",
+            "AI Challenger",
+            "MPII"
+          ],
+          "benchmarks": [
+            "MS COCO Keypoint Detection"
+          ],
+          "papers": [
+            "Simple Baselines for Human Pose Estimation and Tracking",
+            "Deep High-Resolution Representation Learning for Human Pose Estimation",
+            "UDP: The Devil is in the Details"
+          ]
+        },
+        "judge_score": 0.9
+      }
+    ]
+  }
+}

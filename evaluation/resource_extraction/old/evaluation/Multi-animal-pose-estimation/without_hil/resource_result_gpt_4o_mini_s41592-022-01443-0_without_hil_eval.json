@@ -1,0 +1,91 @@
+{
+  "judge_resource.1": {
+    "1": [
+      {
+        "name": "Multi-animal pose estimation, identification and tracking with DeepLabCut",
+        "description": "This paper presents an advanced system for multi-animal pose estimation and tracking using DeepLabCut. It introduces novel architectures, a data-driven assembly method for identifying and linking keypoints to individual animals, and unsupervised identity tracking to address common challenges in animal behavior analysis.",
+        "type": "Model",
+        "category": "Pose Estimation",
+        "target": "Animal",
+        "mapped_target_concept": [
+          {
+            "id": "http://purl.obolibrary.org/obo/BTO_0000042",
+            "label": "animal",
+            "ontology": "BTO"
+          }
+        ],
+        "specific_target": "Mice, Marmosets, Fish",
+        "mapped_specific_target_concept": [
+          {
+            "specific_target": "Mice",
+            "mapped_target_concept": {
+              "label": "Mus musculus",
+              "id": "NCBITaxon:10090",
+              "ontology": "NCBITaxon"
+            }
+          },
+          {
+            "specific_target": "Marmosets",
+            "mapped_target_concept": {
+              "label": "Callitrichinae sp.",
+              "id": "NCBITaxon:38020",
+              "ontology": "NCBITaxon"
+            }
+          },
+          {
+            "specific_target": "Fish",
+            "mapped_target_concept": {
+              "label": "Actinopterygii",
+              "id": "NCBITaxon:7898",
+              "ontology": "NCBITaxon"
+            }
+          }
+        ],
+        "url": "https://github.com/DeepLabCut/DeepLabCut",
+        "mentions": {
+          "models": [
+            "DeepLabCut",
+            "DLCRNet"
+          ],
+          "datasets": [
+            "Tri-mouse dataset",
+            "Parenting behavior dataset",
+            "Marmoset home-cage behavior dataset",
+            "Fish schooling behavior dataset"
+          ],
+          "benchmarks": [
+            "-",
+            "DeepLabCut benchmarks"
+          ],
+          "papers": [
+            "DeepLabCut: markerless pose estimation of user-defined body parts with deep learning",
+            "SLEAP: multi-animal pose tracking"
+          ]
+        },
+        "judge_score": 0.92,
+        "approved": false,
+        "corrected": true,
+        "corrections": {
+          "type": "Article",
+          "mapped_specific_target_concept": [
+            null,
+            {
+              "mapped_target_concept": {
+                "label": "Callithrix",
+                "id": "NCBITaxon:9490"
+              }
+            },
+            null
+          ],
+          "url": "https://doi.org/10.1038/s41592-022-01443-0",
+          "mentions": {
+            "benchmarks": [
+              "COCO",
+              null
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

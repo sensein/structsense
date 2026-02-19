@@ -1,0 +1,100 @@
+{
+  "judge_resource.aligned_resources.1": {
+    "1": [
+      {
+        "resource_name": "DeepLabCut",
+        "resource_type": "Model",
+        "resource_category": "Pose Estimation",
+        "resource_description": "An open-source toolbox for multi-animal pose estimation, identification and tracking. The tool provides high-performance animal assembly and tracking features for multi-animal scenarios, and integrates the ability to predict an animal's identity to assist tracking in case of occlusions.",
+        "target_application": "Animal",
+        "mapped_target_concept": [
+          {
+            "id": "http://purl.obolibrary.org/obo/BTO_0000042",
+            "label": "animal",
+            "ontology": "BTO"
+          }
+        ],
+        "specific_targets": [
+          "Mice",
+          "Fish",
+          "Marmosets"
+        ],
+        "mapped_specific_target_concept": [
+          {
+            "specific_target": "Mice",
+            "mapped_target_concept": {
+              "label": "Mus musculus",
+              "id": "NCBITaxon:10090",
+              "ontology": "NCBITaxon"
+            }
+          },
+          {
+            "specific_target": "Fish",
+            "mapped_target_concept": {
+              "label": "Actinopterygii",
+              "id": "NCBITaxon:7898",
+              "ontology": "NCBITaxon"
+            }
+          },
+          {
+            "specific_target": "Marmosets",
+            "mapped_target_concept": {
+              "label": "Callitrichinae sp.",
+              "id": "NCBITaxon:38020",
+              "ontology": "NCBITaxon"
+            }
+          }
+        ],
+        "url": "https://github.com/DeepLabCut/DeepLabCut",
+        "models": [
+          "DLCRNet",
+          "DLCRNet_ms5",
+          "ResNet",
+          "EfficientNet",
+          "ReIDTransformer"
+        ],
+        "datasets": [
+          "Tri-mouse dataset",
+          "Parenting mice dataset",
+          "Marmoset dataset",
+          "Fish schooling dataset"
+        ],
+        "benchmarks": [
+          "https://benchmark.deeplabcut.org/"
+        ],
+        "papers": [
+          "DeepLabCut: markerless pose estimation of user-defined body parts with deep learning"
+        ],
+        "related_tools": [
+          "DeepLabCut-Live!",
+          "idtracker.ai",
+          "-",
+          "-"
+        ],
+        "judge_score": 0.92,
+        "judge_rationale": "The DeepLabCut resource alignment is excellent, with properly structured information following BBQS standards. All essential fields are populated with relevant information. The resource name, type, category, and description accurately represent the tool's purpose for animal pose estimation. The target application has been properly mapped to a BTO ontology concept. Specific animal targets (Mice, Fish, Marmosets) have been appropriately mapped to corresponding NCBITaxon ontology concepts with correct IDs. The URL leads to the official repository. The resource includes comprehensive lists of associated models, datasets, benchmarks, papers, and related tools. The only minor improvement could be adding full citation information for the papers and more specific dataset descriptions. Overall, this is a well-structured and accurately mapped resource.",
+        "approved": false,
+        "corrected": true,
+        "corrections": {
+          "resource_type": "Tool",
+          "mapped_specific_target_concept": [
+            null,
+            null,
+            {
+              "mapped_target_concept": {
+                "label": "Callithrix",
+                "id": "NCBITaxon:9481"
+              }
+            }
+          ],
+          "related_tools": [
+            null,
+            null,
+            "SLEAP",
+            "AlphaTracker"
+          ]
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "judge_resource.aligned_resources": {
+    "1": [
+      {
+        "name": "Multi-animal DeepLabCut",
+        "description": "An extension of DeepLabCut toolbox for multi-animal pose estimation, identification, and tracking. It includes new multi-task convolutional architectures, data-driven assembly methods, and tracking modules. Published in Nature Methods 2022.",
+        "type": "Model",
+        "category": "Pose Estimation",
+        "target": "Animal",
+        "mapped_target_concept": [
+          {
+            "id": "http://purl.obolibrary.org/obo/BTO_0000042",
+            "label": "animal",
+            "ontology": "BTO"
+          }
+        ],
+        "specific_target": [
+          "Mice",
+          "Fish",
+          "Marmoset"
+        ],
+        "mapped_specific_target_concept": [
+          {
+            "specific_target": "Mice",
+            "mapped_target_concept": {
+              "label": "Mus musculus",
+              "id": "NCBITaxon:10090",
+              "ontology": "NCBITaxon"
+            }
+          },
+          {
+            "specific_target": "Fish",
+            "mapped_target_concept": {
+              "label": "Actinopterygii",
+              "id": "NCBITaxon:7898",
+              "ontology": "NCBITaxon"
+            }
+          },
+          {
+            "specific_target": "Marmoset",
+            "mapped_target_concept": {
+              "label": "Callitrichinae sp.",
+              "id": "NCBITaxon:38020",
+              "ontology": "NCBITaxon"
+            }
+          }
+        ],
+        "url": "https://github.com/DeepLabCut/DeepLabCut",
+        "mentions": {
+          "datasets": [
+            "Tri-mouse dataset",
+            "Parenting behavior dataset",
+            "Marmoset home-cage dataset",
+            "Fish schooling dataset"
+          ],
+          "benchmarks": [
+            "the DeepLabCut Benchmark! (https://benchmark.deeplabcut.org/)"
+          ],
+          "models": [
+            "DLCRNet_ms5",
+            "ResNet50",
+            "EfficientNet"
+          ],
+          "papers": [
+            "DeepLabCut: markerless pose estimation of user-defined body parts with deep learning",
+            "Using deeplabcut for 3D markerless pose estimation across species and behaviors"
+          ]
+        },
+        "judge_score": 0.95,
+        "approved": false,
+        "corrected": true,
+        "corrections": {
+          "type": "Tool",
+          "mapped_specific_target_concept": [
+            null,
+            null,
+            {
+              "mapped_target_concept": {
+                "label": "Callithrix jacchus",
+                "id": "NCBITaxon:9483"
+              }
+            }
+          ],
+          "mentions": {
+            "benchmarks": [
+              "COCO"
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

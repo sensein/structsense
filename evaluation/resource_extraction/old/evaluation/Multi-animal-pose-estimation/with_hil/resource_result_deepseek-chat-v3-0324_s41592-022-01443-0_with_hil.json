@@ -1,0 +1,68 @@
+{
+  "judged_structured_information": {
+    "1": [
+      {
+        "name": "Multi-animal DeepLabCut",
+        "description": "An open-source toolbox for multi-animal pose estimation and tracking that extends DeepLabCut. It includes high-performance animal assembly and tracking features required for multi-animal scenarios, with the ability to predict an animal's identity to assist tracking in case of occlusions.",
+        "type": "Tool",
+        "category": "Pose Estimation",
+        "target": "Animal",
+        "mapped_target_concept": [
+          {
+            "id": "http://purl.obolibrary.org/obo/BTO_0000042",
+            "label": "animal",
+            "ontology": "BTO"
+          }
+        ],
+        "specific_targets": [
+          {
+            "specific_target": "Mice",
+            "mapped_target_concept": {
+              "label": "Mus musculus",
+              "id": "NCBITaxon:10090",
+              "ontology": "NCBITaxon"
+            }
+          },
+          {
+            "specific_target": "Marmosets",
+            "mapped_target_concept": {
+              "label": "Callithrix",
+              "id": "NCBITaxon:9489",
+              "ontology": "NCBITaxon"
+            }
+          },
+          {
+            "specific_target": "Fish",
+            "mapped_target_concept": {
+              "label": "Actinopterygii",
+              "id": "NCBITaxon:7898",
+              "ontology": "NCBITaxon"
+            }
+          }
+        ],
+        "url": "https://benchmark.deeplabcut.org/",
+        "mentions": {
+          "datasets": [
+            "tri-mouse dataset",
+            "parenting behavior dataset",
+            "marmoset home-cage behavior dataset",
+            "fish schooling behavior dataset"
+          ],
+          "benchmarks": [
+            "COCO"
+          ],
+          "models": [
+            "DLCRNet_ms5",
+            "ResNet50_stride8",
+            "EfficientNets"
+          ],
+          "papers": [
+            "DeepLabCut: markerless pose estimation of user-defined body parts with deep learning"
+          ]
+        },
+        "judge_score": 0.95,
+        "remarks": "The alignment of concepts is accurate and complete. The user feedback has been respected, and the mapped concepts for 'Mice', 'Marmosets', and 'Fish' are correctly aligned with their respective ontologies (NCBITaxon). The general 'animal' target is correctly mapped to BTO ontology. No modifications were needed as the original alignment was correct."
+      }
+    ]
+  }
+}
