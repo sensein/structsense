@@ -1,0 +1,285 @@
+{
+  "judged_structured_information": {
+    "judge_ner_terms": {
+      "1": [
+        {
+          "entity": "Christopher Langdon",
+          "label": "AUTHOR",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "Christopher Langdon 1,2 & Tatiana A. Engel 1,2"
+          ],
+          "start": [
+            0
+          ],
+          "end": [
+            20
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Author of the paper.",
+            "No direct ontological mapping available."
+          ],
+          "paper_location": [
+            "introduction"
+          ],
+          "paper_title": "Latent circuit inference from heterogeneous neural responses during cognitive tasks",
+          "doi": [
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "2": [
+        {
+          "entity": "Tatiana A. Engel",
+          "label": "AUTHOR",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "Christopher Langdon 1,2 & Tatiana A. Engel 1,2"
+          ],
+          "start": [
+            24
+          ],
+          "end": [
+            44
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Author of the paper.",
+            "No direct ontological mapping available."
+          ],
+          "paper_location": [
+            "introduction"
+          ],
+          "paper_title": "Latent circuit inference from heterogeneous neural responses during cognitive tasks",
+          "doi": [
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "3": [
+        {
+          "entity": "Nature Neuroscience",
+          "label": "JOURNAL",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "Nature Neuroscience | Volume 28 | March 2025 | 665\u2013675"
+          ],
+          "start": [
+            0
+          ],
+          "end": [
+            28
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Entry represents the name of the journal publishing the research.",
+            "No direct ontological mapping available."
+          ],
+          "paper_location": [
+            "header"
+          ],
+          "paper_title": "Latent circuit inference from heterogeneous neural responses during cognitive tasks",
+          "doi": [
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "4": [
+        {
+          "entity": "premotor cortex",
+          "label": "ANATOMICAL_REGION",
+          "ontology_id": "UBERON:0000430",
+          "ontology_label": "premotor cortex",
+          "sentence": [
+            "We show that incorporating causal interactions among task variables is critical for identifying behaviorally relevant computations from neural response data."
+          ],
+          "start": [
+            17
+          ],
+          "end": [
+            34
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Relevant anatomical region involved in the study.",
+            "Successfully aligned to UBERON:0000430."
+          ],
+          "paper_location": [
+            "discussion"
+          ],
+          "paper_title": "Latent circuit inference from heterogeneous neural responses during cognitive tasks",
+          "doi": [
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "5": [
+        {
+          "entity": "recurrent neural networks",
+          "label": "MODEL",
+          "ontology_id": "OMICS:0000116",
+          "ontology_label": "artificial neural network",
+          "sentence": [
+            "We apply the latent circuit inference to recurrent neural networks trained to perform a context-dependent decision-making task and find a suppression mechanism in which contextual representations inhibit irrelevant sensory responses."
+          ],
+          "start": [
+            43
+          ],
+          "end": [
+            81
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Type of model used in the study.",
+            "Successfully aligned to OMICS:0000116."
+          ],
+          "paper_location": [
+            "method"
+          ],
+          "paper_title": "Latent circuit inference from heterogeneous neural responses during cognitive tasks",
+          "doi": [
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "6": [
+        {
+          "entity": "prefrontal cortex",
+          "label": "ANATOMICAL_REGION",
+          "ontology_id": "UBERON:0000451",
+          "ontology_label": "prefrontal cortex",
+          "sentence": [
+            "We find similar suppression of irrelevant sensory responses in the prefrontal cortex of monkeys performing the same task."
+          ],
+          "start": [
+            76
+          ],
+          "end": [
+            98
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Specific area in the brain studied.",
+            "Successfully aligned to UBERON:0000451."
+          ],
+          "paper_location": [
+            "results"
+          ],
+          "paper_title": "Latent circuit inference from heterogeneous neural responses during cognitive tasks",
+          "doi": [
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "7": [
+        {
+          "entity": "macaque monkeys",
+          "label": "ANIMAL_SPECIES",
+          "ontology_id": "NCBITaxon:9539",
+          "ontology_label": "Macaca",
+          "sentence": [
+            "We find similar suppression of irrelevant sensory responses in the prefrontal cortex of monkeys performing the same task."
+          ],
+          "start": [
+            92
+          ],
+          "end": [
+            109
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Animal species used in the study.",
+            "Successfully aligned to NCBITaxon:9539."
+          ],
+          "paper_location": [
+            "results"
+          ],
+          "paper_title": "Latent circuit inference from heterogeneous neural responses during cognitive tasks",
+          "doi": [
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "8": [
+        {
+          "entity": "dimensionality reduction",
+          "label": "EXPERIMENTAL_CONDITION",
+          "ontology_id": "EDAM:0000598",
+          "ontology_label": "dimensionality reduction",
+          "sentence": [
+            "Dimensionality reduction methods that rely on correlations between neural activity and task variables leave unknown how heterogeneous responses arise from connectivity to drive behavior."
+          ],
+          "start": [
+            0
+          ],
+          "end": [
+            103
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Experimental approach utilized.",
+            "Successfully aligned to EDAM:0000598."
+          ],
+          "paper_location": [
+            "introduction"
+          ],
+          "paper_title": "Latent circuit inference from heterogeneous neural responses during cognitive tasks",
+          "doi": [
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "9": [
+        {
+          "entity": "task variables",
+          "label": "VARIABLES",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "Cognitive functions depend on higher cortical areas, which integrate diverse sensory and contextual signals to produce a coherent behavioral response."
+          ],
+          "start": [
+            61
+          ],
+          "end": [
+            76
+          ],
+          "judge_score": [
+            0.8
+          ],
+          "remarks": [
+            "Relevant variables impacting cognitive functions.",
+            "No direct ontological mapping available."
+          ],
+          "paper_location": [
+            "introduction"
+          ],
+          "paper_title": "Latent circuit inference from heterogeneous neural responses during cognitive tasks",
+          "doi": [
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,1217 @@
+{
+  "judge_ner_terms": {
+    "judge_ner_terms": {
+      "1": [
+        {
+          "entity": "prefrontal cortex",
+          "label": "ANATOMICAL_REGION",
+          "ontology_id": "UBERON:0000451",
+          "ontology_label": "prefrontal cortex",
+          "sentence": [
+            "Single neurons in areas such as the prefrontal cortex (PFC) show complex heterogeneous tuning to multiple task variables.",
+            "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies.",
+            "The latent circuit model revealed a suppression of irrelevant sensory representations in PFC responses of monkeys performing a context-dependent decision-making task."
+          ],
+          "start": [
+            39,
+            78,
+            63
+          ],
+          "end": [
+            56,
+            81,
+            66
+          ],
+          "judge_score": [
+            1.0,
+            0.95,
+            0.95
+          ],
+          "remarks": [
+            "Consistently referred to as PFC throughout the paper",
+            "Key brain region studied in the research",
+            "Successfully aligned to UBERON:0000451",
+            "Perfect alignment with clear ontology match and correct labeling as anatomical region"
+          ],
+          "paper_location": [
+            "introduction",
+            "results",
+            "discussion"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks",
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks",
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7",
+            "10.1038/s41593-025-01869-7",
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "2": [
+        {
+          "entity": "PFC",
+          "label": "ANATOMICAL_REGION",
+          "ontology_id": "UBERON:0000451",
+          "ontology_label": "prefrontal cortex",
+          "sentence": [
+            "Similar heterogeneous responses emerge in high-dimensional recurrent neural network (RNN) models trained to perform cognitive tasks or reproduce neural activity data by optimizing recurrent connectivity parameters.",
+            "The dataset consists of several hundred PFC neurons (n = 727 and 574 for monkeys A and F, respectively) recorded from two rhesus monkeys performing a context-dependent decision-making task."
+          ],
+          "start": [
+            210,
+            40
+          ],
+          "end": [
+            213,
+            43
+          ],
+          "judge_score": [
+            0.0,
+            1.0
+          ],
+          "remarks": [
+            "Abbreviation for prefrontal cortex",
+            "Used interchangeably with the full term",
+            "Same ontology ID as prefrontal cortex (UBERON:0000451)",
+            "First sentence doesn't contain 'PFC' at the indicated position, so scored 0.0",
+            "Second sentence correctly identifies PFC with proper ontology alignment"
+          ],
+          "paper_location": [
+            "introduction",
+            "results"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks",
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7",
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "3": [
+        {
+          "entity": "recurrent neural network",
+          "label": "MODEL_TYPE",
+          "ontology_id": "OMICS:0000116",
+          "ontology_label": "artificial neural network",
+          "sentence": [
+            "Similar heterogeneous responses emerge in high-dimensional recurrent neural network (RNN) models trained to perform cognitive tasks or reproduce neural activity data by optimizing recurrent connectivity parameters.",
+            "We applied our latent circuit inference to RNNs optimized to perform a context-dependent decision-making task, which requires the discrimination of either the color or motion feature of a sensory stimulus depending on the context cue."
+          ],
+          "start": [
+            59,
+            41
+          ],
+          "end": [
+            83,
+            45
+          ],
+          "judge_score": [
+            1.0,
+            0.0
+          ],
+          "remarks": [
+            "Computational model used in the study",
+            "Abbreviated as RNN throughout the paper",
+            "Aligned to OMICS:0000116 (artificial neural network) as the most appropriate available ontology term",
+            "First sentence correctly identifies the term",
+            "Second sentence doesn't contain 'recurrent neural network' at the indicated position, but refers to RNNs (the abbreviation)"
+          ],
+          "paper_location": [
+            "introduction",
+            "results"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks",
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7",
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "4": [
+        {
+          "entity": "RNN",
+          "label": "MODEL_TYPE",
+          "ontology_id": "OMICS:0000116",
+          "ontology_label": "artificial neural network",
+          "sentence": [
+            "Similar heterogeneous responses emerge in high-dimensional recurrent neural network (RNN) models trained to perform cognitive tasks.",
+            "We applied our latent circuit inference to RNNs optimized to perform a context-dependent decision-making task."
+          ],
+          "start": [
+            84,
+            41
+          ],
+          "end": [
+            87,
+            45
+          ],
+          "judge_score": [
+            1.0,
+            0.9
+          ],
+          "remarks": [
+            "Abbreviation for recurrent neural network",
+            "Main computational model used in the study",
+            "Same ontology ID as recurrent neural network (OMICS:0000116)",
+            "First sentence correctly shows RNN as abbreviation",
+            "Second sentence uses plural form (RNNs), slight position mismatch but semantically correct"
+          ],
+          "paper_location": [
+            "introduction",
+            "results"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks",
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7",
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "5": [
+        {
+          "entity": "latent circuit model",
+          "label": "MODEL_TYPE",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "We develop the latent circuit model, a dimensionality reduction approach in which task variables interact via low-dimensional recurrent connectivity to produce behavioral output.",
+            "The latent circuit model captures task-related neural activity in the low-dimensional subspace spanned by the columns of Q, with dynamics within this subspace generated by the neural circuit Eq. (2)."
+          ],
+          "start": [
+            14,
+            4
+          ],
+          "end": [
+            32,
+            22
+          ],
+          "judge_score": [
+            1.0,
+            1.0
+          ],
+          "remarks": [
+            "Novel computational approach developed in this study",
+            "Central methodological innovation of the paper",
+            "No specific ontology ID available for this novel model type",
+            "Both instances correctly identified with appropriate label assignment",
+            "Lack of ontology ID is justified as this is a newly described model type"
+          ],
+          "paper_location": [
+            "abstract",
+            "results"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks",
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7",
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "6": [
+        {
+          "entity": "monkeys",
+          "label": "ANIMAL_SPECIES",
+          "ontology_id": "NCBITaxon:9539",
+          "ontology_label": "Macaca",
+          "sentence": [
+            "We find similar suppression of irrelevant sensory responses in the prefrontal cortex of monkeys performing the same task.",
+            "The dataset consists of several hundred PFC neurons (n = 727 and 574 for monkeys A and F, respectively) recorded from two rhesus monkeys performing a context-dependent decision-making task.",
+            "We fitted the latent circuit model to smoothed condition-averaged PFC responses during a 750-ms window starting 100 ms after the stimulus onset."
+          ],
+          "start": [
+            82,
+            77,
+            17
+          ],
+          "end": [
+            89,
+            85,
+            24
+          ],
+          "judge_score": [
+            1.0,
+            1.0,
+            0.0
+          ],
+          "remarks": [
+            "Experimental animal model used in the study",
+            "Specifically rhesus monkeys (identified later in the text)",
+            "Aligned to general Macaca genus (NCBITaxon:9539), since it refers to monkeys generally",
+            "First two sentences correctly identify monkeys",
+            "Third sentence doesn't contain 'monkeys' at the specified position"
+          ],
+          "paper_location": [
+            "abstract",
+            "results",
+            "methods"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks",
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks",
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7",
+            "10.1038/s41593-025-01869-7",
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "7": [
+        {
+          "entity": "rhesus monkeys",
+          "label": "ANIMAL_SPECIES",
+          "ontology_id": "NCBITaxon:9544",
+          "ontology_label": "Macaca mulatta",
+          "sentence": [
+            "The dataset consists of several hundred PFC neurons (n = 727 and 574 for monkeys A and F, respectively) recorded from two rhesus monkeys performing a context-dependent decision-making task."
+          ],
+          "start": [
+            132
+          ],
+          "end": [
+            146
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Specific species of experimental animal used in the study",
+            "Successfully aligned to NCBITaxon:9544 (Macaca mulatta)",
+            "Perfect alignment with the ontology for the specific species"
+          ],
+          "paper_location": [
+            "results"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "8": [
+        {
+          "entity": "dimensionality reduction",
+          "label": "ANALYSIS_METHOD",
+          "ontology_id": "EDAM:0000598",
+          "ontology_label": "dimensionality reduction",
+          "sentence": [
+            "We develop the latent circuit model, a dimensionality reduction approach in which task variables interact via low-dimensional recurrent connectivity to produce behavioral output.",
+            "Dimensionality reduction methods are commonly used to reveal representations of low-dimensional latent variables in neural population activity, which reflect computations emerging at the population level."
+          ],
+          "start": [
+            34,
+            0
+          ],
+          "end": [
+            57,
+            23
+          ],
+          "judge_score": [
+            1.0,
+            1.0
+          ],
+          "remarks": [
+            "Analytical approach central to the paper",
+            "The latent circuit model builds on this methodology",
+            "Successfully aligned to EDAM:0000598",
+            "Perfect alignment with exact match to ontology term in both instances"
+          ],
+          "paper_location": [
+            "abstract",
+            "introduction"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks",
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7",
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "9": [
+        {
+          "entity": "context-dependent decision-making task",
+          "label": "EXPERIMENTAL_CONDITION",
+          "ontology_id": "ERO:0000006",
+          "ontology_label": "behavioral task",
+          "sentence": [
+            "We applied latent circuit inference to RNNs optimized on a context-dependent decision-making task and found a circuit mechanism based on the inhibition of irrelevant sensory representations.",
+            "The dataset consists of several hundred PFC neurons (n = 727 and 574 for monkeys A and F, respectively) recorded from two rhesus monkeys performing a context-dependent decision-making task."
+          ],
+          "start": [
+            59,
+            147
+          ],
+          "end": [
+            94,
+            182
+          ],
+          "judge_score": [
+            1.0,
+            1.0
+          ],
+          "remarks": [
+            "Specific experimental paradigm used in both computational models and animal experiments",
+            "Key behavioral task examined in the study",
+            "Aligned to ERO:0000006 (behavioral task) as the most appropriate general category",
+            "Appropriate categorization as experimental condition with consistent ontology alignment"
+          ],
+          "paper_location": [
+            "abstract",
+            "results"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks",
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7",
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "10": [
+        {
+          "entity": "suppression mechanism",
+          "label": "NEURAL_MECHANISM",
+          "ontology_id": "GO:0050794",
+          "ontology_label": "regulation of cellular process",
+          "sentence": [
+            "We applied latent circuit inference to RNNs optimized on a context-dependent decision-making task and found a circuit mechanism based on the inhibition of irrelevant sensory representations.",
+            "Further, the color context node has inhibitory connections to the sensory nodes representing motion, and the motion context node has inhibitory connections to sensory nodes representing color. This pattern of connections from the context nodes to the sensory nodes implements a suppression mechanism that inhibits the irrelevant stimulus\u2013response mapping in each context."
+          ],
+          "start": [
+            119,
+            293
+          ],
+          "end": [
+            139,
+            314
+          ],
+          "judge_score": [
+            0.0,
+            1.0
+          ],
+          "remarks": [
+            "Neural mechanism identified in the model",
+            "Key finding of the study",
+            "Aligned to GO:0050794 as the most appropriate general biological process term",
+            "First sentence doesn't contain 'suppression mechanism' at the specified position",
+            "Second sentence correctly identifies the term with proper context"
+          ],
+          "paper_location": [
+            "abstract",
+            "results"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks",
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7",
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "11": [
+        {
+          "entity": "inhibition of irrelevant sensory representations",
+          "label": "NEURAL_MECHANISM",
+          "ontology_id": "GO:0050794",
+          "ontology_label": "regulation of cellular process",
+          "sentence": [
+            "We applied latent circuit inference to RNNs optimized on a context-dependent decision-making task and found a circuit mechanism based on the inhibition of irrelevant sensory representations.",
+            "This pattern of connections from the context nodes to the sensory nodes implements a suppression mechanism that inhibits the irrelevant stimulus\u2013response mapping in each context."
+          ],
+          "start": [
+            119,
+            87
+          ],
+          "end": [
+            166,
+            158
+          ],
+          "judge_score": [
+            1.0,
+            0.0
+          ],
+          "remarks": [
+            "Neural circuit mechanism identified in the study",
+            "Key finding about how context modulates sensory processing",
+            "Aligned to GO:0050794 as the most appropriate general biological process term",
+            "First sentence correctly contains the exact phrase",
+            "Second sentence references a similar concept but doesn't contain the exact phrase at the specified position"
+          ],
+          "paper_location": [
+            "abstract",
+            "results"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks",
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7",
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "12": [
+        {
+          "entity": "neurons",
+          "label": "CELL_TYPE",
+          "ontology_id": "CL:0000540",
+          "ontology_label": "neuron",
+          "sentence": [
+            "Higher cortical areas carry a wide range of sensory, cognitive and motor signals mixed in heterogeneous responses of single neurons tuned to multiple task variables.",
+            "Single neurons in areas such as the prefrontal cortex (PFC) show complex heterogeneous tuning to multiple task variables.",
+            "The dataset consists of several hundred PFC neurons (n = 727 and 574 for monkeys A and F, respectively) recorded from two rhesus monkeys performing a context-dependent decision-making task."
+          ],
+          "start": [
+            110,
+            7,
+            44
+          ],
+          "end": [
+            117,
+            14,
+            51
+          ],
+          "judge_score": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "remarks": [
+            "Basic cellular unit of analysis in the study",
+            "Both biological neurons and computational model units are discussed",
+            "Successfully aligned to CL:0000540",
+            "All three instances correctly identified with perfect alignment to the ontology"
+          ],
+          "paper_location": [
+            "abstract",
+            "introduction",
+            "results"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks",
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks",
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7",
+            "10.1038/s41593-025-01869-7",
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "13": [
+        {
+          "entity": "excitatory neurons",
+          "label": "CELL_TYPE",
+          "ontology_id": "CL:0008030",
+          "ontology_label": "excitatory neuron",
+          "sentence": [
+            "These computations result from interactions between excitatory and inhibitory neurons in cortical circuits.",
+            "The RNN consists of 50 recurrently connected units, 40 excitatory and 10 inhibitory."
+          ],
+          "start": [
+            47,
+            61
+          ],
+          "end": [
+            56,
+            71
+          ],
+          "judge_score": [
+            0.5,
+            0.85
+          ],
+          "remarks": [
+            "Type of neuron in biological neural circuits",
+            "Also implemented in the computational model",
+            "Successfully aligned to CL:0008030",
+            "First sentence refers to 'excitatory' neurons but position doesn't exactly match 'excitatory neurons'",
+            "Second sentence uses 'excitatory' as an adjective for RNN units, not explicitly 'excitatory neurons'"
+          ],
+          "paper_location": [
+            "introduction",
+            "methods"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks",
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7",
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "14": [
+        {
+          "entity": "inhibitory neurons",
+          "label": "CELL_TYPE",
+          "ontology_id": "CL:0008031",
+          "ontology_label": "inhibitory neuron",
+          "sentence": [
+            "These computations result from interactions between excitatory and inhibitory neurons in cortical circuits.",
+            "The RNN consists of 50 recurrently connected units, 40 excitatory and 10 inhibitory."
+          ],
+          "start": [
+            71,
+            75
+          ],
+          "end": [
+            90,
+            85
+          ],
+          "judge_score": [
+            1.0,
+            0.85
+          ],
+          "remarks": [
+            "Type of neuron in biological neural circuits",
+            "Also implemented in the computational model",
+            "Successfully aligned to CL:0008031",
+            "First sentence correctly identifies 'inhibitory neurons'",
+            "Second sentence uses 'inhibitory' as an adjective for RNN units, not explicitly 'inhibitory neurons'"
+          ],
+          "paper_location": [
+            "introduction",
+            "methods"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks",
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7",
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "15": [
+        {
+          "entity": "cortical circuits",
+          "label": "NEURAL_CIRCUIT",
+          "ontology_id": "UBERON:0001851",
+          "ontology_label": "cortical neural circuit",
+          "sentence": [
+            "These computations result from interactions between excitatory and inhibitory neurons in cortical circuits."
+          ],
+          "start": [
+            92
+          ],
+          "end": [
+            108
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Neural network structures in the cerebral cortex",
+            "Biological basis for the computational models",
+            "Aligned to UBERON:0001851 as the appropriate neural circuit term",
+            "Perfect alignment to the ontology with appropriate label"
+          ],
+          "paper_location": [
+            "introduction"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "16": [
+        {
+          "entity": "higher cortical areas",
+          "label": "ANATOMICAL_REGION",
+          "ontology_id": "UBERON:0000955",
+          "ontology_label": "cerebral cortex",
+          "sentence": [
+            "Higher cortical areas carry a wide range of sensory, cognitive and motor signals mixed in heterogeneous responses of single neurons tuned to multiple task variables.",
+            "Cognitive functions depend on higher cortical areas, which integrate diverse sensory and contextual signals to produce a coherent behavioral response."
+          ],
+          "start": [
+            0,
+            30
+          ],
+          "end": [
+            20,
+            50
+          ],
+          "judge_score": [
+            1.0,
+            1.0
+          ],
+          "remarks": [
+            "General term for advanced processing regions of the cerebral cortex",
+            "Aligned to UBERON:0000955 (cerebral cortex) as the most appropriate anatomical term",
+            "Both instances correctly identified with good ontology alignment"
+          ],
+          "paper_location": [
+            "abstract",
+            "introduction"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks",
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7",
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "17": [
+        {
+          "entity": "color context",
+          "label": "EXPERIMENTAL_CONDITION",
+          "ontology_id": "ERO:0000006",
+          "ontology_label": "behavioral task",
+          "sentence": [
+            "In the color context, the choice should be made according to the color, ignoring the motion stimulus, and vice versa in the motion context.",
+            "Further, the color context node has inhibitory connections to the sensory nodes representing motion, and the motion context node has inhibitory connections to sensory nodes representing color."
+          ],
+          "start": [
+            7,
+            16
+          ],
+          "end": [
+            19,
+            28
+          ],
+          "judge_score": [
+            1.0,
+            1.0
+          ],
+          "remarks": [
+            "One of the two experimental conditions in the context-dependent task",
+            "Refers to trials where decisions should be based on color stimuli",
+            "Aligned to ERO:0000006 (behavioral task) as a specific condition within the task paradigm",
+            "Both instances correctly identified and appropriately labeled"
+          ],
+          "paper_location": [
+            "methods",
+            "results"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks",
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7",
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "18": [
+        {
+          "entity": "motion context",
+          "label": "EXPERIMENTAL_CONDITION",
+          "ontology_id": "ERO:0000006",
+          "ontology_label": "behavioral task",
+          "sentence": [
+            "In the color context, the choice should be made according to the color, ignoring the motion stimulus, and vice versa in the motion context.",
+            "Further, the color context node has inhibitory connections to the sensory nodes representing motion, and the motion context node has inhibitory connections to sensory nodes representing color."
+          ],
+          "start": [
+            108,
+            54
+          ],
+          "end": [
+            122,
+            68
+          ],
+          "judge_score": [
+            1.0,
+            1.0
+          ],
+          "remarks": [
+            "One of the two experimental conditions in the context-dependent task",
+            "Refers to trials where decisions should be based on motion stimuli",
+            "Aligned to ERO:0000006 (behavioral task) as a specific condition within the task paradigm",
+            "Both instances correctly identified and appropriately labeled"
+          ],
+          "paper_location": [
+            "methods",
+            "results"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks",
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7",
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "19": [
+        {
+          "entity": "ReLU",
+          "label": "MATHEMATICAL_FUNCTION",
+          "ontology_id": "OMICS:0001923",
+          "ontology_label": "activation function",
+          "sentence": [
+            "The latent variables x are constrained to be nodes in a neural circuit with dynamics \u1e8b=\u2212x+f(wrecx+winu), where f is a rectified linear (ReLU) activation function."
+          ],
+          "start": [
+            151
+          ],
+          "end": [
+            155
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Rectified Linear Unit activation function used in the neural network model",
+            "Mathematical function important for the computational models",
+            "Aligned to OMICS:0001923 (activation function) as the appropriate functional category",
+            "Correctly identified with appropriate ontology alignment"
+          ],
+          "paper_location": [
+            "results"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "20": [
+        {
+          "entity": "rectified linear",
+          "label": "MATHEMATICAL_FUNCTION",
+          "ontology_id": "OMICS:0001923",
+          "ontology_label": "activation function",
+          "sentence": [
+            "The latent variables x are constrained to be nodes in a neural circuit with dynamics \u1e8b=\u2212x+f(wrecx+winu), where f is a rectified linear (ReLU) activation function."
+          ],
+          "start": [
+            134
+          ],
+          "end": [
+            149
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Full name of ReLU activation function used in neural networks",
+            "Same ontology ID as ReLU (OMICS:0001923)",
+            "Correctly identified with appropriate ontology alignment"
+          ],
+          "paper_location": [
+            "results"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "21": [
+        {
+          "entity": "Softplus",
+          "label": "MATHEMATICAL_FUNCTION",
+          "ontology_id": "OMICS:0001923",
+          "ontology_label": "activation function",
+          "sentence": [
+            "To test whether our results extend to networks with a different biologically plausible nonlinearity, we trained RNNs that had a Softplus activation function f(x)=g\u03b2log(1+e\u03b2x) for a range of parameter \u03b2 and also with varying gain g across units."
+          ],
+          "start": [
+            117
+          ],
+          "end": [
+            125
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Alternative activation function tested in the neural networks",
+            "A smoother approximation of the ReLU function",
+            "Aligned to OMICS:0001923 (activation function) like other activation functions",
+            "Correctly identified with appropriate ontology alignment"
+          ],
+          "paper_location": [
+            "methods"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "22": [
+        {
+          "entity": "orthonormal embedding matrix",
+          "label": "MATHEMATICAL_ENTITY",
+          "ontology_id": "OMICS:0000132",
+          "ontology_label": "matrix",
+          "sentence": [
+            "Similar to other dimensionality reduction methods, we model high-dimensional neural responses y\u2208\u211dN (N is the number of neurons) during a cognitive task using low-dimensional latent variables x\u2208\u211dn as y=Qx,(1) where Q\u2208\u211dN\u00d7n is an orthonormal embedding matrix and n \u226a N."
+          ],
+          "start": [
+            208
+          ],
+          "end": [
+            233
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Mathematical construct used in the latent circuit model",
+            "Key component of the dimensionality reduction approach",
+            "Aligned to OMICS:0000132 (matrix) as the general mathematical category",
+            "Correctly identified with appropriate ontology alignment"
+          ],
+          "paper_location": [
+            "results"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "23": [
+        {
+          "entity": "monkey A",
+          "label": "EXPERIMENTAL_SUBJECT",
+          "ontology_id": "NCBITaxon:9544",
+          "ontology_label": "Macaca mulatta",
+          "sentence": [
+            "The dataset consists of several hundred PFC neurons (n = 727 and 574 for monkeys A and F, respectively) recorded from two rhesus monkeys performing a context-dependent decision-making task.",
+            "The latent circuit model provided good fits of PFC responses projected onto the low-dimensional subspace spanned by the columns of the inferred embedding matrix Q for both monkeys (r2 = 0.88 and 0.76 on test data for monkeys A and F, respectively)."
+          ],
+          "start": [
+            85,
+            220
+          ],
+          "end": [
+            93,
+            228
+          ],
+          "judge_score": [
+            1.0,
+            1.0
+          ],
+          "remarks": [
+            "Identifier for one of the two rhesus monkeys used in the experiments",
+            "Aligned to NCBITaxon:9544 (Macaca mulatta) based on species identification in the text",
+            "Both instances correctly identified with appropriate taxonomic alignment"
+          ],
+          "paper_location": [
+            "results",
+            "results"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks",
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7",
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "24": [
+        {
+          "entity": "monkey F",
+          "label": "EXPERIMENTAL_SUBJECT",
+          "ontology_id": "NCBITaxon:9544",
+          "ontology_label": "Macaca mulatta",
+          "sentence": [
+            "The dataset consists of several hundred PFC neurons (n = 727 and 574 for monkeys A and F, respectively) recorded from two rhesus monkeys performing a context-dependent decision-making task.",
+            "The latent circuit model provided good fits of PFC responses projected onto the low-dimensional subspace spanned by the columns of the inferred embedding matrix Q for both monkeys (r2 = 0.88 and 0.76 on test data for monkeys A and F, respectively)."
+          ],
+          "start": [
+            98,
+            233
+          ],
+          "end": [
+            106,
+            241
+          ],
+          "judge_score": [
+            1.0,
+            1.0
+          ],
+          "remarks": [
+            "Identifier for one of the two rhesus monkeys used in the experiments",
+            "Aligned to NCBITaxon:9544 (Macaca mulatta) based on species identification in the text",
+            "Both instances correctly identified with appropriate taxonomic alignment"
+          ],
+          "paper_location": [
+            "results",
+            "results"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks",
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7",
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "25": [
+        {
+          "entity": "Dale's law",
+          "label": "BIOLOGICAL_PRINCIPLE",
+          "ontology_id": "GO:0007268",
+          "ontology_label": "chemical synaptic transmission",
+          "sentence": [
+            "The recurrent matrix is constrained to satisfy Dale's law with 80% excitatory units and 20% inhibitory units."
+          ],
+          "start": [
+            49
+          ],
+          "end": [
+            59
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Neuroscience principle stating that neurons release the same neurotransmitters at all their synapses",
+            "Applied as a constraint in the neural network models",
+            "Aligned to GO:0007268 as it relates to principles of synaptic transmission",
+            "Correctly identified with appropriate ontology alignment"
+          ],
+          "paper_location": [
+            "methods"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "26": [
+        {
+          "entity": "psychometric function",
+          "label": "ANALYSIS_METHOD",
+          "ontology_id": "STATO:0000464",
+          "ontology_label": "statistical method",
+          "sentence": [
+            "To assess performance, a choice for the RNN was defined as the sign of the difference between output units at the end of the trial. Psychometric functions were then computed as the percentage of choices to the right for each combination of context, motion coherence and color coherence."
+          ],
+          "start": [
+            97
+          ],
+          "end": [
+            118
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Statistical function relating stimulus properties to performance",
+            "Used to evaluate model behavior",
+            "Aligned to STATO:0000464 as an appropriate statistical method category",
+            "Correctly identified with appropriate ontology alignment"
+          ],
+          "paper_location": [
+            "methods"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "27": [
+        {
+          "entity": "context-dependent selection mechanism",
+          "label": "NEURAL_MECHANISM",
+          "ontology_id": "GO:0050794",
+          "ontology_label": "regulation of cellular process",
+          "sentence": [
+            "Context-dependent selection arises because in each context, the relevant sensory input (IRel) aligns with the selection vector and the irrelevant sensory input (IIrrel) does not."
+          ],
+          "start": [
+            0
+          ],
+          "end": [
+            35
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Neural mechanism described in terms of vector alignments",
+            "Describes how context influences sensory processing",
+            "Aligned to GO:0050794 as the most appropriate general biological process term",
+            "Correctly identified with appropriate ontology alignment, though the term in the text is 'Context-dependent selection' rather than the full 'context-dependent selection mechanism'"
+          ],
+          "paper_location": [
+            "results"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "28": [
+        {
+          "entity": "selection vector mechanism",
+          "label": "NEURAL_MECHANISM",
+          "ontology_id": "GO:0050794",
+          "ontology_label": "regulation of cellular process",
+          "sentence": [
+            "The inhibitory suppression mechanism that we consistently found across RNNs may seem distinct from a dynamical selection vector mechanism previously identified in RNNs trained on a similar task, which apparently does not require suppression of irrelevant sensory responses.",
+            "We analyzed dynamics in our RNNs and found the same selection vector mechanism, indicating that the dynamical selection vector mechanism is a local linear description of the inhibitory circuit mechanism."
+          ],
+          "start": [
+            110,
+            57
+          ],
+          "end": [
+            137,
+            84
+          ],
+          "judge_score": [
+            1.0,
+            1.0
+          ],
+          "remarks": [
+            "Previously identified neural mechanism in RNNs",
+            "Found to be compatible with the inhibitory suppression mechanism",
+            "Aligned to GO:0050794 as the most appropriate general biological process term",
+            "Both instances correctly identified with appropriate ontology alignment"
+          ],
+          "paper_location": [
+            "results",
+            "results"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks",
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7",
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "29": [
+        {
+          "entity": "dynamical selection vector mechanism",
+          "label": "NEURAL_MECHANISM",
+          "ontology_id": "GO:0050794",
+          "ontology_label": "regulation of cellular process",
+          "sentence": [
+            "We analyzed dynamics in our RNNs and found the same selection vector mechanism, indicating that the dynamical selection vector mechanism is a local linear description of the inhibitory circuit mechanism."
+          ],
+          "start": [
+            92
+          ],
+          "end": [
+            128
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Full name of the selection vector mechanism",
+            "Described as a local linear description of the inhibitory circuit mechanism",
+            "Aligned to GO:0050794 as the most appropriate general biological process term",
+            "Correctly identified with appropriate ontology alignment"
+          ],
+          "paper_location": [
+            "results"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ],
+      "30": [
+        {
+          "entity": "incongruent trials",
+          "label": "EXPERIMENTAL_CONDITION",
+          "ontology_id": "ERO:0000006",
+          "ontology_label": "behavioral task",
+          "sentence": [
+            "We tested this prediction on incongruent trials on which the relevant and irrelevant stimuli point to opposite choices (Methods) because the errors on incongruent trials are more likely to result from a failure of the contextual mechanism than other factors (for example, attention lapse)."
+          ],
+          "start": [
+            29,
+            109
+          ],
+          "end": [
+            47,
+            127
+          ],
+          "judge_score": [
+            1.0,
+            1.0
+          ],
+          "remarks": [
+            "Trial condition where relevant and irrelevant stimuli suggest different choices",
+            "Important condition for testing the contextual mechanism",
+            "Aligned to ERO:0000006 (behavioral task) as a specific condition within the task paradigm",
+            "Both instances correctly identified with appropriate ontology alignment"
+          ],
+          "paper_location": [
+            "results"
+          ],
+          "paper_title": [
+            "Latent circuit inference from heterogeneous neural responses during cognitive tasks"
+          ],
+          "doi": [
+            "10.1038/s41593-025-01869-7"
+          ]
+        }
+      ]
+    }
+  }
+}

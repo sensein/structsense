@@ -1,0 +1,68 @@
+Group,Model,Label,Count,Percentage
+with_hil,GPT-4o-mini,AUTHOR,2,22.2%
+with_hil,GPT-4o-mini,ANATOMICAL_REGION,2,22.2%
+with_hil,GPT-4o-mini,JOURNAL,1,11.1%
+with_hil,GPT-4o-mini,EXPERIMENTAL_CONDITION,1,11.1%
+with_hil,GPT-4o-mini,ANIMAL_SPECIES,1,11.1%
+with_hil,GPT-4o-mini,MODEL,1,11.1%
+with_hil,GPT-4o-mini,VARIABLES,1,11.1%
+with_hil,DeepSeek V3 0324,AUTHOR,2,13.3%
+with_hil,DeepSeek V3 0324,INSTITUTION,2,13.3%
+with_hil,DeepSeek V3 0324,METHOD,2,13.3%
+with_hil,DeepSeek V3 0324,CELL_TYPE,2,13.3%
+with_hil,DeepSeek V3 0324,JOURNAL,1,6.7%
+with_hil,DeepSeek V3 0324,ANATOMICAL_REGION_ABBREVIATION,1,6.7%
+with_hil,DeepSeek V3 0324,COMPUTATIONAL_MODEL,1,6.7%
+with_hil,DeepSeek V3 0324,COGNITIVE_TASK,1,6.7%
+with_hil,DeepSeek V3 0324,COGNITIVE_PROCESS,1,6.7%
+with_hil,DeepSeek V3 0324,ANATOMICAL_REGION,1,6.7%
+with_hil,DeepSeek V3 0324,ANIMAL_SPECIES,1,6.7%
+with_hil,Claude 3.7 Sonnet,COMPUTATIONAL_COMPONENT,7,14.0%
+with_hil,Claude 3.7 Sonnet,EXPERIMENTAL_CONDITION,5,10.0%
+with_hil,Claude 3.7 Sonnet,MODEL_COMPONENT,4,8.0%
+with_hil,Claude 3.7 Sonnet,ANATOMICAL_REGION,3,6.0%
+with_hil,Claude 3.7 Sonnet,COMPUTATIONAL_MODEL,3,6.0%
+with_hil,Claude 3.7 Sonnet,CELL_TYPE,3,6.0%
+with_hil,Claude 3.7 Sonnet,NEURAL_MECHANISM,3,6.0%
+with_hil,Claude 3.7 Sonnet,ORGANIZATION,2,4.0%
+with_hil,Claude 3.7 Sonnet,CONNECTIVITY_MEASURE,2,4.0%
+with_hil,Claude 3.7 Sonnet,STATISTICAL_METHOD,2,4.0%
+with_hil,Claude 3.7 Sonnet,STIMULUS_PROPERTY,2,4.0%
+with_hil,Claude 3.7 Sonnet,STIMULUS_TYPE,2,4.0%
+with_hil,Claude 3.7 Sonnet,ANIMAL_SPECIES,2,4.0%
+with_hil,Claude 3.7 Sonnet,EXPERIMENTAL_SUBJECT,2,4.0%
+with_hil,Claude 3.7 Sonnet,COMPUTATIONAL_METHOD,2,4.0%
+with_hil,Claude 3.7 Sonnet,NEURAL_ACTIVITY_MEASURE,1,2.0%
+with_hil,Claude 3.7 Sonnet,COGNITIVE_PROCESS,1,2.0%
+with_hil,Claude 3.7 Sonnet,ANATOMICAL_STRUCTURE,1,2.0%
+with_hil,Claude 3.7 Sonnet,EXPERIMENTAL_PARADIGM,1,2.0%
+with_hil,Claude 3.7 Sonnet,BIOLOGICAL_CONSTRAINT,1,2.0%
+with_hil,Claude 3.7 Sonnet,ANALYSIS_METHOD,1,2.0%
+without_hil,DeepSeek V3 0324,COMPUTATIONAL_TOOL,2,20.0%
+without_hil,DeepSeek V3 0324,COMPUTATIONAL_MODEL,2,20.0%
+without_hil,DeepSeek V3 0324,CELL_TYPE,2,20.0%
+without_hil,DeepSeek V3 0324,ACTIVATION_FUNCTION,1,10.0%
+without_hil,DeepSeek V3 0324,EXPERIMENTAL_PARADIGM,1,10.0%
+without_hil,DeepSeek V3 0324,ANATOMICAL_REGION,1,10.0%
+without_hil,DeepSeek V3 0324,ANIMAL_SPECIES,1,10.0%
+without_hil,Claude 3.7 Sonnet,NEURAL_MECHANISM,5,16.7%
+without_hil,Claude 3.7 Sonnet,EXPERIMENTAL_CONDITION,4,13.3%
+without_hil,Claude 3.7 Sonnet,ANATOMICAL_REGION,3,10.0%
+without_hil,Claude 3.7 Sonnet,MODEL_TYPE,3,10.0%
+without_hil,Claude 3.7 Sonnet,MATHEMATICAL_FUNCTION,3,10.0%
+without_hil,Claude 3.7 Sonnet,CELL_TYPE,3,10.0%
+without_hil,Claude 3.7 Sonnet,ANALYSIS_METHOD,2,6.7%
+without_hil,Claude 3.7 Sonnet,EXPERIMENTAL_SUBJECT,2,6.7%
+without_hil,Claude 3.7 Sonnet,ANIMAL_SPECIES,2,6.7%
+without_hil,Claude 3.7 Sonnet,BIOLOGICAL_PRINCIPLE,1,3.3%
+without_hil,Claude 3.7 Sonnet,NEURAL_CIRCUIT,1,3.3%
+without_hil,Claude 3.7 Sonnet,MATHEMATICAL_ENTITY,1,3.3%
+without_hil,GPT-4o-mini,AUTHOR,2,18.2%
+without_hil,GPT-4o-mini,ANATOMICAL_REGION,2,18.2%
+without_hil,GPT-4o-mini,JOURNAL,1,9.1%
+without_hil,GPT-4o-mini,FUNCTIONAL_CONCEPT,1,9.1%
+without_hil,GPT-4o-mini,EXPERIMENTAL_CONDITION,1,9.1%
+without_hil,GPT-4o-mini,MODEL,1,9.1%
+without_hil,GPT-4o-mini,ANIMAL_SPECIES,1,9.1%
+without_hil,GPT-4o-mini,CELL_TYPE,1,9.1%
+without_hil,GPT-4o-mini,DOI,1,9.1%

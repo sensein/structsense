@@ -1,0 +1,820 @@
+{
+  "judged_structured_information": {
+    "1": [
+      {
+        "entity": "brainstem",
+        "label": "ANATOMICAL_REGION",
+        "ontology_id": "UBERON:0000109",
+        "ontology_label": "brainstem",
+        "sentence": [
+          "The brainstem is a fundamental component of the central nervous system, yet it is typically excluded from in vivo human brain mapping efforts."
+        ],
+        "start": [
+          4
+        ],
+        "end": [
+          12
+        ],
+        "judge_score": [
+          1.0
+        ],
+        "remarks": [
+          "Key anatomical structure in the study.",
+          "Mapped to UBERON ontology."
+        ],
+        "paper_location": [
+          "introduction"
+        ],
+        "paper_title": [
+          "s41593-024-01787-0.pdf"
+        ],
+        "doi": [
+          "10.1038/s41593-024-01787-0"
+        ]
+      }
+    ],
+    "2": [
+      {
+        "entity": "cortex",
+        "label": "ANATOMICAL_REGION",
+        "ontology_id": "UBERON:0000017",
+        "ontology_label": "cerebral cortex",
+        "sentence": [
+          "Patterns of connectivity between brainstem and cerebral cortex manifest as neurophysiological oscillatory rhythms."
+        ],
+        "start": [
+          79
+        ],
+        "end": [
+          85
+        ],
+        "judge_score": [
+          1.0
+        ],
+        "remarks": [
+          "Essential region for understanding functional connectivity.",
+          "Mapped to UBERON ontology."
+        ],
+        "paper_location": [
+          "results"
+        ],
+        "paper_title": [
+          "s41593-024-01787-0.pdf"
+        ],
+        "doi": [
+          "10.1038/s41593-024-01787-0"
+        ]
+      }
+    ],
+    "3": [
+      {
+        "entity": "58 brainstem nuclei",
+        "label": "ANATOMICAL_STRUCTURE",
+        "ontology_id": null,
+        "ontology_label": null,
+        "sentence": [
+          "we used high-resolution 7-Tesla functional magnetic resonance imaging to derive a functional connectome encompassing cortex and 58 brainstem nuclei spanning the midbrain, pons and medulla."
+        ],
+        "start": [
+          120
+        ],
+        "end": [
+          139
+        ],
+        "judge_score": [
+          0.85
+        ],
+        "remarks": [
+          "Refers to functional units within the brainstem.",
+          "Highlights the complexity of brainstem connectivity."
+        ],
+        "paper_location": [
+          "introduction"
+        ],
+        "paper_title": [
+          "s41593-024-01787-0.pdf"
+        ],
+        "doi": [
+          "10.1038/s41593-024-01787-0"
+        ]
+      }
+    ],
+    "4": [
+      {
+        "entity": "midbrain",
+        "label": "ANATOMICAL_REGION",
+        "ontology_id": "UBERON:0001360",
+        "ontology_label": "midbrain",
+        "sentence": [
+          "58 brainstem nuclei spanning the midbrain, pons and medulla."
+        ],
+        "start": [
+          64
+        ],
+        "end": [
+          72
+        ],
+        "judge_score": [
+          1.0
+        ],
+        "remarks": [
+          "One of the regions occupied by brainstem nuclei.",
+          "Mapped to UBERON ontology."
+        ],
+        "paper_location": [
+          "introduction"
+        ],
+        "paper_title": [
+          "s41593-024-01787-0.pdf"
+        ],
+        "doi": [
+          "10.1038/s41593-024-01787-0"
+        ]
+      }
+    ],
+    "5": [
+      {
+        "entity": "pons",
+        "label": "ANATOMICAL_REGION",
+        "ontology_id": "UBERON:0001361",
+        "ontology_label": "pons",
+        "sentence": [
+          "58 brainstem nuclei spanning the midbrain, pons and medulla."
+        ],
+        "start": [
+          74
+        ],
+        "end": [
+          78
+        ],
+        "judge_score": [
+          1.0
+        ],
+        "remarks": [
+          "Another key structure in the brainstem.",
+          "Mapped to UBERON ontology."
+        ],
+        "paper_location": [
+          "introduction"
+        ],
+        "paper_title": [
+          "s41593-024-01787-0.pdf"
+        ],
+        "doi": [
+          "10.1038/s41593-024-01787-0"
+        ]
+      }
+    ],
+    "6": [
+      {
+        "entity": "medulla",
+        "label": "ANATOMICAL_REGION",
+        "ontology_id": "UBERON:0001363",
+        "ontology_label": "medulla oblongata",
+        "sentence": [
+          "58 brainstem nuclei spanning the midbrain, pons and medulla."
+        ],
+        "start": [
+          80
+        ],
+        "end": [
+          87
+        ],
+        "judge_score": [
+          1.0
+        ],
+        "remarks": [
+          "Last region of the brainstem mentioned.",
+          "Mapped to UBERON ontology."
+        ],
+        "paper_location": [
+          "introduction"
+        ],
+        "paper_title": [
+          "s41593-024-01787-0.pdf"
+        ],
+        "doi": [
+          "10.1038/s41593-024-01787-0"
+        ]
+      }
+    ],
+    "7": [
+      {
+        "entity": "neurophysiological oscillatory rhythms",
+        "label": "PHYSIOLOGICAL_PHENOMENON",
+        "ontology_id": null,
+        "ontology_label": null,
+        "sentence": [
+          "Patterns of connectivity between brainstem and cerebral cortex manifest as neurophysiological oscillatory rhythms."
+        ],
+        "start": [
+          92
+        ],
+        "end": [
+          131
+        ],
+        "judge_score": [
+          0.9
+        ],
+        "remarks": [
+          "Describes key functional aspect of brain connectivity.",
+          "No ontological mapping available."
+        ],
+        "paper_location": [
+          "results"
+        ],
+        "paper_title": [
+          "s41593-024-01787-0.pdf"
+        ],
+        "doi": [
+          "10.1038/s41593-024-01787-0"
+        ]
+      }
+    ],
+    "8": [
+      {
+        "entity": "7-Tesla functional magnetic resonance imaging",
+        "label": "IMAGING_TECHNIQUE",
+        "ontology_id": null,
+        "ontology_label": null,
+        "sentence": [
+          "In this study, we used high-resolution 7-Tesla functional magnetic resonance imaging to derive a functional connectome."
+        ],
+        "start": [
+          35
+        ],
+        "end": [
+          82
+        ],
+        "judge_score": [
+          0.8
+        ],
+        "remarks": [
+          "Specific imaging technique used in the study.",
+          "No ontological mapping available."
+        ],
+        "paper_location": [
+          "methods"
+        ],
+        "paper_title": [
+          "s41593-024-01787-0.pdf"
+        ],
+        "doi": [
+          "10.1038/s41593-024-01787-0"
+        ]
+      }
+    ],
+    "9": [
+      {
+        "entity": "3-Tesla data",
+        "label": "IMAGING_TECHNIQUE",
+        "ontology_id": null,
+        "ontology_label": null,
+        "sentence": [
+          "We replicated all findings using 3-Tesla data from the same participants."
+        ],
+        "start": [
+          57
+        ],
+        "end": [
+          69
+        ],
+        "judge_score": [
+          0.8
+        ],
+        "remarks": [
+          "Mention of an alternative imaging technique.",
+          "No ontological mapping available."
+        ],
+        "paper_location": [
+          "results"
+        ],
+        "paper_title": [
+          "s41593-024-01787-0.pdf"
+        ],
+        "doi": [
+          "10.1038/s41593-024-01787-0"
+        ]
+      }
+    ],
+    "10": [
+      {
+        "entity": "neurotransmitter receptors",
+        "label": "MOLECULE",
+        "ontology_id": null,
+        "ontology_label": null,
+        "sentence": [
+          "This persistent alignment between cortical functional topographies and brainstem nuclei is shaped by the spatial arrangement of multiple neurotransmitter receptors and transporters."
+        ],
+        "start": [
+          88
+        ],
+        "end": [
+          116
+        ],
+        "judge_score": [
+          0.75
+        ],
+        "remarks": [
+          "Important aspect in understanding synaptic function.",
+          "No ontological mapping available."
+        ],
+        "paper_location": [
+          "results"
+        ],
+        "paper_title": [
+          "s41593-024-01787-0.pdf"
+        ],
+        "doi": [
+          "10.1038/s41593-024-01787-0"
+        ]
+      }
+    ],
+    "11": [
+      {
+        "entity": "transporters",
+        "label": "MOLECULE",
+        "ontology_id": null,
+        "ontology_label": null,
+        "sentence": [
+          "This persistent alignment between cortical functional topographies and brainstem nuclei is shaped by the spatial arrangement of multiple neurotransmitter receptors and transporters."
+        ],
+        "start": [
+          126
+        ],
+        "end": [
+          136
+        ],
+        "judge_score": [
+          0.75
+        ],
+        "remarks": [
+          "Refers to proteins that manage neurotransmitter levels.",
+          "No ontological mapping available."
+        ],
+        "paper_location": [
+          "results"
+        ],
+        "paper_title": [
+          "s41593-024-01787-0.pdf"
+        ],
+        "doi": [
+          "10.1038/s41593-024-01787-0"
+        ]
+      }
+    ],
+    "12": [
+      {
+        "entity": "serotonin receptors",
+        "label": "MOLECULE",
+        "ontology_id": null,
+        "ontology_label": null,
+        "sentence": [
+          "We validated the brainstem atlas by parcellating PET images of neurotransmitter receptor densities to the brainstem and confirmed that receptors show high density in their associated brainstem nuclei."
+        ],
+        "start": [
+          36
+        ],
+        "end": [
+          60
+        ],
+        "judge_score": [
+          0.85
+        ],
+        "remarks": [
+          "Mention of a specific type of neurotransmitter receptor.",
+          "No ontological mapping available."
+        ],
+        "paper_location": [
+          "methods"
+        ],
+        "paper_title": [
+          "s41593-024-01787-0.pdf"
+        ],
+        "doi": [
+          "10.1038/s41593-024-01787-0"
+        ]
+      }
+    ],
+    "13": [
+      {
+        "entity": "dopamine receptor",
+        "label": "MOLECULE",
+        "ontology_id": null,
+        "ontology_label": null,
+        "sentence": [
+          "We validated the brainstem atlas by parcellating PET images of neurotransmitter receptor densities to the brainstem and confirmed that receptors show high density in their associated brainstem nuclei."
+        ],
+        "start": [
+          62
+        ],
+        "end": [
+          79
+        ],
+        "judge_score": [
+          0.85
+        ],
+        "remarks": [
+          "A specific neurotransmitter receptor type involved in the study.",
+          "No ontological mapping available."
+        ],
+        "paper_location": [
+          "methods"
+        ],
+        "paper_title": [
+          "s41593-024-01787-0.pdf"
+        ],
+        "doi": [
+          "10.1038/s41593-024-01787-0"
+        ]
+      }
+    ],
+    "14": [
+      {
+        "entity": "noradrenergic norepinephrine transporter",
+        "label": "MOLECULE",
+        "ontology_id": null,
+        "ontology_label": null,
+        "sentence": [
+          "We replicated all findings using 3-Tesla data from the same participants."
+        ],
+        "start": [
+          64
+        ],
+        "end": [
+          95
+        ],
+        "judge_score": [
+          0.75
+        ],
+        "remarks": [
+          "Specific transporter associated with norepinephrine signaling.",
+          "No ontological mapping available."
+        ],
+        "paper_location": [
+          "results"
+        ],
+        "paper_title": [
+          "s41593-024-01787-0.pdf"
+        ],
+        "doi": [
+          "10.1038/s41593-024-01787-0"
+        ]
+      }
+    ],
+    "15": [
+      {
+        "entity": "Humans",
+        "label": "SPECIES",
+        "ontology_id": "NCBITaxon:9606",
+        "ontology_label": "Homo sapiens",
+        "sentence": [
+          "Studying the functional architecture of the brain in awake humans is possible with multiple imaging technologies."
+        ],
+        "start": [
+          26
+        ],
+        "end": [
+          32
+        ],
+        "judge_score": [
+          1.0
+        ],
+        "remarks": [
+          "Species involved in the study.",
+          "Mapped to NCBI taxonomy."
+        ],
+        "paper_location": [
+          "introduction"
+        ],
+        "paper_title": [
+          "s41593-024-01787-0.pdf"
+        ],
+        "doi": [
+          "10.1038/s41593-024-01787-0"
+        ]
+      }
+    ],
+    "16": [
+      {
+        "entity": "Human Connectome Project",
+        "label": "PROJECT",
+        "ontology_id": null,
+        "ontology_label": null,
+        "sentence": [
+          "Cortical FC shows a familiar network organization and is correlated with FC data from the Human Connectome Project (HCP)."
+        ],
+        "start": [
+          118
+        ],
+        "end": [
+          144
+        ],
+        "judge_score": [
+          0.85
+        ],
+        "remarks": [
+          "Major research initiative related to human brain mapping.",
+          "No ontological mapping available."
+        ],
+        "paper_location": [
+          "results"
+        ],
+        "paper_title": [
+          "s41593-024-01787-0.pdf"
+        ],
+        "doi": [
+          "10.1038/s41593-024-01787-0"
+        ]
+      }
+    ],
+    "17": [
+      {
+        "entity": "Locus coeruleus",
+        "label": "ANATOMICAL_REGION",
+        "ontology_id": "UBERON:0000527",
+        "ontology_label": "locus coeruleus",
+        "sentence": [
+          "Surprisingly, the locus coeruleus is not identified as a hub, despite its known widespread projections throughout the cortex."
+        ],
+        "start": [
+          119
+        ],
+        "end": [
+          137
+        ],
+        "judge_score": [
+          1.0
+        ],
+        "remarks": [
+          "A specific area in the brainstem associated with various functions.",
+          "Mapped to UBERON ontology."
+        ],
+        "paper_location": [
+          "discussion"
+        ],
+        "paper_title": [
+          "s41593-024-01787-0.pdf"
+        ],
+        "doi": [
+          "10.1038/s41593-024-01787-0"
+        ]
+      }
+    ],
+    "18": [
+      {
+        "entity": "inferior olivary nucleus",
+        "label": "ANATOMICAL_REGION",
+        "ontology_id": "UBERON:0000569",
+        "ontology_label": "inferior olivary nucleus",
+        "sentence": [
+          "Brainstem hubs in the medulla include the inferior olivary nucleus and inferior medullary reticular formation."
+        ],
+        "start": [
+          104
+        ],
+        "end": [
+          129
+        ],
+        "judge_score": [
+          1.0
+        ],
+        "remarks": [
+          "Important hub in brainstem discussed in the study.",
+          "Mapped to UBERON ontology."
+        ],
+        "paper_location": [
+          "results"
+        ],
+        "paper_title": [
+          "s41593-024-01787-0.pdf"
+        ],
+        "doi": [
+          "10.1038/s41593-024-01787-0"
+        ]
+      }
+    ],
+    "19": [
+      {
+        "entity": "dorsal raphe",
+        "label": "ANATOMICAL_REGION",
+        "ontology_id": "UBERON:0000570",
+        "ontology_label": "dorsal raphe nucleus",
+        "sentence": [
+          "Brainstem-to-cortex hubs include the dorsal raphe."
+        ],
+        "start": [
+          77
+        ],
+        "end": [
+          94
+        ],
+        "judge_score": [
+          1.0
+        ],
+        "remarks": [
+          "Key region connected to various cognitive functions.",
+          "Mapped to UBERON ontology."
+        ],
+        "paper_location": [
+          "results"
+        ],
+        "paper_title": [
+          "s41593-024-01787-0.pdf"
+        ],
+        "doi": [
+          "10.1038/s41593-024-01787-0"
+        ]
+      }
+    ],
+    "20": [
+      {
+        "entity": "ventral tegmental area",
+        "label": "ANATOMICAL_REGION",
+        "ontology_id": "UBERON:0000568",
+        "ontology_label": "ventral tegmental area",
+        "sentence": [
+          "Brainstem hubs in the pons include the ventral tegmental area."
+        ],
+        "start": [
+          86
+        ],
+        "end": [
+          107
+        ],
+        "judge_score": [
+          1.0
+        ],
+        "remarks": [
+          "Region of interest in dopamine signaling.",
+          "Mapped to UBERON ontology."
+        ],
+        "paper_location": [
+          "results"
+        ],
+        "paper_title": [
+          "s41593-024-01787-0.pdf"
+        ],
+        "doi": [
+          "10.1038/s41593-024-01787-0"
+        ]
+      }
+    ],
+    "21": [
+      {
+        "entity": "insular cortex",
+        "label": "ANATOMICAL_REGION",
+        "ontology_id": "UBERON:0000464",
+        "ontology_label": "insula",
+        "sentence": [
+          "We found that the insular regions with greatest brainstem FC are the ventral anterior insular cortex."
+        ],
+        "start": [
+          215
+        ],
+        "end": [
+          243
+        ],
+        "judge_score": [
+          1.0
+        ],
+        "remarks": [
+          "Notable brain region discussed in relation to brainstem connectivity.",
+          "Mapped to UBERON ontology."
+        ],
+        "paper_location": [
+          "results"
+        ],
+        "paper_title": [
+          "s41593-024-01787-0.pdf"
+        ],
+        "doi": [
+          "10.1038/s41593-024-01787-0"
+        ]
+      }
+    ],
+    "22": [
+      {
+        "entity": "anterior cingulate cortex",
+        "label": "ANATOMICAL_REGION",
+        "ontology_id": "UBERON:0000283",
+        "ontology_label": "anterior cingulate cortex",
+        "sentence": [
+          "we found that the anterior insula and anterior cingulate cortex demonstrate the greatest cortex-to-brainstem FC."
+        ],
+        "start": [
+          130
+        ],
+        "end": [
+          159
+        ],
+        "judge_score": [
+          1.0
+        ],
+        "remarks": [
+          "Higher-order brain region related to emotion and cognition.",
+          "Mapped to UBERON ontology."
+        ],
+        "paper_location": [
+          "results"
+        ],
+        "paper_title": [
+          "s41593-024-01787-0.pdf"
+        ],
+        "doi": [
+          "10.1038/s41593-024-01787-0"
+        ]
+      }
+    ],
+    "23": [
+      {
+        "entity": "spinal cord",
+        "label": "ANATOMICAL_REGION",
+        "ontology_id": "UBERON:0002104",
+        "ontology_label": "spinal cord",
+        "sentence": [
+          "including cortex, subcortex and spinal cord"
+        ],
+        "start": [
+          134
+        ],
+        "end": [
+          145
+        ],
+        "judge_score": [
+          1.0
+        ],
+        "remarks": [
+          "A critical structure in the central nervous system for transmitting signals.",
+          "Mapped to UBERON ontology."
+        ],
+        "paper_location": [
+          "results"
+        ],
+        "paper_title": [
+          "s41593-024-01787-0.pdf"
+        ],
+        "doi": [
+          "10.1038/s41593-024-01787-0"
+        ]
+      }
+    ],
+    "24": [
+      {
+        "entity": "subcortex",
+        "label": "ANATOMICAL_REGION",
+        "ontology_id": "UBERON:0000458",
+        "ontology_label": "subcortex",
+        "sentence": [
+          "including cortex, subcortex and spinal cord"
+        ],
+        "start": [
+          148
+        ],
+        "end": [
+          155
+        ],
+        "judge_score": [
+          1.0
+        ],
+        "remarks": [
+          "Refers to regions beneath the cortex involved in various functions.",
+          "Mapped to UBERON ontology."
+        ],
+        "paper_location": [
+          "results"
+        ],
+        "paper_title": [
+          "s41593-024-01787-0.pdf"
+        ],
+        "doi": [
+          "10.1038/s41593-024-01787-0"
+        ]
+      }
+    ],
+    "25": [
+      {
+        "entity": "emotional stimuli",
+        "label": "STIMULUS_TYPE",
+        "ontology_id": null,
+        "ontology_label": null,
+        "sentence": [
+          "The connections are likely involved in autonomic responses to emotional stimuli."
+        ],
+        "start": [
+          114
+        ],
+        "end": [
+          136
+        ],
+        "judge_score": [
+          0.8
+        ],
+        "remarks": [],
+        "paper_location": [],
+        "paper_title": [],
+        "doi": []
+      }
+    ]
+  }
+}

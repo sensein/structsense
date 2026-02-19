@@ -1,0 +1,27 @@
+Group,Model,Location,Count,Percentage
+with_hil,GPT-4o-mini,introduction,4,44.4%
+with_hil,GPT-4o-mini,results,2,22.2%
+with_hil,GPT-4o-mini,other,1,11.1%
+with_hil,GPT-4o-mini,discussion,1,11.1%
+with_hil,GPT-4o-mini,methods,1,11.1%
+with_hil,DeepSeek V3 0324,other,14,93.3%
+with_hil,DeepSeek V3 0324,methods,1,6.7%
+with_hil,Claude 3.7 Sonnet,results,51,53.7%
+with_hil,Claude 3.7 Sonnet,methods,16,16.8%
+with_hil,Claude 3.7 Sonnet,introduction,12,12.6%
+with_hil,Claude 3.7 Sonnet,abstract,8,8.4%
+with_hil,Claude 3.7 Sonnet,discussion,6,6.3%
+with_hil,Claude 3.7 Sonnet,other,2,2.1%
+without_hil,DeepSeek V3 0324,methods,6,37.5%
+without_hil,DeepSeek V3 0324,introduction,4,25.0%
+without_hil,DeepSeek V3 0324,results,3,18.8%
+without_hil,DeepSeek V3 0324,abstract,3,18.8%
+without_hil,Claude 3.7 Sonnet,results,25,48.1%
+without_hil,Claude 3.7 Sonnet,introduction,10,19.2%
+without_hil,Claude 3.7 Sonnet,abstract,8,15.4%
+without_hil,Claude 3.7 Sonnet,methods,8,15.4%
+without_hil,Claude 3.7 Sonnet,discussion,1,1.9%
+without_hil,GPT-4o-mini,introduction,7,63.6%
+without_hil,GPT-4o-mini,results,2,18.2%
+without_hil,GPT-4o-mini,methods,1,9.1%
+without_hil,GPT-4o-mini,discussion,1,9.1%

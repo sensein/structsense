@@ -1,0 +1,4 @@
+Model,Count,Mean,Median,Std,Min,Max,Q25,Q75,High_Confidence,Low_Confidence
+GPT-4o-mini,9,0.978,1.0,0.063,0.8,1.0,1.0,1.0,100.0,0.0
+Claude 3.7 Sonnet,95,0.857,0.8,0.101,0.7,1.0,0.8,0.9,85.263,0.0
+DeepSeek V3 0324,15,0.967,1.0,0.047,0.9,1.0,0.9,1.0,100.0,0.0

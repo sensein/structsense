@@ -1,0 +1,1184 @@
+{
+  "judge_ner_terms": {
+    "judge_ner_terms": {
+      "1": [
+        {
+          "entity": "Justine Y. Hansen",
+          "label": "AUTHOR",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "Justine Y. Hansen"
+          ],
+          "start": [
+            0
+          ],
+          "end": [
+            17
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "First author of the paper",
+            "No ontological mapping available"
+          ],
+          "paper_location": [
+            "byline"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "2": [
+        {
+          "entity": "Simone Cauzzo",
+          "label": "AUTHOR",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "Simone Cauzzo"
+          ],
+          "start": [
+            19
+          ],
+          "end": [
+            34
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Co-author of the paper",
+            "No ontological mapping available"
+          ],
+          "paper_location": [
+            "byline"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "3": [
+        {
+          "entity": "Kavita Singh",
+          "label": "AUTHOR",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "Kavita Singh"
+          ],
+          "start": [
+            36
+          ],
+          "end": [
+            49
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Co-author of the paper",
+            "No ontological mapping available"
+          ],
+          "paper_location": [
+            "byline"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "4": [
+        {
+          "entity": "Mar\u00eda Guadalupe Garc\u00eda-Gomar",
+          "label": "AUTHOR",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "Mar\u00eda Guadalupe Garc\u00eda-Gomar"
+          ],
+          "start": [
+            51
+          ],
+          "end": [
+            80
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Co-author of the paper",
+            "No ontological mapping available"
+          ],
+          "paper_location": [
+            "byline"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "5": [
+        {
+          "entity": "James M. Shine",
+          "label": "AUTHOR",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "James M. Shine"
+          ],
+          "start": [
+            82
+          ],
+          "end": [
+            95
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Co-author of the paper",
+            "No ontological mapping available"
+          ],
+          "paper_location": [
+            "byline"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "6": [
+        {
+          "entity": "Marta Bianciardi",
+          "label": "AUTHOR",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "Marta Bianciardi"
+          ],
+          "start": [
+            97
+          ],
+          "end": [
+            113
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Co-author of the paper",
+            "No ontological mapping available"
+          ],
+          "paper_location": [
+            "byline"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "7": [
+        {
+          "entity": "Bratislav Mi\u0161i\u0107",
+          "label": "AUTHOR",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "Bratislav Mi\u0161i\u0107"
+          ],
+          "start": [
+            115
+          ],
+          "end": [
+            133
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Co-author of the paper",
+            "No ontological mapping available"
+          ],
+          "paper_location": [
+            "byline"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "8": [
+        {
+          "entity": "brainstem",
+          "label": "ANATOMICAL_REGION",
+          "ontology_id": "UBERON:0000955",
+          "ontology_label": "brainstem",
+          "sentence": [
+            "The brainstem is a fundamental component of the central nervous system, yet it is typically excluded from in vivo human brain mapping efforts."
+          ],
+          "start": [
+            4
+          ],
+          "end": [
+            57
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Key anatomical region discussed in the study",
+            "Alignment made using local knowledge source"
+          ],
+          "paper_location": [
+            "introduction"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "9": [
+        {
+          "entity": "central nervous system",
+          "label": "ANATOMICAL_REGION",
+          "ontology_id": "UBERON:0001002",
+          "ontology_label": "central nervous system",
+          "sentence": [
+            "The brainstem is a fundamental component of the central nervous system."
+          ],
+          "start": [
+            39
+          ],
+          "end": [
+            69
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Part of the broader anatomical context",
+            "Alignment made using local knowledge source"
+          ],
+          "paper_location": [
+            "introduction"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "10": [
+        {
+          "entity": "cortex",
+          "label": "ANATOMICAL_REGION",
+          "ontology_id": "UBERON:0000956",
+          "ontology_label": "cortex",
+          "sentence": [
+            "We derived a functional connectome encompassing cortex and 58 brainstem nuclei spanning the midbrain, pons and medulla."
+          ],
+          "start": [
+            31
+          ],
+          "end": [
+            37
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Major anatomical structure studied in relation to brainstem",
+            "Alignment made using local knowledge source"
+          ],
+          "paper_location": [
+            "methods"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "11": [
+        {
+          "entity": "58 brainstem nuclei",
+          "label": "ANATOMICAL_STRUCTURE",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "We derived a functional connectome encompassing cortex and 58 brainstem nuclei spanning the midbrain, pons and medulla."
+          ],
+          "start": [
+            46
+          ],
+          "end": [
+            64
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Specific structural entities focused on in the study",
+            "No ontological mapping available"
+          ],
+          "paper_location": [
+            "methods"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "12": [
+        {
+          "entity": "midbrain",
+          "label": "ANATOMICAL_REGION",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "We derived a functional connectome encompassing cortex and 58 brainstem nuclei spanning the midbrain, pons and medulla."
+          ],
+          "start": [
+            71
+          ],
+          "end": [
+            78
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Regional specific focus mentioned in the study",
+            "No ontological mapping available"
+          ],
+          "paper_location": [
+            "methods"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "13": [
+        {
+          "entity": "pons",
+          "label": "ANATOMICAL_REGION",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "We derived a functional connectome encompassing cortex and 58 brainstem nuclei spanning the midbrain, pons and medulla."
+          ],
+          "start": [
+            79
+          ],
+          "end": [
+            84
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Central area of the brain relevant to the study",
+            "No ontological mapping available"
+          ],
+          "paper_location": [
+            "methods"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "14": [
+        {
+          "entity": "medulla",
+          "label": "ANATOMICAL_REGION",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "We derived a functional connectome encompassing cortex and 58 brainstem nuclei spanning the midbrain, pons and medulla."
+          ],
+          "start": [
+            86
+          ],
+          "end": [
+            92
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Anatomical area considered in the connectivity",
+            "No ontological mapping available"
+          ],
+          "paper_location": [
+            "methods"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "15": [
+        {
+          "entity": "neurophysiological oscillatory rhythms",
+          "label": "EXPERIMENTAL_CONDITION",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "Patterns of connectivity between brainstem and cerebral cortex manifest as neurophysiological oscillatory rhythms."
+          ],
+          "start": [
+            124
+          ],
+          "end": [
+            162
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Experimental phenomena discussed",
+            "No ontological mapping available"
+          ],
+          "paper_location": [
+            "results"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "16": [
+        {
+          "entity": "cognitive functional specialization",
+          "label": "EXPERIMENTAL_CONDITION",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "Patterns of connectivity between brainstem and cerebral cortex manifest as patterns of cognitive functional specialization."
+          ],
+          "start": [
+            163
+          ],
+          "end": [
+            198
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Cognitive context explored in the paper",
+            "No ontological mapping available"
+          ],
+          "paper_location": [
+            "results"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "17": [
+        {
+          "entity": "unimodal\u2013transmodal functional hierarchy",
+          "label": "EXPERIMENTAL_CONDITION",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "Patterns of connectivity between brainstem and cerebral cortex manifest as the unimodal\u2013transmodal functional hierarchy."
+          ],
+          "start": [
+            199
+          ],
+          "end": [
+            218
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Conceptual framework discussed in the paper",
+            "No ontological mapping available"
+          ],
+          "paper_location": [
+            "results"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "18": [
+        {
+          "entity": "3-Tesla",
+          "label": "EXPERIMENTAL_CONDITION",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "We replicated all findings using 3-Tesla data from the same participants."
+          ],
+          "start": [
+            47
+          ],
+          "end": [
+            57
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Condition referring to imaging protocol",
+            "No ontological mapping available"
+          ],
+          "paper_location": [
+            "results"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "19": [
+        {
+          "entity": "7-Tesla",
+          "label": "EXPERIMENTAL_CONDITION",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "We used high-resolution 7-Tesla functional magnetic resonance imaging to derive a functional connectome."
+          ],
+          "start": [
+            23
+          ],
+          "end": [
+            37
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Condition referring to imaging protocol",
+            "No ontological mapping available"
+          ],
+          "paper_location": [
+            "results"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "20": [
+        {
+          "entity": "functional connectome",
+          "label": "METHOD",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "We used high-resolution 7-Tesla functional magnetic resonance imaging to derive a functional connectome."
+          ],
+          "start": [
+            12
+          ],
+          "end": [
+            29
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Methodological focus of the study",
+            "No ontological mapping available"
+          ],
+          "paper_location": [
+            "abstract"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "21": [
+        {
+          "entity": "Human Connectome Project",
+          "label": "PROJECT",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "Cortical FC shows a familiar network organization and is correlated with FC data from the Human Connectome Project."
+          ],
+          "start": [
+            55
+          ],
+          "end": [
+            85
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Related project that provides important context",
+            "No ontological mapping available"
+          ],
+          "paper_location": [
+            "results"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "22": [
+        {
+          "entity": "neurotransmitter systems",
+          "label": "BIOLOGICAL_SYSTEM",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "Multiple neurotransmitter systems originate in brainstem nuclei and project throughout the cortex."
+          ],
+          "start": [
+            24
+          ],
+          "end": [
+            59
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Biological context identified in the study",
+            "No ontological mapping available"
+          ],
+          "paper_location": [
+            "introduction"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "23": [
+        {
+          "entity": "serotonin",
+          "label": "NEUROTRANSMITTER",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "In addition, multiple neurotransmitter systems originate in brainstem nuclei and project throughout the cortex, shaping cortical activity."
+          ],
+          "start": [
+            4
+          ],
+          "end": [
+            13
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Neurotransmitter discussed in the study",
+            "No ontological mapping available"
+          ],
+          "paper_location": [
+            "introduction"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "24": [
+        {
+          "entity": "Dopamine D2 receptor",
+          "label": "RECEPTOR",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "In the raphe nuclei, dopamine receptor D2 and transporter DAT in the substantia nigra and ventral tegmental area."
+          ],
+          "start": [
+            65
+          ],
+          "end": [
+            94
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Specific receptor type discussed",
+            "No ontological mapping available"
+          ],
+          "paper_location": [
+            "results"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "25": [
+        {
+          "entity": "norepinephrine transporter (NET)",
+          "label": "TRANSPORTER",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "Norepinephrine transporter (NET) in the locus coeruleus."
+          ],
+          "start": [
+            102
+          ],
+          "end": [
+            131
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Specific transporter mentioned",
+            "No ontological mapping available"
+          ],
+          "paper_location": [
+            "results"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "26": [
+        {
+          "entity": "ventral tegmental area",
+          "label": "ANATOMICAL_REGION",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "Dopamine receptor D2 and transporter DAT in the substantia nigra and ventral tegmental area."
+          ],
+          "start": [
+            122
+          ],
+          "end": [
+            156
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Anatomical area in study context",
+            "No ontological mapping available"
+          ],
+          "paper_location": [
+            "results"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "27": [
+        {
+          "entity": "substantia nigra",
+          "label": "ANATOMICAL_REGION",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "Dopamine receptor D2 and transporter DAT in the substantia nigra and ventral tegmental area."
+          ],
+          "start": [
+            114
+          ],
+          "end": [
+            135
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Anatomical area in study context",
+            "No ontological mapping available"
+          ],
+          "paper_location": [
+            "results"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "28": [
+        {
+          "entity": "cognitive processes",
+          "label": "PROCESS",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "We tested whether brainstem nuclei shared similar connections with higher-order cognitive processes."
+          ],
+          "start": [
+            58
+          ],
+          "end": [
+            79
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Cognitive functions discussed",
+            "No ontological mapping available"
+          ],
+          "paper_location": [
+            "discussion"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "29": [
+        {
+          "entity": "McGill University",
+          "label": "INSTITUTION",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "Montr\u00e9al Neurological Institute, McGill University"
+          ],
+          "start": [
+            0
+          ],
+          "end": [
+            27
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Institution involved with the research",
+            "No ontological mapping available"
+          ],
+          "paper_location": [
+            "institution"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "30": [
+        {
+          "entity": "Massachusetts General Hospital",
+          "label": "INSTITUTION",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "Brainstem Imaging Laboratory, Department of Radiology, Athinoula A. Martinos Center for Biomedical Imaging, Massachusetts General Hospital and Harvard Medical School"
+          ],
+          "start": [
+            88
+          ],
+          "end": [
+            130
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Institution involved with the research",
+            "No ontological mapping available"
+          ],
+          "paper_location": [
+            "institution"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "31": [
+        {
+          "entity": "Harvard Medical School",
+          "label": "INSTITUTION",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "Brainstem Imaging Laboratory, Department of Radiology, Athinoula A. Martinos Center for Biomedical Imaging, Massachusetts General Hospital and Harvard Medical School"
+          ],
+          "start": [
+            154
+          ],
+          "end": [
+            188
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Institution involved with the research",
+            "No ontological mapping available"
+          ],
+          "paper_location": [
+            "institution"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "32": [
+        {
+          "entity": "University of Padova",
+          "label": "INSTITUTION",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "Parkinson\u2019s Disease and Movement Disorders Unit, Center for Rare Neurological Diseases (ERN-RND), University of Padova"
+          ],
+          "start": [
+            88
+          ],
+          "end": [
+            141
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Institution involved with the research",
+            "No ontological mapping available"
+          ],
+          "paper_location": [
+            "institution"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "33": [
+        {
+          "entity": "National Institute on Aging",
+          "label": "INSTITUTION",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "Multiscale Imaging and Integrative Biophysics Unit, National Institute on Aging"
+          ],
+          "start": [
+            0
+          ],
+          "end": [
+            64
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Institution involved with the research",
+            "No ontological mapping available"
+          ],
+          "paper_location": [
+            "institution"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "34": [
+        {
+          "entity": "Universidad Nacional Aut\u00f3noma de M\u00e9xico",
+          "label": "INSTITUTION",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "Escuela Nacional de Estudios Superiores, Unidad Juriquilla, Universidad Nacional Aut\u00f3noma de M\u00e9xico"
+          ],
+          "start": [
+            0
+          ],
+          "end": [
+            79
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Institution involved with the research",
+            "No ontological mapping available"
+          ],
+          "paper_location": [
+            "institution"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "35": [
+        {
+          "entity": "The University of Sydney",
+          "label": "INSTITUTION",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "Brain and Mind Centre, The University of Sydney"
+          ],
+          "start": [
+            0
+          ],
+          "end": [
+            29
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Institution involved with the research",
+            "No ontological mapping available"
+          ],
+          "paper_location": [
+            "institution"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "36": [
+        {
+          "entity": "Harvard University",
+          "label": "INSTITUTION",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "Division of Sleep Medicine, Harvard University"
+          ],
+          "start": [
+            0
+          ],
+          "end": [
+            29
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Institution involved with the research",
+            "No ontological mapping available"
+          ],
+          "paper_location": [
+            "institution"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "37": [
+        {
+          "entity": "functional magnetic resonance imaging",
+          "label": "METHOD",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "high-resolution 7-Tesla functional magnetic resonance imaging"
+          ],
+          "start": [
+            6
+          ],
+          "end": [
+            42
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Imaging method utilized in the study",
+            "No ontological mapping available"
+          ],
+          "paper_location": [
+            "methods"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "38": [
+        {
+          "entity": "positron emission tomography",
+          "label": "METHOD",
+          "ontology_id": null,
+          "ontology_label": null,
+          "sentence": [
+            "Using positron emission tomography (PET)-estimated brain maps for 18 neurotransmitter receptors and transporters."
+          ],
+          "start": [
+            0
+          ],
+          "end": [
+            44
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Additional imaging method mentioned",
+            "No ontological mapping available"
+          ],
+          "paper_location": [
+            "methods"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ]
+    }
+  }
+}

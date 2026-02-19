@@ -1,0 +1,7 @@
+Group,Model,Composite_Score,Rank
+with_hil,Claude 3.7 Sonnet,90.69350660812329,1
+with_hil,DeepSeek V3 0324,70.75424486951144,2
+with_hil,GPT-4o-mini,57.095060901455064,3
+without_hil,Claude 3.7 Sonnet,87.12202914960487,1
+without_hil,GPT-4o-mini,59.381755633168645,2
+without_hil,DeepSeek V3 0324,51.99559722537063,3

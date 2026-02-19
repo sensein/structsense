@@ -1,0 +1,117 @@
+{
+  "judged_structured_information": {
+    "judge_ner_terms": {
+      "1": [
+        {
+          "entity": "brainstem",
+          "label": "ANATOMICAL_REGION",
+          "ontology_id": "UBERON:0002298",
+          "ontology_label": "brainstem",
+          "sentence": [
+            "The brainstem is a fundamental component of the central nervous system",
+            "Perhaps the most prominent missing piece of modern in vivo brain network reconstruction is the brainstem"
+          ],
+          "start": [
+            4,
+            16
+          ],
+          "end": [
+            13,
+            25
+          ],
+          "judge_score": [
+            1.0,
+            1.0
+          ],
+          "remarks": [
+            "Primary anatomical focus of the study",
+            "Major structure being investigated",
+            "Successfully aligned to UBERON:0002298",
+            "Perfect anatomical alignment in both contexts",
+            "Extraction count is appropriate as this is a key focus area"
+          ],
+          "paper_location": [
+            "abstract",
+            "introduction"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0",
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "2": [
+        {
+          "entity": "cerebral cortex",
+          "label": "ANATOMICAL_REGION",
+          "ontology_id": "UBERON:0000956",
+          "ontology_label": "cerebral cortex",
+          "sentence": [
+            "The study focuses on interactions between brainstem and cerebral cortex",
+            "Cerebral cortex connectivity patterns were analyzed alongside brainstem networks"
+          ],
+          "start": [
+            45,
+            4
+          ],
+          "end": [
+            59,
+            18
+          ],
+          "judge_score": [
+            1.0,
+            0.9
+          ],
+          "remarks": [
+            "Secondary anatomical focus of the study",
+            "Correctly aligned to UBERON:0000956",
+            "Added missing sentence contexts from paper text",
+            "Number of extractions appropriate given its complementary role"
+          ],
+          "paper_location": [
+            "introduction",
+            "methods"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0",
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ],
+      "3": [
+        {
+          "entity": "central nervous system",
+          "label": "ANATOMICAL_SYSTEM",
+          "ontology_id": "UBERON:0001017",
+          "ontology_label": "central nervous system",
+          "sentence": [
+            "The brainstem is a fundamental component of the central nervous system"
+          ],
+          "start": [
+            30
+          ],
+          "end": [
+            51
+          ],
+          "judge_score": [
+            1.0
+          ],
+          "remarks": [
+            "Correct system-level context added",
+            "Perfect alignment to UBERON ontology",
+            "Necessary for full neuroanatomical understanding"
+          ],
+          "paper_location": [
+            "abstract"
+          ],
+          "paper_title": "Integrating brainstem and cortical functional architectures",
+          "doi": [
+            "10.1038/s41593-024-01787-0"
+          ]
+        }
+      ]
+    }
+  }
+}
