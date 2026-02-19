@@ -1,0 +1,379 @@
+#agent config
+# Do not introduce any new variable name
+# the variables inside {} receives data from the previous agent. the {literature} variable is the one that passes the
+# initial input.
+agent_config:
+  extractor_agent:
+    role: >
+      Questionnaire metadata extraction specialist
+    goal: >
+      Extract all questionnaire components from the given PDF including activity metadata (title, description, preamble), 
+      individual items (questions, response options, input types), and scoring logic in a structured format 
+      suitable for ReproSchema conversion. Do not make up components. Make sure you extract all related components from each question.
+    backstory: >
+      You are an expert at parsing questionnaires and surveys, identifying the hierarchical structure of 
+      assessments. You extract metadata that maps to ReproSchema concepts: activities (questionnaires), 
+      items (questions), and response constraints.
+    llm:
+      model: openrouter/openai/gpt-4o-mini
+      base_url: https://openrouter.ai/api/v1
+      temperature: 0.9
+      
+
+  alignment_agent:
+    role: >
+      ReproSchema metadata formatter
+    goal: >
+      Transform extracted questionnaire data into a structured JSON format containing all necessary metadata 
+      for ReproSchema conversion, ensuring completeness and proper organization of activity and item information.
+    backstory: >
+      You specialize in organizing questionnaire metadata into clean, structured formats. You understand 
+      ReproSchema requirements and ensure all extracted information is properly categorized for items, 
+      activities, response options, and scoring logic.
+    llm:
+      model: openrouter/openai/gpt-4o-mini
+      base_url: https://openrouter.ai/api/v1
+      temperature: 0.9
+
+  judge_agent:
+    role: >
+      Metadata completeness validator
+    goal: >
+      Validate that all questionnaire components have been accurately extracted and formatted, ensuring no 
+      questions, response options, or metadata are missing from the structured output.
+    backstory: >
+      You are a quality assurance specialist who verifies extraction completeness. You cross-reference the 
+      structured output against the original PDF content to ensure all items, response scales, and activity 
+      metadata are captured accurately.
+    llm:
+      model: openrouter/openai/gpt-4o-mini
+      base_url: https://openrouter.ai/api/v1
+      temperature: 0.9
+
+  humanfeedback_agent:
+    role: >
+      Metadata refinement specialist
+    goal: >
+      Incorporate human feedback to correct extraction errors, clarify ambiguous items, and ensure the 
+      structured metadata accurately represents the original questionnaire.
+    backstory: >
+      You collaborate with human reviewers to refine extracted metadata, fixing any misinterpretations 
+      and ensuring the output will produce valid ReproSchema when converted.
+    llm:
+      model: openrouter/openai/gpt-4o-mini
+      base_url: https://openrouter.ai/api/v1
+      temperature: 0.9
+
+# agent task config
+task_config:
+  extraction_task:
+    description: >
+      Extract all questionnaire components from the given PDF for ReproSchema conversion.
+      
+      Input: {literature}
+      
+      Extract the following metadata:
+      
+      1. Activity-level metadata:
+         - id: Short identifier for the questionnaire using the first letter of the questionnaire title but ignore words such as "and" (e.g., "MOOD AND FEELINGS QUESTIONNAIRE: Long Version" will be "MFQ-long" )
+         - prefLabel: Display name of the questionnaire
+         - description: Full description of the assessment
+         - preamble: Instructions or introductory text if any
+         - citation: Source reference if available
+      
+      2. For each item/question:
+         - id: Unique identifier (e.g., "Q1", "Q2")
+         - question: Full question text
+         - prefLabel: Short display label
+         - inputType: Type of input (radio, text, number, etc.)
+         - valueRequired: Whether response is mandatory
+         - responseOptions: List of choices with value and name
+         - scoring: How responses map to scores
+      
+      3. Additional metadata:
+         - computedScores: Any total scores or subscales with calculation formulas
+         - conditionalLogic: Skip patterns or branching rules
+         - languages: Available languages
+         - order: Sequence of items
+   
+
+    expected_output: >
+      output format: json
+      Example output: "extracted_terms":{
+        "activity": {
+          "id": "PHQ9",
+          "prefLabel": "Patient Health Questionnaire-9",
+          "description": "A 9-item depression screening tool",
+          "preamble": "Over the last 2 weeks, how often have you been bothered by the following problems?",
+          "citation": "Kroenke et al., 2001"
+        },
+        "items": [
+          {
+            "id": "PHQ9_01",
+            "question": "Little interest or pleasure in doing things",
+            "prefLabel": "PHQ9 Q1",
+            "inputType": "radio",
+            "valueRequired": true,
+            "responseOptions": [
+              {"value": 0, "name": "Not at all"},
+              {"value": 1, "name": "Several days"},
+              {"value": 2, "name": "More than half the days"},
+              {"value": 3, "name": "Nearly every day"}
+            ]
+          }
+        ],
+        "computedScores": [
+          {
+            "variableName": "PHQ9_total",
+            "label": "PHQ-9 Total Score",
+            "jsExpression": "PHQ9_01 + PHQ9_02 + ... + PHQ9_09"
+          }
+        ],
+        "order": ["PHQ9_01", "PHQ9_02", "..."]
+      }
+
+    # do not chage this, remove it later
+    agent_id: extractor_agent
+
+  alignment_task:
+    description: > 
+      Inputs: {extracted_structured_information}
+      
+      Instructions:
+      - Format the extracted metadata into a comprehensive JSON structure for ReproSchema conversion
+      - Organize all metadata with proper structure and relationships
+      - Structure items with complete properties including UI configuration
+      - Format response options with choices array containing name and value
+      - Include computed scores with proper JavaScript expressions
+      - Add UI ordering and configuration
+      - Ensure all fields use appropriate data types and structures
+       
+
+    expected_output: >
+      output format: json
+      Example output: "aligned_terms":{
+        "schemaType": "reproschema:Activity",
+        "schemaVersion": "1.0.0",
+        "activity": {
+          "id": "ACE_schema",
+          "prefLabel": {"en": "Adverse Childhood Experiences"},
+          "description": {"en": "10-item questionnaire about childhood experiences"},
+          "preamble": {"en": "Prior to your 18th birthday:"},
+          "citation": {"en": "https://www.cdc.gov/violenceprevention/aces/"}
+        },
+        "items": [
+          {
+            "id": "ACE_01",
+            "question": {"en": "Did a parent or other adult in the household often..."},
+            "prefLabel": {"en": "ACE Q1"},
+            "ui": {
+              "inputType": "radio"
+            },
+            "valueRequired": true,
+            "responseOptions": {
+              "multipleChoice": false,
+              "choices": [
+                {"name": {"en": "No"}, "value": 0},
+                {"name": {"en": "Yes"}, "value": 1}
+              ]
+            }
+          }
+        ],
+        "ui": {
+          "order": ["ACE_01", "ACE_02"],
+          "shuffle": false
+        },
+        "compute": [
+          {
+            "variableName": "ACE_total_score",
+            "jsExpression": "ACE_01 + ACE_02 + ..."
+          }
+        ]
+      }
+
+    # do not chage this, remove it later
+    agent_id: alignment_agent
+
+  judge_task:
+    description: >
+      {aligned_structured_information} 
+         
+      Instructions: 
+      - Validate that all questions from the original PDF are captured in the structured output
+      - Check that response options match exactly with the source
+      - Verify activity metadata (title, description, preamble) is complete and accurate
+      - Ensure item properties (question text, input type, required status) are correct
+      - Confirm scoring logic and computed scores are properly represented
+      - Identify any missing, incomplete, or misrepresented information
+      - Provide a completeness score and detailed feedback
+    
+      Important: "judged_terms" should also include the output from previous agents
+
+    expected_output: > 
+      output format: json 
+      Example output: "judged_terms":{
+      "refined_metadata":{
+              "schemaType": "reproschema:Activity",
+              "schemaVersion": "1.0.0",
+              "activity": {
+                "id": "ACE_schema",
+                "prefLabel": {"en": "Adverse Childhood Experiences"},
+                "description": {"en": "10-item questionnaire about childhood experiences"},
+                "preamble": {"en": "Prior to your 18th birthday:"},
+                "citation": {"en": "https://www.cdc.gov/violenceprevention/aces/"}
+              },
+              "items": [
+                {
+                  "id": "ACE_01",
+                  "question": {"en": "Did a parent or other adult in the household often..."},
+                  "prefLabel": {"en": "ACE Q1"},
+                  "ui": {
+                    "inputType": "radio"
+                  },
+                  "valueRequired": true,
+                  "responseOptions": {
+                    "multipleChoice": false,
+                    "choices": [
+                      {"name": {"en": "No"}, "value": 0},
+                      {"name": {"en": "Yes"}, "value": 1}
+                    ]
+                  }
+                }
+              ],
+              "ui": {
+                "order": ["ACE_01", "ACE_02"],
+                "shuffle": false
+              },
+              "compute": [
+                {
+                  "variableName": "ACE_total_score",
+                  "jsExpression": "ACE_01 + ACE_02 + ..."
+                }
+              ]
+            },
+        "validation": {
+          "completeness": {
+            "allItemsExtracted": true,
+            "itemCount": 10,
+            "missingItems": []
+          },
+          "accuracy": {
+            "responseOptionsCorrect": true,
+            "scoringLogicPresent": true,
+            "metadataComplete": true
+          },
+          "issues": [],
+          "overallScore": 10.0,
+          "summary": "All questionnaire components successfully extracted and formatted."
+        }
+      }
+
+    # do not chage this, remove it later
+    agent_id: judge_agent
+
+  humanfeedback_task:
+    description: >
+      Input: {judged_structured_information_with_human_feedback}
+
+      modification_context: 
+        {modification_context}
+      
+      user_feedback_text:
+        {user_feedback_text}
+      
+      Instructions:
+      - Apply human feedback to refine the extracted metadata
+      - Correct any extraction errors identified by the reviewer
+      - Clarify ambiguous items or response options
+      - Add any missing metadata or properties
+      - Improve formatting and structure based on feedback
+      - Ensure the refined output maintains ReproSchema compatibility
+      - Document all changes made based on feedback
+      
+      
+  
+
+    expected_output: > 
+      output format: json
+      Example output: "judged_terms":{
+         "refined_metadata":{
+              "schemaType": "reproschema:Activity",
+              "schemaVersion": "1.0.0",
+              "activity": {
+                "id": "ACE_schema",
+                "prefLabel": {"en": "Adverse Childhood Experiences"},
+                "description": {"en": "10-item questionnaire about childhood experiences"},
+                "preamble": {"en": "Prior to your 18th birthday:"},
+                "citation": {"en": "https://www.cdc.gov/violenceprevention/aces/"}
+              },
+              "items": [
+                {
+                  "id": "ACE_01",
+                  "question": {"en": "Did a parent or other adult in the household often..."},
+                  "prefLabel": {"en": "ACE Q1"},
+                  "ui": {
+                    "inputType": "radio"
+                  },
+                  "valueRequired": true,
+                  "responseOptions": {
+                    "multipleChoice": false,
+                    "choices": [
+                      {"name": {"en": "No"}, "value": 0},
+                      {"name": {"en": "Yes"}, "value": 1}
+                    ]
+                  }
+                }
+              ],
+              "ui": {
+                "order": ["ACE_01", "ACE_02"],
+                "shuffle": false
+              },
+              "compute": [
+                {
+                  "variableName": "ACE_total_score",
+                  "jsExpression": "ACE_01 + ACE_02 + ..."
+                }
+              ]
+            },
+        "validation": {
+          "completeness": {
+            "allItemsExtracted": true,
+            "itemCount": 10,
+            "missingItems": []
+          },
+          "accuracy": {
+            "responseOptionsCorrect": true,
+            "scoringLogicPresent": true,
+            "metadataComplete": true
+          },
+          "issues": [],
+          "overallScore": 10.0,
+          "summary": "All questionnaire components successfully extracted and formatted."
+        }
+      },
+        "changes_applied": [
+          "Corrected questionnaire title to include '(ACE)' abbreviation",
+          "Updated citation to original authors",
+          "Fixed response option text for item 3"
+        ]
+      }
+
+    agent_id: humanfeedback_agent
+
+# embedding config
+# see for more details and parameters for config
+# https://docs.crewai.com/concepts/memory#additional-embedding-providerscl
+embedder_config:
+  provider: ollama
+  config:
+    api_base: http://localhost:11434
+    model: nomic-embed-text:v1.5
+
+# knowledge search config
+knowledge_config:
+  search_key: #local vector database
+    - entity
+    - label
+# human in loop config
+human_in_loop_config:
+  humanfeedback_agent: true

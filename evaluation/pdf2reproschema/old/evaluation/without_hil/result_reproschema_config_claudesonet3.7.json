@@ -1,0 +1,1409 @@
+{
+  "judged_terms": {
+    "refined_metadata": {
+      "schemaType": "reproschema:Activity",
+      "schemaVersion": "1.0.0",
+      "activity": {
+        "id": "MFQ-long",
+        "prefLabel": {
+          "en": "MOOD AND FEELINGS QUESTIONNAIRE: Long Version"
+        },
+        "description": {
+          "en": "Adult Self-Report Mood and Feelings Questionnaire: Long Version, a self-report measure to assess depression symptoms in adults"
+        },
+        "preamble": {
+          "en": "This form is about how you might have been feeling or acting recently. For each question, please check (\u25bc) how you have been feeling or acting in the past two weeks. If a sentence was not true about you, check NOT TRUE. If a sentence was only sometimes true, check SOMETIMES. If a sentence was true about you most of the time, check TRUE."
+        },
+        "citation": {
+          "en": "Copyright Adrian Angold & Elizabeth J. Costello, 1987; Developmental Epidemiology Program; Duke University"
+        }
+      },
+      "items": [
+        {
+          "id": "MFQ_01",
+          "question": {
+            "en": "I felt miserable or unhappy."
+          },
+          "prefLabel": {
+            "en": "Felt miserable"
+          },
+          "ui": {
+            "inputType": "radio"
+          },
+          "valueRequired": true,
+          "responseOptions": {
+            "multipleChoice": false,
+            "choices": [
+              {
+                "name": {
+                  "en": "NOT TRUE"
+                },
+                "value": 0
+              },
+              {
+                "name": {
+                  "en": "SOMETIMES"
+                },
+                "value": 1
+              },
+              {
+                "name": {
+                  "en": "TRUE"
+                },
+                "value": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "MFQ_02",
+          "question": {
+            "en": "I didn't enjoy anything at all."
+          },
+          "prefLabel": {
+            "en": "No enjoyment"
+          },
+          "ui": {
+            "inputType": "radio"
+          },
+          "valueRequired": true,
+          "responseOptions": {
+            "multipleChoice": false,
+            "choices": [
+              {
+                "name": {
+                  "en": "NOT TRUE"
+                },
+                "value": 0
+              },
+              {
+                "name": {
+                  "en": "SOMETIMES"
+                },
+                "value": 1
+              },
+              {
+                "name": {
+                  "en": "TRUE"
+                },
+                "value": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "MFQ_03",
+          "question": {
+            "en": "I was less hungry than usual."
+          },
+          "prefLabel": {
+            "en": "Decreased appetite"
+          },
+          "ui": {
+            "inputType": "radio"
+          },
+          "valueRequired": true,
+          "responseOptions": {
+            "multipleChoice": false,
+            "choices": [
+              {
+                "name": {
+                  "en": "NOT TRUE"
+                },
+                "value": 0
+              },
+              {
+                "name": {
+                  "en": "SOMETIMES"
+                },
+                "value": 1
+              },
+              {
+                "name": {
+                  "en": "TRUE"
+                },
+                "value": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "MFQ_04",
+          "question": {
+            "en": "I ate more than usual."
+          },
+          "prefLabel": {
+            "en": "Increased appetite"
+          },
+          "ui": {
+            "inputType": "radio"
+          },
+          "valueRequired": true,
+          "responseOptions": {
+            "multipleChoice": false,
+            "choices": [
+              {
+                "name": {
+                  "en": "NOT TRUE"
+                },
+                "value": 0
+              },
+              {
+                "name": {
+                  "en": "SOMETIMES"
+                },
+                "value": 1
+              },
+              {
+                "name": {
+                  "en": "TRUE"
+                },
+                "value": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "MFQ_05",
+          "question": {
+            "en": "I felt so tired I just sat around and did nothing."
+          },
+          "prefLabel": {
+            "en": "Fatigue"
+          },
+          "ui": {
+            "inputType": "radio"
+          },
+          "valueRequired": true,
+          "responseOptions": {
+            "multipleChoice": false,
+            "choices": [
+              {
+                "name": {
+                  "en": "NOT TRUE"
+                },
+                "value": 0
+              },
+              {
+                "name": {
+                  "en": "SOMETIMES"
+                },
+                "value": 1
+              },
+              {
+                "name": {
+                  "en": "TRUE"
+                },
+                "value": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "MFQ_06",
+          "question": {
+            "en": "I was moving and walking more slowly than usual."
+          },
+          "prefLabel": {
+            "en": "Psychomotor retardation"
+          },
+          "ui": {
+            "inputType": "radio"
+          },
+          "valueRequired": true,
+          "responseOptions": {
+            "multipleChoice": false,
+            "choices": [
+              {
+                "name": {
+                  "en": "NOT TRUE"
+                },
+                "value": 0
+              },
+              {
+                "name": {
+                  "en": "SOMETIMES"
+                },
+                "value": 1
+              },
+              {
+                "name": {
+                  "en": "TRUE"
+                },
+                "value": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "MFQ_07",
+          "question": {
+            "en": "I was very restless."
+          },
+          "prefLabel": {
+            "en": "Restlessness"
+          },
+          "ui": {
+            "inputType": "radio"
+          },
+          "valueRequired": true,
+          "responseOptions": {
+            "multipleChoice": false,
+            "choices": [
+              {
+                "name": {
+                  "en": "NOT TRUE"
+                },
+                "value": 0
+              },
+              {
+                "name": {
+                  "en": "SOMETIMES"
+                },
+                "value": 1
+              },
+              {
+                "name": {
+                  "en": "TRUE"
+                },
+                "value": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "MFQ_08",
+          "question": {
+            "en": "I felt I was no good anymore."
+          },
+          "prefLabel": {
+            "en": "Worthlessness"
+          },
+          "ui": {
+            "inputType": "radio"
+          },
+          "valueRequired": true,
+          "responseOptions": {
+            "multipleChoice": false,
+            "choices": [
+              {
+                "name": {
+                  "en": "NOT TRUE"
+                },
+                "value": 0
+              },
+              {
+                "name": {
+                  "en": "SOMETIMES"
+                },
+                "value": 1
+              },
+              {
+                "name": {
+                  "en": "TRUE"
+                },
+                "value": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "MFQ_09",
+          "question": {
+            "en": "I blamed myself for things that weren't my fault."
+          },
+          "prefLabel": {
+            "en": "Self-blame"
+          },
+          "ui": {
+            "inputType": "radio"
+          },
+          "valueRequired": true,
+          "responseOptions": {
+            "multipleChoice": false,
+            "choices": [
+              {
+                "name": {
+                  "en": "NOT TRUE"
+                },
+                "value": 0
+              },
+              {
+                "name": {
+                  "en": "SOMETIMES"
+                },
+                "value": 1
+              },
+              {
+                "name": {
+                  "en": "TRUE"
+                },
+                "value": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "MFQ_10",
+          "question": {
+            "en": "It was hard for me to make up my mind."
+          },
+          "prefLabel": {
+            "en": "Indecisiveness"
+          },
+          "ui": {
+            "inputType": "radio"
+          },
+          "valueRequired": true,
+          "responseOptions": {
+            "multipleChoice": false,
+            "choices": [
+              {
+                "name": {
+                  "en": "NOT TRUE"
+                },
+                "value": 0
+              },
+              {
+                "name": {
+                  "en": "SOMETIMES"
+                },
+                "value": 1
+              },
+              {
+                "name": {
+                  "en": "TRUE"
+                },
+                "value": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "MFQ_11",
+          "question": {
+            "en": "I felt grumpy and cross with other people."
+          },
+          "prefLabel": {
+            "en": "Irritability"
+          },
+          "ui": {
+            "inputType": "radio"
+          },
+          "valueRequired": true,
+          "responseOptions": {
+            "multipleChoice": false,
+            "choices": [
+              {
+                "name": {
+                  "en": "NOT TRUE"
+                },
+                "value": 0
+              },
+              {
+                "name": {
+                  "en": "SOMETIMES"
+                },
+                "value": 1
+              },
+              {
+                "name": {
+                  "en": "TRUE"
+                },
+                "value": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "MFQ_12",
+          "question": {
+            "en": "I felt like talking less than usual."
+          },
+          "prefLabel": {
+            "en": "Reduced speech"
+          },
+          "ui": {
+            "inputType": "radio"
+          },
+          "valueRequired": true,
+          "responseOptions": {
+            "multipleChoice": false,
+            "choices": [
+              {
+                "name": {
+                  "en": "NOT TRUE"
+                },
+                "value": 0
+              },
+              {
+                "name": {
+                  "en": "SOMETIMES"
+                },
+                "value": 1
+              },
+              {
+                "name": {
+                  "en": "TRUE"
+                },
+                "value": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "MFQ_13",
+          "question": {
+            "en": "I was talking more slowly than usual."
+          },
+          "prefLabel": {
+            "en": "Slowed speech"
+          },
+          "ui": {
+            "inputType": "radio"
+          },
+          "valueRequired": true,
+          "responseOptions": {
+            "multipleChoice": false,
+            "choices": [
+              {
+                "name": {
+                  "en": "NOT TRUE"
+                },
+                "value": 0
+              },
+              {
+                "name": {
+                  "en": "SOMETIMES"
+                },
+                "value": 1
+              },
+              {
+                "name": {
+                  "en": "TRUE"
+                },
+                "value": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "MFQ_14",
+          "question": {
+            "en": "I cried a lot."
+          },
+          "prefLabel": {
+            "en": "Crying"
+          },
+          "ui": {
+            "inputType": "radio"
+          },
+          "valueRequired": true,
+          "responseOptions": {
+            "multipleChoice": false,
+            "choices": [
+              {
+                "name": {
+                  "en": "NOT TRUE"
+                },
+                "value": 0
+              },
+              {
+                "name": {
+                  "en": "SOMETIMES"
+                },
+                "value": 1
+              },
+              {
+                "name": {
+                  "en": "TRUE"
+                },
+                "value": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "MFQ_15",
+          "question": {
+            "en": "I thought there was nothing good for me in the future."
+          },
+          "prefLabel": {
+            "en": "Hopelessness"
+          },
+          "ui": {
+            "inputType": "radio"
+          },
+          "valueRequired": true,
+          "responseOptions": {
+            "multipleChoice": false,
+            "choices": [
+              {
+                "name": {
+                  "en": "NOT TRUE"
+                },
+                "value": 0
+              },
+              {
+                "name": {
+                  "en": "SOMETIMES"
+                },
+                "value": 1
+              },
+              {
+                "name": {
+                  "en": "TRUE"
+                },
+                "value": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "MFQ_16",
+          "question": {
+            "en": "I thought that life wasn't worth living."
+          },
+          "prefLabel": {
+            "en": "Life not worth living"
+          },
+          "ui": {
+            "inputType": "radio"
+          },
+          "valueRequired": true,
+          "responseOptions": {
+            "multipleChoice": false,
+            "choices": [
+              {
+                "name": {
+                  "en": "NOT TRUE"
+                },
+                "value": 0
+              },
+              {
+                "name": {
+                  "en": "SOMETIMES"
+                },
+                "value": 1
+              },
+              {
+                "name": {
+                  "en": "TRUE"
+                },
+                "value": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "MFQ_17",
+          "question": {
+            "en": "I thought about death or dying."
+          },
+          "prefLabel": {
+            "en": "Death thoughts"
+          },
+          "ui": {
+            "inputType": "radio"
+          },
+          "valueRequired": true,
+          "responseOptions": {
+            "multipleChoice": false,
+            "choices": [
+              {
+                "name": {
+                  "en": "NOT TRUE"
+                },
+                "value": 0
+              },
+              {
+                "name": {
+                  "en": "SOMETIMES"
+                },
+                "value": 1
+              },
+              {
+                "name": {
+                  "en": "TRUE"
+                },
+                "value": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "MFQ_18",
+          "question": {
+            "en": "I thought my family would be better off without me."
+          },
+          "prefLabel": {
+            "en": "Family better without me"
+          },
+          "ui": {
+            "inputType": "radio"
+          },
+          "valueRequired": true,
+          "responseOptions": {
+            "multipleChoice": false,
+            "choices": [
+              {
+                "name": {
+                  "en": "NOT TRUE"
+                },
+                "value": 0
+              },
+              {
+                "name": {
+                  "en": "SOMETIMES"
+                },
+                "value": 1
+              },
+              {
+                "name": {
+                  "en": "TRUE"
+                },
+                "value": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "MFQ_19",
+          "question": {
+            "en": "I thought about killing myself."
+          },
+          "prefLabel": {
+            "en": "Suicidal ideation"
+          },
+          "ui": {
+            "inputType": "radio"
+          },
+          "valueRequired": true,
+          "responseOptions": {
+            "multipleChoice": false,
+            "choices": [
+              {
+                "name": {
+                  "en": "NOT TRUE"
+                },
+                "value": 0
+              },
+              {
+                "name": {
+                  "en": "SOMETIMES"
+                },
+                "value": 1
+              },
+              {
+                "name": {
+                  "en": "TRUE"
+                },
+                "value": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "MFQ_20",
+          "question": {
+            "en": "I didn't want to see my friends."
+          },
+          "prefLabel": {
+            "en": "Social withdrawal"
+          },
+          "ui": {
+            "inputType": "radio"
+          },
+          "valueRequired": true,
+          "responseOptions": {
+            "multipleChoice": false,
+            "choices": [
+              {
+                "name": {
+                  "en": "NOT TRUE"
+                },
+                "value": 0
+              },
+              {
+                "name": {
+                  "en": "SOMETIMES"
+                },
+                "value": 1
+              },
+              {
+                "name": {
+                  "en": "TRUE"
+                },
+                "value": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "MFQ_21",
+          "question": {
+            "en": "I found it hard to think properly or concentrate."
+          },
+          "prefLabel": {
+            "en": "Concentration difficulty"
+          },
+          "ui": {
+            "inputType": "radio"
+          },
+          "valueRequired": true,
+          "responseOptions": {
+            "multipleChoice": false,
+            "choices": [
+              {
+                "name": {
+                  "en": "NOT TRUE"
+                },
+                "value": 0
+              },
+              {
+                "name": {
+                  "en": "SOMETIMES"
+                },
+                "value": 1
+              },
+              {
+                "name": {
+                  "en": "TRUE"
+                },
+                "value": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "MFQ_22",
+          "question": {
+            "en": "I thought bad things would happen to me."
+          },
+          "prefLabel": {
+            "en": "Pessimism"
+          },
+          "ui": {
+            "inputType": "radio"
+          },
+          "valueRequired": true,
+          "responseOptions": {
+            "multipleChoice": false,
+            "choices": [
+              {
+                "name": {
+                  "en": "NOT TRUE"
+                },
+                "value": 0
+              },
+              {
+                "name": {
+                  "en": "SOMETIMES"
+                },
+                "value": 1
+              },
+              {
+                "name": {
+                  "en": "TRUE"
+                },
+                "value": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "MFQ_23",
+          "question": {
+            "en": "I hated myself."
+          },
+          "prefLabel": {
+            "en": "Self-hatred"
+          },
+          "ui": {
+            "inputType": "radio"
+          },
+          "valueRequired": true,
+          "responseOptions": {
+            "multipleChoice": false,
+            "choices": [
+              {
+                "name": {
+                  "en": "NOT TRUE"
+                },
+                "value": 0
+              },
+              {
+                "name": {
+                  "en": "SOMETIMES"
+                },
+                "value": 1
+              },
+              {
+                "name": {
+                  "en": "TRUE"
+                },
+                "value": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "MFQ_24",
+          "question": {
+            "en": "I felt I was a bad person."
+          },
+          "prefLabel": {
+            "en": "Feeling bad"
+          },
+          "ui": {
+            "inputType": "radio"
+          },
+          "valueRequired": true,
+          "responseOptions": {
+            "multipleChoice": false,
+            "choices": [
+              {
+                "name": {
+                  "en": "NOT TRUE"
+                },
+                "value": 0
+              },
+              {
+                "name": {
+                  "en": "SOMETIMES"
+                },
+                "value": 1
+              },
+              {
+                "name": {
+                  "en": "TRUE"
+                },
+                "value": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "MFQ_25",
+          "question": {
+            "en": "I thought I looked ugly."
+          },
+          "prefLabel": {
+            "en": "Poor body image"
+          },
+          "ui": {
+            "inputType": "radio"
+          },
+          "valueRequired": true,
+          "responseOptions": {
+            "multipleChoice": false,
+            "choices": [
+              {
+                "name": {
+                  "en": "NOT TRUE"
+                },
+                "value": 0
+              },
+              {
+                "name": {
+                  "en": "SOMETIMES"
+                },
+                "value": 1
+              },
+              {
+                "name": {
+                  "en": "TRUE"
+                },
+                "value": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "MFQ_26",
+          "question": {
+            "en": "I worried about aches and pains."
+          },
+          "prefLabel": {
+            "en": "Somatic concerns"
+          },
+          "ui": {
+            "inputType": "radio"
+          },
+          "valueRequired": true,
+          "responseOptions": {
+            "multipleChoice": false,
+            "choices": [
+              {
+                "name": {
+                  "en": "NOT TRUE"
+                },
+                "value": 0
+              },
+              {
+                "name": {
+                  "en": "SOMETIMES"
+                },
+                "value": 1
+              },
+              {
+                "name": {
+                  "en": "TRUE"
+                },
+                "value": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "MFQ_27",
+          "question": {
+            "en": "I felt lonely."
+          },
+          "prefLabel": {
+            "en": "Loneliness"
+          },
+          "ui": {
+            "inputType": "radio"
+          },
+          "valueRequired": true,
+          "responseOptions": {
+            "multipleChoice": false,
+            "choices": [
+              {
+                "name": {
+                  "en": "NOT TRUE"
+                },
+                "value": 0
+              },
+              {
+                "name": {
+                  "en": "SOMETIMES"
+                },
+                "value": 1
+              },
+              {
+                "name": {
+                  "en": "TRUE"
+                },
+                "value": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "MFQ_28",
+          "question": {
+            "en": "I thought nobody really loved me."
+          },
+          "prefLabel": {
+            "en": "Feeling unloved"
+          },
+          "ui": {
+            "inputType": "radio"
+          },
+          "valueRequired": true,
+          "responseOptions": {
+            "multipleChoice": false,
+            "choices": [
+              {
+                "name": {
+                  "en": "NOT TRUE"
+                },
+                "value": 0
+              },
+              {
+                "name": {
+                  "en": "SOMETIMES"
+                },
+                "value": 1
+              },
+              {
+                "name": {
+                  "en": "TRUE"
+                },
+                "value": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "MFQ_29",
+          "question": {
+            "en": "I didn't have any fun in any of my activities."
+          },
+          "prefLabel": {
+            "en": "Anhedonia"
+          },
+          "ui": {
+            "inputType": "radio"
+          },
+          "valueRequired": true,
+          "responseOptions": {
+            "multipleChoice": false,
+            "choices": [
+              {
+                "name": {
+                  "en": "NOT TRUE"
+                },
+                "value": 0
+              },
+              {
+                "name": {
+                  "en": "SOMETIMES"
+                },
+                "value": 1
+              },
+              {
+                "name": {
+                  "en": "TRUE"
+                },
+                "value": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "MFQ_30",
+          "question": {
+            "en": "I thought I could never be as good as other people."
+          },
+          "prefLabel": {
+            "en": "Inferiority"
+          },
+          "ui": {
+            "inputType": "radio"
+          },
+          "valueRequired": true,
+          "responseOptions": {
+            "multipleChoice": false,
+            "choices": [
+              {
+                "name": {
+                  "en": "NOT TRUE"
+                },
+                "value": 0
+              },
+              {
+                "name": {
+                  "en": "SOMETIMES"
+                },
+                "value": 1
+              },
+              {
+                "name": {
+                  "en": "TRUE"
+                },
+                "value": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "MFQ_31",
+          "question": {
+            "en": "I did everything wrong."
+          },
+          "prefLabel": {
+            "en": "Feeling wrong"
+          },
+          "ui": {
+            "inputType": "radio"
+          },
+          "valueRequired": true,
+          "responseOptions": {
+            "multipleChoice": false,
+            "choices": [
+              {
+                "name": {
+                  "en": "NOT TRUE"
+                },
+                "value": 0
+              },
+              {
+                "name": {
+                  "en": "SOMETIMES"
+                },
+                "value": 1
+              },
+              {
+                "name": {
+                  "en": "TRUE"
+                },
+                "value": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "MFQ_32",
+          "question": {
+            "en": "I didn't sleep as well as I usually sleep."
+          },
+          "prefLabel": {
+            "en": "Sleep problems"
+          },
+          "ui": {
+            "inputType": "radio"
+          },
+          "valueRequired": true,
+          "responseOptions": {
+            "multipleChoice": false,
+            "choices": [
+              {
+                "name": {
+                  "en": "NOT TRUE"
+                },
+                "value": 0
+              },
+              {
+                "name": {
+                  "en": "SOMETIMES"
+                },
+                "value": 1
+              },
+              {
+                "name": {
+                  "en": "TRUE"
+                },
+                "value": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "MFQ_33",
+          "question": {
+            "en": "I slept a lot more than usual."
+          },
+          "prefLabel": {
+            "en": "Hypersomnia"
+          },
+          "ui": {
+            "inputType": "radio"
+          },
+          "valueRequired": true,
+          "responseOptions": {
+            "multipleChoice": false,
+            "choices": [
+              {
+                "name": {
+                  "en": "NOT TRUE"
+                },
+                "value": 0
+              },
+              {
+                "name": {
+                  "en": "SOMETIMES"
+                },
+                "value": 1
+              },
+              {
+                "name": {
+                  "en": "TRUE"
+                },
+                "value": 2
+              }
+            ]
+          }
+        }
+      ],
+      "ui": {
+        "order": [
+          "MFQ_01",
+          "MFQ_02",
+          "MFQ_03",
+          "MFQ_04",
+          "MFQ_05",
+          "MFQ_06",
+          "MFQ_07",
+          "MFQ_08",
+          "MFQ_09",
+          "MFQ_10",
+          "MFQ_11",
+          "MFQ_12",
+          "MFQ_13",
+          "MFQ_14",
+          "MFQ_15",
+          "MFQ_16",
+          "MFQ_17",
+          "MFQ_18",
+          "MFQ_19",
+          "MFQ_20",
+          "MFQ_21",
+          "MFQ_22",
+          "MFQ_23",
+          "MFQ_24",
+          "MFQ_25",
+          "MFQ_26",
+          "MFQ_27",
+          "MFQ_28",
+          "MFQ_29",
+          "MFQ_30",
+          "MFQ_31",
+          "MFQ_32",
+          "MFQ_33"
+        ],
+        "shuffle": false,
+        "addProperties": [
+          {
+            "variableName": "MFQ_01",
+            "isAbout": "MFQ_01"
+          },
+          {
+            "variableName": "MFQ_02",
+            "isAbout": "MFQ_02"
+          },
+          {
+            "variableName": "MFQ_03",
+            "isAbout": "MFQ_03"
+          },
+          {
+            "variableName": "MFQ_04",
+            "isAbout": "MFQ_04"
+          },
+          {
+            "variableName": "MFQ_05",
+            "isAbout": "MFQ_05"
+          },
+          {
+            "variableName": "MFQ_06",
+            "isAbout": "MFQ_06"
+          },
+          {
+            "variableName": "MFQ_07",
+            "isAbout": "MFQ_07"
+          },
+          {
+            "variableName": "MFQ_08",
+            "isAbout": "MFQ_08"
+          },
+          {
+            "variableName": "MFQ_09",
+            "isAbout": "MFQ_09"
+          },
+          {
+            "variableName": "MFQ_10",
+            "isAbout": "MFQ_10"
+          },
+          {
+            "variableName": "MFQ_11",
+            "isAbout": "MFQ_11"
+          },
+          {
+            "variableName": "MFQ_12",
+            "isAbout": "MFQ_12"
+          },
+          {
+            "variableName": "MFQ_13",
+            "isAbout": "MFQ_13"
+          },
+          {
+            "variableName": "MFQ_14",
+            "isAbout": "MFQ_14"
+          },
+          {
+            "variableName": "MFQ_15",
+            "isAbout": "MFQ_15"
+          },
+          {
+            "variableName": "MFQ_16",
+            "isAbout": "MFQ_16"
+          },
+          {
+            "variableName": "MFQ_17",
+            "isAbout": "MFQ_17"
+          },
+          {
+            "variableName": "MFQ_18",
+            "isAbout": "MFQ_18"
+          },
+          {
+            "variableName": "MFQ_19",
+            "isAbout": "MFQ_19"
+          },
+          {
+            "variableName": "MFQ_20",
+            "isAbout": "MFQ_20"
+          },
+          {
+            "variableName": "MFQ_21",
+            "isAbout": "MFQ_21"
+          },
+          {
+            "variableName": "MFQ_22",
+            "isAbout": "MFQ_22"
+          },
+          {
+            "variableName": "MFQ_23",
+            "isAbout": "MFQ_23"
+          },
+          {
+            "variableName": "MFQ_24",
+            "isAbout": "MFQ_24"
+          },
+          {
+            "variableName": "MFQ_25",
+            "isAbout": "MFQ_25"
+          },
+          {
+            "variableName": "MFQ_26",
+            "isAbout": "MFQ_26"
+          },
+          {
+            "variableName": "MFQ_27",
+            "isAbout": "MFQ_27"
+          },
+          {
+            "variableName": "MFQ_28",
+            "isAbout": "MFQ_28"
+          },
+          {
+            "variableName": "MFQ_29",
+            "isAbout": "MFQ_29"
+          },
+          {
+            "variableName": "MFQ_30",
+            "isAbout": "MFQ_30"
+          },
+          {
+            "variableName": "MFQ_31",
+            "isAbout": "MFQ_31"
+          },
+          {
+            "variableName": "MFQ_32",
+            "isAbout": "MFQ_32"
+          },
+          {
+            "variableName": "MFQ_33",
+            "isAbout": "MFQ_33"
+          }
+        ]
+      },
+      "compute": [
+        {
+          "variableName": "MFQ_total",
+          "jsExpression": "MFQ_01 + MFQ_02 + MFQ_03 + MFQ_04 + MFQ_05 + MFQ_06 + MFQ_07 + MFQ_08 + MFQ_09 + MFQ_10 + MFQ_11 + MFQ_12 + MFQ_13 + MFQ_14 + MFQ_15 + MFQ_16 + MFQ_17 + MFQ_18 + MFQ_19 + MFQ_20 + MFQ_21 + MFQ_22 + MFQ_23 + MFQ_24 + MFQ_25 + MFQ_26 + MFQ_27 + MFQ_28 + MFQ_29 + MFQ_30 + MFQ_31 + MFQ_32 + MFQ_33",
+          "description": {
+            "en": "MFQ Total Score"
+          }
+        }
+      ]
+    },
+    "validation": {
+      "completeness": {
+        "allItemsExtracted": true,
+        "itemCount": 33,
+        "missingItems": []
+      },
+      "accuracy": {
+        "responseOptionsCorrect": true,
+        "scoringLogicPresent": true,
+        "metadataComplete": true
+      },
+      "issues": [],
+      "overallScore": 10.0,
+      "summary": "All questionnaire components successfully extracted and formatted. The MFQ-Long form contains 33 questions with consistent response options (NOT TRUE=0, SOMETIMES=1, TRUE=2). The schema includes complete metadata, proper item formatting, and correct scoring calculation."
+    }
+  }
+}
