@@ -575,6 +575,7 @@ class ConceptMappingTool(BaseTool):
                 "ontology_label": [m["label"] for m in matches],
                 "ontology": [m["ontology"] for m in matches]
             }
+        # FIFO cache eviction strategy
         with _CONCEPT_MAPPING_CACHE_LOCK:
             max_size = _concept_mapping_cache_max_size()
             if len(_CONCEPT_MAPPING_CACHE) >= max_size:
