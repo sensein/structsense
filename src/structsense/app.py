@@ -78,12 +78,7 @@ from utils.task_tools import get_tools_for_agent
 from utils.crew_utils import initialize_memory
 from utils.mlops import setup_monitoring
 
-from utils.text_chunking import (
-    _chunk_doc_by_sentences,
-    _get_sentence_info_for_span,
-    _validate_text_presence,
-    _globalize_entities,
-)
+
 from utils.crew_utils import run_crew_extraction, run_crew_extraction_async, initialize_agent_and_task
 from utils.postprocessing import (
     get_post_processor,
