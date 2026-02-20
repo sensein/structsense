@@ -55,57 +55,10 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-def process_input_data(source: str):
-    if isinstance(source, str):
-        # Try different path resolutions
-        paths_to_try = [
-            Path(source),  # As provided
-            Path.cwd() / source,  # Relative to current directory
-            Path(source).absolute(),  # Absolute path
-            Path(source).resolve(),  # Resolved path (handles .. and .)
-        ]
-
-        # Log all paths being tried
-        logger.info(f"Trying paths: {[str(p) for p in paths_to_try]}")
-
-        # Check if this is raw text input
-        is_raw_text = (
-            # do not contains any extensions like .pdf
-            (not source.lower().endswith((".pdf", ".csv", ".txt")))
-            or
-            # If it's a very long string, treat as raw text
-            len(source) > 500
-            or
-            # Or if it contains newlines
-            "\n" in source
-            or
-            # Or if it doesn't look like a path and no paths exist
-            (not ("/" in source or "\\" in source) and not any(p.exists() for p in paths_to_try))
-        )
-
-        if is_raw_text:
-            logger.info(f"Processing raw text input (length: {len(source)})")
-            return source
-
-        # Use the first path that exists, or default to the first path
-        source_path = next((p for p in paths_to_try if p.exists()), paths_to_try[0])
-
-        if not source_path.exists():
-            error_msg = f"Source path does not exist: {source}\n" f"Tried the following paths:\n" + "\n".join(
-                f"- {p}" for p in paths_to_try
-            )
-            logger.error(error_msg)
-            return {"status": "Error", "error": error_msg}
-
-        logger.info(f"Using path: {source_path}")
-    else:
-        source_path = Path(source)
-        if not source_path.exists():
-            error_msg = f"Source path does not exist: {source}"
-            logger.error(error_msg)
-            return {"status": "Error", "error": error_msg}
-
-        # Process single file
+def process_input_data(source_path: Union[str, Path]):
+    # Process single file
+    if isinstance(source_path, str):
+        source_path = Path(source_path)
     if source_path.is_file():
         logger.info(f"Processing single file: {source_path}")
         ext = source_path.suffix.lower()
@@ -1212,10 +1165,10 @@ def merge_dicts_preserve_structure(dicts):
 def str_to_bool(s):
     """
     Convert a string to boolean value.
-    
+
     Args:
         s: String, boolean, or None to convert
-        
+
     Returns:
         bool: True if string is 'true' (case-insensitive), False otherwise
     """
@@ -1223,18 +1176,19 @@ def str_to_bool(s):
         return s
     if s is None:
         return False
-    return str(s).strip().lower() == 'true'
+    return str(s).strip().lower() == "true"
 
 
 def check_ollama_health() -> bool:
     """
     Check if Ollama is available and healthy.
-    
+
     Returns:
         bool: True if Ollama is available, False otherwise
     """
     try:
         import requests
+
         response = requests.get("http://localhost:11434/api/tags", timeout=2)
         return response.status_code == 200
     except Exception:

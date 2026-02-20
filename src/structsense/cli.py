@@ -23,23 +23,71 @@ def cli(ctx):
 
 
 @cli.command()
-@click.option("--config", required=True, type=str, help="Path to the single YAML config file (ner_config.yaml).")
+@click.option("--config", required=True, type=click.Path(exists=True), help="Path to the single YAML config file (ner_config.yaml).")
 @click.option("--api_key", required=False, type=str, help="Open router API key.")
 @click.option(
     "--source",
-    required=True,
-    help=("The source—whether a file (text or PDF), a folder, or a text string."),
+    type=click.Path(exists=True),
+    help=("The path to file to process, (PDF, csv or txt). This is an alternative to providing a text string with --source_text."),
 )
-@click.option("--env_file", required=False, type=str, help="Optional path to an environment file to override the default .env file.")
+@click.option(
+    "--source_text",
+    type=str,
+    help=("The text string that should be used as input directly. This is an alternative to providing a file path with --source."),
+)
+@click.option(
+    "--env_file",
+    required=False,
+    type=click.Path(exists=True),
+    help="Optional path to an environment file to override the default .env file.",
+)
 @click.option("--save_file", required=False, type=str, help="Optional path to save the result as a JSON file.")
 @click.option("--chunk_size", required=False, type=int, default=None, help="Chunk size in characters for extraction (None = no chunking).")
 @click.option("--max_workers", required=False, type=int, default=None, help="Maximum parallel workers (None = auto).")
-@click.option("--enable_chunking", required=False, default=False, is_flag=True, help="Enable chunking (uses default chunk_size if --chunk_size not provided).")
-@click.option("--downstream_max_input_chars", required=False, type=int, default=None, help="Max input chars for alignment/judge/humanfeedback (default 80000).")
-@click.option("--max_extraction_chunk_chars", required=False, type=int, default=None, help="Cap extraction chunk size in chars so chunk+prompt stays under model context (default 25000 for 128k models). None = no cap.")
-def extract(config, api_key, source, env_file, save_file, chunk_size, max_workers, enable_chunking, downstream_max_input_chars, max_extraction_chunk_chars):
+@click.option(
+    "--enable_chunking",
+    required=False,
+    default=False,
+    is_flag=True,
+    help="Enable chunking (uses default chunk_size if --chunk_size not provided).",
+)
+@click.option(
+    "--downstream_max_input_chars",
+    required=False,
+    type=int,
+    default=None,
+    help="Max input chars for alignment/judge/humanfeedback (default 80000).",
+)
+@click.option(
+    "--max_extraction_chunk_chars",
+    required=False,
+    type=int,
+    default=None,
+    help="Cap extraction chunk size in chars so chunk+prompt stays under model context (default 25000 for 128k models). None = no cap.",
+)
+def extract(
+    config,
+    api_key,
+    source,
+    source_text,
+    env_file,
+    save_file,
+    chunk_size,
+    max_workers,
+    enable_chunking,
+    downstream_max_input_chars,
+    max_extraction_chunk_chars,
+):
     """Extract the terms along with sentence using a single config file."""
     # Load the config file
+    if source and source_text:
+        raise click.UsageError("Please provide either --source or --source_text, not both.")
+    elif not source and not source_text:
+        raise click.UsageError("Please provide either --source or --source_text.")
+    elif source:
+        # If source is a file
+        source = process_input_data(source)
+
     all_config = load_config(config, "all")
 
     # Extract the different config sections
@@ -51,6 +99,7 @@ def extract(config, api_key, source, env_file, save_file, chunk_size, max_worker
     enable_human_feedback = bool(human_in_loop.get("humanfeedback_agent", False))
     if "ENABLE_HUMAN_FEEDBACK" in os.environ:
         from utils.utils import str_to_bool
+
         enable_human_feedback = str_to_bool(os.environ["ENABLE_HUMAN_FEEDBACK"])
 
     # Use StructSenseFlow as the single entry point
@@ -68,7 +117,7 @@ def extract(config, api_key, source, env_file, save_file, chunk_size, max_worker
         downstream_max_input_chars=downstream_max_input_chars,
         max_extraction_chunk_chars=max_extraction_chunk_chars,
     )
-    
+
     # Run the full pipeline (extraction → alignment → judge → humanfeedback)
     result = asyncio.run(flow.information_extraction_task())
 
@@ -97,12 +146,43 @@ def extract(config, api_key, source, env_file, save_file, chunk_size, max_worker
 @click.option("--save_file", required=False, type=str, help="Optional path to save the result as a JSON file.")
 @click.option("--chunk_size", required=False, type=int, default=None, help="Chunk size in characters for extraction (None = no chunking).")
 @click.option("--max_workers", required=False, type=int, default=None, help="Maximum parallel workers (None = auto).")
-@click.option("--enable_chunking", required=False, default=False, is_flag=True, help="Enable chunking (uses default chunk_size if --chunk_size not provided).")
-@click.option("--downstream_max_input_chars", required=False, type=int, default=None, help="Max input chars for alignment/judge/humanfeedback when running pipeline (default 80000).")
-@click.option("--max_extraction_chunk_chars", required=False, type=int, default=None, help="Cap extraction chunk size in chars for model context (default 25000). None = no cap.")
-def run_agent(config, agent_key, task_key, source, api_key, env_file, save_file, chunk_size, max_workers, enable_chunking, downstream_max_input_chars, max_extraction_chunk_chars):
+@click.option(
+    "--enable_chunking",
+    required=False,
+    default=False,
+    is_flag=True,
+    help="Enable chunking (uses default chunk_size if --chunk_size not provided).",
+)
+@click.option(
+    "--downstream_max_input_chars",
+    required=False,
+    type=int,
+    default=None,
+    help="Max input chars for alignment/judge/humanfeedback when running pipeline (default 80000).",
+)
+@click.option(
+    "--max_extraction_chunk_chars",
+    required=False,
+    type=int,
+    default=None,
+    help="Cap extraction chunk size in chars for model context (default 25000). None = no cap.",
+)
+def run_agent(
+    config,
+    agent_key,
+    task_key,
+    source,
+    api_key,
+    env_file,
+    save_file,
+    chunk_size,
+    max_workers,
+    enable_chunking,
+    downstream_max_input_chars,
+    max_extraction_chunk_chars,
+):
     """Run a specific agent-task combination directly with full control.
-    
+
     This command gives you direct control over how each agent runs without
     using the default flow pattern. You can specify exactly which agent
     and task to run, with custom chunking and parallel processing settings.
@@ -132,6 +212,7 @@ def run_agent(config, agent_key, task_key, source, api_key, env_file, save_file,
     # Replace API key if provided
     if api_key:
         from utils.utils import replace_api_key
+
         agent_config = replace_api_key(agent_config, api_key)
         embedder_config = replace_api_key(embedder_config, api_key)
 
@@ -153,13 +234,15 @@ def run_agent(config, agent_key, task_key, source, api_key, env_file, save_file,
     )
 
     # Run the specific agent-task directly
-    result = asyncio.run(flow.run_agent_task(
-        agent_key=agent_key,
-        task_key=task_key,
-        chunk_size=chunk_size if chunk_size else (flow.chunk_size if enable_chunking else None),
-        max_workers=max_workers,
-        pydantic_output_class=None,
-    ))
+    result = asyncio.run(
+        flow.run_agent_task(
+            agent_key=agent_key,
+            task_key=task_key,
+            chunk_size=chunk_size if chunk_size else (flow.chunk_size if enable_chunking else None),
+            max_workers=max_workers,
+            pydantic_output_class=None,
+        )
+    )
 
     # Output results
     click.echo("*" * 100)
@@ -167,9 +250,10 @@ def run_agent(config, agent_key, task_key, source, api_key, env_file, save_file,
     click.echo(f"Elapsed time: {result.get('elapsed_time', 'N/A')} seconds")
     click.echo(f"Errors: {len(result.get('errors', []))}")
     click.echo("*" * 100)
-    
+
     # Pretty print results
     import json
+
     click.echo(json.dumps(result, indent=2, default=str))
 
     # Save to file if requested
