@@ -136,7 +136,7 @@ def extract(
 
 
 @cli.command()
-@click.option("--config", required=True, type=str, help="Path to the single YAML config file.")
+@click.option("--config", required=True, type=click.Path(exists=True), help="Path to the single YAML config file.")
 @click.option("--agent_key", required=True, type=str, help="Key for the agent in agent_config (e.g., 'extractor_agent').")
 @click.option("--task_key", required=True, type=str, help="Key for the task in task_config (e.g., 'extraction_task').")
 @click.option(
@@ -150,7 +150,7 @@ def extract(
     help="Text string to use as input directly. Alternative to --source.",
 )
 @click.option("--api_key", required=False, type=str, help="Open router API key.")
-@click.option("--env_file", required=False, type=str, help="Optional path to an environment file.")
+@click.option("--env_file", required=False, type=click.Path(exists=True), help="Optional path to an environment file.")
 @click.option("--save_file", required=False, type=str, help="Optional path to save the result as a JSON file.")
 @click.option("--chunk_size", required=False, type=int, default=None, help="Chunk size in characters for extraction (None = no chunking).")
 @click.option("--max_workers", required=False, type=int, default=None, help="Maximum parallel workers (None = auto).")
