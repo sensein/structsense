@@ -4,14 +4,14 @@ This repository contains examples demonstrating how to run **StructSense** in di
 
 ### Examples
 
-- **`cli/`**  
+- **`cli/`**
   Contains examples for running StructSense in **CLI mode**.
 
-- **`python-example/`**  
+- **`python-example/`**
   Contains tutorials demonstrating how to run StructSense in **programmatic (Python) mode**.
 
 
- 
+
 ## Using StructSense (CLI and Python)
 
 ### Command-line (CLI)
@@ -33,7 +33,8 @@ structsense-cli extract \
 | Option | Description |
 |--------|-------------|
 | `--config` | **(Required)** Path to YAML config (agent + task + embedder). |
-| `--source` | **(Required)** Input: path to a PDF/text file, a folder, or a text string. |
+| `--source` | Path to a PDF, CSV, or TXT file to process. Mutually exclusive with `--source_text`. |
+| `--source_text` | Raw text string to use as input. Mutually exclusive with `--source`. |
 | `--api_key` | OpenRouter (or other) API key; can also be set in `.env` as `OPENROUTER_API_KEY`. |
 | `--env_file` | Path to `.env` (default: `.env` in current directory). |
 | `--save_file` | Save the result JSON to this path. |
@@ -110,7 +111,7 @@ flow = StructSenseFlow(
     agent_config="path/to/config.yaml",
     task_config="path/to/config.yaml",
     embedder_config="path/to/config.yaml",
-    input_source="path/to/file.pdf",   # or a text string, or path to .txt
+    source="path/to/file.pdf",   # or source_text="raw text string"
     enable_chunking=True,
     chunk_size=2000,
     max_workers=8,
@@ -142,7 +143,7 @@ flow = StructSenseFlow(
     agent_config="path/to/config.yaml",
     task_config="path/to/config.yaml",
     embedder_config="path/to/config.yaml",
-    input_source="path/to/file.pdf",  # or source_text="raw text"
+    source="path/to/file.pdf",   # or source_text="raw text string"
     enable_chunking=True,
     chunk_size=2000,
 )
@@ -175,7 +176,7 @@ flow = StructSenseFlow(
     agent_config=all_config["agent_config"],
     task_config=all_config["task_config"],
     embedder_config=all_config.get("embedder_config", {}),
-    input_source="path/to/file.pdf",  # or source_text="raw text"
+    source="path/to/file.pdf",   # or source_text="raw text string"
     enable_chunking=True,
     chunk_size=2000,
     max_workers=8,
@@ -216,12 +217,12 @@ with open("result.json", "w") as f:
 <details>
 <summary><strong>❗ Agent execution traces</strong></summary>
 
-**Symptom** 
+**Symptom**
 
 - The agent when running shows the execution trace prompt `Would you like to view your execution traces? [y/N] (20s timeout)`. For more see [How to disable execution trace prompt?](https://community.crewai.com/t/how-to-disable-execution-trace-prompt/7150) and [[BUG] How can disable tracing prompt? #3789](https://github.com/crewAIInc/crewAI/issues/3789).
 
-**Resolution** 
-- Please set the following environment variables with provided values. 
+**Resolution**
+- Please set the following environment variables with provided values.
 
 ```bash
 CREWAI_TRACING_ENABLED=false
@@ -236,12 +237,12 @@ ENABLE_CREW_MEMORY=false
 <details>
 <summary><strong>❗ Agent Memory Issue</strong></summary>
 
-**Symptom** 
+**Symptom**
 
 - You may get non-fatal error regarding agents and some discussion suggest disabling memory or provide Open AI key.
 
-**Resolution** 
-- Please set the following environment variable with provided values to disable memory. 
+**Resolution**
+- Please set the following environment variable with provided values to disable memory.
 
 ```bash
 ENABLE_CREW_MEMORY=false
