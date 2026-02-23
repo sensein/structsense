@@ -69,7 +69,7 @@ from dotenv import load_dotenv
 
 from utils.utils import (
     load_config,
-    process_input_data,
+    process_file,
     replace_api_key,
     str_to_bool,
     check_ollama_health,
@@ -237,8 +237,7 @@ class StructSenseFlow:
         agent_config: Union[str, dict],
         task_config: Union[str, dict],
         embedder_config: Union[str, dict],
-        source_text: Optional[str] = None,
-        input_source: Optional[Union[str, dict]] = None,
+        source_text: str,
         enable_human_feedback: bool = False,
         enable_chunking: bool = False,
         knowledge_config: Optional[Union[str, dict]] = None,
@@ -261,11 +260,9 @@ class StructSenseFlow:
             Path to task YAML/JSON or dict (description, agent_id per task).
         embedder_config : str or dict
             Path to embedder config or dict (used for memory/embedding).
-        source_text : str, optional
-            Raw text to process. Not used if ``input_source`` is provided.
-        input_source : str or dict, optional
-            File path, URL, or dict; takes precedence over ``source_text``.
-            Processed by :func:`utils.utils.process_input_data`.
+        source_text : str
+            The text to process. File loading and conversion must be done
+            before constructing this class (e.g. via :func:`utils.utils.process_file`).
         enable_human_feedback : bool, optional
             Whether to run the humanfeedback stage. Default False.
         enable_chunking : bool, optional
@@ -292,8 +289,7 @@ class StructSenseFlow:
         Raises
         ------
         ConfigError
-            If neither ``source_text`` nor ``input_source`` is provided, or
-            if input processing fails or yields no valid text.
+            If ``source_text`` is empty or not a valid string.
         """
         super().__init__()
 
@@ -322,64 +318,11 @@ class StructSenseFlow:
         if "CREWAI_TELEMETRY_OPT_OUT" not in os.environ:
             os.environ["CREWAI_TELEMETRY_OPT_OUT"] = "true"
 
-        # Process input source if provided (takes precedence over source_text)
-        if input_source is not None:
-            # processed_data = process_input_data(input_source)
-            # Convert processed data to string
-            if isinstance(processed_data, dict):
-                if "sections" in processed_data:
-                    text_parts = []
-                    for section in processed_data.get("sections", []):
-                        if isinstance(section, dict):
-                            heading = section.get("heading", "")
-                            content = section.get("content", "")
-                            if heading:
-                                text_parts.append(f"{heading}\n{content}")
-                            else:
-                                text_parts.append(content)
-                    self.source_text = "\n\n".join(text_parts)
-                elif "text" in processed_data:
-                    title = processed_data.get("title", "")
-                    text = processed_data.get("text", "")
-                    if title and text:
-                        self.source_text = f"{title}\n\n{text}"
-                    elif text:
-                        self.source_text = text
-                    else:
-                        self.source_text = str(processed_data)
-                elif "error" in processed_data:
-                    error_msg = processed_data.get("error", "Unknown error processing input")
-                    raise ConfigError(f"Input processing failed: {error_msg}")
-                else:
-                    # Unknown dict format, try to extract text-like values
-                    text_parts = []
-                    for key, value in processed_data.items():
-                        if isinstance(value, str) and len(value) > 10:
-                            text_parts.append(value)
-                        elif isinstance(value, list):
-                            for item in value:
-                                if isinstance(item, str):
-                                    text_parts.append(item)
-                                elif isinstance(item, dict) and "content" in item:
-                                    text_parts.append(item.get("content", ""))
-                    if text_parts:
-                        self.source_text = "\n\n".join(text_parts)
-                    else:
-                        logger.warning(f"Unknown dict format from process_input_data: {list(processed_data.keys())}")
-                        self.source_text = str(processed_data)
-            elif isinstance(processed_data, list):
-                logger.warning("List input detected, converting to string representation")
-                self.source_text = "\n".join(str(item) for item in processed_data)
-            else:
-                self.source_text = processed_data
-        elif source_text is not None:
-            self.source_text = source_text
-        else:
-            raise ConfigError("Either source_text or input_source must be provided")
+        self.source_text = source_text
 
         # Validate that we have text to process
         if not self.source_text or not isinstance(self.source_text, str):
-            raise ConfigError("No valid text content could be extracted from input source")
+            raise ConfigError("source_text must be a non-empty string")
 
         if len(self.source_text.strip()) == 0:
             raise ConfigError("Extracted text is empty")
@@ -1576,7 +1519,7 @@ async def kickoff(
     agentconfig: Union[str, dict],
     taskconfig: Union[str, dict],
     embedderconfig: Union[str, dict],
-    input_source: Union[str, dict],
+    source_text: str,
     knowledgeconfig: Optional[Union[str, dict]] = None,
     enable_human_feedback: bool = True,
     agent_feedback_config: Optional[Dict[str, bool]] = None,
@@ -1600,7 +1543,7 @@ async def kickoff(
             agent_config=agentconfig,
             task_config=taskconfig,
             embedder_config=embedderconfig,
-            input_source=input_source,
+            source_text=source_text,
             knowledge_config=knowledgeconfig,
             enable_human_feedback=enable_human_feedback,
             agent_feedback_config=agent_feedback_config,

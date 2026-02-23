@@ -5,7 +5,7 @@ import logging
 import click
 import yaml
 
-from utils.utils import load_config, process_input_data
+from utils.utils import load_config, process_file
 from dotenv import load_dotenv
 import os
 import asyncio
@@ -85,8 +85,7 @@ def extract(
     elif not source and not source_text:
         raise click.UsageError("Please provide either --source or --source_text.")
     elif source:
-        # If source is a file
-        source = process_input_data(source)
+        source_text = process_file(source)
 
     all_config = load_config(config, "all")
 
@@ -107,7 +106,7 @@ def extract(
         agent_config=agent_config,
         task_config=task_config,
         embedder_config=embedder_config,
-        input_source=source,
+        source_text=source_text,
         env_file=env_file,
         api_key=api_key,
         enable_human_feedback=enable_human_feedback,
@@ -140,7 +139,16 @@ def extract(
 @click.option("--config", required=True, type=str, help="Path to the single YAML config file.")
 @click.option("--agent_key", required=True, type=str, help="Key for the agent in agent_config (e.g., 'extractor_agent').")
 @click.option("--task_key", required=True, type=str, help="Key for the task in task_config (e.g., 'extraction_task').")
-@click.option("--source", required=True, help="The source—whether a file (text or PDF), a folder, or a text string.")
+@click.option(
+    "--source",
+    type=click.Path(exists=True),
+    help="Path to the file to process (PDF, CSV or TXT). Alternative to --source_text.",
+)
+@click.option(
+    "--source_text",
+    type=str,
+    help="Text string to use as input directly. Alternative to --source.",
+)
 @click.option("--api_key", required=False, type=str, help="Open router API key.")
 @click.option("--env_file", required=False, type=str, help="Optional path to an environment file.")
 @click.option("--save_file", required=False, type=str, help="Optional path to save the result as a JSON file.")
@@ -172,6 +180,7 @@ def run_agent(
     agent_key,
     task_key,
     source,
+    source_text,
     api_key,
     env_file,
     save_file,
@@ -187,6 +196,13 @@ def run_agent(
     using the default flow pattern. You can specify exactly which agent
     and task to run, with custom chunking and parallel processing settings.
     """
+    if source and source_text:
+        raise click.UsageError("Please provide either --source or --source_text, not both.")
+    elif not source and not source_text:
+        raise click.UsageError("Please provide either --source or --source_text.")
+    elif source:
+        source_text = process_file(source)
+
     # Load environment variables
     if env_file:
         load_dotenv(env_file, override=True)
@@ -216,13 +232,13 @@ def run_agent(
         agent_config = replace_api_key(agent_config, api_key)
         embedder_config = replace_api_key(embedder_config, api_key)
 
-    # Initialize the flow (it will process input_source internally)
+    # Initialize the flow
     flow = StructSenseFlow(
         agent_config=agent_config,
         task_config=task_config,
         embedder_config=embedder_config,
         knowledge_config=knowledge_config,
-        input_source=source,
+        source_text=source_text,
         env_file=env_file,
         api_key=api_key,
         enable_human_feedback=False,

@@ -55,37 +55,80 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-def process_input_data(source_path: Union[str, Path]):
-    # Process single file
+def process_file(source_path: Union[str, Path]) -> str:
+    """Process a file and return its contents as a plain text string.
+
+    Raises:
+        ValueError: If the file does not exist, format is unsupported, or processing fails.
+    """
     if isinstance(source_path, str):
         source_path = Path(source_path)
-    if source_path.is_file():
-        logger.info(f"Processing single file: {source_path}")
-        ext = source_path.suffix.lower()
-        if ext == ".pdf":
-            GROBID_SERVER_URL_OR_EXTERNAL_SERVICE = os.getenv("GROBID_SERVER_URL_OR_EXTERNAL_SERVICE", "http://localhost:8070")
-            EXTERNAL_PDF_EXTRACTION_SERVICE = os.getenv("EXTERNAL_PDF_EXTRACTION_SERVICE", "False")
-            return extract_pdf_content(
-                file_path=source_path, grobid_server=GROBID_SERVER_URL_OR_EXTERNAL_SERVICE, external_service=EXTERNAL_PDF_EXTRACTION_SERVICE
-            )
-        elif ext == ".csv":
-            try:
-                df = pd.read_csv(source_path)
-                return df.to_dict(orient="records")
-            except Exception as e:
-                logger.error(f"Error reading CSV file: {e}")
-                return {"status": "Error", "error": str(e)}
-        elif ext == ".txt":
-            try:
-                with open(source_path, "r", encoding="utf-8") as f:
-                    return f.read()
-            except Exception as e:
-                logger.error(f"Error reading TXT file: {e}")
-                return {"status": "Error", "error": str(e)}
+    if not source_path.is_file():
+        raise ValueError(f"File not found: {source_path}")
+
+    logger.info(f"Processing file: {source_path}")
+    ext = source_path.suffix.lower()
+
+    if ext == ".pdf":
+        grobid_server = os.getenv("GROBID_SERVER_URL_OR_EXTERNAL_SERVICE", "http://localhost:8070")
+        external_service = os.getenv("EXTERNAL_PDF_EXTRACTION_SERVICE", "False")
+        raw = extract_pdf_content(file_path=source_path, grobid_server=grobid_server, external_service=external_service)
+        return _structured_data_to_text(raw)
+    elif ext == ".csv":
+        try:
+            df = pd.read_csv(source_path)
+            return df.to_csv(index=False)
+        except Exception as e:
+            logger.error(f"Error reading CSV file: {e}")
+            raise ValueError(f"Error reading CSV file: {e}")
+    elif ext == ".txt":
+        try:
+            with open(source_path, "r", encoding="utf-8") as f:
+                return f.read()
+        except Exception as e:
+            logger.error(f"Error reading TXT file: {e}")
+            raise ValueError(f"Error reading TXT file: {e}")
+    else:
+        raise ValueError(f"Unsupported file format: {ext}")
+
+
+def _structured_data_to_text(data) -> str:
+    """Convert structured data returned by file processors to a plain text string."""
+    if isinstance(data, dict):
+        if "sections" in data:
+            text_parts = []
+            for section in data.get("sections", []):
+                if isinstance(section, dict):
+                    heading = section.get("heading", "")
+                    content = section.get("content", "")
+                    text_parts.append(f"{heading}\n{content}" if heading else content)
+            return "\n\n".join(text_parts)
+        elif "text" in data:
+            title = data.get("title", "")
+            text = data.get("text", "")
+            if title and text:
+                return f"{title}\n\n{text}"
+            return text or str(data)
+        elif "error" in data:
+            raise ValueError(f"File processing failed: {data.get('error', 'Unknown error')}")
         else:
-            error_msg = f"Unsupported file format: {ext}"
-            logger.error(error_msg)
-            return {"status": "Error", "error": error_msg}
+            text_parts = []
+            for value in data.values():
+                if isinstance(value, str) and len(value) > 10:
+                    text_parts.append(value)
+                elif isinstance(value, list):
+                    for item in value:
+                        if isinstance(item, str):
+                            text_parts.append(item)
+                        elif isinstance(item, dict) and "content" in item:
+                            text_parts.append(item.get("content", ""))
+            if text_parts:
+                return "\n\n".join(text_parts)
+            logger.warning(f"Unknown dict format from process_file: {list(data.keys())}")
+            return str(data)
+    elif isinstance(data, list):
+        return "\n".join(str(item) for item in data)
+    return str(data)
 
 
 def extract_pdf_content(file_path: str, grobid_server: str, external_service: str) -> dict:
