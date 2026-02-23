@@ -5,7 +5,7 @@ import logging
 import click
 import yaml
 
-from utils.utils import load_config, process_file
+from utils.utils import load_config
 from dotenv import load_dotenv
 import os
 import asyncio
@@ -84,9 +84,6 @@ def extract(
         raise click.UsageError("Please provide either --source or --source_text, not both.")
     elif not source and not source_text:
         raise click.UsageError("Please provide either --source or --source_text.")
-    elif source:
-        source_text = process_file(source)
-
     all_config = load_config(config, "all")
 
     # Extract the different config sections
@@ -106,6 +103,7 @@ def extract(
         agent_config=agent_config,
         task_config=task_config,
         embedder_config=embedder_config,
+        source=source,
         source_text=source_text,
         env_file=env_file,
         api_key=api_key,
@@ -200,9 +198,6 @@ def run_agent(
         raise click.UsageError("Please provide either --source or --source_text, not both.")
     elif not source and not source_text:
         raise click.UsageError("Please provide either --source or --source_text.")
-    elif source:
-        source_text = process_file(source)
-
     # Load environment variables
     if env_file:
         load_dotenv(env_file, override=True)
@@ -238,6 +233,7 @@ def run_agent(
         task_config=task_config,
         embedder_config=embedder_config,
         knowledge_config=knowledge_config,
+        source=source,
         source_text=source_text,
         env_file=env_file,
         api_key=api_key,

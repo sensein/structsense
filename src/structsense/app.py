@@ -237,7 +237,8 @@ class StructSenseFlow:
         agent_config: Union[str, dict],
         task_config: Union[str, dict],
         embedder_config: Union[str, dict],
-        source_text: str,
+        source: Optional[str] = None,
+        source_text: Optional[str] = None,
         enable_human_feedback: bool = False,
         enable_chunking: bool = False,
         knowledge_config: Optional[Union[str, dict]] = None,
@@ -260,9 +261,11 @@ class StructSenseFlow:
             Path to task YAML/JSON or dict (description, agent_id per task).
         embedder_config : str or dict
             Path to embedder config or dict (used for memory/embedding).
-        source_text : str
-            The text to process. File loading and conversion must be done
-            before constructing this class (e.g. via :func:`utils.utils.process_file`).
+        source : str, optional
+            Path to a file to process (PDF, CSV, or TXT). Mutually exclusive
+            with ``source_text``. Processed internally via :func:`utils.utils.process_file`.
+        source_text : str, optional
+            Raw text to process directly. Mutually exclusive with ``source``.
         enable_human_feedback : bool, optional
             Whether to run the humanfeedback stage. Default False.
         enable_chunking : bool, optional
@@ -289,7 +292,8 @@ class StructSenseFlow:
         Raises
         ------
         ConfigError
-            If ``source_text`` is empty or not a valid string.
+            If both or neither of ``source`` / ``source_text`` are provided,
+            or if the resulting text is empty.
         """
         super().__init__()
 
@@ -318,7 +322,14 @@ class StructSenseFlow:
         if "CREWAI_TELEMETRY_OPT_OUT" not in os.environ:
             os.environ["CREWAI_TELEMETRY_OPT_OUT"] = "true"
 
-        self.source_text = source_text
+        if source and source_text:
+            raise ConfigError("Provide either source or source_text, not both.")
+        elif source:
+            self.source_text = process_file(source)
+        elif source_text:
+            self.source_text = source_text
+        else:
+            raise ConfigError("Either source or source_text must be provided.")
 
         # Validate that we have text to process
         if not self.source_text or not isinstance(self.source_text, str):
@@ -1519,7 +1530,8 @@ async def kickoff(
     agentconfig: Union[str, dict],
     taskconfig: Union[str, dict],
     embedderconfig: Union[str, dict],
-    source_text: str,
+    source: Optional[str] = None,
+    source_text: Optional[str] = None,
     knowledgeconfig: Optional[Union[str, dict]] = None,
     enable_human_feedback: bool = True,
     agent_feedback_config: Optional[Dict[str, bool]] = None,
@@ -1543,6 +1555,7 @@ async def kickoff(
             agent_config=agentconfig,
             task_config=taskconfig,
             embedder_config=embedderconfig,
+            source=source,
             source_text=source_text,
             knowledge_config=knowledgeconfig,
             enable_human_feedback=enable_human_feedback,
