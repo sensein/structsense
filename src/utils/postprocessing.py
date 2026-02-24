@@ -1498,13 +1498,34 @@ def normalize_final_result_for_output(final: Dict[str, Any], task_type: str) -> 
         allowed |= {"entities", "key_terms"}
         for key in INTERMEDIATE_CONTAINER_KEYS_NER:
             final.pop(key, None)
-        # If entities/key_terms missing but judge_ner_terms present, flatten
+        # If entities/key_terms missing, promote from judge_ner_terms or pipeline container keys
+        # (judge/alignment may return list or dict under aligned_structured_information etc., esp. after chunked merge)
         if not final.get("entities") and not final.get("key_terms"):
             jn = final.get("judge_ner_terms")
             if jn and isinstance(jn, dict):
                 entities = _flatten_container_to_list(jn)
                 final["entities"] = entities
                 final["key_terms"] = final.get("key_terms") or []
+            else:
+                for container_key in (
+                    "judged_structured_information_with_human_feedback",
+                    "aligned_structured_information",
+                    "extracted_structured_information",
+                ):
+                    container = final.get(container_key)
+                    if container is None:
+                        continue
+                    if isinstance(container, dict) and ("entities" in container or "key_terms" in container):
+                        final["entities"] = container.get("entities") or []
+                        final["key_terms"] = container.get("key_terms") or final.get("key_terms") or []
+                        break
+                    flattened = _flatten_container_to_list(container)
+                    if flattened:
+                        final["entities"] = flattened
+                        final["key_terms"] = final.get("key_terms") or (
+                            container.get("key_terms") if isinstance(container, dict) else []
+                        )
+                        break
         final.pop("judge_ner_terms", None)
         for key in list(final):
             if key not in allowed:

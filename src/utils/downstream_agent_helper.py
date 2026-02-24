@@ -43,8 +43,10 @@ def prepare_alignment_agent_input(
     """
     Prepare input for alignment agent with token limit management.
 
+    Alignment always receives the previous agent's (extractor) output. No exception.
+
     Args:
-        extraction_results: Results from extraction agent
+        extraction_results: Results from extraction agent (previous agent). Required.
         original_text: Original input text
         agent_context: Optional AgentContext for accessing extraction metadata
         context_manager: Optional ContextWindowManager for token management
@@ -140,9 +142,11 @@ def prepare_judge_agent_input(
     """
     Prepare input for judge agent with token limit management.
 
+    Judge always receives the previous agent's (alignment) output. No exception.
+
     Args:
-        alignment_results: Results from alignment agent
-        extraction_results: Optional original extraction results
+        alignment_results: Results from alignment agent (previous agent). Required.
+        extraction_results: Optional original extraction results (for merging into judge input).
         agent_context: Optional AgentContext
         context_manager: Optional ContextWindowManager
         max_tokens: Maximum tokens
@@ -228,12 +232,13 @@ def prepare_humanfeedback_agent_input(
 ) -> Dict[str, Any]:
     """
     Prepare input for human feedback agent with token limit management.
-    Judge output extends alignment; if judge is empty we pass alignment so human feedback has content.
+
+    Human feedback always receives the previous agent's (judge) output plus human input. No exception.
 
     Args:
-        judge_results: Results from judge agent (alignment extended with judge_score/remarks)
-        user_feedback: Human feedback text
-        alignment_results: Optional alignment output; used to extend when judge is empty
+        judge_results: Results from judge agent (previous agent). Required.
+        user_feedback: Human feedback text. Required when running the agent.
+        alignment_results: Optional alignment output; used by helper to extend judge when needed
         agent_context: Optional AgentContext
         context_manager: Optional ContextWindowManager
         max_tokens: Maximum tokens

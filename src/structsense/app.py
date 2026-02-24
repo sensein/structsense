@@ -90,6 +90,7 @@ from utils.postprocessing import (
     normalize_final_result_for_output,
     promote_canonical_resources_for_resource_task,
     ensure_resource_mapped_concepts_provenance,
+    _flatten_container_to_list,
 )
 from .humanloop import HumanInTheLoop
 
@@ -977,38 +978,48 @@ class StructSenseFlow:
                     metadata={"stage_index": idx - 1}
                 )
 
-                # Prepare token-managed input based on agent type
+                # Each agent always takes the previous agent's output (no exception).
+                # Alignment <- extractor; Judge <- alignment; Human feedback <- judge + human input.
                 if task_key == "alignment_task":
+                    # Alignment always takes previous agent (extractor) output
+                    extraction_output = pipeline_stages.get(ordered_pairs[0][1]) if idx >= 1 else prev_output
+                    if extraction_output is None:
+                        extraction_output = prev_output
+                    if not isinstance(extraction_output, dict):
+                        extraction_output = prev_output if isinstance(prev_output, dict) else {}
                     logger.info(f"[{agent_key}] Preparing token-managed input for alignment agent")
                     managed_input = prepare_alignment_agent_input(
-                        extraction_results=prev_output,
+                        extraction_results=extraction_output,
                         original_text=text,
                         agent_context=self.agent_context,
                         context_manager=self.context_manager,
                         max_tokens=self.token_limit
                     )
-                    # Use managed input as extra_inputs
                     extra_inputs = managed_input
-                    stage_text = None  # Will use extra_inputs instead
+                    stage_text = None
                 elif task_key == "judge_task":
+                    # Judge always takes previous agent (alignment) output
+                    alignment_output = pipeline_stages.get("alignment_task") if idx >= 2 else prev_output
+                    if alignment_output is None:
+                        alignment_output = prev_output
+                    if not isinstance(alignment_output, dict):
+                        alignment_output = prev_output if isinstance(prev_output, dict) else {}
                     logger.info(f"[{agent_key}] Preparing token-managed input for judge agent")
-                    # Get extraction results from context if available
                     extraction_results = None
-                    if idx >= 2:  # There was an extraction stage before alignment
-                        extraction_agent_key, extraction_task_key = ordered_pairs[0]
+                    if idx >= 2:
+                        extraction_agent_key, _ = ordered_pairs[0]
                         extraction_result = self.agent_context.get_latest_result(extraction_agent_key)
                         if extraction_result:
                             extraction_results = extraction_result.result
-
                     managed_input = prepare_judge_agent_input(
-                        alignment_results=prev_output,
+                        alignment_results=alignment_output,
                         extraction_results=extraction_results,
                         agent_context=self.agent_context,
                         context_manager=self.context_manager,
                         max_tokens=self.token_limit
                     )
                     extra_inputs = managed_input
-                    stage_text = None  # Will use extra_inputs instead
+                    stage_text = None
                 else:
                     # For other downstream stages or if not alignment/judge, use JSON string
                     stage_text = json.dumps(prev_output, indent=2) if isinstance(prev_output, dict) else str(prev_output)
@@ -1065,18 +1076,19 @@ class StructSenseFlow:
                                 feedback_text = f"{feedback_text}\n\nModification Context:\n{mod_context}"
 
                 if not humanfeedback_approved_skip_run:
-                    # If still no feedback, use a default (only when we will run the agent)
                     if not feedback_text:
                         feedback_text = modification_context or "No specific feedback provided."
 
-                    # Prepare token-managed input for humanfeedback agent (only when running agent)
-                    alignment_for_human = None
-                    alignment_ctx = self.agent_context.get_latest_result("alignment_agent") if self.agent_context else None
-                    if alignment_ctx:
-                        alignment_for_human = alignment_ctx.result
+                    # Human feedback always takes previous agent (judge) output + human input
+                    judge_output = pipeline_stages.get("judge_task") if len(ordered_pairs) >= 3 else prev_output
+                    if judge_output is None:
+                        judge_output = prev_output
+                    if not isinstance(judge_output, dict):
+                        judge_output = prev_output if isinstance(prev_output, dict) else {}
+                    alignment_for_human = pipeline_stages.get("alignment_task")  # for helper's merge when needed
                     logger.info(f"[{agent_key}] Preparing token-managed input for humanfeedback agent")
                     managed_input = prepare_humanfeedback_agent_input(
-                        judge_results=prev_output,
+                        judge_results=judge_output,
                         user_feedback=feedback_text,
                         alignment_results=alignment_for_human,
                         agent_context=self.agent_context,
@@ -1084,7 +1096,7 @@ class StructSenseFlow:
                         max_tokens=self.token_limit
                     )
                     extra_inputs = managed_input
-                    stage_text = None  # Will use extra_inputs instead
+                    stage_text = None
             elif task_key != "humanfeedback_task" and not is_first_stage and extra_inputs is None:
                 # For other downstream stages, extra_inputs was set above
                 pass
@@ -1304,6 +1316,8 @@ class StructSenseFlow:
         if isinstance(final, dict) and len(final) >= 1:
             for key in unwrap_keys:
                 inner = final.get(key)
+                if inner is None:
+                    continue
                 if isinstance(inner, dict) and (
                     "entities" in inner or "key_terms" in inner or "resources" in inner or "judge_resource" in inner
                 ):
@@ -1311,6 +1325,16 @@ class StructSenseFlow:
                     rest = {k: v for k, v in final.items() if k != key}
                     final = {**inner, **rest}
                     logger.debug("Unwrapped final result from key %s", key)
+                    break
+                # Judge/alignment may return a list of entities (e.g. after chunked merge) or a dict-of-lists
+                if isinstance(inner, (list, dict)):
+                    flattened = _flatten_container_to_list(inner)
+                    if flattened and all(isinstance(x, dict) for x in flattened):
+                        final["entities"] = flattened
+                        final["key_terms"] = final.get("key_terms") or (
+                            inner.get("key_terms") if isinstance(inner, dict) else []
+                        )
+                        logger.debug("Unwrapped final result from key %s (list/container, %d entities)", key, len(flattened))
                     break
         final["errors"] = all_errors
         final["task_type"] = task_type
