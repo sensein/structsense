@@ -54,6 +54,7 @@ spacy = "^3.8.11"
 litellm = {version = ">=1.17.0,<1.80.0"}
 transformers = ">=4.30.0,<4.46.0"
 torch = "^2.10.0"
+json-repair = ">=0.25.2,<0.26.0"
 
 [tool.poetry.group.dev]
 optional = true
