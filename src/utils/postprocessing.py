@@ -1498,8 +1498,8 @@ def normalize_final_result_for_output(final: Dict[str, Any], task_type: str) -> 
         allowed |= {"entities", "key_terms"}
         for key in INTERMEDIATE_CONTAINER_KEYS_NER:
             final.pop(key, None)
-        # If entities/key_terms missing, promote from judge_ner_terms or pipeline container keys
-        # (judge/alignment may return list or dict under aligned_structured_information etc., esp. after chunked merge)
+        # If entities/key_terms missing, promote from judge_ner_terms or any container (hardcoded or root-level dicts).
+        # Check hardcoded pipeline placeholder keys first, then any other key in final whose value is a dict with entities/key_terms.
         if not final.get("entities") and not final.get("key_terms"):
             jn = final.get("judge_ner_terms")
             if jn and isinstance(jn, dict):
@@ -1507,11 +1507,17 @@ def normalize_final_result_for_output(final: Dict[str, Any], task_type: str) -> 
                 final["entities"] = entities
                 final["key_terms"] = final.get("key_terms") or []
             else:
-                for container_key in (
+                hardcoded = (
                     "judged_structured_information_with_human_feedback",
                     "aligned_structured_information",
                     "extracted_structured_information",
-                ):
+                )
+                # Also check any root-level key whose value is a dict with entities/key_terms (not only hardcoded names)
+                container_keys = list(hardcoded)
+                for k, v in final.items():
+                    if k not in hardcoded and isinstance(v, dict) and ("entities" in v or "key_terms" in v):
+                        container_keys.append(k)
+                for container_key in container_keys:
                     container = final.get(container_key)
                     if container is None:
                         continue
