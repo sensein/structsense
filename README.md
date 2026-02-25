@@ -6,19 +6,6 @@ Welcome to `structsense`!
 
 Whether you're working with scientific texts, documents, or messy data, `structsense` enables you to transform it into meaningful, structured insights.
 
-### Documentation
-The complete documentation for StructSense can be found here: [docs.brainkb.org](http://docs.brainkb.org/structsense_overview.html)
-
-## Tutorials
-
-This repository includes example tutorials demonstrating how to run StructSense:
-
-- **[`tutorial/cli/`](tutorial/cli/)**
-  Examples for running StructSense in **CLI mode**.
-
-- **[`tutorial/python-example/`](tutorial/python-example/)**
-  Tutorials demonstrating how to run StructSense in **programmatic (Python) mode**.
-
 ## Using StructSense (CLI and Python)
 
 ### Command-line (CLI)
@@ -197,7 +184,16 @@ with open("result.json", "w") as f:
 ```
 
 ---
+## Tutorials
 
+This repository includes example tutorials demonstrating how to run StructSense:
+
+- **[`tutorial/cli/`](tutorial/cli/)**
+  Examples for running StructSense in **CLI mode**.
+
+- **[`tutorial/python-example/`](tutorial/python-example/)**
+  Tutorials demonstrating how to run StructSense in **programmatic (Python) mode**.
+  
 ## Known Issues
 
 <details>
