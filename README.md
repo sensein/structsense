@@ -214,12 +214,9 @@ This repository includes example tutorials demonstrating how to run StructSense:
 
 **Symptom**
 
-- `ERROR: Could not find a version that satisfies the requirement structsense (from versions: none) ERROR: No matching distribution found for structsense`
+**Symptom**
 
-**Resolution**
-
-- Your Python version should be `>=3.10,<3.13`.
-
+You may encounter the following error during installation:
 </details>
 
 <details>
