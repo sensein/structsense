@@ -42,10 +42,10 @@ logger = logging.getLogger(__name__)
 # Tools that apply to ALL task types for this agent. Combined with task-specific
 # tools when resolving; order is generic first, then task-specific (deduped by name).
 GENERIC_TOOLS_BY_STAGE: Dict[str, List[str]] = {
-    "extractor_agent": [],
-    "alignment_agent": ["concept_mapping_tool"],
-    "judge_agent": [],
-    "human_feedback": [],
+    "extractor_agent": ["repair_json"],
+    "alignment_agent": ["concept_mapping_tool", "repair_json"],
+    "judge_agent": ["repair_json"],
+    "human_feedback": ["repair_json"],
 }
 
 # ----------------------------
@@ -83,6 +83,7 @@ def _resolve_tool(
     task_config: Optional[Dict[str, Any]] = None,
     agent_key: Optional[str] = None,
     task_key: Optional[str] = None,
+    task_type: Optional[str] = None,
 ) -> Any:
     """Resolve a tool name to a CrewAI tool instance (lazy import).
 
@@ -91,6 +92,7 @@ def _resolve_tool(
     extractor agent's role, goal, and task description for LLM-based NER.
     Otherwise returns the default (ML-only) NER tool. For ``concept_mapping_tool``,
     returns :class:`.conceptmappingtool.ConceptMappingTool` (requires BIOPORTAL_API_KEY).
+    For ``repair_json``, sets LLM context and default schema from task_type when provided.
 
     Parameters
     ----------
@@ -104,6 +106,8 @@ def _resolve_tool(
         Agent key (e.g. ``extractor_agent``); used to read role/goal from agent_config.
     task_key : str, optional
         Task key (e.g. ``extraction_task``); used to read description from task_config.
+    task_type : str, optional
+        Task type (e.g. ``ner``, ``resource``); used to set default schema for repair_json.
 
     Returns
     -------
@@ -147,6 +151,28 @@ def _resolve_tool(
             except ValueError as e:
                 logger.warning(f"ConceptMappingTool not registered (missing BIOPORTAL_API_KEY): {e}")
                 return None
+        return _TOOL_REGISTRY.get(name)
+    if name == "repair_json":
+        from .json_repair_tool import (
+            get_default_schema_for_task_type,
+            repair_json_tool,
+            set_repair_json_default_schema,
+            set_repair_json_llm_context,
+        )
+        if agent_config and agent_key:
+            agent_cfg = agent_config.get(agent_key) or {}
+            llm_config = agent_cfg.get("llm") or {}
+            api_key = (
+                llm_config.get("api_key")
+                or os.environ.get("OPENROUTER_API_KEY")
+                or os.environ.get("OPENAI_API_KEY")
+                or ""
+            )
+            set_repair_json_llm_context(llm_config=llm_config, api_key=api_key)
+        if task_type:
+            set_repair_json_default_schema(get_default_schema_for_task_type(task_type))
+        if name not in _TOOL_REGISTRY:
+            _TOOL_REGISTRY[name] = repair_json_tool
         return _TOOL_REGISTRY.get(name)
     if name not in _TOOL_REGISTRY:
         logger.warning(f"Unknown tool name '{name}', skipping")
@@ -266,6 +292,7 @@ def get_tools_for_agent(
             task_config=task_config,
             agent_key=agent_key,
             task_key=task_key,
+            task_type=task_type,
         )
         if t is not None:
             tools.append(t)
