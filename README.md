@@ -201,7 +201,9 @@ This repository includes example tutorials demonstrating how to run StructSense:
 
 **Symptom**
 
-- During `pip install structsense` (or when it's a transitive dep), pip backtracks for a long time across many `opentelemetry-*` packages and eventually fails with:
+- During `pip install structsense` (or when it's a transitive dep), pip backtracks for a long time across many `opentelemetry-*` packages and eventually fails with a dependency resolution error.
+
+**Resolution**
 
 - `pip install --use-deprecated=legacy-resolver structsense`
 
@@ -212,7 +214,9 @@ This repository includes example tutorials demonstrating how to run StructSense:
 
 **Symptom**
 
-- ERROR: Could not find a version that satisfies the requirement structsense (from versions: none) ERROR: No matching distribution found for structsense
+- `ERROR: Could not find a version that satisfies the requirement structsense (from versions: none) ERROR: No matching distribution found for structsense`
+
+**Resolution**
 
 - Your Python version should be `>=3.10,<3.13`.
 
