@@ -21,7 +21,7 @@ $$
 d^* = \arg\max_{d \in \mathcal{D}} f(q, d)
 $$
 
-Note at this stage we want to prioritizes high recall and computational efficiency. 
+Note at this stage we want to prioritize high recall and computational efficiency. 
 
 In the second stage, **reranking**, the retrieved candidates $\mathcal{D}_K$ are re-evaluated using a more expressive (and often computationally expensive) relevance model $g(q, d)$. The goal is to refine the initial ordering by more precisely estimating relevance:
 
