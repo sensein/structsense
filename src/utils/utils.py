@@ -89,7 +89,7 @@ def process_file(source_path: Union[str, Path]) -> str:
             logger.error(f"Error reading TXT file: {e}")
             raise ValueError(f"Error reading TXT file: {e}")
     else:
-        raise ValueError(f"Unsupported file format: {ext}")
+        raise ValueError(f"Unsupported file format: {ext}. Supported formats are PDF, CSV, and TXT.")
 
 
 def _structured_data_to_text(data) -> str:
