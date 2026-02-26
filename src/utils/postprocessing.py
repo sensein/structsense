@@ -626,15 +626,24 @@ def _extract_resources_from_raw(raw_result: Dict[str, Any]) -> List[Dict[str, An
     return []
 
 
+def _scalar_str(val: Any) -> str:
+    """Normalize to a single string for scalar fields; handle list from agent output."""
+    if val is None:
+        return ""
+    if isinstance(val, list):
+        return str(val[0]).strip() if val else ""
+    return str(val).strip()
+
+
 def _normalize_resource_for_merge(res: Dict[str, Any]) -> Dict[str, Any]:
     """Normalize a single resource dict from chunk output (name/mentions) to a common shape.
     Includes downstream fields (judge_score, judge_rationale, etc.) when present.
     """
-    name = (res.get("name") or res.get("resource_name") or "").strip()
+    name = _scalar_str(res.get("name") or res.get("resource_name"))
     out = {
         "name": name,
         "description": res.get("description") or "",
-        "type": (res.get("type") or "").strip(),
+        "type": _scalar_str(res.get("type")),
         "category": res.get("category") or "",
         "target": res.get("target") or "",
         "specific_target": res.get("specific_target") or "",
@@ -656,11 +665,22 @@ def _normalize_resource_for_merge(res: Dict[str, Any]) -> Dict[str, Any]:
     return out
 
 
+def _normalize_str_for_key(val: Any) -> str:
+    """Normalize a value to a string for grouping; handle list/non-string from agent output."""
+    if val is None:
+        return ""
+    if isinstance(val, list):
+        if not val:
+            return ""
+        return " ".join(str(x).strip() for x in val if x is not None).strip().lower()
+    return str(val).strip().lower()
+
+
 def _resource_group_key(res: Dict[str, Any]) -> tuple:
     """Key for grouping same resource across chunks (normalized name + type)."""
-    name = (res.get("name") or "").strip().lower()
-    rtype = (res.get("type") or "").strip().lower()
-    return (name or "unknown", rtype or "unknown")
+    name = _normalize_str_for_key(res.get("name")) or "unknown"
+    rtype = _normalize_str_for_key(res.get("type")) or "unknown"
+    return (name, rtype)
 
 
 def _build_mentions_dict(
@@ -734,17 +754,17 @@ def _merge_resources_into_one(group: List[Dict[str, Any]]) -> Dict[str, Any]:
                 return v
         return None
 
-    type_ = first_non_empty(*(r.get("type") for r in group)) or ""
-    category = first_non_empty(*(r.get("category") for r in group)) or ""
-    target = first_non_empty(*(r.get("target") for r in group)) or ""
-    specific_target = first_non_empty(*(r.get("specific_target") for r in group)) or "N/A"
+    type_ = _scalar_str(first_non_empty(*(r.get("type") for r in group)) or "")
+    category = _scalar_str(first_non_empty(*(r.get("category") for r in group)) or "")
+    target = _scalar_str(first_non_empty(*(r.get("target") for r in group)) or "")
+    specific_target = _scalar_str(first_non_empty(*(r.get("specific_target") for r in group)) or "N/A")
     url = first_non_empty(*(r.get("url") for r in group))
-    performance = first_non_empty(*(r.get("performance") for r in group)) or ""
-    model_architecture = first_non_empty(*(r.get("model_architecture") for r in group)) or ""
+    performance = _scalar_str(first_non_empty(*(r.get("performance") for r in group)) or "")
+    model_architecture = _scalar_str(first_non_empty(*(r.get("model_architecture") for r in group)) or "")
 
-    # Longest description
-    description = max((r.get("description") or "" for r in group), key=len)
-    name = best.get("name") or ""
+    # Longest description (handle list from agent)
+    description = max((_scalar_str(r.get("description")) or "" for r in group), key=len)
+    name = _scalar_str(best.get("name"))
 
     # Merge key_features and mapped_* (dedupe; prefer tool-backed entries with real ontology IDs over N/A)
     def _has_real_id(d: Any) -> bool:
@@ -1014,6 +1034,25 @@ def _merge_single_resource_group_with_provenance(
     return merged
 
 
+def _flatten_resource_items(container: Any) -> List[Dict[str, Any]]:
+    """Flatten container to a list of resource dicts; handle dict-of-lists, list, or nested lists from agent output."""
+    out: List[Dict[str, Any]] = []
+    if container is None:
+        return out
+    if isinstance(container, dict):
+        for _k, v in container.items():
+            out.extend(_flatten_resource_items(v))
+        return out
+    if isinstance(container, list):
+        for x in container:
+            if isinstance(x, dict):
+                out.append(x)
+            elif isinstance(x, list):
+                out.extend(_flatten_resource_items(x))
+        return out
+    return out
+
+
 def merge_downstream_chunk_results_with_provenance(
     chunk_results: List[Dict[str, Any]],
     container_key: str,
@@ -1032,26 +1071,25 @@ def merge_downstream_chunk_results_with_provenance(
         if not isinstance(result, dict):
             continue
         container = result.get(container_key)
-        if container is None:
-            continue
-        if isinstance(container, dict):
-            for _k, v in container.items():
-                if isinstance(v, list):
-                    all_items.extend(v)
-                elif isinstance(v, dict):
-                    all_items.append(v)
-        elif isinstance(container, list):
-            all_items.extend(container)
+        all_items.extend(_flatten_resource_items(container))
 
     if not all_items:
-        return {container_key: {} if isinstance(chunk_results[0].get(container_key), dict) else []}
+        first = chunk_results[0] if chunk_results else {}
+        return {container_key: {} if isinstance(first.get(container_key), dict) else []}
 
-    # Group by resource identity (name + type)
+    # Group by resource identity (name + type); skip items that break grouping
     groups: Dict[tuple, List[Dict[str, Any]]] = defaultdict(list)
     for item in all_items:
-        if isinstance(item, dict):
+        if not isinstance(item, dict):
+            continue
+        try:
             key = _resource_group_key(item)
             groups[key].append(item)
+        except (AttributeError, TypeError, KeyError) as e:
+            logger.warning(
+                "Skipping resource item for grouping due to unexpected shape: %s", e
+            )
+            continue
 
     # Merge each group and add provenance
     merged_list = [
