@@ -81,7 +81,7 @@ The implementation will prioritize a hybrid retrieval and reranking approach, co
 
 - Lù, X.H., 2024. Bm25s: Orders of magnitude faster lexical search via eager sparse scoring. arXiv preprint arXiv:2407.03618.
 
-- ha, R., Wang, B., Günther, M., Mastrapas, G., Sturua, S., Mohr, I., Koukounas, A., Wang, M.K., Wang, N. and Xiao, H., 2024, November. Jina-colbert-v2: A general-purpose multilingual late interaction retriever. In Proceedings of the Fourth Workshop on Multilingual Representation Learning (MRL 2024) (pp. 159-166).
+- Jha, R., Wang, B., Günther, M., Mastrapas, G., Sturua, S., Mohr, I., Koukounas, A., Wang, M.K., Wang, N. and Xiao, H., 2024, November. Jina-colbert-v2: A general-purpose multilingual late interaction retriever. In Proceedings of the Fourth Workshop on Multilingual Representation Learning (MRL 2024) (pp. 159-166).
 
 - Zhang, Y., Li, M., Long, D., Zhang, X., Lin, H., Yang, B., Xie, P., Yang, A., Liu, D., Lin, J. and Huang, F., 2025. Qwen3 embedding: Advancing text embedding and reranking through foundation models. arXiv preprint arXiv:2506.05176.
 
