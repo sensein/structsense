@@ -29,7 +29,7 @@ $$
 d^{**} = \arg\max_{d \in \mathcal{D}_K} g(q, d)
 $$
 
-With this in mind, we define the following search requirements:
+With this in mind, we define the following search requirements (focused on algorithms not system design):
 
 1. **Contextualized retrieval** — The implementation must overcome the limitations of sparse retrieval methods such as BM25 and basic similarity scoring, which lack contextual understanding. This includes support for contextualized approaches such as cross-encoders, dual-encoders and late interaction models (e.g., ColBERT).
 2. **Keyword-based retrieval** — The system must also support fast and efficient keyword-based search.
@@ -77,20 +77,15 @@ The API will encapsulate the full retrieval and ranking pipeline, including cand
 
 The implementation will prioritize a hybrid retrieval and reranking approach, combining fast lexical retrieval with dense and late-interaction models for improved accuracy. The following models and methods will be evaluated and integrated where appropriate:
 
-- **Li et al. (2026)** — *Query-focused and Memory-aware Reranker for Long Context Processing*  
-  Used for long-context reranking scenarios requiring structured reasoning over extended passages.
+- Li, Y., Li, J., Yu, M., Ding, G., Lin, Z., Wang, W. and Zhou, J., 2026. Query-focused and Memory-aware Reranker for Long Context Processing. arXiv preprint arXiv:2602.12192.
 
-- **Lù (2024)** — *BM25s: Orders of Magnitude Faster Lexical Search via Eager Sparse Scoring*  
-  Used as a high-performance sparse retrieval baseline for efficient first-stage candidate generation.
+- Lù, X.H., 2024. Bm25s: Orders of magnitude faster lexical search via eager sparse scoring. arXiv preprint arXiv:2407.03618.
 
-- **Jha et al. (2024)** — *Jina-ColBERT-v2: A General-Purpose Multilingual Late Interaction Retriever*  
-  Used for token-level late interaction retrieval to improve precision while maintaining scalability.
+- ha, R., Wang, B., Günther, M., Mastrapas, G., Sturua, S., Mohr, I., Koukounas, A., Wang, M.K., Wang, N. and Xiao, H., 2024, November. Jina-colbert-v2: A general-purpose multilingual late interaction retriever. In Proceedings of the Fourth Workshop on Multilingual Representation Learning (MRL 2024) (pp. 159-166).
 
-- **Zhang et al. (2025)** — *Qwen3 Embedding: Advancing Text Embedding and Reranking through Foundation Models*  
-  Used for dense embedding-based retrieval and semantic reranking.
+- Zhang, Y., Li, M., Long, D., Zhang, X., Lin, H., Yang, B., Xie, P., Yang, A., Liu, D., Lin, J. and Huang, F., 2025. Qwen3 embedding: Advancing text embedding and reranking through foundation models. arXiv preprint arXiv:2506.05176.
 
-- **BiomedBERT Reranker** — NeuML BiomedBERT-based reranking model  
-  Applied in domain-specific (biomedical) contexts requiring specialized semantic understanding.
+- BiomedBERT Reranker - [https://huggingface.co/NeuML/biomedbert-base-reranker](https://huggingface.co/NeuML/biomedbert-base-reranker)
 
 ### Design Principles
 
@@ -100,5 +95,6 @@ The implementation will prioritize a hybrid retrieval and reranking approach, co
 - Configurable reranking layer (neural or LLM-based)
 - Scalability for large candidate concept sets
 - Extensibility for domain-specific models
+- **Provenance by design**, ensuring that model versions, configurations, scoring methods, and retrieval metadata are tracked and reproducible
 
 This design enables flexible experimentation with retrieval and reranking strategies while maintaining a stable and production-ready service interface.
