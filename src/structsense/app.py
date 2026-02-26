@@ -1250,10 +1250,20 @@ class StructSenseFlow:
                         if len(results_list) > 1 and task_key in ("alignment_task", "judge_task"):
                             ckey = TASK_KEY_TO_CONTAINER_KEY.get(task_key) or self._detect_container_key(results_list[0])
                             if ckey:
-                                prev_output = merge_downstream_chunk_results_with_provenance(
-                                    results_list, ckey, agent_key
-                                )
-                                pipeline_stages[task_key] = prev_output
+                                try:
+                                    prev_output = merge_downstream_chunk_results_with_provenance(
+                                        results_list, ckey, agent_key
+                                    )
+                                    pipeline_stages[task_key] = prev_output
+                                except (AttributeError, TypeError, KeyError, ValueError) as e:
+                                    logger.warning(
+                                        "Merge of downstream chunk results failed (%s); using first result. %s",
+                                        task_key,
+                                        e,
+                                        exc_info=True,
+                                    )
+                                    prev_output = results_list[0] if results_list else prev_output
+                                    pipeline_stages[task_key] = prev_output
                             else:
                                 prev_output = results_list[0] if results_list else prev_output
                                 pipeline_stages[task_key] = prev_output
