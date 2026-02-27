@@ -31,6 +31,8 @@ jobs:
       shell: bash
     - name: Run unit tests
       id: run-tests
+      env:
+        OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
       run: >
         poetry run pytest \
           --junitxml=pytest.xml \
