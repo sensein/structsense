@@ -33,7 +33,13 @@ jobs:
       id: run-tests
       env:
         OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-      run: >
+      run: |
+        if [ -n "$OPENROUTER_API_KEY" ]; then
+          echo "Key is set (length: ${#OPENROUTER_API_KEY})"
+        else
+          echo "Key missing"
+          exit 1
+        fi
         poetry run pytest \
           --junitxml=pytest.xml \
           --cov-report=term-missing:skip-covered \
