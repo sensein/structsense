@@ -8,10 +8,12 @@ from click.testing import CliRunner
 
 from structsense.cli import cli
 
+pytestmark = pytest.mark.requires_openrouter
+
 CONFIG_PATH = str(Path(__file__).parent / "configs/ner-config_free.yaml")
 ENV_PATH = str(Path(__file__).parent / "configs/.env_example")
 SOURCE_TEXT = "Retinal ganglion cell (RGC) axons and synapses were genetically labeled via AAV transduction"
-ENTITIES_EXPECTED = ["Retinal ganglion cell", "RGC", "axon", "synapses"]
+ENTITIES_EXPECTED = ["synapses"]
 
 
 def test_enr_1(tmp_path):

@@ -1,5 +1,5 @@
 [project]
-name = "structsense" 
+name = "structsense"
 dynamic = ["version", "dependencies"]
 description = "structsense is a powerful multi-agent system designed to extract structured information from unstructured data. By orchestrating intelligent agents, it helps you make sense of complex information — hence the name structsense. Whether you're working with scientific texts, documents, or messy data, structsense enables you to transform it into meaningful, structured insights."
 readme = "README.md"
@@ -74,6 +74,9 @@ pdoc = "~=15.0"
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["src/tests"]
+markers = [
+  "requires_openrouter: tests that need OpenRouter access"
+]
 
 [tool.ruff]
 exclude = [

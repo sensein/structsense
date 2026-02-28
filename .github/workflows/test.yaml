@@ -31,16 +31,24 @@ jobs:
       shell: bash
     - name: Run unit tests
       id: run-tests
+      run: >
+        poetry run pytest \
+          -m "not requires_openrouter" \
+          --junitxml=pytest.xml \
+          --cov-report=term-missing:skip-covered \
+          --cov-report=xml:coverage.xml \
+          --cov=src src/tests \
+          --log-level=DEBUG \
+          --verbose
+      shell: bash
+    - name: Run OpenRouter integration tests
+      id: run-tests-openrouter
+      if: env.OPENROUTER_API_KEY != ''
       env:
         OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-      run: |
-        if [ -n "$OPENROUTER_API_KEY" ]; then
-          echo "Key is set (length: ${#OPENROUTER_API_KEY})"
-        else
-          echo "Key missing"
-          exit 1
-        fi
+      run: >
         poetry run pytest \
+          -m "requires_openrouter" \
           --junitxml=pytest.xml \
           --cov-report=term-missing:skip-covered \
           --cov-report=xml:coverage.xml \
