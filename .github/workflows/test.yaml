@@ -57,8 +57,10 @@ jobs:
       run: |
         if [ -n "$KEY" ]; then
           echo "has-key=true" >> $GITHUB_OUTPUT
+          echo "OPENROUTER_API_KEY is set — integration tests will run."
         else
           echo "has-key=false" >> $GITHUB_OUTPUT
+          echo "OPENROUTER_API_KEY is not set — skipping integration tests."
         fi
       shell: bash
 
