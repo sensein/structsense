@@ -41,9 +41,48 @@ jobs:
           --log-level=DEBUG \
           --verbose
       shell: bash
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v4
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+
+  check-secrets:
+    runs-on: ubuntu-latest
+    outputs:
+      has-openrouter-key: ${{ steps.check.outputs.has-key }}
+    steps:
+    - id: check
+      env:
+        KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      run: |
+        if [ -n "$KEY" ]; then
+          echo "has-key=true" >> $GITHUB_OUTPUT
+        else
+          echo "has-key=false" >> $GITHUB_OUTPUT
+        fi
+      shell: bash
+
+  integration:
+    needs: check-secrets
+    if: needs.check-secrets.outputs.has-openrouter-key == 'true'
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 1
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    - name: Install poetry
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install poetry==2.3.2
+    - name: Install dependencies with Poetry
+      run: |
+        poetry install --with dev
+      shell: bash
     - name: Run OpenRouter integration tests
-      id: run-tests-openrouter
-      if: env.OPENROUTER_API_KEY != ''
       env:
         OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
       run: >
