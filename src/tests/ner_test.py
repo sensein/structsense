@@ -15,7 +15,7 @@ ENV_PATH = str(Path(__file__).parent / "configs/.env_example")
 SOURCE_TEXT = "Retinal ganglion cell (RGC) axons and synapses were genetically labeled via AAV transduction"
 
 
-def test_enr_1(tmp_path):
+def test_ner_1(tmp_path):
     """Test the ENR extraction with a simple text input and a free model."""
     runner = CliRunner()
     # uses OPENROUTER_API_KEY set as environment variable (not provided in the env file) for authentication (the model is free)
@@ -42,4 +42,4 @@ def test_enr_1(tmp_path):
     assert "entities" in enr_result
     assert len(enr_result["entities"]) > 0
     # print the extracted entities for visual inspection (hard to assert exact entities, at least with this model)
-    print(f"Extracted entities: {enr_result['entities']}")
+    print(f"Extracted entities: {[el['entity'] for el in enr_result['entities']]}")
