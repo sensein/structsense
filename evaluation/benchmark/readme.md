@@ -6,7 +6,7 @@ The dataset includes named entity recognition (NER) annotations (test set) from 
 - **NCBI Disease** dataset (disease entities)
 - **JNLPBA** dataset (gene and protein entities)
   
-Original dataset: [https://drive.google.com/drive/u/3/folders/1R3_z3pv7ELtlJhwnophKEaOO0h7omjud](https://drive.google.com/drive/u/3/folders/1R3_z3pv7ELtlJhwnophKEaOO0h7omjud)
+Original dataset: [[https://drive.google.com/drive/u/3/folders/1R3_z3pv7ELtlJhwnophKEaOO0h7omjud](https://drive.google.com/drive/u/3/folders/1R3_z3pv7ELtlJhwnophKEaOO0h7omjud)](https://drive.google.com/drive/u/1/folders/11xgW5F_z6F3ePARTbNDA9InpBScIyNte)
 
 ## Repository Structure
 
