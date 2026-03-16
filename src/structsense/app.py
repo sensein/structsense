@@ -509,6 +509,10 @@ class StructSenseFlow:
         logger.info(f"  - Thread-safe memory: enabled")
         logger.info(f"  - Context passing: enabled")
 
+        # Cache for pipeline-level task type: detected once at extraction phase,
+        # reused for all downstream stages within the same pipeline run.
+        self._pipeline_task_type: Optional[str] = None
+
 
 
 
@@ -906,6 +910,9 @@ class StructSenseFlow:
         start_time = time.time()
         logger.info("Starting structured information extraction (full pipeline)")
 
+        # Reset cached task type so each pipeline run re-detects from the extraction stage.
+        self._pipeline_task_type = None
+
         # Check Ollama health (optional - won't fail if unavailable)
         if not check_ollama_health():
             logger.warning("Ollama health check failed, continuing anyway")
@@ -926,7 +933,7 @@ class StructSenseFlow:
 
         if task_type == "ner":
             post_process_key = "ner"
-        elif task_type in ("resource", "structured_extraction"):
+        elif task_type == "resource":
             post_process_key = "resource"
         else:
             post_process_key = "extraction"
@@ -1042,9 +1049,8 @@ class StructSenseFlow:
 
                 stage_chunk_size = None
                 stage_post_process = None
-                stage_default_result = self._get_default_result_for_task(
-                    self._get_detected_task_type(agent_key, task_key)
-                )
+                # Reuse the task_type detected at the extraction stage (cached in self._pipeline_task_type)
+                stage_default_result = self._get_default_result_for_task(task_type)
 
             # Human feedback receives judge output: prev_output at this point is the judge stage result
             if task_key == "humanfeedback_task" and prev_output is not None:
@@ -1556,7 +1562,16 @@ class StructSenseFlow:
         Uses LLM-based detect_task_type when API key and LLM config are available;
         otherwise falls back to a heuristic so resource/structured extraction get
         no NER tool and correct post-processor/merger.
+
+        Once detected for a pipeline run, the result is cached in
+        ``self._pipeline_task_type`` and returned directly on all subsequent
+        calls within the same run (avoids multiple LLM API calls that could
+        return inconsistent results across stages).
         """
+        if self._pipeline_task_type is not None:
+            logger.debug(f"Reusing cached task type '{self._pipeline_task_type}' for {agent_key}/{task_key}")
+            return self._pipeline_task_type
+
         task_data = self.task_config.get(task_key) or {}
         description = task_data.get("description", "") or ""
         if not description and isinstance(task_data, dict):
@@ -1572,18 +1587,22 @@ class StructSenseFlow:
                     llm_config=llm_config,
                 )
                 logger.info(f"Detected task type '{result.task_type}' (confidence={result.confidence:.2f})")
-                return result.task_type
+                self._pipeline_task_type = result.task_type
+                return self._pipeline_task_type
             except Exception as e:
                 logger.warning(f"Task detection failed: {e}, using heuristic")
         # Heuristic: NER vs resource vs extraction
         text = (description or str(self.task_config)).lower()
         if "ner" in text or "named entity" in text or "entity" in text:
-            return "ner"
-        if "resource" in text and ("extract" in text or "dataset" in text or "tool" in text or "model" in text):
-            return "resource"
-        if "structured extraction" in text or "structured_extraction" in text:
-            return "structured_extraction"
-        return "extraction"
+            detected = "ner"
+        elif "resource" in text and ("extract" in text or "dataset" in text or "tool" in text or "model" in text):
+            detected = "resource"
+        elif "structured extraction" in text or "structured_extraction" in text:
+            detected = "structured_extraction"
+        else:
+            detected = "extraction"
+        self._pipeline_task_type = detected
+        return self._pipeline_task_type
 
     def _initialize_agent_and_task(
             self,

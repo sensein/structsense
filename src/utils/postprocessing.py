@@ -1575,7 +1575,7 @@ def normalize_final_result_for_output(final: Dict[str, Any], task_type: str) -> 
             if key not in allowed:
                 final.pop(key, None)
         return final
-    elif task_type in ("resource", "structured_extraction"):
+    elif task_type == "resource":
         # Keep canonical resources list (concept mapping runs on final["resources"]); drop intermediate keys only.
         resources = final.get("resources") or []
         if not isinstance(resources, list):
