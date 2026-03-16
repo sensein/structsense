@@ -184,6 +184,17 @@ with open("result.json", "w") as f:
 ```
 
 ---
+## Configuration
+
+Example configuration files and documentation on how to write them can be found in the [`config_template/`](config_template/) directory. It includes:
+
+- `config.yaml` — a general configuration template
+- `ner-config.yaml` — a configuration for NER tasks
+- `resource-extraction-config.yaml` — a configuration for resource extraction tasks
+- `pdf2_reproschema.yaml` — a configuration for converting survey PDFs to JSON-LD
+
+See the [`config_template/readme.md`](config_template/readme.md) for details on agent, task, and embedder configuration options.
+
 ## Tutorials
 
 This repository includes example tutorials demonstrating how to run StructSense:
