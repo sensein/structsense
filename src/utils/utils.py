@@ -196,7 +196,33 @@ def extract_pdf_content(file_path: str, grobid_server: str, external_service: st
                 extracted_data["sections"].append({"heading": heading, "content": content})
 
             if not extracted_data["sections"]:
-                raise Exception("No valid content could be extracted from PDF")
+                # Fallback: extract raw text directly from the PDF using PyMuPDF.
+                #
+                # WHY: GROBID is purpose-built for scientific/academic papers — it parses
+                # TEI XML with structured sections (Introduction, Methods, Results, etc.)
+                # using layout analysis trained on scholarly literature.  It works poorly
+                # on non-academic PDFs (questionnaires, reports, forms, clinical notes)
+                # because those lack the heading/body/reference structure GROBID expects,
+                # and it returns an empty sections list.
+                #
+                # PyMuPDF reads the raw character stream from the PDF renderer, which works
+                # regardless of document type.  The text loses GROBID's semantic structure
+                # (no section headings, no metadata) but preserves all readable content,
+                # which is sufficient for NER / extraction pipelines that operate on plain text.
+                try:
+                    import fitz as _fitz
+                    _doc = _fitz.open(str(file_path))
+                    _raw = "\n\n".join(
+                        page.get_text() for page in _doc if page.get_text().strip()
+                    ).strip()
+                    _doc.close()
+                    if _raw:
+                        extracted_data["sections"].append({"heading": "Content", "content": _raw})
+                        logger.info("GROBID found no sections — using PyMuPDF raw text fallback (%d chars)", len(_raw))
+                    else:
+                        logger.warning("No text content found in PDF")
+                except Exception as _fe:
+                    logger.warning("PyMuPDF raw text fallback failed: %s", _fe)
 
             logger.info(f"Successfully extracted {len(extracted_data['sections'])} sections")
             return extracted_data
