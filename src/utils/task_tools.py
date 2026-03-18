@@ -144,14 +144,26 @@ def _resolve_tool(
             _TOOL_REGISTRY[name] = extract_ner_terms
         return _TOOL_REGISTRY.get(name)
     if name == "concept_mapping_tool":
-        if name not in _TOOL_REGISTRY:
-            try:
-                from .conceptmappingtool import ConceptMappingTool
-                _TOOL_REGISTRY[name] = ConceptMappingTool()
-            except ValueError as e:
-                logger.warning(f"ConceptMappingTool not registered (missing BIOPORTAL_API_KEY): {e}")
-                return None
-        return _TOOL_REGISTRY.get(name)
+        backend = os.getenv("CONCEPT_MAPPING_BACKEND", "local").strip().lower()
+        registry_key = f"{name}:{backend}"
+        if registry_key not in _TOOL_REGISTRY:
+            if backend == "local":
+                try:
+                    from .conceptmappinglocal import ConceptMappingLocalTool
+                    _TOOL_REGISTRY[registry_key] = ConceptMappingLocalTool()
+                    logger.info("ConceptMappingLocalTool registered (CONCEPT_MAPPING_BACKEND=local)")
+                except Exception as e:
+                    logger.warning(f"ConceptMappingLocalTool not registered: {e}")
+                    return None
+            else:
+                try:
+                    from .conceptmappingtool import ConceptMappingTool
+                    _TOOL_REGISTRY[registry_key] = ConceptMappingTool()
+                    logger.info("ConceptMappingTool registered (CONCEPT_MAPPING_BACKEND=bioportal)")
+                except ValueError as e:
+                    logger.warning(f"ConceptMappingTool not registered (missing BIOPORTAL_API_KEY): {e}")
+                    return None
+        return _TOOL_REGISTRY.get(registry_key)
     if name == "repair_json":
         from .json_repair_tool import (
             get_default_schema_for_task_type,
