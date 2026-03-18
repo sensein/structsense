@@ -74,7 +74,7 @@ from utils.utils import (
     str_to_bool,
     check_ollama_health,
 )
-from utils.task_detection import detect_task_type
+from utils.task_detection import detect_task_type, DEFAULT_TAXONOMY
 from utils.task_tools import get_tools_for_agent
 from utils.crew_utils import initialize_memory
 from utils.mlops import setup_monitoring
@@ -1475,13 +1475,21 @@ class StructSenseFlow:
         otherwise falls back to a heuristic so resource/structured extraction get
         no NER tool and correct post-processor/merger.
         """
-        task_data = self.task_config.get(task_key) or {}
+        task_data = self.task_config.get(task_key, {})
+        task_type = self.task_config.get(task_key, {}).get("task_type")
+        if task_type in DEFAULT_TAXONOMY:
+            logger.info(f"Using task type from agent config for agent '{agent_key}': {task_type}")
+            return task_type
+        elif task_type:
+            logger.warning(
+                f"Task config for '{task_key}' specifies task type '{task_type}' which is not in the default taxonomy list. Falling back to detection."
+            )
         description = task_data.get("description", "") or ""
         if not description and isinstance(task_data, dict):
             description = str(task_data)
         api_key = os.environ.get("OPENROUTER_API_KEY")
         agent_id = task_data.get("agent_id", agent_key)
-        llm_config = (self.agent_config.get(agent_id) or {}).get("llm") or {}
+        llm_config = self.agent_config.get(agent_id, {}).get("llm", {})
         if api_key and llm_config and (llm_config.get("model") or llm_config.get("base_url")):
             try:
                 result = detect_task_type(
