@@ -244,7 +244,11 @@ The alignment agent uses a Concept Mapping Tool to map extracted terms to ontolo
 
 ### Local service (default)
 
-Uses a local Ontology Concept Mapping service (hybrid BM25 + dense retrieval with re-ranking). All requests are sent to `POST /map/batch` for concurrent processing.
+It uses an in-house Ontology Concept Mapping service that combines hybrid **BM25** and **dense retrieval**, enhanced with re-ranking for improved accuracy.
+
+All requests are processed concurrently via the `POST /map/batch` endpoint.
+
+To use this feature, ensure the [concept mapping service](https://github.com/sensein/search_hybrid) is running locally.
 
 ```bash
 CONCEPT_MAPPING_BACKEND=local   # default — can be omitted
