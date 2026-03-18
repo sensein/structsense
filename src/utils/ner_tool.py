@@ -420,15 +420,45 @@ def extract_entities_with_llm(
     base_url = llm_config.get("base_url") or "https://openrouter.ai/api/v1"
     model = llm_config.get("model") or "openai/gpt-4o-mini"
 
-    # Ollama endpoints don't require an API key
+    # Determine whether the endpoint needs a real API key.
+    # Ollama and other self-hosted inference servers (vLLM, LM Studio, etc.) accept any
+    # non-empty string as the key (or ignore it entirely).  We detect this via:
+    #   1. Model prefix  — "ollama/<model>" is the canonical Ollama model ID format and
+    #                       works regardless of where the server is hosted (localhost,
+    #                       LAN IP, remote HTTPS, etc.).
+    #   2. URL patterns  — localhost / 127.0.0.1 cover the common local case.
+    #   3. Plain http:// — any unencrypted endpoint is almost certainly self-hosted.
+    #   4. "ollama" in the hostname — catches named hosts like ollama.internal.
+    # This approach is more reliable than URL-only detection when Ollama is deployed
+    # on a separate server (e.g. http://192.168.1.50:11434 or https://gpu-host:11434).
     base_lower = (base_url or "").lower()
+    model_lower = (model or "").lower()
     is_ollama_or_local = (
-        "ollama" in base_lower
+        model_lower.startswith("ollama/")
+        or "ollama" in base_lower
         or "localhost" in base_lower
         or "127.0.0.1" in base_lower
         or base_lower.startswith("http://")
     )
     api_key = api_key or os.environ.get("OPENROUTER_API_KEY") or os.environ.get("OPENAI_API_KEY")
+    # The OpenAI client constructor requires api_key to be a non-empty string even when
+    # pointing at a local/Ollama endpoint that doesn't actually validate it.  Use a
+    # placeholder so the client instantiation succeeds without needing a real key.
+    if is_ollama_or_local and not api_key:
+        api_key = "ollama"
+    # Ollama's OpenAI-compatible endpoint lives at /v1/chat/completions.
+    # The OpenAI client appends /chat/completions to base_url, so base_url must end
+    # with /v1.  If the caller passed the bare host (e.g. http://localhost:11434)
+    # without the /v1 suffix, add it automatically to avoid a 404.
+    if is_ollama_or_local and not base_url.rstrip("/").endswith("/v1"):
+        base_url = base_url.rstrip("/") + "/v1"
+        logger.info("LLM NER: appended /v1 to Ollama base_url -> %r", base_url)
+    # Ollama's /v1 endpoint expects the bare model name (e.g. "qwen3:8b"), not the
+    # LiteLLM-style "ollama/<name>" prefix that CrewAI/LiteLLM uses internally.
+    # Strip the "ollama/" prefix so the OpenAI client sends the correct model ID.
+    if is_ollama_or_local and isinstance(model, str) and model.startswith("ollama/"):
+        model = model[len("ollama/"):]
+        logger.info("LLM NER: stripped ollama/ prefix -> model=%r", model)
     if not is_ollama_or_local and not api_key:
         logger.warning(
             "No API key for LLM NER (OpenRouter/OpenAI); skipping LLM-based extraction. "
