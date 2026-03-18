@@ -2,15 +2,16 @@ import yaml
 from structsense.app import StructSenseFlow
 import asyncio
 import json
-#load the configuration file for NER
+
+# Load the configuration file for NER
 with open("ner-config.yaml") as f:
     all_config = yaml.safe_load(f)
-    
+
 flow = StructSenseFlow(
     agent_config=all_config["agent_config"],
     task_config=all_config["task_config"],
     embedder_config=all_config.get("embedder_config", {}),
-    input_source="test_small.pdf",
+    source="test_small.pdf",
     enable_chunking=True,
     chunk_size=2000,
     max_workers=8,

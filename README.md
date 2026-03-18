@@ -24,18 +24,19 @@ structsense-cli extract \
   --save_file result.json
 ```
 
-| Option | Description |
-|--------|-------------|
-| `--config` | **(Required)** Path to YAML config (agent + task + embedder). |
-| `--source` | **(Required)** Input: path to a PDF/text file, a folder, or a text string. |
-| `--api_key` | OpenRouter (or other) API key; can also be set in `.env` as `OPENROUTER_API_KEY`. |
-| `--env_file` | Path to `.env` (default: `.env` in current directory). |
-| `--save_file` | Save the result JSON to this path. |
-| `--enable_chunking` | Enable chunking for long documents (flag). |
-| `--chunk_size` | Chunk size in characters (e.g. `2000`); used when chunking is enabled. |
-| `--max_workers` | Max parallel workers for chunked extraction. |
-| `--downstream_max_input_chars` | Max input length for alignment/judge (default 80000). |
-| `--max_extraction_chunk_chars` | Cap per-chunk size for extraction (default 25000). |
+| Option | Description                                                                          |
+|--------|--------------------------------------------------------------------------------------|
+| `--config` | **(Required)** Path to YAML config (agent + task + embedder).                        |
+| `--source` | Path to a PDF, CSV, or TXT file to process. Mutually exclusive with `--source_text`. |
+| `--source_text` | Raw text string to use as _. Mutually exclusive with `--source`.                     |
+| `--api_key` | OpenRouter (or other) API key; can also be set in `.env` as `OPENROUTER_API_KEY`.    |
+| `--env_file` | Path to `.env` (default: `.env` in current directory).                               |
+| `--save_file` | Save the result JSON to this path.                                                   |
+| `--enable_chunking` | Enable chunking for long documents (flag).                                           |
+| `--chunk_size` | Chunk size in characters (e.g. `2000`); used when chunking is enabled.               |
+| `--max_workers` | Max parallel workers for chunked extraction.                                         |
+| `--downstream_max_input_chars` | Max input length for alignment/judge (default 80000).                                |
+| `--max_extraction_chunk_chars` | Cap per-chunk size for extraction (default 25000).                                   |
 
 **With OpenRouter (API key):**
 
@@ -104,7 +105,7 @@ flow = StructSenseFlow(
     agent_config="path/to/config.yaml",
     task_config="path/to/config.yaml",
     embedder_config="path/to/config.yaml",
-    input_source="path/to/file.pdf",   # or a text string, or path to .txt
+    source="path/to/file.pdf",   # or source_text for raw text
     enable_chunking=True,
     chunk_size=2000,
     max_workers=8,
@@ -136,7 +137,7 @@ flow = StructSenseFlow(
     agent_config="path/to/config.yaml",
     task_config="path/to/config.yaml",
     embedder_config="path/to/config.yaml",
-    input_source="path/to/file.pdf",  # or source_text="raw text"
+    source="path/to/file.pdf",  # or source_text for raw text
     enable_chunking=True,
     chunk_size=2000,
 )
@@ -169,7 +170,7 @@ flow = StructSenseFlow(
     agent_config=all_config["agent_config"],
     task_config=all_config["task_config"],
     embedder_config=all_config.get("embedder_config", {}),
-    input_source="path/to/file.pdf",  # or source_text="raw text"
+    source="path/to/file.pdf",  # or source_text for raw text
     enable_chunking=True,
     chunk_size=2000,
     max_workers=8,
@@ -204,7 +205,7 @@ This repository includes example tutorials demonstrating how to run StructSense:
 
 - **[`tutorial/python-example/`](tutorial/python-example/)**
   Tutorials demonstrating how to run StructSense in **programmatic (Python) mode**.
-  
+
 ## Known Issues
 
 <details>

@@ -29,6 +29,7 @@ See also
 - :mod:`utils.postprocessing` – Post-processors and result mergers per task type.
 - :mod:`utils.task_detection` – Task-type detection from config.
 """
+
 import json
 import logging
 import os
@@ -68,7 +69,7 @@ from dotenv import load_dotenv
 
 from utils.utils import (
     load_config,
-    process_input_data,
+    process_file,
     replace_api_key,
     str_to_bool,
     check_ollama_health,
@@ -114,10 +115,7 @@ from utils.conceptmappingtool import (
 tracemalloc.start()
 
 # Configure logging - filter out warnings
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - [%(threadName)s] - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - [%(threadName)s] - %(message)s")
 logger = logging.getLogger(__name__)
 
 # Suppress warning logs from specific modules
@@ -137,41 +135,43 @@ warnings.filterwarnings("ignore", message=".*Pydantic.*")
 warnings.filterwarnings("ignore", message=".*serialization.*")
 warnings.filterwarnings("ignore", message=".*Expected.*fields.*")
 
+
 # Setup timing logger to separate file
 def setup_timing_logger():
     """Setup a separate logger for timing information."""
     timing_log_dir = Path(os.getcwd()) / "timing_logs"
     timing_log_dir.mkdir(exist_ok=True)
-    
+
     timing_log_file = timing_log_dir / f"timing_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
-    
+
     timing_logger = logging.getLogger("timing")
     timing_logger.setLevel(logging.INFO)
-    
+
     # Remove existing handlers
     for handler in timing_logger.handlers[:]:
         timing_logger.removeHandler(handler)
-    
+
     # File handler for timing log
     file_handler = logging.FileHandler(timing_log_file)
     file_handler.setLevel(logging.INFO)
     file_formatter = logging.Formatter("%(asctime)s - %(message)s")
     file_handler.setFormatter(file_formatter)
     timing_logger.addHandler(file_handler)
-    
+
     # Also log to console
     console_handler = logging.StreamHandler()
     console_handler.setLevel(logging.INFO)
     console_handler.setFormatter(file_formatter)
     timing_logger.addHandler(console_handler)
-    
+
     timing_logger.propagate = False
-    
+
     return timing_logger, str(timing_log_file)
 
 
 class ConfigError(Exception):
     """Exception raised for configuration errors."""
+
     pass
 
 
@@ -195,8 +195,13 @@ TASK_KEY_TO_CONTAINER_KEY = {
 }
 #: All known container keys used when merging or validating NER/resource pipeline results.
 DOWNSTREAM_CONTAINER_KEYS = (
-    "extracted_terms", "aligned_ner_terms", "judge_ner_terms",  # NER
-    "extracted_resources", "aligned_resources", "judge_resource", "resources",  # resource / generic
+    "extracted_terms",
+    "aligned_ner_terms",
+    "judge_ner_terms",  # NER
+    "extracted_resources",
+    "aligned_resources",
+    "judge_resource",
+    "resources",  # resource / generic
 )
 
 
@@ -228,23 +233,23 @@ class StructSenseFlow:
     """
 
     def __init__(
-            self,
-            agent_config: Union[str, dict],
-            task_config: Union[str, dict],
-            embedder_config: Union[str, dict],
-            source_text: Optional[str] = None,
-            input_source: Optional[Union[str, dict]] = None,
-            enable_human_feedback: bool = False,
-            enable_chunking: bool = False,
-            knowledge_config: Optional[Union[str, dict]] = None,
-            agent_feedback_config: Optional[Dict[str, bool]] = None,
-            env_file: Optional[str] = None,
-            api_key: Optional[str] = None,
-            chunk_size: Optional[int] = None,
-            max_workers: Optional[int] = None,
-            downstream_max_input_chars: Optional[int] = None,
-            max_extraction_chunk_chars: Optional[int] = None,
-            return_full_pipeline_details: bool = False,
+        self,
+        agent_config: Union[str, dict],
+        task_config: Union[str, dict],
+        embedder_config: Union[str, dict],
+        source: Optional[str] = None,
+        source_text: Optional[str] = None,
+        enable_human_feedback: bool = False,
+        enable_chunking: bool = False,
+        knowledge_config: Optional[Union[str, dict]] = None,
+        agent_feedback_config: Optional[Dict[str, bool]] = None,
+        env_file: Optional[str] = None,
+        api_key: Optional[str] = None,
+        chunk_size: Optional[int] = None,
+        max_workers: Optional[int] = None,
+        downstream_max_input_chars: Optional[int] = None,
+        max_extraction_chunk_chars: Optional[int] = None,
+        return_full_pipeline_details: bool = False,
     ):
         """Initialize StructSenseFlow with config paths and input.
 
@@ -256,11 +261,11 @@ class StructSenseFlow:
             Path to task YAML/JSON or dict (description, agent_id per task).
         embedder_config : str or dict
             Path to embedder config or dict (used for memory/embedding).
+        source : str, optional
+            Path to a file to process (PDF, CSV, or TXT). Mutually exclusive
+            with ``source_text``. Processed internally via :func:`utils.utils.process_file`.
         source_text : str, optional
-            Raw text to process. Not used if ``input_source`` is provided.
-        input_source : str or dict, optional
-            File path, URL, or dict; takes precedence over ``source_text``.
-            Processed by :func:`utils.utils.process_input_data`.
+            Raw text to process directly. Mutually exclusive with ``source``.
         enable_human_feedback : bool, optional
             Whether to run the humanfeedback stage. Default False.
         enable_chunking : bool, optional
@@ -287,11 +292,11 @@ class StructSenseFlow:
         Raises
         ------
         ConfigError
-            If neither ``source_text`` nor ``input_source`` is provided, or
-            if input processing fails or yields no valid text.
+            If both or neither of ``source`` / ``source_text`` are provided,
+            or if the resulting text is empty.
         """
         super().__init__()
-        
+
         # Setup environment first
         if env_file:
             load_dotenv(env_file, override=True)
@@ -317,65 +322,19 @@ class StructSenseFlow:
         if "CREWAI_TELEMETRY_OPT_OUT" not in os.environ:
             os.environ["CREWAI_TELEMETRY_OPT_OUT"] = "true"
 
-        # Process input source if provided (takes precedence over source_text)
-        if input_source is not None:
-            processed_data = process_input_data(input_source)
-            # Convert processed data to string
-            if isinstance(processed_data, dict):
-                if "sections" in processed_data:
-                    text_parts = []
-                    for section in processed_data.get("sections", []):
-                        if isinstance(section, dict):
-                            heading = section.get("heading", "")
-                            content = section.get("content", "")
-                            if heading:
-                                text_parts.append(f"{heading}\n{content}")
-                            else:
-                                text_parts.append(content)
-                    self.source_text = "\n\n".join(text_parts)
-                elif "text" in processed_data:
-                    title = processed_data.get("title", "")
-                    text = processed_data.get("text", "")
-                    if title and text:
-                        self.source_text = f"{title}\n\n{text}"
-                    elif text:
-                        self.source_text = text
-                    else:
-                        self.source_text = str(processed_data)
-                elif "error" in processed_data:
-                    error_msg = processed_data.get("error", "Unknown error processing input")
-                    raise ConfigError(f"Input processing failed: {error_msg}")
-                else:
-                    # Unknown dict format, try to extract text-like values
-                    text_parts = []
-                    for key, value in processed_data.items():
-                        if isinstance(value, str) and len(value) > 10:
-                            text_parts.append(value)
-                        elif isinstance(value, list):
-                            for item in value:
-                                if isinstance(item, str):
-                                    text_parts.append(item)
-                                elif isinstance(item, dict) and "content" in item:
-                                    text_parts.append(item.get("content", ""))
-                    if text_parts:
-                        self.source_text = "\n\n".join(text_parts)
-                    else:
-                        logger.warning(f"Unknown dict format from process_input_data: {list(processed_data.keys())}")
-                        self.source_text = str(processed_data)
-            elif isinstance(processed_data, list):
-                logger.warning("List input detected, converting to string representation")
-                self.source_text = "\n".join(str(item) for item in processed_data)
-            else:
-                self.source_text = processed_data
-        elif source_text is not None:
+        if source and source_text:
+            raise ConfigError("Provide either source or source_text, not both.")
+        elif source:
+            self.source_text = process_file(source)
+        elif source_text:
             self.source_text = source_text
         else:
-            raise ConfigError("Either source_text or input_source must be provided")
+            raise ConfigError("Either source or source_text must be provided.")
 
         # Validate that we have text to process
         if not self.source_text or not isinstance(self.source_text, str):
-            raise ConfigError("No valid text content could be extracted from input source")
-        
+            raise ConfigError("source_text must be a non-empty string")
+
         if len(self.source_text.strip()) == 0:
             raise ConfigError("Extracted text is empty")
 
@@ -414,14 +373,18 @@ class StructSenseFlow:
             # Env override: ENABLE_HUMAN_FEEDBACK takes precedence over config file
             if "ENABLE_HUMAN_FEEDBACK" in os.environ:
                 enable_human_feedback = str_to_bool(os.environ["ENABLE_HUMAN_FEEDBACK"])
-                logger.info("Human feedback overridden by env ENABLE_HUMAN_FEEDBACK=%s -> %s", os.environ["ENABLE_HUMAN_FEEDBACK"], enable_human_feedback)
+                logger.info(
+                    "Human feedback overridden by env ENABLE_HUMAN_FEEDBACK=%s -> %s",
+                    os.environ["ENABLE_HUMAN_FEEDBACK"],
+                    enable_human_feedback,
+                )
             self.enable_human_feedback = enable_human_feedback
 
             if isinstance(embedder_config, str):
                 self.embedder_config = load_config(embedder_config, "embedder_config")
             else:
                 self.embedder_config = embedder_config
-                
+
             if knowledge_config:
                 if isinstance(knowledge_config, str):
                     self.knowledge_config = load_config(knowledge_config, "knowledge_config")
@@ -434,13 +397,13 @@ class StructSenseFlow:
             if api_key:
                 self.agent_config = replace_api_key(self.agent_config, api_key)
                 self.embedder_config = replace_api_key(self.embedder_config, api_key)
-                
+
         except Exception as e:
             logger.error(f"Configuration loading failed: {e}")
             raise ConfigError(f"Failed to load configurations: {str(e)}")
-        
+
         setup_monitoring()
-        
+
         # Crew memory (long/short/entity) is off by default; not recommended with local models.
         # Set ENABLE_CREW_MEMORY=true to enable (requires embedder_config, e.g. Ollama).
         enable_crew_memory = str_to_bool(os.environ.get("ENABLE_CREW_MEMORY", "false"))
@@ -474,7 +437,7 @@ class StructSenseFlow:
                 logger.warning(f"Failed to initialize memory: {e}. Continuing without memory.")
         elif not enable_crew_memory:
             logger.info("Crew memory disabled (ENABLE_CREW_MEMORY=false, default). Set ENABLE_CREW_MEMORY=true to enable.")
-        
+
         self.enable_chunking = enable_chunking
         self.chunk_size = chunk_size or 2000  # Default chunk size
         self.max_workers = max_workers
@@ -499,7 +462,7 @@ class StructSenseFlow:
         self.shared_memory = ThreadSafeMemory()
         self.context_manager = ContextWindowManager(
             max_tokens=self.token_limit,
-            reserve_tokens=2000  # Reserve for prompts
+            reserve_tokens=2000,  # Reserve for prompts
         )
 
         logger.info("Enhanced context management initialized:")
@@ -507,10 +470,6 @@ class StructSenseFlow:
         logger.info(f"  - Available tokens: {self.context_manager.available_tokens}")
         logger.info(f"  - Thread-safe memory: enabled")
         logger.info(f"  - Context passing: enabled")
-
-
-
-
 
     async def run_agent_task(
         self,
@@ -600,7 +559,7 @@ class StructSenseFlow:
                 chunk_size = self.chunk_size
             else:
                 chunk_size = None  # No chunking
-        
+
         if max_workers is None:
             max_workers = self.max_workers
 
@@ -608,10 +567,7 @@ class StructSenseFlow:
         # For resource/structured_extraction alignment: extract all aligned_resources blobs and return as list
         # so app.py can combine them in postprocessing (merge_downstream_chunk_results_with_provenance).
         # NER, extraction (e.g. pdf2_reproschema), judge, humanfeedback: single parse only.
-        pick_richest = (
-            task_key == "alignment_task"
-            and task_type in ("resource", "structured_extraction")
-        )
+        pick_richest = task_key == "alignment_task" and task_type in ("resource", "structured_extraction")
         if self.enable_chunking and chunk_size:
             result = await run_crew_extraction_async(
                 crew=crew,
@@ -679,26 +635,26 @@ class StructSenseFlow:
         # Setup timing logger for this execution
         timing_logger, timing_log_file = setup_timing_logger()
         total_start_time = time.time()
-        
+
         timing_logger.info("=" * 100)
         timing_logger.info("TIMING LOG - Agent Execution")
         timing_logger.info("=" * 100)
         timing_logger.info(f"Timing log file: {timing_log_file}")
         timing_logger.info(f"Chunking enabled: {self.enable_chunking}, Chunk size: {self.chunk_size}, Max workers: {self.max_workers}")
         timing_logger.info("-" * 100)
-        
+
         try:
             logger.info("Starting StructSenseFlow extraction...")
-            
+
             # Timing: Config loading (already done in __init__, but log it)
             config_start = time.time()
             config_time = time.time() - config_start
             timing_logger.info(f"Config loading: {config_time:.3f}s (already loaded in __init__)")
-            
+
             # Timing: Agent/task initialization
             init_start = time.time()
             effective_chunk_size = self.chunk_size if self.enable_chunking else None
-            
+
             # Find agent-task pairs from config if not provided
             if agent_key is None or task_key is None:
                 agent_task_pairs = []
@@ -708,14 +664,14 @@ class StructSenseFlow:
                         if agent_key_iter in self.agent_config:
                             agent_task_pairs.append((agent_key_iter, task_key_iter))
                             logger.info(f"Found agent-task pair: {agent_key_iter} -> {task_key_iter}")
-                
+
                 if not agent_task_pairs:
                     logger.warning("No agent-task pairs found in config. Trying default extractor_agent/extraction_task")
                     if "extractor_agent" in self.agent_config and "extraction_task" in self.task_config:
                         agent_task_pairs = [("extractor_agent", "extraction_task")]
                     else:
                         return {"error": "No valid agent-task pairs found in config", "entities": [], "key_terms": []}
-                
+
                 # Use first pair if not specified
                 if agent_key is None or task_key is None:
                     agent_key, task_key = agent_task_pairs[0]
@@ -752,20 +708,20 @@ class StructSenseFlow:
                 pydantic_output_class=None,
                 tools=tools,
             )
-            
+
             if not agent or not task:
                 logger.error(f"Failed to initialize {agent_key}/{task_key}")
                 return {"error": f"Failed to initialize {agent_key}/{task_key}", "entities": [], "key_terms": []}
-            
+
             init_time = time.time() - init_start
             timing_logger.info(f"Agent/task initialization: {init_time:.3f}s")
-            
+
             # Timing: Memory initialization (already done in __init__, but log it)
             memory_start = time.time()
             has_memory = any([self.long_term_memory, self.short_term_memory, self.entity_memory])
             memory_time = time.time() - memory_start
             timing_logger.info(f"Memory initialization: {memory_time:.3f}s (already initialized in __init__, enabled: {has_memory})")
-            
+
             # Timing: Crew creation
             crew_start = time.time()
             use_verbose = not (self.enable_chunking and effective_chunk_size)
@@ -782,12 +738,12 @@ class StructSenseFlow:
             )
             crew_time = time.time() - crew_start
             timing_logger.info(f"Crew creation: {crew_time:.3f}s")
-            
+
             # Timing: Extraction execution
             extraction_start = time.time()
             timing_logger.info("-" * 100)
             timing_logger.info("Starting extraction execution...")
-            
+
             # Use async execution for better concurrency when chunking is enabled
             if self.enable_chunking and effective_chunk_size:
                 timing_logger.info("Using async execution (akickoff) for better concurrency...")
@@ -811,12 +767,12 @@ class StructSenseFlow:
                     default_result=default_result,
                     post_process=post_processor,
                 )
-            
+
             extraction_time = time.time() - extraction_start
             timing_logger.info(f"Extraction execution: {extraction_time:.3f}s")
             timing_logger.info(f"  - Chunks processed: {len(result.get('results', []))}")
             timing_logger.info(f"  - Errors: {len(result.get('errors', []))}")
-            
+
             # Timing: Result merging
             merge_start = time.time()
             merged_results = result_merger(result["results"], self.source_text)
@@ -824,7 +780,7 @@ class StructSenseFlow:
             timing_logger.info(f"Result merging: {merge_time:.3f}s")
             # Verifier: ensure entities, text, sentences present in source
             merged_results = verify_merged_result(merged_results, self.source_text, task_type)
-            
+
             # Total time
             total_time = time.time() - total_start_time
             timing_logger.info("-" * 100)
@@ -841,11 +797,11 @@ class StructSenseFlow:
             timing_logger.info(f"Timing log saved to: {timing_log_file}")
             timing_logger.info("=" * 100)
 
-            logger.info("#"*100)
+            logger.info("#" * 100)
             logger.info(f"Extraction completed in {total_time:.2f} seconds ({total_time/60:.2f} minutes)")
             logger.info(f"Timing details saved to: {timing_log_file}")
-            logger.info("#"*100)
-            
+            logger.info("#" * 100)
+
             return {
                 **merged_results,
                 "errors": result["errors"],
@@ -974,7 +930,7 @@ class StructSenseFlow:
                     task_key=prev_task_key,
                     result=prev_output,
                     confidence=prev_output.get("confidence", 0.0) if isinstance(prev_output, dict) else 0.0,
-                    metadata={"stage_index": idx - 1}
+                    metadata={"stage_index": idx - 1},
                 )
 
                 # Prepare token-managed input based on agent type
@@ -985,7 +941,7 @@ class StructSenseFlow:
                         original_text=text,
                         agent_context=self.agent_context,
                         context_manager=self.context_manager,
-                        max_tokens=self.token_limit
+                        max_tokens=self.token_limit,
                     )
                     # Use managed input as extra_inputs
                     extra_inputs = managed_input
@@ -1005,7 +961,7 @@ class StructSenseFlow:
                         extraction_results=extraction_results,
                         agent_context=self.agent_context,
                         context_manager=self.context_manager,
-                        max_tokens=self.token_limit
+                        max_tokens=self.token_limit,
                     )
                     extra_inputs = managed_input
                     stage_text = None  # Will use extra_inputs instead
@@ -1017,13 +973,12 @@ class StructSenseFlow:
                     current_tokens = self.context_manager.count_tokens(stage_text)
                     if current_tokens > self.token_limit:
                         logger.warning(
-                            f"[{agent_key}] Input exceeds token limit ({current_tokens}/{self.token_limit}). "
-                            "Applying compression..."
+                            f"[{agent_key}] Input exceeds token limit ({current_tokens}/{self.token_limit}). " "Applying compression..."
                         )
                         compressed = self.context_manager.prepare_for_downstream_agent(
                             results=prev_output if isinstance(prev_output, dict) else {"output": prev_output},
                             agent_key=agent_key,
-                            max_tokens=self.token_limit
+                            max_tokens=self.token_limit,
                         )
                         stage_text = json.dumps(compressed, indent=2)
                         final_tokens = self.context_manager.count_tokens(stage_text)
@@ -1031,9 +986,7 @@ class StructSenseFlow:
 
                 stage_chunk_size = None
                 stage_post_process = None
-                stage_default_result = self._get_default_result_for_task(
-                    self._get_detected_task_type(agent_key, task_key)
-                )
+                stage_default_result = self._get_default_result_for_task(self._get_detected_task_type(agent_key, task_key))
 
             # Human feedback receives judge output: prev_output at this point is the judge stage result
             if task_key == "humanfeedback_task" and prev_output is not None:
@@ -1081,7 +1034,7 @@ class StructSenseFlow:
                         alignment_results=alignment_for_human,
                         agent_context=self.agent_context,
                         context_manager=self.context_manager,
-                        max_tokens=self.token_limit
+                        max_tokens=self.token_limit,
                     )
                     extra_inputs = managed_input
                     stage_text = None  # Will use extra_inputs instead
@@ -1098,7 +1051,10 @@ class StructSenseFlow:
                 and len(stage_text) > self.downstream_max_input_chars
             ):
                 chunks = self._split_downstream_payload(prev_output, self.downstream_max_input_chars)
-                logger.info(f"Downstream {task_key}: splitting into {len(chunks)} chunks (input {len(stage_text)} chars > {self.downstream_max_input_chars})")
+                logger.info(
+                    f"Downstream {task_key}: splitting into {len(chunks)} chunks (input {len(stage_text)} chars > {self.downstream_max_input_chars})"
+                )
+
                 # Process each chunk in parallel, then merge into one clean result for the next stage
                 async def run_one_chunk(chunk_payload: Dict[str, Any]) -> Dict[str, Any]:
                     chunk_text = json.dumps(chunk_payload, indent=2)
@@ -1114,6 +1070,7 @@ class StructSenseFlow:
                         default_result=stage_default_result,
                         extra_inputs=extra_inputs,
                     )
+
                 chunk_results = await asyncio.gather(*[run_one_chunk(c) for c in chunks])
                 downstream_results = []
                 for result in chunk_results:
@@ -1123,9 +1080,7 @@ class StructSenseFlow:
                 if downstream_results:
                     container_key = TASK_KEY_TO_CONTAINER_KEY.get(task_key) or self._detect_container_key(downstream_results[0])
                     if container_key:
-                        prev_output = merge_downstream_chunk_results_with_provenance(
-                            downstream_results, container_key, agent_key
-                        )
+                        prev_output = merge_downstream_chunk_results_with_provenance(downstream_results, container_key, agent_key)
                     else:
                         prev_output = self._merge_downstream_chunk_results(downstream_results)
                 pipeline_stages[task_key] = prev_output
@@ -1134,22 +1089,17 @@ class StructSenseFlow:
                 pass
             else:
                 # Token-based chunking for alignment/judge/humanfeedback when payload exceeds context limit
-                use_chunked = (
-                    not is_first_stage
-                    and extra_inputs
-                    and task_key in ("alignment_task", "judge_task", "humanfeedback_task")
-                )
+                use_chunked = not is_first_stage and extra_inputs and task_key in ("alignment_task", "judge_task", "humanfeedback_task")
                 payload_key = (
-                    "extracted_structured_information" if task_key == "alignment_task"
-                    else "aligned_structured_information" if task_key == "judge_task"
+                    "extracted_structured_information"
+                    if task_key == "alignment_task"
+                    else "aligned_structured_information"
+                    if task_key == "judge_task"
                     else "judged_structured_information_with_human_feedback"
                 )
                 payload = extra_inputs.get(payload_key) if use_chunked else None
                 token_budget = int(self.token_limit * 0.6)
-                over_limit = (
-                    isinstance(payload, dict)
-                    and self.context_manager.estimate_tokens(payload) > token_budget
-                )
+                over_limit = isinstance(payload, dict) and self.context_manager.estimate_tokens(payload) > token_budget
                 if use_chunked and over_limit:
                     chunks = split_structured_payload(
                         payload,
@@ -1159,6 +1109,7 @@ class StructSenseFlow:
                         max_key_terms_per_chunk=25,
                         max_resources_per_chunk=15,
                     )
+
                     async def run_one_structured_chunk(chunk_payload: Dict[str, Any]) -> Dict[str, Any]:
                         chunk_inputs = {**extra_inputs, payload_key: chunk_payload}
                         return await self.run_agent_task(
@@ -1204,8 +1155,7 @@ class StructSenseFlow:
                 else:
                     if task_key == "humanfeedback_task":
                         logger.info(
-                            "[humanfeedback_agent] Running agent with your feedback (Modify path). "
-                            "Input keys: %s",
+                            "[humanfeedback_agent] Running agent with your feedback (Modify path). " "Input keys: %s",
                             list(extra_inputs.keys()) if extra_inputs else [],
                         )
                     result = await self.run_agent_task(
@@ -1238,9 +1188,7 @@ class StructSenseFlow:
                         if len(results_list) > 1 and task_key in ("alignment_task", "judge_task"):
                             ckey = TASK_KEY_TO_CONTAINER_KEY.get(task_key) or self._detect_container_key(results_list[0])
                             if ckey:
-                                prev_output = merge_downstream_chunk_results_with_provenance(
-                                    results_list, ckey, agent_key
-                                )
+                                prev_output = merge_downstream_chunk_results_with_provenance(results_list, ckey, agent_key)
                                 pipeline_stages[task_key] = prev_output
                             else:
                                 prev_output = results_list[0] if results_list else prev_output
@@ -1331,14 +1279,13 @@ class StructSenseFlow:
                 "limit": self.token_limit,
                 "utilization_pct": utilization_pct,
                 "by_agent": {
-                    agent_key: sum(r.token_count for r in results)
-                    for agent_key, results in self.agent_context.agent_results.items()
-                }
+                    agent_key: sum(r.token_count for r in results) for agent_key, results in self.agent_context.agent_results.items()
+                },
             }
             final["context_management"] = {
                 "agents_tracked": len(self.agent_context.agent_results),
-                "shared_memory_keys": self.shared_memory.get_stats()['total_keys'],
-                "agent_context": self.agent_context.to_dict()
+                "shared_memory_keys": self.shared_memory.get_stats()["total_keys"],
+                "agent_context": self.agent_context.to_dict(),
             }
 
         # End-of-pipeline verifier: ensure all text, sentences, entities present in source
@@ -1364,12 +1311,12 @@ class StructSenseFlow:
                 ensure_resource_mapped_concepts_provenance(final["resources"])
         else:
             extraction_has_alignment_concept_mapping = (
-                task_type == "extraction"
-                and isinstance(final.get("concept_mapping"), list)
-                and len(final.get("concept_mapping", [])) > 0
+                task_type == "extraction" and isinstance(final.get("concept_mapping"), list) and len(final.get("concept_mapping", [])) > 0
             )
             if extraction_has_alignment_concept_mapping:
-                logger.info("Using concept_mapping from alignment agent tool output (skipping end-of-pipeline concept mapping for extraction).")
+                logger.info(
+                    "Using concept_mapping from alignment agent tool output (skipping end-of-pipeline concept mapping for extraction)."
+                )
             else:
                 logger.info("Applying concept mapping (task_type=%s, parallel, max_workers=%s)", task_type, self.max_workers or 8)
                 final = apply_concept_mapping_to_result(final, task_type=task_type, max_workers=self.max_workers or 8)
@@ -1428,7 +1375,15 @@ class StructSenseFlow:
             return [payload]
 
         # Prefer known container keys in order
-        container_keys = ("extracted_resources", "aligned_resources", "judge_resource", "resources", "extracted_structured_information", "aligned_structured_information", "judged_structured_information_with_human_feedback")
+        container_keys = (
+            "extracted_resources",
+            "aligned_resources",
+            "judge_resource",
+            "resources",
+            "extracted_structured_information",
+            "aligned_structured_information",
+            "judged_structured_information_with_human_feedback",
+        )
         container_key = None
         container = None
         for key in container_keys:
@@ -1463,10 +1418,7 @@ class StructSenseFlow:
                 current_size += len(item_str) + 2
             if current:
                 batches.append(current)
-            return [
-                {**{k: v for k, v in payload.items() if k != container_key}, container_key: batch}
-                for batch in batches
-            ]
+            return [{**{k: v for k, v in payload.items() if k != container_key}, container_key: batch} for batch in batches]
 
         # container is dict (id -> list or value)
         keys_order = list(container.keys())
@@ -1552,11 +1504,11 @@ class StructSenseFlow:
         return "extraction"
 
     def _initialize_agent_and_task(
-            self,
-            agent_key: str,
-            task_key: str,
-            pydantic_output_class: Optional[Any] = None,
-            tools: Optional[list] = None,
+        self,
+        agent_key: str,
+        task_key: str,
+        pydantic_output_class: Optional[Any] = None,
+        tools: Optional[list] = None,
     ) -> Tuple[Optional[object], Optional[object]]:
         """Initialize an agent and its associated task.
 
@@ -1574,27 +1526,26 @@ class StructSenseFlow:
         )
 
 
-
-
 async def kickoff(
-        agentconfig: Union[str, dict],
-        taskconfig: Union[str, dict],
-        embedderconfig: Union[str, dict],
-        input_source: Union[str, dict],
-        knowledgeconfig: Optional[Union[str, dict]] = None,
-        enable_human_feedback: bool = True,
-        agent_feedback_config: Optional[Dict[str, bool]] = None,
-        env_file: Optional[str] = None,
-        api_key: Optional[str] = None,
-        enable_chunking: bool = False,
-        chunk_size: Optional[int] = None,
-        max_workers: Optional[int] = None,
-        downstream_max_input_chars: Optional[int] = None,
-        max_extraction_chunk_chars: Optional[int] = None,
+    agentconfig: Union[str, dict],
+    taskconfig: Union[str, dict],
+    embedderconfig: Union[str, dict],
+    source: Optional[str] = None,
+    source_text: Optional[str] = None,
+    knowledgeconfig: Optional[Union[str, dict]] = None,
+    enable_human_feedback: bool = True,
+    agent_feedback_config: Optional[Dict[str, bool]] = None,
+    env_file: Optional[str] = None,
+    api_key: Optional[str] = None,
+    enable_chunking: bool = False,
+    chunk_size: Optional[int] = None,
+    max_workers: Optional[int] = None,
+    downstream_max_input_chars: Optional[int] = None,
+    max_extraction_chunk_chars: Optional[int] = None,
 ) -> Union[Dict[str, Any], str]:
     """
     Standalone kickoff function for backward compatibility.
-    
+
     This function now uses StructSenseFlow internally as the single entry point.
     All functionality is preserved.
     """
@@ -1604,7 +1555,8 @@ async def kickoff(
             agent_config=agentconfig,
             task_config=taskconfig,
             embedder_config=embedderconfig,
-            input_source=input_source,
+            source=source,
+            source_text=source_text,
             knowledge_config=knowledgeconfig,
             enable_human_feedback=enable_human_feedback,
             agent_feedback_config=agent_feedback_config,
@@ -1616,10 +1568,10 @@ async def kickoff(
             downstream_max_input_chars=downstream_max_input_chars,
             max_extraction_chunk_chars=max_extraction_chunk_chars,
         )
-        
+
         # Run the kickoff method
         return await flow.kickoff()
-        
+
     except Exception as e:
         logger.error(f"Kickoff execution failed: {str(e)}")
         raise
