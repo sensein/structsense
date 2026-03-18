@@ -245,7 +245,7 @@ class StructSenseFlow:
             task_config: Union[str, dict],
             embedder_config: Union[str, dict],
             source_text: Optional[str] = None,
-            input_source: Optional[Union[str, dict]] = None,
+            source: Optional[Union[str, dict]] = None,
             enable_human_feedback: bool = False,
             enable_chunking: bool = False,
             knowledge_config: Optional[Union[str, dict]] = None,
