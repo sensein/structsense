@@ -16,7 +16,7 @@
 # @File    : types.py
 # @Software: PyCharm
 
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Union
 from typing import Optional, Type
 from pydantic import BaseModel, Field
 
@@ -35,13 +35,17 @@ class JudgedTermsDynamic(BaseModel):
 
 class ConceptMappingInput(BaseModel):
     """Input schema for ConceptMappingTool"""
-    text: str = Field(
+    text: Union[str, List[Union[str, Dict[str, Any]]]] = Field(
         ...,
         description=(
-            "Text or concept to map. Can be:\n"
-            "- Single concept: 'diabetes'\n"
-            "- Multiple concepts (comma-separated): 'diabetes,cancer,asthma'\n"
-            "- Sentence: 'diabetic kidney disease'"
+            "Concepts to map — ALWAYS pass ALL terms together in ONE call.\n\n"
+            "PREFERRED — list of dicts with per-term context (best accuracy):\n"
+            '   [{"text": "hippocampus", "context": "Neurons in CA1 were recorded."}, '
+            '{"text": "cortex", "context": "Prefrontal cortex activity was measured."}]\n\n'
+            "Also accepted:\n"
+            "- List of strings: ['hippocampus', 'cortex', 'amygdala']\n"
+            "- Single string or phrase: 'hippocampus'  or  'diabetic kidney disease'\n\n"
+            "Do NOT call this tool once per term. Pass every term from the current passage in a single call."
         )
     )
     max_results: int = Field(
@@ -51,4 +55,12 @@ class ConceptMappingInput(BaseModel):
     ontologies: Optional[str] = Field(
         default=None,
         description="Comma-separated ontology acronyms (e.g., 'MONDO,NCIT,SNOMEDCT'). Auto-detected if not provided."
+    )
+    context: Optional[str] = Field(
+        default=None,
+        description=(
+            "Optional shared context/sentence for disambiguation — applied to all terms when 'text' is "
+            "a plain comma-separated string. Ignored when 'text' is a JSON array (each object has its own context). "
+            "Example: 'Hippocampal neurons in CA1 were recorded during spatial navigation.'"
+        )
     )
