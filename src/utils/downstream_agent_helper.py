@@ -375,6 +375,30 @@ def split_structured_payload(
     return chunks
 
 
+def _extract_entities_from_chunk(chunk: Dict[str, Any]) -> List[Dict[str, Any]]:
+    """
+    Return the largest available entity list from a single chunk result.
+
+    An LLM chunk output may have entities under several keys simultaneously:
+      - "entities"          canonical list (may be partial — LLM wrote a few directly)
+      - "aligned_ner_terms" dict-of-lists from alignment stage
+      - "extracted_terms"   dict-of-lists from extraction stage
+      - "judge_ner_terms"   dict-of-lists from judge stage
+
+    Design principle: downstream stages only enrich, never drop.  We always take
+    the largest available set so no entities are silently lost during chunked merges.
+    """
+    from utils.postprocessing import _flatten_container_to_list  # avoid circular at module level
+    best: List[Dict[str, Any]] = chunk.get("entities") or []
+    for raw_key in ("aligned_ner_terms", "extracted_terms", "judge_ner_terms"):
+        container = chunk.get(raw_key)
+        if container:
+            promoted = _flatten_container_to_list(container)
+            if len(promoted) > len(best):
+                best = promoted
+    return best
+
+
 def merge_structured_chunk_results(
     chunk_results: List[Dict[str, Any]],
     list_keys: Optional[List[str]] = None,
@@ -382,12 +406,18 @@ def merge_structured_chunk_results(
     """
     Merge results from chunked agent runs: concatenate entities, key_terms, resources, etc.
     Keep scalar fields (judge_score, remarks, confidence) from last chunk or merge appropriately.
+
+    Entities are collected via _extract_entities_from_chunk so that stage-specific keys
+    (aligned_ner_terms, extracted_terms, judge_ner_terms) are included even when the LLM
+    only partially populated the canonical "entities" list per chunk.
     """
     list_keys = list_keys or ["entities", "key_terms", "resources", "aligned_resources", "judge_resource"]
     if not chunk_results:
         return {}
     if len(chunk_results) == 1:
         out = dict(chunk_results[0])
+        # Normalise single-chunk entities using the same "take largest" logic.
+        out["entities"] = _extract_entities_from_chunk(out)
         out.pop("_chunk_index", None)
         out.pop("_chunk_total", None)
         return out
@@ -398,7 +428,10 @@ def merge_structured_chunk_results(
     for result in chunk_results:
         if not isinstance(result, dict):
             continue
-        for key in list_keys:
+        # Use the largest available entity set for this chunk (may come from
+        # aligned_ner_terms / extracted_terms rather than the canonical "entities" key).
+        merged["entities"].extend(_extract_entities_from_chunk(result))
+        for key in [k for k in list_keys if k != "entities"]:
             val = result.get(key)
             if isinstance(val, list):
                 merged[key].extend(val)

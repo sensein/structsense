@@ -1265,7 +1265,7 @@ def verify_ner_result(merged_result: Dict[str, Any], full_text: str) -> Dict[str
     text_lower = full_text.lower()
     text_stripped = full_text.strip()
 
-    entities = merged_result.get("entities", [])
+    entities = merged_result.get("entities") or []
     key_terms = merged_result.get("key_terms", [])
     metadata = dict(merged_result.get("metadata", {}))
 
@@ -1428,6 +1428,291 @@ def verify_merged_result(
 INTERMEDIATE_CONTAINER_KEYS_NER = ("extracted_terms", "aligned_ner_terms", "judge_ner_terms")
 INTERMEDIATE_CONTAINER_KEYS_RESOURCE = ("extracted_resources", "aligned_resources", "judge_resource")
 
+# ---------------------------------------------------------------------------
+# Stage-output key normalization
+# ---------------------------------------------------------------------------
+# Problem addressed:
+#   Each pipeline stage (extraction, alignment, judge, human-feedback) may write
+#   its output under a different dict key depending on the LLM response and the
+#   task config (e.g. "judge_ner_terms", "aligned_ner_terms", "extracted_terms"
+#   for NER; "judge_resource", "aligned_resources", "extracted_resources" for
+#   resources).  Downstream code and the final result builder all expect the
+#   canonical keys ("entities"/"key_terms" for NER, "resources" for resource).
+#   Without normalization, missing canonical keys produce empty results even
+#   when the LLM returned perfectly valid data under a stage-specific key.
+#
+# Solution:
+#   `promote_stage_output_to_canonical` is called once after EVERY stage in the
+#   pipeline loop (app.py).  It inspects the output in a priority order
+#   (most-refined first: judge > alignment > extraction) and promotes any
+#   stage-specific key to the canonical one.  After this call, all downstream
+#   code — verify_ner_result, normalize_final_result_for_output,
+#   apply_concept_mapping_to_result — can safely assume canonical keys exist.
+
+# Priority order: most refined → least refined (judge > alignment > extraction)
+_NER_STAGE_KEYS = ("judge_ner_terms", "aligned_ner_terms", "extracted_terms")
+_RESOURCE_STAGE_KEYS = ("judge_resource", "aligned_resources", "extracted_resources", "resources")
+# Pipeline placeholder wrapper keys: the LLM sometimes nests its output under
+# these schema keys instead of placing entities/resources at the top level.
+_UNWRAP_KEYS = (
+    "judged_structured_information_with_human_feedback",
+    "aligned_structured_information",
+    "extracted_structured_information",
+)
+
+
+def promote_stage_output_to_canonical(result: Dict[str, Any], task_type: str) -> Dict[str, Any]:
+    """
+    Normalize any pipeline stage output so that canonical keys are always at the
+    top level, regardless of which key the LLM chose to use.
+
+    What it fixes:
+    - NER judge returns {"judge_ner_terms": {...}} instead of {"entities": [...]}
+      → promotes judge_ner_terms (dict-of-lists keyed by entity ID) to entities list
+    - NER alignment returns {"aligned_ner_terms": {...}} → promotes to entities
+    - Resource judge returns {"judge_resource": [...]} → promotes to resources
+    - Resource alignment returns {"aligned_resources": [...]} → promotes to resources
+    - Any stage wraps output in {"extracted_structured_information": {...}} etc.
+      → unwraps the inner dict first, then promotes
+
+    Priority order (most refined wins): judge > alignment > extraction.
+    Only promotes when the canonical key is absent or empty — never overwrites
+    existing data.
+
+    Called in app.py after every pipeline stage so all downstream logic
+    (verify_ner_result, normalize_final_result_for_output, concept mapping)
+    can rely on canonical keys being present.
+
+    Operates in-place and returns the result.
+
+    Example — NER judge stage output (BEFORE this call)::
+
+        {
+            "judge_ner_terms": {
+                "1": [{"entity": "scRNA-seq", "label": "Technique", ...}],
+                "2": [{"entity": "CRISPR",    "label": "Technique", ...}]
+            },
+            "key_terms": ["single-cell", "genome editing"]
+        }
+
+    After this call the same dict also contains::
+
+        {
+            "entities": [
+                {"entity": "scRNA-seq", "label": "Technique", ...},
+                {"entity": "CRISPR",    "label": "Technique", ...}
+            ],
+            "key_terms": ["single-cell", "genome editing"],
+            "judge_ner_terms": { ... }   # original key kept; popped later by normalize_final_result_for_output
+        }
+
+    Example — resource alignment stage output (BEFORE this call)::
+
+        {"aligned_resources": [{"name": "BERT", "type": "Model", ...}]}
+
+    After this call::
+
+        {"aligned_resources": [...], "resources": [{"name": "BERT", "type": "Model", ...}]}
+    """
+    if not isinstance(result, dict):
+        return result
+    t = (task_type or "").strip().lower()
+
+    if t == "ner":
+        # Step 1 — Unwrap nested pipeline-placeholder containers.
+        # The LLM sometimes wraps its NER output inside a schema key like
+        # "extracted_structured_information": {"entities": [...]} instead of
+        # placing entities at the top level.
+        if not result.get("entities"):
+            for uk in _UNWRAP_KEYS:
+                inner = result.get(uk)
+                if isinstance(inner, dict) and (inner.get("entities") or inner.get("key_terms")):
+                    result["entities"] = inner.get("entities") or []
+                    result.setdefault("key_terms", inner.get("key_terms") or [])
+                    break
+
+        # Step 2 — Promote from stage-specific NER keys (judge > alignment > extraction).
+        # _flatten_container_to_list handles both list-of-dicts and dict-of-lists
+        # (the latter being the judge's typical format: {"1": [{entity...}], "2": [...]}）.
+        #
+        # DESIGN PRINCIPLE — entities are never dropped between stages:
+        #   Alignment and judge only ENRICH entities (add ontology fields, validate).
+        #   If the LLM wrote entities:[5] alongside aligned_ner_terms with 322 items,
+        #   the 322 is the authoritative output and must win.
+        #
+        # OLD behaviour (bug): `if not result.get("entities")` — skipped this block
+        #   entirely when entities was already non-empty, even if it only had 2 items
+        #   while extracted_terms / aligned_ner_terms had hundreds.
+        #
+        # NEW behaviour: always scan ALL stage-specific keys and use whichever has
+        #   the MOST entities.  If no stage key beats the existing entities list,
+        #   keep what's there.
+        _best_list = result.get("entities") or []
+        _best_kts = None
+        for key in _NER_STAGE_KEYS:
+            container = result.get(key)
+            if container:
+                promoted = _flatten_container_to_list(container)
+                if len(promoted) > len(_best_list):
+                    _best_list = promoted
+                    _best_kts = (
+                        container.get("key_terms")
+                        if isinstance(container, dict)
+                        else None
+                    )
+        if _best_list:
+            result["entities"] = _best_list
+            if _best_kts:
+                result.setdefault("key_terms", _best_kts)
+
+        # Guarantee canonical keys always exist (empty list is better than KeyError).
+        result.setdefault("entities", [])
+        result.setdefault("key_terms", [])
+
+    elif t in ("resource", "structured_extraction"):
+        # Step 1 — Unwrap nested pipeline-placeholder containers.
+        if not result.get("resources"):
+            for uk in _UNWRAP_KEYS:
+                inner = result.get(uk)
+                if isinstance(inner, dict) and inner.get("resources"):
+                    result["resources"] = inner["resources"]
+                    break
+
+        # Step 2 — Promote from stage-specific resource keys (judge > alignment > extraction).
+        # Same "take largest" principle as the NER path above.
+        _best_resources = result.get("resources") or []
+        for key in _RESOURCE_STAGE_KEYS:
+            container = result.get(key)
+            if container:
+                flat = _flatten_container_to_list(container)
+                if len(flat) > len(_best_resources):
+                    _best_resources = flat
+        if _best_resources:
+            result["resources"] = _best_resources
+
+        result.setdefault("resources", [])
+
+    return result
+
+
+def inject_alignment_concept_mapping_into_ner_entities(
+    entities: List[Dict[str, Any]],
+    session_outputs: list,
+) -> int:
+    """
+    Enrich NER entity dicts with concept mapping fields from alignment agent tool calls.
+
+    What it fixes:
+    - After the alignment stage, the alignment agent has called ConceptMappingLocalTool
+      (or ConceptMappingTool) for each entity.  Those tool outputs are stored in
+      _ALIGNMENT_TOOL_OUTPUTS.  Without this function, the ontology info (ontology_id,
+      ontology_label, ontology) stays in the tool outputs and never reaches the
+      entity dicts the caller actually returns — entities have no ontology fields even
+      though the alignment agent resolved them successfully.
+    - This function bridges that gap: for each entity in `entities` it looks up the
+      entity text in the tool outputs and injects the three canonical fields.
+
+    Example — entity dict BEFORE injection::
+
+        {
+            "entity": "scRNA-seq",
+            "label": "Technique",
+            "sentence": "We used scRNA-seq to profile cells.",
+            "start": [10],
+            "end": [18]
+        }
+
+    Entity dict AFTER injection::
+
+        {
+            "entity": "scRNA-seq",
+            "label": "Technique",
+            "sentence": "We used scRNA-seq to profile cells.",
+            "start": [10],
+            "end": [18],
+            "ontology_id": "http://purl.obolibrary.org/obo/OBI_0002631",
+            "ontology_label": "single cell RNA sequencing assay",
+            "ontology": "OBI"
+        }
+
+    Input formats handled (from get_alignment_tool_outputs()):
+    - Batch local tool output (ConceptMappingLocalTool, is_batch=True)::
+
+        {
+            "input": "<batch>",
+            "output": {
+                "scRNA-seq": {"ontology_id": "...", "ontology_label": "...", "ontology": "..."},
+                "CRISPR":    {"ontology_id": "...", "ontology_label": "...", "ontology": "..."}
+            }
+        }
+
+    - Single local/BioPortal tool output::
+
+        {"input": "scRNA-seq", "output": {"ontology_id": "...", "ontology_label": "...", "ontology": "..."}}
+
+    Only non-None values are injected so existing entity fields are never overwritten with None.
+
+    Args:
+        entities: List of entity dicts (modified in place).
+        session_outputs: Output of get_alignment_tool_outputs() — list of
+            {"input": str, "output": {ontology_id / ontology_label / ontology / ...}}.
+
+    Returns:
+        Number of entities that received at least one concept mapping field.
+
+    Called in:
+        app.py — after the alignment stage when task_type == "ner".
+    """
+    if not entities or not session_outputs:
+        return 0
+
+    # Fields to copy into entity dicts.
+    MAPPING_FIELDS = ("ontology_id", "ontology_label", "ontology")
+
+    # Build term → {ontology_id, ontology_label, ontology} lookup (case-insensitive).
+    # Handles both batch format (output is dict-of-dicts keyed by term) and single-term format.
+    term_to_mapping: Dict[str, Dict[str, Any]] = {}
+    for item in session_outputs:
+        if not isinstance(item, dict):
+            continue
+        inp = item.get("input") or ""
+        out = item.get("output")
+        if not isinstance(out, dict) or "error" in out:
+            continue
+
+        # Determine format: batch if output contains keys other than the standard field names.
+        _known = {*MAPPING_FIELDS, "error"}
+        is_batch = any(k not in _known for k in out)
+        if is_batch:
+            # Batch format: {term: {ontology_id, ontology_label, ontology}, ...}
+            for term, mapping in out.items():
+                if isinstance(mapping, dict) and "error" not in mapping and term:
+                    term_to_mapping[term.lower()] = {f: mapping.get(f) for f in MAPPING_FIELDS}
+        else:
+            # Single-term format: output IS the mapping dict
+            if inp:
+                term_to_mapping[inp.lower()] = {f: out.get(f) for f in MAPPING_FIELDS}
+
+    if not term_to_mapping:
+        return 0
+
+    enriched = 0
+    for ent in entities:
+        if not isinstance(ent, dict):
+            continue
+        ent_text = (ent.get("entity") or "").lower().strip()
+        if not ent_text:
+            continue
+        mapping = term_to_mapping.get(ent_text)
+        if mapping:
+            # Inject only non-None values so existing fields are not overwritten with None.
+            for field, value in mapping.items():
+                if value is not None:
+                    ent[field] = value
+            enriched += 1
+
+    return enriched
+
 
 def _resource_has_rich_mapped_concepts(res: Dict[str, Any]) -> bool:
     """True if resource has multiple mapped_specific_target_concept or any concept with non-N/A id."""
@@ -1534,12 +1819,15 @@ def normalize_final_result_for_output(final: Dict[str, Any], task_type: str) -> 
     allowed = {"errors", "task_type", "elapsed_time", "verification", "metadata", "human_feedback_skipped"}
     if task_type == "ner":
         allowed |= {"entities", "key_terms"}
+        # By this point promote_stage_output_to_canonical() has already promoted
+        # judge_ner_terms / aligned_ner_terms / extracted_terms → entities after every
+        # pipeline stage, so entities should be at the top level. The promotion below
+        # is a last-resort safety net for any edge cases that bypass the pipeline loop.
         for key in INTERMEDIATE_CONTAINER_KEYS_NER:
             final.pop(key, None)
-        # If entities/key_terms missing, promote from judge_ner_terms or any container (hardcoded or root-level dicts).
-        # Check hardcoded pipeline placeholder keys first, then any other key in final whose value is a dict with entities/key_terms.
+        # Safety-net promotion: if entities still missing, check any remaining containers.
         if not final.get("entities") and not final.get("key_terms"):
-            jn = final.get("judge_ner_terms")
+            jn = None  # already popped above; promotion handled by promote_stage_output_to_canonical
             if jn and isinstance(jn, dict):
                 entities = _flatten_container_to_list(jn)
                 final["entities"] = entities
@@ -1824,6 +2112,75 @@ _TASK_SPECIFIC_CONTAINER_KEYS = frozenset({"entities", "resources", "key_terms",
 # String values that are not meaningful terms for concept mapping
 _GENERIC_SKIP_VALUES = frozenset({"true", "false", "null", "yes", "no", "n/a", "na", ""})
 
+# ---------------------------------------------------------------------------
+# Concept-term guard
+# ---------------------------------------------------------------------------
+# Maximum character length for a valid ontology term.
+# Real terms (SNOMED, MESH, UBERON, EDAM …) are noun phrases, typically
+# 1–8 words.  Anything longer is almost certainly a sentence, a remark,
+# or a serialised dict that the LLM accidentally put in the wrong field.
+_CONCEPT_TERM_MAX_LEN: int = 120
+# Maximum number of whitespace-delimited tokens.
+# "feature selection" = 2, "vasoactive intestinal polypeptide-expressing inhibitory neurons" = 5.
+# A sentence easily exceeds 10.
+_CONCEPT_TERM_MAX_WORDS: int = 10
+
+
+def _is_valid_concept_term(text: str) -> bool:
+    """Return True only when *text* looks like a short ontology / concept term.
+
+    Rejects strings that the LLM commonly produces by mistake:
+
+    1. **Empty / too-short** — blank, single-char, or pure whitespace.
+    2. **Too long** — > ``_CONCEPT_TERM_MAX_LEN`` chars (sentences, paragraphs,
+       remarks, rationale text).
+    3. **Too many words** — > ``_CONCEPT_TERM_MAX_WORDS`` tokens (sentence-like
+       phrases, bullet-point summaries).
+    4. **Serialised structures** — contains ``{``, ``}``, ``[``, ``]``
+       (the LLM sometimes passes a Python dict or JSON blob as a term, e.g.
+       ``str({"key_term": "...", "remarks": "...long remarks..."})``)
+    5. **Known non-term values** — "true", "false", "null", "yes", "no", …
+       (the LLM fills optional fields with these placeholders).
+    6. **Numeric-only / version strings** — purely numeric text or version
+       patterns like "v2.03.9", "1.3", "4.0" that appeared in the wild
+       and map to nonsense ontology entries.
+
+    This function is the **single gate** for every term collected by
+    ``apply_concept_mapping_to_result``.  Add new rejection rules here; the
+    rest of the function does not need to change.
+    """
+    if not text or not text.strip():
+        return False
+
+    s = text.strip()
+
+    # Rule 2: length cap
+    if len(s) > _CONCEPT_TERM_MAX_LEN:
+        return False
+
+    # Rule 3: word count cap
+    if len(s.split()) > _CONCEPT_TERM_MAX_WORDS:
+        return False
+
+    # Rule 4: serialised structures (dicts, lists, JSON fragments)
+    if any(ch in s for ch in "{}[]"):
+        return False
+
+    # Rule 5: known non-term placeholder values
+    if s.lower() in _GENERIC_SKIP_VALUES:
+        return False
+
+    # Rule 6: numeric-only or pure version strings (e.g. "1.3", "v4.0", "2.0v3.9")
+    import re as _re
+    if _re.fullmatch(r"v?\d[\d.\-v]*", s, _re.IGNORECASE):
+        return False
+
+    # Rule 1 (secondary): must have at least 2 characters of non-whitespace content
+    if len(s.replace(" ", "")) < 2:
+        return False
+
+    return True
+
 
 def _collect_terms_from_result_generic(
     payload: Any,
@@ -1923,22 +2280,32 @@ def apply_concept_mapping_to_result(
     env CONCEPT_MAPPING_MAX_TERMS caps how many unique terms are mapped (rest get null).
     ConceptMappingTool uses an in-memory cache and BIOPORTAL_REQUEST_INTERVAL (lower = faster, risk 429).
     """
-    try:
-        from .conceptmappingtool import ConceptMappingTool, _sanitize_text as _sanitize_term
-        tool = ConceptMappingTool()
-    except (ValueError, ImportError) as e:
-        logger.warning("Concept mapping skipped (ConceptMappingTool unavailable): %s", e)
-        # Important: even when tool is unavailable, keep resource outputs consistent by
-        # ensuring mapped_* concepts have concept_mapping_provenance (defaults to "llm_knowledge").
-        t = (task_type or "").strip().lower()
-        if t in ("resource", "structured_extraction"):
-            resources_list = result.get("resources")
-            if not isinstance(resources_list, list) and isinstance(result.get("resource"), dict) and _looks_like_resource(result["resource"]):
-                resources_list = [result["resource"]]
-                result["resources"] = resources_list
-            if isinstance(resources_list, list):
-                ensure_resource_mapped_concepts_provenance(resources_list)
-        return result
+    # Prefer local concept mapping service when LOCAL_CONCEPT_MAPPING_URL is set.
+    from .conceptmappingtool import _sanitize_text as _sanitize_term  # always available, no API key needed
+    tool = None
+    local_url = os.getenv("LOCAL_CONCEPT_MAPPING_URL", "http://localhost:8000").strip()
+    if local_url:
+        try:
+            from .conceptmappinglocal import ConceptMappingLocalTool
+            tool = ConceptMappingLocalTool()
+            logger.info("Concept mapping: using local service (%s)", local_url)
+        except (ImportError, Exception) as e:
+            logger.warning("Local concept mapping tool unavailable (%s); falling back to BioPortal.", e)
+    if tool is None:
+        try:
+            from .conceptmappingtool import ConceptMappingTool
+            tool = ConceptMappingTool()
+        except (ValueError, ImportError) as e:
+            logger.warning("Concept mapping skipped (no tool available): %s", e)
+            t = (task_type or "").strip().lower()
+            if t in ("resource", "structured_extraction"):
+                resources_list = result.get("resources")
+                if not isinstance(resources_list, list) and isinstance(result.get("resource"), dict) and _looks_like_resource(result["resource"]):
+                    resources_list = [result["resource"]]
+                    result["resources"] = resources_list
+                if isinstance(resources_list, list):
+                    ensure_resource_mapped_concepts_provenance(resources_list)
+            return result
 
     # ---- Task-aware: what to map from extractor output ----
     t = (task_type or "").strip().lower()
@@ -1954,7 +2321,9 @@ def apply_concept_mapping_to_result(
 
     def add_term(term: str, container: Any, index_or_key: Any, suffix: Optional[str] = None) -> None:
         cleaned = _sanitize_term(term) if term is not None else ""
-        if cleaned:
+        # _is_valid_concept_term rejects sentences, serialised dicts, version strings,
+        # placeholders, and anything else the LLM should not have put in a term field.
+        if _is_valid_concept_term(cleaned):
             tasks.append((cleaned, container, index_or_key, suffix))
 
     # Entities: map entity text; for NER also map entity label
@@ -1991,17 +2360,32 @@ def apply_concept_mapping_to_result(
                             for j, val in enumerate(lst):
                                 if isinstance(val, str) and val.strip():
                                     term_clean = _sanitize_term(val)
-                                    if term_clean:
+                                    if _is_valid_concept_term(term_clean):
                                         mention_tasks.append((term_clean, resources, i, mk, j))
 
-    # key_terms: list of strings -> will become list of {term, ontology_id, ontology_label, ontology}
+    # key_terms: list of strings or dicts -> will become list of {term, ontology_id, ontology_label, ontology}
+    #
+    # key_terms: list of strings or dicts -> will become list of {term, ontology_id, ontology_label, ontology}
+    #
+    # WHY WE CHECK MULTIPLE DICT KEYS:
+    #   The judge stage converts plain key_term strings into dicts:
+    #     {"key_term": "feature selection", "judge_score": 1.0, "remarks": "...long remarks..."}
+    #   We explicitly check "key_term" | "term" | "name" to extract the short term text.
+    #   All candidates are then validated by _is_valid_concept_term, which rejects sentences,
+    #   serialised dicts, version strings, and anything else the LLM should not have put there.
     key_terms_raw = result.get("key_terms", [])
     key_terms_tasks: List[Tuple[str, int]] = []  # (term, index for new list)
     if isinstance(key_terms_raw, list):
         for j, t in enumerate(key_terms_raw):
-            term = t if isinstance(t, str) else (t.get("term") if isinstance(t, dict) else str(t))
+            if isinstance(t, str):
+                term = t
+            elif isinstance(t, dict):
+                # Try common key names used by extractor / judge outputs
+                term = t.get("term") or t.get("key_term") or t.get("name") or None
+            else:
+                term = None  # skip anything that is not a str or dict
             cleaned = _sanitize_term(term) if term is not None else ""
-            if cleaned:
+            if _is_valid_concept_term(cleaned):
                 key_terms_tasks.append((cleaned, j))
 
     # judge_ner_terms: dict id -> list of entity dicts; add ontology_* to each entity

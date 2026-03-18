@@ -90,6 +90,12 @@ from utils.postprocessing import (
     normalize_final_result_for_output,
     promote_canonical_resources_for_resource_task,
     ensure_resource_mapped_concepts_provenance,
+    promote_stage_output_to_canonical,
+    # FIX: inject concept mapping (class_uri/ontology_label/ontology_id) from alignment
+    # agent tool calls directly into NER entity dicts after the alignment stage.
+    # Previously these ontology fields were captured by the tool but never surfaced to
+    # the caller because the injection block only ran for task_type == "extraction".
+    inject_alignment_concept_mapping_into_ner_entities,
     _flatten_container_to_list,
 )
 from .humanloop import HumanInTheLoop
@@ -246,6 +252,7 @@ class StructSenseFlow:
             downstream_max_input_chars: Optional[int] = None,
             max_extraction_chunk_chars: Optional[int] = None,
             return_full_pipeline_details: bool = False,
+            stage_output_dir: Optional[str] = os.getcwd(),
     ):
         """Initialize StructSenseFlow with config paths and input.
 
@@ -284,6 +291,13 @@ class StructSenseFlow:
             Cap on chunk size for extraction agent context.
         return_full_pipeline_details : bool, optional
             If True, result includes pipeline_stages, token_usage, context_management.
+        stage_output_dir : str, optional
+            Directory path where each stage's output is written to disk as JSON
+            immediately after that stage completes.  Useful for long-running pipelines
+            (extraction 10 min + alignment 60 min + judge 40 min) so that a crash does
+            not lose all prior work.  Files are named
+            ``<stage_index>_<agent_key>_<task_key>.json`` and overwritten on re-run.
+            Defaults to the current working directory.  Set to None to disable.
 
         Raises
         ------
@@ -486,6 +500,7 @@ class StructSenseFlow:
         # Default 25000 chars (~6k tokens) leaves room for task prompt on 128k models. None = no cap.
         self.max_extraction_chunk_chars = max_extraction_chunk_chars if max_extraction_chunk_chars is not None else 25_000
         self.return_full_pipeline_details = return_full_pipeline_details
+        self.stage_output_dir = stage_output_dir  # defaults to cwd; set to None to disable stage file output
         self.agent_feedback_config = agent_feedback_config or {}
         # Human-in-the-loop for feedback before humanfeedback_agent (see humanloop.py)
         self.human_loop = HumanInTheLoop(
@@ -994,6 +1009,108 @@ class StructSenseFlow:
                         extraction_output = prev_output
                     if not isinstance(extraction_output, dict):
                         extraction_output = prev_output if isinstance(prev_output, dict) else {}
+
+                    # -----------------------------------------------------------------------
+                    # LAYER 1 OF 3 — Pre-compute concept mapping before the alignment LLM runs
+                    # -----------------------------------------------------------------------
+                    # WHY THIS EXISTS:
+                    #   The alignment agent is an LLM whose system prompt instructs it to call
+                    #   ConceptMappingLocalTool once with ALL entity texts.  In practice LLMs
+                    #   (gpt-4o-mini, Gemini flash, etc.) ignore this and either:
+                    #     - call the tool with only 5–10 terms and stop, or
+                    #     - call it multiple times with small subsets.
+                    #   Out of ~87 entities only 8 might get mapped — not because the tool
+                    #   failed, but because the LLM simply chose not to call it for the rest.
+                    #
+                    # WHAT WE DO:
+                    #   Before the alignment LLM runs, Python collects every entity text
+                    #   programmatically and calls ConceptMappingLocalTool._run() directly
+                    #   with the full deduplicated batch.  Results land in _ALIGNMENT_TOOL_OUTPUTS.
+                    #   The alignment LLM then runs normally; any additional calls it makes also
+                    #   append to _ALIGNMENT_TOOL_OUTPUTS.  After the stage finishes,
+                    #   inject_alignment_concept_mapping_into_ner_entities reads the accumulated
+                    #   outputs and stamps ontology_id / ontology_label / ontology onto every
+                    #   entity dict whose text matches a captured result.
+                    #
+                    # WHY WE COLLECT FROM MULTIPLE KEYS (not just "entities"):
+                    #   The extractor LLM sometimes writes BOTH:
+                    #     entities: [2 items]          ← small partial list
+                    #     extracted_terms: {"1": [...75 items...]}  ← the full output
+                    #   promote_stage_output_to_canonical sees entities is non-empty and
+                    #   skips promoting extracted_terms → the pre-compute previously only
+                    #   found those 2 items.  We now walk all four possible locations:
+                    #     1. entities          – canonical promoted list (may be partial)
+                    #     2. extracted_terms   – raw stage key; dict-of-lists or list-of-dicts
+                    #     3. aligned_ner_terms – present in re-run scenarios
+                    #     4. key_terms         – string list or list-of-dicts
+                    #   Log line shows coverage per source, e.g.:
+                    #     [alignment_task] Pre-computing: 87 terms (entities=2, key_terms=10, raw_extracted=75)
+                    _cm_backend = os.getenv("CONCEPT_MAPPING_BACKEND", "local").strip().lower()
+                    if _cm_backend == "local" and task_type in ("ner", "extraction", "keyphrase_extraction"):
+                        try:
+                            from utils.conceptmappinglocal import ConceptMappingLocalTool as _CMTool
+                            _pre_texts: list = []
+
+                            def _collect_entity_text(ent):
+                                if isinstance(ent, dict):
+                                    t = ent.get("entity") or ent.get("text") or ent.get("name")
+                                    if isinstance(t, str) and t.strip():
+                                        _pre_texts.append(t.strip())
+
+                            # 1. Canonical entities list
+                            for _e in extraction_output.get("entities", []):
+                                _collect_entity_text(_e)
+
+                            # 2 & 3. Raw NER stage keys (extracted_terms, aligned_ner_terms) —
+                            #        these may contain more entities than the promoted list when
+                            #        promote_stage_output_to_canonical found a non-empty entities
+                            #        key and skipped the stage-specific keys.
+                            for _raw_key in ("extracted_terms", "aligned_ner_terms"):
+                                _raw_container = extraction_output.get(_raw_key)
+                                if _raw_container:
+                                    for _e in _flatten_container_to_list(_raw_container):
+                                        _collect_entity_text(_e)
+
+                            # 4. key_terms (strings or dicts)
+                            for _kt in extraction_output.get("key_terms", []):
+                                if isinstance(_kt, str) and _kt.strip():
+                                    _pre_texts.append(_kt.strip())
+                                elif isinstance(_kt, dict):
+                                    _kt_t = _kt.get("term") or _kt.get("text") or _kt.get("entity")
+                                    if isinstance(_kt_t, str) and _kt_t.strip():
+                                        _pre_texts.append(_kt_t.strip())
+
+                            # Deduplicate preserving order
+                            _pre_seen: set = set()
+                            _pre_unique = [_t for _t in _pre_texts if not (_t in _pre_seen or _pre_seen.add(_t))]
+                            logger.info(
+                                "[alignment_task] Pre-computing concept mapping: %d unique term(s) "
+                                "(entities=%d, key_terms=%d, raw_extracted=%d)",
+                                len(_pre_unique),
+                                len(extraction_output.get("entities") or []),
+                                len(extraction_output.get("key_terms") or []),
+                                len(_flatten_container_to_list(extraction_output.get("extracted_terms") or [])),
+                            )
+                            if _pre_unique:
+                                print(
+                                    f"[PRE-COMPUTE] Calling ConceptMappingLocalTool with {len(_pre_unique)} terms",
+                                    flush=True,
+                                )
+                                _CMTool()._run(text=_pre_unique)
+                            else:
+                                print(
+                                    "[PRE-COMPUTE] _pre_unique is empty — skipping concept mapping pre-compute",
+                                    flush=True,
+                                )
+                        except Exception as _pre_exc:
+                            import traceback
+                            print(
+                                f"[PRE-COMPUTE ERROR] Concept mapping pre-compute failed: {_pre_exc}\n"
+                                f"{traceback.format_exc()}",
+                                flush=True,
+                            )
+                            logger.warning("[alignment_task] Pre-compute concept mapping skipped: %s", _pre_exc)
+
                     logger.info(f"[{agent_key}] Preparing token-managed input for alignment agent")
                     managed_input = prepare_alignment_agent_input(
                         extraction_results=extraction_output,
@@ -1054,6 +1171,29 @@ class StructSenseFlow:
 
             # Human feedback receives judge output: prev_output at this point is the judge stage result
             if task_key == "humanfeedback_task" and prev_output is not None:
+                # Early NER fallback: if the judge returned the wrong schema (e.g. resource keys
+                # instead of judge_ner_terms), promote_stage_output_to_canonical leaves
+                # entities=[] in prev_output.  The post-loop fallback at line ~1451 fixes this
+                # for the final result, but human feedback and prepare_humanfeedback_agent_input
+                # both run INSIDE the loop and would receive empty data.
+                # Resolve the best available stage now so the human sees real entities and the
+                # humanfeedback agent gets the correct judge_output below.
+                if task_type == "ner" and isinstance(prev_output, dict) and not prev_output.get("entities"):
+                    for _fk in ("judge_task", "alignment_task", "extraction_task"):
+                        _fs = pipeline_stages.get(_fk)
+                        if isinstance(_fs, dict) and _fs.get("entities"):
+                            prev_output = _fs
+                            # Keep pipeline_stages["judge_task"] consistent so the
+                            # judge_output = pipeline_stages.get("judge_task") line below
+                            # also receives the recovered data.
+                            pipeline_stages["judge_task"] = prev_output
+                            logger.info(
+                                "[humanfeedback_task] prev_output had empty entities after judge stage "
+                                "(wrong-schema / default-fallback case); recovered %d entities from '%s'.",
+                                len(_fs["entities"]), _fk,
+                            )
+                            break
+
                 # Collect user feedback (1=Approve, 2=View, 3=Modify, 4=Abort)
                 feedback_text = user_feedback_text
                 if feedback_text is None and self.human_loop.is_feedback_enabled_for_agent("humanfeedback_agent"):
@@ -1139,7 +1279,17 @@ class StructSenseFlow:
                     if result.get("results"):
                         downstream_results.append(result["results"][0])
                 if downstream_results:
-                    container_key = TASK_KEY_TO_CONTAINER_KEY.get(task_key) or self._detect_container_key(downstream_results[0])
+                    # FIX (empty-entities root cause): always detect the container key from
+                    # the actual result dict instead of using the hardcoded TASK_KEY_TO_CONTAINER_KEY
+                    # lookup.  The old code did:
+                    #   TASK_KEY_TO_CONTAINER_KEY.get(task_key) or self._detect_container_key(...)
+                    # For NER tasks TASK_KEY_TO_CONTAINER_KEY["judge_task"] == "judge_resource" which
+                    # is truthy, so _detect_container_key was never called.  The merge was then
+                    # executed with the wrong key ("judge_resource") on an NER result that contains
+                    # "judge_ner_terms", producing an empty list every time.
+                    # _detect_container_key inspects the actual keys present in the result, so it
+                    # correctly returns "judge_ner_terms" for NER and "judge_resource" for resources.
+                    container_key = self._detect_container_key(downstream_results[0])
                     if container_key:
                         prev_output = merge_downstream_chunk_results_with_provenance(
                             downstream_results, container_key, agent_key
@@ -1206,7 +1356,12 @@ class StructSenseFlow:
                         all_errors.extend(r.get("errors", []))
                     raw_list = [r["results"][0] for r in chunk_results if r.get("results") and isinstance(r["results"][0], dict)]
                     if raw_list:
-                        ckey = TASK_KEY_TO_CONTAINER_KEY.get(task_key) or self._detect_container_key(raw_list[0])
+                        # FIX (empty-entities root cause): detect container key from the actual
+                        # result rather than the hardcoded TASK_KEY_TO_CONTAINER_KEY map.
+                        # TASK_KEY_TO_CONTAINER_KEY["judge_task"] == "judge_resource" caused NER
+                        # chunks to be merged under the wrong key, yielding empty entities.
+                        # See the same fix comment at the extraction-stage call site above.
+                        ckey = self._detect_container_key(raw_list[0])
                         # For alignment/judge with multiple chunks: use resource-aware merge so tool-backed concepts (real IDs) beat N/A
                         if ckey and task_key in ("alignment_task", "judge_task") and len(raw_list) > 1:
                             prev_output = merge_downstream_chunk_results_with_provenance(raw_list, ckey, agent_key)
@@ -1254,7 +1409,13 @@ class StructSenseFlow:
                         results_list = result.get("results") or []
                         # Combine multiple blobs (e.g. alignment Final Answer blocks) via postprocessing merge
                         if len(results_list) > 1 and task_key in ("alignment_task", "judge_task"):
-                            ckey = TASK_KEY_TO_CONTAINER_KEY.get(task_key) or self._detect_container_key(results_list[0])
+                            # FIX (empty-entities root cause): detect container key from the actual
+                            # result.  Previously TASK_KEY_TO_CONTAINER_KEY.get(task_key) was used
+                            # first; for NER it returned "judge_resource" (wrong key) so the merge
+                            # silently produced empty entities.  Now we always inspect the result.
+                            # Example — NER judge returns {"judge_ner_terms": {"1": [...], "2": [...]}};
+                            # _detect_container_key finds "judge_ner_terms" and merge proceeds correctly.
+                            ckey = self._detect_container_key(results_list[0])
                             if ckey:
                                 try:
                                     prev_output = merge_downstream_chunk_results_with_provenance(
@@ -1276,26 +1437,160 @@ class StructSenseFlow:
                         else:
                             raw = results_list[0] if results_list else prev_output
                             if isinstance(raw, dict):
-                                container_key = TASK_KEY_TO_CONTAINER_KEY.get(task_key) or self._detect_container_key(raw)
+                                # FIX (empty-entities root cause): always detect container key from
+                                # the actual result dict.  The old guard
+                                #   TASK_KEY_TO_CONTAINER_KEY.get(task_key) or _detect_container_key(raw)
+                                # short-circuited for NER because TASK_KEY_TO_CONTAINER_KEY["judge_task"]
+                                # == "judge_resource" is truthy, so the real key "judge_ner_terms"
+                                # was never detected and provenance/merge logic ran on the wrong key.
+                                # Example: NER single-result judge → raw = {"judge_ner_terms": {...}};
+                                # _detect_container_key returns "judge_ner_terms" so provenance is
+                                # stamped on the correct container.
+                                container_key = self._detect_container_key(raw)
                                 if container_key:
                                     add_provenance_to_result(raw, container_key, agent_key)
                             prev_output = raw
                             pipeline_stages[task_key] = raw
 
-            # Preserve alignment agent's concept mapping tool output only for extraction (pdf2_reproschema).
-            # For NER and resource we do not inject concept_mapping into prev_output so judge input shape is unchanged.
-            if task_key == "alignment_task" and task_type == "extraction" and isinstance(prev_output, dict):
+            # KEY ROBUSTNESS FIX: normalize stage output to canonical keys immediately
+            # after every stage completes, before passing to the next stage.
+            #
+            # Root cause of the empty-entities bug:
+            #   Each pipeline stage uses a stage-specific output key instead of the canonical
+            #   "entities" / "resources" key.  Examples:
+            #     - NER extractor  → {"extracted_terms":  {"1": [{entity...}], ...}}
+            #     - NER alignment  → {"aligned_ner_terms": {"1": [{entity...}], ...}}
+            #     - NER judge      → {"judge_ner_terms":   {"1": [{entity...}], ...}}
+            #     - Resource judge → {"judge_resource":    [{resource...}, ...]}
+            #   Without this call, verify_ner_result / normalize_final_result_for_output
+            #   look for "entities" / "resources" at the top level, find nothing, and the
+            #   final output is always empty even though the LLM produced valid data.
+            #
+            # What promote_stage_output_to_canonical does (see postprocessing.py):
+            #   1. Unwrap any pipeline placeholder wrapper key
+            #      (e.g. "judged_structured_information_with_human_feedback": {"entities": [...]})
+            #   2. Detect the highest-priority stage key present in priority order
+            #      NER:      judge_ner_terms > aligned_ner_terms > extracted_terms
+            #      resource: judge_resource  > aligned_resources > extracted_resources
+            #   3. Flatten dict-of-lists ({"1": [...], "2": [...]}) → flat list
+            #   4. Write the result to the canonical key ("entities" or "resources")
+            #
+            # This single call covers all paths (chunked, token-split, normal) because
+            # every path converges to prev_output before this line.
+            # See promote_stage_output_to_canonical() in postprocessing.py for full details.
+            if isinstance(prev_output, dict):
+                prev_output = promote_stage_output_to_canonical(prev_output, task_type)
+                pipeline_stages[task_key] = prev_output
+
+            # Preserve alignment agent's concept mapping tool output after the alignment stage.
+            #
+            # Background:
+            #   During the alignment stage the agent calls ConceptMappingLocalTool (or
+            #   ConceptMappingTool for BioPortal).  Each call records its input/output in
+            #   the module-level _ALIGNMENT_TOOL_OUTPUTS list (see conceptmappingtool.py /
+            #   conceptmappinglocal.py).  Without the code below those results are captured
+            #   but never written back to the pipeline output — callers would see no
+            #   ontology information on entities even though the alignment agent resolved them.
+            #
+            # How we surface them per task type:
+            # - extraction: store as a top-level "concept_mapping" list in prev_output so
+            #     downstream stages (judge, humanfeedback) and the final result carry it.
+            #     Example entry: {"term": "SNOMED", "ontology_id": "...", "ontology_label": "..."}
+            #
+            # - NER (FIX — previously missing entirely):
+            #     Inject class_uri / ontology_label / ontology_id directly into each entity
+            #     dict so the caller gets ontology info on the entity objects themselves.
+            #     Example — entity before injection:
+            #       {"entity": "scRNA-seq", "label": "Technique", "sentence": "..."}
+            #     Entity after injection:
+            #       {"entity": "scRNA-seq", "label": "Technique", "sentence": "...",
+            #        "class_uri": "http://purl.obolibrary.org/obo/OBI_0002631",
+            #        "ontology_label": "single cell RNA sequencing assay",
+            #        "ontology_id": "OBI:0002631"}
+            #     Only non-None values are written so no existing field is overwritten with None.
+            #     Entities are guaranteed to be at the top level because
+            #     promote_stage_output_to_canonical already ran just above.
+            #
+            # - resource: no injection here — resource alignment concept data lives inside
+            #     the judge_resource / aligned_resources structures and is handled by the
+            #     end-of-pipeline apply_concept_mapping_to_result call.
+            # -------------------------------------------------------------------
+            # LAYER 2 OF 3 — Post-alignment injection of concept mapping results
+            # -------------------------------------------------------------------
+            # WHY THIS EXISTS:
+            #   The alignment LLM calls ConceptMappingLocalTool during its run.
+            #   Each call appends {"input": term, "output": {ontology fields}} to
+            #   _ALIGNMENT_TOOL_OUTPUTS (module-level, accumulated across the run).
+            #   Without this block, those results are captured but never written
+            #   back to the entity dicts — callers would see no ontology fields
+            #   even though the alignment agent successfully resolved them.
+            #
+            # HOW IT WORKS:
+            #   inject_alignment_concept_mapping_into_ner_entities builds a
+            #   case-insensitive term → mapping lookup from _ALIGNMENT_TOOL_OUTPUTS
+            #   and writes ontology_id / ontology_label / ontology into each entity
+            #   dict in-place.  Only non-None values are written so no existing
+            #   field is overwritten.
+            #
+            # NOTE — WHY A SECOND INJECTION IS STILL NEEDED (see Layer 3 below):
+            #   This injection enriches alignment-stage entity dicts.  The judge
+            #   stage then outputs brand-new entity dicts that do not carry these
+            #   extra fields.  The final re-injection (after the pipeline loop)
+            #   handles that case so ontology fields always reach the caller.
+            if task_key == "alignment_task" and isinstance(prev_output, dict):
                 session_outputs = get_alignment_tool_outputs()
                 if session_outputs:
-                    concept_mapping_list = format_alignment_tool_outputs_as_concept_mapping(session_outputs)
-                    if concept_mapping_list:
-                        prev_output["concept_mapping"] = concept_mapping_list
-                        logger.info("Preserved %d concept mappings from alignment agent tool output", len(concept_mapping_list))
+                    if task_type == "extraction":
+                        concept_mapping_list = format_alignment_tool_outputs_as_concept_mapping(session_outputs)
+                        if concept_mapping_list:
+                            prev_output["concept_mapping"] = concept_mapping_list
+                            logger.info("Preserved %d concept mappings from alignment agent tool output", len(concept_mapping_list))
+                    elif task_type == "ner":
+                        # Entities are at top level after promote_stage_output_to_canonical above.
+                        entities = prev_output.get("entities") or []
+                        if entities:
+                            enriched = inject_alignment_concept_mapping_into_ner_entities(entities, session_outputs)
+                            if enriched:
+                                logger.info(
+                                    "[alignment_task] Enriched %d NER entities with concept mapping "
+                                    "(ontology_id/ontology_label/ontology)",
+                                    enriched,
+                                )
 
             # Record stage timing
             stage_elapsed = time.time() - stage_start_time
             stage_timings[f"{agent_key}_{task_key}"] = stage_elapsed
             logger.info(f"[{agent_key}] Completed in {stage_elapsed:.2f}s")
+
+            # -----------------------------------------------------------------------
+            # Persist stage output to disk immediately after completion.
+            #
+            # WHY THIS EXISTS:
+            #   Extraction takes ~10 min, alignment ~60 min, judge ~40 min.
+            #   If the process crashes during the judge stage, extraction and alignment
+            #   results are lost because they only live in `pipeline_stages` (in-memory).
+            #   Writing each stage to disk right after it finishes means the data is
+            #   safe.  Files are small (JSON), overwrites are atomic on most OS, and
+            #   the cost is negligible vs. the LLM call time.
+            #
+            # FILE NAMING:
+            #   <stage_index>_<agent_key>_<task_key>.json
+            #   e.g. 00_extractor_agent_extraction_task.json
+            #        01_alignment_agent_alignment_task.json
+            #        02_judge_agent_judge_task.json
+            #   Leading zero-padded index keeps files in pipeline order in file explorers.
+            # -----------------------------------------------------------------------
+            if self.stage_output_dir and pipeline_stages.get(task_key) is not None:
+                try:
+                    os.makedirs(self.stage_output_dir, exist_ok=True)
+                    _stage_fname = f"{idx:02d}_{agent_key}_{task_key}.json"
+                    _stage_path = os.path.join(self.stage_output_dir, _stage_fname)
+                    with open(_stage_path, "w", encoding="utf-8") as _sf:
+                        json.dump(pipeline_stages[task_key], _sf, indent=2, ensure_ascii=False, default=str)
+                    logger.info("[stage_output] Wrote %s (%.1f KB)", _stage_path,
+                                os.path.getsize(_stage_path) / 1024)
+                except Exception as _se:
+                    logger.warning("[stage_output] Failed to write stage file: %s", _se)
 
         elapsed_time = time.time() - start_time
 
@@ -1318,6 +1613,51 @@ class StructSenseFlow:
         logger.info(f"Context management: {len(self.agent_context.agent_results)} agents tracked")
         logger.info(f"Shared memory: {self.shared_memory.get_stats()['total_keys']} keys stored")
         logger.info("=" * 80)
+
+        # NER ENTITY FALLBACK: if the last stage (judge / humanfeedback) returned no entity
+        # data at all, fall back to the best earlier stage that has entities.
+        #
+        # Root cause this handles:
+        #   The judge_task uses a pydantic output model that defines resource-type fields
+        #   (resources, aligned_resources, judge_resource).  When the same task config is
+        #   reused for NER, the LLM populates those fields (with empty lists) but never
+        #   writes judge_ner_terms / entities.  After promote_stage_output_to_canonical,
+        #   entities stays [] even though 19 entities existed after the alignment stage.
+        #
+        # Fallback priority: humanfeedback → judge → alignment → extraction.
+        # We only fall back when:
+        #   1. task_type is "ner" (resource tasks use a different set of keys)
+        #   2. prev_output has entities == [] (empty after full promotion)
+        #   3. None of the NER stage keys (judge_ner_terms / aligned_ner_terms /
+        #      extracted_terms) are present in prev_output either — meaning the LLM
+        #      returned the wrong structure entirely, not just an intentionally empty list.
+        # If the judge intentionally returned entities=[] (all entities rejected), all
+        # NER stage keys would also be absent, but that is indistinguishable from the
+        # wrong-schema case.  We accept the occasional over-recovery in favour of not
+        # silently losing valid extraction results.
+        if task_type == "ner" and isinstance(prev_output, dict):
+            _ner_keys = ("judge_ner_terms", "aligned_ner_terms", "extracted_terms")
+            _no_ner_output = (
+                not prev_output.get("entities")
+                and not prev_output.get("key_terms")
+                and not any(prev_output.get(k) for k in _ner_keys)
+            )
+            if _no_ner_output:
+                # Walk pipeline stages from most-refined to least-refined looking for entities.
+                _fallback_order = ("humanfeedback_task", "judge_task", "alignment_task", "extraction_task")
+                for _fkey in _fallback_order:
+                    _fstage = pipeline_stages.get(_fkey)
+                    if isinstance(_fstage, dict) and _fstage.get("entities"):
+                        logger.warning(
+                            "[NER fallback] Last stage (%s) produced no entity data "
+                            "(returned resource-type keys instead of judge_ner_terms). "
+                            "Falling back to stage '%s' which has %d entities.",
+                            list(ordered_pairs)[-1][1] if ordered_pairs else "unknown",
+                            _fkey,
+                            len(_fstage["entities"]),
+                        )
+                        prev_output = _fstage
+                        break
 
         # Build result: last stage output (human feedback if enabled, else judge). Each stage extends the previous.
         # Unwrap if LLM returned output nested under pipeline placeholder key (e.g. judged_structured_information_with_human_feedback)
@@ -1361,6 +1701,48 @@ class StructSenseFlow:
             alignment_cm = pipeline_stages["alignment_task"].get("concept_mapping")
             if isinstance(alignment_cm, list) and alignment_cm:
                 final["concept_mapping"] = alignment_cm
+
+        # -------------------------------------------------------------------
+        # LAYER 3 OF 3 — Final re-injection of concept mapping into definitive entities
+        # -------------------------------------------------------------------
+        # WHY THIS EXISTS:
+        #   Layer 2 (post-alignment injection) enriches the alignment-stage entity dicts
+        #   in-place.  But the pipeline does not stop there:
+        #
+        #     alignment stage → entities enriched with ontology fields ✓
+        #     judge stage     → LLM outputs BRAND-NEW entity dicts from scratch
+        #                       → ontology fields are NOT carried through ✗
+        #     final assembly  → picks up judge entities → no ontology fields ✗
+        #
+        #   The judge LLM receives the aligned entities (with ontology fields) as context,
+        #   but its Pydantic output model only defines the core entity schema (entity,
+        #   label, sentence, etc.) — extra fields like ontology_id are silently dropped
+        #   when the model is instantiated from the LLM's JSON output.
+        #
+        # WHAT WE DO:
+        #   After all stages have run and final["entities"] holds the authoritative list,
+        #   we re-run inject_alignment_concept_mapping_into_ner_entities against it.
+        #   _ALIGNMENT_TOOL_OUTPUTS is module-level and accumulates results from both
+        #   the programmatic pre-compute (Layer 1) and any calls the alignment LLM made
+        #   itself, so this covers every term that was mapped during the entire run.
+        #
+        #   This is the last write to entity dicts before the result is returned to the
+        #   caller, so ontology fields are guaranteed to be present regardless of which
+        #   stage (judge, humanfeedback, fallback) produced the final entity list.
+        if task_type == "ner":
+            _final_entities = final.get("entities") or []
+            if _final_entities:
+                _final_session = get_alignment_tool_outputs()
+                if _final_session:
+                    _final_enriched = inject_alignment_concept_mapping_into_ner_entities(
+                        _final_entities, _final_session
+                    )
+                    if _final_enriched:
+                        logger.info(
+                            "[final] Re-injected concept mapping into %d / %d NER entities",
+                            _final_enriched,
+                            len(_final_entities),
+                        )
 
         # Include pipeline details only when requested (avoids repeating entities and heavy metadata)
         if self.return_full_pipeline_details:
