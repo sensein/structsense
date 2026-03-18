@@ -1,5 +1,5 @@
 [project]
-name = "structsense" 
+name = "structsense"
 dynamic = ["version", "dependencies"]
 description = "structsense is a powerful multi-agent system designed to extract structured information from unstructured data. By orchestrating intelligent agents, it helps you make sense of complex information — hence the name structsense. Whether you're working with scientific texts, documents, or messy data, structsense enables you to transform it into meaningful, structured insights."
 readme = "README.md"
@@ -48,10 +48,10 @@ python-dotenv = "^1.0.1"
 crewai = "1.8.1"
 rich = "^13.9.4"
 weave = "^0.51.39"
-mlflow = "^2.21.1"
+mlflow = "^3.5.0"
 poetry = "^2.1.1"
-spacy = "^3.8.11"
-litellm = {version = ">=1.17.0,<1.80.0"}
+spacy = ">=3.8.11,<3.9.0"
+litellm = {version = ">=1.17.0,<1.60.0"}
 transformers = ">=4.30.0,<4.46.0"
 torch = "^2.10.0"
 json-repair = ">=0.25.2,<0.26.0"
@@ -77,6 +77,9 @@ pdoc = "~=15.0"
 pythonpath = ["src"]
 testpaths = ["src/tests"]
 asyncio_mode = "auto"
+markers = [
+  "requires_openrouter: tests that need OpenRouter access"
+]
 
 [tool.ruff]
 exclude = [

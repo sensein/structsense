@@ -55,84 +55,80 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-def process_input_data(source: str):
-    if isinstance(source, str):
-        # Try different path resolutions
-        paths_to_try = [
-            Path(source),  # As provided
-            Path.cwd() / source,  # Relative to current directory
-            Path(source).absolute(),  # Absolute path
-            Path(source).resolve(),  # Resolved path (handles .. and .)
-        ]
+def process_file(source_path: Union[str, Path]) -> str:
+    """Process a file and return its contents as a plain text string.
 
-        # Log all paths being tried
-        logger.info(f"Trying paths: {[str(p) for p in paths_to_try]}")
+    Raises:
+        ValueError: If the file does not exist, format is unsupported, or processing fails.
+    """
+    if isinstance(source_path, str):
+        source_path = Path(source_path)
+    if not source_path.is_file():
+        raise ValueError(f"File not found: {source_path}")
 
-        # Check if this is raw text input
-        is_raw_text = (
-            # do not contains any extensions like .pdf
-            (not source.lower().endswith((".pdf", ".csv", ".txt")))
-            or
-            # If it's a very long string, treat as raw text
-            len(source) > 500
-            or
-            # Or if it contains newlines
-            "\n" in source
-            or
-            # Or if it doesn't look like a path and no paths exist
-            (not ("/" in source or "\\" in source) and not any(p.exists() for p in paths_to_try))
-        )
+    logger.info(f"Processing file: {source_path}")
+    ext = source_path.suffix.lower()
 
-        if is_raw_text:
-            logger.info(f"Processing raw text input (length: {len(source)})")
-            return source
-
-        # Use the first path that exists, or default to the first path
-        source_path = next((p for p in paths_to_try if p.exists()), paths_to_try[0])
-
-        if not source_path.exists():
-            error_msg = f"Source path does not exist: {source}\n" f"Tried the following paths:\n" + "\n".join(
-                f"- {p}" for p in paths_to_try
-            )
-            logger.error(error_msg)
-            return {"status": "Error", "error": error_msg}
-
-        logger.info(f"Using path: {source_path}")
+    if ext == ".pdf":
+        grobid_server = os.getenv("GROBID_SERVER_URL_OR_EXTERNAL_SERVICE", "http://localhost:8070")
+        external_service = os.getenv("EXTERNAL_PDF_EXTRACTION_SERVICE", "False")
+        raw = extract_pdf_content(file_path=source_path, grobid_server=grobid_server, external_service=external_service)
+        return _structured_data_to_text(raw)
+    elif ext == ".csv":
+        try:
+            df = pd.read_csv(source_path)
+            return df.to_csv(index=False)
+        except Exception as e:
+            logger.error(f"Error reading CSV file: {e}")
+            raise ValueError(f"Error reading CSV file: {e}")
+    elif ext == ".txt":
+        try:
+            with open(source_path, "r", encoding="utf-8") as f:
+                return f.read()
+        except Exception as e:
+            logger.error(f"Error reading TXT file: {e}")
+            raise ValueError(f"Error reading TXT file: {e}")
     else:
-        source_path = Path(source)
-        if not source_path.exists():
-            error_msg = f"Source path does not exist: {source}"
-            logger.error(error_msg)
-            return {"status": "Error", "error": error_msg}
+        raise ValueError(f"Unsupported file format: {ext}. Supported formats are PDF, CSV, and TXT.")
 
-        # Process single file
-    if source_path.is_file():
-        logger.info(f"Processing single file: {source_path}")
-        ext = source_path.suffix.lower()
-        if ext == ".pdf":
-            GROBID_SERVER_URL_OR_EXTERNAL_SERVICE = os.getenv("GROBID_SERVER_URL_OR_EXTERNAL_SERVICE", "http://localhost:8070")
-            EXTERNAL_PDF_EXTRACTION_SERVICE = os.getenv("EXTERNAL_PDF_EXTRACTION_SERVICE", "False")
-            return extract_pdf_content(
-                file_path=source_path, grobid_server=GROBID_SERVER_URL_OR_EXTERNAL_SERVICE, external_service=EXTERNAL_PDF_EXTRACTION_SERVICE
-            )
-        elif ext == ".csv":
-            try:
-                df = pd.read_csv(source_path)
-                return df.to_dict(orient="records")
-            except Exception as e:
-                logger.error(f"Error reading CSV file: {e}")
-                return {"status": "Error", "error": str(e)}
-        elif ext == ".txt":
-            try:
-                with open(source_path, "r", encoding="utf-8") as f:
-                    return f.read()
-            except Exception as e:
-                logger.error(f"Error reading TXT file: {e}")
-                return {"status": "Error", "error": str(e)}
+
+def _structured_data_to_text(data) -> str:
+    """Convert structured data returned by file processors to a plain text string."""
+    if isinstance(data, dict):
+        if "sections" in data:
+            text_parts = []
+            for section in data.get("sections", []):
+                if isinstance(section, dict):
+                    heading = section.get("heading", "")
+                    content = section.get("content", "")
+                    text_parts.append(f"{heading}\n{content}" if heading else content)
+            return "\n\n".join(text_parts)
+        elif "text" in data:
+            title = data.get("title", "")
+            text = data.get("text", "")
+            if title and text:
+                return f"{title}\n\n{text}"
+            return text or str(data)
+        elif "error" in data:
+            raise ValueError(f"File processing failed: {data.get('error', 'Unknown error')}")
         else:
-            error_msg = f"Unsupported file format: {ext}"
-            logger.error(error_msg)
-            return {"status": "Error", "error": error_msg}
+            text_parts = []
+            for value in data.values():
+                if isinstance(value, str) and len(value) > 10:
+                    text_parts.append(value)
+                elif isinstance(value, list):
+                    for item in value:
+                        if isinstance(item, str):
+                            text_parts.append(item)
+                        elif isinstance(item, dict) and "content" in item:
+                            text_parts.append(item.get("content", ""))
+            if text_parts:
+                return "\n\n".join(text_parts)
+            logger.warning(f"Unknown dict format from process_file: {list(data.keys())}")
+            return str(data)
+    elif isinstance(data, list):
+        return "\n".join(str(item) for item in data)
+    return str(data)
 
 
 def extract_pdf_content(file_path: str, grobid_server: str, external_service: str) -> dict:
@@ -1238,10 +1234,10 @@ def merge_dicts_preserve_structure(dicts):
 def str_to_bool(s):
     """
     Convert a string to boolean value.
-    
+
     Args:
         s: String, boolean, or None to convert
-        
+
     Returns:
         bool: True if string is 'true' (case-insensitive), False otherwise
     """
@@ -1249,18 +1245,19 @@ def str_to_bool(s):
         return s
     if s is None:
         return False
-    return str(s).strip().lower() == 'true'
+    return str(s).strip().lower() == "true"
 
 
 def check_ollama_health() -> bool:
     """
     Check if Ollama is available and healthy.
-    
+
     Returns:
         bool: True if Ollama is available, False otherwise
     """
     try:
         import requests
+
         response = requests.get("http://localhost:11434/api/tags", timeout=2)
         return response.status_code == 200
     except Exception:

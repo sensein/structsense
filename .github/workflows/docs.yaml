@@ -53,7 +53,7 @@ jobs:
       id: set-deploy-output
       run: echo "::set-output name=deploy::true"
       shell: bash
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v6
       with:
         name: documentation
         path: docs
@@ -73,7 +73,7 @@ jobs:
           deploy: true   # Only deploy from this configuration
     steps:
     - uses: actions/checkout@v4
-    - uses: actions/download-artifact@v3
+    - uses: actions/download-artifact@v7
       with:
         name: documentation
         path: docs
