@@ -27,6 +27,7 @@ jobs:
         python -m pip install poetry==2.3.2
     - name: Install dependencies with Poetry
       run: |
+        poetry lock --no-update
         poetry install --with dev
       shell: bash
     - name: Run unit tests
