@@ -487,11 +487,7 @@ class StructSenseFlow:
             reserve_tokens=2000,  # Reserve for prompts
         )
 
-        logger.info("Enhanced context management initialized:")
-        logger.info(f"  - Token limit: {self.token_limit}")
-        logger.info(f"  - Available tokens: {self.context_manager.available_tokens}")
-        logger.info(f"  - Thread-safe memory: enabled")
-        logger.info(f"  - Context passing: enabled")
+        logger.debug("Context management initialized (token_limit=%d)", self.token_limit)
 
         # Cache for pipeline-level task type: detected once at extraction phase,
         # reused for all downstream stages within the same pipeline run.
@@ -1146,23 +1142,8 @@ class StructSenseFlow:
                     extra_inputs = managed_input
                     stage_text = None
                 else:
-                    # For other downstream stages or if not alignment/judge, use JSON string
+                    # For other downstream stages, pass the full previous output as JSON string
                     stage_text = json.dumps(prev_output, indent=2) if isinstance(prev_output, dict) else str(prev_output)
-
-                    # Check token limit and compress if needed
-                    current_tokens = self.context_manager.count_tokens(stage_text)
-                    if current_tokens > self.token_limit:
-                        logger.warning(
-                            f"[{agent_key}] Input exceeds token limit ({current_tokens}/{self.token_limit}). " "Applying compression..."
-                        )
-                        compressed = self.context_manager.prepare_for_downstream_agent(
-                            results=prev_output if isinstance(prev_output, dict) else {"output": prev_output},
-                            agent_key=agent_key,
-                            max_tokens=self.token_limit,
-                        )
-                        stage_text = json.dumps(compressed, indent=2)
-                        final_tokens = self.context_manager.count_tokens(stage_text)
-                        logger.info(f"[{agent_key}] Compressed: {current_tokens} -> {final_tokens} tokens")
 
                 stage_chunk_size = None
                 stage_post_process = None
@@ -1373,8 +1354,6 @@ class StructSenseFlow:
 
                     chunks = split_structured_payload(
                         payload,
-                        self.context_manager,
-                        token_budget,
                         max_entities_per_chunk=_ecs,
                         max_key_terms_per_chunk=max(10, _ecs // 3),
                         max_resources_per_chunk=max(5, _ecs // 10),
