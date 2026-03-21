@@ -182,17 +182,18 @@ def prepare_humanfeedback_agent_input(
 
 def split_structured_payload(
     payload: Dict[str, Any],
-    context_manager: ContextWindowManager,
-    max_tokens_per_chunk: int,
     list_keys: Optional[List[str]] = None,
     max_entities_per_chunk: int = 70,
     max_key_terms_per_chunk: int = 25,
     max_resources_per_chunk: int = 15,
+    # Kept for API compatibility — no longer used for logic
+    context_manager=None,
+    max_tokens_per_chunk=None,
 ) -> List[Dict[str, Any]]:
     """
-    Split a large structured payload (entities, key_terms, resources) into chunks that each
-    fit within max_tokens_per_chunk. Enables chunked processing: run agent on each chunk
-    in parallel, then merge results. Smarter than truncation when over limit.
+    Split a structured payload (entities, key_terms, resources) into entity-count chunks.
+    Each chunk gets a slice of every list key so all parallel jobs receive roughly equal work.
+    Run agents on each chunk in parallel with asyncio.gather, then merge results.
     """
     list_keys = list_keys or ["entities", "key_terms", "resources", "aligned_resources", "judge_resource"]
     base = {k: v for k, v in payload.items() if k not in list_keys or not isinstance(v, list)}
@@ -236,9 +237,9 @@ def split_structured_payload(
             chunk["judge_resource"] = lists["judge_resource"][start : start + 5]
         chunks.append(chunk)
     logger.info(
-        "Split structured payload into %s chunks (max %s tokens/chunk)",
+        "Split structured payload into %d chunks (~%d entities/chunk)",
         len(chunks),
-        max_tokens_per_chunk,
+        max_entities_per_chunk,
     )
     return chunks
 
