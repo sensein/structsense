@@ -207,6 +207,127 @@ This repository includes example tutorials demonstrating how to run StructSense:
 - **[`tutorial/python-example/`](tutorial/python-example/)**
   Tutorials demonstrating how to run StructSense in **programmatic (Python) mode**.
 
+## Resuming a Pipeline from a Saved Stage
+
+The pipeline can take hours on large documents. If it crashes after extraction or alignment, you do not need to re-run stages that already succeeded. Use **preloaded stages** to skip any stage and load its output from a saved JSON file instead.
+
+Stage output files are written automatically when you set `stage_output_dir` in `StructSenseFlow`. They are named by order and agent/task:
+
+```
+00_extractor_agent_extraction_task.json
+01_alignment_agent_alignment_task.json
+02_judge_agent_judge_task.json
+```
+
+### Python — skip extraction, re-run from alignment
+
+```python
+import asyncio, json, yaml
+from structsense.app import StructSenseFlow
+
+with open("ner-config.yaml") as f:
+    cfg = yaml.safe_load(f)
+
+# Load the extraction output that was already saved
+with open("stage_outputs/00_extractor_agent_extraction_task.json") as f:
+    extraction_result = json.load(f)
+
+flow = StructSenseFlow(
+    agent_config=cfg["agent_config"],
+    task_config=cfg["task_config"],
+    embedder_config=cfg.get("embedder_config", {}),
+    source="paper.pdf",
+    enable_chunking=True,
+    chunk_size=2000,
+    api_key="sk-or-v1-...",
+    stage_output_dir="stage_outputs",   # saves new stage outputs here
+)
+
+# Pass the saved extraction output; the pipeline skips extraction and starts at alignment
+result = asyncio.run(
+    flow.information_extraction_task(
+        preloaded_stages={"extraction_task": extraction_result}
+    )
+)
+```
+
+You can preload multiple stages. For example, to re-run only the judge:
+
+```python
+result = asyncio.run(
+    flow.information_extraction_task(
+        preloaded_stages={
+            "extraction_task": extraction_result,
+            "alignment_task": alignment_result,
+        }
+    )
+)
+```
+
+### CLI — skip extraction, re-run from alignment
+
+Pass `--preload_stage TASK_KEY:FILE` for each stage you want to skip. Repeat the flag for multiple stages.
+
+```bash
+# Skip extraction; re-run alignment → judge → humanfeedback
+structsense-cli extract \
+  --config ner-config.yaml \
+  --source paper.pdf \
+  --api_key sk-or-v1-... \
+  --preload_stage extraction_task:stage_outputs/00_extractor_agent_extraction_task.json \
+  --save_file result.json
+```
+
+```bash
+# Skip extraction + alignment; re-run only judge → humanfeedback
+structsense-cli extract \
+  --config ner-config.yaml \
+  --source paper.pdf \
+  --api_key sk-or-v1-... \
+  --preload_stage extraction_task:stage_outputs/00_extractor_agent_extraction_task.json \
+  --preload_stage alignment_task:stage_outputs/01_alignment_agent_alignment_task.json \
+  --save_file result.json
+```
+
+### Which stages can be preloaded?
+
+Any stage — including judge and humanfeedback:
+
+| `preloaded_stages` key | Stage skipped | Next stage to run |
+|---|---|---|
+| `extraction_task` | Extraction | Alignment |
+| `alignment_task` | Alignment | Judge |
+| `judge_task` | Judge | Human feedback (if enabled) |
+| `humanfeedback_task` | Human feedback | — (pipeline is done) |
+
+You can preload any combination. The pipeline uses each saved output as `prev_output` for the following stage, so the chain stays consistent.
+
+### Chunk size when preloading
+
+Chunking **only applies to extraction**. Alignment, judge, and humanfeedback always receive a single payload regardless of `chunk_size`.
+
+| Scenario | `chunk_size` / `enable_chunking` needed? |
+|---|---|
+| `extraction_task` preloaded | No — extraction is skipped, no chunking happens |
+| Any later stage preloaded, extraction still runs | Yes — set these as usual for extraction |
+| All stages preloaded | No — nothing runs, values are ignored |
+
+If you are re-running from alignment onwards (extraction preloaded), you can omit `--enable_chunking` and `--chunk_size` entirely:
+
+```bash
+structsense-cli extract \
+  --config ner-config.yaml \
+  --source paper.pdf \
+  --api_key sk-or-v1-... \
+  --preload_stage extraction_task:00_extractor_agent_extraction_task.json \
+  --save_file result.json
+  # no --enable_chunking or --chunk_size needed
+```
+
+**Important:** `--source` / `--source_text` is still required even when all upstream stages are preloaded, because the flow needs it for context.
+
+---
+
 ## Known Issues
 
 <details>

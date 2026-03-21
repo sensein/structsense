@@ -856,6 +856,7 @@ class StructSenseFlow:
         text: Optional[str] = None,
         modification_context: Optional[str] = None,
         user_feedback_text: Optional[str] = None,
+        preloaded_stages: Optional[Dict[str, Any]] = None,
     ):
         """
         Run the FULL multi-agent pipeline with context management.
@@ -867,6 +868,20 @@ class StructSenseFlow:
             text: Optional input text (uses self.source_text if None)
             modification_context: Optional context for modifications
             user_feedback_text: Optional user feedback for humanfeedback stage
+            preloaded_stages: Optional dict mapping task_key → pre-loaded result dict.
+                Stages present in this dict are skipped — their saved output is used
+                directly as if the agent had just run.  Useful for resuming a pipeline
+                after a crash or for re-running only a subset of stages, e.g.:
+
+                    import json
+                    with open("00_extractor_agent_extraction_task.json") as f:
+                        extraction_result = json.load(f)
+
+                    result = await flow.information_extraction_task(
+                        preloaded_stages={"extraction_task": extraction_result}
+                    )
+                    # → alignment, judge, humanfeedback run normally;
+                    #   extraction is skipped and the saved output is used instead.
 
         Returns:
             Dict with final results. By default (return_full_pipeline_details=False):
@@ -933,6 +948,26 @@ class StructSenseFlow:
             logger.info("=" * 80)
             logger.info(f"STAGE {idx + 1}/{len(ordered_pairs)}: {agent_key} / {task_key}")
             logger.info("=" * 80)
+
+            # ------------------------------------------------------------------
+            # PRELOADED STAGE — skip the agent run and use saved output directly.
+            # The preloaded result is treated exactly as if the agent had just run:
+            # it is stored in pipeline_stages, set as prev_output, and the loop
+            # continues to the next stage.
+            # ------------------------------------------------------------------
+            if preloaded_stages and task_key in preloaded_stages:
+                preloaded = preloaded_stages[task_key]
+                pipeline_stages[task_key] = preloaded
+                prev_output = preloaded
+                entity_count = len(preloaded.get("entities") or []) if isinstance(preloaded, dict) else "n/a"
+                logger.info(
+                    "[preloaded] Skipping %s/%s — using saved output "
+                    "(entities=%s, keys=%s)",
+                    agent_key, task_key, entity_count,
+                    list(preloaded.keys()) if isinstance(preloaded, dict) else "?",
+                )
+                stage_timings[task_key] = 0.0
+                continue
 
             # Clear alignment-stage tool outputs so we only capture this stage's concept mapping (for extraction)
             if task_key == "alignment_task":

@@ -65,6 +65,19 @@ def cli(ctx):
     default=None,
     help="Cap extraction chunk size in chars so chunk+prompt stays under model context (default 25000 for 128k models). None = no cap.",
 )
+@click.option(
+    "--preload_stage",
+    "preload_stages",
+    required=False,
+    multiple=True,
+    metavar="TASK_KEY:FILE",
+    help=(
+        "Skip a pipeline stage by loading its output from a saved JSON file. "
+        "Format: TASK_KEY:path/to/file.json  (e.g. extraction_task:00_extractor_agent_extraction_task.json). "
+        "Repeat the flag for each stage you want to skip. "
+        "Valid task keys: extraction_task, alignment_task, judge_task, humanfeedback_task."
+    ),
+)
 def extract(
     config,
     api_key,
@@ -77,8 +90,25 @@ def extract(
     enable_chunking,
     downstream_max_input_chars,
     max_extraction_chunk_chars,
+    preload_stages,
 ):
     """Extract the terms along with sentence using a single config file."""
+    import json
+
+    # Parse --preload_stage KEY:FILE entries into a dict
+    preloaded_stages_dict = {}
+    for entry in preload_stages:
+        if ":" not in entry:
+            raise click.UsageError(
+                f"--preload_stage must be in TASK_KEY:FILE format, got: {entry!r}"
+            )
+        task_key, file_path = entry.split(":", 1)
+        if not os.path.exists(file_path):
+            raise click.UsageError(f"Preload file not found: {file_path!r}")
+        with open(file_path) as fh:
+            preloaded_stages_dict[task_key] = json.load(fh)
+        click.echo(f"Preloaded stage '{task_key}' from {file_path}")
+
     # Load the config file
     if source and source_text:
         raise click.UsageError("Please provide either --source or --source_text, not both.")
@@ -116,7 +146,11 @@ def extract(
     )
 
     # Run the full pipeline (extraction → alignment → judge → humanfeedback)
-    result = asyncio.run(flow.information_extraction_task())
+    result = asyncio.run(
+        flow.information_extraction_task(
+            preloaded_stages=preloaded_stages_dict if preloaded_stages_dict else None
+        )
+    )
 
     # Output results
     click.echo("*" * 100)
@@ -126,8 +160,6 @@ def extract(
 
     # Save to file if requested
     if save_file:
-        import json
-
         with open(save_file, "w") as f:
             json.dump(result, f, indent=2)
         click.echo(f"Result saved to {save_file}")
