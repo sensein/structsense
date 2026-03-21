@@ -41,93 +41,35 @@ def prepare_alignment_agent_input(
     max_tokens: Optional[int] = None
 ) -> Dict[str, Any]:
     """
-    Prepare input for alignment agent with token limit management.
+    Prepare input for alignment agent.
 
-    Alignment always receives the previous agent's (extractor) output. No exception.
+    Passes the full extraction output without any truncation or compression so the
+    alignment agent always receives every entity and key term extracted.
 
     Args:
         extraction_results: Results from extraction agent (previous agent). Required.
         original_text: Original input text
         agent_context: Optional AgentContext for accessing extraction metadata
-        context_manager: Optional ContextWindowManager for token management
-        max_tokens: Maximum tokens (defaults to 100k tokens = ~80k chars)
+        context_manager: Unused — kept for API compatibility
+        max_tokens: Unused — kept for API compatibility
 
     Returns:
         Prepared input dictionary for alignment agent
     """
-    # Default context manager if not provided
-    if context_manager is None:
-        context_manager = ContextWindowManager(max_tokens=max_tokens or 100000)
+    entity_count = len(extraction_results.get("entities") or []) if isinstance(extraction_results, dict) else 0
+    logger.info(f"Preparing alignment agent input: {entity_count} entities (no truncation)")
 
-    # Default max tokens to ~80k characters (~100k tokens)
-    if max_tokens is None:
-        max_tokens = 100000
-
-    # Log token information
-    extraction_tokens = context_manager.estimate_tokens(extraction_results)
-    original_text_tokens = context_manager.count_tokens(original_text)
-
-    logger.info(
-        f"Preparing alignment agent input: extraction={extraction_tokens} tokens, "
-        f"text={original_text_tokens} tokens, total={extraction_tokens + original_text_tokens} tokens"
-    )
-
-    # Prepare compressed extraction results
-    compressed_extraction = context_manager.prepare_for_downstream_agent(
-        results=extraction_results,
-        agent_key="alignment_agent",
-        max_tokens=int(max_tokens * 0.7)  # Reserve 70% for extraction results
-    )
-
-    # Alignment extends extraction with concept mapping; never pass empty entities/key_terms when extraction had content
-    compressed_extraction = _ensure_list_keys_preserved(
-        compressed_extraction,
-        extraction_results,
-        list_keys=["entities", "key_terms", "resources"],
-        caps={"entities": 100, "key_terms": 50, "resources": 30},
-    )
-
-    # Prepare compressed original text if needed
-    text_budget = max_tokens - context_manager.estimate_tokens(compressed_extraction)
-
-    if original_text_tokens > text_budget:
-        logger.warning(
-            f"Original text ({original_text_tokens} tokens) exceeds budget ({text_budget} tokens). "
-            "Creating summary..."
-        )
-        # Truncate original text to fit
-        char_budget = int(text_budget * 4)  # Approximate: 1 token ≈ 4 chars
-        compressed_text = original_text[:char_budget]
-        compressed_text += "\n\n[... text truncated due to length ...]"
-    else:
-        compressed_text = original_text
-
-    # Prepare input
     alignment_input = {
-        "extracted_structured_information": compressed_extraction,
-        "original_text": compressed_text,
-        "compression_applied": extraction_tokens + original_text_tokens > max_tokens,
+        "extracted_structured_information": extraction_results,
+        "original_text": original_text,
+        "compression_applied": False,
     }
 
-    # Add metadata from context if available
     if agent_context:
         extraction_metadata = agent_context.get_latest_result("extractor_agent")
         if extraction_metadata:
             alignment_input["extraction_confidence"] = extraction_metadata.confidence
             alignment_input["extraction_metadata"] = extraction_metadata.metadata
-
-    final_tokens = context_manager.estimate_tokens(alignment_input)
-    logger.info(f"Alignment agent input prepared: {final_tokens} tokens (budget: {max_tokens})")
-
-    if final_tokens > max_tokens:
-        logger.error(
-            f"Alignment input still exceeds limit after compression: {final_tokens}/{max_tokens} tokens. "
-            "Applying aggressive truncation..."
-        )
-        # Last resort: keep only essentials
-        alignment_input["extracted_structured_information"] = _extract_essentials(compressed_extraction)
-        final_tokens = context_manager.estimate_tokens(alignment_input)
-        logger.info(f"After aggressive truncation: {final_tokens} tokens")
 
     return alignment_input
 
@@ -140,84 +82,43 @@ def prepare_judge_agent_input(
     max_tokens: Optional[int] = None
 ) -> Dict[str, Any]:
     """
-    Prepare input for judge agent with token limit management.
+    Prepare input for judge agent.
 
-    Judge always receives the previous agent's (alignment) output. No exception.
+    Passes the full alignment output without any truncation or compression so the
+    judge agent always receives every entity aligned by the previous stage.
+    Merges extraction results into alignment output so the judge sees the complete picture.
 
     Args:
         alignment_results: Results from alignment agent (previous agent). Required.
-        extraction_results: Optional original extraction results (for merging into judge input).
+        extraction_results: Optional original extraction results (merged in to extend alignment).
         agent_context: Optional AgentContext
-        context_manager: Optional ContextWindowManager
-        max_tokens: Maximum tokens
+        context_manager: Unused — kept for API compatibility
+        max_tokens: Unused — kept for API compatibility
 
     Returns:
         Prepared input dictionary for judge agent
     """
-    if context_manager is None:
-        context_manager = ContextWindowManager(max_tokens=max_tokens or 100000)
-
-    if max_tokens is None:
-        max_tokens = 100000
-
-    # Log token information
-    alignment_tokens = context_manager.estimate_tokens(alignment_results)
-    logger.info(f"Preparing judge agent input: alignment={alignment_tokens} tokens")
-
-    # Compress alignment results
-    compressed_alignment = context_manager.prepare_for_downstream_agent(
-        results=alignment_results,
-        agent_key="judge_agent",
-        max_tokens=int(max_tokens * 0.8)  # Reserve 80% for alignment results
-    )
-
-    # Ensure judge always receives expected keys (entities, key_terms) so prompt is not empty.
-    # Compression may emit only _sample or drop keys; restore list keys from sample or original.
-    compressed_alignment = _ensure_judge_input_structure(
-        compressed_alignment, alignment_results
-    )
-
-    # Alignment output extends extraction: merge so judge receives extraction + alignment additions.
+    # Merge extraction into alignment so judge receives all entities (extraction + alignment additions)
     if extraction_results and isinstance(extraction_results, dict):
-        compressed_alignment = _extend_previous_stage(
-            extraction_results, compressed_alignment,
+        full_alignment = _extend_previous_stage(
+            extraction_results, alignment_results,
             list_keys=["entities", "key_terms", "resources", "aligned_resources", "judge_resource"],
         )
+    else:
+        full_alignment = alignment_results
 
-    # No hard cap here: when over token limit, app will chunk payload and run judge per chunk, then merge.
+    entity_count = len(full_alignment.get("entities") or []) if isinstance(full_alignment, dict) else 0
+    logger.info(f"Preparing judge agent input: {entity_count} entities (no truncation)")
 
     judge_input = {
-        "aligned_structured_information": compressed_alignment,
-        "compression_applied": alignment_tokens > max_tokens * 0.8,
+        "aligned_structured_information": full_alignment,
+        "compression_applied": False,
     }
 
-    # Add extraction results summary if available and space permits
-    if extraction_results:
-        extraction_summary = _create_extraction_summary(extraction_results)
-        summary_tokens = context_manager.estimate_tokens(extraction_summary)
-
-        remaining_budget = max_tokens - context_manager.estimate_tokens(judge_input)
-
-        if summary_tokens < remaining_budget:
-            judge_input["original_extraction_summary"] = extraction_summary
-
-    # Add metadata from context
     if agent_context:
         alignment_metadata = agent_context.get_latest_result("alignment_agent")
         if alignment_metadata:
             judge_input["alignment_confidence"] = alignment_metadata.confidence
-
-    final_tokens = context_manager.estimate_tokens(judge_input)
-    logger.info(f"Judge agent input prepared: {final_tokens} tokens (budget: {max_tokens})")
-
-    if final_tokens > max_tokens:
-        logger.error(
-            f"Judge input exceeds limit: {final_tokens}/{max_tokens} tokens. "
-            "Applying aggressive truncation..."
-        )
-        judge_input["aligned_structured_information"] = _extract_essentials(compressed_alignment)
-        final_tokens = context_manager.estimate_tokens(judge_input)
-        logger.info(f"After aggressive truncation: {final_tokens} tokens")
 
     return judge_input
 
@@ -252,57 +153,29 @@ def prepare_humanfeedback_agent_input(
     if max_tokens is None:
         max_tokens = 100000
 
-    # Judge extends alignment: merge so human feedback receives alignment + judge additions (or alignment if judge empty)
+    # Merge alignment into judge so human feedback receives all entities (alignment + judge additions)
     if alignment_results and isinstance(alignment_results, dict):
-        judge_results = _extend_previous_stage(
+        full_judge = _extend_previous_stage(
             alignment_results, judge_results,
             list_keys=["entities", "key_terms", "resources", "aligned_resources", "judge_resource"],
         )
+    else:
+        full_judge = judge_results
 
-    # No hard cap: when over token limit, app will chunk payload and run humanfeedback per chunk, then merge.
-
-    # Log token information
-    judge_tokens = context_manager.estimate_tokens(judge_results)
-    feedback_tokens = context_manager.count_tokens(user_feedback)
-    logger.info(
-        f"Preparing humanfeedback agent input: judge={judge_tokens} tokens, "
-        f"feedback={feedback_tokens} tokens"
-    )
-
-    # Compress judge results (reserve space for feedback)
-    feedback_budget = int(max_tokens * 0.2)  # Reserve 20% for feedback
-    results_budget = max_tokens - min(feedback_tokens, feedback_budget)
-
-    compressed_judge = context_manager.prepare_for_downstream_agent(
-        results=judge_results,
-        agent_key="humanfeedback_agent",
-        max_tokens=results_budget
-    )
+    entity_count = len(full_judge.get("entities") or []) if isinstance(full_judge, dict) else 0
+    logger.info(f"Preparing humanfeedback agent input: {entity_count} entities (no truncation)")
 
     humanfeedback_input = {
-        "judged_structured_information_with_human_feedback": compressed_judge,
+        "judged_structured_information_with_human_feedback": full_judge,
         "user_feedback_text": user_feedback,
-        "modification_context": user_feedback,  # Task template requires this key; use same content as user_feedback
-        "compression_applied": judge_tokens > results_budget,
+        "modification_context": user_feedback,
+        "compression_applied": False,
     }
 
-    # Add metadata from context
     if agent_context:
         judge_metadata = agent_context.get_latest_result("judge_agent")
         if judge_metadata:
             humanfeedback_input["judge_confidence"] = judge_metadata.confidence
-
-    final_tokens = context_manager.estimate_tokens(humanfeedback_input)
-    logger.info(f"Humanfeedback agent input prepared: {final_tokens} tokens (budget: {max_tokens})")
-
-    if final_tokens > max_tokens:
-        logger.error(
-            f"Humanfeedback input exceeds limit: {final_tokens}/{max_tokens} tokens. "
-            "Applying aggressive truncation..."
-        )
-        humanfeedback_input["judged_structured_information_with_human_feedback"] = _extract_essentials(compressed_judge)
-        final_tokens = context_manager.estimate_tokens(humanfeedback_input)
-        logger.info(f"After aggressive truncation: {final_tokens} tokens")
 
     return humanfeedback_input
 
@@ -361,12 +234,7 @@ def split_structured_payload(
         if "judge_resource" in list_keys and lists.get("judge_resource"):
             start = i * 5
             chunk["judge_resource"] = lists["judge_resource"][start : start + 5]
-        est = context_manager.estimate_tokens(chunk)
-        if est <= max_tokens_per_chunk:
-            chunks.append(chunk)
-        else:
-            # Fallback: single chunk with essentials so we don't overflow
-            chunks.append(_extract_essentials(chunk))
+        chunks.append(chunk)
     logger.info(
         "Split structured payload into %s chunks (max %s tokens/chunk)",
         len(chunks),
