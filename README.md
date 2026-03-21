@@ -40,6 +40,7 @@ structsense-cli extract \
 | `--downstream_chunk_size` | Entities per chunk for parallel alignment/judge/humanfeedback (auto if omitted).     |
 | `--max_extraction_chunk_chars` | Cap per-chunk size for extraction (default 25000).                                   |
 | `--model_context_window` | Override auto-detected context window in tokens (e.g. `200000`). Use for unknown/proxy models. |
+| `--agent_max_iter` | Max reasoning iterations per agent run (default: CrewAI built-in 20). Also settable via `AGENT_MAX_ITER` env var. |
 | `--skip_alignment_llm` | `auto`/`true`/`false` — bypass alignment LLM. See [Fast Alignment](#fast-alignment-skip-the-alignment-llm). Also settable via `SKIP_ALIGNMENT_LLM` env var. |
 | `--skip_judge_llm` | `true`/`false` — bypass judge LLM, inject default scores. See [Fast Judge](#fast-judge-skip-the-judge-llm). Also settable via `SKIP_JUDGE_LLM` env var. |
 | `--skip_stage` | Omit a pipeline stage entirely (repeatable). See [Skipping Pipeline Stages](#skipping-pipeline-stages). Also settable via `SKIP_STAGES` env var. |
@@ -337,6 +338,41 @@ extraction (LLM)  →  concept mapping tool call (~seconds)  →  default judge 
 ```
 
 Only the extraction LLM runs. Alignment and judge complete in milliseconds.
+
+---
+
+## Max Iterations (`agent_max_iter`)
+
+### .env (recommended — applies to all runs without changing commands)
+
+```bash
+AGENT_MAX_ITER=5
+```
+
+### CLI
+
+```bash
+structsense-cli extract \
+  --config ner-config.yaml \
+  --source paper.pdf \
+  --agent_max_iter 5
+```
+
+### Python
+
+```python
+flow = StructSenseFlow(
+    ...
+    agent_max_iter=5,   # None = use CrewAI default (20)
+)
+```
+
+| Value | Behaviour |
+|---|---|
+| `None` (default) | Use CrewAI's built-in default (20 iterations) |
+| `1–5` | Fast, low-cost runs; agent stops after a few attempts |
+| `10–20` | Standard range; suitable for complex or multi-tool tasks |
+| `>20` | Extended reasoning; only needed for very difficult tasks |
 
 ---
 
@@ -988,6 +1024,7 @@ Optional tuning:
 | `LOCAL_CONCEPT_MAPPING_URL` | Local service URL (default `http://localhost:8000`) |
 | `LOCAL_CONCEPT_MAPPING_API_KEY` | API key for local service LLM re-ranking |
 | `MAX_CONCEPT_MAPPING_RESULTS` | Concept mapping results per term (default `1`) |
+| `AGENT_MAX_ITER` | Integer — max reasoning iterations per agent (equivalent to `--agent_max_iter`). CrewAI default 20. |
 | `SKIP_ALIGNMENT_LLM` | `true`/`false`/`auto` — bypass alignment LLM (equivalent to `--skip_alignment_llm`) |
 | `SKIP_JUDGE_LLM` | `true`/`false` — bypass judge LLM, inject default scores (equivalent to `--skip_judge_llm`) |
 | `SKIP_STAGES` | Comma-separated task keys to omit, e.g. `judge_task,humanfeedback_task` (equivalent to `--skip_stage`) |

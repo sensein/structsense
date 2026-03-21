@@ -9,6 +9,7 @@ Module-level mappings (for generated docs)
 ------------------------------------------
 - **GENERIC_TOOLS_BY_STAGE** (dict): ``agent_key`` → list of tool names applied to
   all task types for that agent (e.g. alignment_agent → ``["concept_mapping_tool"]``).
+  judge_agent and human_feedback have no generic tools (evaluation-only stages).
 - **TOOLS_BY_STAGE_AND_TASK** (dict): ``agent_key`` → ``task_type`` → list of
   task-specific tool names. E.g. extractor_agent + ``ner`` → ``["extract_ner_terms"]``.
 - **AGENTS_THAT_USE_TOOLS** (frozenset): Agent keys that may have tools (others get []).
@@ -44,8 +45,8 @@ logger = logging.getLogger(__name__)
 GENERIC_TOOLS_BY_STAGE: Dict[str, List[str]] = {
     "extractor_agent": ["repair_json"],
     "alignment_agent": ["concept_mapping_tool", "repair_json"],
-    "judge_agent": ["repair_json"],
-    "human_feedback": ["repair_json"],
+    # judge_agent and human_feedback are evaluation-only stages — no tools attached.
+    # Tools cause spurious ReAct tool calls (e.g. empty Tool Output) and add latency.
 }
 
 # ----------------------------
