@@ -38,7 +38,13 @@ class DynamicAgent:
     and tools. Configuration is expected to provide role, goal, backstory, and llm.
     """
 
-    def __init__(self, agents_config: list[dict], embedder_config: dict, tools: list = []):
+    def __init__(
+        self,
+        agents_config: list[dict],
+        embedder_config: dict,
+        tools: list = [],
+        max_iter: int = 20,
+    ):
         """Initialize the builder with agent and embedder config.
 
         Parameters
@@ -51,10 +57,17 @@ class DynamicAgent:
             for the CrewAI embedder.
         tools : list, optional
             Optional list of CrewAI tools to attach to the agent. Default ``[]``.
+        max_iter : int, optional
+            Maximum number of reasoning iterations the agent may perform before
+            it is forced to return its best answer.  CrewAI default is 20.
+            Lower values (e.g. 3–5) reduce cost and latency for straightforward
+            extraction tasks; higher values give the agent more attempts to
+            correct itself on complex tasks.
         """
         self.agents_config = agents_config
         self.embedder_config = embedder_config
         self.tools = tools
+        self.max_iter = max_iter
 
     def build_agent(self) -> Agent:
         """Build and return a single CrewAI agent from the stored config.
@@ -83,6 +96,7 @@ class DynamicAgent:
             tools=self.tools,
             allow_delegation=False,
             verbose=True,
+            max_iter=self.max_iter,
         )
 
         return agent

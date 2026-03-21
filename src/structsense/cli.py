@@ -113,6 +113,20 @@ def cli(ctx):
     ),
 )
 @click.option(
+    "--agent_max_iter",
+    required=False,
+    type=int,
+    default=None,
+    help=(
+        "Maximum number of reasoning iterations each CrewAI agent is allowed per run "
+        "before it is forced to return its best answer. Applies to every agent in the "
+        "pipeline (extractor, alignment, judge, humanfeedback). "
+        "CrewAI default is 20. Lower values (e.g. 3-5) reduce cost and latency for "
+        "straightforward tasks; higher values give agents more attempts on complex inputs. "
+        "Can also be set via env var AGENT_MAX_ITER=<int>."
+    ),
+)
+@click.option(
     "--preload_stage",
     "preload_stages",
     required=False,
@@ -159,6 +173,7 @@ def extract(
     skip_judge_llm,
     downstream_chunk_size,
     model_context_window,
+    agent_max_iter,
     preload_stages,
     skip_stages,
 ):
@@ -224,6 +239,7 @@ def extract(
             else skip_judge_llm.lower() == "true"
         ),
         skip_stages=list(skip_stages) if skip_stages else None,
+        agent_max_iter=agent_max_iter,
     )
 
     # Run the full pipeline (extraction → alignment → judge → humanfeedback)

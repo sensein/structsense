@@ -598,6 +598,7 @@ def run_crew_extraction(
                         tools=agent.tools.copy() if hasattr(agent.tools, 'copy') else agent.tools,
                         allow_delegation=agent.allow_delegation if hasattr(agent, 'allow_delegation') else False,
                         verbose=agent.verbose if hasattr(agent, 'verbose') else False,
+                        max_iter=agent.max_iter if hasattr(agent, 'max_iter') else 20,
                     )
                     new_agents.append(new_agent)
                 except Exception as agent_error:
@@ -935,6 +936,7 @@ async def run_crew_extraction_async(
                         tools=agent.tools.copy() if hasattr(agent.tools, 'copy') else agent.tools,
                         allow_delegation=agent.allow_delegation if hasattr(agent, 'allow_delegation') else False,
                         verbose=agent.verbose if hasattr(agent, 'verbose') else False,
+                        max_iter=agent.max_iter if hasattr(agent, 'max_iter') else 20,
                     )
                     new_agents.append(new_agent)
                 except Exception as agent_error:
@@ -1142,6 +1144,7 @@ def initialize_agent_and_task(
     embedder_config: Optional[Dict[str, Any]] = None,
     tools: List = None,
     pydantic_output: Optional[Any] = None,
+    max_iter: Optional[int] = None,
 ) -> Tuple[Optional[Agent], Optional[Task]]:
     """Initialize an agent and its associated task from configuration dictionaries.
 
@@ -1153,6 +1156,9 @@ def initialize_agent_and_task(
         embedder_config: Optional embedder configuration
         tools: Optional list of tools for the agent
         pydantic_output: Optional Pydantic class for structured output
+        max_iter: Maximum reasoning iterations per agent run (default: CrewAI built-in
+            default of 20).  Lower values reduce cost/latency; higher values give the
+            agent more attempts on complex tasks.
 
     Returns:
         Tuple containing the initialized (agent, task), or (None, None) if initialization fails
@@ -1161,7 +1167,7 @@ def initialize_agent_and_task(
         if agent_key not in agent_config:
             print(f"[ERROR] Agent key '{agent_key}' not found in agent_config")
             return None, None
-        
+
         if task_key not in task_config:
             print(f"[ERROR] Task key '{task_key}' not found in task_config")
             return None, None
@@ -1171,12 +1177,17 @@ def initialize_agent_and_task(
         if agent_key == "alignment_agent" and (tools or []):
             _inject_alignment_concept_mapping_instruction(task_cfg)
 
-        # Match the usage pattern from app.py - pass dict directly
-        agent_init = DynamicAgent(
-            agents_config=agent_config[agent_key],  # Pass dict directly (type hint may be incorrect)
+        # Build agent kwargs; only pass max_iter when explicitly set so CrewAI's own
+        # default (20) applies when the caller has not specified a value.
+        _agent_kwargs = dict(
+            agents_config=agent_config[agent_key],
             embedder_config=embedder_config or {},
             tools=tools or [],
         )
+        if max_iter is not None:
+            _agent_kwargs["max_iter"] = max_iter
+
+        agent_init = DynamicAgent(**_agent_kwargs)
         
         task_init = DynamicAgentTask(
             tasks_config=task_cfg

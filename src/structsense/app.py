@@ -271,6 +271,7 @@ class StructSenseFlow:
             skip_judge_llm: Optional[bool] = None,
             model_context_window: Optional[int] = None,
             skip_stages: Optional[List[str]] = None,
+            agent_max_iter: Optional[int] = None,
     ):
         """Initialize StructSenseFlow with config paths and input.
 
@@ -340,6 +341,14 @@ class StructSenseFlow:
             ``enable_human_feedback=False`` (the default) already suppresses
             ``humanfeedback_task`` so you don't need to list it here unless you have
             a custom task key.
+        agent_max_iter : int, optional
+            Maximum number of reasoning iterations each CrewAI agent is allowed per
+            run before it is forced to return its best answer.  Applies to every
+            agent in the pipeline (extractor, alignment, judge, humanfeedback).
+            CrewAI's built-in default is 20.  Lower values (e.g. 3–5) reduce cost
+            and latency on straightforward extraction tasks; higher values give
+            agents more attempts to self-correct on complex inputs.
+            Overridden by env var ``AGENT_MAX_ITER=<int>``.
 
         Raises
         ------
@@ -536,6 +545,21 @@ class StructSenseFlow:
                 skip_stages = _env_ss
                 logger.info("skip_stages overridden by env SKIP_STAGES=%s", os.environ["SKIP_STAGES"])
         self.skip_stages: List[str] = list(skip_stages) if skip_stages else []
+
+        # Max reasoning iterations per CrewAI agent run.
+        # None = use CrewAI's built-in default (20).
+        # Env var AGENT_MAX_ITER=<int> overrides the constructor argument.
+        if "AGENT_MAX_ITER" in os.environ:
+            try:
+                agent_max_iter = int(os.environ["AGENT_MAX_ITER"])
+                logger.info("agent_max_iter overridden by env AGENT_MAX_ITER=%d", agent_max_iter)
+            except ValueError:
+                logger.warning(
+                    "AGENT_MAX_ITER env var is not a valid integer (%r) — ignoring",
+                    os.environ["AGENT_MAX_ITER"],
+                )
+        self.agent_max_iter: Optional[int] = agent_max_iter
+
         # User-supplied model context window override (tokens). When set, overrides the
         # auto-detected value from model_context.py for all downstream chunk sizing.
         # Useful when the model is not in the built-in registry or behind a custom proxy.
@@ -2513,6 +2537,7 @@ class StructSenseFlow:
             embedder_config=self.embedder_config,
             tools=tools if tools is not None else [],
             pydantic_output=pydantic_output_class,
+            max_iter=self.agent_max_iter,
         )
 
 
