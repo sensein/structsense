@@ -89,6 +89,18 @@ def cli(ctx):
     ),
 )
 @click.option(
+    "--model_context_window",
+    required=False,
+    type=int,
+    default=None,
+    help=(
+        "Override the auto-detected model context window (tokens) used for downstream chunk sizing. "
+        "Use this when your model is not in the built-in registry or is behind a custom proxy. "
+        "E.g. --model_context_window 200000 for a 200k-token model. "
+        "When omitted, the context window is auto-detected from the model name in the config."
+    ),
+)
+@click.option(
     "--preload_stage",
     "preload_stages",
     required=False,
@@ -115,6 +127,7 @@ def extract(
     max_extraction_chunk_chars,
     skip_alignment_llm,
     downstream_chunk_size,
+    model_context_window,
     preload_stages,
 ):
     """Extract the terms along with sentence using a single config file."""
@@ -169,6 +182,7 @@ def extract(
         downstream_max_input_chars=downstream_max_input_chars,
         max_extraction_chunk_chars=max_extraction_chunk_chars,
         downstream_chunk_size=downstream_chunk_size,
+        model_context_window=model_context_window,
         skip_alignment_llm=(
             None if skip_alignment_llm == "auto" or skip_alignment_llm is None
             else skip_alignment_llm.lower() == "true"

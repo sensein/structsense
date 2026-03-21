@@ -113,6 +113,11 @@ from utils.downstream_agent_helper import (
     split_structured_payload,
     merge_structured_chunk_results,
 )
+from utils.model_context import (
+    compute_downstream_chunk_size,
+    estimate_agent_prompt_tokens,
+    probe_openrouter_context_window,
+)
 from utils.conceptmappingtool import (
     clear_alignment_tool_outputs,
     get_alignment_tool_outputs,
@@ -262,6 +267,7 @@ class StructSenseFlow:
             stage_output_dir: Optional[str] = os.getcwd(),
             downstream_chunk_size: Optional[int] = None,
             skip_alignment_llm: Optional[bool] = None,
+            model_context_window: Optional[int] = None,
     ):
         """Initialize StructSenseFlow with config paths and input.
 
@@ -468,6 +474,10 @@ class StructSenseFlow:
         # None = auto (True when CONCEPT_MAPPING_BACKEND=local and task is NER/keyphrase).
         # True = always skip. False = always run alignment LLM.
         self.skip_alignment_llm = skip_alignment_llm
+        # User-supplied model context window override (tokens). When set, overrides the
+        # auto-detected value from model_context.py for all downstream chunk sizing.
+        # Useful when the model is not in the built-in registry or behind a custom proxy.
+        self.model_context_window = model_context_window
         # Max input size (chars) for downstream agents (alignment, judge, humanfeedback) to avoid context limit.
         # Default ~80k chars (~20k tokens); 128k tokens ≈ 512k chars.
         self.downstream_max_input_chars = downstream_max_input_chars if downstream_max_input_chars is not None else 80_000
@@ -1433,15 +1443,22 @@ class StructSenseFlow:
                 )
                 payload = extra_inputs.get(payload_key) if use_chunked else None
 
-                # Determine entities-per-chunk.
-                # Priority order for target chunk count:
-                #   1. downstream_chunk_size (explicit override — treated as entities-per-chunk)
-                #   2. _extraction_chunk_count from the extractor output (reuse same parallelism)
-                #   3. max_workers (fill all available workers)
+                # Determine entities-per-chunk using token-aware sizing.
+                #
+                # Priority order:
+                #   1. downstream_chunk_size (explicit override)
+                #   2. Token-aware auto-calculation via compute_downstream_chunk_size:
+                #      - payload fits within model's usable context → single call, no split
+                #      - otherwise → minimum chunks needed, capped at max_workers
+                #      - usable context = (model_context_window − 10k) × 0.70
+                #
+                # The model string is read from the current agent's llm config so that
+                # context-window limits are per-model accurate (e.g. Gemini 1M vs DeepSeek 128k).
                 _workers = self.max_workers or 4
                 _n_items = 0
                 if isinstance(payload, dict):
                     _n_items = len(payload.get("entities") or payload.get("resources") or [])
+
                 # Look up how many extraction chunks ran (stored by extractor stage above)
                 _extraction_chunk_count = None
                 for _pk in pipeline_stages:
@@ -1449,20 +1466,74 @@ class StructSenseFlow:
                     if isinstance(_ps, dict) and "_extraction_chunk_count" in _ps:
                         _extraction_chunk_count = _ps["_extraction_chunk_count"]
                         break
-                if self.downstream_chunk_size:
-                    _ecs = self.downstream_chunk_size
-                elif _n_items > 0:
-                    _target_workers = _extraction_chunk_count if _extraction_chunk_count else _workers
-                    _ecs = max(50, math.ceil(_n_items / _target_workers))
-                else:
-                    _ecs = 70
 
-                # Split when enable_chunking is True and we have enough items to form > 1 chunk
+                # Resolve model string for the current downstream agent
+                _agent_llm_cfg = self.agent_config.get(agent_key, {}).get("llm", {})
+                _model_str = (
+                    _agent_llm_cfg.get("model", "")
+                    if isinstance(_agent_llm_cfg, dict)
+                    else str(_agent_llm_cfg)
+                )
+
+                # Probe OpenRouter for the real context window if the model is
+                # served through OpenRouter and we have an API key.  The result
+                # is cached in _openrouter_context_cache so the probe runs at
+                # most once per model per process lifetime.
+                if not self.model_context_window and _model_str:
+                    _or_api_key = os.environ.get("OPENROUTER_API_KEY", "")
+                    _or_base_url = (
+                        (_agent_llm_cfg.get("base_url") or "")
+                        if isinstance(_agent_llm_cfg, dict)
+                        else ""
+                    )
+                    if _or_api_key and (
+                        "openrouter" in (_model_str or "").lower()
+                        or "openrouter" in (_or_base_url or "").lower()
+                    ):
+                        _probe_base = _or_base_url or "https://openrouter.ai/api/v1"
+                        probe_openrouter_context_window(
+                            model_str=_model_str,
+                            api_key=_or_api_key,
+                            base_url=_probe_base,
+                        )
+
+                # Adaptively estimate the agent's prompt overhead from the
+                # *actual* config content (role + goal + backstory + task
+                # description template + CrewAI framework boilerplate).
+                # This avoids the fixed 10 k fallback which was 100× too small
+                # for detailed configs with many entity-type examples.
+                _task_cfg = (
+                    self.task_config.get(task_key, {})
+                    if isinstance(self.task_config, dict)
+                    else {}
+                )
+                _prompt_overhead = estimate_agent_prompt_tokens(
+                    agent_config=self.agent_config.get(agent_key, {}),
+                    task_config=_task_cfg,
+                )
+                logger.debug(
+                    "[chunk_size] Adaptive prompt overhead for '%s/%s': %d tokens",
+                    agent_key, task_key, _prompt_overhead,
+                )
+
+                _ecs, _token_should_chunk = compute_downstream_chunk_size(
+                    payload=payload if isinstance(payload, dict) else {},
+                    model_str=_model_str,
+                    max_workers=_workers,
+                    extraction_chunk_count=_extraction_chunk_count,
+                    explicit_chunk_size=self.downstream_chunk_size,
+                    context_window_override=self.model_context_window,
+                    prompt_overhead_tokens=_prompt_overhead,
+                )
+
+                # Split when enable_chunking is True and the token-aware calculation
+                # recommends chunking (payload exceeds the model's usable context
+                # after accounting for the adaptive prompt overhead).
                 should_chunk = (
                     use_chunked
                     and self.enable_chunking
                     and isinstance(payload, dict)
-                    and _n_items > _ecs  # at least 2 chunks worth of data
+                    and _token_should_chunk
                 )
 
                 if use_chunked and should_chunk:
@@ -1471,12 +1542,14 @@ class StructSenseFlow:
                     _pre_split_resources = len(payload.get("resources") or []) if isinstance(payload, dict) else 0
                     _chunk_size_source = (
                         "explicit downstream_chunk_size" if self.downstream_chunk_size
-                        else f"extraction_chunk_count={_extraction_chunk_count}" if _extraction_chunk_count
-                        else f"max_workers={_workers}"
+                        else f"token-aware/extraction_chunks={_extraction_chunk_count}" if _extraction_chunk_count
+                        else f"token-aware/max_workers={_workers}"
                     )
                     logger.info(
-                        "[%s] Splitting payload for parallel processing: %d entities, %d resources → ~%d per chunk (%s)",
-                        task_key, _pre_split_entities, _pre_split_resources, _ecs, _chunk_size_source,
+                        "[%s] Splitting payload for parallel processing: %d entities, %d resources "
+                        "→ ~%d per chunk (model=%s, source=%s)",
+                        task_key, _pre_split_entities, _pre_split_resources, _ecs,
+                        _model_str or "unknown", _chunk_size_source,
                     )
 
                     chunks = split_structured_payload(
