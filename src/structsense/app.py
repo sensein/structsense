@@ -261,6 +261,7 @@ class StructSenseFlow:
             return_full_pipeline_details: bool = False,
             stage_output_dir: Optional[str] = os.getcwd(),
             downstream_chunk_size: Optional[int] = None,
+            skip_alignment_llm: Optional[bool] = None,
     ):
         """Initialize StructSenseFlow with config paths and input.
 
@@ -462,6 +463,11 @@ class StructSenseFlow:
         # Entities per chunk for downstream parallel chunking (alignment/judge/humanfeedback).
         # None = auto-calculate from max_workers and entity count.
         self.downstream_chunk_size = downstream_chunk_size
+        # Skip alignment LLM: call concept mapping tool directly and inject results,
+        # bypassing the alignment agent entirely.
+        # None = auto (True when CONCEPT_MAPPING_BACKEND=local and task is NER/keyphrase).
+        # True = always skip. False = always run alignment LLM.
+        self.skip_alignment_llm = skip_alignment_llm
         # Max input size (chars) for downstream agents (alignment, judge, humanfeedback) to avoid context limit.
         # Default ~80k chars (~20k tokens); 128k tokens ≈ 512k chars.
         self.downstream_max_input_chars = downstream_max_input_chars if downstream_max_input_chars is not None else 80_000
@@ -974,6 +980,127 @@ class StructSenseFlow:
             # Clear alignment-stage tool outputs so we only capture this stage's concept mapping (for extraction)
             if task_key == "alignment_task":
                 clear_alignment_tool_outputs()
+
+            # ------------------------------------------------------------------
+            # Fast alignment bypass: skip the alignment LLM entirely.
+            #
+            # When enabled, Python calls the concept mapping tool directly with
+            # all entity texts in one batch (the local service supports 4000
+            # concepts/request), injects the results into the extraction output,
+            # and stores that as the alignment result — no LLM call needed.
+            #
+            # This is correct because the alignment LLM's only real job is
+            # ontology mapping, which the pre-compute + injection already does.
+            # The LLM typically only maps 3–10 terms per call anyway and adds no
+            # other value for NER tasks.
+            #
+            # Auto-enable when:
+            #   - task_key == "alignment_task"
+            #   - task_type is "ner" or "keyphrase_extraction"
+            #   - CONCEPT_MAPPING_BACKEND == "local" (supports batch of 4000)
+            #
+            # Override with skip_alignment_llm=True  (force skip)
+            #                 skip_alignment_llm=False (force LLM)
+            # ------------------------------------------------------------------
+            if task_key == "alignment_task" and prev_output is not None:
+                _cm_backend_now = os.getenv("CONCEPT_MAPPING_BACKEND", "local").strip().lower()
+                _auto_skip = (
+                    task_type in ("ner", "keyphrase_extraction")
+                    and _cm_backend_now == "local"
+                )
+                _do_skip = (
+                    self.skip_alignment_llm is True
+                    or (self.skip_alignment_llm is None and _auto_skip)
+                )
+                if _do_skip:
+                    import copy as _copy
+                    stage_start_time = time.time()
+                    logger.info(
+                        "[alignment_task] Fast-alignment bypass active — "
+                        "calling concept mapping tool directly, skipping alignment LLM"
+                    )
+
+                    # Collect all entity texts from extraction output
+                    _fa_texts: list = []
+                    def _fa_collect(ent):
+                        if isinstance(ent, dict):
+                            t = ent.get("entity") or ent.get("text") or ent.get("name")
+                            if isinstance(t, str) and t.strip():
+                                _fa_texts.append(t.strip())
+
+                    extraction_output_fa = prev_output
+                    for _e in extraction_output_fa.get("entities") or []:
+                        _fa_collect(_e)
+                    for _raw_key in ("extracted_terms", "aligned_ner_terms"):
+                        for _e in _flatten_container_to_list(extraction_output_fa.get(_raw_key) or []):
+                            _fa_collect(_e)
+                    for _kt in extraction_output_fa.get("key_terms") or []:
+                        if isinstance(_kt, str) and _kt.strip():
+                            _fa_texts.append(_kt.strip())
+                        elif isinstance(_kt, dict):
+                            _t = _kt.get("term") or _kt.get("text") or _kt.get("entity")
+                            if isinstance(_t, str) and _t.strip():
+                                _fa_texts.append(_t.strip())
+
+                    # Deduplicate
+                    _fa_seen: set = set()
+                    _fa_unique = [t for t in _fa_texts if not (t in _fa_seen or _fa_seen.add(t))]
+                    logger.info("[alignment_task] Fast-alignment: %d unique terms to map", len(_fa_unique))
+
+                    # Call concept mapping tool directly
+                    if _fa_unique:
+                        try:
+                            from utils.conceptmappinglocal import ConceptMappingLocalTool as _CMToolFA
+                            _CMToolFA()._run(text=_fa_unique)
+                        except Exception as _fa_exc:
+                            logger.warning("[alignment_task] Fast-alignment tool call failed: %s", _fa_exc)
+
+                    # Build synthetic alignment result: deep copy extraction output,
+                    # inject concept mapping results, add provenance
+                    _aligned = _copy.deepcopy(extraction_output_fa)
+                    _aligned["alignment_method"] = "direct_tool_call"
+                    _aligned["alignment_llm_skipped"] = True
+
+                    _fa_session = get_alignment_tool_outputs()
+                    if _fa_session:
+                        _fa_entities = _aligned.get("entities") or []
+                        if _fa_entities:
+                            _fa_enriched = inject_alignment_concept_mapping_into_ner_entities(
+                                _fa_entities, _fa_session
+                            )
+                            logger.info(
+                                "[alignment_task] Fast-alignment enriched %d entities with ontology fields",
+                                _fa_enriched,
+                            )
+                            # Mark provenance as tool for all enriched entities
+                            for _ent in _fa_entities:
+                                if isinstance(_ent, dict) and _ent.get("ontology_id"):
+                                    _ent.setdefault("concept_mapping_provenance", "tool")
+
+                    promote_stage_output_to_canonical(_aligned, task_type)
+
+                    prev_output = _aligned
+                    pipeline_stages[task_key] = _aligned
+                    stage_elapsed = time.time() - stage_start_time
+                    stage_timings[f"{agent_key}_{task_key}"] = stage_elapsed
+                    logger.info(
+                        "[alignment_task] Fast-alignment completed in %.2fs (LLM call skipped)",
+                        stage_elapsed,
+                    )
+
+                    # Save stage output to disk
+                    if self.stage_output_dir and pipeline_stages.get(task_key) is not None:
+                        try:
+                            os.makedirs(self.stage_output_dir, exist_ok=True)
+                            _stage_fname = f"{idx:02d}_{agent_key}_{task_key}.json"
+                            _stage_path = os.path.join(self.stage_output_dir, _stage_fname)
+                            with open(_stage_path, "w") as _sf:
+                                json.dump(pipeline_stages[task_key], _sf, indent=2, default=str)
+                            logger.info("[alignment_task] Stage output saved to %s", _stage_path)
+                        except Exception as _save_exc:
+                            logger.warning("[alignment_task] Failed to save stage output: %s", _save_exc)
+
+                    continue  # skip the alignment LLM run entirely
 
             if is_first_stage:
                 # First stage: source text, chunking, post-processing, merger

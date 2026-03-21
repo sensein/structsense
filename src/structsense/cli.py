@@ -66,6 +66,17 @@ def cli(ctx):
     help="Cap extraction chunk size in chars so chunk+prompt stays under model context (default 25000 for 128k models). None = no cap.",
 )
 @click.option(
+    "--skip_alignment_llm",
+    required=False,
+    default=None,
+    type=click.Choice(["true", "false", "auto"], case_sensitive=False),
+    help=(
+        "Skip the alignment LLM and call the concept mapping tool directly instead. "
+        "'auto' (default): skip when CONCEPT_MAPPING_BACKEND=local and task is NER/keyphrase. "
+        "'true': always skip. 'false': always run the alignment LLM."
+    ),
+)
+@click.option(
     "--downstream_chunk_size",
     required=False,
     type=int,
@@ -102,6 +113,7 @@ def extract(
     enable_chunking,
     downstream_max_input_chars,
     max_extraction_chunk_chars,
+    skip_alignment_llm,
     downstream_chunk_size,
     preload_stages,
 ):
@@ -157,6 +169,10 @@ def extract(
         downstream_max_input_chars=downstream_max_input_chars,
         max_extraction_chunk_chars=max_extraction_chunk_chars,
         downstream_chunk_size=downstream_chunk_size,
+        skip_alignment_llm=(
+            None if skip_alignment_llm == "auto" or skip_alignment_llm is None
+            else skip_alignment_llm.lower() == "true"
+        ),
     )
 
     # Run the full pipeline (extraction → alignment → judge → humanfeedback)
