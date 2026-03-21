@@ -72,8 +72,20 @@ def cli(ctx):
     type=click.Choice(["true", "false", "auto"], case_sensitive=False),
     help=(
         "Skip the alignment LLM and call the concept mapping tool directly instead. "
-        "'auto' (default): skip when CONCEPT_MAPPING_BACKEND=local and task is NER/keyphrase. "
-        "'true': always skip. 'false': always run the alignment LLM."
+        "'auto' (default): skip when CONCEPT_MAPPING_BACKEND=local and task is NER/keyphrase/resource. "
+        "'true': always skip. 'false': always run the alignment LLM. "
+        "Can also be set via env var SKIP_ALIGNMENT_LLM=true/false/auto."
+    ),
+)
+@click.option(
+    "--skip_judge_llm",
+    required=False,
+    default=None,
+    type=click.Choice(["true", "false"], case_sensitive=False),
+    help=(
+        "Skip the judge LLM and inject default judge_score=1.0 / remarks='auto-approved' instead. "
+        "'true': always skip. 'false': always run the judge LLM (default). "
+        "Can also be set via env var SKIP_JUDGE_LLM=true/false."
     ),
 )
 @click.option(
@@ -113,6 +125,24 @@ def cli(ctx):
         "Valid task keys: extraction_task, alignment_task, judge_task, humanfeedback_task."
     ),
 )
+@click.option(
+    "--skip_stage",
+    "skip_stages",
+    required=False,
+    multiple=True,
+    metavar="TASK_KEY",
+    help=(
+        "Omit a pipeline stage entirely. The previous stage's output is passed directly "
+        "to the next non-skipped stage. Repeat the flag for each stage to skip. "
+        "Examples:\n\n"
+        "  Run extraction + alignment only:\n"
+        "    --skip_stage judge_task --skip_stage humanfeedback_task\n\n"
+        "  Run extraction + judge (skip alignment):\n"
+        "    --skip_stage alignment_task\n\n"
+        "Valid task keys: alignment_task, judge_task, humanfeedback_task. "
+        "(extraction_task cannot be skipped; use --preload_stage for that.)"
+    ),
+)
 def extract(
     config,
     api_key,
@@ -126,9 +156,11 @@ def extract(
     downstream_max_input_chars,
     max_extraction_chunk_chars,
     skip_alignment_llm,
+    skip_judge_llm,
     downstream_chunk_size,
     model_context_window,
     preload_stages,
+    skip_stages,
 ):
     """Extract the terms along with sentence using a single config file."""
     import json
@@ -187,6 +219,11 @@ def extract(
             None if skip_alignment_llm == "auto" or skip_alignment_llm is None
             else skip_alignment_llm.lower() == "true"
         ),
+        skip_judge_llm=(
+            None if skip_judge_llm is None
+            else skip_judge_llm.lower() == "true"
+        ),
+        skip_stages=list(skip_stages) if skip_stages else None,
     )
 
     # Run the full pipeline (extraction → alignment → judge → humanfeedback)

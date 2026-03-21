@@ -42,7 +42,7 @@ from datetime import datetime
 
 # Filter warnings at the beginning
 import warnings
-from typing import Any, Dict, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 # Disable all warnings including Pydantic serialization warnings
 warnings.filterwarnings("ignore")
@@ -268,7 +268,9 @@ class StructSenseFlow:
             stage_output_dir: Optional[str] = os.getcwd(),
             downstream_chunk_size: Optional[int] = None,
             skip_alignment_llm: Optional[bool] = None,
+            skip_judge_llm: Optional[bool] = None,
             model_context_window: Optional[int] = None,
+            skip_stages: Optional[List[str]] = None,
     ):
         """Initialize StructSenseFlow with config paths and input.
 
@@ -314,6 +316,30 @@ class StructSenseFlow:
             not lose all prior work.  Files are named
             ``<stage_index>_<agent_key>_<task_key>.json`` and overwritten on re-run.
             Defaults to the current working directory.  Set to None to disable.
+        skip_judge_llm : bool or None, optional
+            When True, the judge LLM is bypassed: all entities receive a default
+            ``judge_score=1.0`` and ``remarks="auto-approved"`` without an LLM call,
+            and the pipeline continues immediately.  Useful for fast runs where quality
+            scoring is not needed, or when the alignment output is already trusted.
+            None (default): never auto-skip (judge always runs unless the stage is absent
+            from the config or listed in ``skip_stages``).
+            Overridden by env var ``SKIP_JUDGE_LLM=true/false``.
+        skip_stages : list of str, optional
+            Task keys to omit from the pipeline entirely.  The previous stage's output
+            is passed directly to the next stage that is *not* skipped.  Example::
+
+                # Run only extraction + alignment; skip judge and humanfeedback
+                skip_stages=["judge_task", "humanfeedback_task"]
+
+                # Run only extraction (single-stage)
+                skip_stages=["alignment_task", "judge_task", "humanfeedback_task"]
+
+            Accepted keys: ``extraction_task``, ``alignment_task``, ``judge_task``,
+            ``humanfeedback_task``.  Skipping ``extraction_task`` is not supported
+            (use ``preloaded_stages`` for that instead).
+            ``enable_human_feedback=False`` (the default) already suppresses
+            ``humanfeedback_task`` so you don't need to list it here unless you have
+            a custom task key.
 
         Raises
         ------
@@ -472,9 +498,44 @@ class StructSenseFlow:
         self.downstream_chunk_size = downstream_chunk_size
         # Skip alignment LLM: call concept mapping tool directly and inject results,
         # bypassing the alignment agent entirely.
-        # None = auto (True when CONCEPT_MAPPING_BACKEND=local and task is NER/keyphrase).
+        # None = auto (True when CONCEPT_MAPPING_BACKEND=local and task is NER/keyphrase/resource).
         # True = always skip. False = always run alignment LLM.
+        # Env var SKIP_ALIGNMENT_LLM=true/false/auto overrides the constructor argument.
+        if "SKIP_ALIGNMENT_LLM" in os.environ:
+            _env_sal = os.environ["SKIP_ALIGNMENT_LLM"].strip().lower()
+            if _env_sal == "auto":
+                skip_alignment_llm = None
+            else:
+                skip_alignment_llm = str_to_bool(_env_sal)
+            logger.info(
+                "skip_alignment_llm overridden by env SKIP_ALIGNMENT_LLM=%s -> %s",
+                os.environ["SKIP_ALIGNMENT_LLM"], skip_alignment_llm,
+            )
         self.skip_alignment_llm = skip_alignment_llm
+
+        # Skip judge LLM: inject default judge_score/remarks directly, bypassing the judge agent.
+        # None = never auto-skip (judge always runs when present).
+        # True = always skip. False = always run judge LLM.
+        # Env var SKIP_JUDGE_LLM=true/false overrides the constructor argument.
+        if "SKIP_JUDGE_LLM" in os.environ:
+            skip_judge_llm = str_to_bool(os.environ["SKIP_JUDGE_LLM"].strip())
+            logger.info(
+                "skip_judge_llm overridden by env SKIP_JUDGE_LLM=%s -> %s",
+                os.environ["SKIP_JUDGE_LLM"], skip_judge_llm,
+            )
+        self.skip_judge_llm = skip_judge_llm
+
+        # Task keys to omit entirely from the pipeline (e.g. ["judge_task", "humanfeedback_task"]).
+        # Filtered out by _get_ordered_agent_task_pairs so they never run.
+        # Env var SKIP_STAGES=judge_task,humanfeedback_task (comma-separated) overrides the
+        # constructor argument. Useful to control partial pipeline runs from a .env file
+        # without changing CLI flags.
+        if "SKIP_STAGES" in os.environ:
+            _env_ss = [s.strip() for s in os.environ["SKIP_STAGES"].split(",") if s.strip()]
+            if _env_ss:
+                skip_stages = _env_ss
+                logger.info("skip_stages overridden by env SKIP_STAGES=%s", os.environ["SKIP_STAGES"])
+        self.skip_stages: List[str] = list(skip_stages) if skip_stages else []
         # User-supplied model context window override (tokens). When set, overrides the
         # auto-detected value from model_context.py for all downstream chunk sizing.
         # Useful when the model is not in the built-in registry or behind a custom proxy.
@@ -1152,6 +1213,68 @@ class StructSenseFlow:
                             logger.warning("[alignment_task] Failed to save stage output: %s", _save_exc)
 
                     continue  # skip the alignment LLM run entirely
+
+            # ------------------------------------------------------------------
+            # Fast judge bypass: skip the judge LLM entirely.
+            #
+            # When enabled, Python deep-copies the alignment output and injects
+            # default judge_score=1.0 and remarks="auto-approved" into every entity
+            # dict — no LLM call is made.  The result is stored as the judge stage
+            # output and the pipeline continues.
+            #
+            # Use this when:
+            #   - you trust the alignment output and do not need quality scoring, or
+            #   - you want the fastest possible run (extraction + alignment only, but
+            #     humanfeedback still needs a judge stage output to work from)
+            #
+            # Enable with skip_judge_llm=True (constructor / Python API)
+            #             SKIP_JUDGE_LLM=true (.env or environment)
+            #             --skip_judge_llm true (CLI)
+            # ------------------------------------------------------------------
+            if task_key == "judge_task" and prev_output is not None and self.skip_judge_llm:
+                import copy as _jcopy
+                stage_start_time = time.time()
+                logger.info(
+                    "[judge_task] Fast-judge bypass active — "
+                    "injecting default judge_score/remarks, skipping judge LLM"
+                )
+                _judged = _jcopy.deepcopy(prev_output)
+                _judged["judge_method"] = "auto_approved"
+                _judged["judge_llm_skipped"] = True
+
+                # Inject default judge_score and remarks into every entity dict
+                _jfa_count = 0
+                for _jent in _judged.get("entities") or []:
+                    if isinstance(_jent, dict):
+                        _jent.setdefault("judge_score", 1.0)
+                        _jent.setdefault("remarks", "auto-approved: judge LLM skipped")
+                        _jfa_count += 1
+                logger.info(
+                    "[judge_task] Fast-judge: injected default scores into %d entities", _jfa_count
+                )
+
+                promote_stage_output_to_canonical(_judged, task_type)
+
+                prev_output = _judged
+                pipeline_stages[task_key] = _judged
+                stage_elapsed = time.time() - stage_start_time
+                stage_timings[f"{agent_key}_{task_key}"] = stage_elapsed
+                logger.info(
+                    "[judge_task] Fast-judge completed in %.2fs (LLM call skipped)", stage_elapsed
+                )
+
+                if self.stage_output_dir and pipeline_stages.get(task_key) is not None:
+                    try:
+                        os.makedirs(self.stage_output_dir, exist_ok=True)
+                        _stage_fname = f"{idx:02d}_{agent_key}_{task_key}.json"
+                        _stage_path = os.path.join(self.stage_output_dir, _stage_fname)
+                        with open(_stage_path, "w") as _sf:
+                            json.dump(pipeline_stages[task_key], _sf, indent=2, default=str)
+                        logger.info("[judge_task] Stage output saved to %s", _stage_path)
+                    except Exception as _save_exc:
+                        logger.warning("[judge_task] Failed to save stage output: %s", _save_exc)
+
+                continue  # skip the judge LLM run entirely
 
             if is_first_stage:
                 # First stage: source text, chunking, post-processing, merger
@@ -2180,7 +2303,13 @@ class StructSenseFlow:
 
     def _get_ordered_agent_task_pairs(self) -> list:
         """Return list of (agent_key, task_key) in config order for pipeline execution.
-        Human-feedback stage is included only when enable_human_feedback is True.
+
+        Stages are excluded when:
+        - humanfeedback_task: enable_human_feedback is False (default)
+        - any task_key in self.skip_stages (user-supplied list passed to __init__ or CLI)
+
+        When a stage is skipped the previous stage's output is forwarded directly
+        to the next non-skipped stage via the existing prev_output chain.
         """
         pairs = []
         for task_key_iter, task_data in self.task_config.items():
@@ -2193,6 +2322,20 @@ class StructSenseFlow:
         # Exclude humanfeedback stage when human feedback is disabled
         if not self.enable_human_feedback:
             pairs = [p for p in pairs if p != ("humanfeedback_agent", "humanfeedback_task")]
+        # Exclude any stage explicitly listed in skip_stages
+        if self.skip_stages:
+            skipped = set(self.skip_stages)
+            if "extraction_task" in skipped:
+                logger.warning(
+                    "skip_stages contains 'extraction_task' — extraction is the first stage and "
+                    "cannot be skipped. Use preloaded_stages={'extraction_task': ...} instead. "
+                    "Ignoring 'extraction_task' in skip_stages."
+                )
+                skipped.discard("extraction_task")
+            removed = {p[1] for p in pairs if p[1] in skipped}
+            pairs = [p for p in pairs if p[1] not in skipped]
+            if removed:
+                logger.info("Skipping pipeline stage(s): %s", sorted(removed))
         return pairs
 
     def _split_downstream_payload(self, payload: Dict[str, Any], max_chars: int) -> list:
