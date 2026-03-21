@@ -98,6 +98,7 @@ from utils.postprocessing import (
     # Previously these ontology fields were captured by the tool but never surfaced to
     # the caller because the injection block only ran for task_type == "extraction".
     inject_alignment_concept_mapping_into_ner_entities,
+    inject_alignment_concept_mapping_into_resources,
     _flatten_container_to_list,
     unify_ontology_across_entities,
 )
@@ -1014,8 +1015,11 @@ class StructSenseFlow:
             # ------------------------------------------------------------------
             if task_key == "alignment_task" and prev_output is not None:
                 _cm_backend_now = os.getenv("CONCEPT_MAPPING_BACKEND", "local").strip().lower()
+                # Auto-skip also applies to resource and structured_extraction task types.
+                # Resource alignment (like NER alignment) only needs ontology mapping — the
+                # LLM adds no value over a direct batch tool call when the local backend is used.
                 _auto_skip = (
-                    task_type in ("ner", "keyphrase_extraction")
+                    task_type in ("ner", "keyphrase_extraction", "resource", "structured_extraction")
                     and _cm_backend_now == "local"
                 )
                 _do_skip = (
@@ -1030,7 +1034,10 @@ class StructSenseFlow:
                         "calling concept mapping tool directly, skipping alignment LLM"
                     )
 
-                    # Collect all entity texts from extraction output
+                    # Collect texts for concept mapping.
+                    # For NER/keyphrase: entity text from entities, extracted_terms, key_terms.
+                    # For resource/structured_extraction: resource name from resources list.
+                    # Both paths deduplicate before calling the tool.
                     _fa_texts: list = []
                     def _fa_collect(ent):
                         if isinstance(ent, dict):
@@ -1039,18 +1046,30 @@ class StructSenseFlow:
                                 _fa_texts.append(t.strip())
 
                     extraction_output_fa = prev_output
-                    for _e in extraction_output_fa.get("entities") or []:
-                        _fa_collect(_e)
-                    for _raw_key in ("extracted_terms", "aligned_ner_terms"):
-                        for _e in _flatten_container_to_list(extraction_output_fa.get(_raw_key) or []):
+                    if task_type in ("ner", "keyphrase_extraction"):
+                        # NER/keyphrase: collect entity texts
+                        for _e in extraction_output_fa.get("entities") or []:
                             _fa_collect(_e)
-                    for _kt in extraction_output_fa.get("key_terms") or []:
-                        if isinstance(_kt, str) and _kt.strip():
-                            _fa_texts.append(_kt.strip())
-                        elif isinstance(_kt, dict):
-                            _t = _kt.get("term") or _kt.get("text") or _kt.get("entity")
-                            if isinstance(_t, str) and _t.strip():
-                                _fa_texts.append(_t.strip())
+                        for _raw_key in ("extracted_terms", "aligned_ner_terms"):
+                            for _e in _flatten_container_to_list(extraction_output_fa.get(_raw_key) or []):
+                                _fa_collect(_e)
+                        for _kt in extraction_output_fa.get("key_terms") or []:
+                            if isinstance(_kt, str) and _kt.strip():
+                                _fa_texts.append(_kt.strip())
+                            elif isinstance(_kt, dict):
+                                _t = _kt.get("term") or _kt.get("text") or _kt.get("entity")
+                                if isinstance(_t, str) and _t.strip():
+                                    _fa_texts.append(_t.strip())
+                    else:
+                        # Resource/structured_extraction: collect resource names from all resource
+                        # list keys — the extraction stage may store them under different keys
+                        # before alignment normalises them.
+                        for _rkey in ("resources", "aligned_resources", "extracted_resources"):
+                            for _r in extraction_output_fa.get(_rkey) or []:
+                                if isinstance(_r, dict):
+                                    _rname = _r.get("name") or _r.get("resource_name")
+                                    if isinstance(_rname, str) and _rname.strip():
+                                        _fa_texts.append(_rname.strip())
 
                     # Deduplicate
                     _fa_seen: set = set()
@@ -1073,19 +1092,41 @@ class StructSenseFlow:
 
                     _fa_session = get_alignment_tool_outputs()
                     if _fa_session:
-                        _fa_entities = _aligned.get("entities") or []
-                        if _fa_entities:
-                            _fa_enriched = inject_alignment_concept_mapping_into_ner_entities(
-                                _fa_entities, _fa_session
-                            )
-                            logger.info(
-                                "[alignment_task] Fast-alignment enriched %d entities with ontology fields",
-                                _fa_enriched,
-                            )
-                            # Mark provenance as tool for all enriched entities
-                            for _ent in _fa_entities:
-                                if isinstance(_ent, dict) and _ent.get("ontology_id"):
-                                    _ent.setdefault("concept_mapping_provenance", "tool")
+                        if task_type in ("ner", "keyphrase_extraction"):
+                            # NER/keyphrase: inject ontology fields into entity dicts
+                            _fa_entities = _aligned.get("entities") or []
+                            if _fa_entities:
+                                _fa_enriched = inject_alignment_concept_mapping_into_ner_entities(
+                                    _fa_entities, _fa_session
+                                )
+                                logger.info(
+                                    "[alignment_task] Fast-alignment enriched %d entities with ontology fields",
+                                    _fa_enriched,
+                                )
+                                for _ent in _fa_entities:
+                                    if isinstance(_ent, dict) and _ent.get("ontology_id"):
+                                        _ent.setdefault("concept_mapping_provenance", "tool")
+                        else:
+                            # Resource/structured_extraction: inject ontology fields into resource dicts.
+                            # Resources are normalised to the "resources" key by promote_stage_output_to_canonical
+                            # later in this block, but we inject into whichever keys are present now so
+                            # the fields survive the promote call.
+                            _fa_res_enriched = 0
+                            for _rkey in ("resources", "aligned_resources", "extracted_resources"):
+                                _fa_resources = _aligned.get(_rkey) or []
+                                if _fa_resources:
+                                    _fa_res_enriched += inject_alignment_concept_mapping_into_resources(
+                                        _fa_resources, _fa_session
+                                    )
+                            if _fa_res_enriched:
+                                logger.info(
+                                    "[alignment_task] Fast-alignment enriched %d resources with ontology fields",
+                                    _fa_res_enriched,
+                                )
+                            for _rkey in ("resources", "aligned_resources", "extracted_resources"):
+                                for _res in _aligned.get(_rkey) or []:
+                                    if isinstance(_res, dict) and _res.get("ontology_id"):
+                                        _res.setdefault("concept_mapping_provenance", "tool")
 
                     promote_stage_output_to_canonical(_aligned, task_type)
 
@@ -1180,7 +1221,10 @@ class StructSenseFlow:
                     #   Log line shows coverage per source, e.g.:
                     #     [alignment_task] Pre-computing: 87 terms (entities=2, key_terms=10, raw_extracted=75)
                     _cm_backend = os.getenv("CONCEPT_MAPPING_BACKEND", "local").strip().lower()
-                    if _cm_backend == "local" and task_type in ("ner", "extraction", "keyphrase_extraction"):
+                    if _cm_backend == "local" and task_type in (
+                        "ner", "extraction", "keyphrase_extraction",
+                        "resource", "structured_extraction",
+                    ):
                         try:
                             from utils.conceptmappinglocal import ConceptMappingLocalTool as _CMTool
                             _pre_texts: list = []
@@ -1191,37 +1235,48 @@ class StructSenseFlow:
                                     if isinstance(t, str) and t.strip():
                                         _pre_texts.append(t.strip())
 
-                            # 1. Canonical entities list
-                            for _e in extraction_output.get("entities", []):
-                                _collect_entity_text(_e)
+                            if task_type in ("ner", "extraction", "keyphrase_extraction"):
+                                # 1. Canonical entities list
+                                for _e in extraction_output.get("entities", []):
+                                    _collect_entity_text(_e)
 
-                            # 2 & 3. Raw NER stage keys (extracted_terms, aligned_ner_terms) —
-                            #        these may contain more entities than the promoted list when
-                            #        promote_stage_output_to_canonical found a non-empty entities
-                            #        key and skipped the stage-specific keys.
-                            for _raw_key in ("extracted_terms", "aligned_ner_terms"):
-                                _raw_container = extraction_output.get(_raw_key)
-                                if _raw_container:
-                                    for _e in _flatten_container_to_list(_raw_container):
-                                        _collect_entity_text(_e)
+                                # 2 & 3. Raw NER stage keys (extracted_terms, aligned_ner_terms) —
+                                #        these may contain more entities than the promoted list when
+                                #        promote_stage_output_to_canonical found a non-empty entities
+                                #        key and skipped the stage-specific keys.
+                                for _raw_key in ("extracted_terms", "aligned_ner_terms"):
+                                    _raw_container = extraction_output.get(_raw_key)
+                                    if _raw_container:
+                                        for _e in _flatten_container_to_list(_raw_container):
+                                            _collect_entity_text(_e)
 
-                            # 4. key_terms (strings or dicts)
-                            for _kt in extraction_output.get("key_terms", []):
-                                if isinstance(_kt, str) and _kt.strip():
-                                    _pre_texts.append(_kt.strip())
-                                elif isinstance(_kt, dict):
-                                    _kt_t = _kt.get("term") or _kt.get("text") or _kt.get("entity")
-                                    if isinstance(_kt_t, str) and _kt_t.strip():
-                                        _pre_texts.append(_kt_t.strip())
+                                # 4. key_terms (strings or dicts)
+                                for _kt in extraction_output.get("key_terms", []):
+                                    if isinstance(_kt, str) and _kt.strip():
+                                        _pre_texts.append(_kt.strip())
+                                    elif isinstance(_kt, dict):
+                                        _kt_t = _kt.get("term") or _kt.get("text") or _kt.get("entity")
+                                        if isinstance(_kt_t, str) and _kt_t.strip():
+                                            _pre_texts.append(_kt_t.strip())
+                            else:
+                                # Resource/structured_extraction: collect resource names
+                                for _rkey in ("resources", "aligned_resources", "extracted_resources"):
+                                    for _r in extraction_output.get(_rkey) or []:
+                                        if isinstance(_r, dict):
+                                            _rname = _r.get("name") or _r.get("resource_name")
+                                            if isinstance(_rname, str) and _rname.strip():
+                                                _pre_texts.append(_rname.strip())
 
                             # Deduplicate preserving order
                             _pre_seen: set = set()
                             _pre_unique = [_t for _t in _pre_texts if not (_t in _pre_seen or _pre_seen.add(_t))]
                             logger.info(
                                 "[alignment_task] Pre-computing concept mapping: %d unique term(s) "
-                                "(entities=%d, key_terms=%d, raw_extracted=%d)",
+                                "(task_type=%s, entities=%d, resources=%d, key_terms=%d, raw_extracted=%d)",
                                 len(_pre_unique),
+                                task_type,
                                 len(extraction_output.get("entities") or []),
+                                len(extraction_output.get("resources") or []),
                                 len(extraction_output.get("key_terms") or []),
                                 len(_flatten_container_to_list(extraction_output.get("extracted_terms") or [])),
                             )
@@ -1845,6 +1900,22 @@ class StructSenseFlow:
                                     "(ontology_id/ontology_label/ontology)",
                                     enriched,
                                 )
+                    elif task_type in ("resource", "structured_extraction"):
+                        # Inject ontology fields into all resource list keys.
+                        # Mirrors the NER injection but uses resource "name" as the lookup key.
+                        _l2_enriched = 0
+                        for _rkey in ("resources", "aligned_resources", "extracted_resources"):
+                            _l2_resources = prev_output.get(_rkey) or []
+                            if _l2_resources:
+                                _l2_enriched += inject_alignment_concept_mapping_into_resources(
+                                    _l2_resources, session_outputs
+                                )
+                        if _l2_enriched:
+                            logger.info(
+                                "[alignment_task] Enriched %d resources with concept mapping "
+                                "(ontology_id/ontology_label/ontology)",
+                                _l2_enriched,
+                            )
 
             # Record stage timing
             stage_elapsed = time.time() - stage_start_time

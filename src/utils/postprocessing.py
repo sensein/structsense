@@ -1777,6 +1777,83 @@ def inject_alignment_concept_mapping_into_ner_entities(
     return enriched
 
 
+def inject_alignment_concept_mapping_into_resources(
+    resources: List[Dict[str, Any]],
+    session_outputs: list,
+) -> int:
+    """
+    Enrich resource dicts with concept mapping fields from alignment agent tool calls.
+
+    Mirrors inject_alignment_concept_mapping_into_ner_entities but operates on
+    resource dicts (which use "name" as their text key, not "entity").
+
+    Resource dict BEFORE injection::
+
+        {"name": "STRING", "type": "Database", "url": "https://string-db.org"}
+
+    Resource dict AFTER injection::
+
+        {"name": "STRING", "type": "Database", "url": "https://string-db.org",
+         "ontology_id": "SCR:006272",
+         "ontology_label": "STRING",
+         "ontology": "SciCrunch"}
+
+    The concept mapping tool is called with resource names during the fast-alignment
+    bypass so that no LLM call is needed for the alignment stage on resource tasks.
+
+    Args:
+        resources: List of resource dicts (modified in place).
+        session_outputs: Output of get_alignment_tool_outputs() — list of
+            {"input": str, "output": {ontology_id / ontology_label / ontology / ...}}.
+
+    Returns:
+        Number of resources that received at least one concept mapping field.
+    """
+    if not resources or not session_outputs:
+        return 0
+
+    MAPPING_FIELDS = ("ontology_id", "ontology_label", "ontology")
+
+    # Build name → {ontology fields} lookup — same logic as NER injection.
+    term_to_mapping: Dict[str, Dict[str, Any]] = {}
+    for item in session_outputs:
+        if not isinstance(item, dict):
+            continue
+        inp = item.get("input") or ""
+        out = item.get("output")
+        if not isinstance(out, dict) or "error" in out:
+            continue
+        _known = {*MAPPING_FIELDS, "error"}
+        is_batch = any(k not in _known for k in out)
+        if is_batch:
+            for term, mapping in out.items():
+                if isinstance(mapping, dict) and "error" not in mapping and term:
+                    term_to_mapping[term.lower()] = {f: mapping.get(f) for f in MAPPING_FIELDS}
+        else:
+            if inp:
+                term_to_mapping[inp.lower()] = {f: out.get(f) for f in MAPPING_FIELDS}
+
+    if not term_to_mapping:
+        return 0
+
+    enriched = 0
+    for res in resources:
+        if not isinstance(res, dict):
+            continue
+        # Resources use "name" as primary text; fall back to "resource_name".
+        res_name = (res.get("name") or res.get("resource_name") or "").lower().strip()
+        if not res_name:
+            continue
+        mapping = term_to_mapping.get(res_name)
+        if mapping:
+            for field, value in mapping.items():
+                if value is not None:
+                    res[field] = value
+            enriched += 1
+
+    return enriched
+
+
 def _resource_has_rich_mapped_concepts(res: Dict[str, Any]) -> bool:
     """True if resource has multiple mapped_specific_target_concept or any concept with non-N/A id."""
     if not isinstance(res, dict):
