@@ -1104,6 +1104,69 @@ def merge_downstream_chunk_results_with_provenance(
     return {container_key: out_container}
 
 
+# ---------------------------------------------------------------------------
+# Ontology consistency pass for parallel downstream chunking
+# ---------------------------------------------------------------------------
+
+def _ontology_score(ent: Dict[str, Any]) -> int:
+    """Score an entity's ontology mapping quality. Higher = better."""
+    s = 0
+    if ent.get("concept_mapping_provenance") == "tool":
+        s += 100
+    oid = str(ent.get("ontology_id") or "").strip().lower()
+    if oid and oid not in ("n/a", "none", "null", ""):
+        s += 50
+    if str(ent.get("ontology_label") or "").strip().lower() not in ("n/a", "none", "null", ""):
+        s += 10
+    return s
+
+
+def unify_ontology_across_entities(entities: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """After parallel chunk alignment/judge, unify ontology fields across all entities.
+
+    When the same entity text is processed in different parallel chunks, each LLM call
+    may produce a different ontology ID for it.  This pass:
+
+    1. Finds the best ontology mapping per (entity_text, label) pair — tool-backed
+       concept mapping beats llm_knowledge; a real IRI beats N/A.
+    2. Applies that best mapping to *every* occurrence of that entity text so that
+       all individual instances (different sentences/positions) share one consistent
+       ontology assignment.
+
+    Individual entity instances are preserved — nothing is deduplicated.  Only the
+    ontology fields are unified.
+    """
+    _ONTOLOGY_FIELDS = ("ontology_id", "ontology_label", "ontology", "concept_mapping_provenance")
+
+    # Step 1: determine best mapping per (entity_text, label)
+    best: Dict[Tuple[str, str], Dict[str, Any]] = {}
+    for ent in entities:
+        if not isinstance(ent, dict):
+            continue
+        key = (
+            str(ent.get("entity") or ent.get("term") or ent.get("name") or "").lower().strip(),
+            str(ent.get("label") or "").lower().strip(),
+        )
+        if not key[0]:
+            continue
+        score = _ontology_score(ent)
+        if key not in best or score > _ontology_score(best[key]):
+            best[key] = {f: ent[f] for f in _ONTOLOGY_FIELDS if f in ent}
+
+    # Step 2: apply best mapping to every occurrence
+    for ent in entities:
+        if not isinstance(ent, dict):
+            continue
+        key = (
+            str(ent.get("entity") or ent.get("term") or ent.get("name") or "").lower().strip(),
+            str(ent.get("label") or "").lower().strip(),
+        )
+        if key in best:
+            ent.update(best[key])
+
+    return entities
+
+
 def add_provenance_to_result(
     result_dict: Dict[str, Any], container_key: str, agent_key: str
 ) -> Dict[str, Any]:

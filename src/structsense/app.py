@@ -36,6 +36,7 @@ import os
 import time
 import tracemalloc
 import asyncio
+import math
 from pathlib import Path
 from datetime import datetime
 
@@ -98,6 +99,7 @@ from utils.postprocessing import (
     # the caller because the injection block only ran for task_type == "extraction".
     inject_alignment_concept_mapping_into_ner_entities,
     _flatten_container_to_list,
+    unify_ontology_across_entities,
 )
 from .humanloop import HumanInTheLoop
 
@@ -258,6 +260,7 @@ class StructSenseFlow:
             max_extraction_chunk_chars: Optional[int] = None,
             return_full_pipeline_details: bool = False,
             stage_output_dir: Optional[str] = os.getcwd(),
+            downstream_chunk_size: Optional[int] = None,
     ):
         """Initialize StructSenseFlow with config paths and input.
 
@@ -456,6 +459,9 @@ class StructSenseFlow:
         self.enable_chunking = enable_chunking
         self.chunk_size = chunk_size or 2000  # Default chunk size
         self.max_workers = max_workers
+        # Entities per chunk for downstream parallel chunking (alignment/judge/humanfeedback).
+        # None = auto-calculate from max_workers and entity count.
+        self.downstream_chunk_size = downstream_chunk_size
         # Max input size (chars) for downstream agents (alignment, judge, humanfeedback) to avoid context limit.
         # Default ~80k chars (~20k tokens); 128k tokens ≈ 512k chars.
         self.downstream_max_input_chars = downstream_max_input_chars if downstream_max_input_chars is not None else 80_000
@@ -1297,7 +1303,18 @@ class StructSenseFlow:
                 # Option 1 (Approve): prev_output and pipeline_stages already set; no agent run
                 pass
             else:
-                # Token-based chunking for alignment/judge/humanfeedback when payload exceeds context limit
+                # Parallel chunking for alignment/judge/humanfeedback.
+                #
+                # When enable_chunking=True the downstream stages are split into
+                # ≈ max_workers parallel chunks, mirroring extraction behaviour.
+                # Chunk count = ceil(total_items / entities_per_chunk).
+                # entities_per_chunk = downstream_chunk_size  (if set explicitly)
+                #                    = ceil(total_items / max_workers)  (auto)
+                #                    = 70  (fallback when payload is empty/tiny)
+                #
+                # Token-based splitting is intentionally removed: token estimation
+                # is unreliable and the truncation fix (issue #17) already ensures
+                # full data passes through, so there is no need for a safety cap.
                 use_chunked = not is_first_stage and extra_inputs and task_key in ("alignment_task", "judge_task", "humanfeedback_task")
                 payload_key = (
                     "extracted_structured_information"
@@ -1307,16 +1324,60 @@ class StructSenseFlow:
                     else "judged_structured_information_with_human_feedback"
                 )
                 payload = extra_inputs.get(payload_key) if use_chunked else None
-                token_budget = int(self.token_limit * 0.6)
-                over_limit = isinstance(payload, dict) and self.context_manager.estimate_tokens(payload) > token_budget
-                if use_chunked and over_limit:
+
+                # Determine entities-per-chunk.
+                # Priority order for target chunk count:
+                #   1. downstream_chunk_size (explicit override — treated as entities-per-chunk)
+                #   2. _extraction_chunk_count from the extractor output (reuse same parallelism)
+                #   3. max_workers (fill all available workers)
+                _workers = self.max_workers or 4
+                _n_items = 0
+                if isinstance(payload, dict):
+                    _n_items = len(payload.get("entities") or payload.get("resources") or [])
+                # Look up how many extraction chunks ran (stored by extractor stage above)
+                _extraction_chunk_count = None
+                for _pk in pipeline_stages:
+                    _ps = pipeline_stages.get(_pk)
+                    if isinstance(_ps, dict) and "_extraction_chunk_count" in _ps:
+                        _extraction_chunk_count = _ps["_extraction_chunk_count"]
+                        break
+                if self.downstream_chunk_size:
+                    _ecs = self.downstream_chunk_size
+                elif _n_items > 0:
+                    _target_workers = _extraction_chunk_count if _extraction_chunk_count else _workers
+                    _ecs = max(50, math.ceil(_n_items / _target_workers))
+                else:
+                    _ecs = 70
+
+                # Split when enable_chunking is True and we have enough items to form > 1 chunk
+                should_chunk = (
+                    use_chunked
+                    and self.enable_chunking
+                    and isinstance(payload, dict)
+                    and _n_items > _ecs  # at least 2 chunks worth of data
+                )
+
+                if use_chunked and should_chunk:
+                    # Record entity count going IN so we can verify nothing is lost after merge.
+                    _pre_split_entities = len(payload.get("entities") or []) if isinstance(payload, dict) else 0
+                    _pre_split_resources = len(payload.get("resources") or []) if isinstance(payload, dict) else 0
+                    _chunk_size_source = (
+                        "explicit downstream_chunk_size" if self.downstream_chunk_size
+                        else f"extraction_chunk_count={_extraction_chunk_count}" if _extraction_chunk_count
+                        else f"max_workers={_workers}"
+                    )
+                    logger.info(
+                        "[%s] Splitting payload for parallel processing: %d entities, %d resources → ~%d per chunk (%s)",
+                        task_key, _pre_split_entities, _pre_split_resources, _ecs, _chunk_size_source,
+                    )
+
                     chunks = split_structured_payload(
                         payload,
                         self.context_manager,
                         token_budget,
-                        max_entities_per_chunk=70,
-                        max_key_terms_per_chunk=25,
-                        max_resources_per_chunk=15,
+                        max_entities_per_chunk=_ecs,
+                        max_key_terms_per_chunk=max(10, _ecs // 3),
+                        max_resources_per_chunk=max(5, _ecs // 10),
                     )
 
                     async def run_one_structured_chunk(chunk_payload: Dict[str, Any]) -> Dict[str, Any]:
@@ -1336,9 +1397,8 @@ class StructSenseFlow:
 
                     if len(chunks) > 1:
                         logger.info(
-                            "[%s] Running %s chunks in parallel (payload over token limit)",
-                            task_key,
-                            len(chunks),
+                            "[%s] Running %d chunks in parallel",
+                            task_key, len(chunks),
                         )
                         chunk_results = await asyncio.gather(*[run_one_structured_chunk(c) for c in chunks])
                     else:
@@ -1361,6 +1421,50 @@ class StructSenseFlow:
                             prev_output = merge_structured_chunk_results(raw_list)
                             if isinstance(prev_output, dict) and ckey:
                                 add_provenance_to_result(prev_output, ckey, agent_key)
+
+                        # Data-loss guard: verify entity/resource count after merge matches what
+                        # was sent in.  Each entity goes to exactly one chunk (slice distribution),
+                        # so the merged count must equal the pre-split count.  A lower count means
+                        # the LLM dropped entities; fall back to the best previous stage so no
+                        # data is silently lost.
+                        if isinstance(prev_output, dict):
+                            _post_merge_entities = len(prev_output.get("entities") or [])
+                            _post_merge_resources = len(prev_output.get("resources") or [])
+                            if _post_merge_entities < _pre_split_entities:
+                                logger.warning(
+                                    "[%s] Entity count dropped after parallel merge: %d → %d. "
+                                    "LLM may have omitted entities from some chunks. "
+                                    "Falling back to best available prior stage to prevent data loss.",
+                                    task_key, _pre_split_entities, _post_merge_entities,
+                                )
+                                # Recover from best available stage (extraction → alignment for judge, etc.)
+                                _fallback = None
+                                for _fkey in list(pipeline_stages.keys())[::-1]:
+                                    _fs = pipeline_stages.get(_fkey)
+                                    if isinstance(_fs, dict) and len(_fs.get("entities") or []) >= _pre_split_entities:
+                                        _fallback = _fs
+                                        logger.info("[%s] Recovered %d entities from stage '%s'", task_key, len(_fs.get("entities", [])), _fkey)
+                                        break
+                                if _fallback is not None:
+                                    # Merge: keep richer ontology/judge fields from current output,
+                                    # but restore the full entity list from fallback
+                                    from utils.downstream_agent_helper import _extend_previous_stage
+                                    prev_output = _extend_previous_stage(_fallback, prev_output)
+                                    prev_output["entities"] = _fallback.get("entities") or prev_output.get("entities") or []
+
+                        # Ontology consistency pass: parallel LLM calls may assign different
+                        # ontology IDs to the same entity text in different chunks.  Unify by
+                        # applying the best mapping (tool-backed > llm_knowledge, real IRI > N/A)
+                        # to every occurrence across all merged chunks.
+                        if isinstance(prev_output, dict):
+                            ents = prev_output.get("entities")
+                            if ents:
+                                prev_output["entities"] = unify_ontology_across_entities(ents)
+                                logger.info(
+                                    "[%s] Ontology consistency pass: %d entities unified across %d chunks",
+                                    task_key, len(ents), len(raw_list),
+                                )
+
                         pipeline_stages[task_key] = prev_output
                     else:
                         result = chunk_results[0] if chunk_results else {}
@@ -1391,6 +1495,9 @@ class StructSenseFlow:
                         merged = result_merger(result["results"], text)
                         merged = verify_merged_result(merged, text, task_type)
                         prev_output = merged
+                        # Tag extraction output with the number of chunks that ran so
+                        # downstream stages (alignment/judge) can target the same parallelism.
+                        merged["_extraction_chunk_count"] = len(result.get("results") or [1])
                         pipeline_stages[task_key] = merged
                         # Add provenance for extraction stage by default (NER and resource)
                         ext_container = self._detect_container_key(merged)

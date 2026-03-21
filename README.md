@@ -37,6 +37,7 @@ structsense-cli extract \
 | `--chunk_size` | Chunk size in characters (e.g. `2000`); used when chunking is enabled.               |
 | `--max_workers` | Max parallel workers for chunked extraction.                                         |
 | `--downstream_max_input_chars` | Max input length for alignment/judge (default 80000).                                |
+| `--downstream_chunk_size` | Entities per chunk for parallel alignment/judge/humanfeedback (auto if omitted).     |
 | `--max_extraction_chunk_chars` | Cap per-chunk size for extraction (default 25000).                                   |
 
 **With OpenRouter (API key):**
@@ -602,7 +603,7 @@ Task type is detected **once** at the extraction stage and reused for all downst
 
 ### Chunking for large documents
 
-For large PDFs, enable chunking to split the text into sentence-aligned chunks and run extraction in parallel:
+For large PDFs, enable chunking to split the text into sentence-aligned chunks and run extraction in parallel. When `enable_chunking=True`, **all pipeline stages run in parallel** — extraction, alignment, judge, and humanfeedback are all chunked and dispatched with `asyncio.gather`:
 
 ```bash
 structsense-cli extract \
@@ -619,12 +620,27 @@ Or in Python:
 flow = StructSenseFlow(
     ...
     enable_chunking=True,
-    chunk_size=2000,       # characters per chunk
-    max_workers=8,         # parallel workers
-    max_extraction_chunk_chars=25000,   # cap chunk size for model context
-    downstream_max_input_chars=80000,   # cap input to alignment/judge/humanfeedback
+    chunk_size=2000,          # characters per extraction chunk
+    max_workers=8,            # parallel workers for all stages
+    downstream_chunk_size=100,  # entities per alignment/judge chunk (auto if omitted)
 )
 ```
+
+#### How downstream parallelism works
+
+When `enable_chunking=True`, alignment/judge/humanfeedback are split into entity-count chunks and run in parallel, targeting the same number of jobs as extraction:
+
+| Parameter | Default | Effect |
+|---|---|---|
+| `downstream_chunk_size` | auto | Entities per alignment/judge chunk |
+| `max_workers` | 4 | Parallel jobs; used to auto-calculate chunk size |
+| `_extraction_chunk_count` | from extraction output | Reuses same parallelism as extraction |
+
+**Auto-calculation:** `entities_per_chunk = max(50, ceil(total_entities / extraction_chunk_count))`. For example: 800 entities, 8 extraction chunks → 100 entities/chunk → 8 parallel alignment jobs.
+
+**Ontology consistency:** After parallel alignment chunks are merged, entities with the same text may have received different ontology IDs from different LLM calls. A consistency pass unifies them: tool-backed mappings beat `llm_knowledge`, real IRIs beat `N/A`. All individual entity instances (different sentences/positions) are preserved.
+
+**Data-loss guard:** After each parallel merge, entity count is compared to the pre-split count. If any chunk caused entities to be dropped, the pipeline falls back to the richest available previous stage result.
 
 ---
 

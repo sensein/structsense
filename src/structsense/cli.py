@@ -66,6 +66,18 @@ def cli(ctx):
     help="Cap extraction chunk size in chars so chunk+prompt stays under model context (default 25000 for 128k models). None = no cap.",
 )
 @click.option(
+    "--downstream_chunk_size",
+    required=False,
+    type=int,
+    default=None,
+    help=(
+        "Entities per chunk for parallel alignment/judge/humanfeedback. "
+        "When --enable_chunking is set, downstream stages are split into chunks of this size "
+        "and run in parallel (default: auto-calculated as ceil(total_entities / max_workers)). "
+        "E.g. with 800 entities and max_workers=8, default is 100 entities/chunk = 8 parallel jobs."
+    ),
+)
+@click.option(
     "--preload_stage",
     "preload_stages",
     required=False,
@@ -90,6 +102,7 @@ def extract(
     enable_chunking,
     downstream_max_input_chars,
     max_extraction_chunk_chars,
+    downstream_chunk_size,
     preload_stages,
 ):
     """Extract the terms along with sentence using a single config file."""
@@ -143,6 +156,7 @@ def extract(
         max_workers=max_workers,
         downstream_max_input_chars=downstream_max_input_chars,
         max_extraction_chunk_chars=max_extraction_chunk_chars,
+        downstream_chunk_size=downstream_chunk_size,
     )
 
     # Run the full pipeline (extraction → alignment → judge → humanfeedback)
