@@ -207,10 +207,14 @@ def split_structured_payload(
     if n_entities == 0 and n_key_terms == 0 and n_resources == 0 and n_aligned == 0 and n_judge == 0:
         return [payload]
 
+    # n_chunks is driven by *primary work items* (entities, resources, judge_resource).
+    # key_terms are reference/context data: they must NOT inflate chunk count, because
+    # doing so creates chunks with zero entities — wasted LLM calls where the agent has
+    # nothing to score or align.  key_terms are distributed proportionally across
+    # entity-driven chunks instead.
     n_chunks = max(
         1,
         (n_entities + max_entities_per_chunk - 1) // max_entities_per_chunk if n_entities else 1,
-        (n_key_terms + max_key_terms_per_chunk - 1) // max_key_terms_per_chunk if n_key_terms else 1,
         (n_resources + max_resources_per_chunk - 1) // max_resources_per_chunk if n_resources else 1,
         (n_aligned + max_resources_per_chunk - 1) // max_resources_per_chunk if n_aligned else 1,
         (n_judge + 4) // 5 if n_judge else 1,

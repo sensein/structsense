@@ -1423,16 +1423,14 @@ class StructSenseFlow:
             else:
                 # Parallel chunking for alignment/judge/humanfeedback.
                 #
-                # When enable_chunking=True the downstream stages are split into
-                # ≈ max_workers parallel chunks, mirroring extraction behaviour.
-                # Chunk count = ceil(total_items / entities_per_chunk).
-                # entities_per_chunk = downstream_chunk_size  (if set explicitly)
-                #                    = ceil(total_items / max_workers)  (auto)
-                #                    = 70  (fallback when payload is empty/tiny)
+                # Token-aware sizing (compute_downstream_chunk_size) decides
+                # whether to split and how many chunks to use:
+                #   - payload fits in model's usable context → 1 call, no split
+                #   - payload too large → minimum chunks needed, ≤ max_workers
                 #
-                # Token-based splitting is intentionally removed: token estimation
-                # is unreliable and the truncation fix (issue #17) already ensures
-                # full data passes through, so there is no need for a safety cap.
+                # entities_per_chunk = downstream_chunk_size  (explicit override)
+                #                    = token-aware auto  (default)
+                #                    = 70  (fallback when payload is empty/tiny)
                 use_chunked = not is_first_stage and extra_inputs and task_key in ("alignment_task", "judge_task", "humanfeedback_task")
                 payload_key = (
                     "extracted_structured_information"
@@ -1526,12 +1524,26 @@ class StructSenseFlow:
                     prompt_overhead_tokens=_prompt_overhead,
                 )
 
-                # Split when enable_chunking is True and the token-aware calculation
-                # recommends chunking (payload exceeds the model's usable context
-                # after accounting for the adaptive prompt overhead).
+                # Downstream chunking is AUTOMATIC and independent of --enable_chunking.
+                #
+                # --enable_chunking controls text extraction (splitting a long PDF into
+                # parallel extraction chunks).  Downstream agent chunking (alignment,
+                # judge, humanfeedback) is purely token-driven: if the payload is too
+                # large for the model's context window it MUST be split regardless of
+                # whether the user passed --enable_chunking.
+                #
+                # Without this separation, running without --enable_chunking on a large
+                # extraction result sent the full 1.6 M-token payload in a single call
+                # to a 1 M-token model, triggering repeated 400 context-overflow errors
+                # (each retried by LiteLLM, producing 13+ failed calls per stage).
+                #
+                # Rule:
+                #   should_chunk = True  iff  token-aware sizing says the payload
+                #                             exceeds the model's usable budget.
+                #   enable_chunking      only gates whether the *extraction* stage
+                #                        itself is split; it does NOT gate downstream.
                 should_chunk = (
                     use_chunked
-                    and self.enable_chunking
                     and isinstance(payload, dict)
                     and _token_should_chunk
                 )
