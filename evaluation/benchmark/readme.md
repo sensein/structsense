@@ -5,6 +5,8 @@ This repository provides a benchmarking dataset for evaluating **StructSense**.
 The dataset includes named entity recognition (NER) annotations (test set) from two widely used biomedical corpora:
 - **NCBI Disease** dataset (disease entities)
 - **JNLPBA** dataset (gene and protein entities)
+- **BC5CDR** dataset (chemical)
+- **s800** dataset  
   
 Original dataset: [[https://drive.google.com/drive/u/3/folders/1R3_z3pv7ELtlJhwnophKEaOO0h7omjud](https://drive.google.com/drive/u/3/folders/1R3_z3pv7ELtlJhwnophKEaOO0h7omjud)](https://drive.google.com/drive/u/1/folders/11xgW5F_z6F3ePARTbNDA9InpBScIyNte)
 
