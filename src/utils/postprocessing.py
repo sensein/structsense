@@ -2593,16 +2593,47 @@ def apply_concept_mapping_to_result(
             skipped_count,
         )
 
-    # Run concept mapping in parallel
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        future_to_term = {executor.submit(_concept_map_one_term, term, tool): term for term in terms_order}
-        for future in as_completed(future_to_term):
-            term = future_to_term[future]
-            try:
-                unique_terms[term] = future.result()
-            except Exception as e:
-                logger.debug("Concept mapping task failed for %r: %s", term, e)
-                unique_terms[term] = {"ontology_id": None, "ontology_label": None, "ontology": None}
+    # Run concept mapping — single batch call for local tool, per-term parallel for BioPortal
+    if hasattr(tool, "_map_terms") and terms_order:
+        # ConceptMappingLocalTool: send all terms in one batch (handles internal sub-batching up to 4000/batch)
+        logger.info(
+            "Concept mapping: batch mode (%d unique terms, task_type=%s)", len(terms_order), task_type
+        )
+        term_objects = [{"text": term, "context": None} for term in terms_order]
+        try:
+            batch_result = tool._map_terms(term_objects, max_results=1)
+            for term in terms_order:
+                mapping = batch_result.get(term, {})
+                if isinstance(mapping, dict) and "error" not in mapping:
+                    unique_terms[term] = {
+                        "ontology_id": mapping.get("ontology_id"),
+                        "ontology_label": mapping.get("ontology_label"),
+                        "ontology": mapping.get("ontology"),
+                    }
+                else:
+                    unique_terms[term] = {"ontology_id": None, "ontology_label": None, "ontology": None}
+        except Exception as e:
+            logger.warning("Batch concept mapping failed (%s); falling back to per-term parallel", e)
+            with ThreadPoolExecutor(max_workers=max_workers) as executor:
+                future_to_term = {executor.submit(_concept_map_one_term, term, tool): term for term in terms_order}
+                for future in as_completed(future_to_term):
+                    term = future_to_term[future]
+                    try:
+                        unique_terms[term] = future.result()
+                    except Exception as exc:
+                        logger.debug("Concept mapping task failed for %r: %s", term, exc)
+                        unique_terms[term] = {"ontology_id": None, "ontology_label": None, "ontology": None}
+    else:
+        # BioPortal or other tools: parallel per-term
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            future_to_term = {executor.submit(_concept_map_one_term, term, tool): term for term in terms_order}
+            for future in as_completed(future_to_term):
+                term = future_to_term[future]
+                try:
+                    unique_terms[term] = future.result()
+                except Exception as e:
+                    logger.debug("Concept mapping task failed for %r: %s", term, e)
+                    unique_terms[term] = {"ontology_id": None, "ontology_label": None, "ontology": None}
 
     # ---- Apply mappings back (provenance = "tool" when mapping comes from Concept Mapping Tool) ----
     def _top1(val: Any) -> Any:
