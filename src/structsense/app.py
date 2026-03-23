@@ -1700,10 +1700,22 @@ class StructSenseFlow:
                             _raw = _parts[1] if len(_parts) > 1 else _raw
                             if _raw.startswith("json"):
                                 _raw = _raw[4:]
-                        _parsed = json.loads(_raw.strip())
+                        _stripped = _raw.strip()
+                        try:
+                            _parsed = json.loads(_stripped)
+                        except json.JSONDecodeError as _parse_ex:
+                            if "Extra data" in str(_parse_ex):
+                                # LLM appended trailing content after valid JSON — extract first object only
+                                _parsed, _ = json.JSONDecoder().raw_decode(_stripped)
+                                logger.debug(
+                                    "[judge_task] Direct API batch %d: recovered from 'Extra data' via raw_decode",
+                                    _batch_idx + 1,
+                                )
+                            else:
+                                raise  # truncated JSON — handled by outer except below
                         return _parsed.get(_items_key) or _ents
                     except json.JSONDecodeError as _ex:
-                        # Truncated/malformed JSON — split batch in half and retry each half
+                        # Truncated JSON (Unterminated string, Expecting value, etc.) — split batch in half
                         logger.warning(
                             "[judge_task] Direct API batch %d JSON parse error (attempt %d/%d, %d items): %s — splitting batch",
                             _batch_idx + 1, _attempt + 1, _MAX_RETRIES, len(_ents), _ex,
@@ -2266,12 +2278,27 @@ class StructSenseFlow:
                     _MAX_RETRIES = 3
                     from openai import AsyncOpenAI as _AsyncOpenAI
                     _c = _AsyncOpenAI(base_url=_base_url, api_key=_key)
+                    # Build task-aware system prompt so any natural-language feedback works
+                    # for NER, resource extraction, generic extraction, or any other task type.
+                    _hf_task = (task_type or "extraction").strip().lower()
+                    if _hf_task == "ner":
+                        _task_desc = "named entity recognition (NER)"
+                        _item_desc = "entities — fix wrong labels, update ontology mappings, revise judge remarks, add missing entities"
+                    elif _hf_task in ("resource", "structured_extraction"):
+                        _task_desc = "resource / structured extraction"
+                        _item_desc = "resources — fix wrong types, categories, ontology mappings, add missing resources"
+                    elif _hf_task == "keyphrase_extraction":
+                        _task_desc = "keyphrase extraction"
+                        _item_desc = "key terms — correct labels, ontology mappings, or add missing terms"
+                    else:
+                        _task_desc = _hf_task.replace("_", " ")
+                        _item_desc = f"{_items_key} items — apply any corrections or additions requested"
                     _sys = (
-                        "You are a neuroscience NER human feedback integration agent. "
+                        f"You are a human feedback integration agent for a {_task_desc} pipeline. "
                         f"Apply the human feedback below to every item in the \"{_items_key}\" list. "
-                        "Corrections: fix wrong labels, update ontology mappings, revise remarks. "
-                        "If the feedback says entities are missing, search the source text and "
-                        "extraction results (provided below) to find and add them. "
+                        f"Specifically: {_item_desc}. "
+                        "If the feedback indicates items are missing, search the source text and "
+                        "raw extraction output (provided below) to find and add them. "
                         "Preserve ALL existing fields that are not being corrected. "
                         f"Return ONLY valid JSON: {{\"{_items_key}\": [...]}}. No markdown, no prose."
                     )
@@ -2326,10 +2353,22 @@ class StructSenseFlow:
                             _raw = _parts[1] if len(_parts) > 1 else _raw
                             if _raw.startswith("json"):
                                 _raw = _raw[4:]
-                        _parsed = json.loads(_raw.strip())
+                        _stripped = _raw.strip()
+                        try:
+                            _parsed = json.loads(_stripped)
+                        except json.JSONDecodeError as _parse_ex:
+                            if "Extra data" in str(_parse_ex):
+                                # LLM appended trailing content after valid JSON — extract first object only
+                                _parsed, _ = json.JSONDecoder().raw_decode(_stripped)
+                                logger.debug(
+                                    "[humanfeedback_task] Direct API batch %d: recovered from 'Extra data' via raw_decode",
+                                    _batch_idx + 1,
+                                )
+                            else:
+                                raise  # truncated JSON — handled by outer except below
                         return _parsed.get(_items_key) or _ents
                     except json.JSONDecodeError as _ex:
-                        # Truncated/malformed JSON — split batch in half and retry each half
+                        # Truncated JSON (Unterminated string, Expecting value, etc.) — split batch in half
                         logger.warning(
                             "[humanfeedback_task] Direct API batch %d JSON parse error (attempt %d/%d, %d items): %s — splitting batch",
                             _batch_idx + 1, _attempt + 1, _MAX_RETRIES, len(_ents), _ex,
