@@ -1604,8 +1604,17 @@ class StructSenseFlow:
                     _dj_batch, _dj_should_batch, _dj_model,
                 )
 
-                async def _judge_entities_direct(_ents, _model, _base_url, _key, _batch_idx, _items_key):
-                    """Score a flat list of item dicts via a single direct LLM call."""
+                async def _judge_entities_direct(_ents, _model, _base_url, _key, _batch_idx, _items_key, _attempt=0):
+                    """Score a flat list of item dicts via a single direct LLM call.
+
+                    Retry policy:
+                    - JSONDecodeError (truncated output): split batch in half and recurse
+                      so each half is a smaller independent call.  Recurses down to a
+                      batch of 1 before giving up.
+                    - Other API / network errors: retry up to 3 times with exponential
+                      back-off (1 s, 2 s, 4 s).
+                    """
+                    _MAX_RETRIES = 3
                     from openai import AsyncOpenAI as _AsyncOpenAI
                     _c = _AsyncOpenAI(base_url=_base_url, api_key=_key)
                     _sys = (
@@ -1628,7 +1637,7 @@ class StructSenseFlow:
                         _dj_llm_log.info(f"[LLM CALL #{_call_n}]  (direct API — no CrewAI agent)")
                         _dj_llm_log.info(f"Agent          : {agent_key} / judge_task (direct)")
                         _dj_llm_log.info(f"Model          : {_dj_model}")
-                        _dj_llm_log.info(f"Batch          : {_batch_idx + 1}  ({len(_ents)} entities)")
+                        _dj_llm_log.info(f"Batch          : {_batch_idx + 1}  ({len(_ents)} entities, attempt {_attempt + 1})")
                         _dj_llm_log.info(f"Payload preview: {_payload[:300]}")
                         _dj_llm_log.info("=" * 70)
                         _flush_llm_logger()
@@ -1658,8 +1667,31 @@ class StructSenseFlow:
                                 _raw = _raw[4:]
                         _parsed = json.loads(_raw.strip())
                         return _parsed.get(_items_key) or _ents
+                    except json.JSONDecodeError as _ex:
+                        # Truncated/malformed JSON — split batch in half and retry each half
+                        logger.warning(
+                            "[judge_task] Direct API batch %d JSON parse error (attempt %d/%d, %d items): %s — splitting batch",
+                            _batch_idx + 1, _attempt + 1, _MAX_RETRIES, len(_ents), _ex,
+                        )
+                        if len(_ents) > 1:
+                            _mid = len(_ents) // 2
+                            _l_res, _r_res = await asyncio.gather(
+                                _judge_entities_direct(_ents[:_mid], _model, _base_url, _key, _batch_idx, _items_key, 0),
+                                _judge_entities_direct(_ents[_mid:], _model, _base_url, _key, _batch_idx, _items_key, 0),
+                            )
+                            return _l_res + _r_res
+                        logger.warning("[judge_task] Direct API single-item batch still failed — returning original item")
+                        return _ents
                     except Exception as _ex:
-                        logger.warning("[judge_task] Direct API batch error: %s", _ex)
+                        if _attempt + 1 < _MAX_RETRIES:
+                            _wait = 2 ** _attempt
+                            logger.warning(
+                                "[judge_task] Direct API batch %d error (attempt %d/%d, retry in %ds): %s",
+                                _batch_idx + 1, _attempt + 1, _MAX_RETRIES, _wait, _ex,
+                            )
+                            await asyncio.sleep(_wait)
+                            return await _judge_entities_direct(_ents, _model, _base_url, _key, _batch_idx, _items_key, _attempt + 1)
+                        logger.warning("[judge_task] Direct API batch %d failed after %d attempts: %s", _batch_idx + 1, _MAX_RETRIES, _ex)
                         return _ents
 
                 if _dj_entities and _dj_api_key:
@@ -2151,9 +2183,18 @@ class StructSenseFlow:
                 )
 
                 async def _humanfeedback_items_direct(
-                    _ents, _model, _base_url, _key, _batch_idx, _items_key, _feedback
+                    _ents, _model, _base_url, _key, _batch_idx, _items_key, _feedback, _attempt=0
                 ):
-                    """Apply human feedback to a batch of items via a direct LLM call."""
+                    """Apply human feedback to a batch of items via a direct LLM call.
+
+                    Retry policy:
+                    - JSONDecodeError (truncated output): split batch in half and recurse
+                      so each half is a smaller independent call.  Recurses down to a
+                      batch of 1 before giving up.
+                    - Other API / network errors: retry up to 3 times with exponential
+                      back-off (1 s, 2 s, 4 s).
+                    """
+                    _MAX_RETRIES = 3
                     from openai import AsyncOpenAI as _AsyncOpenAI
                     _c = _AsyncOpenAI(base_url=_base_url, api_key=_key)
                     _sys = (
@@ -2178,7 +2219,7 @@ class StructSenseFlow:
                         _hf_llm_log.info(f"[LLM CALL #{_call_n}]  (direct API — no CrewAI agent)")
                         _hf_llm_log.info(f"Agent          : {agent_key} / humanfeedback_task (direct)")
                         _hf_llm_log.info(f"Model          : {_hf_model}")
-                        _hf_llm_log.info(f"Batch          : {_batch_idx + 1}  ({len(_ents)} items)")
+                        _hf_llm_log.info(f"Batch          : {_batch_idx + 1}  ({len(_ents)} items, attempt {_attempt + 1})")
                         _hf_llm_log.info(f"Feedback       : {_feedback[:200]}")
                         _hf_llm_log.info(f"Payload preview: {json.dumps({_items_key: _ents}, ensure_ascii=False)[:300]}")
                         _hf_llm_log.info("=" * 70)
@@ -2207,8 +2248,31 @@ class StructSenseFlow:
                                 _raw = _raw[4:]
                         _parsed = json.loads(_raw.strip())
                         return _parsed.get(_items_key) or _ents
+                    except json.JSONDecodeError as _ex:
+                        # Truncated/malformed JSON — split batch in half and retry each half
+                        logger.warning(
+                            "[humanfeedback_task] Direct API batch %d JSON parse error (attempt %d/%d, %d items): %s — splitting batch",
+                            _batch_idx + 1, _attempt + 1, _MAX_RETRIES, len(_ents), _ex,
+                        )
+                        if len(_ents) > 1:
+                            _mid = len(_ents) // 2
+                            _l_res, _r_res = await asyncio.gather(
+                                _humanfeedback_items_direct(_ents[:_mid], _model, _base_url, _key, _batch_idx, _items_key, _feedback, 0),
+                                _humanfeedback_items_direct(_ents[_mid:], _model, _base_url, _key, _batch_idx, _items_key, _feedback, 0),
+                            )
+                            return _l_res + _r_res
+                        logger.warning("[humanfeedback_task] Direct API single-item batch still failed — returning original item")
+                        return _ents
                     except Exception as _ex:
-                        logger.warning("[humanfeedback_task] Direct API batch error: %s", _ex)
+                        if _attempt + 1 < _MAX_RETRIES:
+                            _wait = 2 ** _attempt
+                            logger.warning(
+                                "[humanfeedback_task] Direct API batch %d error (attempt %d/%d, retry in %ds): %s",
+                                _batch_idx + 1, _attempt + 1, _MAX_RETRIES, _wait, _ex,
+                            )
+                            await asyncio.sleep(_wait)
+                            return await _humanfeedback_items_direct(_ents, _model, _base_url, _key, _batch_idx, _items_key, _feedback, _attempt + 1)
+                        logger.warning("[humanfeedback_task] Direct API batch %d failed after %d attempts: %s", _batch_idx + 1, _MAX_RETRIES, _ex)
                         return _ents
 
                 if _hf_items and _hf_api_key:
