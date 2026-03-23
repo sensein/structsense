@@ -43,9 +43,9 @@ class DynamicAgent:
         agents_config: list[dict],
         embedder_config: dict,
         tools: list = [],
-        max_iter: int = 1,
-        max_execution_time: int = 30,
-        max_retry_limit: int = 0,
+        max_iter: int = 20,
+        max_execution_time: int = 60,
+        max_retry_limit: int = 5,
     ):
         """Initialize the builder with agent and embedder config.
 
@@ -67,11 +67,11 @@ class DynamicAgent:
             correct itself on complex tasks.
         max_execution_time : int, optional
             Maximum wall-clock seconds the agent is allowed to run before it is
-            interrupted and forced to return its current best answer.  Default 30s.
+            interrupted and forced to return its current best answer.  Default 60s.
             Set to None for no time limit.
         max_retry_limit : int, optional
             Maximum number of times the agent retries after a recoverable error
-            (e.g. tool failure, parse error).  Default 0 (no retries — fail fast).
+            (e.g. tool failure, parse error).  Default 5 (5 retries — fail fast).
         """
         self.agents_config = agents_config
         self.embedder_config = embedder_config
