@@ -1541,19 +1541,28 @@ class StructSenseFlow:
                     "[judge_task] Direct-API judge active — bypassing CrewAI agent"
                 )
 
-                # Resolve LLM config for the judge agent
+                # Resolve LLM config for the judge agent from its agent_config entry
                 _djllm = self.agent_config.get(agent_key, {}).get("llm", {})
-                if isinstance(_djllm, dict):
-                    _dj_model = _djllm.get("model") or "openai/gpt-4o-mini"
+                if isinstance(_djllm, dict) and _djllm.get("model"):
+                    _dj_model = _djllm["model"]
                     _dj_base_url = _djllm.get("base_url") or "https://openrouter.ai/api/v1"
+                    logger.info("[judge_task] Direct-API: model=%s (from agent_config[%s])", _dj_model, agent_key)
                 else:
                     _dj_model = "openai/gpt-4o-mini"
                     _dj_base_url = "https://openrouter.ai/api/v1"
+                    logger.warning(
+                        "[judge_task] Direct-API: no LLM config found for agent_key=%s — using fallback model=%s",
+                        agent_key, _dj_model,
+                    )
                 # OpenRouter expects model ID without the "openrouter/" prefix
                 if "openrouter" in _dj_base_url.lower() and _dj_model.startswith("openrouter/"):
                     _dj_model = _dj_model.replace("openrouter/", "", 1)
 
-                _dj_api_key = os.environ.get("OPENROUTER_API_KEY", "")
+                _dj_api_key = (
+                    os.environ.get("OPENROUTER_API_KEY")
+                    or os.environ.get("OPENAI_API_KEY")
+                    or ""
+                )
                 _djudged = _djcopy.deepcopy(prev_output)
                 _dj_entities = _djudged.get("entities") or []
 
@@ -2168,18 +2177,27 @@ class StructSenseFlow:
                     "[humanfeedback_task] Direct-API humanfeedback active — bypassing CrewAI agent"
                 )
 
-                # Resolve LLM config for the humanfeedback agent
+                # Resolve LLM config for the humanfeedback agent from its agent_config entry
                 _hf_llm = self.agent_config.get(agent_key, {}).get("llm", {})
-                if isinstance(_hf_llm, dict):
-                    _hf_model = _hf_llm.get("model") or "openai/gpt-4o-mini"
+                if isinstance(_hf_llm, dict) and _hf_llm.get("model"):
+                    _hf_model = _hf_llm["model"]
                     _hf_base_url = _hf_llm.get("base_url") or "https://openrouter.ai/api/v1"
+                    logger.info("[humanfeedback_task] Direct-API: model=%s (from agent_config[%s])", _hf_model, agent_key)
                 else:
                     _hf_model = "openai/gpt-4o-mini"
                     _hf_base_url = "https://openrouter.ai/api/v1"
+                    logger.warning(
+                        "[humanfeedback_task] Direct-API: no LLM config found for agent_key=%s — using fallback model=%s",
+                        agent_key, _hf_model,
+                    )
                 if "openrouter" in _hf_base_url.lower() and _hf_model.startswith("openrouter/"):
                     _hf_model = _hf_model.replace("openrouter/", "", 1)
 
-                _hf_api_key = os.environ.get("OPENROUTER_API_KEY", "")
+                _hf_api_key = (
+                    os.environ.get("OPENROUTER_API_KEY")
+                    or os.environ.get("OPENAI_API_KEY")
+                    or ""
+                )
 
                 # Extract the full judged payload and feedback text from extra_inputs
                 _hf_payload_key = "judged_structured_information_with_human_feedback"
