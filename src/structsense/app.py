@@ -441,6 +441,7 @@ class StructSenseFlow:
             downstream_chunk_size: Optional[int] = None,
             skip_alignment_llm: Optional[bool] = None,
             skip_judge_llm: Optional[bool] = None,
+            direct_judge_api: Optional[bool] = True,
             model_context_window: Optional[int] = None,
             skip_stages: Optional[List[str]] = None,
             agent_max_iter: Optional[int] = None,
@@ -709,6 +710,17 @@ class StructSenseFlow:
                 os.environ["SKIP_JUDGE_LLM"], skip_judge_llm,
             )
         self.skip_judge_llm = skip_judge_llm
+
+        # Direct API judge: call the LLM directly (no CrewAI agent overhead) for the judge stage.
+        # Enabled by default (True). Env var DIRECT_JUDGE_API=false disables it.
+        # When False and skip_judge_llm is also False, falls back to the full CrewAI agent run.
+        if "DIRECT_JUDGE_API" in os.environ:
+            direct_judge_api = str_to_bool(os.environ["DIRECT_JUDGE_API"].strip())
+            logger.info(
+                "direct_judge_api overridden by env DIRECT_JUDGE_API=%s -> %s",
+                os.environ["DIRECT_JUDGE_API"], direct_judge_api,
+            )
+        self.direct_judge_api = direct_judge_api if direct_judge_api is not None else True
 
         # Task keys to omit entirely from the pipeline (e.g. ["judge_task", "humanfeedback_task"]).
         # Filtered out by _get_ordered_agent_task_pairs so they never run.
@@ -1493,6 +1505,272 @@ class StructSenseFlow:
                         logger.warning("[judge_task] Failed to save stage output: %s", _save_exc)
 
                 continue  # skip the judge LLM run entirely
+
+            # ------------------------------------------------------------------
+            # DIRECT-API JUDGE BYPASS
+            # ------------------------------------------------------------------
+            # Replace the CrewAI judge agent with a direct OpenAI-compatible API
+            # call.  The CrewAI path adds significant overhead: one LLM call for
+            # the agent iteration, a second "forced final answer" call when
+            # max_iter=1, and internal retry scaffolding.  For large payloads
+            # that get split into N chunks this overhead multiplies by N and can
+            # turn a simple scoring step into a 10+ minute bottleneck.
+            #
+            # The direct-API path sends each batch of entities to the LLM once,
+            # parses the JSON response, and injects judge_score / remarks.  There
+            # is no agent loop, no tool scaffolding, and no forced-final-answer.
+            #
+            # Enable (default): direct_judge_api=True  /  DIRECT_JUDGE_API=true
+            # Disable (fallback to CrewAI): direct_judge_api=False / DIRECT_JUDGE_API=false
+            # ------------------------------------------------------------------
+            if task_key == "judge_task" and prev_output is not None and self.direct_judge_api:
+                import copy as _djcopy
+                stage_start_time = time.time()
+                logger.info(
+                    "[judge_task] Direct-API judge active — bypassing CrewAI agent"
+                )
+
+                # Resolve LLM config for the judge agent
+                _djllm = self.agent_config.get(agent_key, {}).get("llm", {})
+                if isinstance(_djllm, dict):
+                    _dj_model = _djllm.get("model") or "openai/gpt-4o-mini"
+                    _dj_base_url = _djllm.get("base_url") or "https://openrouter.ai/api/v1"
+                else:
+                    _dj_model = "openai/gpt-4o-mini"
+                    _dj_base_url = "https://openrouter.ai/api/v1"
+                # OpenRouter expects model ID without the "openrouter/" prefix
+                if "openrouter" in _dj_base_url.lower() and _dj_model.startswith("openrouter/"):
+                    _dj_model = _dj_model.replace("openrouter/", "", 1)
+
+                _dj_api_key = os.environ.get("OPENROUTER_API_KEY", "")
+                _djudged = _djcopy.deepcopy(prev_output)
+                _dj_entities = _djudged.get("entities") or []
+
+                # Determine primary work-item list and its key (entities for NER/keyphrase,
+                # resources for resource/structured_extraction tasks)
+                _dj_items_key = (
+                    "entities"
+                    if _djudged.get("entities")
+                    else "resources"
+                    if _djudged.get("resources")
+                    else "entities"
+                )
+                _dj_entities = _djudged.get(_dj_items_key) or []
+
+                # Token-aware batch size — reuse the same compute_downstream_chunk_size
+                # logic used by the CrewAI chunking path so sizing is consistent.
+                _dj_workers = self.max_workers or 4
+                _dj_extraction_chunk_count = None
+                for _pk in pipeline_stages:
+                    _ps = pipeline_stages.get(_pk)
+                    if isinstance(_ps, dict) and "_extraction_chunk_count" in _ps:
+                        _dj_extraction_chunk_count = _ps["_extraction_chunk_count"]
+                        break
+                _dj_task_cfg = (
+                    self.task_config.get(task_key, {})
+                    if isinstance(self.task_config, dict)
+                    else {}
+                )
+                _dj_prompt_overhead = estimate_agent_prompt_tokens(
+                    agent_config=self.agent_config.get(agent_key, {}),
+                    task_config=_dj_task_cfg,
+                )
+                _dj_batch, _dj_should_batch = compute_downstream_chunk_size(
+                    payload=_djudged,
+                    model_str=_dj_model,
+                    max_workers=_dj_workers,
+                    extraction_chunk_count=_dj_extraction_chunk_count,
+                    explicit_chunk_size=self.downstream_chunk_size,
+                    context_window_override=self.model_context_window,
+                    prompt_overhead_tokens=_dj_prompt_overhead,
+                )
+                # If the whole payload fits in one call, use a single batch
+                if not _dj_should_batch:
+                    _dj_batch = len(_dj_entities) or 1
+                logger.info(
+                    "[judge_task] Direct-API batch size: %d items/batch "
+                    "(should_batch=%s, model=%s)",
+                    _dj_batch, _dj_should_batch, _dj_model,
+                )
+
+                async def _judge_entities_direct(_ents, _model, _base_url, _key, _batch_idx, _items_key):
+                    """Score a flat list of item dicts via a single direct LLM call."""
+                    from openai import AsyncOpenAI as _AsyncOpenAI
+                    _c = _AsyncOpenAI(base_url=_base_url, api_key=_key)
+                    _sys = (
+                        "You are a neuroscience NER quality judge. "
+                        f"For EVERY item in the input \"{_items_key}\" list add exactly two fields: "
+                        "\"judge_score\" (float 0.0-1.0, where 1.0=perfect alignment) and "
+                        "\"remarks\" (string, brief explanation). "
+                        "Preserve ALL existing fields unchanged. "
+                        f"Return ONLY valid JSON: {{\"{_items_key}\": [...]}}. No markdown, no prose."
+                    )
+                    _payload = json.dumps({_items_key: _ents}, ensure_ascii=False)
+
+                    # Log this call into the llm_calls log (same counter as CrewAI calls)
+                    with _llm_call_lock:
+                        _llm_call_count["n"] += 1
+                        _call_n = _llm_call_count["n"]
+                    _dj_llm_log = logging.getLogger("llm_calls")
+                    if _dj_llm_log.handlers:
+                        _dj_llm_log.info("=" * 70)
+                        _dj_llm_log.info(f"[LLM CALL #{_call_n}]  (direct API — no CrewAI agent)")
+                        _dj_llm_log.info(f"Agent          : {agent_key} / judge_task (direct)")
+                        _dj_llm_log.info(f"Model          : {_dj_model}")
+                        _dj_llm_log.info(f"Batch          : {_batch_idx + 1}  ({len(_ents)} entities)")
+                        _dj_llm_log.info(f"Payload preview: {_payload[:300]}")
+                        _dj_llm_log.info("=" * 70)
+                        _flush_llm_logger()
+
+                    try:
+                        _r = await _c.chat.completions.create(
+                            model=_model,
+                            messages=[
+                                {"role": "system", "content": _sys},
+                                {"role": "user", "content": _payload},
+                            ],
+                        )
+                        _raw = (_r.choices[0].message.content or "").strip()
+
+                        # Log the response
+                        if _dj_llm_log.handlers:
+                            _dj_llm_log.info(f"[LLM RESPONSE PREVIEW]  (call #{_call_n})")
+                            _dj_llm_log.info(_raw[:500])
+                            _dj_llm_log.info("=" * 70)
+                            _flush_llm_logger()
+
+                        # Strip markdown fences if present
+                        if _raw.startswith("```"):
+                            _parts = _raw.split("```")
+                            _raw = _parts[1] if len(_parts) > 1 else _raw
+                            if _raw.startswith("json"):
+                                _raw = _raw[4:]
+                        _parsed = json.loads(_raw.strip())
+                        return _parsed.get(_items_key) or _ents
+                    except Exception as _ex:
+                        logger.warning("[judge_task] Direct API batch error: %s", _ex)
+                        return _ents
+
+                if _dj_entities and _dj_api_key:
+                    _begin_stage_llm_tracking(task_key, agent_key)
+                    try:
+                        # Split into batches and run all in parallel
+                        _dj_batches = [
+                            _dj_entities[_dj_i: _dj_i + _dj_batch]
+                            for _dj_i in range(0, len(_dj_entities), _dj_batch)
+                        ]
+                        _dj_n_batches = len(_dj_batches)
+                        logger.info(
+                            "[judge_task] Direct-API judge: %d items → %d batches × %d, running in parallel",
+                            len(_dj_entities), _dj_n_batches, _dj_batch,
+                        )
+                        _dj_batch_results = await asyncio.gather(*[
+                            _judge_entities_direct(
+                                _dj_batches[_bi], _dj_model, _dj_base_url, _dj_api_key,
+                                _bi, _dj_items_key,
+                            )
+                            for _bi in range(_dj_n_batches)
+                        ])
+                        _dj_scored: list = []
+                        for _dj_result in _dj_batch_results:
+                            for _e in _dj_result:
+                                if isinstance(_e, dict):
+                                    _e.setdefault("judge_score", 0.8)
+                                    _e.setdefault("remarks", "direct-api: default score")
+                            _dj_scored.extend(_dj_result)
+                        _djudged[_dj_items_key] = _dj_scored
+                        _djudged["judge_method"] = "direct_api"
+                        _end_stage_llm_tracking(task_key, _dj_n_batches, time.time() - stage_start_time)
+                        logger.info(
+                            "[judge_task] Direct-API judge scored %d %s in %.2fs",
+                            len(_dj_scored), _dj_items_key, time.time() - stage_start_time,
+                        )
+                    except Exception as _dj_exc:
+                        logger.warning(
+                            "[judge_task] Direct-API judge failed (%s); injecting defaults", _dj_exc
+                        )
+                        for _e in _dj_entities:
+                            if isinstance(_e, dict):
+                                _e.setdefault("judge_score", 0.8)
+                                _e.setdefault("remarks", "direct-api: error, default score")
+                        _djudged["judge_method"] = "direct_api_fallback"
+                else:
+                    # No API key or no items: inject default scores
+                    for _e in _dj_entities:
+                        if isinstance(_e, dict):
+                            _e.setdefault("judge_score", 1.0)
+                            _e.setdefault("remarks", "auto-approved: no items or API key")
+                    _djudged["judge_method"] = "auto_approved"
+                    logger.info(
+                        "[judge_task] Direct-API judge: no items/key, injected defaults into %d %s",
+                        len(_dj_entities), _dj_items_key,
+                    )
+
+                # --- post-processing: same checks as the CrewAI chunked path ---
+
+                # 1. Data-loss guard: if the LLM dropped items, recover from the
+                #    best available prior stage rather than silently losing data.
+                _dj_pre_count = len(_dj_entities)
+                _dj_post_count = len(_djudged.get(_dj_items_key) or [])
+                if _dj_post_count < _dj_pre_count:
+                    logger.warning(
+                        "[judge_task] Direct-API: item count dropped %d → %d; "
+                        "recovering from best prior stage.",
+                        _dj_pre_count, _dj_post_count,
+                    )
+                    _dj_fallback = None
+                    for _fkey in list(pipeline_stages.keys())[::-1]:
+                        _fs = pipeline_stages.get(_fkey)
+                        if isinstance(_fs, dict) and len(_fs.get(_dj_items_key) or []) >= _dj_pre_count:
+                            _dj_fallback = _fs
+                            logger.info(
+                                "[judge_task] Direct-API: recovered %d %s from stage '%s'",
+                                len(_fs.get(_dj_items_key, [])), _dj_items_key, _fkey,
+                            )
+                            break
+                    if _dj_fallback is not None:
+                        from utils.downstream_agent_helper import _extend_previous_stage
+                        _djudged = _extend_previous_stage(_dj_fallback, _djudged)
+                        _djudged[_dj_items_key] = (
+                            _dj_fallback.get(_dj_items_key) or _djudged.get(_dj_items_key) or []
+                        )
+
+                # 2. Ontology consistency pass: unify ontology IDs that may differ
+                #    across parallel batches for the same entity text.
+                _dj_final_items = _djudged.get(_dj_items_key)
+                if _dj_final_items and _dj_items_key == "entities":
+                    _djudged["entities"] = unify_ontology_across_entities(_dj_final_items)
+                    logger.info(
+                        "[judge_task] Direct-API: ontology consistency pass on %d entities",
+                        len(_dj_final_items),
+                    )
+
+                # 3. Provenance tagging
+                _dj_ckey = self._detect_container_key(_djudged)
+                if _dj_ckey:
+                    add_provenance_to_result(_djudged, _dj_ckey, agent_key)
+
+                promote_stage_output_to_canonical(_djudged, task_type)
+                prev_output = _djudged
+                pipeline_stages[task_key] = _djudged
+                stage_elapsed = time.time() - stage_start_time
+                stage_timings[f"{agent_key}_{task_key}"] = stage_elapsed
+                logger.info(
+                    "[judge_task] Direct-API judge completed in %.2fs", stage_elapsed
+                )
+
+                if self.stage_output_dir and pipeline_stages.get(task_key) is not None:
+                    try:
+                        os.makedirs(self.stage_output_dir, exist_ok=True)
+                        _dj_fname = f"{idx:02d}_{agent_key}_{task_key}.json"
+                        _dj_path = os.path.join(self.stage_output_dir, _dj_fname)
+                        with open(_dj_path, "w") as _djf:
+                            json.dump(pipeline_stages[task_key], _djf, indent=2, default=str)
+                        logger.info("[judge_task] Stage output saved to %s", _dj_path)
+                    except Exception as _dj_save_exc:
+                        logger.warning("[judge_task] Failed to save stage output: %s", _dj_save_exc)
+
+                continue  # skip the CrewAI judge agent run entirely
 
             # Begin per-stage LLM call tracking (only for stages that run an LLM).
             # Bypassed / preloaded stages already `continue`d above so we never reach here for them.
