@@ -442,6 +442,7 @@ class StructSenseFlow:
             skip_alignment_llm: Optional[bool] = None,
             skip_judge_llm: Optional[bool] = None,
             direct_judge_api: Optional[bool] = True,
+            direct_humanfeedback_api: Optional[bool] = True,
             model_context_window: Optional[int] = None,
             skip_stages: Optional[List[str]] = None,
             agent_max_iter: Optional[int] = None,
@@ -721,6 +722,16 @@ class StructSenseFlow:
                 os.environ["DIRECT_JUDGE_API"], direct_judge_api,
             )
         self.direct_judge_api = direct_judge_api if direct_judge_api is not None else True
+
+        # Direct API humanfeedback: same as direct_judge_api but for the humanfeedback stage.
+        # Enabled by default (True). Env var DIRECT_HUMANFEEDBACK_API=false disables it.
+        if "DIRECT_HUMANFEEDBACK_API" in os.environ:
+            direct_humanfeedback_api = str_to_bool(os.environ["DIRECT_HUMANFEEDBACK_API"].strip())
+            logger.info(
+                "direct_humanfeedback_api overridden by env DIRECT_HUMANFEEDBACK_API=%s -> %s",
+                os.environ["DIRECT_HUMANFEEDBACK_API"], direct_humanfeedback_api,
+            )
+        self.direct_humanfeedback_api = direct_humanfeedback_api if direct_humanfeedback_api is not None else True
 
         # Task keys to omit entirely from the pipeline (e.g. ["judge_task", "humanfeedback_task"]).
         # Filtered out by _get_ordered_agent_task_pairs so they never run.
@@ -2043,6 +2054,268 @@ class StructSenseFlow:
             elif task_key != "humanfeedback_task" and not is_first_stage and extra_inputs is None:
                 # For other downstream stages, extra_inputs was set above
                 pass
+
+            # ------------------------------------------------------------------
+            # DIRECT-API HUMANFEEDBACK BYPASS
+            # ------------------------------------------------------------------
+            # Replace the CrewAI humanfeedback agent with direct AsyncOpenAI
+            # calls — same pattern as direct_judge_api.
+            #
+            # Only fires when:
+            #   - task_key == "humanfeedback_task"
+            #   - humanfeedback_approved_skip_run is False (user did not already
+            #     approve/abort — those paths are handled above and set continue)
+            #   - extra_inputs has been prepared (feedback_text + judge output)
+            #   - self.direct_humanfeedback_api is True (default)
+            #
+            # Enable (default): direct_humanfeedback_api=True / DIRECT_HUMANFEEDBACK_API=true
+            # Disable (fallback to CrewAI): direct_humanfeedback_api=False / DIRECT_HUMANFEEDBACK_API=false
+            # ------------------------------------------------------------------
+            if (
+                task_key == "humanfeedback_task"
+                and not humanfeedback_approved_skip_run
+                and extra_inputs is not None
+                and prev_output is not None
+                and self.direct_humanfeedback_api
+            ):
+                import copy as _hfcopy
+                stage_start_time = time.time()
+                logger.info(
+                    "[humanfeedback_task] Direct-API humanfeedback active — bypassing CrewAI agent"
+                )
+
+                # Resolve LLM config for the humanfeedback agent
+                _hf_llm = self.agent_config.get(agent_key, {}).get("llm", {})
+                if isinstance(_hf_llm, dict):
+                    _hf_model = _hf_llm.get("model") or "openai/gpt-4o-mini"
+                    _hf_base_url = _hf_llm.get("base_url") or "https://openrouter.ai/api/v1"
+                else:
+                    _hf_model = "openai/gpt-4o-mini"
+                    _hf_base_url = "https://openrouter.ai/api/v1"
+                if "openrouter" in _hf_base_url.lower() and _hf_model.startswith("openrouter/"):
+                    _hf_model = _hf_model.replace("openrouter/", "", 1)
+
+                _hf_api_key = os.environ.get("OPENROUTER_API_KEY", "")
+
+                # Extract the full judged payload and feedback text from extra_inputs
+                _hf_payload_key = "judged_structured_information_with_human_feedback"
+                _hf_judged = _hfcopy.deepcopy(
+                    extra_inputs.get(_hf_payload_key) or prev_output
+                )
+                _hf_feedback = (
+                    extra_inputs.get("user_feedback_text")
+                    or extra_inputs.get("modification_context")
+                    or "No specific feedback provided."
+                )
+
+                # Determine primary work-item list and key
+                _hf_items_key = (
+                    "entities" if _hf_judged.get("entities")
+                    else "resources" if _hf_judged.get("resources")
+                    else "entities"
+                )
+                _hf_items = _hf_judged.get(_hf_items_key) or []
+
+                # Token-aware batch sizing — same logic as judge and CrewAI chunked path
+                _hf_workers = self.max_workers or 4
+                _hf_extraction_chunk_count = None
+                for _pk in pipeline_stages:
+                    _ps = pipeline_stages.get(_pk)
+                    if isinstance(_ps, dict) and "_extraction_chunk_count" in _ps:
+                        _hf_extraction_chunk_count = _ps["_extraction_chunk_count"]
+                        break
+                _hf_task_cfg = (
+                    self.task_config.get(task_key, {})
+                    if isinstance(self.task_config, dict)
+                    else {}
+                )
+                _hf_prompt_overhead = estimate_agent_prompt_tokens(
+                    agent_config=self.agent_config.get(agent_key, {}),
+                    task_config=_hf_task_cfg,
+                )
+                _hf_batch, _hf_should_batch = compute_downstream_chunk_size(
+                    payload=_hf_judged,
+                    model_str=_hf_model,
+                    max_workers=_hf_workers,
+                    extraction_chunk_count=_hf_extraction_chunk_count,
+                    explicit_chunk_size=self.downstream_chunk_size,
+                    context_window_override=self.model_context_window,
+                    prompt_overhead_tokens=_hf_prompt_overhead,
+                )
+                if not _hf_should_batch:
+                    _hf_batch = len(_hf_items) or 1
+                logger.info(
+                    "[humanfeedback_task] Direct-API batch size: %d items/batch "
+                    "(should_batch=%s, model=%s)",
+                    _hf_batch, _hf_should_batch, _hf_model,
+                )
+
+                async def _humanfeedback_items_direct(
+                    _ents, _model, _base_url, _key, _batch_idx, _items_key, _feedback
+                ):
+                    """Apply human feedback to a batch of items via a direct LLM call."""
+                    from openai import AsyncOpenAI as _AsyncOpenAI
+                    _c = _AsyncOpenAI(base_url=_base_url, api_key=_key)
+                    _sys = (
+                        "You are a neuroscience NER human feedback integration agent. "
+                        f"Apply the human feedback below to every item in the \"{_items_key}\" list. "
+                        "Corrections: fix wrong labels, update ontology mappings, revise remarks. "
+                        "Preserve ALL existing fields that are not being corrected. "
+                        f"Return ONLY valid JSON: {{\"{_items_key}\": [...]}}. No markdown, no prose."
+                    )
+                    _user_msg = (
+                        f"Human feedback:\n{_feedback}\n\n"
+                        f"Data:\n{json.dumps({_items_key: _ents}, ensure_ascii=False)}"
+                    )
+
+                    # Log into llm_calls log (same counter as CrewAI calls)
+                    with _llm_call_lock:
+                        _llm_call_count["n"] += 1
+                        _call_n = _llm_call_count["n"]
+                    _hf_llm_log = logging.getLogger("llm_calls")
+                    if _hf_llm_log.handlers:
+                        _hf_llm_log.info("=" * 70)
+                        _hf_llm_log.info(f"[LLM CALL #{_call_n}]  (direct API — no CrewAI agent)")
+                        _hf_llm_log.info(f"Agent          : {agent_key} / humanfeedback_task (direct)")
+                        _hf_llm_log.info(f"Model          : {_hf_model}")
+                        _hf_llm_log.info(f"Batch          : {_batch_idx + 1}  ({len(_ents)} items)")
+                        _hf_llm_log.info(f"Feedback       : {_feedback[:200]}")
+                        _hf_llm_log.info(f"Payload preview: {json.dumps({_items_key: _ents}, ensure_ascii=False)[:300]}")
+                        _hf_llm_log.info("=" * 70)
+                        _flush_llm_logger()
+
+                    try:
+                        _r = await _c.chat.completions.create(
+                            model=_model,
+                            messages=[
+                                {"role": "system", "content": _sys},
+                                {"role": "user", "content": _user_msg},
+                            ],
+                        )
+                        _raw = (_r.choices[0].message.content or "").strip()
+
+                        if _hf_llm_log.handlers:
+                            _hf_llm_log.info(f"[LLM RESPONSE PREVIEW]  (call #{_call_n})")
+                            _hf_llm_log.info(_raw[:500])
+                            _hf_llm_log.info("=" * 70)
+                            _flush_llm_logger()
+
+                        if _raw.startswith("```"):
+                            _parts = _raw.split("```")
+                            _raw = _parts[1] if len(_parts) > 1 else _raw
+                            if _raw.startswith("json"):
+                                _raw = _raw[4:]
+                        _parsed = json.loads(_raw.strip())
+                        return _parsed.get(_items_key) or _ents
+                    except Exception as _ex:
+                        logger.warning("[humanfeedback_task] Direct API batch error: %s", _ex)
+                        return _ents
+
+                if _hf_items and _hf_api_key:
+                    _begin_stage_llm_tracking(task_key, agent_key)
+                    try:
+                        _hf_batches = [
+                            _hf_items[_hf_i: _hf_i + _hf_batch]
+                            for _hf_i in range(0, len(_hf_items), _hf_batch)
+                        ]
+                        _hf_n_batches = len(_hf_batches)
+                        logger.info(
+                            "[humanfeedback_task] Direct-API: %d items → %d batches × %d, running in parallel",
+                            len(_hf_items), _hf_n_batches, _hf_batch,
+                        )
+                        _hf_batch_results = await asyncio.gather(*[
+                            _humanfeedback_items_direct(
+                                _hf_batches[_bi], _hf_model, _hf_base_url, _hf_api_key,
+                                _bi, _hf_items_key, _hf_feedback,
+                            )
+                            for _bi in range(_hf_n_batches)
+                        ])
+                        _hf_revised: list = []
+                        for _hf_result in _hf_batch_results:
+                            _hf_revised.extend(_hf_result)
+                        _hf_judged[_hf_items_key] = _hf_revised
+                        _hf_judged["humanfeedback_method"] = "direct_api"
+                        _end_stage_llm_tracking(task_key, _hf_n_batches, time.time() - stage_start_time)
+                        logger.info(
+                            "[humanfeedback_task] Direct-API revised %d %s in %.2fs",
+                            len(_hf_revised), _hf_items_key, time.time() - stage_start_time,
+                        )
+                    except Exception as _hf_exc:
+                        logger.warning(
+                            "[humanfeedback_task] Direct-API failed (%s); keeping judge output unchanged", _hf_exc
+                        )
+                        _hf_judged["humanfeedback_method"] = "direct_api_fallback"
+                else:
+                    # No API key or no items: pass judge output through unchanged
+                    _hf_judged["humanfeedback_method"] = "direct_api_passthrough"
+                    logger.info(
+                        "[humanfeedback_task] Direct-API: no items/key — passing judge output through (%d %s)",
+                        len(_hf_items), _hf_items_key,
+                    )
+
+                # --- post-processing: same checks as the CrewAI chunked path ---
+
+                # 1. Data-loss guard
+                _hf_pre_count = len(_hf_items)
+                _hf_post_count = len(_hf_judged.get(_hf_items_key) or [])
+                if _hf_post_count < _hf_pre_count:
+                    logger.warning(
+                        "[humanfeedback_task] Direct-API: item count dropped %d → %d; "
+                        "recovering from best prior stage.",
+                        _hf_pre_count, _hf_post_count,
+                    )
+                    _hf_fallback = None
+                    for _fkey in list(pipeline_stages.keys())[::-1]:
+                        _fs = pipeline_stages.get(_fkey)
+                        if isinstance(_fs, dict) and len(_fs.get(_hf_items_key) or []) >= _hf_pre_count:
+                            _hf_fallback = _fs
+                            logger.info(
+                                "[humanfeedback_task] Direct-API: recovered %d %s from stage '%s'",
+                                len(_fs.get(_hf_items_key, [])), _hf_items_key, _fkey,
+                            )
+                            break
+                    if _hf_fallback is not None:
+                        from utils.downstream_agent_helper import _extend_previous_stage
+                        _hf_judged = _extend_previous_stage(_hf_fallback, _hf_judged)
+                        _hf_judged[_hf_items_key] = (
+                            _hf_fallback.get(_hf_items_key) or _hf_judged.get(_hf_items_key) or []
+                        )
+
+                # 2. Ontology consistency pass
+                _hf_final_items = _hf_judged.get(_hf_items_key)
+                if _hf_final_items and _hf_items_key == "entities":
+                    _hf_judged["entities"] = unify_ontology_across_entities(_hf_final_items)
+                    logger.info(
+                        "[humanfeedback_task] Direct-API: ontology consistency pass on %d entities",
+                        len(_hf_final_items),
+                    )
+
+                # 3. Provenance tagging
+                _hf_ckey = self._detect_container_key(_hf_judged)
+                if _hf_ckey:
+                    add_provenance_to_result(_hf_judged, _hf_ckey, agent_key)
+
+                promote_stage_output_to_canonical(_hf_judged, task_type)
+                prev_output = _hf_judged
+                pipeline_stages[task_key] = _hf_judged
+                stage_elapsed = time.time() - stage_start_time
+                stage_timings[f"{agent_key}_{task_key}"] = stage_elapsed
+                logger.info(
+                    "[humanfeedback_task] Direct-API completed in %.2fs", stage_elapsed
+                )
+
+                if self.stage_output_dir and pipeline_stages.get(task_key) is not None:
+                    try:
+                        os.makedirs(self.stage_output_dir, exist_ok=True)
+                        _hf_fname = f"{idx:02d}_{agent_key}_{task_key}.json"
+                        _hf_path = os.path.join(self.stage_output_dir, _hf_fname)
+                        with open(_hf_path, "w") as _hff:
+                            json.dump(pipeline_stages[task_key], _hff, indent=2, default=str)
+                        logger.info("[humanfeedback_task] Stage output saved to %s", _hf_path)
+                    except Exception as _hf_save_exc:
+                        logger.warning("[humanfeedback_task] Failed to save stage output: %s", _hf_save_exc)
+
+                continue  # skip the CrewAI humanfeedback agent run entirely
 
             # Downstream stages: chunk merged result → process chunks in parallel → merge (avoids context-length errors)
             # Only when stage_text is used (not token-managed alignment/judge/humanfeedback) and over char limit
