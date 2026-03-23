@@ -1598,6 +1598,41 @@ class StructSenseFlow:
                 # If the whole payload fits in one call, use a single batch
                 if not _dj_should_batch:
                     _dj_batch = len(_dj_entities) or 1
+
+                # ── Direct-API output-size guard ─────────────────────────────
+                # compute_downstream_chunk_size only checks INPUT token fit.
+                # For judge/humanfeedback the OUTPUT is the same size as the
+                # input (all items echoed back + small added fields), so the
+                # model's output token limit can be hit even when the input fits.
+                #
+                # Two caps applied (take the stricter of the two):
+                #
+                #  1. Output token cap: estimate tokens/item from payload size;
+                #     cap batch so expected output ≤ DIRECT_API_MAX_OUTPUT_TOKENS.
+                #     Default 32 768 — safe for models with 32 k output limit.
+                #
+                #  2. Min-chunks: always split into at least DIRECT_API_MIN_CHUNKS
+                #     parallel batches regardless of token math (default 8).
+                #     This avoids a single giant call even on very large models.
+                _dj_out_cap = int(os.environ.get("DIRECT_API_MAX_OUTPUT_TOKENS", "32768"))
+                _dj_min_chunks = int(os.environ.get("DIRECT_API_MIN_CHUNKS", "8"))
+                _dj_n_items = len(_dj_entities) or 1
+                # tokens/item ≈ chars/item (1 char ≈ 1 token for structured JSON)
+                _dj_tok_per_item = max(1, len(json.dumps(_djudged, ensure_ascii=False)) / _dj_n_items)
+                _dj_out_capped = max(1, int(_dj_out_cap / _dj_tok_per_item))
+                _dj_min_chunk_batch = max(1, math.ceil(_dj_n_items / _dj_min_chunks))
+                _dj_effective = min(_dj_batch, _dj_out_capped, _dj_min_chunk_batch)
+                if _dj_effective < _dj_batch:
+                    logger.info(
+                        "[judge_task] Direct-API output guard: output_cap=%d tok "
+                        "(%.1f tok/item → max %d items), min_chunks=%d (→ max %d items) "
+                        "→ batch %d → %d items",
+                        _dj_out_cap, _dj_tok_per_item, _dj_out_capped,
+                        _dj_min_chunks, _dj_min_chunk_batch,
+                        _dj_batch, _dj_effective,
+                    )
+                _dj_batch = _dj_effective
+
                 logger.info(
                     "[judge_task] Direct-API batch size: %d items/batch "
                     "(should_batch=%s, model=%s)",
@@ -2176,6 +2211,26 @@ class StructSenseFlow:
                 )
                 if not _hf_should_batch:
                     _hf_batch = len(_hf_items) or 1
+
+                # ── Direct-API output-size guard (same logic as judge) ───────
+                _hf_out_cap = int(os.environ.get("DIRECT_API_MAX_OUTPUT_TOKENS", "32768"))
+                _hf_min_chunks = int(os.environ.get("DIRECT_API_MIN_CHUNKS", "8"))
+                _hf_n_items = len(_hf_items) or 1
+                _hf_tok_per_item = max(1, len(json.dumps(_hf_judged, ensure_ascii=False)) / _hf_n_items)
+                _hf_out_capped = max(1, int(_hf_out_cap / _hf_tok_per_item))
+                _hf_min_chunk_batch = max(1, math.ceil(_hf_n_items / _hf_min_chunks))
+                _hf_effective = min(_hf_batch, _hf_out_capped, _hf_min_chunk_batch)
+                if _hf_effective < _hf_batch:
+                    logger.info(
+                        "[humanfeedback_task] Direct-API output guard: output_cap=%d tok "
+                        "(%.1f tok/item → max %d items), min_chunks=%d (→ max %d items) "
+                        "→ batch %d → %d items",
+                        _hf_out_cap, _hf_tok_per_item, _hf_out_capped,
+                        _hf_min_chunks, _hf_min_chunk_batch,
+                        _hf_batch, _hf_effective,
+                    )
+                _hf_batch = _hf_effective
+
                 logger.info(
                     "[humanfeedback_task] Direct-API batch size: %d items/batch "
                     "(should_batch=%s, model=%s)",
