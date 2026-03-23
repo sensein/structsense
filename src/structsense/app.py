@@ -2107,6 +2107,9 @@ class StructSenseFlow:
                     if not isinstance(judge_output, dict):
                         judge_output = prev_output if isinstance(prev_output, dict) else {}
                     alignment_for_human = pipeline_stages.get("alignment_task")  # for helper's merge when needed
+                    # Extraction output — gives humanfeedback agent access to entities that
+                    # survived extraction but were dropped during alignment/judge.
+                    _hf_extraction_out = pipeline_stages.get("extraction_task")
                     logger.info(f"[{agent_key}] Preparing token-managed input for humanfeedback agent")
                     managed_input = prepare_humanfeedback_agent_input(
                         judge_results=judge_output,
@@ -2115,6 +2118,8 @@ class StructSenseFlow:
                         agent_context=self.agent_context,
                         context_manager=self.context_manager,
                         max_tokens=self.token_limit,
+                        original_text=text,
+                        extraction_results=_hf_extraction_out,
                     )
                     extra_inputs = managed_input
                     stage_text = None
@@ -2174,6 +2179,10 @@ class StructSenseFlow:
                     or extra_inputs.get("modification_context")
                     or "No specific feedback provided."
                 )
+                # Source text and extraction output — passed so the LLM can find entities
+                # missed by earlier stages when the user reports a low entity count.
+                _hf_source_text = extra_inputs.get("source_text") or ""
+                _hf_extraction_out = extra_inputs.get("extraction_results")
 
                 # Determine primary work-item list and key
                 _hf_items_key = (
@@ -2238,9 +2247,14 @@ class StructSenseFlow:
                 )
 
                 async def _humanfeedback_items_direct(
-                    _ents, _model, _base_url, _key, _batch_idx, _items_key, _feedback, _attempt=0
+                    _ents, _model, _base_url, _key, _batch_idx, _items_key, _feedback,
+                    _source_text="", _extraction_out=None, _attempt=0
                 ):
                     """Apply human feedback to a batch of items via a direct LLM call.
+
+                    Also receives the original source text and raw extraction output so
+                    the LLM can find entities missed by earlier stages when the user
+                    reports a low entity count.
 
                     Retry policy:
                     - JSONDecodeError (truncated output): split batch in half and recurse
@@ -2256,13 +2270,24 @@ class StructSenseFlow:
                         "You are a neuroscience NER human feedback integration agent. "
                         f"Apply the human feedback below to every item in the \"{_items_key}\" list. "
                         "Corrections: fix wrong labels, update ontology mappings, revise remarks. "
+                        "If the feedback says entities are missing, search the source text and "
+                        "extraction results (provided below) to find and add them. "
                         "Preserve ALL existing fields that are not being corrected. "
                         f"Return ONLY valid JSON: {{\"{_items_key}\": [...]}}. No markdown, no prose."
                     )
-                    _user_msg = (
-                        f"Human feedback:\n{_feedback}\n\n"
-                        f"Data:\n{json.dumps({_items_key: _ents}, ensure_ascii=False)}"
-                    )
+                    # Build user message: feedback + optional source context + current items
+                    _user_parts = [f"Human feedback:\n{_feedback}"]
+                    if _source_text:
+                        _user_parts.append(f"Source text (for finding missing entities):\n{_source_text[:20_000]}")
+                    if _extraction_out and isinstance(_extraction_out, dict):
+                        _ext_items = _extraction_out.get(_items_key) or []
+                        if _ext_items:
+                            _user_parts.append(
+                                f"Raw extraction output (may contain entities dropped by later stages):\n"
+                                f"{json.dumps({_items_key: _ext_items[:100]}, ensure_ascii=False)}"
+                            )
+                    _user_parts.append(f"Current data to revise:\n{json.dumps({_items_key: _ents}, ensure_ascii=False)}")
+                    _user_msg = "\n\n".join(_user_parts)
 
                     # Log into llm_calls log (same counter as CrewAI calls)
                     with _llm_call_lock:
@@ -2312,8 +2337,8 @@ class StructSenseFlow:
                         if len(_ents) > 1:
                             _mid = len(_ents) // 2
                             _l_res, _r_res = await asyncio.gather(
-                                _humanfeedback_items_direct(_ents[:_mid], _model, _base_url, _key, _batch_idx, _items_key, _feedback, 0),
-                                _humanfeedback_items_direct(_ents[_mid:], _model, _base_url, _key, _batch_idx, _items_key, _feedback, 0),
+                                _humanfeedback_items_direct(_ents[:_mid], _model, _base_url, _key, _batch_idx, _items_key, _feedback, _source_text, _extraction_out, 0),
+                                _humanfeedback_items_direct(_ents[_mid:], _model, _base_url, _key, _batch_idx, _items_key, _feedback, _source_text, _extraction_out, 0),
                             )
                             return _l_res + _r_res
                         logger.warning("[humanfeedback_task] Direct API single-item batch still failed — returning original item")
@@ -2326,7 +2351,7 @@ class StructSenseFlow:
                                 _batch_idx + 1, _attempt + 1, _MAX_RETRIES, _wait, _ex,
                             )
                             await asyncio.sleep(_wait)
-                            return await _humanfeedback_items_direct(_ents, _model, _base_url, _key, _batch_idx, _items_key, _feedback, _attempt + 1)
+                            return await _humanfeedback_items_direct(_ents, _model, _base_url, _key, _batch_idx, _items_key, _feedback, _source_text, _extraction_out, _attempt + 1)
                         logger.warning("[humanfeedback_task] Direct API batch %d failed after %d attempts: %s", _batch_idx + 1, _MAX_RETRIES, _ex)
                         return _ents
 
@@ -2346,6 +2371,7 @@ class StructSenseFlow:
                             _humanfeedback_items_direct(
                                 _hf_batches[_bi], _hf_model, _hf_base_url, _hf_api_key,
                                 _bi, _hf_items_key, _hf_feedback,
+                                _hf_source_text, _hf_extraction_out,
                             )
                             for _bi in range(_hf_n_batches)
                         ])

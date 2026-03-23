@@ -129,7 +129,9 @@ def prepare_humanfeedback_agent_input(
     alignment_results: Optional[Dict[str, Any]] = None,
     agent_context: Optional[AgentContext] = None,
     context_manager: Optional[ContextWindowManager] = None,
-    max_tokens: Optional[int] = None
+    max_tokens: Optional[int] = None,
+    original_text: Optional[str] = None,
+    extraction_results: Optional[Dict[str, Any]] = None,
 ) -> Dict[str, Any]:
     """
     Prepare input for human feedback agent with token limit management.
@@ -143,6 +145,12 @@ def prepare_humanfeedback_agent_input(
         agent_context: Optional AgentContext
         context_manager: Optional ContextWindowManager
         max_tokens: Maximum tokens
+        original_text: The original source text fed into the pipeline. Included so the
+            humanfeedback LLM can discover entities that were missed by earlier stages
+            when the user reports a low entity count.
+        extraction_results: Raw extraction stage output. Included so the humanfeedback
+            LLM can recover entities that were present after extraction but dropped
+            during alignment or judging.
 
     Returns:
         Prepared input dictionary for human feedback agent
@@ -171,6 +179,16 @@ def prepare_humanfeedback_agent_input(
         "modification_context": user_feedback,
         "compression_applied": False,
     }
+
+    # Include source text so the agent can find entities missed by earlier stages.
+    # Truncate to 50 k chars to avoid overwhelming the context window.
+    if original_text:
+        humanfeedback_input["source_text"] = original_text[:50_000]
+
+    # Include raw extraction output so the agent can recover entities dropped during
+    # alignment or judging (e.g. items that existed in extraction but not in judge output).
+    if extraction_results and isinstance(extraction_results, dict):
+        humanfeedback_input["extraction_results"] = extraction_results
 
     if agent_context:
         judge_metadata = agent_context.get_latest_result("judge_agent")
