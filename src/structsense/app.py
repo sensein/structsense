@@ -37,6 +37,7 @@ import time
 import tracemalloc
 import asyncio
 import math
+import threading
 from pathlib import Path
 from datetime import datetime
 
@@ -66,6 +67,7 @@ os.environ["CREWAI_DISABLE_INTERACTIVE"] = "true"
 os.environ["CREWAI_TELEMETRY_OPT_OUT"] = "true"
 
 from crewai import Crew, Process
+from crewai.hooks import before_llm_call, after_llm_call
 from dotenv import load_dotenv
 
 from utils.utils import (
@@ -182,6 +184,116 @@ def setup_timing_logger():
     timing_logger.propagate = False
 
     return timing_logger, str(timing_log_file)
+
+
+# ---------------------------------------------------------------------------
+# LLM call tracking — separate log file per run, thread-safe counter
+# ---------------------------------------------------------------------------
+_llm_call_count = {"n": 0}
+_llm_call_lock = threading.Lock()
+
+
+def setup_llm_call_logger() -> tuple:
+    """Set up a dedicated logger that records every LLM call made by CrewAI.
+
+    Creates ``llm_call_logs/llm_calls_YYYYMMDD_HHMMSS.log`` in the current
+    working directory. Also resets the global call counter so each pipeline
+    run starts from #1.
+
+    Returns
+    -------
+    tuple[logging.Logger, str]
+        The configured logger and the absolute path to the log file.
+    """
+    log_dir = Path(os.getcwd()) / "llm_call_logs"
+    log_dir.mkdir(exist_ok=True)
+
+    log_file = log_dir / f"llm_calls_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+
+    llm_logger = logging.getLogger("llm_calls")
+    llm_logger.setLevel(logging.INFO)
+
+    # Remove any handlers left from a previous run
+    for handler in llm_logger.handlers[:]:
+        llm_logger.removeHandler(handler)
+
+    # delay=False opens the file immediately so the first flush has a real fd
+    file_handler = logging.FileHandler(log_file, delay=False)
+    file_handler.setLevel(logging.INFO)
+    file_handler.setFormatter(logging.Formatter("%(asctime)s - %(message)s"))
+    llm_logger.addHandler(file_handler)
+
+    # Avoid duplicating records in the root logger
+    llm_logger.propagate = False
+
+    # Reset counter for this run
+    with _llm_call_lock:
+        _llm_call_count["n"] = 0
+
+    return llm_logger, str(log_file)
+
+
+def _flush_llm_logger() -> None:
+    """Flush all handlers of the llm_calls logger to disk immediately."""
+    for h in logging.getLogger("llm_calls").handlers:
+        h.flush()
+
+
+@before_llm_call
+def _on_before_llm_call(context):
+    """Hook: log every LLM call before it is dispatched.
+
+    Increments the global call counter (thread-safe) and writes a structured
+    record — agent role, task description, iteration number, message count,
+    and a preview of the last message — to the ``llm_calls`` logger.
+    Flushes to disk immediately so the file is readable as the pipeline runs.
+    """
+    with _llm_call_lock:
+        _llm_call_count["n"] += 1
+        n = _llm_call_count["n"]
+
+    llm_logger = logging.getLogger("llm_calls")
+    if not llm_logger.handlers:
+        return None  # Logger not yet configured; silently skip
+
+    agent_role = getattr(getattr(context, "agent", None), "role", "unknown")
+    task_desc = str(getattr(getattr(context, "task", None), "description", "unknown"))
+    iteration = getattr(context, "iterations", "unknown")
+    messages = getattr(context, "messages", [])
+
+    llm_logger.info("=" * 70)
+    llm_logger.info(f"[LLM CALL #{n}]")
+    llm_logger.info(f"Agent     : {agent_role}")
+    llm_logger.info(f"Task      : {task_desc[:120]}")
+    llm_logger.info(f"Iteration : {iteration}")
+    llm_logger.info(f"Messages  : {len(messages)}")
+    if messages:
+        last_msg = messages[-1]
+        llm_logger.info(f"Last msg role    : {last_msg.get('role')}")
+        llm_logger.info(f"Last msg preview : {str(last_msg.get('content', ''))[:300]}")
+    _flush_llm_logger()
+
+    return None  # Allow the LLM call to proceed unchanged
+
+
+@after_llm_call
+def _on_after_llm_call(context):
+    """Hook: log the LLM response preview after each call completes.
+
+    Flushes to disk immediately so the file is readable while the pipeline
+    is still running.
+    """
+    llm_logger = logging.getLogger("llm_calls")
+    if not llm_logger.handlers:
+        return None
+
+    response = getattr(context, "response", None)
+    llm_logger.info("[LLM RESPONSE PREVIEW]")
+    llm_logger.info(str(response)[:500] if response else "No response found on context.")
+    llm_logger.info("=" * 70)
+    _flush_llm_logger()
+
+    return None  # Keep the original response unchanged
 
 
 class ConfigError(Exception):
@@ -464,6 +576,8 @@ class StructSenseFlow:
             raise ConfigError(f"Failed to load configurations: {str(e)}")
 
         setup_monitoring()
+        _, llm_call_log_file = setup_llm_call_logger()
+        logger.info("LLM call tracking log: %s", llm_call_log_file)
 
         # Crew memory (long/short/entity) is off by default; not recommended with local models.
         # Set ENABLE_CREW_MEMORY=true to enable (requires embedder_config, e.g. Ollama).
@@ -2100,6 +2214,18 @@ class StructSenseFlow:
                     logger.warning("[stage_output] Failed to write stage file: %s", _se)
 
         elapsed_time = time.time() - start_time
+
+        # Log total LLM call count for this run
+        with _llm_call_lock:
+            total_llm_calls = _llm_call_count["n"]
+        llm_call_logger = logging.getLogger("llm_calls")
+        if llm_call_logger.handlers:
+            llm_call_logger.info("=" * 70)
+            llm_call_logger.info(f"PIPELINE COMPLETE — total LLM calls this run: {total_llm_calls}")
+            llm_call_logger.info(f"Total elapsed time: {elapsed_time:.2f}s ({elapsed_time/60:.2f} minutes)")
+            llm_call_logger.info("=" * 70)
+            _flush_llm_logger()
+        logger.info("Total LLM calls this run: %d", total_llm_calls)
 
         # Log token usage statistics
         total_tokens = self.agent_context.get_total_tokens()
