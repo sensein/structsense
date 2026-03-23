@@ -49,7 +49,7 @@ import logging
 import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import Dict, Any, List, Callable, Optional, Tuple
-from collections import defaultdict
+from collections import defaultdict, Counter
 
 from .text_chunking import (
     _globalize_entities,
@@ -1411,9 +1411,11 @@ def _normalize_span_for_compare(s: str) -> str:
 
 
 def verify_resource_result(merged_result: Dict[str, Any], full_text: str) -> Dict[str, Any]:
-    """
-    Verify resource merged result: optionally check that resource names or
-    description snippets appear in full_text (soft check). Attaches verification metadata.
+    """Verify resource extraction: check that each resource name is grounded in the source text.
+
+    Resources whose name cannot be found in the source are dropped and recorded in
+    ``verification.resources_dropped_detail``.  Mention items (datasets, models, tools, etc.)
+    inside each kept resource are also filtered to those whose name appears in the source.
     """
     if not full_text or not isinstance(merged_result, dict):
         return merged_result
@@ -1422,14 +1424,16 @@ def verify_resource_result(merged_result: Dict[str, Any], full_text: str) -> Dic
     if not resources:
         merged_result["verification"] = {
             "resources_checked": 0,
-            "resources_with_text_grounding": 0,
-            "all_present": True,
+            "resources_present": 0,
+            "resources_dropped": 0,
+            "resources_dropped_detail": [],
+            "all_resources_present_in_text": True,
         }
         return merged_result
 
-    # Check each resource: name/description (scalar or first from list) present in text
-    checked = 0
-    grounded = 0
+    kept: List[Dict[str, Any]] = []
+    dropped: List[Dict[str, Any]] = []
+
     for res in resources:
         if not isinstance(res, dict):
             continue
@@ -1438,36 +1442,131 @@ def verify_resource_result(merged_result: Dict[str, Any], full_text: str) -> Dic
             name = (name[0] or "").strip() if name else ""
         else:
             name = (name or "").strip()
-        desc = res.get("description")
-        if isinstance(desc, list):
-            desc = (desc[0] or "").strip() if desc else ""
-        else:
-            desc = (desc or "").strip()
-        if name or desc:
-            checked += 1
-            if name and name.lower() in text_lower:
-                grounded += 1
-            elif desc and len(desc) > 20 and desc[:50].lower() in text_lower:
-                grounded += 1
-            elif not name and not desc:
-                grounded += 1
-            else:
-                grounded += 1  # soft: count as present if we have name/desc
 
-    merged_result["verification"] = {
-        "resources_checked": checked,
-        "resources_with_text_grounding": grounded,
-        "all_present": grounded >= checked if checked else True,
+        if not name:
+            # No name — cannot ground; drop
+            dropped.append({**res, "reason": "no_name"})
+            continue
+
+        if name.lower() not in text_lower:
+            dropped.append({**res, "reason": "name_not_in_source"})
+            logger.info("Resource verifier: dropped %r — name not found in source text", name)
+            continue
+
+        # Name is grounded — also filter mention lists to items present in source
+        cleaned = dict(res)
+        mentions = res.get("mentions") or {}
+        if isinstance(mentions, dict):
+            filtered_mentions: Dict[str, Any] = {}
+            for cat, items in mentions.items():
+                if isinstance(items, list):
+                    # Items can be plain strings or dicts with a "name" key
+                    grounded_items = []
+                    for item in items:
+                        if isinstance(item, dict):
+                            item_name = (item.get("name") or "").strip()
+                        else:
+                            item_name = str(item).strip()
+                        if item_name and item_name.lower() in text_lower:
+                            grounded_items.append(item)
+                        elif not item_name:
+                            grounded_items.append(item)  # keep if no text to check
+                    filtered_mentions[cat] = grounded_items
+                else:
+                    filtered_mentions[cat] = items
+            cleaned["mentions"] = filtered_mentions
+        kept.append(cleaned)
+
+    verification = {
+        "resources_checked": len(kept) + len(dropped),
+        "resources_present": len(kept),
+        "resources_dropped": len(dropped),
+        "resources_dropped_detail": dropped,
+        "all_resources_present_in_text": len(dropped) == 0,
     }
-    return merged_result
+    if dropped:
+        logger.info(
+            "Resource verifier: dropped %d resource(s) not grounded in source text; kept %d",
+            len(dropped), len(kept),
+        )
+
+    out = {**merged_result, "resources": kept, "verification": verification}
+    return out
+
+
+# Candidate field names (in priority order) used to find the text of a generic extracted item.
+_GENERIC_TEXT_FIELDS = ("text", "term", "phrase", "keyword", "name", "value", "label", "entity")
+
+
+def _generic_item_text(item: Any) -> str:
+    """Return the best text representation of a generic extracted item."""
+    if isinstance(item, str):
+        return item.strip()
+    if isinstance(item, dict):
+        for field in _GENERIC_TEXT_FIELDS:
+            val = item.get(field)
+            if val and isinstance(val, str) and val.strip():
+                return val.strip()
+    return ""
 
 
 def verify_generic_result(merged_result: Dict[str, Any], full_text: str) -> Dict[str, Any]:
-    """Pass-through verifier for generic extraction (no strict text grounding)."""
-    if not isinstance(merged_result, dict):
+    """Verify generic extraction: drop items whose text is not grounded in the source.
+
+    Walks every list value in the result (the container key is task-defined).
+    Items with no detectable text field are kept (cannot verify).
+    """
+    if not full_text or not isinstance(merged_result, dict):
+        if isinstance(merged_result, dict):
+            merged_result.setdefault("verification", {"all_present": True})
         return merged_result
-    merged_result.setdefault("verification", {"all_present": True, "note": "generic_no_verification"})
-    return merged_result
+
+    text_lower = full_text.lower()
+    out = dict(merged_result)
+    total_checked = total_kept = total_dropped = 0
+    all_dropped_detail: List[Dict[str, Any]] = []
+
+    for key, val in merged_result.items():
+        if key in {"errors", "task_type", "elapsed_time", "verification", "metadata", "human_feedback_skipped"}:
+            continue
+        if not isinstance(val, list):
+            continue
+
+        kept: List[Any] = []
+        for item in val:
+            item_text = _generic_item_text(item)
+            if not item_text:
+                kept.append(item)  # no text to check — keep
+                continue
+            total_checked += 1
+            if item_text.lower() in text_lower:
+                kept.append(item)
+                total_kept += 1
+            else:
+                total_dropped += 1
+                detail = {"container": key, "reason": "text_not_in_source"}
+                if isinstance(item, dict):
+                    detail.update(item)
+                else:
+                    detail["text"] = item_text
+                all_dropped_detail.append(detail)
+
+        out[key] = kept
+
+    if total_dropped:
+        logger.info(
+            "Generic verifier: dropped %d item(s) not grounded in source text; kept %d",
+            total_dropped, total_kept,
+        )
+
+    out["verification"] = {
+        "items_checked": total_checked,
+        "items_present": total_kept,
+        "items_dropped": total_dropped,
+        "items_dropped_detail": all_dropped_detail,
+        "all_present_in_text": total_dropped == 0,
+    }
+    return out
 
 
 def verify_merged_result(
@@ -2010,11 +2109,12 @@ def normalize_final_result_for_output(final: Dict[str, Any], task_type: str) -> 
             resources = _flatten_container_to_list(resources) if isinstance(resources, dict) else []
         if not resources and isinstance(final.get("resource"), dict) and _looks_like_resource(final["resource"]):
             resources = [final["resource"]]
+        cleaned_resources = [_clean_resource_for_export(r) for r in resources]
         out = {
             "errors": final.get("errors", []),
             "task_type": final.get("task_type", task_type),
             "elapsed_time": final.get("elapsed_time"),
-            "resources": resources,
+            "resources": cleaned_resources,
             "verification": final.get("verification", {}),
         }
         if final.get("human_feedback_skipped") is not None:
@@ -2766,6 +2866,99 @@ def apply_concept_mapping_to_result(
                 _resource_strip_flat_ontology_fields(res)
 
     return result
+
+
+# ============================================================
+# RESOURCE CLEAN OUTPUT FOR EXPORT
+# ============================================================
+
+def _mode_of(vals: List[Any]) -> Optional[str]:
+    """Return the most common non-empty string value from a list, or None."""
+    flat = [s for v in vals if v is not None for s in (str(v).strip(),) if s]
+    if not flat:
+        return None
+    return Counter(flat).most_common(1)[0][0]
+
+
+def _best_description(vals: Any) -> str:
+    """Pick the longest unique non-empty description from an array (passthrough if string)."""
+    if isinstance(vals, str):
+        return vals.strip()
+    if not isinstance(vals, list):
+        return str(vals).strip() if vals else ""
+    unique = list(dict.fromkeys(s for v in vals if v for s in (str(v).strip(),) if s))
+    return max(unique, key=len) if unique else ""
+
+
+def _clean_resource_for_export(res: Dict[str, Any]) -> Dict[str, Any]:
+    """Produce a clean, deduplicated resource dict for final output.
+
+    Parallel extraction chunks produce array-valued scalar fields (name, type,
+    category, description, target, specific_target).  This function collapses
+    each of those arrays to a single canonical value, merges
+    ``mentions_with_ontology`` as the canonical ``mentions`` (dropping the
+    duplicate flat-string ``mentions``), removes empty list fields, and strips
+    internal provenance bookkeeping from the exported record.
+    """
+    if not isinstance(res, dict):
+        return res
+
+    out = dict(res)  # shallow copy — do not mutate caller's dict
+
+    # resource_name → name (resource_name is the chunk-level key; name is the canonical export key)
+    if "resource_name" in out and "name" not in out:
+        out["name"] = out.pop("resource_name")
+    else:
+        out.pop("resource_name", None)
+
+    name_val = out.get("name")
+    if isinstance(name_val, list):
+        unique_names = list(dict.fromkeys(s for v in name_val if v for s in (str(v).strip(),) if s))
+        out["name"] = unique_names[0] if unique_names else ""
+
+    desc_val = out.get("description")
+    if isinstance(desc_val, list):
+        out["description"] = _best_description(desc_val)
+
+    for field in ("type", "category", "target", "specific_target"):
+        val = out.get(field)
+        if isinstance(val, list):
+            picked = _mode_of(val)
+            if picked is not None:
+                out[field] = picked
+            else:
+                out.pop(field, None)
+
+    # mentions_with_ontology is the richer canonical form (name + ontology fields per mention);
+    # replace the flat-string mentions dict with it when available.
+    mwo = out.get("mentions_with_ontology")
+    if isinstance(mwo, dict) and mwo:
+        out["mentions"] = mwo
+    out.pop("mentions_with_ontology", None)
+
+    for key in list(out.keys()):
+        if isinstance(out[key], list) and not out[key]:
+            out.pop(key)
+
+    out.pop("provenance", None)
+
+    return out
+
+
+def clean_resource_output_for_export(result: Dict[str, Any]) -> Dict[str, Any]:
+    """Apply :func:`_clean_resource_for_export` to every resource in *result*.
+
+    Returns a new dict with cleaned resources; the original is not modified.
+    Safe to call on any result shape — non-resource results pass through.
+    """
+    if not isinstance(result, dict):
+        return result
+    resources = result.get("resources")
+    if not isinstance(resources, list):
+        return result
+    out = dict(result)
+    out["resources"] = [_clean_resource_for_export(r) for r in resources]
+    return out
 
 
 # ============================================================
