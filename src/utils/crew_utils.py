@@ -598,7 +598,9 @@ def run_crew_extraction(
                         tools=agent.tools.copy() if hasattr(agent.tools, 'copy') else agent.tools,
                         allow_delegation=agent.allow_delegation if hasattr(agent, 'allow_delegation') else False,
                         verbose=agent.verbose if hasattr(agent, 'verbose') else False,
-                        max_iter=agent.max_iter if hasattr(agent, 'max_iter') else 20,
+                        max_iter=agent.max_iter if hasattr(agent, 'max_iter') else 1,
+                        max_execution_time=agent.max_execution_time if hasattr(agent, 'max_execution_time') else 30,
+                        max_retry_limit=agent.max_retry_limit if hasattr(agent, 'max_retry_limit') else 0,
                     )
                     new_agents.append(new_agent)
                 except Exception as agent_error:
@@ -936,7 +938,9 @@ async def run_crew_extraction_async(
                         tools=agent.tools.copy() if hasattr(agent.tools, 'copy') else agent.tools,
                         allow_delegation=agent.allow_delegation if hasattr(agent, 'allow_delegation') else False,
                         verbose=agent.verbose if hasattr(agent, 'verbose') else False,
-                        max_iter=agent.max_iter if hasattr(agent, 'max_iter') else 20,
+                        max_iter=agent.max_iter if hasattr(agent, 'max_iter') else 1,
+                        max_execution_time=agent.max_execution_time if hasattr(agent, 'max_execution_time') else 30,
+                        max_retry_limit=agent.max_retry_limit if hasattr(agent, 'max_retry_limit') else 0,
                     )
                     new_agents.append(new_agent)
                 except Exception as agent_error:
@@ -1145,6 +1149,8 @@ def initialize_agent_and_task(
     tools: List = None,
     pydantic_output: Optional[Any] = None,
     max_iter: Optional[int] = None,
+    max_execution_time: Optional[int] = None,
+    max_retry_limit: Optional[int] = None,
 ) -> Tuple[Optional[Agent], Optional[Task]]:
     """Initialize an agent and its associated task from configuration dictionaries.
 
@@ -1156,9 +1162,9 @@ def initialize_agent_and_task(
         embedder_config: Optional embedder configuration
         tools: Optional list of tools for the agent
         pydantic_output: Optional Pydantic class for structured output
-        max_iter: Maximum reasoning iterations per agent run (default: CrewAI built-in
-            default of 20).  Lower values reduce cost/latency; higher values give the
-            agent more attempts on complex tasks.
+        max_iter: Maximum reasoning iterations per agent run.
+        max_execution_time: Maximum wall-clock seconds per agent run (None = use DynamicAgent default).
+        max_retry_limit: Maximum agent-level retries on recoverable errors (None = use DynamicAgent default).
 
     Returns:
         Tuple containing the initialized (agent, task), or (None, None) if initialization fails
@@ -1177,8 +1183,7 @@ def initialize_agent_and_task(
         if agent_key == "alignment_agent" and (tools or []):
             _inject_alignment_concept_mapping_instruction(task_cfg)
 
-        # Build agent kwargs; only pass max_iter when explicitly set so CrewAI's own
-        # default (20) applies when the caller has not specified a value.
+        # Only pass values that were explicitly set; DynamicAgent defaults apply otherwise.
         _agent_kwargs = dict(
             agents_config=agent_config[agent_key],
             embedder_config=embedder_config or {},
@@ -1186,6 +1191,10 @@ def initialize_agent_and_task(
         )
         if max_iter is not None:
             _agent_kwargs["max_iter"] = max_iter
+        if max_execution_time is not None:
+            _agent_kwargs["max_execution_time"] = max_execution_time
+        if max_retry_limit is not None:
+            _agent_kwargs["max_retry_limit"] = max_retry_limit
 
         agent_init = DynamicAgent(**_agent_kwargs)
         

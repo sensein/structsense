@@ -127,6 +127,29 @@ def cli(ctx):
     ),
 )
 @click.option(
+    "--agent_max_execution_time",
+    required=False,
+    type=int,
+    default=None,
+    help=(
+        "Maximum wall-clock seconds each CrewAI agent is allowed to run before it is "
+        "interrupted and forced to return its current best answer. Default: 30s. "
+        "Set to a larger value for complex tasks. "
+        "Can also be set via env var AGENT_MAX_EXECUTION_TIME=<int>."
+    ),
+)
+@click.option(
+    "--agent_max_retry_limit",
+    required=False,
+    type=int,
+    default=None,
+    help=(
+        "Maximum number of times each CrewAI agent retries after a recoverable error "
+        "(e.g. tool failure, parse error). Default: 0 (fail fast). "
+        "Can also be set via env var AGENT_MAX_RETRY_LIMIT=<int>."
+    ),
+)
+@click.option(
     "--preload_stage",
     "preload_stages",
     required=False,
@@ -174,6 +197,8 @@ def extract(
     downstream_chunk_size,
     model_context_window,
     agent_max_iter,
+    agent_max_execution_time,
+    agent_max_retry_limit,
     preload_stages,
     skip_stages,
 ):
@@ -240,6 +265,8 @@ def extract(
         ),
         skip_stages=list(skip_stages) if skip_stages else None,
         agent_max_iter=agent_max_iter,
+        agent_max_execution_time=agent_max_execution_time,
+        agent_max_retry_limit=agent_max_retry_limit,
     )
 
     # Run the full pipeline (extraction → alignment → judge → humanfeedback)
@@ -302,6 +329,36 @@ def extract(
     default=None,
     help="Cap extraction chunk size in chars for model context (default 25000). None = no cap.",
 )
+@click.option(
+    "--agent_max_iter",
+    required=False,
+    type=int,
+    default=None,
+    help=(
+        "Maximum reasoning iterations per agent run before forced answer. "
+        "Can also be set via env var AGENT_MAX_ITER=<int>."
+    ),
+)
+@click.option(
+    "--agent_max_execution_time",
+    required=False,
+    type=int,
+    default=None,
+    help=(
+        "Maximum wall-clock seconds per agent run before forced answer. Default: 30s. "
+        "Can also be set via env var AGENT_MAX_EXECUTION_TIME=<int>."
+    ),
+)
+@click.option(
+    "--agent_max_retry_limit",
+    required=False,
+    type=int,
+    default=None,
+    help=(
+        "Maximum agent-level retries on recoverable errors. Default: 0. "
+        "Can also be set via env var AGENT_MAX_RETRY_LIMIT=<int>."
+    ),
+)
 def run_agent(
     config,
     agent_key,
@@ -316,6 +373,9 @@ def run_agent(
     enable_chunking,
     downstream_max_input_chars,
     max_extraction_chunk_chars,
+    agent_max_iter,
+    agent_max_execution_time,
+    agent_max_retry_limit,
 ):
     """Run a specific agent-task combination directly with full control.
 
@@ -372,6 +432,9 @@ def run_agent(
         max_workers=max_workers,
         downstream_max_input_chars=downstream_max_input_chars,
         max_extraction_chunk_chars=max_extraction_chunk_chars,
+        agent_max_iter=agent_max_iter,
+        agent_max_execution_time=agent_max_execution_time,
+        agent_max_retry_limit=agent_max_retry_limit,
     )
 
     # Run the specific agent-task directly

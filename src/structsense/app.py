@@ -191,6 +191,8 @@ def setup_timing_logger():
 # ---------------------------------------------------------------------------
 _llm_call_count = {"n": 0}
 _llm_call_lock = threading.Lock()
+# Per-stage tracking: task_key → {start_n, agent_key, n_chunks, calls, calls_per_chunk, elapsed}
+_llm_stage_tracker: Dict[str, Dict[str, Any]] = {}
 
 
 def setup_llm_call_logger() -> tuple:
@@ -239,6 +241,59 @@ def _flush_llm_logger() -> None:
         h.flush()
 
 
+def _begin_stage_llm_tracking(task_key: str, agent_key: str) -> None:
+    """Snapshot the current call count so the stage delta can be computed later."""
+    with _llm_call_lock:
+        _llm_stage_tracker[task_key] = {
+            "agent_key": agent_key,
+            "start_n": _llm_call_count["n"],
+        }
+
+
+def _end_stage_llm_tracking(task_key: str, n_chunks: int, stage_elapsed: float) -> None:
+    """Compute and log per-stage call summary immediately when a stage finishes.
+
+    Logs to the ``llm_calls`` log file (real-time flush) and to the main logger.
+    Formula: total_calls = number_of_chunks × calls_per_chunk
+    """
+    tracker = _llm_stage_tracker.get(task_key)
+    if not tracker:
+        return
+
+    with _llm_call_lock:
+        current_n = _llm_call_count["n"]
+
+    stage_calls = current_n - tracker["start_n"]
+    calls_per_chunk = stage_calls / n_chunks if n_chunks > 0 else 0
+    agent_key = tracker.get("agent_key", "unknown")
+
+    # Store for final summary
+    tracker.update({
+        "n_chunks": n_chunks,
+        "calls": stage_calls,
+        "calls_per_chunk": calls_per_chunk,
+        "elapsed": stage_elapsed,
+    })
+
+    llm_logger = logging.getLogger("llm_calls")
+    if llm_logger.handlers:
+        llm_logger.info("-" * 70)
+        llm_logger.info(f"[STAGE COMPLETE] {agent_key} / {task_key}")
+        llm_logger.info(f"  Chunks          : {n_chunks}")
+        llm_logger.info(f"  LLM calls       : {stage_calls}")
+        llm_logger.info(f"  Calls/chunk     : {calls_per_chunk:.1f}  "
+                        f"(= {n_chunks} chunks × {calls_per_chunk:.1f} calls/chunk)")
+        llm_logger.info(f"  Stage elapsed   : {stage_elapsed:.1f}s")
+        llm_logger.info(f"  Running total   : {current_n} calls so far this run")
+        llm_logger.info("-" * 70)
+        _flush_llm_logger()
+
+    logger.info(
+        "[llm_tracking] %s/%s: %d chunks × %.1f calls/chunk = %d LLM calls (%.1fs)",
+        agent_key, task_key, n_chunks, calls_per_chunk, stage_calls, stage_elapsed,
+    )
+
+
 @before_llm_call
 def _on_before_llm_call(context):
     """Hook: log every LLM call before it is dispatched.
@@ -256,17 +311,22 @@ def _on_before_llm_call(context):
     if not llm_logger.handlers:
         return None  # Logger not yet configured; silently skip
 
-    agent_role = getattr(getattr(context, "agent", None), "role", "unknown")
+    _agent_obj = getattr(context, "agent", None)
+    agent_role = getattr(_agent_obj, "role", "unknown")
+    agent_max_iter = getattr(_agent_obj, "max_iter", "unknown")
+    agent_max_exec_time = getattr(_agent_obj, "max_execution_time", "unknown")
+    agent_max_retry = getattr(_agent_obj, "max_retry_limit", "unknown")
     task_desc = str(getattr(getattr(context, "task", None), "description", "unknown"))
     iteration = getattr(context, "iterations", "unknown")
     messages = getattr(context, "messages", [])
 
     llm_logger.info("=" * 70)
     llm_logger.info(f"[LLM CALL #{n}]")
-    llm_logger.info(f"Agent     : {agent_role}")
-    llm_logger.info(f"Task      : {task_desc[:120]}")
-    llm_logger.info(f"Iteration : {iteration}")
-    llm_logger.info(f"Messages  : {len(messages)}")
+    llm_logger.info(f"Agent          : {agent_role}")
+    llm_logger.info(f"max_iter       : {agent_max_iter}  |  max_execution_time: {agent_max_exec_time}s  |  max_retry_limit: {agent_max_retry}")
+    llm_logger.info(f"Task           : {task_desc[:120]}")
+    llm_logger.info(f"Iteration      : {iteration}")
+    llm_logger.info(f"Messages       : {len(messages)}")
     if messages:
         last_msg = messages[-1]
         llm_logger.info(f"Last msg role    : {last_msg.get('role')}")
@@ -384,6 +444,8 @@ class StructSenseFlow:
             model_context_window: Optional[int] = None,
             skip_stages: Optional[List[str]] = None,
             agent_max_iter: Optional[int] = None,
+            agent_max_execution_time: Optional[int] = None,
+            agent_max_retry_limit: Optional[int] = None,
     ):
         """Initialize StructSenseFlow with config paths and input.
 
@@ -673,6 +735,24 @@ class StructSenseFlow:
                     os.environ["AGENT_MAX_ITER"],
                 )
         self.agent_max_iter: Optional[int] = agent_max_iter
+
+        # Max wall-clock seconds per agent run. Env var AGENT_MAX_EXECUTION_TIME=<int>.
+        if "AGENT_MAX_EXECUTION_TIME" in os.environ:
+            try:
+                agent_max_execution_time = int(os.environ["AGENT_MAX_EXECUTION_TIME"])
+                logger.info("agent_max_execution_time overridden by env AGENT_MAX_EXECUTION_TIME=%d", agent_max_execution_time)
+            except ValueError:
+                logger.warning("AGENT_MAX_EXECUTION_TIME env var is not a valid integer (%r) — ignoring", os.environ["AGENT_MAX_EXECUTION_TIME"])
+        self.agent_max_execution_time: Optional[int] = agent_max_execution_time
+
+        # Max agent-level retries on recoverable errors. Env var AGENT_MAX_RETRY_LIMIT=<int>.
+        if "AGENT_MAX_RETRY_LIMIT" in os.environ:
+            try:
+                agent_max_retry_limit = int(os.environ["AGENT_MAX_RETRY_LIMIT"])
+                logger.info("agent_max_retry_limit overridden by env AGENT_MAX_RETRY_LIMIT=%d", agent_max_retry_limit)
+            except ValueError:
+                logger.warning("AGENT_MAX_RETRY_LIMIT env var is not a valid integer (%r) — ignoring", os.environ["AGENT_MAX_RETRY_LIMIT"])
+        self.agent_max_retry_limit: Optional[int] = agent_max_retry_limit
 
         # User-supplied model context window override (tokens). When set, overrides the
         # auto-detected value from model_context.py for all downstream chunk sizing.
@@ -1414,6 +1494,11 @@ class StructSenseFlow:
 
                 continue  # skip the judge LLM run entirely
 
+            # Begin per-stage LLM call tracking (only for stages that run an LLM).
+            # Bypassed / preloaded stages already `continue`d above so we never reach here for them.
+            _begin_stage_llm_tracking(task_key, agent_key)
+            _stage_n_chunks = 1  # updated to len(chunks) if the stage is split
+
             if is_first_stage:
                 # First stage: source text, chunking, post-processing, merger
                 stage_text = text
@@ -1886,6 +1971,7 @@ class StructSenseFlow:
                         max_key_terms_per_chunk=max(10, _ecs // 3),
                         max_resources_per_chunk=max(5, _ecs // 10),
                     )
+                    _stage_n_chunks = len(chunks)
 
                     async def run_one_structured_chunk(chunk_payload: Dict[str, Any]) -> Dict[str, Any]:
                         chunk_inputs = {**extra_inputs, payload_key: chunk_payload}
@@ -2182,6 +2268,7 @@ class StructSenseFlow:
             stage_elapsed = time.time() - stage_start_time
             stage_timings[f"{agent_key}_{task_key}"] = stage_elapsed
             logger.info(f"[{agent_key}] Completed in {stage_elapsed:.2f}s")
+            _end_stage_llm_tracking(task_key, _stage_n_chunks, stage_elapsed)
 
             # -----------------------------------------------------------------------
             # Persist stage output to disk immediately after completion.
@@ -2221,8 +2308,20 @@ class StructSenseFlow:
         llm_call_logger = logging.getLogger("llm_calls")
         if llm_call_logger.handlers:
             llm_call_logger.info("=" * 70)
-            llm_call_logger.info(f"PIPELINE COMPLETE — total LLM calls this run: {total_llm_calls}")
-            llm_call_logger.info(f"Total elapsed time: {elapsed_time:.2f}s ({elapsed_time/60:.2f} minutes)")
+            llm_call_logger.info("PIPELINE COMPLETE")
+            llm_call_logger.info(f"  Total LLM calls : {total_llm_calls}")
+            llm_call_logger.info(f"  Total elapsed   : {elapsed_time:.1f}s ({elapsed_time/60:.2f} min)")
+            if _llm_stage_tracker:
+                llm_call_logger.info("")
+                llm_call_logger.info(f"  {'Stage':<30} {'Chunks':>6}  {'Calls':>5}  {'Calls/chunk':>11}  {'Elapsed':>8}")
+                llm_call_logger.info(f"  {'-'*30}  {'-'*6}  {'-'*5}  {'-'*11}  {'-'*8}")
+                for _sk, _sv in _llm_stage_tracker.items():
+                    if "calls" in _sv:
+                        llm_call_logger.info(
+                            f"  {_sk:<30} {_sv['n_chunks']:>6}  {_sv['calls']:>5}  "
+                            f"{_sv['calls_per_chunk']:>10.1f}x  {_sv['elapsed']:>7.1f}s"
+                        )
+                llm_call_logger.info(f"  {'TOTAL':<30} {'':>6}  {total_llm_calls:>5}")
             llm_call_logger.info("=" * 70)
             _flush_llm_logger()
         logger.info("Total LLM calls this run: %d", total_llm_calls)
@@ -2655,6 +2754,11 @@ class StructSenseFlow:
         Uses the robust initialization from crew_utils. Tools are chosen
         dynamically from the detected task type (only NER/keyphrase get tools).
         """
+        _extra_agent_kwargs: Dict[str, Any] = {}
+        if self.agent_max_execution_time is not None:
+            _extra_agent_kwargs["max_execution_time"] = self.agent_max_execution_time
+        if self.agent_max_retry_limit is not None:
+            _extra_agent_kwargs["max_retry_limit"] = self.agent_max_retry_limit
         return initialize_agent_and_task(
             agent_config=self.agent_config,
             task_config=self.task_config,
@@ -2664,6 +2768,7 @@ class StructSenseFlow:
             tools=tools if tools is not None else [],
             pydantic_output=pydantic_output_class,
             max_iter=self.agent_max_iter,
+            **_extra_agent_kwargs,
         )
 
 
