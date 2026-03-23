@@ -43,7 +43,9 @@ class DynamicAgent:
         agents_config: list[dict],
         embedder_config: dict,
         tools: list = [],
-        max_iter: int = 20,
+        max_iter: int = 1,
+        max_execution_time: int = 30,
+        max_retry_limit: int = 0,
     ):
         """Initialize the builder with agent and embedder config.
 
@@ -63,11 +65,20 @@ class DynamicAgent:
             Lower values (e.g. 3–5) reduce cost and latency for straightforward
             extraction tasks; higher values give the agent more attempts to
             correct itself on complex tasks.
+        max_execution_time : int, optional
+            Maximum wall-clock seconds the agent is allowed to run before it is
+            interrupted and forced to return its current best answer.  Default 30s.
+            Set to None for no time limit.
+        max_retry_limit : int, optional
+            Maximum number of times the agent retries after a recoverable error
+            (e.g. tool failure, parse error).  Default 0 (no retries — fail fast).
         """
         self.agents_config = agents_config
         self.embedder_config = embedder_config
         self.tools = tools
         self.max_iter = max_iter
+        self.max_execution_time = max_execution_time
+        self.max_retry_limit = max_retry_limit
 
     def build_agent(self) -> Agent:
         """Build and return a single CrewAI agent from the stored config.
@@ -93,10 +104,13 @@ class DynamicAgent:
             backstory=agent_backstory,
             llm=LLM(**llm_config),
             embedder=embedder_config,
+            respect_context_window=True,
             tools=self.tools,
             allow_delegation=False,
             verbose=True,
             max_iter=self.max_iter,
+            max_execution_time=self.max_execution_time,
+            max_retry_limit=self.max_retry_limit,
         )
 
         return agent
