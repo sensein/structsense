@@ -64,3 +64,19 @@ The following papers were used to evaluate the pipeline:
 
 - [Latent Circuit Inference from Heterogeneous Neural Responses During Cognitive Tasks](https://www.nature.com/articles/s41593-025-01869-7)  
   Result directory: `latent-circuit-inference`
+
+## Command Used to Run `structsense`
+
+Make sure to replace placeholders such as `outputfile`, `config_name.yaml`, `input_pdf.pdf`, and the API key with appropriate values.
+
+```bash
+structsense-cli extract \
+  --env_file .env \
+  --save_file outputfile.json \
+  --chunk_size 600 \
+  --max_workers 8 \
+  --enable_chunking \
+  --config config_name.yaml \
+  --source input_pdf.pdf \
+  --api_key sk-<your_api_key>
+```
