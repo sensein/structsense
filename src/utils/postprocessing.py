@@ -48,7 +48,7 @@ See Also
 import logging
 import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from typing import Dict, Any, List, Callable, Optional, Tuple
+from typing import Dict, Any, List, Callable, Optional, Tuple, cast
 from collections import defaultdict, Counter
 
 from .text_chunking import (
@@ -584,46 +584,35 @@ def _collect_resources_from_value(value: Any) -> List[Dict[str, Any]]:
 
 
 def _extract_resources_from_raw(raw_result: Dict[str, Any]) -> List[Dict[str, Any]]:
-    """
-    Extract a flat list of resource-like dicts from raw LLM output.
-    Tries known container keys first; if none found, scans the dict for any resource-like objects.
+    """Extract a flat list of resource-like dicts from raw LLM output.
+
+    Tries known container keys first (``extracted_resources``, ``resources``,
+    ``resource``); for each, delegates to :func:`_collect_resources_from_value`
+    so any nesting shape is handled:
+
+    - ``extracted_resources: {"1": [{...}]}``   — dict-of-lists  ✓
+    - ``extracted_resources: [{...}]``           — bare list      ✓
+    - ``extracted_resources: {...}``             — bare resource  ✓
+    - ``resources: [{...}]``                     — list           ✓
+    - ``resources: {"1": [{...}]}``              — dict-of-lists  ✓
+    - ``resource: {...}``                        — single dict    ✓
+
+    Falls back to a full heuristic scan when no known key matches.
     """
     if not isinstance(raw_result, dict):
         return []
 
-    # 1) Known keys (order: most specific first)
+    # Known keys first — _collect_resources_from_value handles any shape
     for key in RESOURCE_EXTRACTION_CONTAINER_KEYS:
-        if key not in raw_result:
-            continue
-        val = raw_result[key]
+        val = raw_result.get(key)
         if val is None:
             continue
-        if key == "resource":
-            if isinstance(val, dict) and _looks_like_resource(val):
-                return [val]
-            continue
-        if key == "resources" and isinstance(val, list):
-            items = [x for x in val if isinstance(x, dict) and _looks_like_resource(x)]
-            if items:
-                return items
-            continue
-        if key == "extracted_resources" and isinstance(val, dict):
-            all_items: List[Dict[str, Any]] = []
-            for _k, v in val.items():
-                if isinstance(v, list):
-                    all_items.extend(x for x in v if isinstance(x, dict) and _looks_like_resource(x))
-                elif isinstance(v, dict) and _looks_like_resource(v):
-                    all_items.append(v)
-            if all_items:
-                return all_items
-            continue
+        items = _collect_resources_from_value(val)
+        if items:
+            return items
 
-    # 2) Heuristic: scan top-level and one level of nesting for resource-like dicts
-    collected = _collect_resources_from_value(raw_result)
-    if collected:
-        return collected
-
-    return []
+    # Heuristic fallback: scan the whole result for resource-like dicts
+    return _collect_resources_from_value(raw_result)
 
 
 def _scalar_str(val: Any) -> str:
@@ -992,16 +981,46 @@ def merge_resource_results(
 # Used for both NER and resource (and other) tasks; each item only gets fields it actually has.
 PROVENANCE_AGENT_FIELDS: Dict[str, List[str]] = {
     "extractor_agent": [
-        "name", "description", "type", "category", "target", "specific_target", "url", "mentions",
-        "entity", "label", "sentence", "start", "end", "remarks", "paper_location", "paper_title", "doi",
+        # NER fields
+        "entity", "label", "sentence", "start", "end",
+        "paper_location", "paper_title", "doi",
+        # Resource fields
+        "name", "description", "type", "category", "target", "specific_target",
+        "url", "key_features", "performance", "model_architecture", "mentions",
+        # Generic / shared
+        "remarks",
     ],
     "alignment_agent": [
-        "mapped_target_concept", "mapped_specific_target_concept",
+        # Concept mapping — flat (written by apply_concept_mapping_to_result)
         "ontology_id", "ontology_label", "ontology", "concept_mapping_provenance",
+        # Structured mapped concepts — resource
+        "mapped_name_concept", "mapped_target_concept", "mapped_specific_target_concept",
+        "mapped_type_concept", "mapped_category_concept",
+        # Flat per-field prefixed variants (target_, specific_target_, type_, category_)
+        "target_ontology_id", "target_ontology_label", "target_ontology",
+        "target_concept_mapping_provenance",
+        "specific_target_ontology_id", "specific_target_ontology_label", "specific_target_ontology",
+        "specific_target_concept_mapping_provenance",
+        "type_ontology_id", "type_ontology_label", "type_ontology", "type_concept_mapping_provenance",
+        "category_ontology_id", "category_ontology_label", "category_ontology",
+        "category_concept_mapping_provenance",
+        # NER label ontology
+        "label_ontology_id", "label_ontology_label", "label_ontology",
+        # Mention-level ontology (mentions_with_ontology is built here)
+        "mentions_with_ontology",
     ],
     "judge_agent": ["judge_score", "judge_rationale", "remarks"],
-    "humanfeedback_agent": ["judge_score", "judge_rationale", "user_feedback_applied", "remarks"],
+    "humanfeedback_agent": ["judge_score", "judge_rationale", "user_feedback_applied", "remarks",
+                             "feedback_response"],
 }
+
+# Fields that are internal bookkeeping and should never appear in provenance field lists.
+_PROVENANCE_SKIP_FIELDS = frozenset({
+    "provenance", "concept_mapping_provenance",
+    "target_concept_mapping_provenance", "specific_target_concept_mapping_provenance",
+    "type_concept_mapping_provenance", "category_concept_mapping_provenance",
+    "_extraction_chunk_count",
+})
 
 
 def _merge_single_resource_group_with_provenance(
@@ -1170,16 +1189,21 @@ def unify_ontology_across_entities(entities: List[Dict[str, Any]]) -> List[Dict[
 def add_provenance_to_result(
     result_dict: Dict[str, Any], container_key: str, agent_key: str
 ) -> Dict[str, Any]:
-    """
-    Add provenance to each resource in a single (non-chunked) downstream result.
-    In-place style: mutates items under container_key and returns result_dict.
+    """Add provenance to every item under *container_key*.
+
+    For known agent keys (extractor_agent, alignment_agent, …) the contributed
+    field list is intersected with ``PROVENANCE_AGENT_FIELDS[agent_key]`` so
+    only fields that agent is responsible for are recorded.
+
+    For unknown agent keys *or* when the known-field intersection is empty
+    (generic/custom tasks with non-standard field names), falls back to
+    recording all non-internal fields present on the item — so provenance is
+    never silently empty for any task type.
     """
     if not result_dict or container_key not in result_dict:
         return result_dict
     container = result_dict[container_key]
-    fields_this_agent = PROVENANCE_AGENT_FIELDS.get(agent_key, [])
-    if not fields_this_agent:
-        return result_dict
+    known_fields = PROVENANCE_AGENT_FIELDS.get(agent_key)  # None when agent_key unknown
 
     def add_to_item(item: Dict[str, Any]) -> None:
         if not isinstance(item, dict):
@@ -1187,7 +1211,20 @@ def add_provenance_to_result(
         existing = item.get("provenance") or {}
         if not isinstance(existing, dict):
             existing = {}
-        contributed = [f for f in fields_this_agent if f in item and item[f] is not None]
+
+        if known_fields is not None:
+            contributed = [f for f in known_fields if f in item and item[f] is not None]
+        else:
+            contributed = []
+
+        if not contributed:
+            # Generic fallback: record every field the item has that is not
+            # internal bookkeeping (provenance itself, concept_mapping_provenance, etc.)
+            contributed = [
+                f for f in item
+                if f not in _PROVENANCE_SKIP_FIELDS and item[f] is not None
+            ]
+
         if contributed:
             existing[agent_key] = contributed
             item["provenance"] = existing
@@ -2586,12 +2623,19 @@ def apply_concept_mapping_to_result(
         for i, res in enumerate(resources):
             if not isinstance(res, dict):
                 continue
-            add_term(res.get("name") or res.get("resource_name") or "", resources, i, "name")
-            add_term(res.get("target") or "", resources, i, "target")
-            add_term(res.get("specific_target") or "", resources, i, "specific_target")
+            # Scalar resource fields may still be arrays from parallel chunk extraction at this point
+            # (clean_resource_for_export runs later). Extract a single representative value so
+            # _is_valid_concept_term doesn't reject them for containing '[' / ']'.
+            def _res_scalar(val: Any) -> str:
+                if isinstance(val, list):
+                    return _mode_of(val) or (str(val[0]).strip() if val else "")
+                return str(val).strip() if val else ""
+            add_term(_res_scalar(res.get("name") or res.get("resource_name")), resources, i, "name")
+            add_term(_res_scalar(res.get("target")), resources, i, "target")
+            add_term(_res_scalar(res.get("specific_target")), resources, i, "specific_target")
             if t in ("resource", "structured_extraction"):
-                add_term(res.get("type") or "", resources, i, "type")
-                add_term(res.get("category") or "", resources, i, "category")
+                add_term(_res_scalar(res.get("type")), resources, i, "type")
+                add_term(_res_scalar(res.get("category")), resources, i, "category")
                 mentions = res.get("mentions") or {}
                 if isinstance(mentions, dict):
                     for mk in mention_keys:
@@ -2890,15 +2934,29 @@ def _best_description(vals: Any) -> str:
     return max(unique, key=len) if unique else ""
 
 
+def _first_url(vals: List[Any]) -> Optional[str]:
+    """Return the first URL-looking value from a list, or None."""
+    items: List[Any] = list(vals)
+    for v in items:
+        s = str(v).strip() if v is not None else ""
+        if s.startswith(("http://", "https://")):
+            return s
+    for v in items:
+        s = str(v).strip() if v is not None else ""
+        if s:
+            return s
+    return None
+
+
 def _clean_resource_for_export(res: Dict[str, Any]) -> Dict[str, Any]:
     """Produce a clean, deduplicated resource dict for final output.
 
     Parallel extraction chunks produce array-valued scalar fields (name, type,
-    category, description, target, specific_target).  This function collapses
-    each of those arrays to a single canonical value, merges
-    ``mentions_with_ontology`` as the canonical ``mentions`` (dropping the
-    duplicate flat-string ``mentions``), removes empty list fields, and strips
-    internal provenance bookkeeping from the exported record.
+    category, description, target, specific_target, performance, url,
+    model_architecture).  This function collapses each array to a single
+    canonical value, merges ``mentions_with_ontology`` as the canonical
+    ``mentions``, deduplicates ``key_features``, removes empty list fields,
+    and strips internal provenance bookkeeping from the exported record.
     """
     if not isinstance(res, dict):
         return res
@@ -2916,10 +2974,12 @@ def _clean_resource_for_export(res: Dict[str, Any]) -> Dict[str, Any]:
         unique_names = list(dict.fromkeys(s for v in name_val if v for s in (str(v).strip(),) if s))
         out["name"] = unique_names[0] if unique_names else ""
 
+    # description: longest unique value
     desc_val = out.get("description")
     if isinstance(desc_val, list):
         out["description"] = _best_description(desc_val)
 
+    # mode-picked categorical fields
     for field in ("type", "category", "target", "specific_target"):
         val = out.get(field)
         if isinstance(val, list):
@@ -2929,6 +2989,36 @@ def _clean_resource_for_export(res: Dict[str, Any]) -> Dict[str, Any]:
             else:
                 out.pop(field, None)
 
+    # performance / model_architecture: longest non-empty value from list
+    for field in ("performance", "model_architecture"):
+        val = out.get(field)
+        if isinstance(val, list):
+            best = _best_description(val)
+            if best:
+                out[field] = best
+            else:
+                out.pop(field, None)
+
+    # url: first URL-looking value from list
+    url_val = out.get("url")
+    if isinstance(url_val, list):
+        picked_url = _first_url(url_val)
+        if picked_url:
+            out["url"] = picked_url
+        else:
+            out.pop("url", None)
+
+    # key_features: deduplicate preserving order
+    kf = out.get("key_features")
+    if isinstance(kf, list):
+        kf_items: List[Any] = cast(List[Any], kf)
+        kf_strs: List[str] = [str(item).strip() for item in kf_items if item is not None and str(item).strip()]
+        deduped = list(dict.fromkeys(kf_strs))
+        if deduped:
+            out["key_features"] = deduped
+        else:
+            out.pop("key_features", None)
+
     # mentions_with_ontology is the richer canonical form (name + ontology fields per mention);
     # replace the flat-string mentions dict with it when available.
     mwo = out.get("mentions_with_ontology")
@@ -2936,11 +3026,10 @@ def _clean_resource_for_export(res: Dict[str, Any]) -> Dict[str, Any]:
         out["mentions"] = mwo
     out.pop("mentions_with_ontology", None)
 
+    # Remove any remaining empty list fields
     for key in list(out.keys()):
         if isinstance(out[key], list) and not out[key]:
             out.pop(key)
-
-    out.pop("provenance", None)
 
     return out
 
