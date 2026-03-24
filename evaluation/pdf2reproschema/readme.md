@@ -29,6 +29,21 @@ Given a questionnaire PDF, this pipeline:
 
 ---
 
+## 📁 Directory Structure
+This directory contains the following
+- the source PDF(s)
+- configuration files
+- result subdirectories following the naming convention `results-<model>`
+
+Each `results-<model>` subdirectory contains:
+- output JSON files for both human-in-the-loop and non-human-in-the-loop executions
+- staged outputs for intermediate pipeline steps
+
+The staged outputs are organized into:
+- `staged_hil` for human-in-the-loop execution
+- `staged_nhil` for non-human-in-the-loop execution
+
+
 ## 📁 Expected Output Structure
 
 The pipeline produces a JSON file containing the final output from the judge agent. 
@@ -69,26 +84,6 @@ You can modify the LLM settings in the `agent_config` section of your configurat
 
 ---
 
-## 🧪 Usage
-
-### Using OpenRouter
-```bash
-structsense-cli extract \
-  --source sample_pdf.pdf \
-  --api_key <YOUR_API_KEY> \
-  --config <config-file>.yaml \
-  --env_file .env \
-  --save_file result.json  # optional
-```
-
-### Using Ollama (Local)
-```bash
-structsense-cli extract \
-  --source sample_pdf.pdf \
-  --config <config-file>.yaml \
-  --env_file .env \
-  --save_file result.json  # optional
-```
 
 ### Tips
 
