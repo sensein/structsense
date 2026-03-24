@@ -1399,20 +1399,6 @@ files = [
 ]
 
 [[package]]
-name = "dotenv"
-version = "0.9.9"
-description = "Deprecated package"
-optional = false
-python-versions = "*"
-groups = ["main"]
-files = [
-    {file = "dotenv-0.9.9-py2.py3-none-any.whl", hash = "sha256:29cf74a087b31dafdb5a446b6d7e11cbce8ed2741540e2339c69fbef92c94ce9"},
-]
-
-[package.dependencies]
-python-dotenv = "*"
-
-[[package]]
 name = "dulwich"
 version = "0.22.8"
 description = "Python Git Library"
@@ -1704,27 +1690,6 @@ files = [
 
 [package.extras]
 devel = ["colorama", "json-spec", "jsonschema", "pylint", "pytest", "pytest-benchmark", "pytest-cache", "validictory"]
-
-[[package]]
-name = "fastmcp"
-version = "2.1.2"
-description = "The fast, Pythonic way to build MCP servers."
-optional = false
-python-versions = ">=3.10"
-groups = ["main"]
-files = [
-    {file = "fastmcp-2.1.2-py3-none-any.whl", hash = "sha256:24584059ec5b6dabacb273aca4ccb852bd184ca87c495fdce50376a6eb28faaf"},
-    {file = "fastmcp-2.1.2.tar.gz", hash = "sha256:0098eb57ce9862582c30c619da4c5d8f52757e433baa18407743c2e9c48f32aa"},
-]
-
-[package.dependencies]
-dotenv = ">=0.9.9"
-fastapi = ">=0.115.12"
-mcp = ">=1.6.0,<2.0.0"
-openapi-pydantic = ">=0.5.1"
-rich = ">=13.9.4"
-typer = ">=0.15.2"
-websockets = ">=15.0.1"
 
 [[package]]
 name = "filelock"
@@ -2542,6 +2507,21 @@ files = [
     {file = "httpx-sse-0.4.0.tar.gz", hash = "sha256:1e81a3a3070ce322add1d3529ed42eb5f70817f45ed6ec915ab753f961139721"},
     {file = "httpx_sse-0.4.0-py3-none-any.whl", hash = "sha256:f329af6eae57eaa2bdfd962b42524764af68075ea87370a2de920af5341e318f"},
 ]
+
+[[package]]
+name = "huey"
+version = "2.6.0"
+description = "a little task queue"
+optional = false
+python-versions = "*"
+groups = ["main"]
+files = [
+    {file = "huey-2.6.0-py3-none-any.whl", hash = "sha256:1b9df9d370b49c6d5721ba8a01ac9a787cf86b3bdc584e4679de27b920395c3f"},
+    {file = "huey-2.6.0.tar.gz", hash = "sha256:8d11f8688999d65266af1425b831f6e3773e99415027177b8734b0ffd5e251f6"},
+]
+
+[package.extras]
+backends = ["redis (>=3.0.0)"]
 
 [[package]]
 name = "huggingface-hub"
@@ -3882,36 +3862,6 @@ files = [
 traitlets = "*"
 
 [[package]]
-name = "mcp"
-version = "1.12.4"
-description = "Model Context Protocol SDK"
-optional = false
-python-versions = ">=3.10"
-groups = ["main"]
-files = [
-    {file = "mcp-1.12.4-py3-none-any.whl", hash = "sha256:7aa884648969fab8e78b89399d59a683202972e12e6bc9a1c88ce7eda7743789"},
-    {file = "mcp-1.12.4.tar.gz", hash = "sha256:0765585e9a3a5916a3c3ab8659330e493adc7bd8b2ca6120c2d7a0c43e034ca5"},
-]
-
-[package.dependencies]
-anyio = ">=4.5"
-httpx = ">=0.27"
-httpx-sse = ">=0.4"
-jsonschema = ">=4.20.0"
-pydantic = ">=2.8.0,<3.0.0"
-pydantic-settings = ">=2.5.2"
-python-multipart = ">=0.0.9"
-pywin32 = {version = ">=310", markers = "sys_platform == \"win32\""}
-sse-starlette = ">=1.6.1"
-starlette = ">=0.27"
-uvicorn = {version = ">=0.23.1", markers = "sys_platform != \"emscripten\""}
-
-[package.extras]
-cli = ["python-dotenv (>=1.0.0)", "typer (>=0.16.0)"]
-rich = ["rich (>=13.9.4)"]
-ws = ["websockets (>=15.0.1)"]
-
-[[package]]
 name = "mdurl"
 version = "0.1.2"
 description = "Markdown URL utilities"
@@ -3953,33 +3903,34 @@ vector-stores = ["azure-search-documents (>=11.4.0b8)", "chromadb (>=0.4.24)", "
 
 [[package]]
 name = "mlflow"
-version = "3.5.0"
+version = "3.9.0rc0"
 description = "MLflow is an open source platform for the complete machine learning lifecycle"
 optional = false
 python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "mlflow-3.5.0-py3-none-any.whl", hash = "sha256:ea06c79d933c30fe863cb7c809818c36f356e58a3f4007ab1f6c6c3b752c2b3e"},
-    {file = "mlflow-3.5.0.tar.gz", hash = "sha256:138cd211eac787d0db80523f8f2456c562c6dd82b3eb912a2a42d96f3a9c4fa3"},
+    {file = "mlflow-3.9.0rc0-py3-none-any.whl", hash = "sha256:2591f913dca2a745727c8ce8e232641ab187fa2305ade9236c497d4b3f80cdd2"},
+    {file = "mlflow-3.9.0rc0.tar.gz", hash = "sha256:17116e34d004c0670867701d3082aae685bb754332a9daa2c1a4352d96b81df5"},
 ]
 
 [package.dependencies]
 alembic = "<1.10.0 || >1.10.0,<2"
 cryptography = ">=43.0.0,<47"
 docker = ">=4.0.0,<8"
-fastmcp = ">=2.0.0,<3"
 Flask = "<4"
 Flask-CORS = "<7"
 graphene = "<4"
 gunicorn = {version = "<24", markers = "platform_system != \"Windows\""}
+huey = ">=2.5.0,<3"
 matplotlib = "<4"
-mlflow-skinny = "3.5.0"
-mlflow-tracing = "3.5.0"
+mlflow-skinny = "3.9.0rc0"
+mlflow-tracing = "3.9.0rc0"
 numpy = "<3"
 pandas = "<3"
-pyarrow = ">=4.0.0,<22"
+pyarrow = ">=4.0.0,<23"
 scikit-learn = "<2"
 scipy = "<2"
+skops = "<1"
 sqlalchemy = ">=1.4.0,<3"
 waitress = {version = "<4", markers = "platform_system == \"Windows\""}
 
@@ -3989,23 +3940,23 @@ auth = ["Flask-WTF (<2)"]
 databricks = ["azure-storage-file-datalake (>12)", "boto3 (>1)", "botocore", "databricks-agents (>=1.2.0,<2.0)", "google-cloud-storage (>=1.30.0)"]
 extras = ["azureml-core (>=1.2.0)", "boto3", "botocore", "google-cloud-storage (>=1.30.0)", "kubernetes", "prometheus-flask-exporter", "pyarrow", "pysftp", "requests-auth-aws-sigv4", "virtualenv"]
 gateway = ["aiohttp (<4)", "boto3 (>=1.28.56,<2)", "fastapi (<1)", "slowapi (>=0.1.9,<1)", "tiktoken (<1)", "uvicorn[standard] (<1)", "watchfiles (<2)"]
-genai = ["aiohttp (<4)", "boto3 (>=1.28.56,<2)", "fastapi (<1)", "slowapi (>=0.1.9,<1)", "tiktoken (<1)", "uvicorn[standard] (<1)", "watchfiles (<2)"]
+genai = ["aiohttp (<4)", "boto3 (>=1.28.56,<2)", "fastapi (<1)", "litellm (>=1.0.0,<2)", "slowapi (>=0.1.9,<1)", "tiktoken (<1)", "uvicorn[standard] (<1)", "watchfiles (<2)"]
 jfrog = ["mlflow-jfrog-plugin"]
-jobs = ["huey (>=2.5.0,<3)"]
-langchain = ["langchain (>=0.3.3,<=0.3.27)"]
+langchain = ["langchain (>=0.3.15,<=1.2.3)"]
+mcp = ["click (!=8.3.0)", "fastmcp (>=2.0.0,<3)"]
 mlserver = ["mlserver (>=1.2.0,!=1.3.1,<2.0.0)", "mlserver-mlflow (>=1.2.0,!=1.3.1,<2.0.0)"]
 sqlserver = ["mlflow-dbstore"]
 
 [[package]]
 name = "mlflow-skinny"
-version = "3.5.0"
+version = "3.9.0rc0"
 description = "MLflow is an open source platform for the complete machine learning lifecycle"
 optional = false
 python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "mlflow_skinny-3.5.0-py3-none-any.whl", hash = "sha256:496cb9bf4e0d5b96082407a923e34636ea748ab928d35c288d1f19ec5493705e"},
-    {file = "mlflow_skinny-3.5.0.tar.gz", hash = "sha256:d9cf914ed6746a6097ef51d1a377a4c5c0f46aa174d3f89efbdc31feb2cf572b"},
+    {file = "mlflow_skinny-3.9.0rc0-py3-none-any.whl", hash = "sha256:19fc2c529d318ff2fe53305d03ef022e8bc39bf4766035b96f3f1885287a8c9b"},
+    {file = "mlflow_skinny-3.9.0rc0.tar.gz", hash = "sha256:69cacf234bef0989e4fbd63b05ef8b641e5ca7a541825f70f61add9dac0fb003"},
 ]
 
 [package.dependencies]
@@ -4021,7 +3972,7 @@ opentelemetry-proto = ">=1.9.0,<3"
 opentelemetry-sdk = ">=1.9.0,<3"
 packaging = "<26"
 protobuf = ">=3.12.0,<7"
-pydantic = ">=1.10.8,<3"
+pydantic = ">=2.0.0,<3"
 python-dotenv = ">=0.19.0,<2"
 pyyaml = ">=5.1,<7"
 requests = ">=2.17.3,<3"
@@ -4035,23 +3986,23 @@ auth = ["Flask-WTF (<2)"]
 databricks = ["azure-storage-file-datalake (>12)", "boto3 (>1)", "botocore", "databricks-agents (>=1.2.0,<2.0)", "google-cloud-storage (>=1.30.0)"]
 extras = ["azureml-core (>=1.2.0)", "boto3", "botocore", "google-cloud-storage (>=1.30.0)", "kubernetes", "prometheus-flask-exporter", "pyarrow", "pysftp", "requests-auth-aws-sigv4", "virtualenv"]
 gateway = ["aiohttp (<4)", "boto3 (>=1.28.56,<2)", "fastapi (<1)", "slowapi (>=0.1.9,<1)", "tiktoken (<1)", "uvicorn[standard] (<1)", "watchfiles (<2)"]
-genai = ["aiohttp (<4)", "boto3 (>=1.28.56,<2)", "fastapi (<1)", "slowapi (>=0.1.9,<1)", "tiktoken (<1)", "uvicorn[standard] (<1)", "watchfiles (<2)"]
+genai = ["aiohttp (<4)", "boto3 (>=1.28.56,<2)", "fastapi (<1)", "litellm (>=1.0.0,<2)", "slowapi (>=0.1.9,<1)", "tiktoken (<1)", "uvicorn[standard] (<1)", "watchfiles (<2)"]
 jfrog = ["mlflow-jfrog-plugin"]
-jobs = ["huey (>=2.5.0,<3)"]
-langchain = ["langchain (>=0.3.3,<=0.3.27)"]
+langchain = ["langchain (>=0.3.15,<=1.2.3)"]
+mcp = ["click (!=8.3.0)", "fastmcp (>=2.0.0,<3)"]
 mlserver = ["mlserver (>=1.2.0,!=1.3.1,<2.0.0)", "mlserver-mlflow (>=1.2.0,!=1.3.1,<2.0.0)"]
 sqlserver = ["mlflow-dbstore"]
 
 [[package]]
 name = "mlflow-tracing"
-version = "3.5.0"
+version = "3.9.0rc0"
 description = "MLflow Tracing SDK is an open-source, lightweight Python package that only includes the minimum set of dependencies and functionality to instrument your code/models/agents with MLflow Tracing."
 optional = false
 python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "mlflow_tracing-3.5.0-py3-none-any.whl", hash = "sha256:0cd2b0a2574d52974901fba9cc7a441b3215a343a1aa321d0a81fbba496d60aa"},
-    {file = "mlflow_tracing-3.5.0.tar.gz", hash = "sha256:e757648c7b752c517803fe45a6e29381a4faa5b985b36944da972a0d90a00eb0"},
+    {file = "mlflow_tracing-3.9.0rc0-py3-none-any.whl", hash = "sha256:5a8314e80aaad5353eb6941d08c22fa304df419447e4b056fbe98370f7248443"},
+    {file = "mlflow_tracing-3.9.0rc0.tar.gz", hash = "sha256:0c47af012fca61b5f3d9beb5b267ecfbb011dd3666e10ab6bfc777d2cf2b8b15"},
 ]
 
 [package.dependencies]
@@ -4062,7 +4013,7 @@ opentelemetry-proto = ">=1.9.0,<3"
 opentelemetry-sdk = ">=1.9.0,<3"
 packaging = "<26"
 protobuf = ">=3.12.0,<7"
-pydantic = ">=1.10.8,<3"
+pydantic = ">=2.0.0,<3"
 
 [[package]]
 name = "mmh3"
@@ -4579,21 +4530,6 @@ typing-extensions = ">=4.11,<5"
 datalib = ["numpy (>=1)", "pandas (>=1.2.3)", "pandas-stubs (>=1.1.0.11)"]
 realtime = ["websockets (>=13,<15)"]
 voice-helpers = ["numpy (>=2.0.2)", "sounddevice (>=0.5.1)"]
-
-[[package]]
-name = "openapi-pydantic"
-version = "0.5.1"
-description = "Pydantic OpenAPI schema implementation"
-optional = false
-python-versions = "<4.0,>=3.8"
-groups = ["main"]
-files = [
-    {file = "openapi_pydantic-0.5.1-py3-none-any.whl", hash = "sha256:a3a09ef4586f5bd760a8df7f43028b60cafb6d9f61de2acba9574766255ab146"},
-    {file = "openapi_pydantic-0.5.1.tar.gz", hash = "sha256:ff6835af6bde7a459fb93eb93bb92b8749b754fc6e51b2f1590a19dc3005ee0d"},
-]
-
-[package.dependencies]
-pydantic = ">=1.8"
 
 [[package]]
 name = "openpyxl"
@@ -5376,6 +5312,24 @@ pyyaml = ">=5.1"
 virtualenv = ">=20.10.0"
 
 [[package]]
+name = "prettytable"
+version = "3.17.0"
+description = "A simple Python library for easily displaying tabular data in a visually appealing ASCII table format"
+optional = false
+python-versions = ">=3.10"
+groups = ["main"]
+files = [
+    {file = "prettytable-3.17.0-py3-none-any.whl", hash = "sha256:aad69b294ddbe3e1f95ef8886a060ed1666a0b83018bbf56295f6f226c43d287"},
+    {file = "prettytable-3.17.0.tar.gz", hash = "sha256:59f2590776527f3c9e8cf9fe7b66dd215837cca96a9c39567414cbc632e8ddb0"},
+]
+
+[package.dependencies]
+wcwidth = "*"
+
+[package.extras]
+tests = ["pytest", "pytest-cov", "pytest-lazy-fixtures"]
+
+[[package]]
 name = "prompt-toolkit"
 version = "3.0.50"
 description = "Library for building powerful interactive command lines in Python"
@@ -6093,18 +6047,6 @@ files = [
 
 [package.extras]
 cli = ["click (>=5.0)"]
-
-[[package]]
-name = "python-multipart"
-version = "0.0.22"
-description = "A streaming multipart parser for Python"
-optional = false
-python-versions = ">=3.10"
-groups = ["main"]
-files = [
-    {file = "python_multipart-0.0.22-py3-none-any.whl", hash = "sha256:2b2cd894c83d21bf49d702499531c7bafd057d730c201782048f7945d82de155"},
-    {file = "python_multipart-0.0.22.tar.gz", hash = "sha256:7340bef99a7e0032613f56dc36027b959fd3b30a787ed62d310e951f7c3a3a58"},
-]
 
 [[package]]
 name = "pytube"
@@ -7046,6 +6988,28 @@ files = [
 ]
 
 [[package]]
+name = "skops"
+version = "0.13.0"
+description = "A set of tools, related to machine learning in production."
+optional = false
+python-versions = ">=3.9"
+groups = ["main"]
+files = [
+    {file = "skops-0.13.0-py3-none-any.whl", hash = "sha256:55e2cccb18c86f5916e4cfe5acf55ed7b0eecddf08a151906414c092fa5926dc"},
+    {file = "skops-0.13.0.tar.gz", hash = "sha256:66949fd3c95cbb5c80270fbe40293c0fe1e46cb4a921860e42584dd9c20ebeb1"},
+]
+
+[package.dependencies]
+numpy = ">=1.25.0"
+packaging = ">=17.0"
+prettytable = ">=3.9"
+scikit-learn = ">=1.2"
+scipy = ">=1.10.0"
+
+[package.extras]
+rich = ["rich (>=12)"]
+
+[[package]]
 name = "smmap"
 version = "5.0.2"
 description = "A pure Python implementation of a sliding window memory map manager"
@@ -7192,27 +7156,6 @@ files = [
 [package.extras]
 dev = ["build", "hatch"]
 doc = ["sphinx"]
-
-[[package]]
-name = "sse-starlette"
-version = "3.0.3"
-description = "SSE plugin for Starlette"
-optional = false
-python-versions = ">=3.9"
-groups = ["main"]
-files = [
-    {file = "sse_starlette-3.0.3-py3-none-any.whl", hash = "sha256:af5bf5a6f3933df1d9c7f8539633dc8444ca6a97ab2e2a7cd3b6e431ac03a431"},
-    {file = "sse_starlette-3.0.3.tar.gz", hash = "sha256:88cfb08747e16200ea990c8ca876b03910a23b547ab3bd764c0d8eb81019b971"},
-]
-
-[package.dependencies]
-anyio = ">=4.7.0"
-
-[package.extras]
-daphne = ["daphne (>=4.2.0)"]
-examples = ["aiosqlite (>=0.21.0)", "fastapi (>=0.115.12)", "sqlalchemy[asyncio] (>=2.0.41)", "starlette (>=0.49.1)", "uvicorn (>=0.34.0)"]
-granian = ["granian (>=2.3.1)"]
-uvicorn = ["uvicorn (>=0.34.0)"]
 
 [[package]]
 name = "stack-data"
@@ -8584,4 +8527,4 @@ cffi = ["cffi (>=1.11)"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10,<3.13"
-content-hash = "866f2fc2e4728874dd1fc5df4e49077f56df1ee08786ff702cc68f07f9ebd5e4"
+content-hash = "bda1b4dd790a18ddaaccd84c238546571c9a8d39f81894a29cb14e1233acd68d"
