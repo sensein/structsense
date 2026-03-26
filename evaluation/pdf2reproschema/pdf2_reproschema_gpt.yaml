@@ -15,7 +15,7 @@ agent_config:
       assessments. You extract metadata that maps to ReproSchema concepts: activities (questionnaires), 
       items (questions), and response constraints.
     llm:
-      model: openrouter/google/gemini-3.1-flash-lite-preview:nitro
+      model: openrouter/openai/gpt-5.4-mini:nitro
       base_url: https://openrouter.ai/api/v1
       temperature: 0.9
 
@@ -31,7 +31,7 @@ agent_config:
       ReproSchema requirements and ensure all extracted information is properly categorized for items, 
       activities, response options, and scoring logic.
     llm:
-      model: openrouter/google/gemini-3.1-flash-lite-preview:nitro
+      model: openrouter/openai/gpt-5.4-mini:nitro
       base_url: https://openrouter.ai/api/v1
       temperature: 0.9
 
@@ -46,7 +46,7 @@ agent_config:
       structured output against the original PDF content to ensure all items, response scales, and activity 
       metadata are captured accurately.
     llm:
-      model: openrouter/google/gemini-3.1-flash-lite-preview:nitro
+      model: openrouter/openai/gpt-5.4-mini:nitro
       base_url: https://openrouter.ai/api/v1
       temperature: 0.9
 
@@ -60,7 +60,7 @@ agent_config:
       You collaborate with human reviewers to refine extracted metadata, fixing any misinterpretations 
       and ensuring the output will produce valid ReproSchema when converted.
     llm:
-      model: openrouter/google/gemini-3.1-flash-lite-preview:nitro
+      model: openrouter/openai/gpt-5.4-mini:nitro
       base_url: https://openrouter.ai/api/v1
       temperature: 0.9
 
