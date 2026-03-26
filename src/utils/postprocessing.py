@@ -1474,20 +1474,27 @@ def verify_resource_result(merged_result: Dict[str, Any], full_text: str) -> Dic
     for res in resources:
         if not isinstance(res, dict):
             continue
-        name = res.get("name") or res.get("resource_name")
-        if isinstance(name, list):
-            name = (name[0] or "").strip() if name else ""
+        raw_name = res.get("name") or res.get("resource_name")
+        if isinstance(raw_name, list):
+            candidates = [n.strip() for n in raw_name if n and n.strip()]
+        elif raw_name:
+            candidates = [raw_name.strip()]
         else:
-            name = (name or "").strip()
+            candidates = []
 
-        if not name:
+        if not candidates:
             # No name — cannot ground; drop
             dropped.append({**res, "reason": "no_name"})
             continue
 
-        if name.lower() not in text_lower:
+        # Use the first candidate name that appears in the source text
+        name = next((n for n in candidates if n.lower() in text_lower), None)
+        if name is None:
             dropped.append({**res, "reason": "name_not_in_source"})
-            logger.info("Resource verifier: dropped %r — name not found in source text", name)
+            logger.info(
+                "Resource verifier: dropped %r (and %d alt names) — none found in source text",
+                candidates[0], len(candidates) - 1,
+            )
             continue
 
         # Name is grounded — also filter mention lists to items present in source
