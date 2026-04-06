@@ -48,12 +48,6 @@ def _make_payload(n_entities: int, n_key_terms: int = 0) -> dict:
     }
 
 
-# Minimal ContextWindowManager stub so split_structured_payload can call estimate_tokens
-class _FakeContextManager:
-    def estimate_tokens(self, obj) -> int:
-        # Very rough: 1 token per character of string representation
-        return len(str(obj))
-
 
 # ---------------------------------------------------------------------------
 # unify_ontology_across_entities
@@ -156,16 +150,11 @@ class TestUnifyOntologyAcrossEntities:
 
 class TestSplitAndMerge:
 
-    def _fake_cm(self):
-        return _FakeContextManager()
-
     def test_no_data_loss_small(self):
         """After split → merge, entity count must equal original count."""
         n = 50
         payload = _make_payload(n_entities=n)
-        cm = self._fake_cm()
-        chunks = split_structured_payload(payload, cm, max_tokens_per_chunk=10_000,
-                                          max_entities_per_chunk=10)
+        chunks = split_structured_payload(payload, max_entities_per_chunk=10)
         # Each chunk is a dict containing a slice of entities
         total_in_chunks = sum(len(c.get("entities") or []) for c in chunks)
         assert total_in_chunks == n, f"split lost entities: {total_in_chunks} != {n}"
@@ -174,9 +163,7 @@ class TestSplitAndMerge:
         """500 entities split across many chunks must all survive the round-trip."""
         n = 500
         payload = _make_payload(n_entities=n, n_key_terms=100)
-        cm = self._fake_cm()
-        chunks = split_structured_payload(payload, cm, max_tokens_per_chunk=5_000,
-                                          max_entities_per_chunk=50)
+        chunks = split_structured_payload(payload, max_entities_per_chunk=50)
         total_in_chunks = sum(len(c.get("entities") or []) for c in chunks)
         assert total_in_chunks == n
 
@@ -191,25 +178,19 @@ class TestSplitAndMerge:
     def test_single_chunk_no_split(self):
         """A payload with fewer entities than the cap stays as one chunk."""
         payload = _make_payload(n_entities=5)
-        cm = self._fake_cm()
-        chunks = split_structured_payload(payload, cm, max_tokens_per_chunk=10_000,
-                                          max_entities_per_chunk=50)
+        chunks = split_structured_payload(payload, max_entities_per_chunk=50)
         assert len(chunks) == 1
 
     def test_chunk_count_matches_entity_count(self):
         """With max_entities_per_chunk=10 and 100 entities we expect 10 chunks."""
         payload = _make_payload(n_entities=100)
-        cm = self._fake_cm()
-        chunks = split_structured_payload(payload, cm, max_tokens_per_chunk=10_000,
-                                          max_entities_per_chunk=10)
+        chunks = split_structured_payload(payload, max_entities_per_chunk=10)
         assert len(chunks) == 10
 
     def test_chunk_metadata_present(self):
         """Each chunk must carry _chunk_index and _chunk_total."""
         payload = _make_payload(n_entities=30)
-        cm = self._fake_cm()
-        chunks = split_structured_payload(payload, cm, max_tokens_per_chunk=10_000,
-                                          max_entities_per_chunk=10)
+        chunks = split_structured_payload(payload, max_entities_per_chunk=10)
         for i, chunk in enumerate(chunks):
             assert chunk["_chunk_index"] == i
             assert chunk["_chunk_total"] == len(chunks)
@@ -232,6 +213,35 @@ class TestSplitAndMerge:
         names = [r["name"] for r in merged.get("resources", [])]
         assert "tool_A" in names
         assert "tool_B" in names
+
+    def test_key_terms_do_not_inflate_chunk_count(self):
+        """key_terms must never drive n_chunks above what entities require.
+
+        Regression for a production bug: with 2130 entities (max_entities_per_chunk=645
+        → 4 entity chunks) and 1286 key_terms (max_key_terms_per_chunk=215 → 6 chunks),
+        the old code set n_chunks=6, producing 2 chunks with entities=[] — wasted LLM
+        calls where the judge had nothing to score.
+
+        Fix: only entities (and resources/aligned/judge_resource) drive n_chunks.
+        key_terms are reference data distributed across entity-driven chunks.
+        """
+        # Reproduce exact production numbers: 2130 entities, 1286 key_terms
+        payload = _make_payload(n_entities=2130, n_key_terms=1286)
+        chunks = split_structured_payload(
+            payload,
+            max_entities_per_chunk=645,
+            max_key_terms_per_chunk=215,
+        )
+        # Entity-driven: ceil(2130/645) = 4 chunks
+        assert len(chunks) == 4, (
+            f"Expected 4 entity-driven chunks, got {len(chunks)}. "
+            "key_terms must not inflate chunk count."
+        )
+        # Every chunk must have at least one entity
+        for i, chunk in enumerate(chunks):
+            assert len(chunk.get("entities") or []) > 0, (
+                f"Chunk {i} has empty entities — key_terms inflated chunk count"
+            )
 
 
 # ---------------------------------------------------------------------------

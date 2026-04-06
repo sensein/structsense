@@ -1,0 +1,1549 @@
+{
+  "errors": [],
+  "task_type": "resource",
+  "elapsed_time": 77.89557766914368,
+  "resources": [
+    {
+      "description": "A simple yet effective vision transformer baseline for pose estimation, pre-trained on ImageNet-1K, MS COCO, and AI Challenger, and fine-tuned on MS COCO with pose annotations. Achieves SOTA performance on MS COCO test-dev set with 80.9 AP (single model) and 81.1 AP (ensemble of three models).",
+      "type": "Model",
+      "category": "Pose Estimation",
+      "target": "Human",
+      "specific_target": "MS COCO Keypoint dataset",
+      "mapped_target_concept": [
+        {
+          "id": "http://purl.jp/bio/4/id/200906022849101153",
+          "label": "Human Body",
+          "ontology": "IOBC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_specific_target_concept": [
+        {
+          "specific_target": "MS COCO Keypoint dataset",
+          "mapped_target_concept": {
+            "id": "http://purl.org/ccf/Dataset",
+            "label": "Dataset",
+            "ontology": "CCF",
+            "concept_mapping_provenance": "tool"
+          }
+        }
+      ],
+      "mentions": {
+        "related_models": [
+          {
+            "name": "TransPose",
+            "ontology_id": "http://purl.bioontology.org/ontology/LNC/MTHU050603",
+            "ontology_label": "Cells.TRA+TRD gene rearrangements/Cells counted",
+            "ontology": "LOINC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "TokenPose",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#12338",
+            "ontology_label": "token economy",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRFormer",
+            "ontology_id": "http://schema.org/Person",
+            "ontology_label": "Person",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViT",
+            "ontology_id": "http://purl.jp/bio/4/id/201606002010287930",
+            "ontology_label": "VIT therapy",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MAE",
+            "ontology_id": "http://purl.obolibrary.org/obo/OLAS_2160880",
+            "ontology_label": "MAE",
+            "ontology": "OLAS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViT-B",
+            "ontology_id": "http://purl.jp/bio/4/id/201606002010287930",
+            "ontology_label": "VIT therapy",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViT-L",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCD/X80Nq",
+            "ontology_label": "Very low density lipoprotein cholesterol",
+            "ontology": "RCD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViT-H",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCD/5A87.",
+            "ontology_label": "Hormone therapy",
+            "ontology": "RCD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViTAE-G",
+            "ontology_id": "http://www.semanticweb.org/abid/ontologies/2023/7/CardiovascularDiseaseOntology#General_Practitioner_Group",
+            "ontology_label": "General_Practitioner_Group",
+            "ontology": "CVO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "SimpleBaseline",
+            "ontology_id": "http://purl.jp/bio/4/id/200906018490105770",
+            "ontology_label": "single base substitution",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "UDP",
+            "ontology_id": "http://purl.obolibrary.org/obo/UPa_UPC00015",
+            "ontology_label": "UDP",
+            "ontology": "UPA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Bigdet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#38944",
+            "ontology_label": "large",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet-w32",
+            "ontology_id": "http://purl.obolibrary.org/obo/HINO_0021527",
+            "ontology_label": "PathwayStep3232",
+            "ontology": "HINO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet-w48",
+            "ontology_id": "http://purl.bioontology.org/ontology/MESH/C546602",
+            "ontology_label": "SLC48A1 protein, human",
+            "ontology": "MESH",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "datasets": [
+          {
+            "name": "MS COCO Keypoint",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#3120",
+            "ontology_label": "cocos",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MS COCO",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/85854",
+            "ontology_label": "Magnolia coco",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "AI Challenger",
+            "ontology_id": "http://www.ebi.ac.uk/swo/data/SWO_3000023",
+            "ontology_label": "AI",
+            "ontology": "KOIO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ImageNet-1K",
+            "ontology_id": "http://purl.bioontology.org/ontology/LNC/LP72784-9",
+            "ontology_label": "Images taken",
+            "ontology": "LOINC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MPII",
+            "ontology_id": "http://purl.bioontology.org/ontology/LNC/LP229029-6",
+            "ontology_label": "MPI gene targeted mutation analysis",
+            "ontology": "LOINC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "CrowdPose",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#3478",
+            "ontology_label": "crowding",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "OCHuman",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#9593",
+            "ontology_label": "phenelzine",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "tools": [
+          {
+            "name": "mmpose",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCD/X8008",
+            "ontology_label": "mm",
+            "ontology": "RCD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MAE",
+            "ontology_id": "http://purl.obolibrary.org/obo/OLAS_2160880",
+            "ontology_label": "MAE",
+            "ontology": "OLAS",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "related_papers": [
+          {
+            "name": "ViTPose",
+            "ontology_id": "http://purl.bioontology.org/ontology/NDFRT/N0000185028",
+            "ontology_label": "VIBURNUM",
+            "ontology": "NDFRT",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ImageNet",
+            "ontology_id": "http://purl.bioontology.org/ontology/LNC/MTHU047257",
+            "ontology_label": "Photographic image",
+            "ontology": "LOINC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MAE",
+            "ontology_id": "http://purl.obolibrary.org/obo/OLAS_2160880",
+            "ontology_label": "MAE",
+            "ontology": "OLAS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViT",
+            "ontology_id": "http://purl.jp/bio/4/id/201606002010287930",
+            "ontology_label": "VIT therapy",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet",
+            "ontology_id": "http://purl.org/sig/ont/fma/fma5898",
+            "ontology_label": "Anatomical junction",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRFormer",
+            "ontology_id": "http://schema.org/Person",
+            "ontology_label": "Person",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViTAE-G",
+            "ontology_id": "http://www.semanticweb.org/abid/ontologies/2023/7/CardiovascularDiseaseOntology#General_Practitioner_Group",
+            "ontology_label": "General_Practitioner_Group",
+            "ontology": "CVO",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "benchmarks": [
+          {
+            "name": "MS COCO test-dev",
+            "ontology_id": "http://purl.obolibrary.org/obo/DRON_00724085",
+            "ontology_label": "coco glucoside",
+            "ontology": "DDSS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MS COCO val",
+            "ontology_id": "http://purl.obolibrary.org/obo/DRON_00724085",
+            "ontology_label": "coco glucoside",
+            "ontology": "DDSS",
+            "concept_mapping_provenance": "tool"
+          }
+        ]
+      },
+      "provenance": {
+        "extractor_agent": [
+          "description",
+          "type",
+          "category",
+          "target",
+          "specific_target",
+          "url",
+          "key_features",
+          "performance",
+          "model_architecture",
+          "mentions"
+        ],
+        "judge_agent": [
+          "judge_score",
+          "remarks"
+        ]
+      },
+      "judge_score": 0.9,
+      "remarks": "Highly consistent and accurate descriptions of ViTPose across entries; strong alignment with known model characteristics, though specific_target fields vary slightly in precision (e.g., 'Human' vs 'Human Pose Estimation').",
+      "mapped_name_concept": [
+        {
+          "id": "http://purl.bioontology.org/ontology/NDFRT/N0000185028",
+          "label": "VIBURNUM",
+          "ontology": "NDFRT",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_type_concept": [
+        {
+          "id": "http://purl.jp/bio/4/id/200906025579382154",
+          "label": "face model",
+          "ontology": "IOBC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_category_concept": [
+        {
+          "id": "http://www.semanticweb.org/ontologies/2010/3/Ontology1271664172453.owl#Pose",
+          "label": "Pose",
+          "ontology": "PLIO",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "name": "ViTPose"
+    },
+    {
+      "description": "A simple yet effective vision transformer baseline for pose estimation, pre-trained on ImageNet-1K, MS COCO, and AI Challenger, and fine-tuned on MS COCO with pose annotations. Achieves SOTA performance on MS COCO test-dev set with 80.9 AP (single model) and 81.1 AP (ensemble of three models).",
+      "type": "Model",
+      "category": "Pose Estimation",
+      "target": "Human",
+      "specific_target": "MS COCO Keypoint dataset",
+      "mapped_target_concept": [
+        {
+          "id": "http://purl.jp/bio/4/id/200906022849101153",
+          "label": "Human Body",
+          "ontology": "IOBC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_specific_target_concept": [
+        {
+          "specific_target": "MS COCO Keypoint dataset",
+          "mapped_target_concept": {
+            "id": "http://purl.org/ccf/Dataset",
+            "label": "Dataset",
+            "ontology": "CCF",
+            "concept_mapping_provenance": "tool"
+          }
+        }
+      ],
+      "mentions": {
+        "related_models": [
+          {
+            "name": "TransPose",
+            "ontology_id": "http://purl.bioontology.org/ontology/LNC/MTHU050603",
+            "ontology_label": "Cells.TRA+TRD gene rearrangements/Cells counted",
+            "ontology": "LOINC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "TokenPose",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#12338",
+            "ontology_label": "token economy",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRFormer",
+            "ontology_id": "http://schema.org/Person",
+            "ontology_label": "Person",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViT",
+            "ontology_id": "http://purl.jp/bio/4/id/201606002010287930",
+            "ontology_label": "VIT therapy",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MAE",
+            "ontology_id": "http://purl.obolibrary.org/obo/OLAS_2160880",
+            "ontology_label": "MAE",
+            "ontology": "OLAS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViT-B",
+            "ontology_id": "http://purl.jp/bio/4/id/201606002010287930",
+            "ontology_label": "VIT therapy",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViT-L",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCD/X80Nq",
+            "ontology_label": "Very low density lipoprotein cholesterol",
+            "ontology": "RCD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViT-H",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCD/5A87.",
+            "ontology_label": "Hormone therapy",
+            "ontology": "RCD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViTAE-G",
+            "ontology_id": "http://www.semanticweb.org/abid/ontologies/2023/7/CardiovascularDiseaseOntology#General_Practitioner_Group",
+            "ontology_label": "General_Practitioner_Group",
+            "ontology": "CVO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "SimpleBaseline",
+            "ontology_id": "http://purl.jp/bio/4/id/200906018490105770",
+            "ontology_label": "single base substitution",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "UDP",
+            "ontology_id": "http://purl.obolibrary.org/obo/UPa_UPC00015",
+            "ontology_label": "UDP",
+            "ontology": "UPA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Bigdet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#38944",
+            "ontology_label": "large",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet-w32",
+            "ontology_id": "http://purl.obolibrary.org/obo/HINO_0021527",
+            "ontology_label": "PathwayStep3232",
+            "ontology": "HINO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet-w48",
+            "ontology_id": "http://purl.bioontology.org/ontology/MESH/C546602",
+            "ontology_label": "SLC48A1 protein, human",
+            "ontology": "MESH",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "datasets": [
+          {
+            "name": "MS COCO Keypoint",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#3120",
+            "ontology_label": "cocos",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MS COCO",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/85854",
+            "ontology_label": "Magnolia coco",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "AI Challenger",
+            "ontology_id": "http://www.ebi.ac.uk/swo/data/SWO_3000023",
+            "ontology_label": "AI",
+            "ontology": "KOIO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ImageNet-1K",
+            "ontology_id": "http://purl.bioontology.org/ontology/LNC/LP72784-9",
+            "ontology_label": "Images taken",
+            "ontology": "LOINC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MPII",
+            "ontology_id": "http://purl.bioontology.org/ontology/LNC/LP229029-6",
+            "ontology_label": "MPI gene targeted mutation analysis",
+            "ontology": "LOINC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "CrowdPose",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#3478",
+            "ontology_label": "crowding",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "OCHuman",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#9593",
+            "ontology_label": "phenelzine",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "tools": [
+          {
+            "name": "mmpose",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCD/X8008",
+            "ontology_label": "mm",
+            "ontology": "RCD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MAE",
+            "ontology_id": "http://purl.obolibrary.org/obo/OLAS_2160880",
+            "ontology_label": "MAE",
+            "ontology": "OLAS",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "related_papers": [
+          {
+            "name": "ViTPose",
+            "ontology_id": "http://purl.bioontology.org/ontology/NDFRT/N0000185028",
+            "ontology_label": "VIBURNUM",
+            "ontology": "NDFRT",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ImageNet",
+            "ontology_id": "http://purl.bioontology.org/ontology/LNC/MTHU047257",
+            "ontology_label": "Photographic image",
+            "ontology": "LOINC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MAE",
+            "ontology_id": "http://purl.obolibrary.org/obo/OLAS_2160880",
+            "ontology_label": "MAE",
+            "ontology": "OLAS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViT",
+            "ontology_id": "http://purl.jp/bio/4/id/201606002010287930",
+            "ontology_label": "VIT therapy",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet",
+            "ontology_id": "http://purl.org/sig/ont/fma/fma5898",
+            "ontology_label": "Anatomical junction",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRFormer",
+            "ontology_id": "http://schema.org/Person",
+            "ontology_label": "Person",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViTAE-G",
+            "ontology_id": "http://www.semanticweb.org/abid/ontologies/2023/7/CardiovascularDiseaseOntology#General_Practitioner_Group",
+            "ontology_label": "General_Practitioner_Group",
+            "ontology": "CVO",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "benchmarks": [
+          {
+            "name": "MS COCO test-dev",
+            "ontology_id": "http://purl.obolibrary.org/obo/DRON_00724085",
+            "ontology_label": "coco glucoside",
+            "ontology": "DDSS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MS COCO val",
+            "ontology_id": "http://purl.obolibrary.org/obo/DRON_00724085",
+            "ontology_label": "coco glucoside",
+            "ontology": "DDSS",
+            "concept_mapping_provenance": "tool"
+          }
+        ]
+      },
+      "provenance": {
+        "extractor_agent": [
+          "description",
+          "type",
+          "category",
+          "target",
+          "specific_target",
+          "url",
+          "key_features",
+          "performance",
+          "model_architecture",
+          "mentions"
+        ],
+        "judge_agent": [
+          "judge_score",
+          "remarks"
+        ]
+      },
+      "judge_score": 0.9,
+      "remarks": "Descriptions are coherent and technically accurate; minor variation in specific_target (e.g., 'Human' vs 'Human Pose') does not impact overall quality. Mentions are comprehensive and relevant.",
+      "mapped_name_concept": [
+        {
+          "id": "http://purl.bioontology.org/ontology/NDFRT/N0000185028",
+          "label": "VIBURNUM",
+          "ontology": "NDFRT",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_type_concept": [
+        {
+          "id": "http://purl.jp/bio/4/id/200906025579382154",
+          "label": "face model",
+          "ontology": "IOBC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_category_concept": [
+        {
+          "id": "http://www.semanticweb.org/ontologies/2010/3/Ontology1271664172453.owl#Pose",
+          "label": "Pose",
+          "ontology": "PLIO",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "name": "ViTPose"
+    },
+    {
+      "description": "A simple yet effective vision transformer baseline for pose estimation, pre-trained on ImageNet-1K, MS COCO, and AI Challenger, and fine-tuned on MS COCO with pose annotations. Achieves SOTA performance on MS COCO test-dev set with 80.9 AP (single model) and 81.1 AP (ensemble of three models).",
+      "type": "Model",
+      "category": "Pose Estimation",
+      "target": "Human",
+      "specific_target": "MS COCO Keypoint dataset",
+      "mapped_target_concept": [
+        {
+          "id": "http://purl.jp/bio/4/id/200906022849101153",
+          "label": "Human Body",
+          "ontology": "IOBC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_specific_target_concept": [
+        {
+          "specific_target": "MS COCO Keypoint dataset",
+          "mapped_target_concept": {
+            "id": "http://purl.org/ccf/Dataset",
+            "label": "Dataset",
+            "ontology": "CCF",
+            "concept_mapping_provenance": "tool"
+          }
+        }
+      ],
+      "mentions": {
+        "related_models": [
+          {
+            "name": "TransPose",
+            "ontology_id": "http://purl.bioontology.org/ontology/LNC/MTHU050603",
+            "ontology_label": "Cells.TRA+TRD gene rearrangements/Cells counted",
+            "ontology": "LOINC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "TokenPose",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#12338",
+            "ontology_label": "token economy",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRFormer",
+            "ontology_id": "http://schema.org/Person",
+            "ontology_label": "Person",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViT",
+            "ontology_id": "http://purl.jp/bio/4/id/201606002010287930",
+            "ontology_label": "VIT therapy",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MAE",
+            "ontology_id": "http://purl.obolibrary.org/obo/OLAS_2160880",
+            "ontology_label": "MAE",
+            "ontology": "OLAS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViT-B",
+            "ontology_id": "http://purl.jp/bio/4/id/201606002010287930",
+            "ontology_label": "VIT therapy",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViT-L",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCD/X80Nq",
+            "ontology_label": "Very low density lipoprotein cholesterol",
+            "ontology": "RCD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViT-H",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCD/5A87.",
+            "ontology_label": "Hormone therapy",
+            "ontology": "RCD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViTAE-G",
+            "ontology_id": "http://www.semanticweb.org/abid/ontologies/2023/7/CardiovascularDiseaseOntology#General_Practitioner_Group",
+            "ontology_label": "General_Practitioner_Group",
+            "ontology": "CVO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "SimpleBaseline",
+            "ontology_id": "http://purl.jp/bio/4/id/200906018490105770",
+            "ontology_label": "single base substitution",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "UDP",
+            "ontology_id": "http://purl.obolibrary.org/obo/UPa_UPC00015",
+            "ontology_label": "UDP",
+            "ontology": "UPA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Bigdet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#38944",
+            "ontology_label": "large",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet-w32",
+            "ontology_id": "http://purl.obolibrary.org/obo/HINO_0021527",
+            "ontology_label": "PathwayStep3232",
+            "ontology": "HINO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet-w48",
+            "ontology_id": "http://purl.bioontology.org/ontology/MESH/C546602",
+            "ontology_label": "SLC48A1 protein, human",
+            "ontology": "MESH",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "datasets": [
+          {
+            "name": "MS COCO Keypoint",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#3120",
+            "ontology_label": "cocos",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MS COCO",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/85854",
+            "ontology_label": "Magnolia coco",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "AI Challenger",
+            "ontology_id": "http://www.ebi.ac.uk/swo/data/SWO_3000023",
+            "ontology_label": "AI",
+            "ontology": "KOIO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ImageNet-1K",
+            "ontology_id": "http://purl.bioontology.org/ontology/LNC/LP72784-9",
+            "ontology_label": "Images taken",
+            "ontology": "LOINC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MPII",
+            "ontology_id": "http://purl.bioontology.org/ontology/LNC/LP229029-6",
+            "ontology_label": "MPI gene targeted mutation analysis",
+            "ontology": "LOINC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "CrowdPose",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#3478",
+            "ontology_label": "crowding",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "OCHuman",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#9593",
+            "ontology_label": "phenelzine",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "tools": [
+          {
+            "name": "mmpose",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCD/X8008",
+            "ontology_label": "mm",
+            "ontology": "RCD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MAE",
+            "ontology_id": "http://purl.obolibrary.org/obo/OLAS_2160880",
+            "ontology_label": "MAE",
+            "ontology": "OLAS",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "related_papers": [
+          {
+            "name": "ViTPose",
+            "ontology_id": "http://purl.bioontology.org/ontology/NDFRT/N0000185028",
+            "ontology_label": "VIBURNUM",
+            "ontology": "NDFRT",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ImageNet",
+            "ontology_id": "http://purl.bioontology.org/ontology/LNC/MTHU047257",
+            "ontology_label": "Photographic image",
+            "ontology": "LOINC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MAE",
+            "ontology_id": "http://purl.obolibrary.org/obo/OLAS_2160880",
+            "ontology_label": "MAE",
+            "ontology": "OLAS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViT",
+            "ontology_id": "http://purl.jp/bio/4/id/201606002010287930",
+            "ontology_label": "VIT therapy",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet",
+            "ontology_id": "http://purl.org/sig/ont/fma/fma5898",
+            "ontology_label": "Anatomical junction",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRFormer",
+            "ontology_id": "http://schema.org/Person",
+            "ontology_label": "Person",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViTAE-G",
+            "ontology_id": "http://www.semanticweb.org/abid/ontologies/2023/7/CardiovascularDiseaseOntology#General_Practitioner_Group",
+            "ontology_label": "General_Practitioner_Group",
+            "ontology": "CVO",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "benchmarks": [
+          {
+            "name": "MS COCO test-dev",
+            "ontology_id": "http://purl.obolibrary.org/obo/DRON_00724085",
+            "ontology_label": "coco glucoside",
+            "ontology": "DDSS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MS COCO val",
+            "ontology_id": "http://purl.obolibrary.org/obo/DRON_00724085",
+            "ontology_label": "coco glucoside",
+            "ontology": "DDSS",
+            "concept_mapping_provenance": "tool"
+          }
+        ]
+      },
+      "provenance": {
+        "extractor_agent": [
+          "description",
+          "type",
+          "category",
+          "target",
+          "specific_target",
+          "url",
+          "key_features",
+          "performance",
+          "model_architecture",
+          "mentions"
+        ],
+        "judge_agent": [
+          "judge_score",
+          "remarks"
+        ]
+      },
+      "judge_score": 0.85,
+      "remarks": "Good alignment with ViTPose; however, specific_target fields are inconsistent (e.g., 'Human' is too generic, 'Human Pose' is vague). Could benefit from more precise entity mapping.",
+      "mapped_name_concept": [
+        {
+          "id": "http://purl.bioontology.org/ontology/NDFRT/N0000185028",
+          "label": "VIBURNUM",
+          "ontology": "NDFRT",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_type_concept": [
+        {
+          "id": "http://purl.jp/bio/4/id/200906025579382154",
+          "label": "face model",
+          "ontology": "IOBC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_category_concept": [
+        {
+          "id": "http://www.semanticweb.org/ontologies/2010/3/Ontology1271664172453.owl#Pose",
+          "label": "Pose",
+          "ontology": "PLIO",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "name": "ViTPose"
+    },
+    {
+      "description": "A simple yet effective vision transformer baseline for pose estimation, pre-trained on ImageNet-1K, MS COCO, and AI Challenger, and fine-tuned on MS COCO with pose annotations. Achieves SOTA performance on MS COCO test-dev set with 80.9 AP (single model) and 81.1 AP (ensemble of three models).",
+      "type": "Model",
+      "category": "Pose Estimation",
+      "target": "Human",
+      "specific_target": "MS COCO Keypoint dataset",
+      "mapped_target_concept": [
+        {
+          "id": "http://purl.jp/bio/4/id/200906022849101153",
+          "label": "Human Body",
+          "ontology": "IOBC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_specific_target_concept": [
+        {
+          "specific_target": "MS COCO Keypoint dataset",
+          "mapped_target_concept": {
+            "id": "http://purl.org/ccf/Dataset",
+            "label": "Dataset",
+            "ontology": "CCF",
+            "concept_mapping_provenance": "tool"
+          }
+        }
+      ],
+      "mentions": {
+        "related_models": [
+          {
+            "name": "TransPose",
+            "ontology_id": "http://purl.bioontology.org/ontology/LNC/MTHU050603",
+            "ontology_label": "Cells.TRA+TRD gene rearrangements/Cells counted",
+            "ontology": "LOINC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "TokenPose",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#12338",
+            "ontology_label": "token economy",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRFormer",
+            "ontology_id": "http://schema.org/Person",
+            "ontology_label": "Person",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViT",
+            "ontology_id": "http://purl.jp/bio/4/id/201606002010287930",
+            "ontology_label": "VIT therapy",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MAE",
+            "ontology_id": "http://purl.obolibrary.org/obo/OLAS_2160880",
+            "ontology_label": "MAE",
+            "ontology": "OLAS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViT-B",
+            "ontology_id": "http://purl.jp/bio/4/id/201606002010287930",
+            "ontology_label": "VIT therapy",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViT-L",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCD/X80Nq",
+            "ontology_label": "Very low density lipoprotein cholesterol",
+            "ontology": "RCD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViT-H",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCD/5A87.",
+            "ontology_label": "Hormone therapy",
+            "ontology": "RCD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViTAE-G",
+            "ontology_id": "http://www.semanticweb.org/abid/ontologies/2023/7/CardiovascularDiseaseOntology#General_Practitioner_Group",
+            "ontology_label": "General_Practitioner_Group",
+            "ontology": "CVO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "SimpleBaseline",
+            "ontology_id": "http://purl.jp/bio/4/id/200906018490105770",
+            "ontology_label": "single base substitution",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "UDP",
+            "ontology_id": "http://purl.obolibrary.org/obo/UPa_UPC00015",
+            "ontology_label": "UDP",
+            "ontology": "UPA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Bigdet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#38944",
+            "ontology_label": "large",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet-w32",
+            "ontology_id": "http://purl.obolibrary.org/obo/HINO_0021527",
+            "ontology_label": "PathwayStep3232",
+            "ontology": "HINO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet-w48",
+            "ontology_id": "http://purl.bioontology.org/ontology/MESH/C546602",
+            "ontology_label": "SLC48A1 protein, human",
+            "ontology": "MESH",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "datasets": [
+          {
+            "name": "MS COCO Keypoint",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#3120",
+            "ontology_label": "cocos",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MS COCO",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/85854",
+            "ontology_label": "Magnolia coco",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "AI Challenger",
+            "ontology_id": "http://www.ebi.ac.uk/swo/data/SWO_3000023",
+            "ontology_label": "AI",
+            "ontology": "KOIO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ImageNet-1K",
+            "ontology_id": "http://purl.bioontology.org/ontology/LNC/LP72784-9",
+            "ontology_label": "Images taken",
+            "ontology": "LOINC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MPII",
+            "ontology_id": "http://purl.bioontology.org/ontology/LNC/LP229029-6",
+            "ontology_label": "MPI gene targeted mutation analysis",
+            "ontology": "LOINC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "CrowdPose",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#3478",
+            "ontology_label": "crowding",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "OCHuman",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#9593",
+            "ontology_label": "phenelzine",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "tools": [
+          {
+            "name": "mmpose",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCD/X8008",
+            "ontology_label": "mm",
+            "ontology": "RCD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MAE",
+            "ontology_id": "http://purl.obolibrary.org/obo/OLAS_2160880",
+            "ontology_label": "MAE",
+            "ontology": "OLAS",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "related_papers": [
+          {
+            "name": "ViTPose",
+            "ontology_id": "http://purl.bioontology.org/ontology/NDFRT/N0000185028",
+            "ontology_label": "VIBURNUM",
+            "ontology": "NDFRT",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ImageNet",
+            "ontology_id": "http://purl.bioontology.org/ontology/LNC/MTHU047257",
+            "ontology_label": "Photographic image",
+            "ontology": "LOINC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MAE",
+            "ontology_id": "http://purl.obolibrary.org/obo/OLAS_2160880",
+            "ontology_label": "MAE",
+            "ontology": "OLAS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViT",
+            "ontology_id": "http://purl.jp/bio/4/id/201606002010287930",
+            "ontology_label": "VIT therapy",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet",
+            "ontology_id": "http://purl.org/sig/ont/fma/fma5898",
+            "ontology_label": "Anatomical junction",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRFormer",
+            "ontology_id": "http://schema.org/Person",
+            "ontology_label": "Person",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViTAE-G",
+            "ontology_id": "http://www.semanticweb.org/abid/ontologies/2023/7/CardiovascularDiseaseOntology#General_Practitioner_Group",
+            "ontology_label": "General_Practitioner_Group",
+            "ontology": "CVO",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "benchmarks": [
+          {
+            "name": "MS COCO test-dev",
+            "ontology_id": "http://purl.obolibrary.org/obo/DRON_00724085",
+            "ontology_label": "coco glucoside",
+            "ontology": "DDSS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MS COCO val",
+            "ontology_id": "http://purl.obolibrary.org/obo/DRON_00724085",
+            "ontology_label": "coco glucoside",
+            "ontology": "DDSS",
+            "concept_mapping_provenance": "tool"
+          }
+        ]
+      },
+      "provenance": {
+        "extractor_agent": [
+          "description",
+          "type",
+          "category",
+          "target",
+          "specific_target",
+          "url",
+          "key_features",
+          "performance",
+          "model_architecture",
+          "mentions"
+        ],
+        "judge_agent": [
+          "judge_score",
+          "remarks"
+        ]
+      },
+      "judge_score": 0.92,
+      "remarks": "Excellent technical accuracy and consistency. Specific_target fields vary slightly but are contextually appropriate. Mentions are rich and relevant to the model's context.",
+      "mapped_name_concept": [
+        {
+          "id": "http://purl.bioontology.org/ontology/NDFRT/N0000185028",
+          "label": "VIBURNUM",
+          "ontology": "NDFRT",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_type_concept": [
+        {
+          "id": "http://purl.jp/bio/4/id/200906025579382154",
+          "label": "face model",
+          "ontology": "IOBC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_category_concept": [
+        {
+          "id": "http://www.semanticweb.org/ontologies/2010/3/Ontology1271664172453.owl#Pose",
+          "label": "Pose",
+          "ontology": "PLIO",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "name": "ViTPose"
+    },
+    {
+      "description": "A simple yet effective vision transformer baseline for pose estimation, pre-trained on ImageNet-1K, MS COCO, and AI Challenger, and fine-tuned on MS COCO with pose annotations. Achieves SOTA performance on MS COCO test-dev set with 80.9 AP (single model) and 81.1 AP (ensemble of three models).",
+      "type": "Model",
+      "category": "Pose Estimation",
+      "target": "Human",
+      "specific_target": "MS COCO Keypoint dataset",
+      "mapped_target_concept": [
+        {
+          "id": "http://purl.jp/bio/4/id/200906022849101153",
+          "label": "Human Body",
+          "ontology": "IOBC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_specific_target_concept": [
+        {
+          "specific_target": "MS COCO Keypoint dataset",
+          "mapped_target_concept": {
+            "id": "http://purl.org/ccf/Dataset",
+            "label": "Dataset",
+            "ontology": "CCF",
+            "concept_mapping_provenance": "tool"
+          }
+        }
+      ],
+      "mentions": {
+        "related_models": [
+          {
+            "name": "TransPose",
+            "ontology_id": "http://purl.bioontology.org/ontology/LNC/MTHU050603",
+            "ontology_label": "Cells.TRA+TRD gene rearrangements/Cells counted",
+            "ontology": "LOINC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "TokenPose",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#12338",
+            "ontology_label": "token economy",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRFormer",
+            "ontology_id": "http://schema.org/Person",
+            "ontology_label": "Person",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViT",
+            "ontology_id": "http://purl.jp/bio/4/id/201606002010287930",
+            "ontology_label": "VIT therapy",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MAE",
+            "ontology_id": "http://purl.obolibrary.org/obo/OLAS_2160880",
+            "ontology_label": "MAE",
+            "ontology": "OLAS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViT-B",
+            "ontology_id": "http://purl.jp/bio/4/id/201606002010287930",
+            "ontology_label": "VIT therapy",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViT-L",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCD/X80Nq",
+            "ontology_label": "Very low density lipoprotein cholesterol",
+            "ontology": "RCD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViT-H",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCD/5A87.",
+            "ontology_label": "Hormone therapy",
+            "ontology": "RCD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViTAE-G",
+            "ontology_id": "http://www.semanticweb.org/abid/ontologies/2023/7/CardiovascularDiseaseOntology#General_Practitioner_Group",
+            "ontology_label": "General_Practitioner_Group",
+            "ontology": "CVO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "SimpleBaseline",
+            "ontology_id": "http://purl.jp/bio/4/id/200906018490105770",
+            "ontology_label": "single base substitution",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "UDP",
+            "ontology_id": "http://purl.obolibrary.org/obo/UPa_UPC00015",
+            "ontology_label": "UDP",
+            "ontology": "UPA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Bigdet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#38944",
+            "ontology_label": "large",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet-w32",
+            "ontology_id": "http://purl.obolibrary.org/obo/HINO_0021527",
+            "ontology_label": "PathwayStep3232",
+            "ontology": "HINO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet-w48",
+            "ontology_id": "http://purl.bioontology.org/ontology/MESH/C546602",
+            "ontology_label": "SLC48A1 protein, human",
+            "ontology": "MESH",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "datasets": [
+          {
+            "name": "MS COCO Keypoint",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#3120",
+            "ontology_label": "cocos",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MS COCO",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/85854",
+            "ontology_label": "Magnolia coco",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "AI Challenger",
+            "ontology_id": "http://www.ebi.ac.uk/swo/data/SWO_3000023",
+            "ontology_label": "AI",
+            "ontology": "KOIO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ImageNet-1K",
+            "ontology_id": "http://purl.bioontology.org/ontology/LNC/LP72784-9",
+            "ontology_label": "Images taken",
+            "ontology": "LOINC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MPII",
+            "ontology_id": "http://purl.bioontology.org/ontology/LNC/LP229029-6",
+            "ontology_label": "MPI gene targeted mutation analysis",
+            "ontology": "LOINC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "CrowdPose",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#3478",
+            "ontology_label": "crowding",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "OCHuman",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#9593",
+            "ontology_label": "phenelzine",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "tools": [
+          {
+            "name": "mmpose",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCD/X8008",
+            "ontology_label": "mm",
+            "ontology": "RCD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MAE",
+            "ontology_id": "http://purl.obolibrary.org/obo/OLAS_2160880",
+            "ontology_label": "MAE",
+            "ontology": "OLAS",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "related_papers": [
+          {
+            "name": "ViTPose",
+            "ontology_id": "http://purl.bioontology.org/ontology/NDFRT/N0000185028",
+            "ontology_label": "VIBURNUM",
+            "ontology": "NDFRT",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ImageNet",
+            "ontology_id": "http://purl.bioontology.org/ontology/LNC/MTHU047257",
+            "ontology_label": "Photographic image",
+            "ontology": "LOINC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MAE",
+            "ontology_id": "http://purl.obolibrary.org/obo/OLAS_2160880",
+            "ontology_label": "MAE",
+            "ontology": "OLAS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViT",
+            "ontology_id": "http://purl.jp/bio/4/id/201606002010287930",
+            "ontology_label": "VIT therapy",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet",
+            "ontology_id": "http://purl.org/sig/ont/fma/fma5898",
+            "ontology_label": "Anatomical junction",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRFormer",
+            "ontology_id": "http://schema.org/Person",
+            "ontology_label": "Person",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViTAE-G",
+            "ontology_id": "http://www.semanticweb.org/abid/ontologies/2023/7/CardiovascularDiseaseOntology#General_Practitioner_Group",
+            "ontology_label": "General_Practitioner_Group",
+            "ontology": "CVO",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "benchmarks": [
+          {
+            "name": "MS COCO test-dev",
+            "ontology_id": "http://purl.obolibrary.org/obo/DRON_00724085",
+            "ontology_label": "coco glucoside",
+            "ontology": "DDSS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MS COCO val",
+            "ontology_id": "http://purl.obolibrary.org/obo/DRON_00724085",
+            "ontology_label": "coco glucoside",
+            "ontology": "DDSS",
+            "concept_mapping_provenance": "tool"
+          }
+        ]
+      },
+      "provenance": {
+        "extractor_agent": [
+          "description",
+          "type",
+          "category",
+          "target",
+          "specific_target",
+          "url",
+          "key_features",
+          "performance",
+          "model_architecture",
+          "mentions"
+        ],
+        "judge_agent": [
+          "judge_score",
+          "remarks"
+        ]
+      },
+      "judge_score": 0.9,
+      "remarks": "High-quality, consistent descriptions with accurate technical details. Minor inconsistency in specific_target (e.g., 'Human' vs 'Human Pose Estimation') does not detract from overall quality.",
+      "mapped_name_concept": [
+        {
+          "id": "http://purl.bioontology.org/ontology/NDFRT/N0000185028",
+          "label": "VIBURNUM",
+          "ontology": "NDFRT",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_type_concept": [
+        {
+          "id": "http://purl.jp/bio/4/id/200906025579382154",
+          "label": "face model",
+          "ontology": "IOBC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_category_concept": [
+        {
+          "id": "http://www.semanticweb.org/ontologies/2010/3/Ontology1271664172453.owl#Pose",
+          "label": "Pose",
+          "ontology": "PLIO",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "name": "ViTPose"
+    }
+  ],
+  "verification": {
+    "resources_checked": 5,
+    "resources_present": 5,
+    "resources_dropped": 0,
+    "resources_dropped_detail": [],
+    "all_resources_present_in_text": true
+  }
+}

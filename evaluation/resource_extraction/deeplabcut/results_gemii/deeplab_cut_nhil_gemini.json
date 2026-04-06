@@ -1,0 +1,4041 @@
+{
+  "errors": [],
+  "task_type": "resource",
+  "elapsed_time": 46.572993993759155,
+  "resources": [
+    {
+      "description": "An open-source toolbox for animal pose estimation, expanded to include multi-animal pose estimation, data-driven assembly, and network flow-based tracking.",
+      "type": "Tool",
+      "category": "Pose Estimation and Tracking",
+      "target": "Animal",
+      "specific_target": "Mice, Marmosets, Schooling fish",
+      "mapped_target_concept": [
+        {
+          "id": "https://allergo.infodocs.eu/ontologie/allergidoc3.0/Animal",
+          "label": "Animal",
+          "ontology": "ALLERGIDOC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_specific_target_concept": [
+        {
+          "specific_target": "Mice, Marmosets, Schooling fish",
+          "mapped_target_concept": {
+            "id": "http://purl.jp/bio/4/id/201306032871146312",
+            "label": "fish school behavior",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          }
+        }
+      ],
+      "url": "https://benchmark.deeplabcut.org",
+      "mentions": {
+        "related_models": [
+          {
+            "name": "DLCRNet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#34461",
+            "ontology_label": "34461",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ResNets",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#43105",
+            "ontology_label": "network",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "EfficientNets",
+            "ontology_id": "http://purl.jp/bio/4/id/200906021338797366",
+            "ontology_label": "Treatment efficiency",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "OpenPose",
+            "ontology_id": "http://www.semanticweb.org/ontologies/2012/0/Ontology1325521724189.owl#Open_label",
+            "ontology_label": "Open label",
+            "ontology": "CTO-NDD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet-AE",
+            "ontology_id": "https://purl.org/ccf/ASCTB-TEMP_ae000661-37",
+            "ontology_label": "AE000661.37",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ResNet-AE",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCD/Ub1Pc",
+            "ontology_label": "Rebox therapy",
+            "ontology": "RCD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Transformers",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#49104",
+            "ontology_label": "transformers",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "CNNs",
+            "ontology_id": "https://purl.org/ccf/ASCTB-TEMP_cnn1",
+            "ontology_label": "CNN1",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DLCRNet_ms5",
+            "ontology_id": "http://purl.bioontology.org/ontology/MESH/C000612424",
+            "ontology_label": "CLIC5 protein, rat",
+            "ontology": "MESH",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ResNet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#10747",
+            "ontology_label": "reserpine",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "EfficientNet",
+            "ontology_id": "http://purl.jp/bio/4/id/200906021338797366",
+            "ontology_label": "Treatment efficiency",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MobileNetV2",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCTV2/0841.00",
+            "ontology_label": "Mobile shop/van salesman",
+            "ontology": "RCTV2",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "CNN-based identity prediction",
+            "ontology_id": "http://purl.bioontology.org/ontology/LNC/MTHU030348",
+            "ontology_label": "Identity testing",
+            "ontology": "LOINC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet",
+            "ontology_id": "http://purl.org/sig/ont/fma/fma5898",
+            "ontology_label": "Anatomical junction",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HigherHRNet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#33420",
+            "ontology_label": "33420",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DeepLabCut",
+            "ontology_id": "http://purl.jp/bio/4/id/201106031094333668",
+            "ontology_label": "Hippocampal slice",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DeepLabCuts",
+            "ontology_id": "http://purl.jp/bio/4/id/201106031094333668",
+            "ontology_label": "Hippocampal slice",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "idtracker.ai",
+            "ontology_id": "http://purl.obolibrary.org/obo/RS_0000367",
+            "ontology_label": "AI/Msik",
+            "ontology": "RS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "SORT",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCD/Xa3Mj",
+            "ontology_label": "Able to sort laundry",
+            "ontology": "RCD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "affinity models",
+            "ontology_id": "http://purl.org/obo/owl/PATO#PATO_0002071",
+            "ontology_label": "increased affinity",
+            "ontology": "BIOMODELS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "CNN",
+            "ontology_id": "http://purl.obolibrary.org/obo/FlyBase_FBgn0013765",
+            "ontology_label": "cnn (fruit fly)",
+            "ontology": "PR",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Transformer",
+            "ontology_id": "http://purl.jp/bio/4/id/201606010656800442",
+            "ontology_label": "transformer para barrel arch",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "datasets": [
+          {
+            "name": "COCO (Common Objects in Context)",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#C0009211",
+            "ontology_label": "coco",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "COCO",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/85854",
+            "ontology_label": "Magnolia coco",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "tri-mouse",
+            "ontology_id": "http://purl.obolibrary.org/obo/NCIT_C37347",
+            "ontology_label": "129X1/Sv Mouse",
+            "ontology": "BERO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "parenting",
+            "ontology_id": "http://purl.jp/bio/4/id/200906006219907057",
+            "ontology_label": "Parenting",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "marmoset",
+            "ontology_id": "https://w3id.org/onvoc/ONVOC_0000608",
+            "ontology_label": "Marmoset",
+            "ontology": "ONVOC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "fish",
+            "ontology_id": "http://purl.obolibrary.org/obo/IDOMAL_0001275",
+            "ontology_label": "fish",
+            "ontology": "IDODEN",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "pups",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#C0869010",
+            "ontology_label": "puppies",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "parenting mouse",
+            "ontology_id": "http://purl.jp/bio/4/id/200906006219907057",
+            "ontology_label": "Parenting",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "marmosets",
+            "ontology_id": "http://purl.obolibrary.org/obo/NCBITaxon_38020",
+            "ontology_label": "marmosets",
+            "ontology": "CLO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "schooling fish",
+            "ontology_id": "http://purl.jp/bio/4/id/201306032871146312",
+            "ontology_label": "fish school behavior",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Tri-mouse dataset",
+            "ontology_id": "http://purl.obolibrary.org/obo/NCIT_C37347",
+            "ontology_label": "129X1/Sv Mouse",
+            "ontology": "BERO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "maDLCopt",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/2868963",
+            "ontology_label": "Madates limbata",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Marmoset dataset",
+            "ontology_id": "https://w3id.org/onvoc/ONVOC_0000608",
+            "ontology_label": "Marmoset",
+            "ontology": "ONVOC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Mouse dataset",
+            "ontology_id": "http://purl.obolibrary.org/obo/NCIT_C37347",
+            "ontology_label": "129X1/Sv Mouse",
+            "ontology": "BERO",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "tools": [
+          {
+            "name": "idTracker.ai",
+            "ontology_id": "http://purl.obolibrary.org/obo/RS_0000367",
+            "ontology_label": "AI/Msik",
+            "ontology": "RS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DeepLabCut-Live!",
+            "ontology_id": "http://purl.jp/bio/4/id/200906029925607198",
+            "ontology_label": "live imaging",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DLCRNet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#34461",
+            "ontology_label": "34461",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "NetworkX",
+            "ontology_id": "http://bioontology.org/projects/ontologies/birnlex#birnlex_2245",
+            "ontology_label": "network graph visualization software",
+            "ontology": "BIRNLEX",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "py-motmetrics",
+            "ontology_id": "http://purl.bioontology.org/ontology/PMR.owl#Plethysmography",
+            "ontology_label": "Plethysmography",
+            "ontology": "PMR",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "related_papers": [
+          {
+            "name": "Cao et al.",
+            "ontology_id": "http://purl.obolibrary.org/obo/CAO_0000037",
+            "ontology_label": "genetic material",
+            "ontology": "CAO",
+            "concept_mapping_provenance": "tool"
+          },
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {}
+        ],
+        "benchmarks": [
+          {
+            "name": "COCO",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/85854",
+            "ontology_label": "Magnolia coco",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "idtracker.ai",
+            "ontology_id": "http://purl.obolibrary.org/obo/RS_0000367",
+            "ontology_label": "AI/Msik",
+            "ontology": "RS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "benchmark.deeplabcut.org",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#38402",
+            "ontology_label": "benchmarking",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "maDLCopt.deeplabcut.org",
+            "ontology_id": "http://purl.jp/bio/4/id/201106031094333668",
+            "ontology_label": "Hippocampal slice",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MOTA",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/2847912",
+            "ontology_label": "Mota massyla",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          }
+        ]
+      },
+      "provenance": {
+        "extractor_agent": [
+          "description",
+          "type",
+          "category",
+          "target",
+          "specific_target",
+          "url",
+          "key_features",
+          "performance",
+          "model_architecture",
+          "mentions"
+        ],
+        "judge_agent": [
+          "judge_score",
+          "remarks"
+        ]
+      },
+      "judge_score": 0.95,
+      "remarks": "Accurate description of the DeepLabCut core functionality.",
+      "mapped_name_concept": [
+        {
+          "id": "http://purl.jp/bio/4/id/201106031094333668",
+          "label": "Hippocampal slice",
+          "ontology": "IOBC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_type_concept": [
+        {
+          "id": "http://purl.jp/bio/4/id/200906042768396010",
+          "label": "electric tool",
+          "ontology": "IOBC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_category_concept": [
+        {
+          "id": "http://purl.jp/bio/4/id/201106008556433866",
+          "label": "Cell Tracking",
+          "ontology": "IOBC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "name": "DeepLabCut"
+    },
+    {
+      "description": "A multi-scale neural network architecture for multi-animal pose estimation and individual assembly, leveraging Part Affinity Fields (PAFs) and data-driven skeleton construction within the DeepLabCut ecosystem.",
+      "type": "Model",
+      "category": "Pose Estimation",
+      "target": "Animal",
+      "specific_target": "Social animal groups",
+      "mapped_target_concept": [
+        {
+          "id": "https://allergo.infodocs.eu/ontologie/allergidoc3.0/Animal",
+          "label": "Animal",
+          "ontology": "ALLERGIDOC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_specific_target_concept": [
+        {
+          "specific_target": "Social animal groups",
+          "mapped_target_concept": {
+            "id": "http://purl.jp/bio/4/id/201006074929456271",
+            "label": "Animal social behavior",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          }
+        }
+      ],
+      "url": "http://maDLCopt.deeplabcut.org",
+      "mentions": {
+        "related_models": [
+          {
+            "name": "DLCRNet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#34461",
+            "ontology_label": "34461",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ResNets",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#43105",
+            "ontology_label": "network",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "EfficientNets",
+            "ontology_id": "http://purl.jp/bio/4/id/200906021338797366",
+            "ontology_label": "Treatment efficiency",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "OpenPose",
+            "ontology_id": "http://www.semanticweb.org/ontologies/2012/0/Ontology1325521724189.owl#Open_label",
+            "ontology_label": "Open label",
+            "ontology": "CTO-NDD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet-AE",
+            "ontology_id": "https://purl.org/ccf/ASCTB-TEMP_ae000661-37",
+            "ontology_label": "AE000661.37",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ResNet-AE",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCD/Ub1Pc",
+            "ontology_label": "Rebox therapy",
+            "ontology": "RCD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Transformers",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#49104",
+            "ontology_label": "transformers",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "CNNs",
+            "ontology_id": "https://purl.org/ccf/ASCTB-TEMP_cnn1",
+            "ontology_label": "CNN1",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DLCRNet_ms5",
+            "ontology_id": "http://purl.bioontology.org/ontology/MESH/C000612424",
+            "ontology_label": "CLIC5 protein, rat",
+            "ontology": "MESH",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ResNet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#10747",
+            "ontology_label": "reserpine",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "EfficientNet",
+            "ontology_id": "http://purl.jp/bio/4/id/200906021338797366",
+            "ontology_label": "Treatment efficiency",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MobileNetV2",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCTV2/0841.00",
+            "ontology_label": "Mobile shop/van salesman",
+            "ontology": "RCTV2",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "CNN-based identity prediction",
+            "ontology_id": "http://purl.bioontology.org/ontology/LNC/MTHU030348",
+            "ontology_label": "Identity testing",
+            "ontology": "LOINC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet",
+            "ontology_id": "http://purl.org/sig/ont/fma/fma5898",
+            "ontology_label": "Anatomical junction",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HigherHRNet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#33420",
+            "ontology_label": "33420",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DeepLabCut",
+            "ontology_id": "http://purl.jp/bio/4/id/201106031094333668",
+            "ontology_label": "Hippocampal slice",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DeepLabCuts",
+            "ontology_id": "http://purl.jp/bio/4/id/201106031094333668",
+            "ontology_label": "Hippocampal slice",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "idtracker.ai",
+            "ontology_id": "http://purl.obolibrary.org/obo/RS_0000367",
+            "ontology_label": "AI/Msik",
+            "ontology": "RS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "SORT",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCD/Xa3Mj",
+            "ontology_label": "Able to sort laundry",
+            "ontology": "RCD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "affinity models",
+            "ontology_id": "http://purl.org/obo/owl/PATO#PATO_0002071",
+            "ontology_label": "increased affinity",
+            "ontology": "BIOMODELS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "CNN",
+            "ontology_id": "http://purl.obolibrary.org/obo/FlyBase_FBgn0013765",
+            "ontology_label": "cnn (fruit fly)",
+            "ontology": "PR",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Transformer",
+            "ontology_id": "http://purl.jp/bio/4/id/201606010656800442",
+            "ontology_label": "transformer para barrel arch",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "datasets": [
+          {
+            "name": "COCO (Common Objects in Context)",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#C0009211",
+            "ontology_label": "coco",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "COCO",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/85854",
+            "ontology_label": "Magnolia coco",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "tri-mouse",
+            "ontology_id": "http://purl.obolibrary.org/obo/NCIT_C37347",
+            "ontology_label": "129X1/Sv Mouse",
+            "ontology": "BERO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "parenting",
+            "ontology_id": "http://purl.jp/bio/4/id/200906006219907057",
+            "ontology_label": "Parenting",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "marmoset",
+            "ontology_id": "https://w3id.org/onvoc/ONVOC_0000608",
+            "ontology_label": "Marmoset",
+            "ontology": "ONVOC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "fish",
+            "ontology_id": "http://purl.obolibrary.org/obo/IDOMAL_0001275",
+            "ontology_label": "fish",
+            "ontology": "IDODEN",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "pups",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#C0869010",
+            "ontology_label": "puppies",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "parenting mouse",
+            "ontology_id": "http://purl.jp/bio/4/id/200906006219907057",
+            "ontology_label": "Parenting",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "marmosets",
+            "ontology_id": "http://purl.obolibrary.org/obo/NCBITaxon_38020",
+            "ontology_label": "marmosets",
+            "ontology": "CLO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "schooling fish",
+            "ontology_id": "http://purl.jp/bio/4/id/201306032871146312",
+            "ontology_label": "fish school behavior",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Tri-mouse dataset",
+            "ontology_id": "http://purl.obolibrary.org/obo/NCIT_C37347",
+            "ontology_label": "129X1/Sv Mouse",
+            "ontology": "BERO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "maDLCopt",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/2868963",
+            "ontology_label": "Madates limbata",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Marmoset dataset",
+            "ontology_id": "https://w3id.org/onvoc/ONVOC_0000608",
+            "ontology_label": "Marmoset",
+            "ontology": "ONVOC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Mouse dataset",
+            "ontology_id": "http://purl.obolibrary.org/obo/NCIT_C37347",
+            "ontology_label": "129X1/Sv Mouse",
+            "ontology": "BERO",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "tools": [
+          {
+            "name": "idTracker.ai",
+            "ontology_id": "http://purl.obolibrary.org/obo/RS_0000367",
+            "ontology_label": "AI/Msik",
+            "ontology": "RS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DeepLabCut-Live!",
+            "ontology_id": "http://purl.jp/bio/4/id/200906029925607198",
+            "ontology_label": "live imaging",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DLCRNet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#34461",
+            "ontology_label": "34461",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "NetworkX",
+            "ontology_id": "http://bioontology.org/projects/ontologies/birnlex#birnlex_2245",
+            "ontology_label": "network graph visualization software",
+            "ontology": "BIRNLEX",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "py-motmetrics",
+            "ontology_id": "http://purl.bioontology.org/ontology/PMR.owl#Plethysmography",
+            "ontology_label": "Plethysmography",
+            "ontology": "PMR",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "related_papers": [
+          {
+            "name": "Cao et al.",
+            "ontology_id": "http://purl.obolibrary.org/obo/CAO_0000037",
+            "ontology_label": "genetic material",
+            "ontology": "CAO",
+            "concept_mapping_provenance": "tool"
+          },
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {}
+        ],
+        "benchmarks": [
+          {
+            "name": "COCO",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/85854",
+            "ontology_label": "Magnolia coco",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "idtracker.ai",
+            "ontology_id": "http://purl.obolibrary.org/obo/RS_0000367",
+            "ontology_label": "AI/Msik",
+            "ontology": "RS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "benchmark.deeplabcut.org",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#38402",
+            "ontology_label": "benchmarking",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "maDLCopt.deeplabcut.org",
+            "ontology_id": "http://purl.jp/bio/4/id/201106031094333668",
+            "ontology_label": "Hippocampal slice",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MOTA",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/2847912",
+            "ontology_label": "Mota massyla",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          }
+        ]
+      },
+      "provenance": {
+        "extractor_agent": [
+          "description",
+          "type",
+          "category",
+          "target",
+          "specific_target",
+          "url",
+          "key_features",
+          "performance",
+          "model_architecture",
+          "mentions"
+        ],
+        "judge_agent": [
+          "judge_score",
+          "remarks"
+        ]
+      },
+      "judge_score": 1.0,
+      "remarks": "Correct classification of DLCRNet_ms5 as a model architecture.",
+      "mapped_name_concept": [
+        {
+          "id": "http://purl.bioontology.org/ontology/MESH/C000612424",
+          "label": "CLIC5 protein, rat",
+          "ontology": "MESH",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_type_concept": [
+        {
+          "id": "http://purl.jp/bio/4/id/200906025579382154",
+          "label": "face model",
+          "ontology": "IOBC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_category_concept": [
+        {
+          "id": "http://www.semanticweb.org/ontologies/2010/3/Ontology1271664172453.owl#Pose",
+          "label": "Pose",
+          "ontology": "PLIO",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "name": "DLCRNet_ms5"
+    },
+    {
+      "description": "An open-source toolbox for markerless pose estimation and multi-animal tracking, featuring assembly algorithms, identity re-identification, and a tracklet stitching system for kinematic consistency.",
+      "type": "Tool",
+      "category": "Pose Estimation and Tracking",
+      "target": "Animal",
+      "specific_target": "Multi-animal tracking, individual identification",
+      "mapped_target_concept": [
+        {
+          "id": "https://allergo.infodocs.eu/ontologie/allergidoc3.0/Animal",
+          "label": "Animal",
+          "ontology": "ALLERGIDOC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_specific_target_concept": [
+        {
+          "specific_target": "Multi-animal tracking, individual identification",
+          "mapped_target_concept": {
+            "id": "http://purl.jp/bio/4/id/200906097916558945",
+            "label": "individual identification",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          }
+        }
+      ],
+      "url": "https://github.com/DeepLabCut/DeepLabCut",
+      "mentions": {
+        "related_models": [
+          {
+            "name": "DLCRNet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#34461",
+            "ontology_label": "34461",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ResNets",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#43105",
+            "ontology_label": "network",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "EfficientNets",
+            "ontology_id": "http://purl.jp/bio/4/id/200906021338797366",
+            "ontology_label": "Treatment efficiency",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "OpenPose",
+            "ontology_id": "http://www.semanticweb.org/ontologies/2012/0/Ontology1325521724189.owl#Open_label",
+            "ontology_label": "Open label",
+            "ontology": "CTO-NDD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet-AE",
+            "ontology_id": "https://purl.org/ccf/ASCTB-TEMP_ae000661-37",
+            "ontology_label": "AE000661.37",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ResNet-AE",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCD/Ub1Pc",
+            "ontology_label": "Rebox therapy",
+            "ontology": "RCD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Transformers",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#49104",
+            "ontology_label": "transformers",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "CNNs",
+            "ontology_id": "https://purl.org/ccf/ASCTB-TEMP_cnn1",
+            "ontology_label": "CNN1",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DLCRNet_ms5",
+            "ontology_id": "http://purl.bioontology.org/ontology/MESH/C000612424",
+            "ontology_label": "CLIC5 protein, rat",
+            "ontology": "MESH",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ResNet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#10747",
+            "ontology_label": "reserpine",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "EfficientNet",
+            "ontology_id": "http://purl.jp/bio/4/id/200906021338797366",
+            "ontology_label": "Treatment efficiency",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MobileNetV2",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCTV2/0841.00",
+            "ontology_label": "Mobile shop/van salesman",
+            "ontology": "RCTV2",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "CNN-based identity prediction",
+            "ontology_id": "http://purl.bioontology.org/ontology/LNC/MTHU030348",
+            "ontology_label": "Identity testing",
+            "ontology": "LOINC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet",
+            "ontology_id": "http://purl.org/sig/ont/fma/fma5898",
+            "ontology_label": "Anatomical junction",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HigherHRNet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#33420",
+            "ontology_label": "33420",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DeepLabCut",
+            "ontology_id": "http://purl.jp/bio/4/id/201106031094333668",
+            "ontology_label": "Hippocampal slice",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DeepLabCuts",
+            "ontology_id": "http://purl.jp/bio/4/id/201106031094333668",
+            "ontology_label": "Hippocampal slice",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "idtracker.ai",
+            "ontology_id": "http://purl.obolibrary.org/obo/RS_0000367",
+            "ontology_label": "AI/Msik",
+            "ontology": "RS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "SORT",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCD/Xa3Mj",
+            "ontology_label": "Able to sort laundry",
+            "ontology": "RCD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "affinity models",
+            "ontology_id": "http://purl.org/obo/owl/PATO#PATO_0002071",
+            "ontology_label": "increased affinity",
+            "ontology": "BIOMODELS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "CNN",
+            "ontology_id": "http://purl.obolibrary.org/obo/FlyBase_FBgn0013765",
+            "ontology_label": "cnn (fruit fly)",
+            "ontology": "PR",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Transformer",
+            "ontology_id": "http://purl.jp/bio/4/id/201606010656800442",
+            "ontology_label": "transformer para barrel arch",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "datasets": [
+          {
+            "name": "COCO (Common Objects in Context)",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#C0009211",
+            "ontology_label": "coco",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "COCO",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/85854",
+            "ontology_label": "Magnolia coco",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "tri-mouse",
+            "ontology_id": "http://purl.obolibrary.org/obo/NCIT_C37347",
+            "ontology_label": "129X1/Sv Mouse",
+            "ontology": "BERO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "parenting",
+            "ontology_id": "http://purl.jp/bio/4/id/200906006219907057",
+            "ontology_label": "Parenting",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "marmoset",
+            "ontology_id": "https://w3id.org/onvoc/ONVOC_0000608",
+            "ontology_label": "Marmoset",
+            "ontology": "ONVOC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "fish",
+            "ontology_id": "http://purl.obolibrary.org/obo/IDOMAL_0001275",
+            "ontology_label": "fish",
+            "ontology": "IDODEN",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "pups",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#C0869010",
+            "ontology_label": "puppies",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "parenting mouse",
+            "ontology_id": "http://purl.jp/bio/4/id/200906006219907057",
+            "ontology_label": "Parenting",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "marmosets",
+            "ontology_id": "http://purl.obolibrary.org/obo/NCBITaxon_38020",
+            "ontology_label": "marmosets",
+            "ontology": "CLO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "schooling fish",
+            "ontology_id": "http://purl.jp/bio/4/id/201306032871146312",
+            "ontology_label": "fish school behavior",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Tri-mouse dataset",
+            "ontology_id": "http://purl.obolibrary.org/obo/NCIT_C37347",
+            "ontology_label": "129X1/Sv Mouse",
+            "ontology": "BERO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "maDLCopt",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/2868963",
+            "ontology_label": "Madates limbata",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Marmoset dataset",
+            "ontology_id": "https://w3id.org/onvoc/ONVOC_0000608",
+            "ontology_label": "Marmoset",
+            "ontology": "ONVOC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Mouse dataset",
+            "ontology_id": "http://purl.obolibrary.org/obo/NCIT_C37347",
+            "ontology_label": "129X1/Sv Mouse",
+            "ontology": "BERO",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "tools": [
+          {
+            "name": "idTracker.ai",
+            "ontology_id": "http://purl.obolibrary.org/obo/RS_0000367",
+            "ontology_label": "AI/Msik",
+            "ontology": "RS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DeepLabCut-Live!",
+            "ontology_id": "http://purl.jp/bio/4/id/200906029925607198",
+            "ontology_label": "live imaging",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DLCRNet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#34461",
+            "ontology_label": "34461",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "NetworkX",
+            "ontology_id": "http://bioontology.org/projects/ontologies/birnlex#birnlex_2245",
+            "ontology_label": "network graph visualization software",
+            "ontology": "BIRNLEX",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "py-motmetrics",
+            "ontology_id": "http://purl.bioontology.org/ontology/PMR.owl#Plethysmography",
+            "ontology_label": "Plethysmography",
+            "ontology": "PMR",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "related_papers": [
+          {
+            "name": "Cao et al.",
+            "ontology_id": "http://purl.obolibrary.org/obo/CAO_0000037",
+            "ontology_label": "genetic material",
+            "ontology": "CAO",
+            "concept_mapping_provenance": "tool"
+          },
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {}
+        ],
+        "benchmarks": [
+          {
+            "name": "COCO",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/85854",
+            "ontology_label": "Magnolia coco",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "idtracker.ai",
+            "ontology_id": "http://purl.obolibrary.org/obo/RS_0000367",
+            "ontology_label": "AI/Msik",
+            "ontology": "RS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "benchmark.deeplabcut.org",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#38402",
+            "ontology_label": "benchmarking",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "maDLCopt.deeplabcut.org",
+            "ontology_id": "http://purl.jp/bio/4/id/201106031094333668",
+            "ontology_label": "Hippocampal slice",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MOTA",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/2847912",
+            "ontology_label": "Mota massyla",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          }
+        ]
+      },
+      "provenance": {
+        "extractor_agent": [
+          "description",
+          "type",
+          "category",
+          "target",
+          "specific_target",
+          "url",
+          "key_features",
+          "performance",
+          "model_architecture",
+          "mentions"
+        ],
+        "judge_agent": [
+          "judge_score",
+          "remarks"
+        ]
+      },
+      "judge_score": 0.95,
+      "remarks": "Redundant entry (DeepLabCut), but technical details are accurate.",
+      "mapped_name_concept": [
+        {
+          "id": "http://purl.jp/bio/4/id/201106031094333668",
+          "label": "Hippocampal slice",
+          "ontology": "IOBC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_type_concept": [
+        {
+          "id": "http://purl.jp/bio/4/id/200906042768396010",
+          "label": "electric tool",
+          "ontology": "IOBC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_category_concept": [
+        {
+          "id": "http://purl.jp/bio/4/id/201106008556433866",
+          "label": "Cell Tracking",
+          "ontology": "IOBC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "name": "DeepLabCut"
+    },
+    {
+      "description": "A multi-animal pose estimation and tracking system extending DeepLabCut that supports identity tracking, reID, unsupervised metric learning, and both bottom-up and top-down pose estimation pipelines for long-term behavioral analysis.",
+      "type": "Tool",
+      "category": "Pose Estimation and Tracking",
+      "target": "Animal",
+      "specific_target": "Social animal groups",
+      "mapped_target_concept": [
+        {
+          "id": "https://allergo.infodocs.eu/ontologie/allergidoc3.0/Animal",
+          "label": "Animal",
+          "ontology": "ALLERGIDOC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_specific_target_concept": [
+        {
+          "specific_target": "Social animal groups",
+          "mapped_target_concept": {
+            "id": "http://purl.jp/bio/4/id/201006074929456271",
+            "label": "Animal social behavior",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          }
+        }
+      ],
+      "url": "https://github.com/DeepLabCut/DeepLabCut",
+      "mentions": {
+        "related_models": [
+          {
+            "name": "DLCRNet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#34461",
+            "ontology_label": "34461",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ResNets",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#43105",
+            "ontology_label": "network",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "EfficientNets",
+            "ontology_id": "http://purl.jp/bio/4/id/200906021338797366",
+            "ontology_label": "Treatment efficiency",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "OpenPose",
+            "ontology_id": "http://www.semanticweb.org/ontologies/2012/0/Ontology1325521724189.owl#Open_label",
+            "ontology_label": "Open label",
+            "ontology": "CTO-NDD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet-AE",
+            "ontology_id": "https://purl.org/ccf/ASCTB-TEMP_ae000661-37",
+            "ontology_label": "AE000661.37",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ResNet-AE",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCD/Ub1Pc",
+            "ontology_label": "Rebox therapy",
+            "ontology": "RCD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Transformers",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#49104",
+            "ontology_label": "transformers",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "CNNs",
+            "ontology_id": "https://purl.org/ccf/ASCTB-TEMP_cnn1",
+            "ontology_label": "CNN1",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DLCRNet_ms5",
+            "ontology_id": "http://purl.bioontology.org/ontology/MESH/C000612424",
+            "ontology_label": "CLIC5 protein, rat",
+            "ontology": "MESH",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ResNet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#10747",
+            "ontology_label": "reserpine",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "EfficientNet",
+            "ontology_id": "http://purl.jp/bio/4/id/200906021338797366",
+            "ontology_label": "Treatment efficiency",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MobileNetV2",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCTV2/0841.00",
+            "ontology_label": "Mobile shop/van salesman",
+            "ontology": "RCTV2",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "CNN-based identity prediction",
+            "ontology_id": "http://purl.bioontology.org/ontology/LNC/MTHU030348",
+            "ontology_label": "Identity testing",
+            "ontology": "LOINC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet",
+            "ontology_id": "http://purl.org/sig/ont/fma/fma5898",
+            "ontology_label": "Anatomical junction",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HigherHRNet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#33420",
+            "ontology_label": "33420",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DeepLabCut",
+            "ontology_id": "http://purl.jp/bio/4/id/201106031094333668",
+            "ontology_label": "Hippocampal slice",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DeepLabCuts",
+            "ontology_id": "http://purl.jp/bio/4/id/201106031094333668",
+            "ontology_label": "Hippocampal slice",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "idtracker.ai",
+            "ontology_id": "http://purl.obolibrary.org/obo/RS_0000367",
+            "ontology_label": "AI/Msik",
+            "ontology": "RS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "SORT",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCD/Xa3Mj",
+            "ontology_label": "Able to sort laundry",
+            "ontology": "RCD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "affinity models",
+            "ontology_id": "http://purl.org/obo/owl/PATO#PATO_0002071",
+            "ontology_label": "increased affinity",
+            "ontology": "BIOMODELS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "CNN",
+            "ontology_id": "http://purl.obolibrary.org/obo/FlyBase_FBgn0013765",
+            "ontology_label": "cnn (fruit fly)",
+            "ontology": "PR",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Transformer",
+            "ontology_id": "http://purl.jp/bio/4/id/201606010656800442",
+            "ontology_label": "transformer para barrel arch",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "datasets": [
+          {
+            "name": "COCO (Common Objects in Context)",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#C0009211",
+            "ontology_label": "coco",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "COCO",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/85854",
+            "ontology_label": "Magnolia coco",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "tri-mouse",
+            "ontology_id": "http://purl.obolibrary.org/obo/NCIT_C37347",
+            "ontology_label": "129X1/Sv Mouse",
+            "ontology": "BERO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "parenting",
+            "ontology_id": "http://purl.jp/bio/4/id/200906006219907057",
+            "ontology_label": "Parenting",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "marmoset",
+            "ontology_id": "https://w3id.org/onvoc/ONVOC_0000608",
+            "ontology_label": "Marmoset",
+            "ontology": "ONVOC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "fish",
+            "ontology_id": "http://purl.obolibrary.org/obo/IDOMAL_0001275",
+            "ontology_label": "fish",
+            "ontology": "IDODEN",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "pups",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#C0869010",
+            "ontology_label": "puppies",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "parenting mouse",
+            "ontology_id": "http://purl.jp/bio/4/id/200906006219907057",
+            "ontology_label": "Parenting",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "marmosets",
+            "ontology_id": "http://purl.obolibrary.org/obo/NCBITaxon_38020",
+            "ontology_label": "marmosets",
+            "ontology": "CLO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "schooling fish",
+            "ontology_id": "http://purl.jp/bio/4/id/201306032871146312",
+            "ontology_label": "fish school behavior",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Tri-mouse dataset",
+            "ontology_id": "http://purl.obolibrary.org/obo/NCIT_C37347",
+            "ontology_label": "129X1/Sv Mouse",
+            "ontology": "BERO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "maDLCopt",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/2868963",
+            "ontology_label": "Madates limbata",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Marmoset dataset",
+            "ontology_id": "https://w3id.org/onvoc/ONVOC_0000608",
+            "ontology_label": "Marmoset",
+            "ontology": "ONVOC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Mouse dataset",
+            "ontology_id": "http://purl.obolibrary.org/obo/NCIT_C37347",
+            "ontology_label": "129X1/Sv Mouse",
+            "ontology": "BERO",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "tools": [
+          {
+            "name": "idTracker.ai",
+            "ontology_id": "http://purl.obolibrary.org/obo/RS_0000367",
+            "ontology_label": "AI/Msik",
+            "ontology": "RS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DeepLabCut-Live!",
+            "ontology_id": "http://purl.jp/bio/4/id/200906029925607198",
+            "ontology_label": "live imaging",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DLCRNet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#34461",
+            "ontology_label": "34461",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "NetworkX",
+            "ontology_id": "http://bioontology.org/projects/ontologies/birnlex#birnlex_2245",
+            "ontology_label": "network graph visualization software",
+            "ontology": "BIRNLEX",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "py-motmetrics",
+            "ontology_id": "http://purl.bioontology.org/ontology/PMR.owl#Plethysmography",
+            "ontology_label": "Plethysmography",
+            "ontology": "PMR",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "related_papers": [
+          {
+            "name": "Cao et al.",
+            "ontology_id": "http://purl.obolibrary.org/obo/CAO_0000037",
+            "ontology_label": "genetic material",
+            "ontology": "CAO",
+            "concept_mapping_provenance": "tool"
+          },
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {}
+        ],
+        "benchmarks": [
+          {
+            "name": "COCO",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/85854",
+            "ontology_label": "Magnolia coco",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "idtracker.ai",
+            "ontology_id": "http://purl.obolibrary.org/obo/RS_0000367",
+            "ontology_label": "AI/Msik",
+            "ontology": "RS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "benchmark.deeplabcut.org",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#38402",
+            "ontology_label": "benchmarking",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "maDLCopt.deeplabcut.org",
+            "ontology_id": "http://purl.jp/bio/4/id/201106031094333668",
+            "ontology_label": "Hippocampal slice",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MOTA",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/2847912",
+            "ontology_label": "Mota massyla",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          }
+        ]
+      },
+      "provenance": {
+        "extractor_agent": [
+          "description",
+          "type",
+          "category",
+          "target",
+          "specific_target",
+          "url",
+          "key_features",
+          "performance",
+          "model_architecture",
+          "mentions"
+        ],
+        "judge_agent": [
+          "judge_score",
+          "remarks"
+        ]
+      },
+      "judge_score": 1.0,
+      "remarks": "Excellent description of the maDLC extension.",
+      "mapped_name_concept": [
+        {
+          "id": "http://www.co-ode.org/ontologies/ont.owl#Animal-based_protein",
+          "label": "Animal-based_protein",
+          "ontology": "DILON",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_type_concept": [
+        {
+          "id": "http://purl.jp/bio/4/id/200906042768396010",
+          "label": "electric tool",
+          "ontology": "IOBC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_category_concept": [
+        {
+          "id": "http://purl.jp/bio/4/id/201106008556433866",
+          "label": "Cell Tracking",
+          "ontology": "IOBC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "name": "multi-animal DeepLabCut (maDLC)"
+    },
+    {
+      "description": "An open-source toolbox for markerless pose estimation of animals and humans that allows for tracking of body parts across frames, supporting both GUI and programmatic interfaces.",
+      "type": "Tool",
+      "category": "Pose Estimation",
+      "target": "Animal and Human",
+      "specific_target": "Multiple species (Mice, Marmosets, Fish, Silversides)",
+      "mapped_target_concept": [
+        {
+          "id": "http://purl.org/biotop/biotop.owl#AnimalExcludingHuman",
+          "label": "animal excluding human",
+          "ontology": "BT",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_specific_target_concept": [
+        {
+          "specific_target": "Multiple species (Mice, Marmosets, Fish, Silversides)",
+          "mapped_target_concept": {
+            "id": "http://purl.obolibrary.org/obo/FOODON_03413819",
+            "label": "neotropical silverside family",
+            "ontology": "FOODON",
+            "concept_mapping_provenance": "tool"
+          }
+        }
+      ],
+      "url": "https://deeplabcut.github.io/DeepLabCut",
+      "mentions": {
+        "related_models": [
+          {
+            "name": "DLCRNet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#34461",
+            "ontology_label": "34461",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ResNets",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#43105",
+            "ontology_label": "network",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "EfficientNets",
+            "ontology_id": "http://purl.jp/bio/4/id/200906021338797366",
+            "ontology_label": "Treatment efficiency",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "OpenPose",
+            "ontology_id": "http://www.semanticweb.org/ontologies/2012/0/Ontology1325521724189.owl#Open_label",
+            "ontology_label": "Open label",
+            "ontology": "CTO-NDD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet-AE",
+            "ontology_id": "https://purl.org/ccf/ASCTB-TEMP_ae000661-37",
+            "ontology_label": "AE000661.37",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ResNet-AE",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCD/Ub1Pc",
+            "ontology_label": "Rebox therapy",
+            "ontology": "RCD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Transformers",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#49104",
+            "ontology_label": "transformers",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "CNNs",
+            "ontology_id": "https://purl.org/ccf/ASCTB-TEMP_cnn1",
+            "ontology_label": "CNN1",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DLCRNet_ms5",
+            "ontology_id": "http://purl.bioontology.org/ontology/MESH/C000612424",
+            "ontology_label": "CLIC5 protein, rat",
+            "ontology": "MESH",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ResNet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#10747",
+            "ontology_label": "reserpine",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "EfficientNet",
+            "ontology_id": "http://purl.jp/bio/4/id/200906021338797366",
+            "ontology_label": "Treatment efficiency",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MobileNetV2",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCTV2/0841.00",
+            "ontology_label": "Mobile shop/van salesman",
+            "ontology": "RCTV2",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "CNN-based identity prediction",
+            "ontology_id": "http://purl.bioontology.org/ontology/LNC/MTHU030348",
+            "ontology_label": "Identity testing",
+            "ontology": "LOINC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet",
+            "ontology_id": "http://purl.org/sig/ont/fma/fma5898",
+            "ontology_label": "Anatomical junction",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HigherHRNet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#33420",
+            "ontology_label": "33420",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DeepLabCut",
+            "ontology_id": "http://purl.jp/bio/4/id/201106031094333668",
+            "ontology_label": "Hippocampal slice",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DeepLabCuts",
+            "ontology_id": "http://purl.jp/bio/4/id/201106031094333668",
+            "ontology_label": "Hippocampal slice",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "idtracker.ai",
+            "ontology_id": "http://purl.obolibrary.org/obo/RS_0000367",
+            "ontology_label": "AI/Msik",
+            "ontology": "RS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "SORT",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCD/Xa3Mj",
+            "ontology_label": "Able to sort laundry",
+            "ontology": "RCD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "affinity models",
+            "ontology_id": "http://purl.org/obo/owl/PATO#PATO_0002071",
+            "ontology_label": "increased affinity",
+            "ontology": "BIOMODELS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "CNN",
+            "ontology_id": "http://purl.obolibrary.org/obo/FlyBase_FBgn0013765",
+            "ontology_label": "cnn (fruit fly)",
+            "ontology": "PR",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Transformer",
+            "ontology_id": "http://purl.jp/bio/4/id/201606010656800442",
+            "ontology_label": "transformer para barrel arch",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "datasets": [
+          {
+            "name": "COCO (Common Objects in Context)",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#C0009211",
+            "ontology_label": "coco",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "COCO",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/85854",
+            "ontology_label": "Magnolia coco",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "tri-mouse",
+            "ontology_id": "http://purl.obolibrary.org/obo/NCIT_C37347",
+            "ontology_label": "129X1/Sv Mouse",
+            "ontology": "BERO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "parenting",
+            "ontology_id": "http://purl.jp/bio/4/id/200906006219907057",
+            "ontology_label": "Parenting",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "marmoset",
+            "ontology_id": "https://w3id.org/onvoc/ONVOC_0000608",
+            "ontology_label": "Marmoset",
+            "ontology": "ONVOC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "fish",
+            "ontology_id": "http://purl.obolibrary.org/obo/IDOMAL_0001275",
+            "ontology_label": "fish",
+            "ontology": "IDODEN",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "pups",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#C0869010",
+            "ontology_label": "puppies",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "parenting mouse",
+            "ontology_id": "http://purl.jp/bio/4/id/200906006219907057",
+            "ontology_label": "Parenting",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "marmosets",
+            "ontology_id": "http://purl.obolibrary.org/obo/NCBITaxon_38020",
+            "ontology_label": "marmosets",
+            "ontology": "CLO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "schooling fish",
+            "ontology_id": "http://purl.jp/bio/4/id/201306032871146312",
+            "ontology_label": "fish school behavior",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Tri-mouse dataset",
+            "ontology_id": "http://purl.obolibrary.org/obo/NCIT_C37347",
+            "ontology_label": "129X1/Sv Mouse",
+            "ontology": "BERO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "maDLCopt",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/2868963",
+            "ontology_label": "Madates limbata",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Marmoset dataset",
+            "ontology_id": "https://w3id.org/onvoc/ONVOC_0000608",
+            "ontology_label": "Marmoset",
+            "ontology": "ONVOC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Mouse dataset",
+            "ontology_id": "http://purl.obolibrary.org/obo/NCIT_C37347",
+            "ontology_label": "129X1/Sv Mouse",
+            "ontology": "BERO",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "tools": [
+          {
+            "name": "idTracker.ai",
+            "ontology_id": "http://purl.obolibrary.org/obo/RS_0000367",
+            "ontology_label": "AI/Msik",
+            "ontology": "RS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DeepLabCut-Live!",
+            "ontology_id": "http://purl.jp/bio/4/id/200906029925607198",
+            "ontology_label": "live imaging",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DLCRNet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#34461",
+            "ontology_label": "34461",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "NetworkX",
+            "ontology_id": "http://bioontology.org/projects/ontologies/birnlex#birnlex_2245",
+            "ontology_label": "network graph visualization software",
+            "ontology": "BIRNLEX",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "py-motmetrics",
+            "ontology_id": "http://purl.bioontology.org/ontology/PMR.owl#Plethysmography",
+            "ontology_label": "Plethysmography",
+            "ontology": "PMR",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "related_papers": [
+          {
+            "name": "Cao et al.",
+            "ontology_id": "http://purl.obolibrary.org/obo/CAO_0000037",
+            "ontology_label": "genetic material",
+            "ontology": "CAO",
+            "concept_mapping_provenance": "tool"
+          },
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {}
+        ],
+        "benchmarks": [
+          {
+            "name": "COCO",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/85854",
+            "ontology_label": "Magnolia coco",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "idtracker.ai",
+            "ontology_id": "http://purl.obolibrary.org/obo/RS_0000367",
+            "ontology_label": "AI/Msik",
+            "ontology": "RS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "benchmark.deeplabcut.org",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#38402",
+            "ontology_label": "benchmarking",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "maDLCopt.deeplabcut.org",
+            "ontology_id": "http://purl.jp/bio/4/id/201106031094333668",
+            "ontology_label": "Hippocampal slice",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MOTA",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/2847912",
+            "ontology_label": "Mota massyla",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          }
+        ]
+      },
+      "provenance": {
+        "extractor_agent": [
+          "description",
+          "type",
+          "category",
+          "target",
+          "specific_target",
+          "url",
+          "key_features",
+          "performance",
+          "model_architecture",
+          "mentions"
+        ],
+        "judge_agent": [
+          "judge_score",
+          "remarks"
+        ]
+      },
+      "judge_score": 0.9,
+      "remarks": "Correct, though the target classification (Animal and Human) is broad for the primary tool scope.",
+      "mapped_name_concept": [
+        {
+          "id": "http://purl.jp/bio/4/id/201106031094333668",
+          "label": "Hippocampal slice",
+          "ontology": "IOBC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_type_concept": [
+        {
+          "id": "http://purl.jp/bio/4/id/200906042768396010",
+          "label": "electric tool",
+          "ontology": "IOBC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_category_concept": [
+        {
+          "id": "http://www.semanticweb.org/ontologies/2010/3/Ontology1271664172453.owl#Pose",
+          "label": "Pose",
+          "ontology": "PLIO",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "name": "DeepLabCut"
+    },
+    {
+      "description": "Multi-task deep-learning architecture for keypoint detection and animal pose estimation, comprising a deep CNN backbone with multiple deconvolutional layers, utilizing score maps, vector fields, and part affinity fields (PAFs).",
+      "type": "Tool",
+      "category": "Behavioral Analysis / Pose Estimation",
+      "target": "Animal",
+      "specific_target": "Multiple animal species (e.g., marmosets)",
+      "mapped_target_concept": [
+        {
+          "id": "https://allergo.infodocs.eu/ontologie/allergidoc3.0/Animal",
+          "label": "Animal",
+          "ontology": "ALLERGIDOC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_specific_target_concept": [
+        {
+          "specific_target": "Multiple animal species (e.g., marmosets)",
+          "mapped_target_concept": {
+            "id": "http://purl.obolibrary.org/obo/NCBITaxon_9480",
+            "label": "Callitrichinae",
+            "ontology": "CLO",
+            "concept_mapping_provenance": "tool"
+          }
+        }
+      ],
+      "url": "https://benchmark.deeplabcut.org",
+      "mentions": {
+        "related_models": [
+          {
+            "name": "DLCRNet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#34461",
+            "ontology_label": "34461",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ResNets",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#43105",
+            "ontology_label": "network",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "EfficientNets",
+            "ontology_id": "http://purl.jp/bio/4/id/200906021338797366",
+            "ontology_label": "Treatment efficiency",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "OpenPose",
+            "ontology_id": "http://www.semanticweb.org/ontologies/2012/0/Ontology1325521724189.owl#Open_label",
+            "ontology_label": "Open label",
+            "ontology": "CTO-NDD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet-AE",
+            "ontology_id": "https://purl.org/ccf/ASCTB-TEMP_ae000661-37",
+            "ontology_label": "AE000661.37",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ResNet-AE",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCD/Ub1Pc",
+            "ontology_label": "Rebox therapy",
+            "ontology": "RCD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Transformers",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#49104",
+            "ontology_label": "transformers",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "CNNs",
+            "ontology_id": "https://purl.org/ccf/ASCTB-TEMP_cnn1",
+            "ontology_label": "CNN1",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DLCRNet_ms5",
+            "ontology_id": "http://purl.bioontology.org/ontology/MESH/C000612424",
+            "ontology_label": "CLIC5 protein, rat",
+            "ontology": "MESH",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ResNet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#10747",
+            "ontology_label": "reserpine",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "EfficientNet",
+            "ontology_id": "http://purl.jp/bio/4/id/200906021338797366",
+            "ontology_label": "Treatment efficiency",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MobileNetV2",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCTV2/0841.00",
+            "ontology_label": "Mobile shop/van salesman",
+            "ontology": "RCTV2",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "CNN-based identity prediction",
+            "ontology_id": "http://purl.bioontology.org/ontology/LNC/MTHU030348",
+            "ontology_label": "Identity testing",
+            "ontology": "LOINC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet",
+            "ontology_id": "http://purl.org/sig/ont/fma/fma5898",
+            "ontology_label": "Anatomical junction",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HigherHRNet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#33420",
+            "ontology_label": "33420",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DeepLabCut",
+            "ontology_id": "http://purl.jp/bio/4/id/201106031094333668",
+            "ontology_label": "Hippocampal slice",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DeepLabCuts",
+            "ontology_id": "http://purl.jp/bio/4/id/201106031094333668",
+            "ontology_label": "Hippocampal slice",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "idtracker.ai",
+            "ontology_id": "http://purl.obolibrary.org/obo/RS_0000367",
+            "ontology_label": "AI/Msik",
+            "ontology": "RS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "SORT",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCD/Xa3Mj",
+            "ontology_label": "Able to sort laundry",
+            "ontology": "RCD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "affinity models",
+            "ontology_id": "http://purl.org/obo/owl/PATO#PATO_0002071",
+            "ontology_label": "increased affinity",
+            "ontology": "BIOMODELS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "CNN",
+            "ontology_id": "http://purl.obolibrary.org/obo/FlyBase_FBgn0013765",
+            "ontology_label": "cnn (fruit fly)",
+            "ontology": "PR",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Transformer",
+            "ontology_id": "http://purl.jp/bio/4/id/201606010656800442",
+            "ontology_label": "transformer para barrel arch",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "datasets": [
+          {
+            "name": "COCO (Common Objects in Context)",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#C0009211",
+            "ontology_label": "coco",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "COCO",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/85854",
+            "ontology_label": "Magnolia coco",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "tri-mouse",
+            "ontology_id": "http://purl.obolibrary.org/obo/NCIT_C37347",
+            "ontology_label": "129X1/Sv Mouse",
+            "ontology": "BERO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "parenting",
+            "ontology_id": "http://purl.jp/bio/4/id/200906006219907057",
+            "ontology_label": "Parenting",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "marmoset",
+            "ontology_id": "https://w3id.org/onvoc/ONVOC_0000608",
+            "ontology_label": "Marmoset",
+            "ontology": "ONVOC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "fish",
+            "ontology_id": "http://purl.obolibrary.org/obo/IDOMAL_0001275",
+            "ontology_label": "fish",
+            "ontology": "IDODEN",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "pups",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#C0869010",
+            "ontology_label": "puppies",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "parenting mouse",
+            "ontology_id": "http://purl.jp/bio/4/id/200906006219907057",
+            "ontology_label": "Parenting",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "marmosets",
+            "ontology_id": "http://purl.obolibrary.org/obo/NCBITaxon_38020",
+            "ontology_label": "marmosets",
+            "ontology": "CLO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "schooling fish",
+            "ontology_id": "http://purl.jp/bio/4/id/201306032871146312",
+            "ontology_label": "fish school behavior",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Tri-mouse dataset",
+            "ontology_id": "http://purl.obolibrary.org/obo/NCIT_C37347",
+            "ontology_label": "129X1/Sv Mouse",
+            "ontology": "BERO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "maDLCopt",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/2868963",
+            "ontology_label": "Madates limbata",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Marmoset dataset",
+            "ontology_id": "https://w3id.org/onvoc/ONVOC_0000608",
+            "ontology_label": "Marmoset",
+            "ontology": "ONVOC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Mouse dataset",
+            "ontology_id": "http://purl.obolibrary.org/obo/NCIT_C37347",
+            "ontology_label": "129X1/Sv Mouse",
+            "ontology": "BERO",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "tools": [
+          {
+            "name": "idTracker.ai",
+            "ontology_id": "http://purl.obolibrary.org/obo/RS_0000367",
+            "ontology_label": "AI/Msik",
+            "ontology": "RS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DeepLabCut-Live!",
+            "ontology_id": "http://purl.jp/bio/4/id/200906029925607198",
+            "ontology_label": "live imaging",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DLCRNet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#34461",
+            "ontology_label": "34461",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "NetworkX",
+            "ontology_id": "http://bioontology.org/projects/ontologies/birnlex#birnlex_2245",
+            "ontology_label": "network graph visualization software",
+            "ontology": "BIRNLEX",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "py-motmetrics",
+            "ontology_id": "http://purl.bioontology.org/ontology/PMR.owl#Plethysmography",
+            "ontology_label": "Plethysmography",
+            "ontology": "PMR",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "related_papers": [
+          {
+            "name": "Cao et al.",
+            "ontology_id": "http://purl.obolibrary.org/obo/CAO_0000037",
+            "ontology_label": "genetic material",
+            "ontology": "CAO",
+            "concept_mapping_provenance": "tool"
+          },
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {}
+        ],
+        "benchmarks": [
+          {
+            "name": "COCO",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/85854",
+            "ontology_label": "Magnolia coco",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "idtracker.ai",
+            "ontology_id": "http://purl.obolibrary.org/obo/RS_0000367",
+            "ontology_label": "AI/Msik",
+            "ontology": "RS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "benchmark.deeplabcut.org",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#38402",
+            "ontology_label": "benchmarking",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "maDLCopt.deeplabcut.org",
+            "ontology_id": "http://purl.jp/bio/4/id/201106031094333668",
+            "ontology_label": "Hippocampal slice",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MOTA",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/2847912",
+            "ontology_label": "Mota massyla",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          }
+        ]
+      },
+      "provenance": {
+        "extractor_agent": [
+          "description",
+          "type",
+          "category",
+          "target",
+          "specific_target",
+          "url",
+          "key_features",
+          "performance",
+          "model_architecture",
+          "mentions"
+        ],
+        "judge_agent": [
+          "judge_score",
+          "remarks"
+        ]
+      },
+      "judge_score": 0.85,
+      "remarks": "Description conflates the toolbox with the underlying model architecture logic.",
+      "mapped_name_concept": [
+        {
+          "id": "http://purl.jp/bio/4/id/201106031094333668",
+          "label": "Hippocampal slice",
+          "ontology": "IOBC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_type_concept": [
+        {
+          "id": "http://purl.jp/bio/4/id/200906042768396010",
+          "label": "electric tool",
+          "ontology": "IOBC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_category_concept": [
+        {
+          "id": "http://www.semanticweb.org/ontologies/2010/3/Ontology1271664172453.owl#Pose",
+          "label": "Pose",
+          "ontology": "PLIO",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "name": "DeepLabCut"
+    },
+    {
+      "description": "An open-source toolbox for pose estimation tasks, supporting various backbones (HRNet, ResNet) and grouping algorithms like Associative Embedding for bottom-up pose estimation.",
+      "type": "Tool",
+      "category": "Pose Estimation",
+      "target": "Animal",
+      "specific_target": "Mouse, Marmoset, Fish",
+      "mapped_target_concept": [
+        {
+          "id": "https://allergo.infodocs.eu/ontologie/allergidoc3.0/Animal",
+          "label": "Animal",
+          "ontology": "ALLERGIDOC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_specific_target_concept": [
+        {
+          "specific_target": "Mouse, Marmoset, Fish",
+          "mapped_target_concept": {
+            "id": "http://purl.obolibrary.org/obo/CLO_0000017",
+            "label": "mouse, Swiss albino",
+            "ontology": "CLO",
+            "concept_mapping_provenance": "tool"
+          }
+        }
+      ],
+      "url": "https://www.deeplabcut.org/",
+      "mentions": {
+        "related_models": [
+          {
+            "name": "DLCRNet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#34461",
+            "ontology_label": "34461",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ResNets",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#43105",
+            "ontology_label": "network",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "EfficientNets",
+            "ontology_id": "http://purl.jp/bio/4/id/200906021338797366",
+            "ontology_label": "Treatment efficiency",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "OpenPose",
+            "ontology_id": "http://www.semanticweb.org/ontologies/2012/0/Ontology1325521724189.owl#Open_label",
+            "ontology_label": "Open label",
+            "ontology": "CTO-NDD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet-AE",
+            "ontology_id": "https://purl.org/ccf/ASCTB-TEMP_ae000661-37",
+            "ontology_label": "AE000661.37",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ResNet-AE",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCD/Ub1Pc",
+            "ontology_label": "Rebox therapy",
+            "ontology": "RCD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Transformers",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#49104",
+            "ontology_label": "transformers",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "CNNs",
+            "ontology_id": "https://purl.org/ccf/ASCTB-TEMP_cnn1",
+            "ontology_label": "CNN1",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DLCRNet_ms5",
+            "ontology_id": "http://purl.bioontology.org/ontology/MESH/C000612424",
+            "ontology_label": "CLIC5 protein, rat",
+            "ontology": "MESH",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ResNet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#10747",
+            "ontology_label": "reserpine",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "EfficientNet",
+            "ontology_id": "http://purl.jp/bio/4/id/200906021338797366",
+            "ontology_label": "Treatment efficiency",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MobileNetV2",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCTV2/0841.00",
+            "ontology_label": "Mobile shop/van salesman",
+            "ontology": "RCTV2",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "CNN-based identity prediction",
+            "ontology_id": "http://purl.bioontology.org/ontology/LNC/MTHU030348",
+            "ontology_label": "Identity testing",
+            "ontology": "LOINC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet",
+            "ontology_id": "http://purl.org/sig/ont/fma/fma5898",
+            "ontology_label": "Anatomical junction",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HigherHRNet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#33420",
+            "ontology_label": "33420",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DeepLabCut",
+            "ontology_id": "http://purl.jp/bio/4/id/201106031094333668",
+            "ontology_label": "Hippocampal slice",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DeepLabCuts",
+            "ontology_id": "http://purl.jp/bio/4/id/201106031094333668",
+            "ontology_label": "Hippocampal slice",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "idtracker.ai",
+            "ontology_id": "http://purl.obolibrary.org/obo/RS_0000367",
+            "ontology_label": "AI/Msik",
+            "ontology": "RS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "SORT",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCD/Xa3Mj",
+            "ontology_label": "Able to sort laundry",
+            "ontology": "RCD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "affinity models",
+            "ontology_id": "http://purl.org/obo/owl/PATO#PATO_0002071",
+            "ontology_label": "increased affinity",
+            "ontology": "BIOMODELS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "CNN",
+            "ontology_id": "http://purl.obolibrary.org/obo/FlyBase_FBgn0013765",
+            "ontology_label": "cnn (fruit fly)",
+            "ontology": "PR",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Transformer",
+            "ontology_id": "http://purl.jp/bio/4/id/201606010656800442",
+            "ontology_label": "transformer para barrel arch",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "datasets": [
+          {
+            "name": "COCO (Common Objects in Context)",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#C0009211",
+            "ontology_label": "coco",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "COCO",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/85854",
+            "ontology_label": "Magnolia coco",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "tri-mouse",
+            "ontology_id": "http://purl.obolibrary.org/obo/NCIT_C37347",
+            "ontology_label": "129X1/Sv Mouse",
+            "ontology": "BERO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "parenting",
+            "ontology_id": "http://purl.jp/bio/4/id/200906006219907057",
+            "ontology_label": "Parenting",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "marmoset",
+            "ontology_id": "https://w3id.org/onvoc/ONVOC_0000608",
+            "ontology_label": "Marmoset",
+            "ontology": "ONVOC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "fish",
+            "ontology_id": "http://purl.obolibrary.org/obo/IDOMAL_0001275",
+            "ontology_label": "fish",
+            "ontology": "IDODEN",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "pups",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#C0869010",
+            "ontology_label": "puppies",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "parenting mouse",
+            "ontology_id": "http://purl.jp/bio/4/id/200906006219907057",
+            "ontology_label": "Parenting",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "marmosets",
+            "ontology_id": "http://purl.obolibrary.org/obo/NCBITaxon_38020",
+            "ontology_label": "marmosets",
+            "ontology": "CLO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "schooling fish",
+            "ontology_id": "http://purl.jp/bio/4/id/201306032871146312",
+            "ontology_label": "fish school behavior",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Tri-mouse dataset",
+            "ontology_id": "http://purl.obolibrary.org/obo/NCIT_C37347",
+            "ontology_label": "129X1/Sv Mouse",
+            "ontology": "BERO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "maDLCopt",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/2868963",
+            "ontology_label": "Madates limbata",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Marmoset dataset",
+            "ontology_id": "https://w3id.org/onvoc/ONVOC_0000608",
+            "ontology_label": "Marmoset",
+            "ontology": "ONVOC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Mouse dataset",
+            "ontology_id": "http://purl.obolibrary.org/obo/NCIT_C37347",
+            "ontology_label": "129X1/Sv Mouse",
+            "ontology": "BERO",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "tools": [
+          {
+            "name": "idTracker.ai",
+            "ontology_id": "http://purl.obolibrary.org/obo/RS_0000367",
+            "ontology_label": "AI/Msik",
+            "ontology": "RS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DeepLabCut-Live!",
+            "ontology_id": "http://purl.jp/bio/4/id/200906029925607198",
+            "ontology_label": "live imaging",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DLCRNet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#34461",
+            "ontology_label": "34461",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "NetworkX",
+            "ontology_id": "http://bioontology.org/projects/ontologies/birnlex#birnlex_2245",
+            "ontology_label": "network graph visualization software",
+            "ontology": "BIRNLEX",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "py-motmetrics",
+            "ontology_id": "http://purl.bioontology.org/ontology/PMR.owl#Plethysmography",
+            "ontology_label": "Plethysmography",
+            "ontology": "PMR",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "related_papers": [
+          {
+            "name": "Cao et al.",
+            "ontology_id": "http://purl.obolibrary.org/obo/CAO_0000037",
+            "ontology_label": "genetic material",
+            "ontology": "CAO",
+            "concept_mapping_provenance": "tool"
+          },
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {}
+        ],
+        "benchmarks": [
+          {
+            "name": "COCO",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/85854",
+            "ontology_label": "Magnolia coco",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "idtracker.ai",
+            "ontology_id": "http://purl.obolibrary.org/obo/RS_0000367",
+            "ontology_label": "AI/Msik",
+            "ontology": "RS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "benchmark.deeplabcut.org",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#38402",
+            "ontology_label": "benchmarking",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "maDLCopt.deeplabcut.org",
+            "ontology_id": "http://purl.jp/bio/4/id/201106031094333668",
+            "ontology_label": "Hippocampal slice",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MOTA",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/2847912",
+            "ontology_label": "Mota massyla",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          }
+        ]
+      },
+      "provenance": {
+        "extractor_agent": [
+          "description",
+          "type",
+          "category",
+          "target",
+          "specific_target",
+          "url",
+          "key_features",
+          "performance",
+          "model_architecture",
+          "mentions"
+        ],
+        "judge_agent": [
+          "judge_score",
+          "remarks"
+        ]
+      },
+      "judge_score": 0.6,
+      "remarks": "URL mismatch (points to DeepLabCut).",
+      "mapped_name_concept": [
+        {
+          "id": "http://purl.bioontology.org/ontology/RCD/X8008",
+          "label": "mm",
+          "ontology": "RCD",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_type_concept": [
+        {
+          "id": "http://purl.jp/bio/4/id/200906042768396010",
+          "label": "electric tool",
+          "ontology": "IOBC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_category_concept": [
+        {
+          "id": "http://www.semanticweb.org/ontologies/2010/3/Ontology1271664172453.owl#Pose",
+          "label": "Pose",
+          "ontology": "PLIO",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "name": "MMPose"
+    },
+    {
+      "description": "A tool for reconstructing full trajectories from sparse tracklets of animal tracking data by casting the stitching task as a network flow minimization problem.",
+      "type": "Tool",
+      "category": "Behavior Tracking",
+      "target": "Animal",
+      "specific_target": "Multiple animals/individuals",
+      "mapped_target_concept": [
+        {
+          "id": "https://allergo.infodocs.eu/ontologie/allergidoc3.0/Animal",
+          "label": "Animal",
+          "ontology": "ALLERGIDOC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_specific_target_concept": [
+        {
+          "specific_target": "Multiple animals/individuals",
+          "mapped_target_concept": {
+            "id": "http://purl.bioontology.org/ontology/RCTV2/AA21.00",
+            "label": "Multiple papillomata and wet crab yaws",
+            "ontology": "RCTV2",
+            "concept_mapping_provenance": "tool"
+          }
+        }
+      ],
+      "url": "https://benchmark.deeplabcut.org",
+      "mentions": {
+        "related_models": [
+          {
+            "name": "DLCRNet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#34461",
+            "ontology_label": "34461",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ResNets",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#43105",
+            "ontology_label": "network",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "EfficientNets",
+            "ontology_id": "http://purl.jp/bio/4/id/200906021338797366",
+            "ontology_label": "Treatment efficiency",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "OpenPose",
+            "ontology_id": "http://www.semanticweb.org/ontologies/2012/0/Ontology1325521724189.owl#Open_label",
+            "ontology_label": "Open label",
+            "ontology": "CTO-NDD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet-AE",
+            "ontology_id": "https://purl.org/ccf/ASCTB-TEMP_ae000661-37",
+            "ontology_label": "AE000661.37",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ResNet-AE",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCD/Ub1Pc",
+            "ontology_label": "Rebox therapy",
+            "ontology": "RCD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Transformers",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#49104",
+            "ontology_label": "transformers",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "CNNs",
+            "ontology_id": "https://purl.org/ccf/ASCTB-TEMP_cnn1",
+            "ontology_label": "CNN1",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DLCRNet_ms5",
+            "ontology_id": "http://purl.bioontology.org/ontology/MESH/C000612424",
+            "ontology_label": "CLIC5 protein, rat",
+            "ontology": "MESH",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ResNet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#10747",
+            "ontology_label": "reserpine",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "EfficientNet",
+            "ontology_id": "http://purl.jp/bio/4/id/200906021338797366",
+            "ontology_label": "Treatment efficiency",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MobileNetV2",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCTV2/0841.00",
+            "ontology_label": "Mobile shop/van salesman",
+            "ontology": "RCTV2",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "CNN-based identity prediction",
+            "ontology_id": "http://purl.bioontology.org/ontology/LNC/MTHU030348",
+            "ontology_label": "Identity testing",
+            "ontology": "LOINC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet",
+            "ontology_id": "http://purl.org/sig/ont/fma/fma5898",
+            "ontology_label": "Anatomical junction",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HigherHRNet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#33420",
+            "ontology_label": "33420",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DeepLabCut",
+            "ontology_id": "http://purl.jp/bio/4/id/201106031094333668",
+            "ontology_label": "Hippocampal slice",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DeepLabCuts",
+            "ontology_id": "http://purl.jp/bio/4/id/201106031094333668",
+            "ontology_label": "Hippocampal slice",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "idtracker.ai",
+            "ontology_id": "http://purl.obolibrary.org/obo/RS_0000367",
+            "ontology_label": "AI/Msik",
+            "ontology": "RS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "SORT",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCD/Xa3Mj",
+            "ontology_label": "Able to sort laundry",
+            "ontology": "RCD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "affinity models",
+            "ontology_id": "http://purl.org/obo/owl/PATO#PATO_0002071",
+            "ontology_label": "increased affinity",
+            "ontology": "BIOMODELS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "CNN",
+            "ontology_id": "http://purl.obolibrary.org/obo/FlyBase_FBgn0013765",
+            "ontology_label": "cnn (fruit fly)",
+            "ontology": "PR",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Transformer",
+            "ontology_id": "http://purl.jp/bio/4/id/201606010656800442",
+            "ontology_label": "transformer para barrel arch",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "datasets": [
+          {
+            "name": "COCO (Common Objects in Context)",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#C0009211",
+            "ontology_label": "coco",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "COCO",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/85854",
+            "ontology_label": "Magnolia coco",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "tri-mouse",
+            "ontology_id": "http://purl.obolibrary.org/obo/NCIT_C37347",
+            "ontology_label": "129X1/Sv Mouse",
+            "ontology": "BERO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "parenting",
+            "ontology_id": "http://purl.jp/bio/4/id/200906006219907057",
+            "ontology_label": "Parenting",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "marmoset",
+            "ontology_id": "https://w3id.org/onvoc/ONVOC_0000608",
+            "ontology_label": "Marmoset",
+            "ontology": "ONVOC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "fish",
+            "ontology_id": "http://purl.obolibrary.org/obo/IDOMAL_0001275",
+            "ontology_label": "fish",
+            "ontology": "IDODEN",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "pups",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#C0869010",
+            "ontology_label": "puppies",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "parenting mouse",
+            "ontology_id": "http://purl.jp/bio/4/id/200906006219907057",
+            "ontology_label": "Parenting",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "marmosets",
+            "ontology_id": "http://purl.obolibrary.org/obo/NCBITaxon_38020",
+            "ontology_label": "marmosets",
+            "ontology": "CLO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "schooling fish",
+            "ontology_id": "http://purl.jp/bio/4/id/201306032871146312",
+            "ontology_label": "fish school behavior",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Tri-mouse dataset",
+            "ontology_id": "http://purl.obolibrary.org/obo/NCIT_C37347",
+            "ontology_label": "129X1/Sv Mouse",
+            "ontology": "BERO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "maDLCopt",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/2868963",
+            "ontology_label": "Madates limbata",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Marmoset dataset",
+            "ontology_id": "https://w3id.org/onvoc/ONVOC_0000608",
+            "ontology_label": "Marmoset",
+            "ontology": "ONVOC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Mouse dataset",
+            "ontology_id": "http://purl.obolibrary.org/obo/NCIT_C37347",
+            "ontology_label": "129X1/Sv Mouse",
+            "ontology": "BERO",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "tools": [
+          {
+            "name": "idTracker.ai",
+            "ontology_id": "http://purl.obolibrary.org/obo/RS_0000367",
+            "ontology_label": "AI/Msik",
+            "ontology": "RS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DeepLabCut-Live!",
+            "ontology_id": "http://purl.jp/bio/4/id/200906029925607198",
+            "ontology_label": "live imaging",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DLCRNet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#34461",
+            "ontology_label": "34461",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "NetworkX",
+            "ontology_id": "http://bioontology.org/projects/ontologies/birnlex#birnlex_2245",
+            "ontology_label": "network graph visualization software",
+            "ontology": "BIRNLEX",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "py-motmetrics",
+            "ontology_id": "http://purl.bioontology.org/ontology/PMR.owl#Plethysmography",
+            "ontology_label": "Plethysmography",
+            "ontology": "PMR",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "related_papers": [
+          {
+            "name": "Cao et al.",
+            "ontology_id": "http://purl.obolibrary.org/obo/CAO_0000037",
+            "ontology_label": "genetic material",
+            "ontology": "CAO",
+            "concept_mapping_provenance": "tool"
+          },
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {}
+        ],
+        "benchmarks": [
+          {
+            "name": "COCO",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/85854",
+            "ontology_label": "Magnolia coco",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "idtracker.ai",
+            "ontology_id": "http://purl.obolibrary.org/obo/RS_0000367",
+            "ontology_label": "AI/Msik",
+            "ontology": "RS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "benchmark.deeplabcut.org",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#38402",
+            "ontology_label": "benchmarking",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "maDLCopt.deeplabcut.org",
+            "ontology_id": "http://purl.jp/bio/4/id/201106031094333668",
+            "ontology_label": "Hippocampal slice",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MOTA",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/2847912",
+            "ontology_label": "Mota massyla",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          }
+        ]
+      },
+      "provenance": {
+        "extractor_agent": [
+          "description",
+          "type",
+          "category",
+          "target",
+          "specific_target",
+          "url",
+          "key_features",
+          "performance",
+          "model_architecture",
+          "mentions"
+        ],
+        "judge_agent": [
+          "judge_score",
+          "remarks"
+        ]
+      },
+      "judge_score": 0.95,
+      "remarks": "Accurate description, though the URL list is corrupted/inherited from parent data.",
+      "mapped_name_concept": [
+        {
+          "id": "http://sbmi.uth.tmc.edu/ontology/ochv#12433",
+          "label": "track",
+          "ontology": "OCHV",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_type_concept": [
+        {
+          "id": "http://purl.jp/bio/4/id/200906042768396010",
+          "label": "electric tool",
+          "ontology": "IOBC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_category_concept": [
+        {
+          "id": "http://purl.jp/bio/4/id/201206095676572999",
+          "label": "Face Tracking",
+          "ontology": "IOBC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "name": "TrackletStitcher"
+    },
+    {
+      "description": "An open-source toolbox for markerless pose estimation and animal tracking that includes modules for tracklet stitching, unsupervised ID tracking using metric learning with transformers, and tracking performance evaluation.",
+      "type": "Tool",
+      "category": "Behavioral Tracking",
+      "target": "Animal",
+      "specific_target": "Multiple animals",
+      "mapped_target_concept": [
+        {
+          "id": "https://allergo.infodocs.eu/ontologie/allergidoc3.0/Animal",
+          "label": "Animal",
+          "ontology": "ALLERGIDOC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_specific_target_concept": [
+        {
+          "specific_target": "Multiple animals",
+          "mapped_target_concept": {
+            "id": "http://purl.obolibrary.org/obo/WBPhenotype_0002413",
+            "label": "multiple nuclei",
+            "ontology": "UPHENO",
+            "concept_mapping_provenance": "tool"
+          }
+        }
+      ],
+      "url": "https://benchmark.deeplabcut.org",
+      "mentions": {
+        "related_models": [
+          {
+            "name": "DLCRNet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#34461",
+            "ontology_label": "34461",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ResNets",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#43105",
+            "ontology_label": "network",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "EfficientNets",
+            "ontology_id": "http://purl.jp/bio/4/id/200906021338797366",
+            "ontology_label": "Treatment efficiency",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "OpenPose",
+            "ontology_id": "http://www.semanticweb.org/ontologies/2012/0/Ontology1325521724189.owl#Open_label",
+            "ontology_label": "Open label",
+            "ontology": "CTO-NDD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet-AE",
+            "ontology_id": "https://purl.org/ccf/ASCTB-TEMP_ae000661-37",
+            "ontology_label": "AE000661.37",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ResNet-AE",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCD/Ub1Pc",
+            "ontology_label": "Rebox therapy",
+            "ontology": "RCD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Transformers",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#49104",
+            "ontology_label": "transformers",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "CNNs",
+            "ontology_id": "https://purl.org/ccf/ASCTB-TEMP_cnn1",
+            "ontology_label": "CNN1",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DLCRNet_ms5",
+            "ontology_id": "http://purl.bioontology.org/ontology/MESH/C000612424",
+            "ontology_label": "CLIC5 protein, rat",
+            "ontology": "MESH",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ResNet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#10747",
+            "ontology_label": "reserpine",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "EfficientNet",
+            "ontology_id": "http://purl.jp/bio/4/id/200906021338797366",
+            "ontology_label": "Treatment efficiency",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MobileNetV2",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCTV2/0841.00",
+            "ontology_label": "Mobile shop/van salesman",
+            "ontology": "RCTV2",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "CNN-based identity prediction",
+            "ontology_id": "http://purl.bioontology.org/ontology/LNC/MTHU030348",
+            "ontology_label": "Identity testing",
+            "ontology": "LOINC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet",
+            "ontology_id": "http://purl.org/sig/ont/fma/fma5898",
+            "ontology_label": "Anatomical junction",
+            "ontology": "HRA",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HigherHRNet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#33420",
+            "ontology_label": "33420",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DeepLabCut",
+            "ontology_id": "http://purl.jp/bio/4/id/201106031094333668",
+            "ontology_label": "Hippocampal slice",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DeepLabCuts",
+            "ontology_id": "http://purl.jp/bio/4/id/201106031094333668",
+            "ontology_label": "Hippocampal slice",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "idtracker.ai",
+            "ontology_id": "http://purl.obolibrary.org/obo/RS_0000367",
+            "ontology_label": "AI/Msik",
+            "ontology": "RS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "SORT",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCD/Xa3Mj",
+            "ontology_label": "Able to sort laundry",
+            "ontology": "RCD",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "affinity models",
+            "ontology_id": "http://purl.org/obo/owl/PATO#PATO_0002071",
+            "ontology_label": "increased affinity",
+            "ontology": "BIOMODELS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "CNN",
+            "ontology_id": "http://purl.obolibrary.org/obo/FlyBase_FBgn0013765",
+            "ontology_label": "cnn (fruit fly)",
+            "ontology": "PR",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Transformer",
+            "ontology_id": "http://purl.jp/bio/4/id/201606010656800442",
+            "ontology_label": "transformer para barrel arch",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "datasets": [
+          {
+            "name": "COCO (Common Objects in Context)",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#C0009211",
+            "ontology_label": "coco",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "COCO",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/85854",
+            "ontology_label": "Magnolia coco",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "tri-mouse",
+            "ontology_id": "http://purl.obolibrary.org/obo/NCIT_C37347",
+            "ontology_label": "129X1/Sv Mouse",
+            "ontology": "BERO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "parenting",
+            "ontology_id": "http://purl.jp/bio/4/id/200906006219907057",
+            "ontology_label": "Parenting",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "marmoset",
+            "ontology_id": "https://w3id.org/onvoc/ONVOC_0000608",
+            "ontology_label": "Marmoset",
+            "ontology": "ONVOC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "fish",
+            "ontology_id": "http://purl.obolibrary.org/obo/IDOMAL_0001275",
+            "ontology_label": "fish",
+            "ontology": "IDODEN",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "pups",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#C0869010",
+            "ontology_label": "puppies",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "parenting mouse",
+            "ontology_id": "http://purl.jp/bio/4/id/200906006219907057",
+            "ontology_label": "Parenting",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "marmosets",
+            "ontology_id": "http://purl.obolibrary.org/obo/NCBITaxon_38020",
+            "ontology_label": "marmosets",
+            "ontology": "CLO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "schooling fish",
+            "ontology_id": "http://purl.jp/bio/4/id/201306032871146312",
+            "ontology_label": "fish school behavior",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Tri-mouse dataset",
+            "ontology_id": "http://purl.obolibrary.org/obo/NCIT_C37347",
+            "ontology_label": "129X1/Sv Mouse",
+            "ontology": "BERO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "maDLCopt",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/2868963",
+            "ontology_label": "Madates limbata",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Marmoset dataset",
+            "ontology_id": "https://w3id.org/onvoc/ONVOC_0000608",
+            "ontology_label": "Marmoset",
+            "ontology": "ONVOC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Mouse dataset",
+            "ontology_id": "http://purl.obolibrary.org/obo/NCIT_C37347",
+            "ontology_label": "129X1/Sv Mouse",
+            "ontology": "BERO",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "tools": [
+          {
+            "name": "idTracker.ai",
+            "ontology_id": "http://purl.obolibrary.org/obo/RS_0000367",
+            "ontology_label": "AI/Msik",
+            "ontology": "RS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DeepLabCut-Live!",
+            "ontology_id": "http://purl.jp/bio/4/id/200906029925607198",
+            "ontology_label": "live imaging",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "DLCRNet",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#34461",
+            "ontology_label": "34461",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "NetworkX",
+            "ontology_id": "http://bioontology.org/projects/ontologies/birnlex#birnlex_2245",
+            "ontology_label": "network graph visualization software",
+            "ontology": "BIRNLEX",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "py-motmetrics",
+            "ontology_id": "http://purl.bioontology.org/ontology/PMR.owl#Plethysmography",
+            "ontology_label": "Plethysmography",
+            "ontology": "PMR",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "related_papers": [
+          {
+            "name": "Cao et al.",
+            "ontology_id": "http://purl.obolibrary.org/obo/CAO_0000037",
+            "ontology_label": "genetic material",
+            "ontology": "CAO",
+            "concept_mapping_provenance": "tool"
+          },
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {}
+        ],
+        "benchmarks": [
+          {
+            "name": "COCO",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/85854",
+            "ontology_label": "Magnolia coco",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "idtracker.ai",
+            "ontology_id": "http://purl.obolibrary.org/obo/RS_0000367",
+            "ontology_label": "AI/Msik",
+            "ontology": "RS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "benchmark.deeplabcut.org",
+            "ontology_id": "http://sbmi.uth.tmc.edu/ontology/ochv#38402",
+            "ontology_label": "benchmarking",
+            "ontology": "OCHV",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "maDLCopt.deeplabcut.org",
+            "ontology_id": "http://purl.jp/bio/4/id/201106031094333668",
+            "ontology_label": "Hippocampal slice",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MOTA",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/2847912",
+            "ontology_label": "Mota massyla",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          }
+        ]
+      },
+      "provenance": {
+        "extractor_agent": [
+          "description",
+          "type",
+          "category",
+          "target",
+          "specific_target",
+          "url",
+          "key_features",
+          "performance",
+          "model_architecture",
+          "mentions"
+        ],
+        "judge_agent": [
+          "judge_score",
+          "remarks"
+        ]
+      },
+      "judge_score": 0.8,
+      "remarks": "Latest features (transformers/stitching) correctly noted; metadata/URL cleanup needed.",
+      "mapped_name_concept": [
+        {
+          "id": "http://purl.jp/bio/4/id/201106031094333668",
+          "label": "Hippocampal slice",
+          "ontology": "IOBC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_type_concept": [
+        {
+          "id": "http://purl.jp/bio/4/id/200906042768396010",
+          "label": "electric tool",
+          "ontology": "IOBC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_category_concept": [
+        {
+          "id": "http://purl.jp/bio/4/id/201206095676572999",
+          "label": "Face Tracking",
+          "ontology": "IOBC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "name": "DeepLabCut"
+    }
+  ],
+  "verification": {
+    "resources_checked": 11,
+    "resources_present": 9,
+    "resources_dropped": 2,
+    "resources_dropped_detail": [
+      {
+        "resource_name": "DeepLabCut (Multi-Animal)",
+        "description": "A toolbox for markerless pose estimation that supports multi-animal tracking, identity prediction, and data-driven part affinity field (PAF) graph selection.",
+        "type": "Tool",
+        "category": "Behavioral Analysis",
+        "target": "Animal",
+        "specific_target": "Multiple individuals",
+        "mapped_target_concept": [],
+        "mapped_specific_target_concept": [],
+        "key_features": [],
+        "performance": [],
+        "url": "https://github.com/DeepLabCut/DeepLabCut",
+        "model_architecture": [],
+        "mentions": {
+          "datasets": [
+            "COCO (Common Objects in Context)",
+            "COCO",
+            "tri-mouse",
+            "parenting",
+            "marmoset",
+            "fish",
+            "pups",
+            "parenting mouse",
+            "marmosets",
+            "schooling fish",
+            "Tri-mouse dataset",
+            "maDLCopt",
+            "Marmoset dataset",
+            "Mouse dataset"
+          ],
+          "related_models": [
+            "DLCRNet",
+            "ResNets",
+            "EfficientNets",
+            "OpenPose",
+            "HRNet-AE",
+            "ResNet-AE",
+            "Transformers",
+            "CNNs",
+            "DLCRNet_ms5",
+            "ResNet",
+            "EfficientNet",
+            "MobileNetV2",
+            "CNN-based identity prediction",
+            "HRNet",
+            "HigherHRNet",
+            "DeepLabCut",
+            "DeepLabCuts",
+            "idtracker.ai",
+            "SORT",
+            "affinity models",
+            "CNN",
+            "Transformer"
+          ],
+          "related_papers": [
+            "Cao et al.",
+            "18",
+            "21",
+            "39",
+            "40",
+            "41",
+            "42",
+            "45",
+            "46",
+            "47",
+            "48",
+            "49"
+          ],
+          "tools": [
+            "idTracker.ai",
+            "DeepLabCut-Live!",
+            "DLCRNet",
+            "NetworkX",
+            "py-motmetrics"
+          ],
+          "benchmarks": [
+            "COCO",
+            "idtracker.ai",
+            "benchmark.deeplabcut.org",
+            "maDLCopt.deeplabcut.org",
+            "MOTA"
+          ]
+        },
+        "provenance": {
+          "extractor_agent": [
+            "description",
+            "type",
+            "category",
+            "target",
+            "specific_target",
+            "url",
+            "key_features",
+            "performance",
+            "model_architecture",
+            "mentions"
+          ],
+          "judge_agent": [
+            "judge_score",
+            "remarks"
+          ]
+        },
+        "judge_score": 1.0,
+        "remarks": "Clear and accurate definition of the multi-animal variant.",
+        "reason": "name_not_in_source"
+      },
+      {
+        "resource_name": "Animal Pose Assembly Framework",
+        "description": "A multi-animal pose estimation framework using graph-based assembly, affinity costs, and calibration via multivariate normal distributions for keypoint linkage.",
+        "type": "Tool",
+        "category": "Pose Estimation",
+        "target": "Animal",
+        "specific_target": "Multi-animal",
+        "mapped_target_concept": [],
+        "mapped_specific_target_concept": [],
+        "key_features": [],
+        "performance": [],
+        "url": "https://github.com/open-mmlab/mmpose",
+        "model_architecture": [],
+        "mentions": {
+          "datasets": [
+            "COCO (Common Objects in Context)",
+            "COCO",
+            "tri-mouse",
+            "parenting",
+            "marmoset",
+            "fish",
+            "pups",
+            "parenting mouse",
+            "marmosets",
+            "schooling fish",
+            "Tri-mouse dataset",
+            "maDLCopt",
+            "Marmoset dataset",
+            "Mouse dataset"
+          ],
+          "related_models": [
+            "DLCRNet",
+            "ResNets",
+            "EfficientNets",
+            "OpenPose",
+            "HRNet-AE",
+            "ResNet-AE",
+            "Transformers",
+            "CNNs",
+            "DLCRNet_ms5",
+            "ResNet",
+            "EfficientNet",
+            "MobileNetV2",
+            "CNN-based identity prediction",
+            "HRNet",
+            "HigherHRNet",
+            "DeepLabCut",
+            "DeepLabCuts",
+            "idtracker.ai",
+            "SORT",
+            "affinity models",
+            "CNN",
+            "Transformer"
+          ],
+          "related_papers": [
+            "Cao et al.",
+            "18",
+            "21",
+            "39",
+            "40",
+            "41",
+            "42",
+            "45",
+            "46",
+            "47",
+            "48",
+            "49"
+          ],
+          "tools": [
+            "idTracker.ai",
+            "DeepLabCut-Live!",
+            "DLCRNet",
+            "NetworkX",
+            "py-motmetrics"
+          ],
+          "benchmarks": [
+            "COCO",
+            "idtracker.ai",
+            "benchmark.deeplabcut.org",
+            "maDLCopt.deeplabcut.org",
+            "MOTA"
+          ]
+        },
+        "provenance": {
+          "extractor_agent": [
+            "description",
+            "type",
+            "category",
+            "target",
+            "specific_target",
+            "url",
+            "key_features",
+            "performance",
+            "model_architecture",
+            "mentions"
+          ],
+          "judge_agent": [
+            "judge_score",
+            "remarks"
+          ]
+        },
+        "judge_score": 0.7,
+        "remarks": "URL mismatch (points to MMPose but describes a generic framework).",
+        "reason": "name_not_in_source"
+      }
+    ],
+    "all_resources_present_in_text": false
+  }
+}

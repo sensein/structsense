@@ -1,0 +1,123 @@
+{
+  "resources": [
+    {
+      "resource_name": [
+        "ViTPose",
+        "ViTPose",
+        "ViTPose",
+        "ViTPose",
+        "ViTPose"
+      ],
+      "description": [
+        "A simple baseline model that uses plain vision transformers as backbones with lightweight upsampling and heatmap prediction for human pose estimation, demonstrated on MS COCO keypoint estimation.",
+        "A simple yet effective vision transformer baseline for human pose estimation that uses plain, non-hierarchical transformer backbones with lightweight decoders and demonstrates scalability and flexibility across model size, input resolution, and pre-training data.",
+        "A vision-transformer-based human pose estimation model that uses window-based attention, shift-window and pooling-window strategies, and supports flexible fine-tuning and multi-dataset training; presented with transferability and implementation details for pose estimation.",
+        "A simple yet effective vision transformer baseline for human pose estimation that achieves state-of-the-art performance on MS COCO and supports multi-dataset training, partial fine-tuning, and knowledge distillation.",
+        "A vision transformer-based human pose estimation model described as a simple baseline, with strong scalability, flexibility, and transferability. It was evaluated primarily on MS COCO and also on AI Challenger, MPII, CrowdPose, and OCHuman; the paper reports 80.9 AP on MS COCO test-dev using a ViTAE-G backbone."
+      ],
+      "type": [
+        "Model",
+        "Paper",
+        "Model",
+        "Model",
+        "Model"
+      ],
+      "category": [
+        "Pose Estimation",
+        "Pose Estimation",
+        "Pose Estimation",
+        "Pose Estimation",
+        "Pose Estimation"
+      ],
+      "target": [
+        "Human",
+        "Human",
+        "Human",
+        "Human",
+        "Human"
+      ],
+      "specific_target": [
+        "Human anatomical keypoints",
+        "2D keypoint estimation",
+        "Keypoint Detection",
+        "2D human pose estimation",
+        "Human pose estimation"
+      ],
+      "mapped_target_concept": [],
+      "mapped_specific_target_concept": [],
+      "key_features": [],
+      "performance": [],
+      "url": [
+        "https://github.com/ViTAE-Transformer/ViTPose",
+        "https://github.com/ViTAE-Transformer/ViTPose"
+      ],
+      "model_architecture": [],
+      "mentions": {
+        "datasets": [
+          "MS COCO Keypoint",
+          "ImageNet-1K",
+          "MS COCO",
+          "ImageNet",
+          "AI Challenger",
+          "MS COCO Keypoint val set",
+          "MPII",
+          "CrowdPose",
+          "OCHuman"
+        ],
+        "related_models": [
+          "ViT",
+          "MAE",
+          "PRTR",
+          "TokenPose",
+          "TransPose",
+          "HRFormer",
+          "ViT-B",
+          "ViT-L",
+          "ViT-H",
+          "ViTAE-G",
+          "SimpleBaseline",
+          "ResNet-50",
+          "ResNet-152",
+          "ViTPose-B",
+          "ViTPose-L",
+          "ViTPose-G"
+        ],
+        "related_papers": [
+          "ViTPose",
+          "HRNet",
+          "HRFormer",
+          "UDP",
+          "Bigdet"
+        ],
+        "benchmarks": [
+          "MS COCO Keypoint test-dev",
+          "MS COCO Keypoint",
+          "MS COCO val",
+          "MS COCO test-dev"
+        ]
+      },
+      "provenance": {
+        "extractor_agent": [
+          "description",
+          "type",
+          "category",
+          "target",
+          "specific_target",
+          "url",
+          "key_features",
+          "performance",
+          "model_architecture",
+          "mentions"
+        ]
+      }
+    }
+  ],
+  "verification": {
+    "resources_checked": 1,
+    "resources_present": 1,
+    "resources_dropped": 0,
+    "resources_dropped_detail": [],
+    "all_resources_present_in_text": true
+  },
+  "_extraction_chunk_count": 5
+}

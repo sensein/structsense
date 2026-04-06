@@ -28,6 +28,7 @@
 - [Environment Variables](#environment-variables)
 - [Human Feedback](#human-feedback)
 - [Examples & Tutorials](#examples--tutorials)
+- [Evaluation](#evaluation)
 - [Known Issues](#known-issues)
 
 ---
@@ -736,6 +737,11 @@ Step-by-step tutorials: [tutorial/](tutorial/)
 
 ---
 
+## Evaluation
+
+The `evaluation` directory includes all materials related to StructSense’s evaluation.
+
+---
 
 ## Known Issues
 

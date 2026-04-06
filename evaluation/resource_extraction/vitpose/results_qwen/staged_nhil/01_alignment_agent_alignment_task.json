@@ -1,0 +1,122 @@
+{
+  "resources": [
+    {
+      "resource_name": [
+        "ViTPose",
+        "ViTPose",
+        "ViTPose",
+        "ViTPose",
+        "ViTPose"
+      ],
+      "description": [
+        "A simple baseline model for human pose estimation using plain vision transformers, pre-trained with masked image modeling (e.g., MAE), and achieving state-of-the-art performance on MS COCO Keypoint dataset.",
+        "A simple yet effective vision transformer baseline for pose estimation tasks, using a plain and non-hierarchical vision transformer backbone with lightweight decoders. It features structure simplicity, scalability, and flexibility in pre-training data, resolution, and attention type.",
+        "Vision transformer-based model for human pose estimation with shift-window and pooling window mechanisms to improve performance and reduce memory footprint. Supports fine-tuning flexibility and transferability via token-based distillation.",
+        "A simple yet effective vision transformer baseline for pose estimation, pre-trained on ImageNet-1K, MS COCO, and AI Challenger, and fine-tuned on MS COCO with pose annotations. Achieves SOTA performance on MS COCO test-dev set with 80.9 AP (single model) and 81.1 AP (ensemble of three models).",
+        "Simple baseline for vision transformer-based human pose estimation with demonstrated simplicity, scalability, flexibility, and transferability. Achieves best 80.9 AP on MS COCO test-dev set with ViTAE-G backbone."
+      ],
+      "type": [
+        "Model",
+        "Model",
+        "Model",
+        "Model",
+        "Model"
+      ],
+      "category": [
+        "Pose Estimation",
+        "Pose Estimation",
+        "Pose Estimation",
+        "Pose Estimation",
+        "Pose Estimation"
+      ],
+      "target": [
+        "Human",
+        "Human",
+        "Human",
+        "Human",
+        "Human"
+      ],
+      "specific_target": [
+        "MS COCO Keypoint dataset",
+        "Human",
+        "Human Pose",
+        "MS COCO dataset",
+        "Human Pose Estimation"
+      ],
+      "mapped_target_concept": [],
+      "mapped_specific_target_concept": [],
+      "key_features": [],
+      "performance": [],
+      "url": [],
+      "model_architecture": [],
+      "mentions": {
+        "datasets": [
+          "MS COCO Keypoint",
+          "MS COCO",
+          "AI Challenger",
+          "ImageNet-1K",
+          "MPII",
+          "CrowdPose",
+          "OCHuman"
+        ],
+        "related_models": [
+          "TransPose",
+          "TokenPose",
+          "HRFormer",
+          "ViT",
+          "MAE",
+          "ViT-B",
+          "ViT-L",
+          "ViT-H",
+          "ViTAE-G",
+          "SimpleBaseline",
+          "UDP",
+          "Bigdet",
+          "HRNet-w32",
+          "HRNet-w48"
+        ],
+        "related_papers": [
+          "ViTPose",
+          "ImageNet",
+          "MAE",
+          "ViT",
+          "HRNet",
+          "HRFormer",
+          "ViTAE-G"
+        ],
+        "tools": [
+          "mmpose",
+          "MAE"
+        ],
+        "benchmarks": [
+          "MS COCO test-dev",
+          "MS COCO val"
+        ]
+      },
+      "provenance": {
+        "extractor_agent": [
+          "description",
+          "type",
+          "category",
+          "target",
+          "specific_target",
+          "url",
+          "key_features",
+          "performance",
+          "model_architecture",
+          "mentions"
+        ]
+      }
+    }
+  ],
+  "verification": {
+    "resources_checked": 1,
+    "resources_present": 1,
+    "resources_dropped": 0,
+    "resources_dropped_detail": [],
+    "all_resources_present_in_text": true
+  },
+  "_extraction_chunk_count": 5,
+  "alignment_method": "direct_tool_call",
+  "alignment_llm_skipped": true
+}
