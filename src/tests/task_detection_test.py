@@ -1,19 +1,12 @@
 """Tests for task_type detection in StructSenseFlow."""
 
-from pathlib import Path
-import os
-
 import pytest
-from dotenv import load_dotenv
 
 from structsense.app import StructSenseFlow
+from .conftest import skip_if_no_openrouter
 
-skip_if_no_openrouter = pytest.mark.skipif(
-    not os.environ.get("OPENROUTER_API_KEY"),
-    reason="OPENROUTER_API_KEY not set",
-)
+pytestmark = pytest.mark.usefixtures("load_env")
 
-ENV_PATH = Path(__file__).parent / "configs/.env_example"
 SOURCE_TEXT_SHORT = "Retinal ganglion cell"
 
 LLM_CONFIG = {
@@ -35,11 +28,6 @@ BASE_TASK_CONFIG = {
         "agent_id": "agent_key",
     }
 }
-
-
-@pytest.fixture(autouse=True)
-def load_env():
-    load_dotenv(ENV_PATH, override=True)
 
 
 def make_flow(agent_config=None, task_config=None):
