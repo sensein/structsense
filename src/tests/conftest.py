@@ -15,5 +15,5 @@ skip_if_no_openrouter = pytest.mark.skipif(
 
 @pytest.fixture(scope="module")
 def load_env():
-    print("\n Loading environment variables from: ", ENV_PATH, "\n")
+    logging.info("Loading environment variables from: %s", ENV_PATH)
     load_dotenv(ENV_PATH, override=True)
