@@ -9,7 +9,7 @@ import pytest
 from structsense.app import StructSenseFlow
 from .conftest import skip_if_no_openrouter
 
-pytestmark = pytest.mark.requires_openrouter
+pytestmark = [pytest.mark.usefixtures("load_env"), pytest.mark.requires_openrouter]
 
 CONFIG_PATH = Path(__file__).parent / "configs/ner-config_extractonly.yaml"
 SOURCE_TEXT = "Retinal ganglion cell (RGC) axons and synapses were genetically labeled via AAV transduction"
