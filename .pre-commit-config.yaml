@@ -51,7 +51,7 @@ repos:
   hooks:
   - id: codespell
     args:
-    - --skip=poetry.lock,docs_style/pdoc-theme/syntax-highlighting.css,*.cha,*.ipynb,example/sample_metadata.csv
+    - --skip=poetry.lock,docs_style/pdoc-theme/syntax-highlighting.css,*.cha,*.ipynb,example/sample_metadata.csv,evaluation/benchmark,evaluation/pdf2reproschema/old,evaluation/ner/old,evaluation/pdf2reproschema/old/evaluation
     - --ignore-words-list=SIE,sie
 
 - repo: https://github.com/hija/clean-dotenv
