@@ -1,0 +1,168 @@
+{
+  "resources": [
+    {
+      "resource_name": [
+        "DeepLabCut",
+        "DLCRNet_ms5",
+        "DeepLabCut",
+        "DeepLabCut",
+        "DeepLabCut",
+        "DeepLabCut",
+        "Nature Methods article on DeepLabCut multi-animal pose estimation and identity prediction",
+        "Animal assembly for multi-animal pose estimation",
+        "MMPose",
+        "Tracklet stitching and affinity modeling for animal tracking",
+        "DeepLabCut tracklet stitching and transformer-based identity tracking workflow"
+      ],
+      "description": [
+        "Open-source toolbox expanded for multi-animal pose estimation, including multi-task CNNs for keypoint localization, animal assembly, tracking, and GUI support for annotation and trajectory verification.",
+        "A multi-scale deep learning architecture for multi-animal pose estimation that predicts keypoint locations, part affinity fields, and animal re-identification outputs to support individual assembly in scenes with multiple animals.",
+        "A deep learning toolbox for animal pose estimation and tracking, including pose estimation, identity prediction, and tracking of individuals across video frames.",
+        "A multi-animal pose estimation and tracking system that extends DeepLabCut with multi-animal tracking, identity-aware tracking, and flexible bottom-up and top-down pipelines for animal behavior analysis.",
+        "A graphical and code-light toolbox for animal pose estimation and tracking from video, supporting markerless analysis and keypoint labeling workflows.",
+        "A deep-learning toolbox and model framework for animal pose estimation, keypoint tracking, and part association using score maps, location refinement, and part affinity fields.",
+        "Paper describing DeepLabCut methods for multi-animal pose estimation, including crop sampling strategies, CNN-based identity prediction, and data-driven part affinity graph selection for animal assembly.",
+        "A paper describing a graph-based animal assembly method for multi-animal pose estimation, including calibrated linkage using pose priors, optional temporal coherence for videos, top-down pose estimation, and evaluation with keypoint and assembly metrics.",
+        "OpenMMLab toolbox for 2D pose estimation used here for bottom-up animal pose models with associative embedding (HRNet-AE and ResNet-AE) in benchmarking against DeepLabCut.",
+        "Method for reconstructing full trajectories from sparse tracklets in animal tracking using a network flow formulation and affinity models including motion affinity, spatial proximity, shape similarity, and dynamic similarity.",
+        "A tracking workflow described in the DeepLabCut context that stitches tracklets using min-cost flow, then applies a transformer-based metric learning approach to identify animals from keypoint embeddings and improve tracking performance."
+      ],
+      "type": [
+        "Tool",
+        "Model",
+        "Tool",
+        "Tool",
+        "Tool",
+        "Tool",
+        "Paper",
+        "Paper",
+        "Tool",
+        "Paper",
+        "Tool"
+      ],
+      "category": [
+        "Animal Pose Estimation",
+        "Animal pose estimation and individual assembly",
+        "Animal pose estimation and tracking",
+        "Animal Pose Estimation and Tracking",
+        "Pose Estimation and Tracking",
+        "Pose Estimation",
+        "Animal pose estimation and tracking",
+        "Pose Estimation",
+        "Pose Estimation",
+        "Tracking",
+        "Animal tracking"
+      ],
+      "target": [
+        "Animal",
+        "Animals",
+        "Animal",
+        "Animal behavior research",
+        "Animal behavior research",
+        "Animal",
+        "Animal behavior analysis",
+        "Animal",
+        "Animal",
+        "Animal",
+        "Animal"
+      ],
+      "specific_target": [
+        "Multi-animal tracking and pose estimation in mice, marmosets, and fish",
+        "Multiple animals; keypoints, limbs, and re-identification from visual input",
+        "Multi-animal, keypoints, identity/reID, tracking",
+        "Multi-animal tracking, pose estimation, identity-aware tracking",
+        "Markerless pose estimation, skeleton selection, and multi-animal tracking",
+        "Keypoint detection, pose estimation, tracking",
+        "Multi-animal keypoint detection, identity prediction, and animal assembly in marmosets and mice",
+        "Multi-animal keypoint assembly and pose estimation",
+        "Marmoset, tri-mouse, fish, parenting dataset animals",
+        "Individuals in video tracking / tracklets",
+        "Tracklet stitching, identity tracking, and tracking evaluation"
+      ],
+      "mapped_target_concept": [],
+      "mapped_specific_target_concept": [],
+      "key_features": [],
+      "performance": [],
+      "url": [
+        "https://github.com/DeepLabCut/DeepLabCut",
+        "https://github.com/DeepLabCut/DeepLabCut",
+        "https://deeplabcut.github.io/DeepLabCut",
+        "https://github.com/DeepLabCut/DeepLabCut",
+        "https://github.com/open-mmlab/mmpose",
+        "https://github.com/DeepLabCut/DeepLabCut"
+      ],
+      "model_architecture": [],
+      "mentions": {
+        "datasets": [
+          "three mice in an open field arena",
+          "parenting mice",
+          "pairs of marmosets",
+          "schooling fish",
+          "tri-mouse",
+          "parenting",
+          "marmoset",
+          "fish",
+          "pups",
+          "marmosets",
+          "parenting mouse",
+          "Tri-mouse dataset",
+          "marmoset dataset",
+          "mouse dataset",
+          "COCO"
+        ],
+        "related_models": [
+          "DLCRNet",
+          "OpenPose",
+          "ImageNet-pretrained ResNets",
+          "EfficientNets",
+          "HRNet-AE",
+          "ResNet-AE",
+          "ReID tracking method",
+          "DLCRNet_ms5",
+          "DeepLabCut",
+          "HRNet",
+          "HigherHRNet",
+          "ResNet",
+          "Associative Embedding"
+        ],
+        "related_papers": [
+          "DeepLabCut",
+          "idtracker.ai",
+          "Cao et al.",
+          "ref. 9",
+          "ref. 39",
+          "TrackletStitcher"
+        ],
+        "benchmarks": [
+          "COCO",
+          "mAP",
+          "MOTA"
+        ]
+      },
+      "provenance": {
+        "extractor_agent": [
+          "description",
+          "type",
+          "category",
+          "target",
+          "specific_target",
+          "url",
+          "key_features",
+          "performance",
+          "model_architecture",
+          "mentions"
+        ]
+      }
+    }
+  ],
+  "verification": {
+    "resources_checked": 1,
+    "resources_present": 1,
+    "resources_dropped": 0,
+    "resources_dropped_detail": [],
+    "all_resources_present_in_text": true
+  },
+  "_extraction_chunk_count": 11,
+  "alignment_method": "direct_tool_call",
+  "alignment_llm_skipped": true
+}

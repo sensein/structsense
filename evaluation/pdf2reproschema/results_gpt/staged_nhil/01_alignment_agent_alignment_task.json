@@ -1,0 +1,926 @@
+{
+  "activity": {
+    "id": "MFQ-long",
+    "prefLabel": "Mood and Feelings Questionnaire: Long Version",
+    "description": "Adult Self-Report; a questionnaire about how the respondent has been feeling or acting recently, specifically during the past two weeks.",
+    "preamble": "This form is about how you might have been feeling or acting recently. For each question, please check how you have been feeling or acting in the past two weeks. If a sentence was not true about you, check NOT TRUE. If a sentence was only sometimes true, check SOMETIMES. If a sentence was true about you most of the time, check TRUE. To code, please use a checkmark for each statement.",
+    "citation": "Copyright Adrian Angold & Elizabeth J. Costello, 1987; Developmental Epidemiology Program; Duke University"
+  },
+  "items": [
+    {
+      "id": "Q1",
+      "question": "I felt miserable or unhappy.",
+      "prefLabel": "MFQ Q1",
+      "inputType": "radio",
+      "valueRequired": true,
+      "responseOptions": [
+        {
+          "value": 0,
+          "name": "NOT TRUE"
+        },
+        {
+          "value": 1,
+          "name": "SOMETIMES"
+        },
+        {
+          "value": 2,
+          "name": "TRUE"
+        }
+      ],
+      "scoring": {
+        "NOT TRUE": 0,
+        "SOMETIMES": 1,
+        "TRUE": 2
+      }
+    },
+    {
+      "id": "Q2",
+      "question": "I didn\u2019t enjoy anything at all.",
+      "prefLabel": "MFQ Q2",
+      "inputType": "radio",
+      "valueRequired": true,
+      "responseOptions": [
+        {
+          "value": 0,
+          "name": "NOT TRUE"
+        },
+        {
+          "value": 1,
+          "name": "SOMETIMES"
+        },
+        {
+          "value": 2,
+          "name": "TRUE"
+        }
+      ],
+      "scoring": {
+        "NOT TRUE": 0,
+        "SOMETIMES": 1,
+        "TRUE": 2
+      }
+    },
+    {
+      "id": "Q3",
+      "question": "I was less hungry than usual.",
+      "prefLabel": "MFQ Q3",
+      "inputType": "radio",
+      "valueRequired": true,
+      "responseOptions": [
+        {
+          "value": 0,
+          "name": "NOT TRUE"
+        },
+        {
+          "value": 1,
+          "name": "SOMETIMES"
+        },
+        {
+          "value": 2,
+          "name": "TRUE"
+        }
+      ],
+      "scoring": {
+        "NOT TRUE": 0,
+        "SOMETIMES": 1,
+        "TRUE": 2
+      }
+    },
+    {
+      "id": "Q4",
+      "question": "I ate more than usual.",
+      "prefLabel": "MFQ Q4",
+      "inputType": "radio",
+      "valueRequired": true,
+      "responseOptions": [
+        {
+          "value": 0,
+          "name": "NOT TRUE"
+        },
+        {
+          "value": 1,
+          "name": "SOMETIMES"
+        },
+        {
+          "value": 2,
+          "name": "TRUE"
+        }
+      ],
+      "scoring": {
+        "NOT TRUE": 0,
+        "SOMETIMES": 1,
+        "TRUE": 2
+      }
+    },
+    {
+      "id": "Q5",
+      "question": "I felt so tired I just sat around and did nothing.",
+      "prefLabel": "MFQ Q5",
+      "inputType": "radio",
+      "valueRequired": true,
+      "responseOptions": [
+        {
+          "value": 0,
+          "name": "NOT TRUE"
+        },
+        {
+          "value": 1,
+          "name": "SOMETIMES"
+        },
+        {
+          "value": 2,
+          "name": "TRUE"
+        }
+      ],
+      "scoring": {
+        "NOT TRUE": 0,
+        "SOMETIMES": 1,
+        "TRUE": 2
+      }
+    },
+    {
+      "id": "Q6",
+      "question": "I was moving and walking more slowly than usual.",
+      "prefLabel": "MFQ Q6",
+      "inputType": "radio",
+      "valueRequired": true,
+      "responseOptions": [
+        {
+          "value": 0,
+          "name": "NOT TRUE"
+        },
+        {
+          "value": 1,
+          "name": "SOMETIMES"
+        },
+        {
+          "value": 2,
+          "name": "TRUE"
+        }
+      ],
+      "scoring": {
+        "NOT TRUE": 0,
+        "SOMETIMES": 1,
+        "TRUE": 2
+      }
+    },
+    {
+      "id": "Q7",
+      "question": "I was very restless.",
+      "prefLabel": "MFQ Q7",
+      "inputType": "radio",
+      "valueRequired": true,
+      "responseOptions": [
+        {
+          "value": 0,
+          "name": "NOT TRUE"
+        },
+        {
+          "value": 1,
+          "name": "SOMETIMES"
+        },
+        {
+          "value": 2,
+          "name": "TRUE"
+        }
+      ],
+      "scoring": {
+        "NOT TRUE": 0,
+        "SOMETIMES": 1,
+        "TRUE": 2
+      }
+    },
+    {
+      "id": "Q8",
+      "question": "I felt I was no good anymore.",
+      "prefLabel": "MFQ Q8",
+      "inputType": "radio",
+      "valueRequired": true,
+      "responseOptions": [
+        {
+          "value": 0,
+          "name": "NOT TRUE"
+        },
+        {
+          "value": 1,
+          "name": "SOMETIMES"
+        },
+        {
+          "value": 2,
+          "name": "TRUE"
+        }
+      ],
+      "scoring": {
+        "NOT TRUE": 0,
+        "SOMETIMES": 1,
+        "TRUE": 2
+      }
+    },
+    {
+      "id": "Q9",
+      "question": "I blamed myself for things that weren\u2019t my fault.",
+      "prefLabel": "MFQ Q9",
+      "inputType": "radio",
+      "valueRequired": true,
+      "responseOptions": [
+        {
+          "value": 0,
+          "name": "NOT TRUE"
+        },
+        {
+          "value": 1,
+          "name": "SOMETIMES"
+        },
+        {
+          "value": 2,
+          "name": "TRUE"
+        }
+      ],
+      "scoring": {
+        "NOT TRUE": 0,
+        "SOMETIMES": 1,
+        "TRUE": 2
+      }
+    },
+    {
+      "id": "Q10",
+      "question": "It was hard for me to make up my mind.",
+      "prefLabel": "MFQ Q10",
+      "inputType": "radio",
+      "valueRequired": true,
+      "responseOptions": [
+        {
+          "value": 0,
+          "name": "NOT TRUE"
+        },
+        {
+          "value": 1,
+          "name": "SOMETIMES"
+        },
+        {
+          "value": 2,
+          "name": "TRUE"
+        }
+      ],
+      "scoring": {
+        "NOT TRUE": 0,
+        "SOMETIMES": 1,
+        "TRUE": 2
+      }
+    },
+    {
+      "id": "Q11",
+      "question": "I felt grumpy and cross with other people.",
+      "prefLabel": "MFQ Q11",
+      "inputType": "radio",
+      "valueRequired": true,
+      "responseOptions": [
+        {
+          "value": 0,
+          "name": "NOT TRUE"
+        },
+        {
+          "value": 1,
+          "name": "SOMETIMES"
+        },
+        {
+          "value": 2,
+          "name": "TRUE"
+        }
+      ],
+      "scoring": {
+        "NOT TRUE": 0,
+        "SOMETIMES": 1,
+        "TRUE": 2
+      }
+    },
+    {
+      "id": "Q12",
+      "question": "I felt like talking less than usual.",
+      "prefLabel": "MFQ Q12",
+      "inputType": "radio",
+      "valueRequired": true,
+      "responseOptions": [
+        {
+          "value": 0,
+          "name": "NOT TRUE"
+        },
+        {
+          "value": 1,
+          "name": "SOMETIMES"
+        },
+        {
+          "value": 2,
+          "name": "TRUE"
+        }
+      ],
+      "scoring": {
+        "NOT TRUE": 0,
+        "SOMETIMES": 1,
+        "TRUE": 2
+      }
+    },
+    {
+      "id": "Q13",
+      "question": "I was talking more slowly than usual.",
+      "prefLabel": "MFQ Q13",
+      "inputType": "radio",
+      "valueRequired": true,
+      "responseOptions": [
+        {
+          "value": 0,
+          "name": "NOT TRUE"
+        },
+        {
+          "value": 1,
+          "name": "SOMETIMES"
+        },
+        {
+          "value": 2,
+          "name": "TRUE"
+        }
+      ],
+      "scoring": {
+        "NOT TRUE": 0,
+        "SOMETIMES": 1,
+        "TRUE": 2
+      }
+    },
+    {
+      "id": "Q14",
+      "question": "I cried a lot.",
+      "prefLabel": "MFQ Q14",
+      "inputType": "radio",
+      "valueRequired": true,
+      "responseOptions": [
+        {
+          "value": 0,
+          "name": "NOT TRUE"
+        },
+        {
+          "value": 1,
+          "name": "SOMETIMES"
+        },
+        {
+          "value": 2,
+          "name": "TRUE"
+        }
+      ],
+      "scoring": {
+        "NOT TRUE": 0,
+        "SOMETIMES": 1,
+        "TRUE": 2
+      }
+    },
+    {
+      "id": "Q15",
+      "question": "I thought there was nothing good for me in the future.",
+      "prefLabel": "MFQ Q15",
+      "inputType": "radio",
+      "valueRequired": true,
+      "responseOptions": [
+        {
+          "value": 0,
+          "name": "NOT TRUE"
+        },
+        {
+          "value": 1,
+          "name": "SOMETIMES"
+        },
+        {
+          "value": 2,
+          "name": "TRUE"
+        }
+      ],
+      "scoring": {
+        "NOT TRUE": 0,
+        "SOMETIMES": 1,
+        "TRUE": 2
+      }
+    },
+    {
+      "id": "Q16",
+      "question": "I thought that life wasn\u2019t worth living.",
+      "prefLabel": "MFQ Q16",
+      "inputType": "radio",
+      "valueRequired": true,
+      "responseOptions": [
+        {
+          "value": 0,
+          "name": "NOT TRUE"
+        },
+        {
+          "value": 1,
+          "name": "SOMETIMES"
+        },
+        {
+          "value": 2,
+          "name": "TRUE"
+        }
+      ],
+      "scoring": {
+        "NOT TRUE": 0,
+        "SOMETIMES": 1,
+        "TRUE": 2
+      }
+    },
+    {
+      "id": "Q17",
+      "question": "I thought about death or dying.",
+      "prefLabel": "MFQ Q17",
+      "inputType": "radio",
+      "valueRequired": true,
+      "responseOptions": [
+        {
+          "value": 0,
+          "name": "NOT TRUE"
+        },
+        {
+          "value": 1,
+          "name": "SOMETIMES"
+        },
+        {
+          "value": 2,
+          "name": "TRUE"
+        }
+      ],
+      "scoring": {
+        "NOT TRUE": 0,
+        "SOMETIMES": 1,
+        "TRUE": 2
+      }
+    },
+    {
+      "id": "Q18",
+      "question": "I thought my family would be better off without me.",
+      "prefLabel": "MFQ Q18",
+      "inputType": "radio",
+      "valueRequired": true,
+      "responseOptions": [
+        {
+          "value": 0,
+          "name": "NOT TRUE"
+        },
+        {
+          "value": 1,
+          "name": "SOMETIMES"
+        },
+        {
+          "value": 2,
+          "name": "TRUE"
+        }
+      ],
+      "scoring": {
+        "NOT TRUE": 0,
+        "SOMETIMES": 1,
+        "TRUE": 2
+      }
+    },
+    {
+      "id": "Q19",
+      "question": "I thought about killing myself.",
+      "prefLabel": "MFQ Q19",
+      "inputType": "radio",
+      "valueRequired": true,
+      "responseOptions": [
+        {
+          "value": 0,
+          "name": "NOT TRUE"
+        },
+        {
+          "value": 1,
+          "name": "SOMETIMES"
+        },
+        {
+          "value": 2,
+          "name": "TRUE"
+        }
+      ],
+      "scoring": {
+        "NOT TRUE": 0,
+        "SOMETIMES": 1,
+        "TRUE": 2
+      }
+    },
+    {
+      "id": "Q20",
+      "question": "I didn\u2019t want to see my friends.",
+      "prefLabel": "MFQ Q20",
+      "inputType": "radio",
+      "valueRequired": true,
+      "responseOptions": [
+        {
+          "value": 0,
+          "name": "NOT TRUE"
+        },
+        {
+          "value": 1,
+          "name": "SOMETIMES"
+        },
+        {
+          "value": 2,
+          "name": "TRUE"
+        }
+      ],
+      "scoring": {
+        "NOT TRUE": 0,
+        "SOMETIMES": 1,
+        "TRUE": 2
+      }
+    },
+    {
+      "id": "Q21",
+      "question": "I found it hard to think properly or concentrate.",
+      "prefLabel": "MFQ Q21",
+      "inputType": "radio",
+      "valueRequired": true,
+      "responseOptions": [
+        {
+          "value": 0,
+          "name": "NOT TRUE"
+        },
+        {
+          "value": 1,
+          "name": "SOMETIMES"
+        },
+        {
+          "value": 2,
+          "name": "TRUE"
+        }
+      ],
+      "scoring": {
+        "NOT TRUE": 0,
+        "SOMETIMES": 1,
+        "TRUE": 2
+      }
+    },
+    {
+      "id": "Q22",
+      "question": "I thought bad things would happen to me.",
+      "prefLabel": "MFQ Q22",
+      "inputType": "radio",
+      "valueRequired": true,
+      "responseOptions": [
+        {
+          "value": 0,
+          "name": "NOT TRUE"
+        },
+        {
+          "value": 1,
+          "name": "SOMETIMES"
+        },
+        {
+          "value": 2,
+          "name": "TRUE"
+        }
+      ],
+      "scoring": {
+        "NOT TRUE": 0,
+        "SOMETIMES": 1,
+        "TRUE": 2
+      }
+    },
+    {
+      "id": "Q23",
+      "question": "I hated myself.",
+      "prefLabel": "MFQ Q23",
+      "inputType": "radio",
+      "valueRequired": true,
+      "responseOptions": [
+        {
+          "value": 0,
+          "name": "NOT TRUE"
+        },
+        {
+          "value": 1,
+          "name": "SOMETIMES"
+        },
+        {
+          "value": 2,
+          "name": "TRUE"
+        }
+      ],
+      "scoring": {
+        "NOT TRUE": 0,
+        "SOMETIMES": 1,
+        "TRUE": 2
+      }
+    },
+    {
+      "id": "Q24",
+      "question": "I felt I was a bad person.",
+      "prefLabel": "MFQ Q24",
+      "inputType": "radio",
+      "valueRequired": true,
+      "responseOptions": [
+        {
+          "value": 0,
+          "name": "NOT TRUE"
+        },
+        {
+          "value": 1,
+          "name": "SOMETIMES"
+        },
+        {
+          "value": 2,
+          "name": "TRUE"
+        }
+      ],
+      "scoring": {
+        "NOT TRUE": 0,
+        "SOMETIMES": 1,
+        "TRUE": 2
+      }
+    },
+    {
+      "id": "Q25",
+      "question": "I thought I looked ugly.",
+      "prefLabel": "MFQ Q25",
+      "inputType": "radio",
+      "valueRequired": true,
+      "responseOptions": [
+        {
+          "value": 0,
+          "name": "NOT TRUE"
+        },
+        {
+          "value": 1,
+          "name": "SOMETIMES"
+        },
+        {
+          "value": 2,
+          "name": "TRUE"
+        }
+      ],
+      "scoring": {
+        "NOT TRUE": 0,
+        "SOMETIMES": 1,
+        "TRUE": 2
+      }
+    },
+    {
+      "id": "Q26",
+      "question": "I worried about aches and pains.",
+      "prefLabel": "MFQ Q26",
+      "inputType": "radio",
+      "valueRequired": true,
+      "responseOptions": [
+        {
+          "value": 0,
+          "name": "NOT TRUE"
+        },
+        {
+          "value": 1,
+          "name": "SOMETIMES"
+        },
+        {
+          "value": 2,
+          "name": "TRUE"
+        }
+      ],
+      "scoring": {
+        "NOT TRUE": 0,
+        "SOMETIMES": 1,
+        "TRUE": 2
+      }
+    },
+    {
+      "id": "Q27",
+      "question": "I felt lonely.",
+      "prefLabel": "MFQ Q27",
+      "inputType": "radio",
+      "valueRequired": true,
+      "responseOptions": [
+        {
+          "value": 0,
+          "name": "NOT TRUE"
+        },
+        {
+          "value": 1,
+          "name": "SOMETIMES"
+        },
+        {
+          "value": 2,
+          "name": "TRUE"
+        }
+      ],
+      "scoring": {
+        "NOT TRUE": 0,
+        "SOMETIMES": 1,
+        "TRUE": 2
+      }
+    },
+    {
+      "id": "Q28",
+      "question": "I thought nobody really loved me.",
+      "prefLabel": "MFQ Q28",
+      "inputType": "radio",
+      "valueRequired": true,
+      "responseOptions": [
+        {
+          "value": 0,
+          "name": "NOT TRUE"
+        },
+        {
+          "value": 1,
+          "name": "SOMETIMES"
+        },
+        {
+          "value": 2,
+          "name": "TRUE"
+        }
+      ],
+      "scoring": {
+        "NOT TRUE": 0,
+        "SOMETIMES": 1,
+        "TRUE": 2
+      }
+    },
+    {
+      "id": "Q29",
+      "question": "I didn\u2019t have any fun in any of my activities.",
+      "prefLabel": "MFQ Q29",
+      "inputType": "radio",
+      "valueRequired": true,
+      "responseOptions": [
+        {
+          "value": 0,
+          "name": "NOT TRUE"
+        },
+        {
+          "value": 1,
+          "name": "SOMETIMES"
+        },
+        {
+          "value": 2,
+          "name": "TRUE"
+        }
+      ],
+      "scoring": {
+        "NOT TRUE": 0,
+        "SOMETIMES": 1,
+        "TRUE": 2
+      }
+    },
+    {
+      "id": "Q30",
+      "question": "I thought I could never be as good as other people.",
+      "prefLabel": "MFQ Q30",
+      "inputType": "radio",
+      "valueRequired": true,
+      "responseOptions": [
+        {
+          "value": 0,
+          "name": "NOT TRUE"
+        },
+        {
+          "value": 1,
+          "name": "SOMETIMES"
+        },
+        {
+          "value": 2,
+          "name": "TRUE"
+        }
+      ],
+      "scoring": {
+        "NOT TRUE": 0,
+        "SOMETIMES": 1,
+        "TRUE": 2
+      }
+    },
+    {
+      "id": "Q31",
+      "question": "I did everything wrong.",
+      "prefLabel": "MFQ Q31",
+      "inputType": "radio",
+      "valueRequired": true,
+      "responseOptions": [
+        {
+          "value": 0,
+          "name": "NOT TRUE"
+        },
+        {
+          "value": 1,
+          "name": "SOMETIMES"
+        },
+        {
+          "value": 2,
+          "name": "TRUE"
+        }
+      ],
+      "scoring": {
+        "NOT TRUE": 0,
+        "SOMETIMES": 1,
+        "TRUE": 2
+      }
+    },
+    {
+      "id": "Q32",
+      "question": "I didn\u2019t sleep as well as I usually sleep.",
+      "prefLabel": "MFQ Q32",
+      "inputType": "radio",
+      "valueRequired": true,
+      "responseOptions": [
+        {
+          "value": 0,
+          "name": "NOT TRUE"
+        },
+        {
+          "value": 1,
+          "name": "SOMETIMES"
+        },
+        {
+          "value": 2,
+          "name": "TRUE"
+        }
+      ],
+      "scoring": {
+        "NOT TRUE": 0,
+        "SOMETIMES": 1,
+        "TRUE": 2
+      }
+    },
+    {
+      "id": "Q33",
+      "question": "I slept a lot more than usual.",
+      "prefLabel": "MFQ Q33",
+      "inputType": "radio",
+      "valueRequired": true,
+      "responseOptions": [
+        {
+          "value": 0,
+          "name": "NOT TRUE"
+        },
+        {
+          "value": 1,
+          "name": "SOMETIMES"
+        },
+        {
+          "value": 2,
+          "name": "TRUE"
+        }
+      ],
+      "scoring": {
+        "NOT TRUE": 0,
+        "SOMETIMES": 1,
+        "TRUE": 2
+      }
+    }
+  ],
+  "languages": [
+    "en"
+  ],
+  "computedScores": [
+    {
+      "variableName": "MFQ_total",
+      "label": "MFQ Total Score",
+      "jsExpression": "Q1 + Q2 + Q3 + Q4 + Q5 + Q6 + Q7 + Q8 + Q9 + Q10 + Q11 + Q12 + Q13 + Q14 + Q15 + Q16 + Q17 + Q18 + Q19 + Q20 + Q21 + Q22 + Q23 + Q24 + Q25 + Q26 + Q27 + Q28 + Q29 + Q30 + Q31 + Q32 + Q33"
+    }
+  ],
+  "conditionalLogic": [],
+  "order": [
+    "Q1",
+    "Q2",
+    "Q3",
+    "Q4",
+    "Q5",
+    "Q6",
+    "Q7",
+    "Q8",
+    "Q9",
+    "Q10",
+    "Q11",
+    "Q12",
+    "Q13",
+    "Q14",
+    "Q15",
+    "Q16",
+    "Q17",
+    "Q18",
+    "Q19",
+    "Q20",
+    "Q21",
+    "Q22",
+    "Q23",
+    "Q24",
+    "Q25",
+    "Q26",
+    "Q27",
+    "Q28",
+    "Q29",
+    "Q30",
+    "Q31",
+    "Q32",
+    "Q33"
+  ],
+  "verification": {
+    "resources_checked": 0,
+    "resources_present": 0,
+    "resources_dropped": 0,
+    "resources_dropped_detail": [],
+    "all_resources_present_in_text": true
+  },
+  "_extraction_chunk_count": 1,
+  "resources": [],
+  "alignment_method": "direct_tool_call",
+  "alignment_llm_skipped": true
+}

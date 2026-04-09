@@ -1,0 +1,12 @@
+{
+  "results": [],
+  "verification": {
+    "resources_checked": 0,
+    "resources_present": 0,
+    "resources_dropped": 0,
+    "resources_dropped_detail": [],
+    "all_resources_present_in_text": true
+  },
+  "_extraction_chunk_count": 1,
+  "resources": []
+}

@@ -1,0 +1,83 @@
+# agent config
+agent_config:
+  extractor_agent:
+    role: >
+      Neuroscience NER Extractor Agent
+    goal: >
+      Extract named entities and key terms from neuroscience text {input_text}.  Return structured JSON.
+    backstory: >
+      You are an AI assistant for neuroscience NER. You do not hallucinate. Output strict JSON: entities and key_terms.
+    llm:
+      model: openrouter/qwen/qwen3-vl-32b-instruct:nitro
+      base_url: https://openrouter.ai/api/v1
+
+  alignment_agent:
+    role: >
+      Neuroscience NER Concept Alignment Agent
+    goal: >
+      Add mapping info to {extracted_structured_information}: map each entity/resource/key term to an ontology. Add ontology_id, ontology_label, ontology, and concept_mapping_provenance ("tool" if from Concept Mapping Tool, "llm_knowledge" if from your knowledge).
+    backstory: >
+      You align extracted terms to ontologies (e.g. CL, UBERON, NCBITaxon). You have the Concept Mapping Tool; use it. Always set concept_mapping_provenance to indicate source (tool vs llm_knowledge). Output strict JSON.
+    llm:
+      model: openrouter/qwen/qwen3-vl-32b-instruct:nitro
+      base_url: https://openrouter.ai/api/v1
+
+  judge_agent:
+    role: >
+      Neuroscience NER Judge Agent
+    goal: >
+      Extend {aligned_structured_information} by checking quality and adding judge_score (0–1) and remarks for each item.
+    backstory: >
+      You evaluate alignment quality. Add judge_score and remarks; do not remove existing fields. Output strict JSON.
+    llm:
+      model: openrouter/qwen/qwen3-vl-32b-instruct:nitro
+      base_url: https://openrouter.ai/api/v1
+
+  humanfeedback_agent:
+    role: >
+      Neuroscience NER Human Feedback Agent
+    goal: >
+      Take human feedback and apply it to {judged_structured_information_with_human_feedback}. Revise the result using the human's input.
+    backstory: >
+      You incorporate human feedback into the judged result. Preserve structure; apply corrections and notes from the human. Output strict JSON.
+    llm:
+      model: openrouter/qwen/qwen3-vl-32b-instruct:nitro
+      base_url: https://openrouter.ai/api/v1
+
+# task config (pipeline variables: input_text → extracted_structured_information → aligned_structured_information → judged_structured_information_with_human_feedback)
+task_config:
+  extraction_task:
+    description: >
+      Extract entities and key_terms from the input text. Use the NER tool on {input_text}. Return JSON with entities and key_terms.
+    expected_output: >
+      JSON: { "entities": [...], "key_terms": [...] }
+    agent_id: extractor_agent
+
+  alignment_task:
+    description: >
+      Add mapping info to the extraction. Input: {extracted_structured_information}. Use the Concept Mapping Tool to map each entity/resource/key term to an ontology. Add ontology_id, ontology_label, ontology, and concept_mapping_provenance to each mapped concept. Set concept_mapping_provenance to "tool" when the mapping comes from the Concept Mapping Tool (BioPortal), or "llm_knowledge" when you provide the mapping from your own knowledge without calling the tool. Preserve all existing fields; only add mapping info and provenance.
+    expected_output: >
+      Same structure as input, with ontology_id, ontology_label, ontology, and concept_mapping_provenance ("tool" | "llm_knowledge") per entity/item.
+    agent_id: alignment_agent
+
+  judge_task:
+    description: >
+      Extend the aligned result by checking quality. Input: {aligned_structured_information}. Add judge_score (float 0–1) and remarks for each item. Preserve all existing fields (entity, label, ontology_id, ontology_label, sentence, start, end, etc.); add judge_score and extend remarks.
+    expected_output: >
+      Same structure as input, with judge_score and remarks added per item.
+    agent_id: judge_agent
+
+  humanfeedback_task:
+    description: >
+      Take human feedback and apply it. Input: {judged_structured_information_with_human_feedback}. The human may provide corrections or notes; incorporate them into the result. Preserve structure and add/update remarks as needed.
+    expected_output: >
+      Same structure as input, revised according to human feedback.
+    agent_id: humanfeedback_agent
+
+# embedding config
+embedder_config:
+  provider: ollama
+  config:
+    api_base: http://localhost:11434
+    model: nomic-embed-text
+

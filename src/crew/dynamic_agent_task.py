@@ -73,4 +73,4 @@ class DynamicAgentTask:
         if pydantic_output:
             task_kwargs["output_pydantic"] = pydantic_output
 
-        return Task(**task_kwargs)
+        return Task(**task_kwargs, async_execution=True)

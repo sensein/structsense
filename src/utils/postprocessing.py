@@ -48,8 +48,8 @@ See Also
 import logging
 import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from typing import Dict, Any, List, Callable, Optional, Tuple
-from collections import defaultdict
+from typing import Dict, Any, List, Callable, Optional, Tuple, cast
+from collections import defaultdict, Counter
 
 from .text_chunking import (
     _globalize_entities,
@@ -584,46 +584,35 @@ def _collect_resources_from_value(value: Any) -> List[Dict[str, Any]]:
 
 
 def _extract_resources_from_raw(raw_result: Dict[str, Any]) -> List[Dict[str, Any]]:
-    """
-    Extract a flat list of resource-like dicts from raw LLM output.
-    Tries known container keys first; if none found, scans the dict for any resource-like objects.
+    """Extract a flat list of resource-like dicts from raw LLM output.
+
+    Tries known container keys first (``extracted_resources``, ``resources``,
+    ``resource``); for each, delegates to :func:`_collect_resources_from_value`
+    so any nesting shape is handled:
+
+    - ``extracted_resources: {"1": [{...}]}``   — dict-of-lists  ✓
+    - ``extracted_resources: [{...}]``           — bare list      ✓
+    - ``extracted_resources: {...}``             — bare resource  ✓
+    - ``resources: [{...}]``                     — list           ✓
+    - ``resources: {"1": [{...}]}``              — dict-of-lists  ✓
+    - ``resource: {...}``                        — single dict    ✓
+
+    Falls back to a full heuristic scan when no known key matches.
     """
     if not isinstance(raw_result, dict):
         return []
 
-    # 1) Known keys (order: most specific first)
+    # Known keys first — _collect_resources_from_value handles any shape
     for key in RESOURCE_EXTRACTION_CONTAINER_KEYS:
-        if key not in raw_result:
-            continue
-        val = raw_result[key]
+        val = raw_result.get(key)
         if val is None:
             continue
-        if key == "resource":
-            if isinstance(val, dict) and _looks_like_resource(val):
-                return [val]
-            continue
-        if key == "resources" and isinstance(val, list):
-            items = [x for x in val if isinstance(x, dict) and _looks_like_resource(x)]
-            if items:
-                return items
-            continue
-        if key == "extracted_resources" and isinstance(val, dict):
-            all_items: List[Dict[str, Any]] = []
-            for _k, v in val.items():
-                if isinstance(v, list):
-                    all_items.extend(x for x in v if isinstance(x, dict) and _looks_like_resource(x))
-                elif isinstance(v, dict) and _looks_like_resource(v):
-                    all_items.append(v)
-            if all_items:
-                return all_items
-            continue
+        items = _collect_resources_from_value(val)
+        if items:
+            return items
 
-    # 2) Heuristic: scan top-level and one level of nesting for resource-like dicts
-    collected = _collect_resources_from_value(raw_result)
-    if collected:
-        return collected
-
-    return []
+    # Heuristic fallback: scan the whole result for resource-like dicts
+    return _collect_resources_from_value(raw_result)
 
 
 def _scalar_str(val: Any) -> str:
@@ -992,16 +981,46 @@ def merge_resource_results(
 # Used for both NER and resource (and other) tasks; each item only gets fields it actually has.
 PROVENANCE_AGENT_FIELDS: Dict[str, List[str]] = {
     "extractor_agent": [
-        "name", "description", "type", "category", "target", "specific_target", "url", "mentions",
-        "entity", "label", "sentence", "start", "end", "remarks", "paper_location", "paper_title", "doi",
+        # NER fields
+        "entity", "label", "sentence", "start", "end",
+        "paper_location", "paper_title", "doi",
+        # Resource fields
+        "name", "description", "type", "category", "target", "specific_target",
+        "url", "key_features", "performance", "model_architecture", "mentions",
+        # Generic / shared
+        "remarks",
     ],
     "alignment_agent": [
-        "mapped_target_concept", "mapped_specific_target_concept",
+        # Concept mapping — flat (written by apply_concept_mapping_to_result)
         "ontology_id", "ontology_label", "ontology", "concept_mapping_provenance",
+        # Structured mapped concepts — resource
+        "mapped_name_concept", "mapped_target_concept", "mapped_specific_target_concept",
+        "mapped_type_concept", "mapped_category_concept",
+        # Flat per-field prefixed variants (target_, specific_target_, type_, category_)
+        "target_ontology_id", "target_ontology_label", "target_ontology",
+        "target_concept_mapping_provenance",
+        "specific_target_ontology_id", "specific_target_ontology_label", "specific_target_ontology",
+        "specific_target_concept_mapping_provenance",
+        "type_ontology_id", "type_ontology_label", "type_ontology", "type_concept_mapping_provenance",
+        "category_ontology_id", "category_ontology_label", "category_ontology",
+        "category_concept_mapping_provenance",
+        # NER label ontology
+        "label_ontology_id", "label_ontology_label", "label_ontology",
+        # Mention-level ontology (mentions_with_ontology is built here)
+        "mentions_with_ontology",
     ],
     "judge_agent": ["judge_score", "judge_rationale", "remarks"],
-    "humanfeedback_agent": ["judge_score", "judge_rationale", "user_feedback_applied", "remarks"],
+    "humanfeedback_agent": ["judge_score", "judge_rationale", "user_feedback_applied", "remarks",
+                             "feedback_response"],
 }
+
+# Fields that are internal bookkeeping and should never appear in provenance field lists.
+_PROVENANCE_SKIP_FIELDS = frozenset({
+    "provenance", "concept_mapping_provenance",
+    "target_concept_mapping_provenance", "specific_target_concept_mapping_provenance",
+    "type_concept_mapping_provenance", "category_concept_mapping_provenance",
+    "_extraction_chunk_count",
+})
 
 
 def _merge_single_resource_group_with_provenance(
@@ -1104,19 +1123,87 @@ def merge_downstream_chunk_results_with_provenance(
     return {container_key: out_container}
 
 
+# ---------------------------------------------------------------------------
+# Ontology consistency pass for parallel downstream chunking
+# ---------------------------------------------------------------------------
+
+def _ontology_score(ent: Dict[str, Any]) -> int:
+    """Score an entity's ontology mapping quality. Higher = better."""
+    s = 0
+    if ent.get("concept_mapping_provenance") == "tool":
+        s += 100
+    oid = str(ent.get("ontology_id") or "").strip().lower()
+    if oid and oid not in ("n/a", "none", "null", ""):
+        s += 50
+    if str(ent.get("ontology_label") or "").strip().lower() not in ("n/a", "none", "null", ""):
+        s += 10
+    return s
+
+
+def unify_ontology_across_entities(entities: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """After parallel chunk alignment/judge, unify ontology fields across all entities.
+
+    When the same entity text is processed in different parallel chunks, each LLM call
+    may produce a different ontology ID for it.  This pass:
+
+    1. Finds the best ontology mapping per (entity_text, label) pair — tool-backed
+       concept mapping beats llm_knowledge; a real IRI beats N/A.
+    2. Applies that best mapping to *every* occurrence of that entity text so that
+       all individual instances (different sentences/positions) share one consistent
+       ontology assignment.
+
+    Individual entity instances are preserved — nothing is deduplicated.  Only the
+    ontology fields are unified.
+    """
+    _ONTOLOGY_FIELDS = ("ontology_id", "ontology_label", "ontology", "concept_mapping_provenance")
+
+    # Step 1: determine best mapping per (entity_text, label)
+    best: Dict[Tuple[str, str], Dict[str, Any]] = {}
+    for ent in entities:
+        if not isinstance(ent, dict):
+            continue
+        key = (
+            str(ent.get("entity") or ent.get("term") or ent.get("name") or "").lower().strip(),
+            str(ent.get("label") or "").lower().strip(),
+        )
+        if not key[0]:
+            continue
+        score = _ontology_score(ent)
+        if key not in best or score > _ontology_score(best[key]):
+            best[key] = {f: ent[f] for f in _ONTOLOGY_FIELDS if f in ent}
+
+    # Step 2: apply best mapping to every occurrence
+    for ent in entities:
+        if not isinstance(ent, dict):
+            continue
+        key = (
+            str(ent.get("entity") or ent.get("term") or ent.get("name") or "").lower().strip(),
+            str(ent.get("label") or "").lower().strip(),
+        )
+        if key in best:
+            ent.update(best[key])
+
+    return entities
+
+
 def add_provenance_to_result(
     result_dict: Dict[str, Any], container_key: str, agent_key: str
 ) -> Dict[str, Any]:
-    """
-    Add provenance to each resource in a single (non-chunked) downstream result.
-    In-place style: mutates items under container_key and returns result_dict.
+    """Add provenance to every item under *container_key*.
+
+    For known agent keys (extractor_agent, alignment_agent, …) the contributed
+    field list is intersected with ``PROVENANCE_AGENT_FIELDS[agent_key]`` so
+    only fields that agent is responsible for are recorded.
+
+    For unknown agent keys *or* when the known-field intersection is empty
+    (generic/custom tasks with non-standard field names), falls back to
+    recording all non-internal fields present on the item — so provenance is
+    never silently empty for any task type.
     """
     if not result_dict or container_key not in result_dict:
         return result_dict
     container = result_dict[container_key]
-    fields_this_agent = PROVENANCE_AGENT_FIELDS.get(agent_key, [])
-    if not fields_this_agent:
-        return result_dict
+    known_fields = PROVENANCE_AGENT_FIELDS.get(agent_key)  # None when agent_key unknown
 
     def add_to_item(item: Dict[str, Any]) -> None:
         if not isinstance(item, dict):
@@ -1124,7 +1211,20 @@ def add_provenance_to_result(
         existing = item.get("provenance") or {}
         if not isinstance(existing, dict):
             existing = {}
-        contributed = [f for f in fields_this_agent if f in item and item[f] is not None]
+
+        if known_fields is not None:
+            contributed = [f for f in known_fields if f in item and item[f] is not None]
+        else:
+            contributed = []
+
+        if not contributed:
+            # Generic fallback: record every field the item has that is not
+            # internal bookkeeping (provenance itself, concept_mapping_provenance, etc.)
+            contributed = [
+                f for f in item
+                if f not in _PROVENANCE_SKIP_FIELDS and item[f] is not None
+            ]
+
         if contributed:
             existing[agent_key] = contributed
             item["provenance"] = existing
@@ -1348,9 +1448,11 @@ def _normalize_span_for_compare(s: str) -> str:
 
 
 def verify_resource_result(merged_result: Dict[str, Any], full_text: str) -> Dict[str, Any]:
-    """
-    Verify resource merged result: optionally check that resource names or
-    description snippets appear in full_text (soft check). Attaches verification metadata.
+    """Verify resource extraction: check that each resource name is grounded in the source text.
+
+    Resources whose name cannot be found in the source are dropped and recorded in
+    ``verification.resources_dropped_detail``.  Mention items (datasets, models, tools, etc.)
+    inside each kept resource are also filtered to those whose name appears in the source.
     """
     if not full_text or not isinstance(merged_result, dict):
         return merged_result
@@ -1359,52 +1461,156 @@ def verify_resource_result(merged_result: Dict[str, Any], full_text: str) -> Dic
     if not resources:
         merged_result["verification"] = {
             "resources_checked": 0,
-            "resources_with_text_grounding": 0,
-            "all_present": True,
+            "resources_present": 0,
+            "resources_dropped": 0,
+            "resources_dropped_detail": [],
+            "all_resources_present_in_text": True,
         }
         return merged_result
 
-    # Check each resource: name/description (scalar or first from list) present in text
-    checked = 0
-    grounded = 0
+    kept: List[Dict[str, Any]] = []
+    dropped: List[Dict[str, Any]] = []
+
     for res in resources:
         if not isinstance(res, dict):
             continue
-        name = res.get("name") or res.get("resource_name")
-        if isinstance(name, list):
-            name = (name[0] or "").strip() if name else ""
+        raw_name = res.get("name") or res.get("resource_name")
+        if isinstance(raw_name, list):
+            candidates = [n.strip() for n in raw_name if n and n.strip()]
+        elif raw_name:
+            candidates = [raw_name.strip()]
         else:
-            name = (name or "").strip()
-        desc = res.get("description")
-        if isinstance(desc, list):
-            desc = (desc[0] or "").strip() if desc else ""
-        else:
-            desc = (desc or "").strip()
-        if name or desc:
-            checked += 1
-            if name and name.lower() in text_lower:
-                grounded += 1
-            elif desc and len(desc) > 20 and desc[:50].lower() in text_lower:
-                grounded += 1
-            elif not name and not desc:
-                grounded += 1
-            else:
-                grounded += 1  # soft: count as present if we have name/desc
+            candidates = []
 
-    merged_result["verification"] = {
-        "resources_checked": checked,
-        "resources_with_text_grounding": grounded,
-        "all_present": grounded >= checked if checked else True,
+        if not candidates:
+            # No name — cannot ground; drop
+            dropped.append({**res, "reason": "no_name"})
+            continue
+
+        # Use the first candidate name that appears in the source text
+        name = next((n for n in candidates if n.lower() in text_lower), None)
+        if name is None:
+            dropped.append({**res, "reason": "name_not_in_source"})
+            logger.info(
+                "Resource verifier: dropped %r (and %d alt names) — none found in source text",
+                candidates[0], len(candidates) - 1,
+            )
+            continue
+
+        # Name is grounded — also filter mention lists to items present in source
+        cleaned = dict(res)
+        mentions = res.get("mentions") or {}
+        if isinstance(mentions, dict):
+            filtered_mentions: Dict[str, Any] = {}
+            for cat, items in mentions.items():
+                if isinstance(items, list):
+                    # Items can be plain strings or dicts with a "name" key
+                    grounded_items = []
+                    for item in items:
+                        if isinstance(item, dict):
+                            item_name = (item.get("name") or "").strip()
+                        else:
+                            item_name = str(item).strip()
+                        if item_name and item_name.lower() in text_lower:
+                            grounded_items.append(item)
+                        elif not item_name:
+                            grounded_items.append(item)  # keep if no text to check
+                    filtered_mentions[cat] = grounded_items
+                else:
+                    filtered_mentions[cat] = items
+            cleaned["mentions"] = filtered_mentions
+        kept.append(cleaned)
+
+    verification = {
+        "resources_checked": len(kept) + len(dropped),
+        "resources_present": len(kept),
+        "resources_dropped": len(dropped),
+        "resources_dropped_detail": dropped,
+        "all_resources_present_in_text": len(dropped) == 0,
     }
-    return merged_result
+    if dropped:
+        logger.info(
+            "Resource verifier: dropped %d resource(s) not grounded in source text; kept %d",
+            len(dropped), len(kept),
+        )
+
+    out = {**merged_result, "resources": kept, "verification": verification}
+    return out
+
+
+# Candidate field names (in priority order) used to find the text of a generic extracted item.
+_GENERIC_TEXT_FIELDS = ("text", "term", "phrase", "keyword", "name", "value", "label", "entity")
+
+
+def _generic_item_text(item: Any) -> str:
+    """Return the best text representation of a generic extracted item."""
+    if isinstance(item, str):
+        return item.strip()
+    if isinstance(item, dict):
+        for field in _GENERIC_TEXT_FIELDS:
+            val = item.get(field)
+            if val and isinstance(val, str) and val.strip():
+                return val.strip()
+    return ""
 
 
 def verify_generic_result(merged_result: Dict[str, Any], full_text: str) -> Dict[str, Any]:
-    """Pass-through verifier for generic extraction (no strict text grounding)."""
-    if not isinstance(merged_result, dict):
+    """Verify generic extraction: drop items whose text is not grounded in the source.
+
+    Walks every list value in the result (the container key is task-defined).
+    Items with no detectable text field are kept (cannot verify).
+    """
+    if not full_text or not isinstance(merged_result, dict):
+        if isinstance(merged_result, dict):
+            merged_result.setdefault("verification", {"all_present": True})
         return merged_result
-    merged_result.setdefault("verification", {"all_present": True, "note": "generic_no_verification"})
-    return merged_result
+
+    text_lower = full_text.lower()
+    out = dict(merged_result)
+    total_checked = total_kept = total_dropped = 0
+    all_dropped_detail: List[Dict[str, Any]] = []
+
+    for key, val in merged_result.items():
+        if key in {"errors", "task_type", "elapsed_time", "verification", "metadata", "human_feedback_skipped"}:
+            continue
+        if not isinstance(val, list):
+            continue
+
+        kept: List[Any] = []
+        for item in val:
+            item_text = _generic_item_text(item)
+            if not item_text:
+                kept.append(item)  # no text to check — keep
+                continue
+            total_checked += 1
+            if item_text.lower() in text_lower:
+                kept.append(item)
+                total_kept += 1
+            else:
+                total_dropped += 1
+                detail = {"container": key, "reason": "text_not_in_source"}
+                if isinstance(item, dict):
+                    detail.update(item)
+                else:
+                    detail["text"] = item_text
+                all_dropped_detail.append(detail)
+
+        out[key] = kept
+
+    if total_dropped:
+        logger.info(
+            "Generic verifier: dropped %d item(s) not grounded in source text; kept %d",
+            total_dropped, total_kept,
+        )
+
+    out["verification"] = {
+        "items_checked": total_checked,
+        "items_present": total_kept,
+        "items_dropped": total_dropped,
+        "items_dropped_detail": all_dropped_detail,
+        "all_present_in_text": total_dropped == 0,
+    }
+    return out
 
 
 def verify_merged_result(
@@ -1714,6 +1920,83 @@ def inject_alignment_concept_mapping_into_ner_entities(
     return enriched
 
 
+def inject_alignment_concept_mapping_into_resources(
+    resources: List[Dict[str, Any]],
+    session_outputs: list,
+) -> int:
+    """
+    Enrich resource dicts with concept mapping fields from alignment agent tool calls.
+
+    Mirrors inject_alignment_concept_mapping_into_ner_entities but operates on
+    resource dicts (which use "name" as their text key, not "entity").
+
+    Resource dict BEFORE injection::
+
+        {"name": "STRING", "type": "Database", "url": "https://string-db.org"}
+
+    Resource dict AFTER injection::
+
+        {"name": "STRING", "type": "Database", "url": "https://string-db.org",
+         "ontology_id": "SCR:006272",
+         "ontology_label": "STRING",
+         "ontology": "SciCrunch"}
+
+    The concept mapping tool is called with resource names during the fast-alignment
+    bypass so that no LLM call is needed for the alignment stage on resource tasks.
+
+    Args:
+        resources: List of resource dicts (modified in place).
+        session_outputs: Output of get_alignment_tool_outputs() — list of
+            {"input": str, "output": {ontology_id / ontology_label / ontology / ...}}.
+
+    Returns:
+        Number of resources that received at least one concept mapping field.
+    """
+    if not resources or not session_outputs:
+        return 0
+
+    MAPPING_FIELDS = ("ontology_id", "ontology_label", "ontology")
+
+    # Build name → {ontology fields} lookup — same logic as NER injection.
+    term_to_mapping: Dict[str, Dict[str, Any]] = {}
+    for item in session_outputs:
+        if not isinstance(item, dict):
+            continue
+        inp = item.get("input") or ""
+        out = item.get("output")
+        if not isinstance(out, dict) or "error" in out:
+            continue
+        _known = {*MAPPING_FIELDS, "error"}
+        is_batch = any(k not in _known for k in out)
+        if is_batch:
+            for term, mapping in out.items():
+                if isinstance(mapping, dict) and "error" not in mapping and term:
+                    term_to_mapping[term.lower()] = {f: mapping.get(f) for f in MAPPING_FIELDS}
+        else:
+            if inp:
+                term_to_mapping[inp.lower()] = {f: out.get(f) for f in MAPPING_FIELDS}
+
+    if not term_to_mapping:
+        return 0
+
+    enriched = 0
+    for res in resources:
+        if not isinstance(res, dict):
+            continue
+        # Resources use "name" as primary text; fall back to "resource_name".
+        res_name = (res.get("name") or res.get("resource_name") or "").lower().strip()
+        if not res_name:
+            continue
+        mapping = term_to_mapping.get(res_name)
+        if mapping:
+            for field, value in mapping.items():
+                if value is not None:
+                    res[field] = value
+            enriched += 1
+
+    return enriched
+
+
 def _resource_has_rich_mapped_concepts(res: Dict[str, Any]) -> bool:
     """True if resource has multiple mapped_specific_target_concept or any concept with non-N/A id."""
     if not isinstance(res, dict):
@@ -1870,11 +2153,12 @@ def normalize_final_result_for_output(final: Dict[str, Any], task_type: str) -> 
             resources = _flatten_container_to_list(resources) if isinstance(resources, dict) else []
         if not resources and isinstance(final.get("resource"), dict) and _looks_like_resource(final["resource"]):
             resources = [final["resource"]]
+        cleaned_resources = [_clean_resource_for_export(r) for r in resources]
         out = {
             "errors": final.get("errors", []),
             "task_type": final.get("task_type", task_type),
             "elapsed_time": final.get("elapsed_time"),
-            "resources": resources,
+            "resources": cleaned_resources,
             "verification": final.get("verification", {}),
         }
         if final.get("human_feedback_skipped") is not None:
@@ -2346,12 +2630,19 @@ def apply_concept_mapping_to_result(
         for i, res in enumerate(resources):
             if not isinstance(res, dict):
                 continue
-            add_term(res.get("name") or res.get("resource_name") or "", resources, i, "name")
-            add_term(res.get("target") or "", resources, i, "target")
-            add_term(res.get("specific_target") or "", resources, i, "specific_target")
+            # Scalar resource fields may still be arrays from parallel chunk extraction at this point
+            # (clean_resource_for_export runs later). Extract a single representative value so
+            # _is_valid_concept_term doesn't reject them for containing '[' / ']'.
+            def _res_scalar(val: Any) -> str:
+                if isinstance(val, list):
+                    return _mode_of(val) or (str(val[0]).strip() if val else "")
+                return str(val).strip() if val else ""
+            add_term(_res_scalar(res.get("name") or res.get("resource_name")), resources, i, "name")
+            add_term(_res_scalar(res.get("target")), resources, i, "target")
+            add_term(_res_scalar(res.get("specific_target")), resources, i, "specific_target")
             if t in ("resource", "structured_extraction"):
-                add_term(res.get("type") or "", resources, i, "type")
-                add_term(res.get("category") or "", resources, i, "category")
+                add_term(_res_scalar(res.get("type")), resources, i, "type")
+                add_term(_res_scalar(res.get("category")), resources, i, "category")
                 mentions = res.get("mentions") or {}
                 if isinstance(mentions, dict):
                     for mk in mention_keys:
@@ -2453,16 +2744,47 @@ def apply_concept_mapping_to_result(
             skipped_count,
         )
 
-    # Run concept mapping in parallel
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        future_to_term = {executor.submit(_concept_map_one_term, term, tool): term for term in terms_order}
-        for future in as_completed(future_to_term):
-            term = future_to_term[future]
-            try:
-                unique_terms[term] = future.result()
-            except Exception as e:
-                logger.debug("Concept mapping task failed for %r: %s", term, e)
-                unique_terms[term] = {"ontology_id": None, "ontology_label": None, "ontology": None}
+    # Run concept mapping — single batch call for local tool, per-term parallel for BioPortal
+    if hasattr(tool, "_map_terms") and terms_order:
+        # ConceptMappingLocalTool: send all terms in one batch (handles internal sub-batching up to 4000/batch)
+        logger.info(
+            "Concept mapping: batch mode (%d unique terms, task_type=%s)", len(terms_order), task_type
+        )
+        term_objects = [{"text": term, "context": None} for term in terms_order]
+        try:
+            batch_result = tool._map_terms(term_objects, max_results=1)
+            for term in terms_order:
+                mapping = batch_result.get(term, {})
+                if isinstance(mapping, dict) and "error" not in mapping:
+                    unique_terms[term] = {
+                        "ontology_id": mapping.get("ontology_id"),
+                        "ontology_label": mapping.get("ontology_label"),
+                        "ontology": mapping.get("ontology"),
+                    }
+                else:
+                    unique_terms[term] = {"ontology_id": None, "ontology_label": None, "ontology": None}
+        except Exception as e:
+            logger.warning("Batch concept mapping failed (%s); falling back to per-term parallel", e)
+            with ThreadPoolExecutor(max_workers=max_workers) as executor:
+                future_to_term = {executor.submit(_concept_map_one_term, term, tool): term for term in terms_order}
+                for future in as_completed(future_to_term):
+                    term = future_to_term[future]
+                    try:
+                        unique_terms[term] = future.result()
+                    except Exception as exc:
+                        logger.debug("Concept mapping task failed for %r: %s", term, exc)
+                        unique_terms[term] = {"ontology_id": None, "ontology_label": None, "ontology": None}
+    else:
+        # BioPortal or other tools: parallel per-term
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            future_to_term = {executor.submit(_concept_map_one_term, term, tool): term for term in terms_order}
+            for future in as_completed(future_to_term):
+                term = future_to_term[future]
+                try:
+                    unique_terms[term] = future.result()
+                except Exception as e:
+                    logger.debug("Concept mapping task failed for %r: %s", term, e)
+                    unique_terms[term] = {"ontology_id": None, "ontology_label": None, "ontology": None}
 
     # ---- Apply mappings back (provenance = "tool" when mapping comes from Concept Mapping Tool) ----
     def _top1(val: Any) -> Any:
@@ -2595,6 +2917,144 @@ def apply_concept_mapping_to_result(
                 _resource_strip_flat_ontology_fields(res)
 
     return result
+
+
+# ============================================================
+# RESOURCE CLEAN OUTPUT FOR EXPORT
+# ============================================================
+
+def _mode_of(vals: List[Any]) -> Optional[str]:
+    """Return the most common non-empty string value from a list, or None."""
+    flat = [s for v in vals if v is not None for s in (str(v).strip(),) if s]
+    if not flat:
+        return None
+    return Counter(flat).most_common(1)[0][0]
+
+
+def _best_description(vals: Any) -> str:
+    """Pick the longest unique non-empty description from an array (passthrough if string)."""
+    if isinstance(vals, str):
+        return vals.strip()
+    if not isinstance(vals, list):
+        return str(vals).strip() if vals else ""
+    unique = list(dict.fromkeys(s for v in vals if v for s in (str(v).strip(),) if s))
+    return max(unique, key=len) if unique else ""
+
+
+def _first_url(vals: List[Any]) -> Optional[str]:
+    """Return the first URL-looking value from a list, or None."""
+    items: List[Any] = list(vals)
+    for v in items:
+        s = str(v).strip() if v is not None else ""
+        if s.startswith(("http://", "https://")):
+            return s
+    for v in items:
+        s = str(v).strip() if v is not None else ""
+        if s:
+            return s
+    return None
+
+
+def _clean_resource_for_export(res: Dict[str, Any]) -> Dict[str, Any]:
+    """Produce a clean, deduplicated resource dict for final output.
+
+    Parallel extraction chunks produce array-valued scalar fields (name, type,
+    category, description, target, specific_target, performance, url,
+    model_architecture).  This function collapses each array to a single
+    canonical value, merges ``mentions_with_ontology`` as the canonical
+    ``mentions``, deduplicates ``key_features``, removes empty list fields,
+    and strips internal provenance bookkeeping from the exported record.
+    """
+    if not isinstance(res, dict):
+        return res
+
+    out = dict(res)  # shallow copy — do not mutate caller's dict
+
+    # resource_name → name (resource_name is the chunk-level key; name is the canonical export key)
+    if "resource_name" in out and "name" not in out:
+        out["name"] = out.pop("resource_name")
+    else:
+        out.pop("resource_name", None)
+
+    name_val = out.get("name")
+    if isinstance(name_val, list):
+        unique_names = list(dict.fromkeys(s for v in name_val if v for s in (str(v).strip(),) if s))
+        out["name"] = unique_names[0] if unique_names else ""
+
+    # description: longest unique value
+    desc_val = out.get("description")
+    if isinstance(desc_val, list):
+        out["description"] = _best_description(desc_val)
+
+    # mode-picked categorical fields
+    for field in ("type", "category", "target", "specific_target"):
+        val = out.get(field)
+        if isinstance(val, list):
+            picked = _mode_of(val)
+            if picked is not None:
+                out[field] = picked
+            else:
+                out.pop(field, None)
+
+    # performance / model_architecture: longest non-empty value from list
+    for field in ("performance", "model_architecture"):
+        val = out.get(field)
+        if isinstance(val, list):
+            best = _best_description(val)
+            if best:
+                out[field] = best
+            else:
+                out.pop(field, None)
+
+    # url: first URL-looking value from list
+    url_val = out.get("url")
+    if isinstance(url_val, list):
+        picked_url = _first_url(url_val)
+        if picked_url:
+            out["url"] = picked_url
+        else:
+            out.pop("url", None)
+
+    # key_features: deduplicate preserving order
+    kf = out.get("key_features")
+    if isinstance(kf, list):
+        kf_items: List[Any] = cast(List[Any], kf)
+        kf_strs: List[str] = [str(item).strip() for item in kf_items if item is not None and str(item).strip()]
+        deduped = list(dict.fromkeys(kf_strs))
+        if deduped:
+            out["key_features"] = deduped
+        else:
+            out.pop("key_features", None)
+
+    # mentions_with_ontology is the richer canonical form (name + ontology fields per mention);
+    # replace the flat-string mentions dict with it when available.
+    mwo = out.get("mentions_with_ontology")
+    if isinstance(mwo, dict) and mwo:
+        out["mentions"] = mwo
+    out.pop("mentions_with_ontology", None)
+
+    # Remove any remaining empty list fields
+    for key in list(out.keys()):
+        if isinstance(out[key], list) and not out[key]:
+            out.pop(key)
+
+    return out
+
+
+def clean_resource_output_for_export(result: Dict[str, Any]) -> Dict[str, Any]:
+    """Apply :func:`_clean_resource_for_export` to every resource in *result*.
+
+    Returns a new dict with cleaned resources; the original is not modified.
+    Safe to call on any result shape — non-resource results pass through.
+    """
+    if not isinstance(result, dict):
+        return result
+    resources = result.get("resources")
+    if not isinstance(resources, list):
+        return result
+    out = dict(result)
+    out["resources"] = [_clean_resource_for_export(r) for r in resources]
+    return out
 
 
 # ============================================================
