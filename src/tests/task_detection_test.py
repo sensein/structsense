@@ -51,18 +51,26 @@ def make_flow(agent_config=None, task_config=None):
     )
 
 
-@pytest.mark.parametrize("task_type", ["ner", "extraction"])
-def test_task_type_from_config(task_type):
-    """task_type is explicitly set in agent_config — returned directly without LLM or heuristic."""
+@pytest.mark.parametrize(
+    "description,expected_task_type",
+    [
+        ("Extract named entity mentions from {input_text}.", "ner"),
+        ("Process and return structured results from {input_text}.", "extraction"),
+        ("Identify and rank key phrases from {input_text}.", "extraction"),
+    ],
+)
+def test_task_type_from_config(monkeypatch, description, expected_task_type):
+    """task_type is inferred from heuristics on task description — no LLM call."""
+    monkeypatch.delenv("OPENROUTER_API_KEY", raising=False)
     task_config = {
         "task_key": {
             **BASE_TASK_CONFIG["task_key"],
-            "task_type": task_type,
+            "description": description,
         }
     }
     flow = make_flow(task_config=task_config)
     detected = flow._get_detected_task_type("agent_key", "task_key")
-    assert detected == task_type
+    assert detected == expected_task_type
 
 
 @pytest.mark.parametrize(
