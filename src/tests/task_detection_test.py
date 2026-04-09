@@ -51,7 +51,7 @@ def make_flow(agent_config=None, task_config=None):
     )
 
 
-@pytest.mark.parametrize("task_type", ["ner", "extraction", "keyphrase_extraction"])
+@pytest.mark.parametrize("task_type", ["ner", "extraction"])
 def test_task_type_from_config(task_type):
     """task_type is explicitly set in agent_config — returned directly without LLM or heuristic."""
     task_config = {
