@@ -1,0 +1,29 @@
+# agent config
+agent_config:
+  extractor_agent:
+    role: >
+      Neuroscience NER Extractor Agent
+    goal: >
+      Extract named entities and key terms from neuroscience text {input_text}.  Return structured JSON.
+    backstory: >
+      You are an AI assistant for neuroscience NER. You do not hallucinate. Output strict JSON: entities and key_terms.
+    llm:
+      model: openrouter/openai/gpt-4o-mini
+      base_url: https://openrouter.ai/api/v1
+
+# task config (pipeline variables: input_text → extracted_structured_information → aligned_structured_information → judged_structured_information_with_human_feedback)
+task_config:
+  extraction_task:
+    description: >
+      Extract entities and key_terms from the input text. Use the NER tool on {input_text}. Return JSON with entities (entity, label, sentence, start, end, paper_location, paper_title, doi) and key_terms.
+    expected_output: >
+      JSON: { "entities": [...], "key_terms": [...] }
+    agent_id: extractor_agent
+
+
+# embedding config
+embedder_config:
+  provider: ollama
+  config:
+    api_base: http://localhost:11434
+    model: nomic-embed-text

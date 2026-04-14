@@ -1,0 +1,24 @@
+{
+  "results": [],
+  "verification": {
+    "resources_checked": 0,
+    "resources_present": 0,
+    "resources_dropped": 0,
+    "resources_dropped_detail": [],
+    "all_resources_present_in_text": true
+  },
+  "_extraction_chunk_count": 1,
+  "resources": [],
+  "alignment_method": "direct_tool_call",
+  "alignment_llm_skipped": true,
+  "judge_method": "auto_approved",
+  "errors": [
+    {
+      "scope": "full",
+      "index": null,
+      "error": "Task 'Extract all questionnaire components from the given PDF for ReproSchema conversion.\nInput: Content\nAdult Self-Report \n \nMOOD AND FEELINGS QUESTIONNAIRE: Long Version \n \nThis form is about how you might have been feeling or acting recently. \n \nFor each question, please check (\uf0fc) how you have been feeling or acting in the past two \nweeks. \n \nIf a sentence was not true about you, check NOT TRUE. \nIf a sentence was only sometimes true, check SOMETIMES. \nIf a sentence was true about you most of the time, check TRUE. \n \nScore the MFQ as follows: \nNOT TRUE = 0 \nSOMETIMES = 1 \nTRUE = 2 \n \nTo code, please use a checkmark (\uf0fc) for each statement. \nNOT  \nTRUE \nSOME  \nTIMES \nTRUE \n1. I felt miserable or unhappy. \n \n \n \n2. I didn\u2019t enjoy anything at all. \n \n \n \n3. I was less hungry than usual. \n \n \n \n4. I ate more than usual. \n \n \n \n5. I felt so tired I just sat around and did nothing. \n \n \n \n6. I was moving and walking more slowly than usual. \n \n \n \n7. I was very restless. \n \n \n \n8. I felt I was no good anymore. \n \n \n \n9. I blamed myself for things that weren\u2019t my fault. \n \n \n \n10. It was hard for me to make up my mind. \n \n \n \n11. I felt grumpy and cross with other people. \n \n \n \n12. I felt like talking less than usual. \n \n \n \n13. I was talking more slowly than usual. \n \n \n \n14. I cried a lot. \n \n \n \n\n\nAdult Self-Report \n \n15. I thought there was nothing good for me in the future. \n \n \n \n16. I thought that life wasn\u2019t worth living. \n \n \n \n17. I thought about death or dying. \n \n \n \n18. I thought my family would be better off without me. \n \n \n \n19. I thought about killing myself. \n \n \n \n20. I didn\u2019t want to see my friends. \n \n \n \n21. I found it hard to think properly or concentrate. \n \n \n \n22. I thought bad things would happen to me. \n \n \n \n23. I hated myself. \n \n \n \n24. I felt I was a bad person. \n \n \n \n25. I thought I looked ugly. \n \n \n \n26. I worried about aches and pains. \n \n \n \n27. I felt lonely. \n \n \n \n28. I thought nobody really loved me. \n \n \n \n29. I didn\u2019t have any fun in any of my activities. \n \n \n \n30. I thought I could never be as good as other people. \n \n \n \n31. I did everything wrong. \n \n \n \n32. I didn\u2019t sleep as well as I usually sleep. \n \n \n \n33. I slept a lot more than usual. \n \n \n \n \n \n \n \n \n \n \nCopyright Adrian Angold & Elizabeth J. Costello, 1987; Developmental Epidemiology Program; Duke University\nExtract the following metadata:\n1. Activity-level metadata:\n   - id: Short identifier for the questionnaire using the first letter of the questionnaire title but ignore words such as \"and\" (e.g., \"MOOD AND FEELINGS QUESTIONNAIRE: Long Version\" will be \"MFQ-long\" )\n   - prefLabel: Display name of the questionnaire\n   - description: Full description of the assessment\n   - preamble: Instructions or introductory text if any\n   - citation: Source reference if available\n\n2. For each item/question:\n   - id: Unique identifier (e.g., \"Q1\", \"Q2\")\n   - question: Full question text\n   - prefLabel: Short display label\n   - inputType: Type of input (radio, text, number, etc.)\n   - valueRequired: Whether response is mandatory\n   - responseOptions: List of choices with value and name\n   - scoring: How responses map to scores\n\n3. Additional metadata:\n   - computedScores: Any total scores or subscales with calculation formulas\n   - conditionalLogic: Skip patterns or branching rules\n   - languages: Available languages\n   - order: Sequence of items\n' execution timed out after 60 seconds. Consider increasing max_execution_time or optimizing the task."
+    }
+  ],
+  "task_type": "structured_extraction",
+  "elapsed_time": 129.3329041004181
+}

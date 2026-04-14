@@ -80,7 +80,7 @@ task_config:
         "aligned_terms":{
             #data
          }
-    # do not chage this, remove it later
+    # do not change this, remove it later
     agent_id: alignment_agent
 
   judge_task:
@@ -88,15 +88,12 @@ task_config:
       {aligned_structured_information}
 
 
-    expected_output: > 
-      output format: json 
-      Example output: 
+    expected_output: >
+      output format: json
+      Example output:
         "judged_terms":{
             #data
          }
-
-    expected_output: >
-      output format: json  Example output: add example
 
     # do not change this, remove it later
     agent_id: judge_agent
@@ -133,13 +130,4 @@ embedder_config:
   provider: ollama
   config:
     api_base: http://localhost:11434
-    model: nomic-embed-text:latest
-
-# knowledge search config
-knowledge_config:
-  search_key: #local vector database
-  - entity
-  - label
-# human in loop config
-human_in_loop_config:
-  humanfeedback_agent: true
+    model: nomic-embed-text:v1.5

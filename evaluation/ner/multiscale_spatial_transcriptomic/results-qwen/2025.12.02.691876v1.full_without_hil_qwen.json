@@ -1,0 +1,732 @@
+{
+  "entities": [],
+  "key_terms": [],
+  "metadata": {
+    "total_chunks": 0,
+    "chunks_with_entities": 0,
+    "entities_before_merge": 0,
+    "entities_after_merge": 0,
+    "verification": {
+      "entities_present": 0,
+      "entities_dropped": 0,
+      "entities_dropped_detail": [],
+      "key_terms_present": 0,
+      "key_terms_dropped": 0,
+      "all_entities_present_in_text": true,
+      "all_key_terms_present_in_text": true
+    }
+  },
+  "verification": {
+    "entities_present": 0,
+    "entities_dropped": 0,
+    "entities_dropped_detail": [],
+    "key_terms_present": 0,
+    "key_terms_dropped": 0,
+    "all_entities_present_in_text": true,
+    "all_key_terms_present_in_text": true
+  },
+  "errors": [
+    {
+      "scope": "chunk",
+      "index": 0,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 1,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 2,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 3,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 4,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 5,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 6,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 7,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 8,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 9,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 10,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 11,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 12,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 13,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 14,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 15,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 16,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 17,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 18,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 19,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 20,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 21,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 22,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 23,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 24,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 25,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 26,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 27,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 28,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 29,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 30,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 31,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 32,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 33,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 34,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 35,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 36,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 37,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 38,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 39,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 40,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 41,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 42,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 43,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 44,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 45,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 46,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 47,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 48,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 49,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 50,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 51,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 52,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 53,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 54,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 55,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 56,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 57,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 58,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 59,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 60,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 61,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 62,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 63,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 64,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 65,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 66,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 67,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 68,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 69,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 70,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 71,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 72,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 73,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 74,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 75,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 76,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 77,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 78,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 79,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 80,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 81,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 82,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 83,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 84,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 85,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 86,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 87,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 88,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 89,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 90,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 91,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 92,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 93,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 94,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 95,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 96,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 97,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 98,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 99,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 100,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 101,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 102,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 103,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 104,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 105,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 106,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 107,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 108,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 109,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 110,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 111,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 112,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 113,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 114,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 115,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 116,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 117,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 118,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 119,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 120,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 121,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 122,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 123,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 124,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 125,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 126,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 127,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 128,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 129,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 130,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 131,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 132,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 133,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 134,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 135,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 136,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 137,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 138,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    },
+    {
+      "scope": "chunk",
+      "index": 139,
+      "error": "litellm.APIError: APIError: OpenrouterException - Error code: 403 - {'error': {'message': 'Key limit exceeded (total limit). Manage it using https://openrouter.ai/settings/keys', 'code': 403}}"
+    }
+  ],
+  "task_type": "ner",
+  "elapsed_time": 26.396796226501465
+}

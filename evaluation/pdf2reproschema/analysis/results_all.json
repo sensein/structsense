@@ -1,0 +1,273 @@
+[
+  {
+    "file": "/Users/yibeichen/Documents/GitHub/structsense/evaluation/pdf2reproschema/results_gemini/pdf2reproschema_gemini_hil.json",
+    "status": "success",
+    "dimensions": {
+      "item_completeness": {
+        "score": 1.0,
+        "extracted": 33,
+        "expected": 33,
+        "pass": true
+      },
+      "question_text": {
+        "score": 1.0,
+        "correct": 33,
+        "total": 33,
+        "average_similarity": 1.0,
+        "mismatches": []
+      },
+      "response_options": {
+        "score": 1.0,
+        "correct": 33,
+        "total": 33,
+        "issues": []
+      },
+      "scoring": {
+        "per_item_scoring": {
+          "items_with_scoring": 0,
+          "correct": 0,
+          "total": 33,
+          "present": false
+        },
+        "computed_score": {
+          "present": true,
+          "formula": "MFQ_1 + MFQ_2 + MFQ_3 + MFQ_4 + MFQ_5 + MFQ_6 + MFQ_7 + MFQ_8 + MFQ_9 + MFQ_10 + MFQ_11 + MFQ_12 + MFQ_13 + MFQ_14 + MFQ_15 + MFQ_16 + MFQ_17 + MFQ_18 + MFQ_19 + MFQ_20 + MFQ_21 + MFQ_22 + MFQ_23 + MFQ_24 + MFQ_25 + MFQ_26 + MFQ_27 + MFQ_28 + MFQ_29 + MFQ_30 + MFQ_31 + MFQ_32 + MFQ_33",
+          "variables_count": 33,
+          "correct_count": true,
+          "label": "Mood and Feelings Questionnaire Total Score"
+        },
+        "score": 0.5
+      },
+      "activity_metadata": {
+        "score": 0.8125,
+        "fields": {
+          "prefLabel": {
+            "present": true,
+            "value": "Mood and Feelings Questionnaire: Long Version",
+            "keywords_found": 4,
+            "keywords_total": 4,
+            "score": 1.0
+          },
+          "description": {
+            "present": true,
+            "value": "Adult Self-Report version of the Mood and Feelings Questionnaire.",
+            "keywords_found": 1,
+            "keywords_total": 4,
+            "score": 0.25
+          },
+          "preamble": {
+            "present": true,
+            "value": "This form is about how you might have been feeling or acting recently. For each question, please check (\uf0fc) how you have ",
+            "keywords_found": 5,
+            "keywords_total": 5,
+            "score": 1.0
+          },
+          "citation": {
+            "present": true,
+            "value": "Copyright Adrian Angold & Elizabeth J. Costello, 1987; Developmental Epidemiology Program; Duke University",
+            "keywords_found": 4,
+            "keywords_total": 4,
+            "score": 1.0
+          }
+        }
+      },
+      "item_order": {
+        "score": 1.0,
+        "items_in_order": true,
+        "order_field_present": true,
+        "order_field_correct": true,
+        "order_field_count": 33
+      },
+      "input_type": {
+        "score": 1.0,
+        "correct": 33,
+        "total": 33,
+        "issues": []
+      }
+    },
+    "overall_score": 0.906
+  },
+  {
+    "file": "/Users/yibeichen/Documents/GitHub/structsense/evaluation/pdf2reproschema/results_gemini/pdf2reproschema_gemini_nhil.json",
+    "status": "success",
+    "dimensions": {
+      "item_completeness": {
+        "score": 1.0,
+        "extracted": 33,
+        "expected": 33,
+        "pass": true
+      },
+      "question_text": {
+        "score": 1.0,
+        "correct": 33,
+        "total": 33,
+        "average_similarity": 1.0,
+        "mismatches": []
+      },
+      "response_options": {
+        "score": 1.0,
+        "correct": 33,
+        "total": 33,
+        "issues": []
+      },
+      "scoring": {
+        "per_item_scoring": {
+          "items_with_scoring": 0,
+          "correct": 0,
+          "total": 33,
+          "present": false
+        },
+        "computed_score": {
+          "present": true,
+          "formula": "Q1 + Q2 + Q3 + Q4 + Q5 + Q6 + Q7 + Q8 + Q9 + Q10 + Q11 + Q12 + Q13 + Q14 + Q15 + Q16 + Q17 + Q18 + Q19 + Q20 + Q21 + Q22 + Q23 + Q24 + Q25 + Q26 + Q27 + Q28 + Q29 + Q30 + Q31 + Q32 + Q33",
+          "variables_count": 33,
+          "correct_count": true,
+          "label": "MFQ Total Score"
+        },
+        "score": 0.5
+      },
+      "activity_metadata": {
+        "score": 0.875,
+        "fields": {
+          "prefLabel": {
+            "present": true,
+            "value": "Mood and Feelings Questionnaire: Long Version",
+            "keywords_found": 4,
+            "keywords_total": 4,
+            "score": 1.0
+          },
+          "description": {
+            "present": true,
+            "value": "Adult Self-Report measure for assessing mood and feelings over the past two weeks.",
+            "keywords_found": 2,
+            "keywords_total": 4,
+            "score": 0.5
+          },
+          "preamble": {
+            "present": true,
+            "value": "This form is about how you might have been feeling or acting recently. For each question, please check how you have been",
+            "keywords_found": 5,
+            "keywords_total": 5,
+            "score": 1.0
+          },
+          "citation": {
+            "present": true,
+            "value": "Adrian Angold & Elizabeth J. Costello, 1987; Developmental Epidemiology Program; Duke University",
+            "keywords_found": 4,
+            "keywords_total": 4,
+            "score": 1.0
+          }
+        }
+      },
+      "item_order": {
+        "score": 1.0,
+        "items_in_order": true,
+        "order_field_present": true,
+        "order_field_correct": true,
+        "order_field_count": 33
+      },
+      "input_type": {
+        "score": 1.0,
+        "correct": 33,
+        "total": 33,
+        "issues": []
+      }
+    },
+    "overall_score": 0.912
+  },
+  {
+    "file": "/Users/yibeichen/Documents/GitHub/structsense/evaluation/pdf2reproschema/results_gpt/pdf2reproschema_nhil_gpt.json",
+    "status": "success",
+    "dimensions": {
+      "item_completeness": {
+        "score": 1.0,
+        "extracted": 33,
+        "expected": 33,
+        "pass": true
+      },
+      "question_text": {
+        "score": 1.0,
+        "correct": 33,
+        "total": 33,
+        "average_similarity": 1.0,
+        "mismatches": []
+      },
+      "response_options": {
+        "score": 1.0,
+        "correct": 33,
+        "total": 33,
+        "issues": []
+      },
+      "scoring": {
+        "per_item_scoring": {
+          "items_with_scoring": 33,
+          "correct": 33,
+          "total": 33,
+          "present": true
+        },
+        "computed_score": {
+          "present": true,
+          "formula": "Q1 + Q2 + Q3 + Q4 + Q5 + Q6 + Q7 + Q8 + Q9 + Q10 + Q11 + Q12 + Q13 + Q14 + Q15 + Q16 + Q17 + Q18 + Q19 + Q20 + Q21 + Q22 + Q23 + Q24 + Q25 + Q26 + Q27 + Q28 + Q29 + Q30 + Q31 + Q32 + Q33",
+          "variables_count": 33,
+          "correct_count": true,
+          "label": "MFQ Total Score"
+        },
+        "score": 1.0
+      },
+      "activity_metadata": {
+        "score": 1.0,
+        "fields": {
+          "prefLabel": {
+            "present": true,
+            "value": "Mood and Feelings Questionnaire: Long Version",
+            "keywords_found": 4,
+            "keywords_total": 4,
+            "score": 1.0
+          },
+          "description": {
+            "present": true,
+            "value": "Adult Self-Report; a questionnaire about how the respondent has been feeling or acting recently, specifically during the",
+            "keywords_found": 4,
+            "keywords_total": 4,
+            "score": 1.0
+          },
+          "preamble": {
+            "present": true,
+            "value": "This form is about how you might have been feeling or acting recently. For each question, please check how you have been",
+            "keywords_found": 5,
+            "keywords_total": 5,
+            "score": 1.0
+          },
+          "citation": {
+            "present": true,
+            "value": "Copyright Adrian Angold & Elizabeth J. Costello, 1987; Developmental Epidemiology Program; Duke University",
+            "keywords_found": 4,
+            "keywords_total": 4,
+            "score": 1.0
+          }
+        }
+      },
+      "item_order": {
+        "score": 1.0,
+        "items_in_order": true,
+        "order_field_present": true,
+        "order_field_correct": true,
+        "order_field_count": 33
+      },
+      "input_type": {
+        "score": 1.0,
+        "correct": 33,
+        "total": 33,
+        "issues": []
+      }
+    },
+    "overall_score": 1.0
+  },
+  {
+    "file": "/Users/yibeichen/Documents/GitHub/structsense/evaluation/pdf2reproschema/results_qwen/pdf2reproschema_nhil_qwen.json",
+    "status": "failed",
+    "error": "Task 'Extract all questionnaire components from the given PDF for ReproSchema conversion.\nInput: Content\nAdult Self-Report \n \nMOOD AND FEELINGS QUESTIONNAIRE: Long Version \n \nThis form is about how yo",
+    "dimensions": {},
+    "overall_score": 0.0
+  }
+]

@@ -26,83 +26,57 @@ Given a neuroscience paper (PDF), this pipeline:
 
 ---
 
-## 📁 Expected Output Structure
+## 📁 Directory Structure
 
-The pipeline produces a JSON file containing the final evaluation from the judge agent.
+The system creates one folder per paper, with the folder name derived from the paper title. For example, the paper `Multiscale Spatial Transcriptomic Atlas of Human Basal Ganglia Cell-Type and Cellular Community Organization` may be stored in a folder such as `paper_discovery_of_optimal_cell`.
 
-Key points:
-1. **Format**: Always a JSON file
-2. **Content**: Depends on your configuration in `task_config.judge_task.expected_output`
+Each paper-specific folder includes:
+- the source PDF(s), such as the publication itself
+- configuration files
+- result subdirectories following the naming convention `results-<model>`
 
-The output structure includes:
-- Extracted entities with their types
-- Ontological alignments (IDs and labels)
-- Confidence scores per occurrence
-- Quality assessment remarks
+Each `results-<model>` subdirectory contains:
+- output JSON files for both human-in-the-loop and non-human-in-the-loop executions
+- staged outputs for intermediate pipeline steps
 
----
+The staged outputs are organized into:
+- `staged_hil` for human-in-the-loop execution
+- `staged_nhil` for non-human-in-the-loop execution
 
-## 📚 Example Papers
+## 📁 Expected Output
 
-The NER pipeline has been tested with the following Nature Neuroscience papers:
+The pipeline generates both intermediate and final outputs in **JSON** format:
+- **staged output files** for intermediate pipeline steps
+- a **final output file** in the user-specified format
 
-1. Langdon, C., Engel, T.A. Latent circuit inference from heterogeneous neural responses during cognitive tasks. Nat Neurosci 28, 665–675 (2025).
-2. Hansen, J.Y., Cauzzo, S., Singh, K. et al. Integrating brainstem and cortical functional architectures. Nat Neurosci 27, 2500–2511 (2024). 
----
+The final output includes:
+- extracted entities
+- the corresponding source sentence for each entity
+- the ontology concept(s) each entity is aligned to
+- judge remarks, when available
 
-## 🧪 Usage
+## Papers Used
 
-### Using OpenRouter
+The following papers were used to evaluate the pipeline:
+
+- [Discovery of Optimal Cell Type Classification Marker Genes from Single-Cell RNA Sequencing Data](https://www.biorxiv.org/content/10.1101/2024.04.22.590194v2)  
+  Result directory: `paper_discovery_of_optimal_cell`
+
+- [Latent Circuit Inference from Heterogeneous Neural Responses During Cognitive Tasks](https://www.nature.com/articles/s41593-025-01869-7)  
+  Result directory: `latent-circuit-inference`
+
+## Command Used to Run `structsense`
+
+Make sure to replace placeholders such as `outputfile`, `config_name.yaml`, `input_pdf.pdf`, and the API key with appropriate values.
+
 ```bash
 structsense-cli extract \
-  --source your_neuroscience_paper.pdf \
-  --api_key <YOUR_API_KEY> \
-  --config <config-file>.yaml \
   --env_file .env \
-  --save_file result.json  # optional
+  --save_file outputfile.json \
+  --chunk_size 600 \
+  --max_workers 8 \
+  --enable_chunking \
+  --config config_name.yaml \
+  --source input_pdf.pdf \
+  --api_key sk-<your_api_key>
 ```
-
-### Using Ollama (Local)
-```bash
-structsense-cli extract \
-  --source your_neuroscience_paper.pdf \
-  --config <config-file>.yaml \
-  --env_file .env \
-  --save_file result.json  # optional
-```
-
-### Tips
-
-- The configuration file (`config.yaml`) in this directory is pre-configured for neuroscience NER
-- Users should provide their own neuroscience papers as PDFs when running the commands
-- The system expects at least 100 entities from large texts for comprehensive extraction
-- Entity extraction includes position tracking (start/end indices) and paper location metadata
-
----
-
-## 🔍 Entity Types
-
-Based on the configuration, the system extracts:
-
-- **Animal species**: mouse, drosophila, zebrafish, etc.
-- **Brain/anatomical regions**: neocortex, mushroom body, cerebellum, hippocampus, etc.
-- **Experimental conditions**: control, tetrodotoxin treatment, Scn1a knockout, etc.
-- **Cell types**: pyramidal neuron, direction-sensitive mechanoreceptor, oligodendrocyte, etc.
-
-Each entity is mapped to relevant ontologies such as:
-- NCBITaxon (for species)
-- UBERON (for anatomical structures)
-- CL (Cell Ontology)
-- Custom neuroscience vocabularies
-
----
-
-## 🤖 Language Models
-
-The current `config.yaml` specifies `openrouter/openai/gpt-4o-mini` as the default LLM. However, for evaluation purposes, this pipeline has been tested with:
-
-- **GPT-4o-mini** by OpenAI
-- **Claude 3.5 Sonnet** by Anthropic
-- **DeepSeek V3** (open-source model) by DeepSeek
-
-You can modify the LLM settings in the `agent_config` section of `config.yaml` to use different models based on your requirements.

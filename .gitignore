@@ -17,6 +17,7 @@ example/.structsense_env
 .chainlit/
 # Distribution / packaging
 .Python
+internal_docs/
 build/
 develop-eggs/
 dist/

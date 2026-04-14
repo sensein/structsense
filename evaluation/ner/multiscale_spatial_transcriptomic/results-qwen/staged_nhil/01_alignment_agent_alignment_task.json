@@ -1,0 +1,31 @@
+{
+  "entities": [],
+  "key_terms": [],
+  "metadata": {
+    "total_chunks": 0,
+    "chunks_with_entities": 0,
+    "entities_before_merge": 0,
+    "entities_after_merge": 0,
+    "verification": {
+      "entities_present": 0,
+      "entities_dropped": 0,
+      "entities_dropped_detail": [],
+      "key_terms_present": 0,
+      "key_terms_dropped": 0,
+      "all_entities_present_in_text": true,
+      "all_key_terms_present_in_text": true
+    }
+  },
+  "verification": {
+    "entities_present": 0,
+    "entities_dropped": 0,
+    "entities_dropped_detail": [],
+    "key_terms_present": 0,
+    "key_terms_dropped": 0,
+    "all_entities_present_in_text": true,
+    "all_key_terms_present_in_text": true
+  },
+  "_extraction_chunk_count": 1,
+  "alignment_method": "direct_tool_call",
+  "alignment_llm_skipped": true
+}

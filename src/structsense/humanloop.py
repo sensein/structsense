@@ -163,9 +163,16 @@ class HumanInTheLoop:
             choice = self.input_handler("Enter choice (1/2/3/4): ")
 
             if choice == "1":
-                # user has approved the agent output without modification, so proceed
+                # User approved without modification: skip humanfeedback agent, use judge output as final
                 logger.info(f"Human approved {step_name} data" + (f" for agent {agent_name}" if agent_name else ""))
+                if isinstance(data, dict):
+                    return {**data, "_human_approved_skip_agent": True}
                 return data
+            elif choice == "4":
+                # Abort humanfeedback only: do not run humanfeedback agent; save judge output as final
+                logger.info("Human chose Abort (skip feedback step, save previous result)")
+                self.output_handler("Skipping human feedback step. Previous (judge) result will be saved.")
+                return {"_human_abort_feedback": True}
             elif choice == "2":
                 # View the agent output
                 self.output_handler("\nView Agent Output:")
@@ -187,37 +194,55 @@ class HumanInTheLoop:
                 return self.request_feedback(data, step_name, agent_name)
             elif choice == "3":
                 self.output_handler("Opening your default editor for feedback...")
-                # Prepare template with instructions and current output JSON
+                self.output_handler("When done: SAVE and CLOSE the editor (e.g. nano: Ctrl+O, Enter, then Ctrl+X). You do not need to press 1/3/4 again.")
+                # Current output JSON is shown as commented-out reference only so it
+                # cannot be accidentally parsed as feedback when the user closes without editing.
+                commented_json = "\n".join(f"# {line}" for line in json.dumps(data, indent=2).splitlines())
                 template = (
-                    "# Enter your feedback below. You may write natural language above, and/or edit the JSON below.\n"
-                    "# Lines starting with # will be ignored.\n"
-                    "# Example:\n"
-                    "# fix entity extraction as some are incorrect.\n"
-                    "# {\n"
-                    '#   "judged_structured_information": { ... }\n'
-                    "# }\n\n"
-                    "\n# --- Current Output JSON ---\n"
-                    f"{json.dumps(data, indent=2)}\n"
+                    "[WRITE YOUR FEEDBACK HERE]\n"
+                    "\n"
+                    "# ============================================================\n"
+                    "# HUMAN FEEDBACK EDITOR\n"
+                    "# - Replace the line above with your feedback, then SAVE and CLOSE.\n"
+                    "# - Lines starting with # are ignored.  Leave blank to go back.\n"
+                    "# ------------------------------------------------------------\n"
+                    "# EXAMPLES:\n"
+                    "#   The entity 'ViTPose' is wrongly labelled as Dataset, it should be Model.\n"
+                    "#   Add missing resource: DeepLabCut, type=Tool, category=Pose Estimation.\n"
+                    "#   Fix the mapped_target_concept for 'Human' — it should map to NCBITaxon:9606.\n"
+                    "# ------------------------------------------------------------\n"
+                    "# CURRENT OUTPUT (read-only reference — do not edit these lines):\n"
+                    "#\n"
+                    f"{commented_json}\n"
+                    "# ============================================================\n"
                 )
                 feedback_input = self.open_editor_with_template(template)
                 # Remove comment lines
-                feedback_input = "\n".join(line for line in feedback_input.splitlines() if not line.strip().startswith("#"))
-                parsed = parse_feedback_input(feedback_input)
-                if not parsed:
-                    self.output_handler("No feedback provided. Using original data.")
-                    return data
-                # If only JSON, use as modified data; if both, merge
-                if "user_feedback_json" in parsed and not parsed.get("user_feedback_text"):
-                    return "feedback"
-                else:
-                    # Attach text feedback to the data for the agent to interpret
-                    result = data.copy() if isinstance(data, dict) else {}
-                    if "user_feedback_json" in parsed:
-                        result["user_feedback_json"] = parsed["user_feedback_json"]
-                    if "user_feedback_text" in parsed:
-                        result["user_feedback_text"] = parsed["user_feedback_text"]
-                    return result
+                feedback_input = "\n".join(
+                    line for line in feedback_input.splitlines() if not line.strip().startswith("#")
+                ).strip()
+                # Also treat untouched placeholder as no feedback
+                if feedback_input.strip() == "[WRITE YOUR FEEDBACK HERE]":
+                    feedback_input = ""
+                parsed = parse_feedback_input(feedback_input) if feedback_input else {}
+                if not parsed or not feedback_input:
+                    self.output_handler("No feedback written. Returning to menu.")
+                    return self.request_feedback(data, step_name, agent_name)
+                result = data.copy() if isinstance(data, dict) else {}
+                if "user_feedback_json" in parsed:
+                    result["user_feedback_json"] = parsed["user_feedback_json"]
+                if "user_feedback_text" in parsed:
+                    result["user_feedback_text"] = parsed["user_feedback_text"]
+                elif "user_feedback_json" in parsed:
+                    result["user_feedback_text"] = "Apply the modifications in the Modification Context (JSON) below."
+                return result
+            else:
+                # Invalid or empty choice; re-prompt
+                self.output_handler("Invalid choice. Please enter 1, 2, 3, or 4.")
+                return self.request_feedback(data, step_name, agent_name)
 
+        except HumanInterventionRequired:
+            raise
         except Exception as e:
             if not isinstance(e, HumanInterventionRequired):
                 logger.error(f"Error during human feedback: {e}")
@@ -478,17 +503,16 @@ class ProgrammaticFeedbackHandler:
                 print("No feedback provided. Using original data.")
                 self.clear_pending_feedback()
                 return data
-            if "user_feedback_json" in parsed and not parsed.get("user_feedback_text"):
-                self.clear_pending_feedback()
-                return "feedback"
-            else:
-                result = data.copy() if isinstance(data, dict) else {}
-                if "user_feedback_json" in parsed:
-                    result["user_feedback_json"] = parsed["user_feedback_json"]
-                if "user_feedback_text" in parsed:
-                    result["user_feedback_text"] = parsed["user_feedback_text"]
-                self.clear_pending_feedback()
-                return "feedback"
+            # Always return a dict so the app can run the humanfeedback agent (same as request_feedback Option 3).
+            result = data.copy() if isinstance(data, dict) else {}
+            if "user_feedback_json" in parsed:
+                result["user_feedback_json"] = parsed["user_feedback_json"]
+            if "user_feedback_text" in parsed:
+                result["user_feedback_text"] = parsed["user_feedback_text"]
+            elif "user_feedback_json" in parsed:
+                result["user_feedback_text"] = "Apply the modifications in the Modification Context (JSON) below."
+            self.clear_pending_feedback()
+            return result
         else:
             print(f"Invalid choice: {choice}")
             self.clear_pending_feedback()

@@ -1,0 +1,124 @@
+{
+  "resources": [
+    {
+      "resource_name": [
+        "ViTPose",
+        "ViTPose",
+        "ViTPose",
+        "ViTPose",
+        "ViTPose"
+      ],
+      "description": [
+        "A simple and solid baseline model for human pose estimation using plain, non-hierarchical vision transformers as backbones.",
+        "A simple yet effective vision transformer baseline for pose estimation, designed for human keypoint localization.",
+        "A simple and scalable vision transformer-based pose estimation model that leverages shift-window attention, pooling, and knowledge distillation techniques to optimize performance and computational efficiency.",
+        "A simple yet effective vision transformer baseline for human pose estimation that explores scalability, transferability, and flexibility in model design.",
+        "A simple baseline for vision transformer-based human pose estimation, favoring simplicity, scalability, and flexibility."
+      ],
+      "type": [
+        "Model",
+        "Model",
+        "Model",
+        "Model",
+        "Model"
+      ],
+      "category": [
+        "Pose Estimation",
+        "Pose Estimation",
+        "Pose Estimation",
+        "Pose Estimation",
+        "Pose Estimation"
+      ],
+      "target": [
+        "Human",
+        "Human",
+        "Human",
+        "Human",
+        "Human"
+      ],
+      "specific_target": [
+        "Human anatomical keypoints",
+        "Keypoint localization",
+        "Keypoint detection",
+        "Full-body pose estimation",
+        "Human Pose Estimation"
+      ],
+      "mapped_target_concept": [],
+      "mapped_specific_target_concept": [],
+      "key_features": [],
+      "performance": [],
+      "url": [
+        "https://github.com/ViTAE-Transformer/ViTPose",
+        "https://github.com/ViTAE-Transformer/ViTPose",
+        "https://github.com/ViTAE-Transformer/ViTPose"
+      ],
+      "model_architecture": [],
+      "mentions": {
+        "datasets": [
+          "MS COCO Keypoint",
+          "ImageNet-1K",
+          "MS COCO",
+          "AI Challenger",
+          "MPII",
+          "CrowdPose",
+          "OCHuman"
+        ],
+        "related_models": [
+          "PRTR",
+          "TokenPose",
+          "TransPose",
+          "HRFormer",
+          "MAE",
+          "ViT",
+          "CNNs",
+          "ViT-B",
+          "ViT-L",
+          "ViT-H",
+          "ViTAE-G",
+          "SimpleBaseline",
+          "ResNet",
+          "HRNet",
+          "UDP",
+          "Bigdet"
+        ],
+        "related_papers": [],
+        "benchmarks": [
+          "MS COCO Keypoint test-dev",
+          "MS COCO Keypoint val set",
+          "MS COCO test-dev"
+        ]
+      },
+      "provenance": {
+        "extractor_agent": [
+          "description",
+          "type",
+          "category",
+          "target",
+          "specific_target",
+          "url",
+          "key_features",
+          "performance",
+          "model_architecture",
+          "mentions"
+        ],
+        "judge_agent": [
+          "judge_score",
+          "remarks"
+        ]
+      },
+      "judge_score": 0.95,
+      "remarks": "Accurate model characterization and valid related resources; descriptions are clear and highly aligned with the target domain."
+    }
+  ],
+  "verification": {
+    "resources_checked": 1,
+    "resources_present": 1,
+    "resources_dropped": 0,
+    "resources_dropped_detail": [],
+    "all_resources_present_in_text": true
+  },
+  "_extraction_chunk_count": 5,
+  "alignment_method": "direct_tool_call",
+  "alignment_llm_skipped": true,
+  "judge_method": "direct_api"
+}
