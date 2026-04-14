@@ -195,35 +195,45 @@ class HumanInTheLoop:
             elif choice == "3":
                 self.output_handler("Opening your default editor for feedback...")
                 self.output_handler("When done: SAVE and CLOSE the editor (e.g. nano: Ctrl+O, Enter, then Ctrl+X). You do not need to press 1/3/4 again.")
-                # Prepare template with instructions and current output JSON
+                # Current output JSON is shown as commented-out reference only so it
+                # cannot be accidentally parsed as feedback when the user closes without editing.
+                commented_json = "\n".join(f"# {line}" for line in json.dumps(data, indent=2).splitlines())
                 template = (
-                    "# Enter your feedback below. You may write natural language above, and/or edit the JSON below.\n"
-                    "# Lines starting with # will be ignored.\n"
-                    "# When done: SAVE and CLOSE this file (nano: Ctrl+O, Enter, Ctrl+X). No need to press 1/3/4 in the terminal.\n"
-                    "# Example:\n"
-                    "# fix entity extraction as some are incorrect.\n"
-                    "# {\n"
-                    '#   "judged_structured_information": { ... }\n'
-                    "# }\n\n"
-                    "\n# --- Current Output JSON ---\n"
-                    f"{json.dumps(data, indent=2)}\n"
+                    "[WRITE YOUR FEEDBACK HERE]\n"
+                    "\n"
+                    "# ============================================================\n"
+                    "# HUMAN FEEDBACK EDITOR\n"
+                    "# - Replace the line above with your feedback, then SAVE and CLOSE.\n"
+                    "# - Lines starting with # are ignored.  Leave blank to go back.\n"
+                    "# ------------------------------------------------------------\n"
+                    "# EXAMPLES:\n"
+                    "#   The entity 'ViTPose' is wrongly labelled as Dataset, it should be Model.\n"
+                    "#   Add missing resource: DeepLabCut, type=Tool, category=Pose Estimation.\n"
+                    "#   Fix the mapped_target_concept for 'Human' — it should map to NCBITaxon:9606.\n"
+                    "# ------------------------------------------------------------\n"
+                    "# CURRENT OUTPUT (read-only reference — do not edit these lines):\n"
+                    "#\n"
+                    f"{commented_json}\n"
+                    "# ============================================================\n"
                 )
                 feedback_input = self.open_editor_with_template(template)
                 # Remove comment lines
-                feedback_input = "\n".join(line for line in feedback_input.splitlines() if not line.strip().startswith("#"))
-                parsed = parse_feedback_input(feedback_input)
-                if not parsed:
-                    self.output_handler("No feedback provided. Using original data.")
-                    return data
-                # Always return a dict so the app can run the humanfeedback agent with your feedback.
-                # If only JSON: pass it as user_feedback_json and add a short user_feedback_text so the agent runs with context.
+                feedback_input = "\n".join(
+                    line for line in feedback_input.splitlines() if not line.strip().startswith("#")
+                ).strip()
+                # Also treat untouched placeholder as no feedback
+                if feedback_input.strip() == "[WRITE YOUR FEEDBACK HERE]":
+                    feedback_input = ""
+                parsed = parse_feedback_input(feedback_input) if feedback_input else {}
+                if not parsed or not feedback_input:
+                    self.output_handler("No feedback written. Returning to menu.")
+                    return self.request_feedback(data, step_name, agent_name)
                 result = data.copy() if isinstance(data, dict) else {}
                 if "user_feedback_json" in parsed:
                     result["user_feedback_json"] = parsed["user_feedback_json"]
                 if "user_feedback_text" in parsed:
                     result["user_feedback_text"] = parsed["user_feedback_text"]
                 elif "user_feedback_json" in parsed:
-                    # Only JSON provided: give the agent a clear instruction so it runs and applies the JSON
                     result["user_feedback_text"] = "Apply the modifications in the Modification Context (JSON) below."
                 return result
             else:

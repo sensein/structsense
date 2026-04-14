@@ -1,0 +1,285 @@
+{
+  "errors": [],
+  "task_type": "resource",
+  "elapsed_time": 23.991634845733643,
+  "resources": [
+    {
+      "description": "A vision transformer-based backbone design for pose estimation that achieves state-of-the-art performance through simple, scalable, and transferable architectural properties.",
+      "type": "Model",
+      "category": "Pose Estimation",
+      "target": "Human",
+      "specific_target": "Human Keypoint Detection",
+      "mapped_target_concept": [
+        {
+          "id": "http://purl.bioontology.org/ontology/MESH/C497325",
+          "label": "EGR1 protein, human",
+          "ontology": "MESH",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_specific_target_concept": [
+        {
+          "specific_target": "Human anatomical keypoints",
+          "mapped_target_concept": {
+            "id": "http://purl.bioontology.org/ontology/RCD/X77au",
+            "label": "Human leucocyte antigen gene detection",
+            "ontology": "RCD",
+            "concept_mapping_provenance": "tool"
+          }
+        }
+      ],
+      "url": "https://github.com/ViTPose/ViTPose",
+      "mentions": {
+        "related_models": [
+          {
+            "name": "PRTR",
+            "ontology_id": "http://purl.bioontology.org/ontology/NDFRT/N0000161110",
+            "ontology_label": "CALFACTANT 35MG/ML SUSP,INTRATRACHEAL [VA Product]",
+            "ontology": "NDFRT",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "TokenPose",
+            "ontology_id": "http://purl.bioontology.org/ontology/NDFRT/N0000161110",
+            "ontology_label": "CALFACTANT 35MG/ML SUSP,INTRATRACHEAL [VA Product]",
+            "ontology": "NDFRT",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "TransPose",
+            "ontology_id": "http://purl.bioontology.org/ontology/NDFRT/N0000161110",
+            "ontology_label": "CALFACTANT 35MG/ML SUSP,INTRATRACHEAL [VA Product]",
+            "ontology": "NDFRT",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRFormer",
+            "ontology_id": "http://purl.bioontology.org/ontology/NDFRT/N0000161110",
+            "ontology_label": "CALFACTANT 35MG/ML SUSP,INTRATRACHEAL [VA Product]",
+            "ontology": "NDFRT",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MAE",
+            "ontology_id": "http://purl.obolibrary.org/obo/OLAS_2160880",
+            "ontology_label": "MAE",
+            "ontology": "OLAS",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViT",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCTV2/D011100",
+            "ontology_label": "Vit B12 defic anaemia due to malabsorption with proteinuria",
+            "ontology": "RCTV2",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViT-B",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCTV2/D011100",
+            "ontology_label": "Vit B12 defic anaemia due to malabsorption with proteinuria",
+            "ontology": "RCTV2",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViT-L",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCTV2/D011100",
+            "ontology_label": "Vit B12 defic anaemia due to malabsorption with proteinuria",
+            "ontology": "RCTV2",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViT-H",
+            "ontology_id": "http://purl.bioontology.org/ontology/RCTV2/D011100",
+            "ontology_label": "Vit B12 defic anaemia due to malabsorption with proteinuria",
+            "ontology": "RCTV2",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ViTAE-G",
+            "ontology_id": "http://www.radlex.org/RID/RID6885",
+            "ontology_label": "Arbor vitae",
+            "ontology": "RADLEX",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "SimpleBaseline",
+            "ontology_id": "http://purl.bioontology.org/ontology/NDFRT/N0000161110",
+            "ontology_label": "CALFACTANT 35MG/ML SUSP,INTRATRACHEAL [VA Product]",
+            "ontology": "NDFRT",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ResNet",
+            "ontology_id": "urn:agi-pathway:uuid-84a5f523-d161-4fb8-9eea-a7eecb8dac1f",
+            "ontology_label": "FGFR1 -> STAT Signaling",
+            "ontology": "BPT",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet",
+            "ontology_id": "http://purl.bioontology.org/ontology/NDFRT/N0000161110",
+            "ontology_label": "CALFACTANT 35MG/ML SUSP,INTRATRACHEAL [VA Product]",
+            "ontology": "NDFRT",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "UDP",
+            "ontology_id": "http://purl.jp/bio/4/id/200906099816632318",
+            "ontology_label": "UDP glucuronosyltransferase",
+            "ontology": "IOBC",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "Bigdet",
+            "ontology_id": "http://purl.bioontology.org/ontology/NDFRT/N0000161110",
+            "ontology_label": "CALFACTANT 35MG/ML SUSP,INTRATRACHEAL [VA Product]",
+            "ontology": "NDFRT",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet-w32",
+            "ontology_id": "http://purl.bioontology.org/ontology/NDFRT/N0000161110",
+            "ontology_label": "CALFACTANT 35MG/ML SUSP,INTRATRACHEAL [VA Product]",
+            "ontology": "NDFRT",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "HRNet-w48",
+            "ontology_id": "http://purl.bioontology.org/ontology/NDFRT/N0000161110",
+            "ontology_label": "CALFACTANT 35MG/ML SUSP,INTRATRACHEAL [VA Product]",
+            "ontology": "NDFRT",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "datasets": [
+          {
+            "name": "MS COCO Keypoint dataset",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/85854",
+            "ontology_label": "Magnolia coco",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "ImageNet-1K",
+            "ontology_id": "http://purl.obolibrary.org/obo/MONDO_0031084",
+            "ontology_label": "amelogenesis imperfecta, IIa 1K",
+            "ontology": "EFO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MS COCO",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/85854",
+            "ontology_label": "Magnolia coco",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "AI Challenger",
+            "ontology_id": "http://www.orpha.net/ORDO/Orphanet_93560",
+            "ontology_label": "Familial renal amyloidosis due to Apolipoprotein AI variant",
+            "ontology": "EFO",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MPII",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/2747386",
+            "ontology_label": "Fusarium bataticola",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "CrowdPose",
+            "ontology_id": "http://purl.bioontology.org/ontology/NDFRT/N0000161110",
+            "ontology_label": "CALFACTANT 35MG/ML SUSP,INTRATRACHEAL [VA Product]",
+            "ontology": "NDFRT",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "OCHuman",
+            "ontology_id": "http://purl.bioontology.org/ontology/NDFRT/N0000161110",
+            "ontology_label": "CALFACTANT 35MG/ML SUSP,INTRATRACHEAL [VA Product]",
+            "ontology": "NDFRT",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "tools": [
+          {
+            "name": "mmpose",
+            "ontology_id": "http://purl.bioontology.org/ontology/NDFRT/N0000161110",
+            "ontology_label": "CALFACTANT 35MG/ML SUSP,INTRATRACHEAL [VA Product]",
+            "ontology": "NDFRT",
+            "concept_mapping_provenance": "tool"
+          }
+        ],
+        "benchmarks": [
+          {
+            "name": "MS COCO Keypoint test-dev",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/85854",
+            "ontology_label": "Magnolia coco",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          },
+          {
+            "name": "MS COCO Keypoint",
+            "ontology_id": "http://purl.bioontology.org/ontology/NCBITAXON/85854",
+            "ontology_label": "Magnolia coco",
+            "ontology": "NCBITAXON",
+            "concept_mapping_provenance": "tool"
+          }
+        ]
+      },
+      "provenance": {
+        "extractor_agent": [
+          "description",
+          "type",
+          "category",
+          "target",
+          "specific_target",
+          "url",
+          "key_features",
+          "performance",
+          "model_architecture",
+          "mentions"
+        ],
+        "judge_agent": [
+          "judge_score",
+          "remarks"
+        ]
+      },
+      "judge_score": 0.95,
+      "remarks": "High accuracy in technical description and domain categorization, though mapped concepts are missing.",
+      "mapped_name_concept": [
+        {
+          "id": "http://purl.bioontology.org/ontology/NDFRT/N0000161110",
+          "label": "CALFACTANT 35MG/ML SUSP,INTRATRACHEAL [VA Product]",
+          "ontology": "NDFRT",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_type_concept": [
+        {
+          "id": "http://purl.jp/bio/4/id/201006069273374415",
+          "label": "individual-based model",
+          "ontology": "IOBC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "mapped_category_concept": [
+        {
+          "id": "http://purl.jp/bio/4/id/201106000261062806",
+          "label": "Population estimation",
+          "ontology": "IOBC",
+          "concept_mapping_provenance": "tool"
+        }
+      ],
+      "name": "ViTPose"
+    }
+  ],
+  "verification": {
+    "resources_checked": 1,
+    "resources_present": 1,
+    "resources_dropped": 0,
+    "resources_dropped_detail": [],
+    "all_resources_present_in_text": true
+  }
+}

@@ -1,19 +1,12 @@
 """Tests for task_type detection in StructSenseFlow."""
 
-from pathlib import Path
-import os
-
 import pytest
-from dotenv import load_dotenv
 
 from structsense.app import StructSenseFlow
+from .conftest import skip_if_no_openrouter
 
-skip_if_no_openrouter = pytest.mark.skipif(
-    not os.environ.get("OPENROUTER_API_KEY"),
-    reason="OPENROUTER_API_KEY not set",
-)
+pytestmark = pytest.mark.usefixtures("load_env")
 
-ENV_PATH = Path(__file__).parent / "configs/.env_example"
 SOURCE_TEXT_SHORT = "Retinal ganglion cell"
 
 LLM_CONFIG = {
@@ -37,11 +30,6 @@ BASE_TASK_CONFIG = {
 }
 
 
-@pytest.fixture(autouse=True)
-def load_env():
-    load_dotenv(ENV_PATH, override=True)
-
-
 def make_flow(agent_config=None, task_config=None):
     return StructSenseFlow(
         agent_config=agent_config or BASE_AGENT_CONFIG,
@@ -51,18 +39,26 @@ def make_flow(agent_config=None, task_config=None):
     )
 
 
-@pytest.mark.parametrize("task_type", ["ner", "extraction", "keyphrase_extraction"])
-def test_task_type_from_config(task_type):
-    """task_type is explicitly set in agent_config — returned directly without LLM or heuristic."""
+@pytest.mark.parametrize(
+    "description,expected_task_type",
+    [
+        ("Extract named entity mentions from {input_text}.", "ner"),
+        ("Process and return structured results from {input_text}.", "extraction"),
+        ("Identify and rank key phrases from {input_text}.", "extraction"),
+    ],
+)
+def test_task_type_from_config(monkeypatch, description, expected_task_type):
+    """task_type is inferred from heuristics on task description — no LLM call."""
+    monkeypatch.delenv("OPENROUTER_API_KEY", raising=False)
     task_config = {
         "task_key": {
             **BASE_TASK_CONFIG["task_key"],
-            "task_type": task_type,
+            "description": description,
         }
     }
     flow = make_flow(task_config=task_config)
     detected = flow._get_detected_task_type("agent_key", "task_key")
-    assert detected == task_type
+    assert detected == expected_task_type
 
 
 @pytest.mark.parametrize(

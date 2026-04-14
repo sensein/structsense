@@ -36,12 +36,14 @@ import os
 import time
 import tracemalloc
 import asyncio
+import math
+import threading
 from pathlib import Path
 from datetime import datetime
 
 # Filter warnings at the beginning
 import warnings
-from typing import Any, Dict, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 # Disable all warnings including Pydantic serialization warnings
 warnings.filterwarnings("ignore")
@@ -65,6 +67,7 @@ os.environ["CREWAI_DISABLE_INTERACTIVE"] = "true"
 os.environ["CREWAI_TELEMETRY_OPT_OUT"] = "true"
 
 from crewai import Crew, Process
+from crewai.hooks import before_llm_call, after_llm_call
 from dotenv import load_dotenv
 
 from utils.utils import (
@@ -91,6 +94,15 @@ from utils.postprocessing import (
     normalize_final_result_for_output,
     promote_canonical_resources_for_resource_task,
     ensure_resource_mapped_concepts_provenance,
+    promote_stage_output_to_canonical,
+    # FIX: inject concept mapping (class_uri/ontology_label/ontology_id) from alignment
+    # agent tool calls directly into NER entity dicts after the alignment stage.
+    # Previously these ontology fields were captured by the tool but never surfaced to
+    # the caller because the injection block only ran for task_type == "extraction".
+    inject_alignment_concept_mapping_into_ner_entities,
+    inject_alignment_concept_mapping_into_resources,
+    _flatten_container_to_list,
+    unify_ontology_across_entities,
 )
 from .humanloop import HumanInTheLoop
 
@@ -103,6 +115,11 @@ from utils.downstream_agent_helper import (
     prepare_humanfeedback_agent_input,
     split_structured_payload,
     merge_structured_chunk_results,
+)
+from utils.model_context import (
+    compute_downstream_chunk_size,
+    estimate_agent_prompt_tokens,
+    probe_openrouter_context_window,
 )
 from utils.conceptmappingtool import (
     clear_alignment_tool_outputs,
@@ -169,6 +186,176 @@ def setup_timing_logger():
     return timing_logger, str(timing_log_file)
 
 
+# ---------------------------------------------------------------------------
+# LLM call tracking — separate log file per run, thread-safe counter
+# ---------------------------------------------------------------------------
+_llm_call_count = {"n": 0}
+_llm_call_lock = threading.Lock()
+# Per-stage tracking: task_key → {start_n, agent_key, n_chunks, calls, calls_per_chunk, elapsed}
+_llm_stage_tracker: Dict[str, Dict[str, Any]] = {}
+
+
+def setup_llm_call_logger() -> tuple:
+    """Set up a dedicated logger that records every LLM call made by CrewAI.
+
+    Creates ``llm_call_logs/llm_calls_YYYYMMDD_HHMMSS.log`` in the current
+    working directory. Also resets the global call counter so each pipeline
+    run starts from #1.
+
+    Returns
+    -------
+    tuple[logging.Logger, str]
+        The configured logger and the absolute path to the log file.
+    """
+    log_dir = Path(os.getcwd()) / "llm_call_logs"
+    log_dir.mkdir(exist_ok=True)
+
+    log_file = log_dir / f"llm_calls_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+
+    llm_logger = logging.getLogger("llm_calls")
+    llm_logger.setLevel(logging.INFO)
+
+    # Remove any handlers left from a previous run
+    for handler in llm_logger.handlers[:]:
+        llm_logger.removeHandler(handler)
+
+    # delay=False opens the file immediately so the first flush has a real fd
+    file_handler = logging.FileHandler(log_file, delay=False)
+    file_handler.setLevel(logging.INFO)
+    file_handler.setFormatter(logging.Formatter("%(asctime)s - %(message)s"))
+    llm_logger.addHandler(file_handler)
+
+    # Avoid duplicating records in the root logger
+    llm_logger.propagate = False
+
+    # Reset counter for this run
+    with _llm_call_lock:
+        _llm_call_count["n"] = 0
+
+    return llm_logger, str(log_file)
+
+
+def _flush_llm_logger() -> None:
+    """Flush all handlers of the llm_calls logger to disk immediately."""
+    for h in logging.getLogger("llm_calls").handlers:
+        h.flush()
+
+
+def _begin_stage_llm_tracking(task_key: str, agent_key: str) -> None:
+    """Snapshot the current call count so the stage delta can be computed later."""
+    with _llm_call_lock:
+        _llm_stage_tracker[task_key] = {
+            "agent_key": agent_key,
+            "start_n": _llm_call_count["n"],
+        }
+
+
+def _end_stage_llm_tracking(task_key: str, n_chunks: int, stage_elapsed: float) -> None:
+    """Compute and log per-stage call summary immediately when a stage finishes.
+
+    Logs to the ``llm_calls`` log file (real-time flush) and to the main logger.
+    Formula: total_calls = number_of_chunks × calls_per_chunk
+    """
+    tracker = _llm_stage_tracker.get(task_key)
+    if not tracker:
+        return
+
+    with _llm_call_lock:
+        current_n = _llm_call_count["n"]
+
+    stage_calls = current_n - tracker["start_n"]
+    calls_per_chunk = stage_calls / n_chunks if n_chunks > 0 else 0
+    agent_key = tracker.get("agent_key", "unknown")
+
+    # Store for final summary
+    tracker.update({
+        "n_chunks": n_chunks,
+        "calls": stage_calls,
+        "calls_per_chunk": calls_per_chunk,
+        "elapsed": stage_elapsed,
+    })
+
+    llm_logger = logging.getLogger("llm_calls")
+    if llm_logger.handlers:
+        llm_logger.info("-" * 70)
+        llm_logger.info(f"[STAGE COMPLETE] {agent_key} / {task_key}")
+        llm_logger.info(f"  Chunks          : {n_chunks}")
+        llm_logger.info(f"  LLM calls       : {stage_calls}")
+        llm_logger.info(f"  Calls/chunk     : {calls_per_chunk:.1f}  "
+                        f"(= {n_chunks} chunks × {calls_per_chunk:.1f} calls/chunk)")
+        llm_logger.info(f"  Stage elapsed   : {stage_elapsed:.1f}s")
+        llm_logger.info(f"  Running total   : {current_n} calls so far this run")
+        llm_logger.info("-" * 70)
+        _flush_llm_logger()
+
+    logger.info(
+        "[llm_tracking] %s/%s: %d chunks × %.1f calls/chunk = %d LLM calls (%.1fs)",
+        agent_key, task_key, n_chunks, calls_per_chunk, stage_calls, stage_elapsed,
+    )
+
+
+@before_llm_call
+def _on_before_llm_call(context):
+    """Hook: log every LLM call before it is dispatched.
+
+    Increments the global call counter (thread-safe) and writes a structured
+    record — agent role, task description, iteration number, message count,
+    and a preview of the last message — to the ``llm_calls`` logger.
+    Flushes to disk immediately so the file is readable as the pipeline runs.
+    """
+    with _llm_call_lock:
+        _llm_call_count["n"] += 1
+        n = _llm_call_count["n"]
+
+    llm_logger = logging.getLogger("llm_calls")
+    if not llm_logger.handlers:
+        return None  # Logger not yet configured; silently skip
+
+    _agent_obj = getattr(context, "agent", None)
+    agent_role = getattr(_agent_obj, "role", "unknown")
+    agent_max_iter = getattr(_agent_obj, "max_iter", "unknown")
+    agent_max_exec_time = getattr(_agent_obj, "max_execution_time", "unknown")
+    agent_max_retry = getattr(_agent_obj, "max_retry_limit", "unknown")
+    task_desc = str(getattr(getattr(context, "task", None), "description", "unknown"))
+    iteration = getattr(context, "iterations", "unknown")
+    messages = getattr(context, "messages", [])
+
+    llm_logger.info("=" * 70)
+    llm_logger.info(f"[LLM CALL #{n}]")
+    llm_logger.info(f"Agent          : {agent_role}")
+    llm_logger.info(f"max_iter       : {agent_max_iter}  |  max_execution_time: {agent_max_exec_time}s  |  max_retry_limit: {agent_max_retry}")
+    llm_logger.info(f"Task           : {task_desc[:120]}")
+    llm_logger.info(f"Iteration      : {iteration}")
+    llm_logger.info(f"Messages       : {len(messages)}")
+    if messages:
+        last_msg = messages[-1]
+        llm_logger.info(f"Last msg role    : {last_msg.get('role')}")
+        llm_logger.info(f"Last msg preview : {str(last_msg.get('content', ''))[:300]}")
+    _flush_llm_logger()
+
+    return None  # Allow the LLM call to proceed unchanged
+
+
+@after_llm_call
+def _on_after_llm_call(context):
+    """Hook: log the LLM response preview after each call completes.
+
+    Flushes to disk immediately so the file is readable while the pipeline
+    is still running.
+    """
+    llm_logger = logging.getLogger("llm_calls")
+    if not llm_logger.handlers:
+        return None
+
+    response = getattr(context, "response", None)
+    llm_logger.info("[LLM RESPONSE PREVIEW]")
+    llm_logger.info(str(response)[:500] if response else "No response found on context.")
+    llm_logger.info("=" * 70)
+    _flush_llm_logger()
+
+    return None  # Keep the original response unchanged
+
+
 class ConfigError(Exception):
     """Exception raised for configuration errors."""
 
@@ -233,23 +420,34 @@ class StructSenseFlow:
     """
 
     def __init__(
-        self,
-        agent_config: Union[str, dict],
-        task_config: Union[str, dict],
-        embedder_config: Union[str, dict],
-        source: Optional[str] = None,
-        source_text: Optional[str] = None,
-        enable_human_feedback: bool = False,
-        enable_chunking: bool = False,
-        knowledge_config: Optional[Union[str, dict]] = None,
-        agent_feedback_config: Optional[Dict[str, bool]] = None,
-        env_file: Optional[str] = None,
-        api_key: Optional[str] = None,
-        chunk_size: Optional[int] = None,
-        max_workers: Optional[int] = None,
-        downstream_max_input_chars: Optional[int] = None,
-        max_extraction_chunk_chars: Optional[int] = None,
-        return_full_pipeline_details: bool = False,
+            self,
+            agent_config: Union[str, dict],
+            task_config: Union[str, dict],
+            embedder_config: Union[str, dict],
+            source_text: Optional[str] = None,
+            source: Optional[Union[str, dict]] = None,
+            enable_human_feedback: bool = False,
+            enable_chunking: bool = False,
+            knowledge_config: Optional[Union[str, dict]] = None,
+            agent_feedback_config: Optional[Dict[str, bool]] = None,
+            env_file: Optional[str] = None,
+            api_key: Optional[str] = None,
+            chunk_size: Optional[int] = None,
+            max_workers: Optional[int] = None,
+            downstream_max_input_chars: Optional[int] = None,
+            max_extraction_chunk_chars: Optional[int] = None,
+            return_full_pipeline_details: bool = False,
+            stage_output_dir: Optional[str] = os.getcwd(),
+            downstream_chunk_size: Optional[int] = None,
+            skip_alignment_llm: Optional[bool] = None,
+            skip_judge_llm: Optional[bool] = None,
+            direct_judge_api: Optional[bool] = True,
+            direct_humanfeedback_api: Optional[bool] = True,
+            model_context_window: Optional[int] = None,
+            skip_stages: Optional[List[str]] = None,
+            agent_max_iter: Optional[int] = None,
+            agent_max_execution_time: Optional[int] = None,
+            agent_max_retry_limit: Optional[int] = None,
     ):
         """Initialize StructSenseFlow with config paths and input.
 
@@ -288,6 +486,45 @@ class StructSenseFlow:
             Cap on chunk size for extraction agent context.
         return_full_pipeline_details : bool, optional
             If True, result includes pipeline_stages, token_usage, context_management.
+        stage_output_dir : str, optional
+            Directory path where each stage's output is written to disk as JSON
+            immediately after that stage completes.  Useful for long-running pipelines
+            (extraction 10 min + alignment 60 min + judge 40 min) so that a crash does
+            not lose all prior work.  Files are named
+            ``<stage_index>_<agent_key>_<task_key>.json`` and overwritten on re-run.
+            Defaults to the current working directory.  Set to None to disable.
+        skip_judge_llm : bool or None, optional
+            When True, the judge LLM is bypassed: all entities receive a default
+            ``judge_score=1.0`` and ``remarks="auto-approved"`` without an LLM call,
+            and the pipeline continues immediately.  Useful for fast runs where quality
+            scoring is not needed, or when the alignment output is already trusted.
+            None (default): never auto-skip (judge always runs unless the stage is absent
+            from the config or listed in ``skip_stages``).
+            Overridden by env var ``SKIP_JUDGE_LLM=true/false``.
+        skip_stages : list of str, optional
+            Task keys to omit from the pipeline entirely.  The previous stage's output
+            is passed directly to the next stage that is *not* skipped.  Example::
+
+                # Run only extraction + alignment; skip judge and humanfeedback
+                skip_stages=["judge_task", "humanfeedback_task"]
+
+                # Run only extraction (single-stage)
+                skip_stages=["alignment_task", "judge_task", "humanfeedback_task"]
+
+            Accepted keys: ``extraction_task``, ``alignment_task``, ``judge_task``,
+            ``humanfeedback_task``.  Skipping ``extraction_task`` is not supported
+            (use ``preloaded_stages`` for that instead).
+            ``enable_human_feedback=False`` (the default) already suppresses
+            ``humanfeedback_task`` so you don't need to list it here unless you have
+            a custom task key.
+        agent_max_iter : int, optional
+            Maximum number of reasoning iterations each CrewAI agent is allowed per
+            run before it is forced to return its best answer.  Applies to every
+            agent in the pipeline (extractor, alignment, judge, humanfeedback).
+            CrewAI's built-in default is 20.  Lower values (e.g. 3–5) reduce cost
+            and latency on straightforward extraction tasks; higher values give
+            agents more attempts to self-correct on complex inputs.
+            Overridden by env var ``AGENT_MAX_ITER=<int>``.
 
         Raises
         ------
@@ -403,6 +640,8 @@ class StructSenseFlow:
             raise ConfigError(f"Failed to load configurations: {str(e)}")
 
         setup_monitoring()
+        _, llm_call_log_file = setup_llm_call_logger()
+        logger.info("LLM call tracking log: %s", llm_call_log_file)
 
         # Crew memory (long/short/entity) is off by default; not recommended with local models.
         # Set ENABLE_CREW_MEMORY=true to enable (requires embedder_config, e.g. Ollama).
@@ -441,6 +680,107 @@ class StructSenseFlow:
         self.enable_chunking = enable_chunking
         self.chunk_size = chunk_size or 2000  # Default chunk size
         self.max_workers = max_workers
+        # Entities per chunk for downstream parallel chunking (alignment/judge/humanfeedback).
+        # None = auto-calculate from max_workers and entity count.
+        self.downstream_chunk_size = downstream_chunk_size
+        # Skip alignment LLM: call concept mapping tool directly and inject results,
+        # bypassing the alignment agent entirely.
+        # None = auto (True when CONCEPT_MAPPING_BACKEND=local and task is NER/keyphrase/resource).
+        # True = always skip. False = always run alignment LLM.
+        # Env var SKIP_ALIGNMENT_LLM=true/false/auto overrides the constructor argument.
+        if "SKIP_ALIGNMENT_LLM" in os.environ:
+            _env_sal = os.environ["SKIP_ALIGNMENT_LLM"].strip().lower()
+            if _env_sal == "auto":
+                skip_alignment_llm = None
+            else:
+                skip_alignment_llm = str_to_bool(_env_sal)
+            logger.info(
+                "skip_alignment_llm overridden by env SKIP_ALIGNMENT_LLM=%s -> %s",
+                os.environ["SKIP_ALIGNMENT_LLM"], skip_alignment_llm,
+            )
+        self.skip_alignment_llm = skip_alignment_llm
+
+        # Skip judge LLM: inject default judge_score/remarks directly, bypassing the judge agent.
+        # None = never auto-skip (judge always runs when present).
+        # True = always skip. False = always run judge LLM.
+        # Env var SKIP_JUDGE_LLM=true/false overrides the constructor argument.
+        if "SKIP_JUDGE_LLM" in os.environ:
+            skip_judge_llm = str_to_bool(os.environ["SKIP_JUDGE_LLM"].strip())
+            logger.info(
+                "skip_judge_llm overridden by env SKIP_JUDGE_LLM=%s -> %s",
+                os.environ["SKIP_JUDGE_LLM"], skip_judge_llm,
+            )
+        self.skip_judge_llm = skip_judge_llm
+
+        # Direct API judge: call the LLM directly (no CrewAI agent overhead) for the judge stage.
+        # Enabled by default (True). Env var DIRECT_JUDGE_API=false disables it.
+        # When False and skip_judge_llm is also False, falls back to the full CrewAI agent run.
+        if "DIRECT_JUDGE_API" in os.environ:
+            direct_judge_api = str_to_bool(os.environ["DIRECT_JUDGE_API"].strip())
+            logger.info(
+                "direct_judge_api overridden by env DIRECT_JUDGE_API=%s -> %s",
+                os.environ["DIRECT_JUDGE_API"], direct_judge_api,
+            )
+        self.direct_judge_api = direct_judge_api if direct_judge_api is not None else True
+
+        # Direct API humanfeedback: same as direct_judge_api but for the humanfeedback stage.
+        # Enabled by default (True). Env var DIRECT_HUMANFEEDBACK_API=false disables it.
+        if "DIRECT_HUMANFEEDBACK_API" in os.environ:
+            direct_humanfeedback_api = str_to_bool(os.environ["DIRECT_HUMANFEEDBACK_API"].strip())
+            logger.info(
+                "direct_humanfeedback_api overridden by env DIRECT_HUMANFEEDBACK_API=%s -> %s",
+                os.environ["DIRECT_HUMANFEEDBACK_API"], direct_humanfeedback_api,
+            )
+        self.direct_humanfeedback_api = direct_humanfeedback_api if direct_humanfeedback_api is not None else True
+
+        # Task keys to omit entirely from the pipeline (e.g. ["judge_task", "humanfeedback_task"]).
+        # Filtered out by _get_ordered_agent_task_pairs so they never run.
+        # Env var SKIP_STAGES=judge_task,humanfeedback_task (comma-separated) overrides the
+        # constructor argument. Useful to control partial pipeline runs from a .env file
+        # without changing CLI flags.
+        if "SKIP_STAGES" in os.environ:
+            _env_ss = [s.strip() for s in os.environ["SKIP_STAGES"].split(",") if s.strip()]
+            if _env_ss:
+                skip_stages = _env_ss
+                logger.info("skip_stages overridden by env SKIP_STAGES=%s", os.environ["SKIP_STAGES"])
+        self.skip_stages: List[str] = list(skip_stages) if skip_stages else []
+
+        # Max reasoning iterations per CrewAI agent run.
+        # None = use CrewAI's built-in default (20).
+        # Env var AGENT_MAX_ITER=<int> overrides the constructor argument.
+        if "AGENT_MAX_ITER" in os.environ:
+            try:
+                agent_max_iter = int(os.environ["AGENT_MAX_ITER"])
+                logger.info("agent_max_iter overridden by env AGENT_MAX_ITER=%d", agent_max_iter)
+            except ValueError:
+                logger.warning(
+                    "AGENT_MAX_ITER env var is not a valid integer (%r) — ignoring",
+                    os.environ["AGENT_MAX_ITER"],
+                )
+        self.agent_max_iter: Optional[int] = agent_max_iter
+
+        # Max wall-clock seconds per agent run. Env var AGENT_MAX_EXECUTION_TIME=<int>.
+        if "AGENT_MAX_EXECUTION_TIME" in os.environ:
+            try:
+                agent_max_execution_time = int(os.environ["AGENT_MAX_EXECUTION_TIME"])
+                logger.info("agent_max_execution_time overridden by env AGENT_MAX_EXECUTION_TIME=%d", agent_max_execution_time)
+            except ValueError:
+                logger.warning("AGENT_MAX_EXECUTION_TIME env var is not a valid integer (%r) — ignoring", os.environ["AGENT_MAX_EXECUTION_TIME"])
+        self.agent_max_execution_time: Optional[int] = agent_max_execution_time
+
+        # Max agent-level retries on recoverable errors. Env var AGENT_MAX_RETRY_LIMIT=<int>.
+        if "AGENT_MAX_RETRY_LIMIT" in os.environ:
+            try:
+                agent_max_retry_limit = int(os.environ["AGENT_MAX_RETRY_LIMIT"])
+                logger.info("agent_max_retry_limit overridden by env AGENT_MAX_RETRY_LIMIT=%d", agent_max_retry_limit)
+            except ValueError:
+                logger.warning("AGENT_MAX_RETRY_LIMIT env var is not a valid integer (%r) — ignoring", os.environ["AGENT_MAX_RETRY_LIMIT"])
+        self.agent_max_retry_limit: Optional[int] = agent_max_retry_limit
+
+        # User-supplied model context window override (tokens). When set, overrides the
+        # auto-detected value from model_context.py for all downstream chunk sizing.
+        # Useful when the model is not in the built-in registry or behind a custom proxy.
+        self.model_context_window = model_context_window
         # Max input size (chars) for downstream agents (alignment, judge, humanfeedback) to avoid context limit.
         # Default ~80k chars (~20k tokens); 128k tokens ≈ 512k chars.
         self.downstream_max_input_chars = downstream_max_input_chars if downstream_max_input_chars is not None else 80_000
@@ -448,6 +788,7 @@ class StructSenseFlow:
         # Default 25000 chars (~6k tokens) leaves room for task prompt on 128k models. None = no cap.
         self.max_extraction_chunk_chars = max_extraction_chunk_chars if max_extraction_chunk_chars is not None else 25_000
         self.return_full_pipeline_details = return_full_pipeline_details
+        self.stage_output_dir = stage_output_dir  # defaults to cwd; set to None to disable stage file output
         self.agent_feedback_config = agent_feedback_config or {}
         # Human-in-the-loop for feedback before humanfeedback_agent (see humanloop.py)
         self.human_loop = HumanInTheLoop(
@@ -465,11 +806,15 @@ class StructSenseFlow:
             reserve_tokens=2000,  # Reserve for prompts
         )
 
-        logger.info("Enhanced context management initialized:")
-        logger.info(f"  - Token limit: {self.token_limit}")
-        logger.info(f"  - Available tokens: {self.context_manager.available_tokens}")
-        logger.info(f"  - Thread-safe memory: enabled")
-        logger.info(f"  - Context passing: enabled")
+        logger.debug("Context management initialized (token_limit=%d)", self.token_limit)
+
+        # Cache for pipeline-level task type: detected once at extraction phase,
+        # reused for all downstream stages within the same pipeline run.
+        self._pipeline_task_type: Optional[str] = None
+
+
+
+
 
     async def run_agent_task(
         self,
@@ -832,6 +1177,7 @@ class StructSenseFlow:
         text: Optional[str] = None,
         modification_context: Optional[str] = None,
         user_feedback_text: Optional[str] = None,
+        preloaded_stages: Optional[Dict[str, Any]] = None,
     ):
         """
         Run the FULL multi-agent pipeline with context management.
@@ -843,6 +1189,20 @@ class StructSenseFlow:
             text: Optional input text (uses self.source_text if None)
             modification_context: Optional context for modifications
             user_feedback_text: Optional user feedback for humanfeedback stage
+            preloaded_stages: Optional dict mapping task_key → pre-loaded result dict.
+                Stages present in this dict are skipped — their saved output is used
+                directly as if the agent had just run.  Useful for resuming a pipeline
+                after a crash or for re-running only a subset of stages, e.g.:
+
+                    import json
+                    with open("00_extractor_agent_extraction_task.json") as f:
+                        extraction_result = json.load(f)
+
+                    result = await flow.information_extraction_task(
+                        preloaded_stages={"extraction_task": extraction_result}
+                    )
+                    # → alignment, judge, humanfeedback run normally;
+                    #   extraction is skipped and the saved output is used instead.
 
         Returns:
             Dict with final results. By default (return_full_pipeline_details=False):
@@ -860,6 +1220,9 @@ class StructSenseFlow:
 
         start_time = time.time()
         logger.info("Starting structured information extraction (full pipeline)")
+
+        # Reset cached task type so each pipeline run re-detects from the extraction stage.
+        self._pipeline_task_type = None
 
         # Check Ollama health (optional - won't fail if unavailable)
         if not check_ollama_health():
@@ -881,7 +1244,7 @@ class StructSenseFlow:
 
         if task_type == "ner":
             post_process_key = "ner"
-        elif task_type in ("resource", "structured_extraction"):
+        elif task_type == "resource":
             post_process_key = "resource"
         else:
             post_process_key = "extraction"
@@ -907,9 +1270,611 @@ class StructSenseFlow:
             logger.info(f"STAGE {idx + 1}/{len(ordered_pairs)}: {agent_key} / {task_key}")
             logger.info("=" * 80)
 
+            # ------------------------------------------------------------------
+            # PRELOADED STAGE — skip the agent run and use saved output directly.
+            # The preloaded result is treated exactly as if the agent had just run:
+            # it is stored in pipeline_stages, set as prev_output, and the loop
+            # continues to the next stage.
+            # ------------------------------------------------------------------
+            if preloaded_stages and task_key in preloaded_stages:
+                preloaded = preloaded_stages[task_key]
+                pipeline_stages[task_key] = preloaded
+                prev_output = preloaded
+                entity_count = len(preloaded.get("entities") or []) if isinstance(preloaded, dict) else "n/a"
+                logger.info(
+                    "[preloaded] Skipping %s/%s — using saved output "
+                    "(entities=%s, keys=%s)",
+                    agent_key, task_key, entity_count,
+                    list(preloaded.keys()) if isinstance(preloaded, dict) else "?",
+                )
+                stage_timings[task_key] = 0.0
+                continue
+
             # Clear alignment-stage tool outputs so we only capture this stage's concept mapping (for extraction)
             if task_key == "alignment_task":
                 clear_alignment_tool_outputs()
+
+            # ------------------------------------------------------------------
+            # Fast alignment bypass: skip the alignment LLM entirely.
+            #
+            # When enabled, Python calls the concept mapping tool directly with
+            # all entity texts in one batch (the local service supports 4000
+            # concepts/request), injects the results into the extraction output,
+            # and stores that as the alignment result — no LLM call needed.
+            #
+            # This is correct because the alignment LLM's only real job is
+            # ontology mapping, which the pre-compute + injection already does.
+            # The LLM typically only maps 3–10 terms per call anyway and adds no
+            # other value for NER tasks.
+            #
+            # Auto-enable when:
+            #   - task_key == "alignment_task"
+            #   - task_type is "ner" or "keyphrase_extraction"
+            #   - CONCEPT_MAPPING_BACKEND == "local" (supports batch of 4000)
+            #
+            # Override with skip_alignment_llm=True  (force skip)
+            #                 skip_alignment_llm=False (force LLM)
+            # ------------------------------------------------------------------
+            if task_key == "alignment_task" and prev_output is not None:
+                _cm_backend_now = os.getenv("CONCEPT_MAPPING_BACKEND", "local").strip().lower()
+                # Auto-skip also applies to resource and structured_extraction task types.
+                # Resource alignment (like NER alignment) only needs ontology mapping — the
+                # LLM adds no value over a direct batch tool call when the local backend is used.
+                _auto_skip = (
+                    task_type in ("ner", "keyphrase_extraction", "resource", "structured_extraction")
+                    and _cm_backend_now == "local"
+                )
+                _do_skip = (
+                    self.skip_alignment_llm is True
+                    or (self.skip_alignment_llm is None and _auto_skip)
+                )
+                if _do_skip:
+                    import copy as _copy
+                    stage_start_time = time.time()
+                    logger.info(
+                        "[alignment_task] Fast-alignment bypass active — "
+                        "calling concept mapping tool directly, skipping alignment LLM"
+                    )
+
+                    # Collect texts for concept mapping.
+                    # For NER/keyphrase: entity text from entities, extracted_terms, key_terms.
+                    # For resource/structured_extraction: resource name from resources list.
+                    # Both paths deduplicate before calling the tool.
+                    _fa_texts: list = []
+                    def _fa_collect(ent):
+                        if isinstance(ent, dict):
+                            t = ent.get("entity") or ent.get("text") or ent.get("name")
+                            if isinstance(t, str) and t.strip():
+                                _fa_texts.append(t.strip())
+
+                    extraction_output_fa = prev_output
+                    if task_type in ("ner", "keyphrase_extraction"):
+                        # NER/keyphrase: collect entity texts
+                        for _e in extraction_output_fa.get("entities") or []:
+                            _fa_collect(_e)
+                        for _raw_key in ("extracted_terms", "aligned_ner_terms"):
+                            for _e in _flatten_container_to_list(extraction_output_fa.get(_raw_key) or []):
+                                _fa_collect(_e)
+                        for _kt in extraction_output_fa.get("key_terms") or []:
+                            if isinstance(_kt, str) and _kt.strip():
+                                _fa_texts.append(_kt.strip())
+                            elif isinstance(_kt, dict):
+                                _t = _kt.get("term") or _kt.get("text") or _kt.get("entity")
+                                if isinstance(_t, str) and _t.strip():
+                                    _fa_texts.append(_t.strip())
+                    else:
+                        # Resource/structured_extraction: collect resource names from all resource
+                        # list keys — the extraction stage may store them under different keys
+                        # before alignment normalises them.
+                        for _rkey in ("resources", "aligned_resources", "extracted_resources"):
+                            for _r in extraction_output_fa.get(_rkey) or []:
+                                if isinstance(_r, dict):
+                                    _rname = _r.get("name") or _r.get("resource_name")
+                                    if isinstance(_rname, str) and _rname.strip():
+                                        _fa_texts.append(_rname.strip())
+
+                    # Deduplicate
+                    _fa_seen: set = set()
+                    _fa_unique = [t for t in _fa_texts if not (t in _fa_seen or _fa_seen.add(t))]
+                    logger.info("[alignment_task] Fast-alignment: %d unique terms to map", len(_fa_unique))
+
+                    # Call concept mapping tool directly
+                    if _fa_unique:
+                        try:
+                            from utils.conceptmappinglocal import ConceptMappingLocalTool as _CMToolFA
+                            _CMToolFA()._run(text=_fa_unique)
+                        except Exception as _fa_exc:
+                            logger.warning("[alignment_task] Fast-alignment tool call failed: %s", _fa_exc)
+
+                    # Build synthetic alignment result: deep copy extraction output,
+                    # inject concept mapping results, add provenance
+                    _aligned = _copy.deepcopy(extraction_output_fa)
+                    _aligned["alignment_method"] = "direct_tool_call"
+                    _aligned["alignment_llm_skipped"] = True
+
+                    _fa_session = get_alignment_tool_outputs()
+                    if _fa_session:
+                        if task_type in ("ner", "keyphrase_extraction"):
+                            # NER/keyphrase: inject ontology fields into entity dicts
+                            _fa_entities = _aligned.get("entities") or []
+                            if _fa_entities:
+                                _fa_enriched = inject_alignment_concept_mapping_into_ner_entities(
+                                    _fa_entities, _fa_session
+                                )
+                                logger.info(
+                                    "[alignment_task] Fast-alignment enriched %d entities with ontology fields",
+                                    _fa_enriched,
+                                )
+                                for _ent in _fa_entities:
+                                    if isinstance(_ent, dict) and _ent.get("ontology_id"):
+                                        _ent.setdefault("concept_mapping_provenance", "tool")
+                        else:
+                            # Resource/structured_extraction: inject ontology fields into resource dicts.
+                            # Resources are normalised to the "resources" key by promote_stage_output_to_canonical
+                            # later in this block, but we inject into whichever keys are present now so
+                            # the fields survive the promote call.
+                            _fa_res_enriched = 0
+                            for _rkey in ("resources", "aligned_resources", "extracted_resources"):
+                                _fa_resources = _aligned.get(_rkey) or []
+                                if _fa_resources:
+                                    _fa_res_enriched += inject_alignment_concept_mapping_into_resources(
+                                        _fa_resources, _fa_session
+                                    )
+                            if _fa_res_enriched:
+                                logger.info(
+                                    "[alignment_task] Fast-alignment enriched %d resources with ontology fields",
+                                    _fa_res_enriched,
+                                )
+                            for _rkey in ("resources", "aligned_resources", "extracted_resources"):
+                                for _res in _aligned.get(_rkey) or []:
+                                    if isinstance(_res, dict) and _res.get("ontology_id"):
+                                        _res.setdefault("concept_mapping_provenance", "tool")
+
+                    promote_stage_output_to_canonical(_aligned, task_type)
+
+                    prev_output = _aligned
+                    pipeline_stages[task_key] = _aligned
+                    stage_elapsed = time.time() - stage_start_time
+                    stage_timings[f"{agent_key}_{task_key}"] = stage_elapsed
+                    logger.info(
+                        "[alignment_task] Fast-alignment completed in %.2fs (LLM call skipped)",
+                        stage_elapsed,
+                    )
+
+                    # Save stage output to disk
+                    if self.stage_output_dir and pipeline_stages.get(task_key) is not None:
+                        try:
+                            os.makedirs(self.stage_output_dir, exist_ok=True)
+                            _stage_fname = f"{idx:02d}_{agent_key}_{task_key}.json"
+                            _stage_path = os.path.join(self.stage_output_dir, _stage_fname)
+                            with open(_stage_path, "w") as _sf:
+                                json.dump(pipeline_stages[task_key], _sf, indent=2, default=str)
+                            logger.info("[alignment_task] Stage output saved to %s", _stage_path)
+                        except Exception as _save_exc:
+                            logger.warning("[alignment_task] Failed to save stage output: %s", _save_exc)
+
+                    continue  # skip the alignment LLM run entirely
+
+            # ------------------------------------------------------------------
+            # Fast judge bypass: skip the judge LLM entirely.
+            #
+            # When enabled, Python deep-copies the alignment output and injects
+            # default judge_score=1.0 and remarks="auto-approved" into every entity
+            # dict — no LLM call is made.  The result is stored as the judge stage
+            # output and the pipeline continues.
+            #
+            # Use this when:
+            #   - you trust the alignment output and do not need quality scoring, or
+            #   - you want the fastest possible run (extraction + alignment only, but
+            #     humanfeedback still needs a judge stage output to work from)
+            #
+            # Enable with skip_judge_llm=True (constructor / Python API)
+            #             SKIP_JUDGE_LLM=true (.env or environment)
+            #             --skip_judge_llm true (CLI)
+            # ------------------------------------------------------------------
+            if task_key == "judge_task" and prev_output is not None and self.skip_judge_llm:
+                import copy as _jcopy
+                stage_start_time = time.time()
+                logger.info(
+                    "[judge_task] Fast-judge bypass active — "
+                    "injecting default judge_score/remarks, skipping judge LLM"
+                )
+                _judged = _jcopy.deepcopy(prev_output)
+                _judged["judge_method"] = "auto_approved"
+                _judged["judge_llm_skipped"] = True
+
+                # Inject default judge_score and remarks into every entity dict
+                _jfa_count = 0
+                for _jent in _judged.get("entities") or []:
+                    if isinstance(_jent, dict):
+                        _jent.setdefault("judge_score", 1.0)
+                        _jent.setdefault("remarks", "auto-approved: judge LLM skipped")
+                        _jfa_count += 1
+                logger.info(
+                    "[judge_task] Fast-judge: injected default scores into %d entities", _jfa_count
+                )
+
+                promote_stage_output_to_canonical(_judged, task_type)
+
+                prev_output = _judged
+                pipeline_stages[task_key] = _judged
+                stage_elapsed = time.time() - stage_start_time
+                stage_timings[f"{agent_key}_{task_key}"] = stage_elapsed
+                logger.info(
+                    "[judge_task] Fast-judge completed in %.2fs (LLM call skipped)", stage_elapsed
+                )
+
+                if self.stage_output_dir and pipeline_stages.get(task_key) is not None:
+                    try:
+                        os.makedirs(self.stage_output_dir, exist_ok=True)
+                        _stage_fname = f"{idx:02d}_{agent_key}_{task_key}.json"
+                        _stage_path = os.path.join(self.stage_output_dir, _stage_fname)
+                        with open(_stage_path, "w") as _sf:
+                            json.dump(pipeline_stages[task_key], _sf, indent=2, default=str)
+                        logger.info("[judge_task] Stage output saved to %s", _stage_path)
+                    except Exception as _save_exc:
+                        logger.warning("[judge_task] Failed to save stage output: %s", _save_exc)
+
+                continue  # skip the judge LLM run entirely
+
+            # ------------------------------------------------------------------
+            # DIRECT-API JUDGE BYPASS
+            # ------------------------------------------------------------------
+            # Replace the CrewAI judge agent with a direct OpenAI-compatible API
+            # call.  The CrewAI path adds significant overhead: one LLM call for
+            # the agent iteration, a second "forced final answer" call when
+            # max_iter=1, and internal retry scaffolding.  For large payloads
+            # that get split into N chunks this overhead multiplies by N and can
+            # turn a simple scoring step into a 10+ minute bottleneck.
+            #
+            # The direct-API path sends each batch of entities to the LLM once,
+            # parses the JSON response, and injects judge_score / remarks.  There
+            # is no agent loop, no tool scaffolding, and no forced-final-answer.
+            #
+            # Enable (default): direct_judge_api=True  /  DIRECT_JUDGE_API=true
+            # Disable (fallback to CrewAI): direct_judge_api=False / DIRECT_JUDGE_API=false
+            # ------------------------------------------------------------------
+            if task_key == "judge_task" and prev_output is not None and self.direct_judge_api:
+                import copy as _djcopy
+                stage_start_time = time.time()
+                logger.info(
+                    "[judge_task] Direct-API judge active — bypassing CrewAI agent"
+                )
+
+                # Resolve LLM config for the judge agent from its agent_config entry
+                _djllm = self.agent_config.get(agent_key, {}).get("llm", {})
+                if isinstance(_djllm, dict) and _djllm.get("model"):
+                    _dj_model = _djllm["model"]
+                    _dj_base_url = _djllm.get("base_url") or "https://openrouter.ai/api/v1"
+                    logger.info("[judge_task] Direct-API: model=%s (from agent_config[%s])", _dj_model, agent_key)
+                else:
+                    _dj_model = "openai/gpt-4o-mini"
+                    _dj_base_url = "https://openrouter.ai/api/v1"
+                    logger.warning(
+                        "[judge_task] Direct-API: no LLM config found for agent_key=%s — using fallback model=%s",
+                        agent_key, _dj_model,
+                    )
+                # OpenRouter expects model ID without the "openrouter/" prefix
+                if "openrouter" in _dj_base_url.lower() and _dj_model.startswith("openrouter/"):
+                    _dj_model = _dj_model.replace("openrouter/", "", 1)
+
+                _dj_api_key = (
+                    os.environ.get("OPENROUTER_API_KEY")
+                    or os.environ.get("OPENAI_API_KEY")
+                    or ""
+                )
+                _djudged = _djcopy.deepcopy(prev_output)
+                _dj_entities = _djudged.get("entities") or []
+
+                # Determine primary work-item list and its key (entities for NER/keyphrase,
+                # resources for resource/structured_extraction tasks)
+                _dj_items_key = (
+                    "entities"
+                    if _djudged.get("entities")
+                    else "resources"
+                    if _djudged.get("resources")
+                    else "entities"
+                )
+                _dj_entities = _djudged.get(_dj_items_key) or []
+
+                # Token-aware batch size — reuse the same compute_downstream_chunk_size
+                # logic used by the CrewAI chunking path so sizing is consistent.
+                _dj_workers = self.max_workers or 4
+                _dj_extraction_chunk_count = None
+                for _pk in pipeline_stages:
+                    _ps = pipeline_stages.get(_pk)
+                    if isinstance(_ps, dict) and "_extraction_chunk_count" in _ps:
+                        _dj_extraction_chunk_count = _ps["_extraction_chunk_count"]
+                        break
+                _dj_task_cfg = (
+                    self.task_config.get(task_key, {})
+                    if isinstance(self.task_config, dict)
+                    else {}
+                )
+                _dj_prompt_overhead = estimate_agent_prompt_tokens(
+                    agent_config=self.agent_config.get(agent_key, {}),
+                    task_config=_dj_task_cfg,
+                )
+                _dj_batch, _dj_should_batch = compute_downstream_chunk_size(
+                    payload=_djudged,
+                    model_str=_dj_model,
+                    max_workers=_dj_workers,
+                    extraction_chunk_count=_dj_extraction_chunk_count,
+                    explicit_chunk_size=self.downstream_chunk_size,
+                    context_window_override=self.model_context_window,
+                    prompt_overhead_tokens=_dj_prompt_overhead,
+                )
+                # If the whole payload fits in one call, use a single batch
+                if not _dj_should_batch:
+                    _dj_batch = len(_dj_entities) or 1
+
+                # ── Direct-API output-size guard ─────────────────────────────
+                # compute_downstream_chunk_size only checks INPUT token fit.
+                # For judge/humanfeedback the OUTPUT is the same size as the
+                # input (all items echoed back + small added fields), so the
+                # model's output token limit can be hit even when the input fits.
+                #
+                # Two caps applied (take the stricter of the two):
+                #
+                #  1. Output token cap: estimate tokens/item from payload size;
+                #     cap batch so expected output ≤ DIRECT_API_MAX_OUTPUT_TOKENS.
+                #     Default 32 768 — safe for models with 32 k output limit.
+                #
+                #  2. Min-chunks: always split into at least DIRECT_API_MIN_CHUNKS
+                #     parallel batches regardless of token math (default 8).
+                #     This avoids a single giant call even on very large models.
+                _dj_out_cap = int(os.environ.get("DIRECT_API_MAX_OUTPUT_TOKENS", "32768"))
+                _dj_min_chunks = int(os.environ.get("DIRECT_API_MIN_CHUNKS", "8"))
+                _dj_n_items = len(_dj_entities) or 1
+                # tokens/item ≈ chars/item (1 char ≈ 1 token for structured JSON)
+                _dj_tok_per_item = max(1, len(json.dumps(_djudged, ensure_ascii=False)) / _dj_n_items)
+                _dj_out_capped = max(1, int(_dj_out_cap / _dj_tok_per_item))
+                _dj_min_chunk_batch = max(1, math.ceil(_dj_n_items / _dj_min_chunks))
+                _dj_effective = min(_dj_batch, _dj_out_capped, _dj_min_chunk_batch)
+                if _dj_effective < _dj_batch:
+                    logger.info(
+                        "[judge_task] Direct-API output guard: output_cap=%d tok "
+                        "(%.1f tok/item → max %d items), min_chunks=%d (→ max %d items) "
+                        "→ batch %d → %d items",
+                        _dj_out_cap, _dj_tok_per_item, _dj_out_capped,
+                        _dj_min_chunks, _dj_min_chunk_batch,
+                        _dj_batch, _dj_effective,
+                    )
+                _dj_batch = _dj_effective
+
+                logger.info(
+                    "[judge_task] Direct-API batch size: %d items/batch "
+                    "(should_batch=%s, model=%s)",
+                    _dj_batch, _dj_should_batch, _dj_model,
+                )
+
+                async def _judge_entities_direct(_ents, _model, _base_url, _key, _batch_idx, _items_key, _attempt=0):
+                    """Score a flat list of item dicts via a single direct LLM call.
+
+                    Retry policy:
+                    - JSONDecodeError (truncated output): split batch in half and recurse
+                      so each half is a smaller independent call.  Recurses down to a
+                      batch of 1 before giving up.
+                    - Other API / network errors: retry up to 3 times with exponential
+                      back-off (1 s, 2 s, 4 s).
+                    """
+                    _MAX_RETRIES = 3
+                    from openai import AsyncOpenAI as _AsyncOpenAI
+                    _c = _AsyncOpenAI(base_url=_base_url, api_key=_key)
+                    _sys = (
+                        "You are a neuroscience NER quality judge. "
+                        f"For EVERY item in the input \"{_items_key}\" list add exactly two fields: "
+                        "\"judge_score\" (float 0.0-1.0, where 1.0=perfect alignment) and "
+                        "\"remarks\" (string, brief explanation). "
+                        "Preserve ALL existing fields unchanged. "
+                        f"Return ONLY valid JSON: {{\"{_items_key}\": [...]}}. No markdown, no prose."
+                    )
+                    _payload = json.dumps({_items_key: _ents}, ensure_ascii=False)
+
+                    # Log this call into the llm_calls log (same counter as CrewAI calls)
+                    with _llm_call_lock:
+                        _llm_call_count["n"] += 1
+                        _call_n = _llm_call_count["n"]
+                    _dj_llm_log = logging.getLogger("llm_calls")
+                    if _dj_llm_log.handlers:
+                        _dj_llm_log.info("=" * 70)
+                        _dj_llm_log.info(f"[LLM CALL #{_call_n}]  (direct API — no CrewAI agent)")
+                        _dj_llm_log.info(f"Agent          : {agent_key} / judge_task (direct)")
+                        _dj_llm_log.info(f"Model          : {_dj_model}")
+                        _dj_llm_log.info(f"Batch          : {_batch_idx + 1}  ({len(_ents)} entities, attempt {_attempt + 1})")
+                        _dj_llm_log.info(f"Payload preview: {_payload[:300]}")
+                        _dj_llm_log.info("=" * 70)
+                        _flush_llm_logger()
+
+                    try:
+                        _r = await _c.chat.completions.create(
+                            model=_model,
+                            messages=[
+                                {"role": "system", "content": _sys},
+                                {"role": "user", "content": _payload},
+                            ],
+                        )
+                        _raw = (_r.choices[0].message.content or "").strip()
+
+                        # Log the response
+                        if _dj_llm_log.handlers:
+                            _dj_llm_log.info(f"[LLM RESPONSE PREVIEW]  (call #{_call_n})")
+                            _dj_llm_log.info(_raw[:500])
+                            _dj_llm_log.info("=" * 70)
+                            _flush_llm_logger()
+
+                        # Strip markdown fences if present
+                        if _raw.startswith("```"):
+                            _parts = _raw.split("```")
+                            _raw = _parts[1] if len(_parts) > 1 else _raw
+                            if _raw.startswith("json"):
+                                _raw = _raw[4:]
+                        _stripped = _raw.strip()
+                        try:
+                            _parsed = json.loads(_stripped)
+                        except json.JSONDecodeError as _parse_ex:
+                            if "Extra data" in str(_parse_ex):
+                                # LLM appended trailing content after valid JSON — extract first object only
+                                _parsed, _ = json.JSONDecoder().raw_decode(_stripped)
+                                logger.debug(
+                                    "[judge_task] Direct API batch %d: recovered from 'Extra data' via raw_decode",
+                                    _batch_idx + 1,
+                                )
+                            else:
+                                raise  # truncated JSON — handled by outer except below
+                        return _parsed.get(_items_key) or _ents
+                    except json.JSONDecodeError as _ex:
+                        # Truncated JSON (Unterminated string, Expecting value, etc.) — split batch in half
+                        logger.warning(
+                            "[judge_task] Direct API batch %d JSON parse error (attempt %d/%d, %d items): %s — splitting batch",
+                            _batch_idx + 1, _attempt + 1, _MAX_RETRIES, len(_ents), _ex,
+                        )
+                        if len(_ents) > 1:
+                            _mid = len(_ents) // 2
+                            _l_res, _r_res = await asyncio.gather(
+                                _judge_entities_direct(_ents[:_mid], _model, _base_url, _key, _batch_idx, _items_key, 0),
+                                _judge_entities_direct(_ents[_mid:], _model, _base_url, _key, _batch_idx, _items_key, 0),
+                            )
+                            return _l_res + _r_res
+                        logger.warning("[judge_task] Direct API single-item batch still failed — returning original item")
+                        return _ents
+                    except Exception as _ex:
+                        if _attempt + 1 < _MAX_RETRIES:
+                            _wait = 2 ** _attempt
+                            logger.warning(
+                                "[judge_task] Direct API batch %d error (attempt %d/%d, retry in %ds): %s",
+                                _batch_idx + 1, _attempt + 1, _MAX_RETRIES, _wait, _ex,
+                            )
+                            await asyncio.sleep(_wait)
+                            return await _judge_entities_direct(_ents, _model, _base_url, _key, _batch_idx, _items_key, _attempt + 1)
+                        logger.warning("[judge_task] Direct API batch %d failed after %d attempts: %s", _batch_idx + 1, _MAX_RETRIES, _ex)
+                        return _ents
+
+                if _dj_entities and _dj_api_key:
+                    _begin_stage_llm_tracking(task_key, agent_key)
+                    try:
+                        # Split into batches and run all in parallel
+                        _dj_batches = [
+                            _dj_entities[_dj_i: _dj_i + _dj_batch]
+                            for _dj_i in range(0, len(_dj_entities), _dj_batch)
+                        ]
+                        _dj_n_batches = len(_dj_batches)
+                        logger.info(
+                            "[judge_task] Direct-API judge: %d items → %d batches × %d, running in parallel",
+                            len(_dj_entities), _dj_n_batches, _dj_batch,
+                        )
+                        _dj_batch_results = await asyncio.gather(*[
+                            _judge_entities_direct(
+                                _dj_batches[_bi], _dj_model, _dj_base_url, _dj_api_key,
+                                _bi, _dj_items_key,
+                            )
+                            for _bi in range(_dj_n_batches)
+                        ])
+                        _dj_scored: list = []
+                        for _dj_result in _dj_batch_results:
+                            for _e in _dj_result:
+                                if isinstance(_e, dict):
+                                    _e.setdefault("judge_score", 0.8)
+                                    _e.setdefault("remarks", "direct-api: default score")
+                            _dj_scored.extend(_dj_result)
+                        _djudged[_dj_items_key] = _dj_scored
+                        _djudged["judge_method"] = "direct_api"
+                        _end_stage_llm_tracking(task_key, _dj_n_batches, time.time() - stage_start_time)
+                        logger.info(
+                            "[judge_task] Direct-API judge scored %d %s in %.2fs",
+                            len(_dj_scored), _dj_items_key, time.time() - stage_start_time,
+                        )
+                    except Exception as _dj_exc:
+                        logger.warning(
+                            "[judge_task] Direct-API judge failed (%s); injecting defaults", _dj_exc
+                        )
+                        for _e in _dj_entities:
+                            if isinstance(_e, dict):
+                                _e.setdefault("judge_score", 0.8)
+                                _e.setdefault("remarks", "direct-api: error, default score")
+                        _djudged["judge_method"] = "direct_api_fallback"
+                else:
+                    # No API key or no items: inject default scores
+                    for _e in _dj_entities:
+                        if isinstance(_e, dict):
+                            _e.setdefault("judge_score", 1.0)
+                            _e.setdefault("remarks", "auto-approved: no items or API key")
+                    _djudged["judge_method"] = "auto_approved"
+                    logger.info(
+                        "[judge_task] Direct-API judge: no items/key, injected defaults into %d %s",
+                        len(_dj_entities), _dj_items_key,
+                    )
+
+                # --- post-processing: same checks as the CrewAI chunked path ---
+
+                # 1. Data-loss guard: if the LLM dropped items, recover from the
+                #    best available prior stage rather than silently losing data.
+                _dj_pre_count = len(_dj_entities)
+                _dj_post_count = len(_djudged.get(_dj_items_key) or [])
+                if _dj_post_count < _dj_pre_count:
+                    logger.warning(
+                        "[judge_task] Direct-API: item count dropped %d → %d; "
+                        "recovering from best prior stage.",
+                        _dj_pre_count, _dj_post_count,
+                    )
+                    _dj_fallback = None
+                    for _fkey in list(pipeline_stages.keys())[::-1]:
+                        _fs = pipeline_stages.get(_fkey)
+                        if isinstance(_fs, dict) and len(_fs.get(_dj_items_key) or []) >= _dj_pre_count:
+                            _dj_fallback = _fs
+                            logger.info(
+                                "[judge_task] Direct-API: recovered %d %s from stage '%s'",
+                                len(_fs.get(_dj_items_key, [])), _dj_items_key, _fkey,
+                            )
+                            break
+                    if _dj_fallback is not None:
+                        from utils.downstream_agent_helper import _extend_previous_stage
+                        _djudged = _extend_previous_stage(_dj_fallback, _djudged)
+                        _djudged[_dj_items_key] = (
+                            _dj_fallback.get(_dj_items_key) or _djudged.get(_dj_items_key) or []
+                        )
+
+                # 2. Ontology consistency pass: unify ontology IDs that may differ
+                #    across parallel batches for the same entity text.
+                _dj_final_items = _djudged.get(_dj_items_key)
+                if _dj_final_items and _dj_items_key == "entities":
+                    _djudged["entities"] = unify_ontology_across_entities(_dj_final_items)
+                    logger.info(
+                        "[judge_task] Direct-API: ontology consistency pass on %d entities",
+                        len(_dj_final_items),
+                    )
+
+                # 3. Provenance tagging
+                _dj_ckey = self._detect_container_key(_djudged)
+                if _dj_ckey:
+                    add_provenance_to_result(_djudged, _dj_ckey, agent_key)
+
+                promote_stage_output_to_canonical(_djudged, task_type)
+                prev_output = _djudged
+                pipeline_stages[task_key] = _djudged
+                stage_elapsed = time.time() - stage_start_time
+                stage_timings[f"{agent_key}_{task_key}"] = stage_elapsed
+                logger.info(
+                    "[judge_task] Direct-API judge completed in %.2fs", stage_elapsed
+                )
+
+                if self.stage_output_dir and pipeline_stages.get(task_key) is not None:
+                    try:
+                        os.makedirs(self.stage_output_dir, exist_ok=True)
+                        _dj_fname = f"{idx:02d}_{agent_key}_{task_key}.json"
+                        _dj_path = os.path.join(self.stage_output_dir, _dj_fname)
+                        with open(_dj_path, "w") as _djf:
+                            json.dump(pipeline_stages[task_key], _djf, indent=2, default=str)
+                        logger.info("[judge_task] Stage output saved to %s", _dj_path)
+                    except Exception as _dj_save_exc:
+                        logger.warning("[judge_task] Failed to save stage output: %s", _dj_save_exc)
+
+                continue  # skip the CrewAI judge agent run entirely
+
+            # Begin per-stage LLM call tracking (only for stages that run an LLM).
+            # Bypassed / preloaded stages already `continue`d above so we never reach here for them.
+            _begin_stage_llm_tracking(task_key, agent_key)
+            _stage_n_chunks = 1  # updated to len(chunks) if the stage is split
 
             if is_first_stage:
                 # First stage: source text, chunking, post-processing, merger
@@ -933,63 +1898,198 @@ class StructSenseFlow:
                     metadata={"stage_index": idx - 1},
                 )
 
-                # Prepare token-managed input based on agent type
+                # Each agent always takes the previous agent's output (no exception).
+                # Alignment <- extractor; Judge <- alignment; Human feedback <- judge + human input.
                 if task_key == "alignment_task":
+                    # Alignment always takes previous agent (extractor) output
+                    extraction_output = pipeline_stages.get(ordered_pairs[0][1]) if idx >= 1 else prev_output
+                    if extraction_output is None:
+                        extraction_output = prev_output
+                    if not isinstance(extraction_output, dict):
+                        extraction_output = prev_output if isinstance(prev_output, dict) else {}
+
+                    # -----------------------------------------------------------------------
+                    # LAYER 1 OF 3 — Pre-compute concept mapping before the alignment LLM runs
+                    # -----------------------------------------------------------------------
+                    # WHY THIS EXISTS:
+                    #   The alignment agent is an LLM whose system prompt instructs it to call
+                    #   ConceptMappingLocalTool once with ALL entity texts.  In practice LLMs
+                    #   (gpt-4o-mini, Gemini flash, etc.) ignore this and either:
+                    #     - call the tool with only 5–10 terms and stop, or
+                    #     - call it multiple times with small subsets.
+                    #   Out of ~87 entities only 8 might get mapped — not because the tool
+                    #   failed, but because the LLM simply chose not to call it for the rest.
+                    #
+                    # WHAT WE DO:
+                    #   Before the alignment LLM runs, Python collects every entity text
+                    #   programmatically and calls ConceptMappingLocalTool._run() directly
+                    #   with the full deduplicated batch.  Results land in _ALIGNMENT_TOOL_OUTPUTS.
+                    #   The alignment LLM then runs normally; any additional calls it makes also
+                    #   append to _ALIGNMENT_TOOL_OUTPUTS.  After the stage finishes,
+                    #   inject_alignment_concept_mapping_into_ner_entities reads the accumulated
+                    #   outputs and stamps ontology_id / ontology_label / ontology onto every
+                    #   entity dict whose text matches a captured result.
+                    #
+                    # WHY WE COLLECT FROM MULTIPLE KEYS (not just "entities"):
+                    #   The extractor LLM sometimes writes BOTH:
+                    #     entities: [2 items]          ← small partial list
+                    #     extracted_terms: {"1": [...75 items...]}  ← the full output
+                    #   promote_stage_output_to_canonical sees entities is non-empty and
+                    #   skips promoting extracted_terms → the pre-compute previously only
+                    #   found those 2 items.  We now walk all four possible locations:
+                    #     1. entities          – canonical promoted list (may be partial)
+                    #     2. extracted_terms   – raw stage key; dict-of-lists or list-of-dicts
+                    #     3. aligned_ner_terms – present in re-run scenarios
+                    #     4. key_terms         – string list or list-of-dicts
+                    #   Log line shows coverage per source, e.g.:
+                    #     [alignment_task] Pre-computing: 87 terms (entities=2, key_terms=10, raw_extracted=75)
+                    _cm_backend = os.getenv("CONCEPT_MAPPING_BACKEND", "local").strip().lower()
+                    if _cm_backend == "local" and task_type in (
+                        "ner", "extraction", "keyphrase_extraction",
+                        "resource", "structured_extraction",
+                    ):
+                        try:
+                            from utils.conceptmappinglocal import ConceptMappingLocalTool as _CMTool
+                            _pre_texts: list = []
+
+                            def _collect_entity_text(ent):
+                                if isinstance(ent, dict):
+                                    t = ent.get("entity") or ent.get("text") or ent.get("name")
+                                    if isinstance(t, str) and t.strip():
+                                        _pre_texts.append(t.strip())
+
+                            if task_type in ("ner", "extraction", "keyphrase_extraction"):
+                                # 1. Canonical entities list
+                                for _e in extraction_output.get("entities", []):
+                                    _collect_entity_text(_e)
+
+                                # 2 & 3. Raw NER stage keys (extracted_terms, aligned_ner_terms) —
+                                #        these may contain more entities than the promoted list when
+                                #        promote_stage_output_to_canonical found a non-empty entities
+                                #        key and skipped the stage-specific keys.
+                                for _raw_key in ("extracted_terms", "aligned_ner_terms"):
+                                    _raw_container = extraction_output.get(_raw_key)
+                                    if _raw_container:
+                                        for _e in _flatten_container_to_list(_raw_container):
+                                            _collect_entity_text(_e)
+
+                                # 4. key_terms (strings or dicts)
+                                for _kt in extraction_output.get("key_terms", []):
+                                    if isinstance(_kt, str) and _kt.strip():
+                                        _pre_texts.append(_kt.strip())
+                                    elif isinstance(_kt, dict):
+                                        _kt_t = _kt.get("term") or _kt.get("text") or _kt.get("entity")
+                                        if isinstance(_kt_t, str) and _kt_t.strip():
+                                            _pre_texts.append(_kt_t.strip())
+                            else:
+                                # Resource/structured_extraction: collect resource names
+                                for _rkey in ("resources", "aligned_resources", "extracted_resources"):
+                                    for _r in extraction_output.get(_rkey) or []:
+                                        if isinstance(_r, dict):
+                                            _rname = _r.get("name") or _r.get("resource_name")
+                                            if isinstance(_rname, str) and _rname.strip():
+                                                _pre_texts.append(_rname.strip())
+
+                            # Deduplicate preserving order
+                            _pre_seen: set = set()
+                            _pre_unique = [_t for _t in _pre_texts if not (_t in _pre_seen or _pre_seen.add(_t))]
+                            logger.info(
+                                "[alignment_task] Pre-computing concept mapping: %d unique term(s) "
+                                "(task_type=%s, entities=%d, resources=%d, key_terms=%d, raw_extracted=%d)",
+                                len(_pre_unique),
+                                task_type,
+                                len(extraction_output.get("entities") or []),
+                                len(extraction_output.get("resources") or []),
+                                len(extraction_output.get("key_terms") or []),
+                                len(_flatten_container_to_list(extraction_output.get("extracted_terms") or [])),
+                            )
+                            if _pre_unique:
+                                print(
+                                    f"[PRE-COMPUTE] Calling ConceptMappingLocalTool with {len(_pre_unique)} terms",
+                                    flush=True,
+                                )
+                                _CMTool()._run(text=_pre_unique)
+                            else:
+                                print(
+                                    "[PRE-COMPUTE] _pre_unique is empty — skipping concept mapping pre-compute",
+                                    flush=True,
+                                )
+                        except Exception as _pre_exc:
+                            import traceback
+                            print(
+                                f"[PRE-COMPUTE ERROR] Concept mapping pre-compute failed: {_pre_exc}\n"
+                                f"{traceback.format_exc()}",
+                                flush=True,
+                            )
+                            logger.warning("[alignment_task] Pre-compute concept mapping skipped: %s", _pre_exc)
+
                     logger.info(f"[{agent_key}] Preparing token-managed input for alignment agent")
                     managed_input = prepare_alignment_agent_input(
-                        extraction_results=prev_output,
+                        extraction_results=extraction_output,
                         original_text=text,
                         agent_context=self.agent_context,
                         context_manager=self.context_manager,
                         max_tokens=self.token_limit,
                     )
-                    # Use managed input as extra_inputs
                     extra_inputs = managed_input
-                    stage_text = None  # Will use extra_inputs instead
+                    stage_text = None
                 elif task_key == "judge_task":
+                    # Judge always takes previous agent (alignment) output
+                    alignment_output = pipeline_stages.get("alignment_task") if idx >= 2 else prev_output
+                    if alignment_output is None:
+                        alignment_output = prev_output
+                    if not isinstance(alignment_output, dict):
+                        alignment_output = prev_output if isinstance(prev_output, dict) else {}
                     logger.info(f"[{agent_key}] Preparing token-managed input for judge agent")
-                    # Get extraction results from context if available
                     extraction_results = None
-                    if idx >= 2:  # There was an extraction stage before alignment
-                        extraction_agent_key, extraction_task_key = ordered_pairs[0]
+                    if idx >= 2:
+                        extraction_agent_key, _ = ordered_pairs[0]
                         extraction_result = self.agent_context.get_latest_result(extraction_agent_key)
                         if extraction_result:
                             extraction_results = extraction_result.result
-
                     managed_input = prepare_judge_agent_input(
-                        alignment_results=prev_output,
+                        alignment_results=alignment_output,
                         extraction_results=extraction_results,
                         agent_context=self.agent_context,
                         context_manager=self.context_manager,
                         max_tokens=self.token_limit,
                     )
                     extra_inputs = managed_input
-                    stage_text = None  # Will use extra_inputs instead
+                    stage_text = None
                 else:
-                    # For other downstream stages or if not alignment/judge, use JSON string
+                    # For other downstream stages, pass the full previous output as JSON string
                     stage_text = json.dumps(prev_output, indent=2) if isinstance(prev_output, dict) else str(prev_output)
-
-                    # Check token limit and compress if needed
-                    current_tokens = self.context_manager.count_tokens(stage_text)
-                    if current_tokens > self.token_limit:
-                        logger.warning(
-                            f"[{agent_key}] Input exceeds token limit ({current_tokens}/{self.token_limit}). " "Applying compression..."
-                        )
-                        compressed = self.context_manager.prepare_for_downstream_agent(
-                            results=prev_output if isinstance(prev_output, dict) else {"output": prev_output},
-                            agent_key=agent_key,
-                            max_tokens=self.token_limit,
-                        )
-                        stage_text = json.dumps(compressed, indent=2)
-                        final_tokens = self.context_manager.count_tokens(stage_text)
-                        logger.info(f"[{agent_key}] Compressed: {current_tokens} -> {final_tokens} tokens")
 
                 stage_chunk_size = None
                 stage_post_process = None
-                stage_default_result = self._get_default_result_for_task(self._get_detected_task_type(agent_key, task_key))
+                # Reuse the task_type detected at the extraction stage (cached in self._pipeline_task_type)
+                stage_default_result = self._get_default_result_for_task(task_type)
 
             # Human feedback receives judge output: prev_output at this point is the judge stage result
             if task_key == "humanfeedback_task" and prev_output is not None:
+                # Early NER fallback: if the judge returned the wrong schema (e.g. resource keys
+                # instead of judge_ner_terms), promote_stage_output_to_canonical leaves
+                # entities=[] in prev_output.  The post-loop fallback at line ~1451 fixes this
+                # for the final result, but human feedback and prepare_humanfeedback_agent_input
+                # both run INSIDE the loop and would receive empty data.
+                # Resolve the best available stage now so the human sees real entities and the
+                # humanfeedback agent gets the correct judge_output below.
+                if task_type == "ner" and isinstance(prev_output, dict) and not prev_output.get("entities"):
+                    for _fk in ("judge_task", "alignment_task", "extraction_task"):
+                        _fs = pipeline_stages.get(_fk)
+                        if isinstance(_fs, dict) and _fs.get("entities"):
+                            prev_output = _fs
+                            # Keep pipeline_stages["judge_task"] consistent so the
+                            # judge_output = pipeline_stages.get("judge_task") line below
+                            # also receives the recovered data.
+                            pipeline_stages["judge_task"] = prev_output
+                            logger.info(
+                                "[humanfeedback_task] prev_output had empty entities after judge stage "
+                                "(wrong-schema / default-fallback case); recovered %d entities from '%s'.",
+                                len(_fs["entities"]), _fk,
+                            )
+                            break
+
                 # Collect user feedback (1=Approve, 2=View, 3=Modify, 4=Abort)
                 feedback_text = user_feedback_text
                 if feedback_text is None and self.human_loop.is_feedback_enabled_for_agent("humanfeedback_agent"):
@@ -1018,29 +2118,406 @@ class StructSenseFlow:
                                 feedback_text = f"{feedback_text}\n\nModification Context:\n{mod_context}"
 
                 if not humanfeedback_approved_skip_run:
-                    # If still no feedback, use a default (only when we will run the agent)
                     if not feedback_text:
                         feedback_text = modification_context or "No specific feedback provided."
 
-                    # Prepare token-managed input for humanfeedback agent (only when running agent)
-                    alignment_for_human = None
-                    alignment_ctx = self.agent_context.get_latest_result("alignment_agent") if self.agent_context else None
-                    if alignment_ctx:
-                        alignment_for_human = alignment_ctx.result
+                    # Human feedback always takes previous agent (judge) output + human input
+                    judge_output = pipeline_stages.get("judge_task") if len(ordered_pairs) >= 3 else prev_output
+                    if judge_output is None:
+                        judge_output = prev_output
+                    if not isinstance(judge_output, dict):
+                        judge_output = prev_output if isinstance(prev_output, dict) else {}
+                    alignment_for_human = pipeline_stages.get("alignment_task")  # for helper's merge when needed
+                    # Extraction output — gives humanfeedback agent access to entities that
+                    # survived extraction but were dropped during alignment/judge.
+                    _hf_extraction_out = pipeline_stages.get("extraction_task")
                     logger.info(f"[{agent_key}] Preparing token-managed input for humanfeedback agent")
                     managed_input = prepare_humanfeedback_agent_input(
-                        judge_results=prev_output,
+                        judge_results=judge_output,
                         user_feedback=feedback_text,
                         alignment_results=alignment_for_human,
                         agent_context=self.agent_context,
                         context_manager=self.context_manager,
                         max_tokens=self.token_limit,
+                        original_text=text,
+                        extraction_results=_hf_extraction_out,
                     )
                     extra_inputs = managed_input
-                    stage_text = None  # Will use extra_inputs instead
+                    stage_text = None
             elif task_key != "humanfeedback_task" and not is_first_stage and extra_inputs is None:
                 # For other downstream stages, extra_inputs was set above
                 pass
+
+            # ------------------------------------------------------------------
+            # DIRECT-API HUMANFEEDBACK BYPASS
+            # ------------------------------------------------------------------
+            # Replace the CrewAI humanfeedback agent with direct AsyncOpenAI
+            # calls — same pattern as direct_judge_api.
+            #
+            # Only fires when:
+            #   - task_key == "humanfeedback_task"
+            #   - humanfeedback_approved_skip_run is False (user did not already
+            #     approve/abort — those paths are handled above and set continue)
+            #   - extra_inputs has been prepared (feedback_text + judge output)
+            #   - self.direct_humanfeedback_api is True (default)
+            #
+            # Enable (default): direct_humanfeedback_api=True / DIRECT_HUMANFEEDBACK_API=true
+            # Disable (fallback to CrewAI): direct_humanfeedback_api=False / DIRECT_HUMANFEEDBACK_API=false
+            # ------------------------------------------------------------------
+            if (
+                task_key == "humanfeedback_task"
+                and not humanfeedback_approved_skip_run
+                and extra_inputs is not None
+                and prev_output is not None
+                and self.direct_humanfeedback_api
+            ):
+                import copy as _hfcopy
+                stage_start_time = time.time()
+                logger.info(
+                    "[humanfeedback_task] Direct-API humanfeedback active — bypassing CrewAI agent"
+                )
+
+                # Resolve LLM config for the humanfeedback agent from its agent_config entry
+                _hf_llm = self.agent_config.get(agent_key, {}).get("llm", {})
+                if isinstance(_hf_llm, dict) and _hf_llm.get("model"):
+                    _hf_model = _hf_llm["model"]
+                    _hf_base_url = _hf_llm.get("base_url") or "https://openrouter.ai/api/v1"
+                    logger.info("[humanfeedback_task] Direct-API: model=%s (from agent_config[%s])", _hf_model, agent_key)
+                else:
+                    _hf_model = "openai/gpt-4o-mini"
+                    _hf_base_url = "https://openrouter.ai/api/v1"
+                    logger.warning(
+                        "[humanfeedback_task] Direct-API: no LLM config found for agent_key=%s — using fallback model=%s",
+                        agent_key, _hf_model,
+                    )
+                if "openrouter" in _hf_base_url.lower() and _hf_model.startswith("openrouter/"):
+                    _hf_model = _hf_model.replace("openrouter/", "", 1)
+
+                _hf_api_key = (
+                    os.environ.get("OPENROUTER_API_KEY")
+                    or os.environ.get("OPENAI_API_KEY")
+                    or ""
+                )
+
+                # Extract the full judged payload and feedback text from extra_inputs
+                _hf_payload_key = "judged_structured_information_with_human_feedback"
+                _hf_judged = _hfcopy.deepcopy(
+                    extra_inputs.get(_hf_payload_key) or prev_output
+                )
+                _hf_feedback = (
+                    extra_inputs.get("user_feedback_text")
+                    or extra_inputs.get("modification_context")
+                    or "No specific feedback provided."
+                )
+                # Source text and extraction output — passed so the LLM can find entities
+                # missed by earlier stages when the user reports a low entity count.
+                _hf_source_text = extra_inputs.get("source_text") or ""
+                _hf_extraction_out = extra_inputs.get("extraction_results")
+
+                # Determine primary work-item list and key
+                _hf_items_key = (
+                    "entities" if _hf_judged.get("entities")
+                    else "resources" if _hf_judged.get("resources")
+                    else "entities"
+                )
+                _hf_items = _hf_judged.get(_hf_items_key) or []
+
+                # Token-aware batch sizing — same logic as judge and CrewAI chunked path
+                _hf_workers = self.max_workers or 4
+                _hf_extraction_chunk_count = None
+                for _pk in pipeline_stages:
+                    _ps = pipeline_stages.get(_pk)
+                    if isinstance(_ps, dict) and "_extraction_chunk_count" in _ps:
+                        _hf_extraction_chunk_count = _ps["_extraction_chunk_count"]
+                        break
+                _hf_task_cfg = (
+                    self.task_config.get(task_key, {})
+                    if isinstance(self.task_config, dict)
+                    else {}
+                )
+                _hf_prompt_overhead = estimate_agent_prompt_tokens(
+                    agent_config=self.agent_config.get(agent_key, {}),
+                    task_config=_hf_task_cfg,
+                )
+                _hf_batch, _hf_should_batch = compute_downstream_chunk_size(
+                    payload=_hf_judged,
+                    model_str=_hf_model,
+                    max_workers=_hf_workers,
+                    extraction_chunk_count=_hf_extraction_chunk_count,
+                    explicit_chunk_size=self.downstream_chunk_size,
+                    context_window_override=self.model_context_window,
+                    prompt_overhead_tokens=_hf_prompt_overhead,
+                )
+                if not _hf_should_batch:
+                    _hf_batch = len(_hf_items) or 1
+
+                # ── Direct-API output-size guard (same logic as judge) ───────
+                _hf_out_cap = int(os.environ.get("DIRECT_API_MAX_OUTPUT_TOKENS", "32768"))
+                _hf_min_chunks = int(os.environ.get("DIRECT_API_MIN_CHUNKS", "8"))
+                _hf_n_items = len(_hf_items) or 1
+                _hf_tok_per_item = max(1, len(json.dumps(_hf_judged, ensure_ascii=False)) / _hf_n_items)
+                _hf_out_capped = max(1, int(_hf_out_cap / _hf_tok_per_item))
+                _hf_min_chunk_batch = max(1, math.ceil(_hf_n_items / _hf_min_chunks))
+                _hf_effective = min(_hf_batch, _hf_out_capped, _hf_min_chunk_batch)
+                if _hf_effective < _hf_batch:
+                    logger.info(
+                        "[humanfeedback_task] Direct-API output guard: output_cap=%d tok "
+                        "(%.1f tok/item → max %d items), min_chunks=%d (→ max %d items) "
+                        "→ batch %d → %d items",
+                        _hf_out_cap, _hf_tok_per_item, _hf_out_capped,
+                        _hf_min_chunks, _hf_min_chunk_batch,
+                        _hf_batch, _hf_effective,
+                    )
+                _hf_batch = _hf_effective
+
+                logger.info(
+                    "[humanfeedback_task] Direct-API batch size: %d items/batch "
+                    "(should_batch=%s, model=%s)",
+                    _hf_batch, _hf_should_batch, _hf_model,
+                )
+
+                async def _humanfeedback_items_direct(
+                    _ents, _model, _base_url, _key, _batch_idx, _items_key, _feedback,
+                    _source_text="", _extraction_out=None, _attempt=0
+                ):
+                    """Apply human feedback to a batch of items via a direct LLM call.
+
+                    Also receives the original source text and raw extraction output so
+                    the LLM can find entities missed by earlier stages when the user
+                    reports a low entity count.
+
+                    Retry policy:
+                    - JSONDecodeError (truncated output): split batch in half and recurse
+                      so each half is a smaller independent call.  Recurses down to a
+                      batch of 1 before giving up.
+                    - Other API / network errors: retry up to 3 times with exponential
+                      back-off (1 s, 2 s, 4 s).
+                    """
+                    _MAX_RETRIES = 3
+                    from openai import AsyncOpenAI as _AsyncOpenAI
+                    _c = _AsyncOpenAI(base_url=_base_url, api_key=_key)
+                    # Build task-aware system prompt so any natural-language feedback works
+                    # for NER, resource extraction, generic extraction, or any other task type.
+                    _hf_task = (task_type or "extraction").strip().lower()
+                    if _hf_task == "ner":
+                        _task_desc = "named entity recognition (NER)"
+                        _item_desc = "entities — fix wrong labels, update ontology mappings, revise judge remarks, add missing entities"
+                    elif _hf_task in ("resource", "structured_extraction"):
+                        _task_desc = "resource / structured extraction"
+                        _item_desc = "resources — fix wrong types, categories, ontology mappings, add missing resources"
+                    elif _hf_task == "keyphrase_extraction":
+                        _task_desc = "keyphrase extraction"
+                        _item_desc = "key terms — correct labels, ontology mappings, or add missing terms"
+                    else:
+                        _task_desc = _hf_task.replace("_", " ")
+                        _item_desc = f"{_items_key} items — apply any corrections or additions requested"
+                    _sys = (
+                        f"You are a human feedback integration agent for a {_task_desc} pipeline. "
+                        f"Apply the human feedback below to every item in the \"{_items_key}\" list. "
+                        f"Specifically: {_item_desc}. "
+                        "If the feedback indicates items are missing, search the source text and "
+                        "raw extraction output (provided below) to find and add them. "
+                        "Preserve ALL existing fields that are not being corrected. "
+                        f"Return ONLY valid JSON: {{\"{_items_key}\": [...]}}. No markdown, no prose."
+                    )
+                    # Build user message: feedback + optional source context + current items
+                    _user_parts = [f"Human feedback:\n{_feedback}"]
+                    if _source_text:
+                        _user_parts.append(f"Source text (for finding missing entities):\n{_source_text[:20_000]}")
+                    if _extraction_out and isinstance(_extraction_out, dict):
+                        _ext_items = _extraction_out.get(_items_key) or []
+                        if _ext_items:
+                            _user_parts.append(
+                                f"Raw extraction output (may contain entities dropped by later stages):\n"
+                                f"{json.dumps({_items_key: _ext_items[:100]}, ensure_ascii=False)}"
+                            )
+                    _user_parts.append(f"Current data to revise:\n{json.dumps({_items_key: _ents}, ensure_ascii=False)}")
+                    _user_msg = "\n\n".join(_user_parts)
+
+                    # Log into llm_calls log (same counter as CrewAI calls)
+                    with _llm_call_lock:
+                        _llm_call_count["n"] += 1
+                        _call_n = _llm_call_count["n"]
+                    _hf_llm_log = logging.getLogger("llm_calls")
+                    if _hf_llm_log.handlers:
+                        _hf_llm_log.info("=" * 70)
+                        _hf_llm_log.info(f"[LLM CALL #{_call_n}]  (direct API — no CrewAI agent)")
+                        _hf_llm_log.info(f"Agent          : {agent_key} / humanfeedback_task (direct)")
+                        _hf_llm_log.info(f"Model          : {_hf_model}")
+                        _hf_llm_log.info(f"Batch          : {_batch_idx + 1}  ({len(_ents)} items, attempt {_attempt + 1})")
+                        _hf_llm_log.info(f"Feedback       : {_feedback[:200]}")
+                        _hf_llm_log.info(f"Payload preview: {json.dumps({_items_key: _ents}, ensure_ascii=False)[:300]}")
+                        _hf_llm_log.info("=" * 70)
+                        _flush_llm_logger()
+
+                    try:
+                        _r = await _c.chat.completions.create(
+                            model=_model,
+                            messages=[
+                                {"role": "system", "content": _sys},
+                                {"role": "user", "content": _user_msg},
+                            ],
+                        )
+                        _raw = (_r.choices[0].message.content or "").strip()
+
+                        if _hf_llm_log.handlers:
+                            _hf_llm_log.info(f"[LLM RESPONSE PREVIEW]  (call #{_call_n})")
+                            _hf_llm_log.info(_raw[:500])
+                            _hf_llm_log.info("=" * 70)
+                            _flush_llm_logger()
+
+                        if _raw.startswith("```"):
+                            _parts = _raw.split("```")
+                            _raw = _parts[1] if len(_parts) > 1 else _raw
+                            if _raw.startswith("json"):
+                                _raw = _raw[4:]
+                        _stripped = _raw.strip()
+                        try:
+                            _parsed = json.loads(_stripped)
+                        except json.JSONDecodeError as _parse_ex:
+                            if "Extra data" in str(_parse_ex):
+                                # LLM appended trailing content after valid JSON — extract first object only
+                                _parsed, _ = json.JSONDecoder().raw_decode(_stripped)
+                                logger.debug(
+                                    "[humanfeedback_task] Direct API batch %d: recovered from 'Extra data' via raw_decode",
+                                    _batch_idx + 1,
+                                )
+                            else:
+                                raise  # truncated JSON — handled by outer except below
+                        return _parsed.get(_items_key) or _ents
+                    except json.JSONDecodeError as _ex:
+                        # Truncated JSON (Unterminated string, Expecting value, etc.) — split batch in half
+                        logger.warning(
+                            "[humanfeedback_task] Direct API batch %d JSON parse error (attempt %d/%d, %d items): %s — splitting batch",
+                            _batch_idx + 1, _attempt + 1, _MAX_RETRIES, len(_ents), _ex,
+                        )
+                        if len(_ents) > 1:
+                            _mid = len(_ents) // 2
+                            _l_res, _r_res = await asyncio.gather(
+                                _humanfeedback_items_direct(_ents[:_mid], _model, _base_url, _key, _batch_idx, _items_key, _feedback, _source_text, _extraction_out, 0),
+                                _humanfeedback_items_direct(_ents[_mid:], _model, _base_url, _key, _batch_idx, _items_key, _feedback, _source_text, _extraction_out, 0),
+                            )
+                            return _l_res + _r_res
+                        logger.warning("[humanfeedback_task] Direct API single-item batch still failed — returning original item")
+                        return _ents
+                    except Exception as _ex:
+                        if _attempt + 1 < _MAX_RETRIES:
+                            _wait = 2 ** _attempt
+                            logger.warning(
+                                "[humanfeedback_task] Direct API batch %d error (attempt %d/%d, retry in %ds): %s",
+                                _batch_idx + 1, _attempt + 1, _MAX_RETRIES, _wait, _ex,
+                            )
+                            await asyncio.sleep(_wait)
+                            return await _humanfeedback_items_direct(_ents, _model, _base_url, _key, _batch_idx, _items_key, _feedback, _source_text, _extraction_out, _attempt + 1)
+                        logger.warning("[humanfeedback_task] Direct API batch %d failed after %d attempts: %s", _batch_idx + 1, _MAX_RETRIES, _ex)
+                        return _ents
+
+                if _hf_items and _hf_api_key:
+                    _begin_stage_llm_tracking(task_key, agent_key)
+                    try:
+                        _hf_batches = [
+                            _hf_items[_hf_i: _hf_i + _hf_batch]
+                            for _hf_i in range(0, len(_hf_items), _hf_batch)
+                        ]
+                        _hf_n_batches = len(_hf_batches)
+                        logger.info(
+                            "[humanfeedback_task] Direct-API: %d items → %d batches × %d, running in parallel",
+                            len(_hf_items), _hf_n_batches, _hf_batch,
+                        )
+                        _hf_batch_results = await asyncio.gather(*[
+                            _humanfeedback_items_direct(
+                                _hf_batches[_bi], _hf_model, _hf_base_url, _hf_api_key,
+                                _bi, _hf_items_key, _hf_feedback,
+                                _hf_source_text, _hf_extraction_out,
+                            )
+                            for _bi in range(_hf_n_batches)
+                        ])
+                        _hf_revised: list = []
+                        for _hf_result in _hf_batch_results:
+                            _hf_revised.extend(_hf_result)
+                        _hf_judged[_hf_items_key] = _hf_revised
+                        _hf_judged["humanfeedback_method"] = "direct_api"
+                        _end_stage_llm_tracking(task_key, _hf_n_batches, time.time() - stage_start_time)
+                        logger.info(
+                            "[humanfeedback_task] Direct-API revised %d %s in %.2fs",
+                            len(_hf_revised), _hf_items_key, time.time() - stage_start_time,
+                        )
+                    except Exception as _hf_exc:
+                        logger.warning(
+                            "[humanfeedback_task] Direct-API failed (%s); keeping judge output unchanged", _hf_exc
+                        )
+                        _hf_judged["humanfeedback_method"] = "direct_api_fallback"
+                else:
+                    # No API key or no items: pass judge output through unchanged
+                    _hf_judged["humanfeedback_method"] = "direct_api_passthrough"
+                    logger.info(
+                        "[humanfeedback_task] Direct-API: no items/key — passing judge output through (%d %s)",
+                        len(_hf_items), _hf_items_key,
+                    )
+
+                # --- post-processing: same checks as the CrewAI chunked path ---
+
+                # 1. Data-loss guard
+                _hf_pre_count = len(_hf_items)
+                _hf_post_count = len(_hf_judged.get(_hf_items_key) or [])
+                if _hf_post_count < _hf_pre_count:
+                    logger.warning(
+                        "[humanfeedback_task] Direct-API: item count dropped %d → %d; "
+                        "recovering from best prior stage.",
+                        _hf_pre_count, _hf_post_count,
+                    )
+                    _hf_fallback = None
+                    for _fkey in list(pipeline_stages.keys())[::-1]:
+                        _fs = pipeline_stages.get(_fkey)
+                        if isinstance(_fs, dict) and len(_fs.get(_hf_items_key) or []) >= _hf_pre_count:
+                            _hf_fallback = _fs
+                            logger.info(
+                                "[humanfeedback_task] Direct-API: recovered %d %s from stage '%s'",
+                                len(_fs.get(_hf_items_key, [])), _hf_items_key, _fkey,
+                            )
+                            break
+                    if _hf_fallback is not None:
+                        from utils.downstream_agent_helper import _extend_previous_stage
+                        _hf_judged = _extend_previous_stage(_hf_fallback, _hf_judged)
+                        _hf_judged[_hf_items_key] = (
+                            _hf_fallback.get(_hf_items_key) or _hf_judged.get(_hf_items_key) or []
+                        )
+
+                # 2. Ontology consistency pass
+                _hf_final_items = _hf_judged.get(_hf_items_key)
+                if _hf_final_items and _hf_items_key == "entities":
+                    _hf_judged["entities"] = unify_ontology_across_entities(_hf_final_items)
+                    logger.info(
+                        "[humanfeedback_task] Direct-API: ontology consistency pass on %d entities",
+                        len(_hf_final_items),
+                    )
+
+                # 3. Provenance tagging
+                _hf_ckey = self._detect_container_key(_hf_judged)
+                if _hf_ckey:
+                    add_provenance_to_result(_hf_judged, _hf_ckey, agent_key)
+
+                promote_stage_output_to_canonical(_hf_judged, task_type)
+                prev_output = _hf_judged
+                pipeline_stages[task_key] = _hf_judged
+                stage_elapsed = time.time() - stage_start_time
+                stage_timings[f"{agent_key}_{task_key}"] = stage_elapsed
+                logger.info(
+                    "[humanfeedback_task] Direct-API completed in %.2fs", stage_elapsed
+                )
+
+                if self.stage_output_dir and pipeline_stages.get(task_key) is not None:
+                    try:
+                        os.makedirs(self.stage_output_dir, exist_ok=True)
+                        _hf_fname = f"{idx:02d}_{agent_key}_{task_key}.json"
+                        _hf_path = os.path.join(self.stage_output_dir, _hf_fname)
+                        with open(_hf_path, "w") as _hff:
+                            json.dump(pipeline_stages[task_key], _hff, indent=2, default=str)
+                        logger.info("[humanfeedback_task] Stage output saved to %s", _hf_path)
+                    except Exception as _hf_save_exc:
+                        logger.warning("[humanfeedback_task] Failed to save stage output: %s", _hf_save_exc)
+
+                continue  # skip the CrewAI humanfeedback agent run entirely
 
             # Downstream stages: chunk merged result → process chunks in parallel → merge (avoids context-length errors)
             # Only when stage_text is used (not token-managed alignment/judge/humanfeedback) and over char limit
@@ -1078,7 +2555,17 @@ class StructSenseFlow:
                     if result.get("results"):
                         downstream_results.append(result["results"][0])
                 if downstream_results:
-                    container_key = TASK_KEY_TO_CONTAINER_KEY.get(task_key) or self._detect_container_key(downstream_results[0])
+                    # FIX (empty-entities root cause): always detect the container key from
+                    # the actual result dict instead of using the hardcoded TASK_KEY_TO_CONTAINER_KEY
+                    # lookup.  The old code did:
+                    #   TASK_KEY_TO_CONTAINER_KEY.get(task_key) or self._detect_container_key(...)
+                    # For NER tasks TASK_KEY_TO_CONTAINER_KEY["judge_task"] == "judge_resource" which
+                    # is truthy, so _detect_container_key was never called.  The merge was then
+                    # executed with the wrong key ("judge_resource") on an NER result that contains
+                    # "judge_ner_terms", producing an empty list every time.
+                    # _detect_container_key inspects the actual keys present in the result, so it
+                    # correctly returns "judge_ner_terms" for NER and "judge_resource" for resources.
+                    container_key = self._detect_container_key(downstream_results[0])
                     if container_key:
                         prev_output = merge_downstream_chunk_results_with_provenance(downstream_results, container_key, agent_key)
                     else:
@@ -1088,7 +2575,16 @@ class StructSenseFlow:
                 # Option 1 (Approve): prev_output and pipeline_stages already set; no agent run
                 pass
             else:
-                # Token-based chunking for alignment/judge/humanfeedback when payload exceeds context limit
+                # Parallel chunking for alignment/judge/humanfeedback.
+                #
+                # Token-aware sizing (compute_downstream_chunk_size) decides
+                # whether to split and how many chunks to use:
+                #   - payload fits in model's usable context → 1 call, no split
+                #   - payload too large → minimum chunks needed, ≤ max_workers
+                #
+                # entities_per_chunk = downstream_chunk_size  (explicit override)
+                #                    = token-aware auto  (default)
+                #                    = 70  (fallback when payload is empty/tiny)
                 use_chunked = not is_first_stage and extra_inputs and task_key in ("alignment_task", "judge_task", "humanfeedback_task")
                 payload_key = (
                     "extracted_structured_information"
@@ -1098,17 +2594,137 @@ class StructSenseFlow:
                     else "judged_structured_information_with_human_feedback"
                 )
                 payload = extra_inputs.get(payload_key) if use_chunked else None
-                token_budget = int(self.token_limit * 0.6)
-                over_limit = isinstance(payload, dict) and self.context_manager.estimate_tokens(payload) > token_budget
-                if use_chunked and over_limit:
+
+                # Determine entities-per-chunk using token-aware sizing.
+                #
+                # Priority order:
+                #   1. downstream_chunk_size (explicit override)
+                #   2. Token-aware auto-calculation via compute_downstream_chunk_size:
+                #      - payload fits within model's usable context → single call, no split
+                #      - otherwise → minimum chunks needed, capped at max_workers
+                #      - usable context = (model_context_window − 10k) × 0.70
+                #
+                # The model string is read from the current agent's llm config so that
+                # context-window limits are per-model accurate (e.g. Gemini 1M vs DeepSeek 128k).
+                _workers = self.max_workers or 4
+                _n_items = 0
+                if isinstance(payload, dict):
+                    _n_items = len(payload.get("entities") or payload.get("resources") or [])
+
+                # Look up how many extraction chunks ran (stored by extractor stage above)
+                _extraction_chunk_count = None
+                for _pk in pipeline_stages:
+                    _ps = pipeline_stages.get(_pk)
+                    if isinstance(_ps, dict) and "_extraction_chunk_count" in _ps:
+                        _extraction_chunk_count = _ps["_extraction_chunk_count"]
+                        break
+
+                # Resolve model string for the current downstream agent
+                _agent_llm_cfg = self.agent_config.get(agent_key, {}).get("llm", {})
+                _model_str = (
+                    _agent_llm_cfg.get("model", "")
+                    if isinstance(_agent_llm_cfg, dict)
+                    else str(_agent_llm_cfg)
+                )
+
+                # Probe OpenRouter for the real context window if the model is
+                # served through OpenRouter and we have an API key.  The result
+                # is cached in _openrouter_context_cache so the probe runs at
+                # most once per model per process lifetime.
+                if not self.model_context_window and _model_str:
+                    _or_api_key = os.environ.get("OPENROUTER_API_KEY", "")
+                    _or_base_url = (
+                        (_agent_llm_cfg.get("base_url") or "")
+                        if isinstance(_agent_llm_cfg, dict)
+                        else ""
+                    )
+                    if _or_api_key and (
+                        "openrouter" in (_model_str or "").lower()
+                        or "openrouter" in (_or_base_url or "").lower()
+                    ):
+                        _probe_base = _or_base_url or "https://openrouter.ai/api/v1"
+                        probe_openrouter_context_window(
+                            model_str=_model_str,
+                            api_key=_or_api_key,
+                            base_url=_probe_base,
+                        )
+
+                # Adaptively estimate the agent's prompt overhead from the
+                # *actual* config content (role + goal + backstory + task
+                # description template + CrewAI framework boilerplate).
+                # This avoids the fixed 10 k fallback which was 100× too small
+                # for detailed configs with many entity-type examples.
+                _task_cfg = (
+                    self.task_config.get(task_key, {})
+                    if isinstance(self.task_config, dict)
+                    else {}
+                )
+                _prompt_overhead = estimate_agent_prompt_tokens(
+                    agent_config=self.agent_config.get(agent_key, {}),
+                    task_config=_task_cfg,
+                )
+                logger.debug(
+                    "[chunk_size] Adaptive prompt overhead for '%s/%s': %d tokens",
+                    agent_key, task_key, _prompt_overhead,
+                )
+
+                _ecs, _token_should_chunk = compute_downstream_chunk_size(
+                    payload=payload if isinstance(payload, dict) else {},
+                    model_str=_model_str,
+                    max_workers=_workers,
+                    extraction_chunk_count=_extraction_chunk_count,
+                    explicit_chunk_size=self.downstream_chunk_size,
+                    context_window_override=self.model_context_window,
+                    prompt_overhead_tokens=_prompt_overhead,
+                )
+
+                # Downstream chunking is AUTOMATIC and independent of --enable_chunking.
+                #
+                # --enable_chunking controls text extraction (splitting a long PDF into
+                # parallel extraction chunks).  Downstream agent chunking (alignment,
+                # judge, humanfeedback) is purely token-driven: if the payload is too
+                # large for the model's context window it MUST be split regardless of
+                # whether the user passed --enable_chunking.
+                #
+                # Without this separation, running without --enable_chunking on a large
+                # extraction result sent the full 1.6 M-token payload in a single call
+                # to a 1 M-token model, triggering repeated 400 context-overflow errors
+                # (each retried by LiteLLM, producing 13+ failed calls per stage).
+                #
+                # Rule:
+                #   should_chunk = True  iff  token-aware sizing says the payload
+                #                             exceeds the model's usable budget.
+                #   enable_chunking      only gates whether the *extraction* stage
+                #                        itself is split; it does NOT gate downstream.
+                should_chunk = (
+                    use_chunked
+                    and isinstance(payload, dict)
+                    and _token_should_chunk
+                )
+
+                if use_chunked and should_chunk:
+                    # Record entity count going IN so we can verify nothing is lost after merge.
+                    _pre_split_entities = len(payload.get("entities") or []) if isinstance(payload, dict) else 0
+                    _pre_split_resources = len(payload.get("resources") or []) if isinstance(payload, dict) else 0
+                    _chunk_size_source = (
+                        "explicit downstream_chunk_size" if self.downstream_chunk_size
+                        else f"token-aware/extraction_chunks={_extraction_chunk_count}" if _extraction_chunk_count
+                        else f"token-aware/max_workers={_workers}"
+                    )
+                    logger.info(
+                        "[%s] Splitting payload for parallel processing: %d entities, %d resources "
+                        "→ ~%d per chunk (model=%s, source=%s)",
+                        task_key, _pre_split_entities, _pre_split_resources, _ecs,
+                        _model_str or "unknown", _chunk_size_source,
+                    )
+
                     chunks = split_structured_payload(
                         payload,
-                        self.context_manager,
-                        token_budget,
-                        max_entities_per_chunk=70,
-                        max_key_terms_per_chunk=25,
-                        max_resources_per_chunk=15,
+                        max_entities_per_chunk=_ecs,
+                        max_key_terms_per_chunk=max(10, _ecs // 3),
+                        max_resources_per_chunk=max(5, _ecs // 10),
                     )
+                    _stage_n_chunks = len(chunks)
 
                     async def run_one_structured_chunk(chunk_payload: Dict[str, Any]) -> Dict[str, Any]:
                         chunk_inputs = {**extra_inputs, payload_key: chunk_payload}
@@ -1127,9 +2743,8 @@ class StructSenseFlow:
 
                     if len(chunks) > 1:
                         logger.info(
-                            "[%s] Running %s chunks in parallel (payload over token limit)",
-                            task_key,
-                            len(chunks),
+                            "[%s] Running %d chunks in parallel",
+                            task_key, len(chunks),
                         )
                         chunk_results = await asyncio.gather(*[run_one_structured_chunk(c) for c in chunks])
                     else:
@@ -1139,7 +2754,12 @@ class StructSenseFlow:
                         all_errors.extend(r.get("errors", []))
                     raw_list = [r["results"][0] for r in chunk_results if r.get("results") and isinstance(r["results"][0], dict)]
                     if raw_list:
-                        ckey = TASK_KEY_TO_CONTAINER_KEY.get(task_key) or self._detect_container_key(raw_list[0])
+                        # FIX (empty-entities root cause): detect container key from the actual
+                        # result rather than the hardcoded TASK_KEY_TO_CONTAINER_KEY map.
+                        # TASK_KEY_TO_CONTAINER_KEY["judge_task"] == "judge_resource" caused NER
+                        # chunks to be merged under the wrong key, yielding empty entities.
+                        # See the same fix comment at the extraction-stage call site above.
+                        ckey = self._detect_container_key(raw_list[0])
                         # For alignment/judge with multiple chunks: use resource-aware merge so tool-backed concepts (real IDs) beat N/A
                         if ckey and task_key in ("alignment_task", "judge_task") and len(raw_list) > 1:
                             prev_output = merge_downstream_chunk_results_with_provenance(raw_list, ckey, agent_key)
@@ -1147,6 +2767,50 @@ class StructSenseFlow:
                             prev_output = merge_structured_chunk_results(raw_list)
                             if isinstance(prev_output, dict) and ckey:
                                 add_provenance_to_result(prev_output, ckey, agent_key)
+
+                        # Data-loss guard: verify entity/resource count after merge matches what
+                        # was sent in.  Each entity goes to exactly one chunk (slice distribution),
+                        # so the merged count must equal the pre-split count.  A lower count means
+                        # the LLM dropped entities; fall back to the best previous stage so no
+                        # data is silently lost.
+                        if isinstance(prev_output, dict):
+                            _post_merge_entities = len(prev_output.get("entities") or [])
+                            _post_merge_resources = len(prev_output.get("resources") or [])
+                            if _post_merge_entities < _pre_split_entities:
+                                logger.warning(
+                                    "[%s] Entity count dropped after parallel merge: %d → %d. "
+                                    "LLM may have omitted entities from some chunks. "
+                                    "Falling back to best available prior stage to prevent data loss.",
+                                    task_key, _pre_split_entities, _post_merge_entities,
+                                )
+                                # Recover from best available stage (extraction → alignment for judge, etc.)
+                                _fallback = None
+                                for _fkey in list(pipeline_stages.keys())[::-1]:
+                                    _fs = pipeline_stages.get(_fkey)
+                                    if isinstance(_fs, dict) and len(_fs.get("entities") or []) >= _pre_split_entities:
+                                        _fallback = _fs
+                                        logger.info("[%s] Recovered %d entities from stage '%s'", task_key, len(_fs.get("entities", [])), _fkey)
+                                        break
+                                if _fallback is not None:
+                                    # Merge: keep richer ontology/judge fields from current output,
+                                    # but restore the full entity list from fallback
+                                    from utils.downstream_agent_helper import _extend_previous_stage
+                                    prev_output = _extend_previous_stage(_fallback, prev_output)
+                                    prev_output["entities"] = _fallback.get("entities") or prev_output.get("entities") or []
+
+                        # Ontology consistency pass: parallel LLM calls may assign different
+                        # ontology IDs to the same entity text in different chunks.  Unify by
+                        # applying the best mapping (tool-backed > llm_knowledge, real IRI > N/A)
+                        # to every occurrence across all merged chunks.
+                        if isinstance(prev_output, dict):
+                            ents = prev_output.get("entities")
+                            if ents:
+                                prev_output["entities"] = unify_ontology_across_entities(ents)
+                                logger.info(
+                                    "[%s] Ontology consistency pass: %d entities unified across %d chunks",
+                                    task_key, len(ents), len(raw_list),
+                                )
+
                         pipeline_stages[task_key] = prev_output
                     else:
                         result = chunk_results[0] if chunk_results else {}
@@ -1177,6 +2841,9 @@ class StructSenseFlow:
                         merged = result_merger(result["results"], text)
                         merged = verify_merged_result(merged, text, task_type)
                         prev_output = merged
+                        # Tag extraction output with the number of chunks that ran so
+                        # downstream stages (alignment/judge) can target the same parallelism.
+                        merged["_extraction_chunk_count"] = len(result.get("results") or [1])
                         pipeline_stages[task_key] = merged
                         # Add provenance for extraction stage by default (NER and resource)
                         ext_container = self._detect_container_key(merged)
@@ -1186,38 +2853,231 @@ class StructSenseFlow:
                         results_list = result.get("results") or []
                         # Combine multiple blobs (e.g. alignment Final Answer blocks) via postprocessing merge
                         if len(results_list) > 1 and task_key in ("alignment_task", "judge_task"):
-                            ckey = TASK_KEY_TO_CONTAINER_KEY.get(task_key) or self._detect_container_key(results_list[0])
+                            # FIX (empty-entities root cause): detect container key from the actual
+                            # result.  Previously TASK_KEY_TO_CONTAINER_KEY.get(task_key) was used
+                            # first; for NER it returned "judge_resource" (wrong key) so the merge
+                            # silently produced empty entities.  Now we always inspect the result.
+                            # Example — NER judge returns {"judge_ner_terms": {"1": [...], "2": [...]}};
+                            # _detect_container_key finds "judge_ner_terms" and merge proceeds correctly.
+                            ckey = self._detect_container_key(results_list[0])
                             if ckey:
-                                prev_output = merge_downstream_chunk_results_with_provenance(results_list, ckey, agent_key)
-                                pipeline_stages[task_key] = prev_output
+                                try:
+                                    prev_output = merge_downstream_chunk_results_with_provenance(
+                                        results_list, ckey, agent_key
+                                    )
+                                    pipeline_stages[task_key] = prev_output
+                                except (AttributeError, TypeError, KeyError, ValueError) as e:
+                                    logger.warning(
+                                        "Merge of downstream chunk results failed (%s); using first result. %s",
+                                        task_key,
+                                        e,
+                                        exc_info=True,
+                                    )
+                                    prev_output = results_list[0] if results_list else prev_output
+                                    pipeline_stages[task_key] = prev_output
                             else:
                                 prev_output = results_list[0] if results_list else prev_output
                                 pipeline_stages[task_key] = prev_output
                         else:
                             raw = results_list[0] if results_list else prev_output
                             if isinstance(raw, dict):
-                                container_key = TASK_KEY_TO_CONTAINER_KEY.get(task_key) or self._detect_container_key(raw)
+                                # FIX (empty-entities root cause): always detect container key from
+                                # the actual result dict.  The old guard
+                                #   TASK_KEY_TO_CONTAINER_KEY.get(task_key) or _detect_container_key(raw)
+                                # short-circuited for NER because TASK_KEY_TO_CONTAINER_KEY["judge_task"]
+                                # == "judge_resource" is truthy, so the real key "judge_ner_terms"
+                                # was never detected and provenance/merge logic ran on the wrong key.
+                                # Example: NER single-result judge → raw = {"judge_ner_terms": {...}};
+                                # _detect_container_key returns "judge_ner_terms" so provenance is
+                                # stamped on the correct container.
+                                container_key = self._detect_container_key(raw)
                                 if container_key:
                                     add_provenance_to_result(raw, container_key, agent_key)
                             prev_output = raw
                             pipeline_stages[task_key] = raw
 
-            # Preserve alignment agent's concept mapping tool output only for extraction (pdf2_reproschema).
-            # For NER and resource we do not inject concept_mapping into prev_output so judge input shape is unchanged.
-            if task_key == "alignment_task" and task_type == "extraction" and isinstance(prev_output, dict):
+            # KEY ROBUSTNESS FIX: normalize stage output to canonical keys immediately
+            # after every stage completes, before passing to the next stage.
+            #
+            # Root cause of the empty-entities bug:
+            #   Each pipeline stage uses a stage-specific output key instead of the canonical
+            #   "entities" / "resources" key.  Examples:
+            #     - NER extractor  → {"extracted_terms":  {"1": [{entity...}], ...}}
+            #     - NER alignment  → {"aligned_ner_terms": {"1": [{entity...}], ...}}
+            #     - NER judge      → {"judge_ner_terms":   {"1": [{entity...}], ...}}
+            #     - Resource judge → {"judge_resource":    [{resource...}, ...]}
+            #   Without this call, verify_ner_result / normalize_final_result_for_output
+            #   look for "entities" / "resources" at the top level, find nothing, and the
+            #   final output is always empty even though the LLM produced valid data.
+            #
+            # What promote_stage_output_to_canonical does (see postprocessing.py):
+            #   1. Unwrap any pipeline placeholder wrapper key
+            #      (e.g. "judged_structured_information_with_human_feedback": {"entities": [...]})
+            #   2. Detect the highest-priority stage key present in priority order
+            #      NER:      judge_ner_terms > aligned_ner_terms > extracted_terms
+            #      resource: judge_resource  > aligned_resources > extracted_resources
+            #   3. Flatten dict-of-lists ({"1": [...], "2": [...]}) → flat list
+            #   4. Write the result to the canonical key ("entities" or "resources")
+            #
+            # This single call covers all paths (chunked, token-split, normal) because
+            # every path converges to prev_output before this line.
+            # See promote_stage_output_to_canonical() in postprocessing.py for full details.
+            if isinstance(prev_output, dict):
+                prev_output = promote_stage_output_to_canonical(prev_output, task_type)
+                pipeline_stages[task_key] = prev_output
+
+            # Preserve alignment agent's concept mapping tool output after the alignment stage.
+            #
+            # Background:
+            #   During the alignment stage the agent calls ConceptMappingLocalTool (or
+            #   ConceptMappingTool for BioPortal).  Each call records its input/output in
+            #   the module-level _ALIGNMENT_TOOL_OUTPUTS list (see conceptmappingtool.py /
+            #   conceptmappinglocal.py).  Without the code below those results are captured
+            #   but never written back to the pipeline output — callers would see no
+            #   ontology information on entities even though the alignment agent resolved them.
+            #
+            # How we surface them per task type:
+            # - extraction: store as a top-level "concept_mapping" list in prev_output so
+            #     downstream stages (judge, humanfeedback) and the final result carry it.
+            #     Example entry: {"term": "SNOMED", "ontology_id": "...", "ontology_label": "..."}
+            #
+            # - NER (FIX — previously missing entirely):
+            #     Inject class_uri / ontology_label / ontology_id directly into each entity
+            #     dict so the caller gets ontology info on the entity objects themselves.
+            #     Example — entity before injection:
+            #       {"entity": "scRNA-seq", "label": "Technique", "sentence": "..."}
+            #     Entity after injection:
+            #       {"entity": "scRNA-seq", "label": "Technique", "sentence": "...",
+            #        "class_uri": "http://purl.obolibrary.org/obo/OBI_0002631",
+            #        "ontology_label": "single cell RNA sequencing assay",
+            #        "ontology_id": "OBI:0002631"}
+            #     Only non-None values are written so no existing field is overwritten with None.
+            #     Entities are guaranteed to be at the top level because
+            #     promote_stage_output_to_canonical already ran just above.
+            #
+            # - resource: no injection here — resource alignment concept data lives inside
+            #     the judge_resource / aligned_resources structures and is handled by the
+            #     end-of-pipeline apply_concept_mapping_to_result call.
+            # -------------------------------------------------------------------
+            # LAYER 2 OF 3 — Post-alignment injection of concept mapping results
+            # -------------------------------------------------------------------
+            # WHY THIS EXISTS:
+            #   The alignment LLM calls ConceptMappingLocalTool during its run.
+            #   Each call appends {"input": term, "output": {ontology fields}} to
+            #   _ALIGNMENT_TOOL_OUTPUTS (module-level, accumulated across the run).
+            #   Without this block, those results are captured but never written
+            #   back to the entity dicts — callers would see no ontology fields
+            #   even though the alignment agent successfully resolved them.
+            #
+            # HOW IT WORKS:
+            #   inject_alignment_concept_mapping_into_ner_entities builds a
+            #   case-insensitive term → mapping lookup from _ALIGNMENT_TOOL_OUTPUTS
+            #   and writes ontology_id / ontology_label / ontology into each entity
+            #   dict in-place.  Only non-None values are written so no existing
+            #   field is overwritten.
+            #
+            # NOTE — WHY A SECOND INJECTION IS STILL NEEDED (see Layer 3 below):
+            #   This injection enriches alignment-stage entity dicts.  The judge
+            #   stage then outputs brand-new entity dicts that do not carry these
+            #   extra fields.  The final re-injection (after the pipeline loop)
+            #   handles that case so ontology fields always reach the caller.
+            if task_key == "alignment_task" and isinstance(prev_output, dict):
                 session_outputs = get_alignment_tool_outputs()
                 if session_outputs:
-                    concept_mapping_list = format_alignment_tool_outputs_as_concept_mapping(session_outputs)
-                    if concept_mapping_list:
-                        prev_output["concept_mapping"] = concept_mapping_list
-                        logger.info("Preserved %d concept mappings from alignment agent tool output", len(concept_mapping_list))
+                    if task_type == "extraction":
+                        concept_mapping_list = format_alignment_tool_outputs_as_concept_mapping(session_outputs)
+                        if concept_mapping_list:
+                            prev_output["concept_mapping"] = concept_mapping_list
+                            logger.info("Preserved %d concept mappings from alignment agent tool output", len(concept_mapping_list))
+                    elif task_type == "ner":
+                        # Entities are at top level after promote_stage_output_to_canonical above.
+                        entities = prev_output.get("entities") or []
+                        if entities:
+                            enriched = inject_alignment_concept_mapping_into_ner_entities(entities, session_outputs)
+                            if enriched:
+                                logger.info(
+                                    "[alignment_task] Enriched %d NER entities with concept mapping "
+                                    "(ontology_id/ontology_label/ontology)",
+                                    enriched,
+                                )
+                    elif task_type in ("resource", "structured_extraction"):
+                        # Inject ontology fields into all resource list keys.
+                        # Mirrors the NER injection but uses resource "name" as the lookup key.
+                        _l2_enriched = 0
+                        for _rkey in ("resources", "aligned_resources", "extracted_resources"):
+                            _l2_resources = prev_output.get(_rkey) or []
+                            if _l2_resources:
+                                _l2_enriched += inject_alignment_concept_mapping_into_resources(
+                                    _l2_resources, session_outputs
+                                )
+                        if _l2_enriched:
+                            logger.info(
+                                "[alignment_task] Enriched %d resources with concept mapping "
+                                "(ontology_id/ontology_label/ontology)",
+                                _l2_enriched,
+                            )
 
             # Record stage timing
             stage_elapsed = time.time() - stage_start_time
             stage_timings[f"{agent_key}_{task_key}"] = stage_elapsed
             logger.info(f"[{agent_key}] Completed in {stage_elapsed:.2f}s")
+            _end_stage_llm_tracking(task_key, _stage_n_chunks, stage_elapsed)
+
+            # -----------------------------------------------------------------------
+            # Persist stage output to disk immediately after completion.
+            #
+            # WHY THIS EXISTS:
+            #   Extraction takes ~10 min, alignment ~60 min, judge ~40 min.
+            #   If the process crashes during the judge stage, extraction and alignment
+            #   results are lost because they only live in `pipeline_stages` (in-memory).
+            #   Writing each stage to disk right after it finishes means the data is
+            #   safe.  Files are small (JSON), overwrites are atomic on most OS, and
+            #   the cost is negligible vs. the LLM call time.
+            #
+            # FILE NAMING:
+            #   <stage_index>_<agent_key>_<task_key>.json
+            #   e.g. 00_extractor_agent_extraction_task.json
+            #        01_alignment_agent_alignment_task.json
+            #        02_judge_agent_judge_task.json
+            #   Leading zero-padded index keeps files in pipeline order in file explorers.
+            # -----------------------------------------------------------------------
+            if self.stage_output_dir and pipeline_stages.get(task_key) is not None:
+                try:
+                    os.makedirs(self.stage_output_dir, exist_ok=True)
+                    _stage_fname = f"{idx:02d}_{agent_key}_{task_key}.json"
+                    _stage_path = os.path.join(self.stage_output_dir, _stage_fname)
+                    with open(_stage_path, "w", encoding="utf-8") as _sf:
+                        json.dump(pipeline_stages[task_key], _sf, indent=2, ensure_ascii=False, default=str)
+                    logger.info("[stage_output] Wrote %s (%.1f KB)", _stage_path,
+                                os.path.getsize(_stage_path) / 1024)
+                except Exception as _se:
+                    logger.warning("[stage_output] Failed to write stage file: %s", _se)
 
         elapsed_time = time.time() - start_time
+
+        # Log total LLM call count for this run
+        with _llm_call_lock:
+            total_llm_calls = _llm_call_count["n"]
+        llm_call_logger = logging.getLogger("llm_calls")
+        if llm_call_logger.handlers:
+            llm_call_logger.info("=" * 70)
+            llm_call_logger.info("PIPELINE COMPLETE")
+            llm_call_logger.info(f"  Total LLM calls : {total_llm_calls}")
+            llm_call_logger.info(f"  Total elapsed   : {elapsed_time:.1f}s ({elapsed_time/60:.2f} min)")
+            if _llm_stage_tracker:
+                llm_call_logger.info("")
+                llm_call_logger.info(f"  {'Stage':<30} {'Chunks':>6}  {'Calls':>5}  {'Calls/chunk':>11}  {'Elapsed':>8}")
+                llm_call_logger.info(f"  {'-'*30}  {'-'*6}  {'-'*5}  {'-'*11}  {'-'*8}")
+                for _sk, _sv in _llm_stage_tracker.items():
+                    if "calls" in _sv:
+                        llm_call_logger.info(
+                            f"  {_sk:<30} {_sv['n_chunks']:>6}  {_sv['calls']:>5}  "
+                            f"{_sv['calls_per_chunk']:>10.1f}x  {_sv['elapsed']:>7.1f}s"
+                        )
+                llm_call_logger.info(f"  {'TOTAL':<30} {'':>6}  {total_llm_calls:>5}")
+            llm_call_logger.info("=" * 70)
+            _flush_llm_logger()
+        logger.info("Total LLM calls this run: %d", total_llm_calls)
 
         # Log token usage statistics
         total_tokens = self.agent_context.get_total_tokens()
@@ -1239,6 +3099,51 @@ class StructSenseFlow:
         logger.info(f"Shared memory: {self.shared_memory.get_stats()['total_keys']} keys stored")
         logger.info("=" * 80)
 
+        # NER ENTITY FALLBACK: if the last stage (judge / humanfeedback) returned no entity
+        # data at all, fall back to the best earlier stage that has entities.
+        #
+        # Root cause this handles:
+        #   The judge_task uses a pydantic output model that defines resource-type fields
+        #   (resources, aligned_resources, judge_resource).  When the same task config is
+        #   reused for NER, the LLM populates those fields (with empty lists) but never
+        #   writes judge_ner_terms / entities.  After promote_stage_output_to_canonical,
+        #   entities stays [] even though 19 entities existed after the alignment stage.
+        #
+        # Fallback priority: humanfeedback → judge → alignment → extraction.
+        # We only fall back when:
+        #   1. task_type is "ner" (resource tasks use a different set of keys)
+        #   2. prev_output has entities == [] (empty after full promotion)
+        #   3. None of the NER stage keys (judge_ner_terms / aligned_ner_terms /
+        #      extracted_terms) are present in prev_output either — meaning the LLM
+        #      returned the wrong structure entirely, not just an intentionally empty list.
+        # If the judge intentionally returned entities=[] (all entities rejected), all
+        # NER stage keys would also be absent, but that is indistinguishable from the
+        # wrong-schema case.  We accept the occasional over-recovery in favour of not
+        # silently losing valid extraction results.
+        if task_type == "ner" and isinstance(prev_output, dict):
+            _ner_keys = ("judge_ner_terms", "aligned_ner_terms", "extracted_terms")
+            _no_ner_output = (
+                not prev_output.get("entities")
+                and not prev_output.get("key_terms")
+                and not any(prev_output.get(k) for k in _ner_keys)
+            )
+            if _no_ner_output:
+                # Walk pipeline stages from most-refined to least-refined looking for entities.
+                _fallback_order = ("humanfeedback_task", "judge_task", "alignment_task", "extraction_task")
+                for _fkey in _fallback_order:
+                    _fstage = pipeline_stages.get(_fkey)
+                    if isinstance(_fstage, dict) and _fstage.get("entities"):
+                        logger.warning(
+                            "[NER fallback] Last stage (%s) produced no entity data "
+                            "(returned resource-type keys instead of judge_ner_terms). "
+                            "Falling back to stage '%s' which has %d entities.",
+                            list(ordered_pairs)[-1][1] if ordered_pairs else "unknown",
+                            _fkey,
+                            len(_fstage["entities"]),
+                        )
+                        prev_output = _fstage
+                        break
+
         # Build result: last stage output (human feedback if enabled, else judge). Each stage extends the previous.
         # Unwrap if LLM returned output nested under pipeline placeholder key (e.g. judged_structured_information_with_human_feedback)
         final = dict(prev_output) if isinstance(prev_output, dict) else {}
@@ -1252,6 +3157,8 @@ class StructSenseFlow:
         if isinstance(final, dict) and len(final) >= 1:
             for key in unwrap_keys:
                 inner = final.get(key)
+                if inner is None:
+                    continue
                 if isinstance(inner, dict) and (
                     "entities" in inner or "key_terms" in inner or "resources" in inner or "judge_resource" in inner
                 ):
@@ -1259,6 +3166,16 @@ class StructSenseFlow:
                     rest = {k: v for k, v in final.items() if k != key}
                     final = {**inner, **rest}
                     logger.debug("Unwrapped final result from key %s", key)
+                    break
+                # Judge/alignment may return a list of entities (e.g. after chunked merge) or a dict-of-lists
+                if isinstance(inner, (list, dict)):
+                    flattened = _flatten_container_to_list(inner)
+                    if flattened and all(isinstance(x, dict) for x in flattened):
+                        final["entities"] = flattened
+                        final["key_terms"] = final.get("key_terms") or (
+                            inner.get("key_terms") if isinstance(inner, dict) else []
+                        )
+                        logger.debug("Unwrapped final result from key %s (list/container, %d entities)", key, len(flattened))
                     break
         final["errors"] = all_errors
         final["task_type"] = task_type
@@ -1269,6 +3186,48 @@ class StructSenseFlow:
             alignment_cm = pipeline_stages["alignment_task"].get("concept_mapping")
             if isinstance(alignment_cm, list) and alignment_cm:
                 final["concept_mapping"] = alignment_cm
+
+        # -------------------------------------------------------------------
+        # LAYER 3 OF 3 — Final re-injection of concept mapping into definitive entities
+        # -------------------------------------------------------------------
+        # WHY THIS EXISTS:
+        #   Layer 2 (post-alignment injection) enriches the alignment-stage entity dicts
+        #   in-place.  But the pipeline does not stop there:
+        #
+        #     alignment stage → entities enriched with ontology fields ✓
+        #     judge stage     → LLM outputs BRAND-NEW entity dicts from scratch
+        #                       → ontology fields are NOT carried through ✗
+        #     final assembly  → picks up judge entities → no ontology fields ✗
+        #
+        #   The judge LLM receives the aligned entities (with ontology fields) as context,
+        #   but its Pydantic output model only defines the core entity schema (entity,
+        #   label, sentence, etc.) — extra fields like ontology_id are silently dropped
+        #   when the model is instantiated from the LLM's JSON output.
+        #
+        # WHAT WE DO:
+        #   After all stages have run and final["entities"] holds the authoritative list,
+        #   we re-run inject_alignment_concept_mapping_into_ner_entities against it.
+        #   _ALIGNMENT_TOOL_OUTPUTS is module-level and accumulates results from both
+        #   the programmatic pre-compute (Layer 1) and any calls the alignment LLM made
+        #   itself, so this covers every term that was mapped during the entire run.
+        #
+        #   This is the last write to entity dicts before the result is returned to the
+        #   caller, so ontology fields are guaranteed to be present regardless of which
+        #   stage (judge, humanfeedback, fallback) produced the final entity list.
+        if task_type == "ner":
+            _final_entities = final.get("entities") or []
+            if _final_entities:
+                _final_session = get_alignment_tool_outputs()
+                if _final_session:
+                    _final_enriched = inject_alignment_concept_mapping_into_ner_entities(
+                        _final_entities, _final_session
+                    )
+                    if _final_enriched:
+                        logger.info(
+                            "[final] Re-injected concept mapping into %d / %d NER entities",
+                            _final_enriched,
+                            len(_final_entities),
+                        )
 
         # Include pipeline details only when requested (avoids repeating entities and heavy metadata)
         if self.return_full_pipeline_details:
@@ -1346,7 +3305,13 @@ class StructSenseFlow:
 
     def _get_ordered_agent_task_pairs(self) -> list:
         """Return list of (agent_key, task_key) in config order for pipeline execution.
-        Human-feedback stage is included only when enable_human_feedback is True.
+
+        Stages are excluded when:
+        - humanfeedback_task: enable_human_feedback is False (default)
+        - any task_key in self.skip_stages (user-supplied list passed to __init__ or CLI)
+
+        When a stage is skipped the previous stage's output is forwarded directly
+        to the next non-skipped stage via the existing prev_output chain.
         """
         pairs = []
         for task_key_iter, task_data in self.task_config.items():
@@ -1359,6 +3324,20 @@ class StructSenseFlow:
         # Exclude humanfeedback stage when human feedback is disabled
         if not self.enable_human_feedback:
             pairs = [p for p in pairs if p != ("humanfeedback_agent", "humanfeedback_task")]
+        # Exclude any stage explicitly listed in skip_stages
+        if self.skip_stages:
+            skipped = set(self.skip_stages)
+            if "extraction_task" in skipped:
+                logger.warning(
+                    "skip_stages contains 'extraction_task' — extraction is the first stage and "
+                    "cannot be skipped. Use preloaded_stages={'extraction_task': ...} instead. "
+                    "Ignoring 'extraction_task' in skip_stages."
+                )
+                skipped.discard("extraction_task")
+            removed = {p[1] for p in pairs if p[1] in skipped}
+            pairs = [p for p in pairs if p[1] not in skipped]
+            if removed:
+                logger.info("Skipping pipeline stage(s): %s", sorted(removed))
         return pairs
 
     def _split_downstream_payload(self, payload: Dict[str, Any], max_chars: int) -> list:
@@ -1474,16 +3453,17 @@ class StructSenseFlow:
         Uses LLM-based detect_task_type when API key and LLM config are available;
         otherwise falls back to a heuristic so resource/structured extraction get
         no NER tool and correct post-processor/merger.
+
+        Once detected for a pipeline run, the result is cached in
+        ``self._pipeline_task_type`` and returned directly on all subsequent
+        calls within the same run (avoids multiple LLM API calls that could
+        return inconsistent results across stages).
         """
-        task_data = self.task_config.get(task_key, {})
-        task_type = self.task_config.get(task_key, {}).get("task_type")
-        if task_type in DEFAULT_TAXONOMY:
-            logger.info(f"Using task type from agent config for agent '{agent_key}': {task_type}")
-            return task_type
-        elif task_type:
-            logger.warning(
-                f"Task config for '{task_key}' specifies task type '{task_type}' which is not in the default taxonomy list. Falling back to detection."
-            )
+        if self._pipeline_task_type is not None:
+            logger.debug(f"Reusing cached task type '{self._pipeline_task_type}' for {agent_key}/{task_key}")
+            return self._pipeline_task_type
+
+        task_data = self.task_config.get(task_key) or {}
         description = task_data.get("description", "") or ""
         if not description and isinstance(task_data, dict):
             description = str(task_data)
@@ -1498,18 +3478,22 @@ class StructSenseFlow:
                     llm_config=llm_config,
                 )
                 logger.info(f"Detected task type '{result.task_type}' (confidence={result.confidence:.2f})")
-                return result.task_type
+                self._pipeline_task_type = result.task_type
+                return self._pipeline_task_type
             except Exception as e:
                 logger.warning(f"Task detection failed: {e}, using heuristic")
         # Heuristic: NER vs resource vs extraction
         text = (description or str(self.task_config)).lower()
         if "ner" in text or "named entity" in text or "entity" in text:
-            return "ner"
-        if "resource" in text and ("extract" in text or "dataset" in text or "tool" in text or "model" in text):
-            return "resource"
-        if "structured extraction" in text or "structured_extraction" in text:
-            return "structured_extraction"
-        return "extraction"
+            detected = "ner"
+        elif "resource" in text and ("extract" in text or "dataset" in text or "tool" in text or "model" in text):
+            detected = "resource"
+        elif "structured extraction" in text or "structured_extraction" in text:
+            detected = "structured_extraction"
+        else:
+            detected = "extraction"
+        self._pipeline_task_type = detected
+        return self._pipeline_task_type
 
     def _initialize_agent_and_task(
         self,
@@ -1523,6 +3507,11 @@ class StructSenseFlow:
         Uses the robust initialization from crew_utils. Tools are chosen
         dynamically from the detected task type (only NER/keyphrase get tools).
         """
+        _extra_agent_kwargs: Dict[str, Any] = {}
+        if self.agent_max_execution_time is not None:
+            _extra_agent_kwargs["max_execution_time"] = self.agent_max_execution_time
+        if self.agent_max_retry_limit is not None:
+            _extra_agent_kwargs["max_retry_limit"] = self.agent_max_retry_limit
         return initialize_agent_and_task(
             agent_config=self.agent_config,
             task_config=self.task_config,
@@ -1531,6 +3520,8 @@ class StructSenseFlow:
             embedder_config=self.embedder_config,
             tools=tools if tools is not None else [],
             pydantic_output=pydantic_output_class,
+            max_iter=self.agent_max_iter,
+            **_extra_agent_kwargs,
         )
 
 

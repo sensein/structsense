@@ -1,0 +1,1104 @@
+[
+  {
+    "file": "/Users/yibeichen/Documents/GitHub/structsense/evaluation/resource_extraction/deeplabcut/results_gemii/deeplab_cut_nhil_gemini.json",
+    "paper": "deeplabcut",
+    "status": "success",
+    "dimensions": {
+      "primary_fields": {
+        "name": {
+          "extracted": "DeepLabCut",
+          "expected": "DeepLabCut",
+          "score": 1.0,
+          "pass": true
+        },
+        "type": {
+          "extracted": "Tool",
+          "expected": "Tool",
+          "score": 1.0,
+          "pass": true
+        },
+        "category": {
+          "extracted": "Pose Estimation and Tracking",
+          "expected": "Pose Estimation",
+          "score": 1.0,
+          "pass": true
+        },
+        "target": {
+          "extracted": "Animal",
+          "expected": "Animal",
+          "score": 1.0,
+          "pass": true
+        },
+        "specific_target": {
+          "extracted": "Mice, Marmosets, Schooling fish",
+          "keywords_found": 3,
+          "keywords_total": 5,
+          "score": 0.6,
+          "pass": true
+        },
+        "url": {
+          "extracted": "https://benchmark.deeplabcut.org",
+          "keywords_found": 1,
+          "keywords_total": 2,
+          "score": 0.5,
+          "pass": true
+        },
+        "overall_score": 0.85,
+        "fields_passed": 6,
+        "fields_total": 6
+      },
+      "mentions": {
+        "related_models": {
+          "required_found": [
+            "DLCRNet",
+            "OpenPose",
+            "HRNet",
+            "ResNet"
+          ],
+          "required_missed": [],
+          "required_recall": 1.0,
+          "optional_found": [
+            "EfficientNet",
+            "DLCRNet_ms5",
+            "MobileNet",
+            "ResNet-AE",
+            "HRNet-AE",
+            "Transformer"
+          ],
+          "extra_items": [
+            "CNNs",
+            "CNN-based identity prediction",
+            "DeepLabCut",
+            "DeepLabCuts",
+            "idtracker.ai",
+            "SORT",
+            "affinity models",
+            "CNN"
+          ],
+          "total_extracted": 22
+        },
+        "datasets": {
+          "required_found": [
+            "tri-mouse",
+            "parenting",
+            "marmoset",
+            "fish"
+          ],
+          "required_missed": [],
+          "required_recall": 1.0,
+          "optional_found": [
+            "COCO",
+            "pups"
+          ],
+          "extra_items": [
+            "maDLCopt",
+            "Mouse dataset"
+          ],
+          "total_extracted": 14
+        },
+        "benchmarks": {
+          "required_found": [
+            "COCO",
+            "MOTA"
+          ],
+          "required_missed": [],
+          "required_recall": 1.0,
+          "optional_found": [
+            "benchmark.deeplabcut.org"
+          ],
+          "extra_items": [
+            "idtracker.ai",
+            "maDLCopt.deeplabcut.org"
+          ],
+          "total_extracted": 5
+        },
+        "tools": {
+          "required_found": [
+            "idtracker.ai"
+          ],
+          "required_missed": [],
+          "required_recall": 1.0,
+          "optional_found": [
+            "DeepLabCut-Live",
+            "NetworkX",
+            "py-motmetrics"
+          ],
+          "extra_items": [
+            "DLCRNet"
+          ],
+          "total_extracted": 5
+        },
+        "overall_score": 1.0
+      },
+      "ontology_mappings": {
+        "total_mappings": 51,
+        "sensible_mappings": 49,
+        "nonsensical_count": 2,
+        "score": 0.961,
+        "issues": [
+          {
+            "field": "mentions.datasets",
+            "label": "Magnolia coco",
+            "issue": "nonsensical mapping"
+          },
+          {
+            "field": "mentions.benchmarks",
+            "label": "Magnolia coco",
+            "issue": "nonsensical mapping"
+          }
+        ]
+      }
+    },
+    "overall_score": 0.932,
+    "judge_score": 0.95
+  },
+  {
+    "file": "/Users/yibeichen/Documents/GitHub/structsense/evaluation/resource_extraction/deeplabcut/results_gpt/deeplab_cut_nhil_gpt.json",
+    "paper": "deeplabcut",
+    "status": "success",
+    "dimensions": {
+      "primary_fields": {
+        "name": {
+          "extracted": "DeepLabCut",
+          "expected": "DeepLabCut",
+          "score": 1.0,
+          "pass": true
+        },
+        "type": {
+          "extracted": "Tool",
+          "expected": "Tool",
+          "score": 1.0,
+          "pass": true
+        },
+        "category": {
+          "extracted": "Pose Estimation",
+          "expected": "Pose Estimation",
+          "score": 1.0,
+          "pass": true
+        },
+        "target": {
+          "extracted": "Animal",
+          "expected": "Animal",
+          "score": 1.0,
+          "pass": true
+        },
+        "specific_target": {
+          "extracted": "Multi-animal tracking and pose estimation in mice, marmosets, and fish",
+          "keywords_found": 5,
+          "keywords_total": 5,
+          "score": 1.0,
+          "pass": true
+        },
+        "url": {
+          "extracted": "https://github.com/DeepLabCut/DeepLabCut",
+          "keywords_found": 2,
+          "keywords_total": 2,
+          "score": 1.0,
+          "pass": true
+        },
+        "overall_score": 1.0,
+        "fields_passed": 6,
+        "fields_total": 6
+      },
+      "mentions": {
+        "related_models": {
+          "required_found": [
+            "DLCRNet",
+            "OpenPose",
+            "HRNet",
+            "ResNet"
+          ],
+          "required_missed": [],
+          "required_recall": 1.0,
+          "optional_found": [
+            "EfficientNet",
+            "DLCRNet_ms5",
+            "ResNet-AE",
+            "HRNet-AE"
+          ],
+          "extra_items": [
+            "ReID tracking method",
+            "DeepLabCut",
+            "Associative Embedding"
+          ],
+          "total_extracted": 13
+        },
+        "datasets": {
+          "required_found": [
+            "tri-mouse",
+            "parenting",
+            "marmoset",
+            "fish"
+          ],
+          "required_missed": [],
+          "required_recall": 1.0,
+          "optional_found": [
+            "COCO",
+            "pups"
+          ],
+          "extra_items": [
+            "three mice in an open field arena",
+            "mouse dataset"
+          ],
+          "total_extracted": 15
+        },
+        "benchmarks": {
+          "required_found": [
+            "COCO",
+            "MOTA"
+          ],
+          "required_missed": [],
+          "required_recall": 1.0,
+          "optional_found": [
+            "mAP"
+          ],
+          "extra_items": [],
+          "total_extracted": 3
+        },
+        "tools": {
+          "required_found": [],
+          "required_missed": [
+            "idtracker.ai"
+          ],
+          "required_recall": 0.0,
+          "optional_found": [],
+          "extra_items": [],
+          "total_extracted": 0
+        },
+        "overall_score": 0.75
+      },
+      "ontology_mappings": {
+        "total_mappings": 36,
+        "sensible_mappings": 34,
+        "nonsensical_count": 2,
+        "score": 0.944,
+        "issues": [
+          {
+            "field": "mentions.datasets",
+            "label": "Magnolia coco",
+            "issue": "nonsensical mapping"
+          },
+          {
+            "field": "mentions.benchmarks",
+            "label": "Magnolia coco",
+            "issue": "nonsensical mapping"
+          }
+        ]
+      }
+    },
+    "overall_score": 0.889,
+    "judge_score": 0.8
+  },
+  {
+    "file": "/Users/yibeichen/Documents/GitHub/structsense/evaluation/resource_extraction/deeplabcut/results_qwen/deeplab_cut_nhil_qwen.json",
+    "paper": "deeplabcut",
+    "status": "success",
+    "dimensions": {
+      "primary_fields": {
+        "name": {
+          "extracted": "DeepLabCut for Multi-Animal Pose Estimation",
+          "expected": "DeepLabCut",
+          "score": 0.37735849056603776,
+          "pass": false
+        },
+        "type": {
+          "extracted": "Tool",
+          "expected": "Tool",
+          "score": 1.0,
+          "pass": true
+        },
+        "category": {
+          "extracted": "Pose Estimation",
+          "expected": "Pose Estimation",
+          "score": 1.0,
+          "pass": true
+        },
+        "target": {
+          "extracted": "Animal",
+          "expected": "Animal",
+          "score": 1.0,
+          "pass": true
+        },
+        "specific_target": {
+          "extracted": "Mice, Marmosets, Fish",
+          "keywords_found": 3,
+          "keywords_total": 5,
+          "score": 0.6,
+          "pass": true
+        },
+        "url": {
+          "extracted": "https://benchmark.deeplabcut.org",
+          "keywords_found": 1,
+          "keywords_total": 2,
+          "score": 0.5,
+          "pass": true
+        },
+        "overall_score": 0.7462264150943397,
+        "fields_passed": 5,
+        "fields_total": 6
+      },
+      "mentions": {
+        "related_models": {
+          "required_found": [
+            "DLCRNet",
+            "OpenPose",
+            "HRNet",
+            "ResNet"
+          ],
+          "required_missed": [],
+          "required_recall": 1.0,
+          "optional_found": [
+            "DLCRNet_ms5",
+            "MobileNet",
+            "ResNet-AE",
+            "HRNet-AE",
+            "Transformer"
+          ],
+          "extra_items": [
+            "DeepLabCut"
+          ],
+          "total_extracted": 12
+        },
+        "datasets": {
+          "required_found": [
+            "tri-mouse",
+            "parenting",
+            "marmoset",
+            "fish"
+          ],
+          "required_missed": [],
+          "required_recall": 1.0,
+          "optional_found": [],
+          "extra_items": [
+            "benchmark.deeplabcut.org",
+            "maDLCopt.deeplabcut.org",
+            "Mouse dataset"
+          ],
+          "total_extracted": 13
+        },
+        "benchmarks": {
+          "required_found": [
+            "COCO",
+            "MOTA"
+          ],
+          "required_missed": [],
+          "required_recall": 1.0,
+          "optional_found": [
+            "mAP",
+            "benchmark.deeplabcut.org"
+          ],
+          "extra_items": [
+            "tri-mouse",
+            "parenting",
+            "marmosets",
+            "fish",
+            "maDLCopt.deeplabcut.org"
+          ],
+          "total_extracted": 9
+        },
+        "tools": {
+          "required_found": [
+            "idtracker.ai"
+          ],
+          "required_missed": [],
+          "required_recall": 1.0,
+          "optional_found": [
+            "DeepLabCut-Live",
+            "NetworkX",
+            "py-motmetrics",
+            "MMPose"
+          ],
+          "extra_items": [],
+          "total_extracted": 5
+        },
+        "overall_score": 1.0
+      },
+      "ontology_mappings": {
+        "total_mappings": 44,
+        "sensible_mappings": 43,
+        "nonsensical_count": 1,
+        "score": 0.977,
+        "issues": [
+          {
+            "field": "mentions.benchmarks",
+            "label": "Magnolia coco",
+            "issue": "nonsensical mapping"
+          }
+        ]
+      }
+    },
+    "overall_score": 0.894,
+    "judge_score": 0.95
+  },
+  {
+    "file": "/Users/yibeichen/Documents/GitHub/structsense/evaluation/resource_extraction/vitpose/results_gemini/vitpose_hil_gemini.json",
+    "paper": "vitpose",
+    "status": "success",
+    "dimensions": {
+      "primary_fields": {
+        "name": {
+          "extracted": "ViTPose",
+          "expected": "ViTPose",
+          "score": 1.0,
+          "pass": true
+        },
+        "type": {
+          "extracted": "Model",
+          "expected": "Model",
+          "score": 1.0,
+          "pass": true
+        },
+        "category": {
+          "extracted": "Pose Estimation",
+          "expected": "Pose Estimation",
+          "score": 1.0,
+          "pass": true
+        },
+        "target": {
+          "extracted": "Human",
+          "expected": "Human",
+          "score": 1.0,
+          "pass": true
+        },
+        "specific_target": {
+          "extracted": "Human anatomical keypoints",
+          "keywords_found": 2,
+          "keywords_total": 3,
+          "score": 0.6666666666666666,
+          "pass": true
+        },
+        "url": {
+          "extracted": "https://github.com/ViTAE-Transformer/ViTPose",
+          "keywords_found": 2,
+          "keywords_total": 2,
+          "score": 1.0,
+          "pass": true
+        },
+        "overall_score": 0.9444444444444445,
+        "fields_passed": 6,
+        "fields_total": 6
+      },
+      "mentions": {
+        "related_models": {
+          "required_found": [
+            "PRTR",
+            "TokenPose",
+            "TransPose",
+            "HRFormer",
+            "MAE",
+            "ViT"
+          ],
+          "required_missed": [],
+          "required_recall": 1.0,
+          "optional_found": [
+            "ViT-B",
+            "ViT-L",
+            "ViT-H",
+            "HRNet",
+            "SimpleBaseline",
+            "ResNet"
+          ],
+          "extra_items": [
+            "CNNs",
+            "UDP"
+          ],
+          "total_extracted": 11
+        },
+        "datasets": {
+          "required_found": [
+            "MS COCO",
+            "ImageNet",
+            "AI Challenger",
+            "MPII",
+            "CrowdPose",
+            "OCHuman"
+          ],
+          "required_missed": [],
+          "required_recall": 1.0,
+          "optional_found": [
+            "ImageNet-1K",
+            "ImageNet-22K"
+          ],
+          "extra_items": [],
+          "total_extracted": 7
+        },
+        "benchmarks": {
+          "required_found": [
+            "COCO"
+          ],
+          "required_missed": [],
+          "required_recall": 1.0,
+          "optional_found": [],
+          "extra_items": [],
+          "total_extracted": 2
+        },
+        "tools": {
+          "required_found": [],
+          "required_missed": [
+            "mmpose"
+          ],
+          "required_recall": 0.0,
+          "optional_found": [],
+          "extra_items": [],
+          "total_extracted": 0
+        },
+        "overall_score": 0.75
+      },
+      "ontology_mappings": {
+        "total_mappings": 25,
+        "sensible_mappings": 10,
+        "nonsensical_count": 15,
+        "score": 0.4,
+        "issues": [
+          {
+            "field": "mapped_name_concept",
+            "label": "CALFACTANT 35MG/ML SUSP,INTRATRACHEAL [VA Product]",
+            "ontology": "NDFRT",
+            "issue": "nonsensical mapping"
+          },
+          {
+            "field": "mentions.related_models",
+            "label": "CALFACTANT 35MG/ML SUSP,INTRATRACHEAL [VA Product]",
+            "issue": "nonsensical mapping"
+          },
+          {
+            "field": "mentions.related_models",
+            "label": "CALFACTANT 35MG/ML SUSP,INTRATRACHEAL [VA Product]",
+            "issue": "nonsensical mapping"
+          },
+          {
+            "field": "mentions.related_models",
+            "label": "CALFACTANT 35MG/ML SUSP,INTRATRACHEAL [VA Product]",
+            "issue": "nonsensical mapping"
+          },
+          {
+            "field": "mentions.related_models",
+            "label": "CALFACTANT 35MG/ML SUSP,INTRATRACHEAL [VA Product]",
+            "issue": "nonsensical mapping"
+          },
+          {
+            "field": "mentions.related_models",
+            "label": "CALFACTANT 35MG/ML SUSP,INTRATRACHEAL [VA Product]",
+            "issue": "nonsensical mapping"
+          },
+          {
+            "field": "mentions.related_models",
+            "label": "CALFACTANT 35MG/ML SUSP,INTRATRACHEAL [VA Product]",
+            "issue": "nonsensical mapping"
+          },
+          {
+            "field": "mentions.related_models",
+            "label": "CALFACTANT 35MG/ML SUSP,INTRATRACHEAL [VA Product]",
+            "issue": "nonsensical mapping"
+          },
+          {
+            "field": "mentions.datasets",
+            "label": "Magnolia coco",
+            "issue": "nonsensical mapping"
+          },
+          {
+            "field": "mentions.datasets",
+            "label": "amelogenesis imperfecta, IIa 1K",
+            "issue": "nonsensical mapping"
+          },
+          {
+            "field": "mentions.datasets",
+            "label": "Magnolia coco",
+            "issue": "nonsensical mapping"
+          },
+          {
+            "field": "mentions.datasets",
+            "label": "CALFACTANT 35MG/ML SUSP,INTRATRACHEAL [VA Product]",
+            "issue": "nonsensical mapping"
+          },
+          {
+            "field": "mentions.datasets",
+            "label": "CALFACTANT 35MG/ML SUSP,INTRATRACHEAL [VA Product]",
+            "issue": "nonsensical mapping"
+          },
+          {
+            "field": "mentions.benchmarks",
+            "label": "Magnolia coco",
+            "issue": "nonsensical mapping"
+          },
+          {
+            "field": "mentions.benchmarks",
+            "label": "Magnolia coco",
+            "issue": "nonsensical mapping"
+          }
+        ]
+      }
+    },
+    "overall_score": 0.758,
+    "judge_score": 0.98
+  },
+  {
+    "file": "/Users/yibeichen/Documents/GitHub/structsense/evaluation/resource_extraction/vitpose/results_gemini/vitpose_nhil_gemini.json",
+    "paper": "vitpose",
+    "status": "success",
+    "dimensions": {
+      "primary_fields": {
+        "name": {
+          "extracted": "ViTPose",
+          "expected": "ViTPose",
+          "score": 1.0,
+          "pass": true
+        },
+        "type": {
+          "extracted": "Model",
+          "expected": "Model",
+          "score": 1.0,
+          "pass": true
+        },
+        "category": {
+          "extracted": "Pose Estimation",
+          "expected": "Pose Estimation",
+          "score": 1.0,
+          "pass": true
+        },
+        "target": {
+          "extracted": "Human",
+          "expected": "Human",
+          "score": 1.0,
+          "pass": true
+        },
+        "specific_target": {
+          "extracted": "Human Keypoint Detection",
+          "keywords_found": 2,
+          "keywords_total": 3,
+          "score": 0.6666666666666666,
+          "pass": true
+        },
+        "url": {
+          "extracted": "https://github.com/ViTPose/ViTPose",
+          "keywords_found": 2,
+          "keywords_total": 2,
+          "score": 1.0,
+          "pass": true
+        },
+        "overall_score": 0.9444444444444445,
+        "fields_passed": 6,
+        "fields_total": 6
+      },
+      "mentions": {
+        "related_models": {
+          "required_found": [
+            "PRTR",
+            "TokenPose",
+            "TransPose",
+            "HRFormer",
+            "MAE",
+            "ViT"
+          ],
+          "required_missed": [],
+          "required_recall": 1.0,
+          "optional_found": [
+            "ViT-B",
+            "ViT-L",
+            "ViT-H",
+            "HRNet",
+            "SimpleBaseline",
+            "ResNet"
+          ],
+          "extra_items": [
+            "UDP",
+            "Bigdet"
+          ],
+          "total_extracted": 17
+        },
+        "datasets": {
+          "required_found": [
+            "MS COCO",
+            "ImageNet",
+            "AI Challenger",
+            "MPII",
+            "CrowdPose",
+            "OCHuman"
+          ],
+          "required_missed": [],
+          "required_recall": 1.0,
+          "optional_found": [
+            "ImageNet-1K",
+            "ImageNet-22K"
+          ],
+          "extra_items": [],
+          "total_extracted": 7
+        },
+        "benchmarks": {
+          "required_found": [
+            "COCO"
+          ],
+          "required_missed": [],
+          "required_recall": 1.0,
+          "optional_found": [],
+          "extra_items": [],
+          "total_extracted": 2
+        },
+        "tools": {
+          "required_found": [
+            "mmpose"
+          ],
+          "required_missed": [],
+          "required_recall": 1.0,
+          "optional_found": [],
+          "extra_items": [],
+          "total_extracted": 1
+        },
+        "overall_score": 1.0
+      },
+      "ontology_mappings": {
+        "total_mappings": 32,
+        "sensible_mappings": 13,
+        "nonsensical_count": 19,
+        "score": 0.406,
+        "issues": [
+          {
+            "field": "mapped_name_concept",
+            "label": "CALFACTANT 35MG/ML SUSP,INTRATRACHEAL [VA Product]",
+            "ontology": "NDFRT",
+            "issue": "nonsensical mapping"
+          },
+          {
+            "field": "mapped_specific_target_concept",
+            "label": "Human leucocyte antigen gene detection",
+            "ontology": "RCD",
+            "issue": "nonsensical mapping"
+          },
+          {
+            "field": "mentions.related_models",
+            "label": "CALFACTANT 35MG/ML SUSP,INTRATRACHEAL [VA Product]",
+            "issue": "nonsensical mapping"
+          },
+          {
+            "field": "mentions.related_models",
+            "label": "CALFACTANT 35MG/ML SUSP,INTRATRACHEAL [VA Product]",
+            "issue": "nonsensical mapping"
+          },
+          {
+            "field": "mentions.related_models",
+            "label": "CALFACTANT 35MG/ML SUSP,INTRATRACHEAL [VA Product]",
+            "issue": "nonsensical mapping"
+          },
+          {
+            "field": "mentions.related_models",
+            "label": "CALFACTANT 35MG/ML SUSP,INTRATRACHEAL [VA Product]",
+            "issue": "nonsensical mapping"
+          },
+          {
+            "field": "mentions.related_models",
+            "label": "CALFACTANT 35MG/ML SUSP,INTRATRACHEAL [VA Product]",
+            "issue": "nonsensical mapping"
+          },
+          {
+            "field": "mentions.related_models",
+            "label": "CALFACTANT 35MG/ML SUSP,INTRATRACHEAL [VA Product]",
+            "issue": "nonsensical mapping"
+          },
+          {
+            "field": "mentions.related_models",
+            "label": "CALFACTANT 35MG/ML SUSP,INTRATRACHEAL [VA Product]",
+            "issue": "nonsensical mapping"
+          },
+          {
+            "field": "mentions.related_models",
+            "label": "CALFACTANT 35MG/ML SUSP,INTRATRACHEAL [VA Product]",
+            "issue": "nonsensical mapping"
+          },
+          {
+            "field": "mentions.related_models",
+            "label": "CALFACTANT 35MG/ML SUSP,INTRATRACHEAL [VA Product]",
+            "issue": "nonsensical mapping"
+          },
+          {
+            "field": "mentions.datasets",
+            "label": "Magnolia coco",
+            "issue": "nonsensical mapping"
+          },
+          {
+            "field": "mentions.datasets",
+            "label": "amelogenesis imperfecta, IIa 1K",
+            "issue": "nonsensical mapping"
+          },
+          {
+            "field": "mentions.datasets",
+            "label": "Magnolia coco",
+            "issue": "nonsensical mapping"
+          },
+          {
+            "field": "mentions.datasets",
+            "label": "CALFACTANT 35MG/ML SUSP,INTRATRACHEAL [VA Product]",
+            "issue": "nonsensical mapping"
+          }
+        ]
+      }
+    },
+    "overall_score": 0.859,
+    "judge_score": 0.95
+  },
+  {
+    "file": "/Users/yibeichen/Documents/GitHub/structsense/evaluation/resource_extraction/vitpose/results_gpt/vitpose_nhil_gpt.json",
+    "paper": "vitpose",
+    "status": "success",
+    "dimensions": {
+      "primary_fields": {
+        "name": {
+          "extracted": "ViTPose",
+          "expected": "ViTPose",
+          "score": 1.0,
+          "pass": true
+        },
+        "type": {
+          "extracted": "Model",
+          "expected": "Model",
+          "score": 1.0,
+          "pass": true
+        },
+        "category": {
+          "extracted": "Pose Estimation",
+          "expected": "Pose Estimation",
+          "score": 1.0,
+          "pass": true
+        },
+        "target": {
+          "extracted": "Human",
+          "expected": "Human",
+          "score": 1.0,
+          "pass": true
+        },
+        "specific_target": {
+          "extracted": "Human anatomical keypoints",
+          "keywords_found": 2,
+          "keywords_total": 3,
+          "score": 0.6666666666666666,
+          "pass": true
+        },
+        "url": {
+          "extracted": "https://github.com/ViTAE-Transformer/ViTPose",
+          "keywords_found": 2,
+          "keywords_total": 2,
+          "score": 1.0,
+          "pass": true
+        },
+        "overall_score": 0.9444444444444445,
+        "fields_passed": 6,
+        "fields_total": 6
+      },
+      "mentions": {
+        "related_models": {
+          "required_found": [
+            "PRTR",
+            "TokenPose",
+            "TransPose",
+            "HRFormer",
+            "MAE",
+            "ViT"
+          ],
+          "required_missed": [],
+          "required_recall": 1.0,
+          "optional_found": [
+            "ViT-B",
+            "ViT-L",
+            "ViT-H",
+            "SimpleBaseline",
+            "ResNet"
+          ],
+          "extra_items": [],
+          "total_extracted": 16
+        },
+        "datasets": {
+          "required_found": [
+            "MS COCO",
+            "ImageNet",
+            "AI Challenger",
+            "MPII",
+            "CrowdPose",
+            "OCHuman"
+          ],
+          "required_missed": [],
+          "required_recall": 1.0,
+          "optional_found": [
+            "ImageNet-1K",
+            "ImageNet-22K"
+          ],
+          "extra_items": [],
+          "total_extracted": 9
+        },
+        "benchmarks": {
+          "required_found": [
+            "COCO"
+          ],
+          "required_missed": [],
+          "required_recall": 1.0,
+          "optional_found": [
+            "COCO test-dev",
+            "COCO val"
+          ],
+          "extra_items": [],
+          "total_extracted": 4
+        },
+        "tools": {
+          "required_found": [],
+          "required_missed": [
+            "mmpose"
+          ],
+          "required_recall": 0.0,
+          "optional_found": [],
+          "extra_items": [],
+          "total_extracted": 0
+        },
+        "overall_score": 0.75
+      },
+      "ontology_mappings": {
+        "total_mappings": 34,
+        "sensible_mappings": 33,
+        "nonsensical_count": 1,
+        "score": 0.971,
+        "issues": [
+          {
+            "field": "mentions.datasets",
+            "label": "Magnolia coco",
+            "issue": "nonsensical mapping"
+          }
+        ]
+      }
+    },
+    "overall_score": 0.872,
+    "judge_score": 0.9
+  },
+  {
+    "file": "/Users/yibeichen/Documents/GitHub/structsense/evaluation/resource_extraction/vitpose/results_qwen/vitpose_nhil_qwen.json",
+    "paper": "vitpose",
+    "status": "success",
+    "dimensions": {
+      "primary_fields": {
+        "name": {
+          "extracted": "ViTPose",
+          "expected": "ViTPose",
+          "score": 1.0,
+          "pass": true
+        },
+        "type": {
+          "extracted": "Model",
+          "expected": "Model",
+          "score": 1.0,
+          "pass": true
+        },
+        "category": {
+          "extracted": "Pose Estimation",
+          "expected": "Pose Estimation",
+          "score": 1.0,
+          "pass": true
+        },
+        "target": {
+          "extracted": "Human",
+          "expected": "Human",
+          "score": 1.0,
+          "pass": true
+        },
+        "specific_target": {
+          "extracted": "MS COCO Keypoint dataset",
+          "keywords_found": 1,
+          "keywords_total": 3,
+          "score": 0.3333333333333333,
+          "pass": true
+        },
+        "url": {
+          "extracted": "",
+          "keywords_found": 0,
+          "keywords_total": 2,
+          "score": 0.0,
+          "pass": false
+        },
+        "overall_score": 0.7222222222222222,
+        "fields_passed": 5,
+        "fields_total": 6
+      },
+      "mentions": {
+        "related_models": {
+          "required_found": [
+            "TokenPose",
+            "TransPose",
+            "HRFormer",
+            "MAE",
+            "ViT"
+          ],
+          "required_missed": [
+            "PRTR"
+          ],
+          "required_recall": 0.8333333333333334,
+          "optional_found": [
+            "ViT-B",
+            "ViT-L",
+            "ViT-H",
+            "HRNet",
+            "SimpleBaseline"
+          ],
+          "extra_items": [
+            "UDP",
+            "Bigdet"
+          ],
+          "total_extracted": 14
+        },
+        "datasets": {
+          "required_found": [
+            "MS COCO",
+            "ImageNet",
+            "AI Challenger",
+            "MPII",
+            "CrowdPose",
+            "OCHuman"
+          ],
+          "required_missed": [],
+          "required_recall": 1.0,
+          "optional_found": [
+            "ImageNet-1K",
+            "ImageNet-22K"
+          ],
+          "extra_items": [],
+          "total_extracted": 7
+        },
+        "benchmarks": {
+          "required_found": [
+            "COCO"
+          ],
+          "required_missed": [],
+          "required_recall": 1.0,
+          "optional_found": [
+            "COCO test-dev",
+            "COCO val"
+          ],
+          "extra_items": [],
+          "total_extracted": 2
+        },
+        "tools": {
+          "required_found": [
+            "mmpose"
+          ],
+          "required_missed": [],
+          "required_recall": 1.0,
+          "optional_found": [],
+          "extra_items": [
+            "MAE"
+          ],
+          "total_extracted": 2
+        },
+        "overall_score": 0.9583333333333334
+      },
+      "ontology_mappings": {
+        "total_mappings": 30,
+        "sensible_mappings": 29,
+        "nonsensical_count": 1,
+        "score": 0.967,
+        "issues": [
+          {
+            "field": "mentions.datasets",
+            "label": "Magnolia coco",
+            "issue": "nonsensical mapping"
+          }
+        ]
+      }
+    },
+    "overall_score": 0.866,
+    "judge_score": 0.9
+  }
+]

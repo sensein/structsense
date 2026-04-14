@@ -1,0 +1,192 @@
+{
+  "resources": [
+    {
+      "resource_name": [
+        "DeepLabCut",
+        "DLCRNet_ms5",
+        "DeepLabCut",
+        "multi-animal DeepLabCut (maDLC)",
+        "DeepLabCut",
+        "DeepLabCut",
+        "DeepLabCut (Multi-Animal)",
+        "Animal Pose Assembly Framework",
+        "MMPose",
+        "TrackletStitcher",
+        "DeepLabCut"
+      ],
+      "description": [
+        "An open-source toolbox for animal pose estimation, expanded to include multi-animal pose estimation, data-driven assembly, and network flow-based tracking.",
+        "A multi-scale neural network architecture for multi-animal pose estimation and individual assembly, leveraging Part Affinity Fields (PAFs) and data-driven skeleton construction within the DeepLabCut ecosystem.",
+        "An open-source toolbox for markerless pose estimation and multi-animal tracking, featuring assembly algorithms, identity re-identification, and a tracklet stitching system for kinematic consistency.",
+        "A multi-animal pose estimation and tracking system extending DeepLabCut that supports identity tracking, reID, unsupervised metric learning, and both bottom-up and top-down pose estimation pipelines for long-term behavioral analysis.",
+        "An open-source toolbox for markerless pose estimation of animals and humans that allows for tracking of body parts across frames, supporting both GUI and programmatic interfaces.",
+        "Multi-task deep-learning architecture for keypoint detection and animal pose estimation, comprising a deep CNN backbone with multiple deconvolutional layers, utilizing score maps, vector fields, and part affinity fields (PAFs).",
+        "A toolbox for markerless pose estimation that supports multi-animal tracking, identity prediction, and data-driven part affinity field (PAF) graph selection.",
+        "A multi-animal pose estimation framework using graph-based assembly, affinity costs, and calibration via multivariate normal distributions for keypoint linkage.",
+        "An open-source toolbox for pose estimation tasks, supporting various backbones (HRNet, ResNet) and grouping algorithms like Associative Embedding for bottom-up pose estimation.",
+        "A tool for reconstructing full trajectories from sparse tracklets of animal tracking data by casting the stitching task as a network flow minimization problem.",
+        "An open-source toolbox for markerless pose estimation and animal tracking that includes modules for tracklet stitching, unsupervised ID tracking using metric learning with transformers, and tracking performance evaluation."
+      ],
+      "type": [
+        "Tool",
+        "Model",
+        "Tool",
+        "Tool",
+        "Tool",
+        "Tool",
+        "Tool",
+        "Tool",
+        "Tool",
+        "Tool",
+        "Tool"
+      ],
+      "category": [
+        "Pose Estimation and Tracking",
+        "Pose Estimation",
+        "Pose Estimation and Tracking",
+        "Pose Estimation and Tracking",
+        "Pose Estimation",
+        "Behavioral Analysis / Pose Estimation",
+        "Behavioral Analysis",
+        "Pose Estimation",
+        "Pose Estimation",
+        "Behavior Tracking",
+        "Behavioral Tracking"
+      ],
+      "target": [
+        "Animal",
+        "Animal",
+        "Animal",
+        "Animal",
+        "Animal and Human",
+        "Animal",
+        "Animal",
+        "Animal",
+        "Animal",
+        "Animal",
+        "Animal"
+      ],
+      "specific_target": [
+        "Mice, Marmosets, Schooling fish",
+        "Social animal groups",
+        "Multi-animal tracking, individual identification",
+        "Social animal groups",
+        "Multiple species (Mice, Marmosets, Fish, Silversides)",
+        "Multiple animal species (e.g., marmosets)",
+        "Multiple individuals",
+        "Multi-animal",
+        "Mouse, Marmoset, Fish",
+        "Multiple animals/individuals",
+        "Multiple animals"
+      ],
+      "mapped_target_concept": [],
+      "mapped_specific_target_concept": [],
+      "key_features": [],
+      "performance": [],
+      "url": [
+        "https://benchmark.deeplabcut.org",
+        "http://maDLCopt.deeplabcut.org",
+        "https://github.com/DeepLabCut/DeepLabCut",
+        "https://github.com/DeepLabCut/DeepLabCut",
+        "https://deeplabcut.github.io/DeepLabCut",
+        "https://benchmark.deeplabcut.org",
+        "https://github.com/DeepLabCut/DeepLabCut",
+        "https://github.com/open-mmlab/mmpose",
+        "https://www.deeplabcut.org/"
+      ],
+      "model_architecture": [],
+      "mentions": {
+        "datasets": [
+          "COCO (Common Objects in Context)",
+          "COCO",
+          "tri-mouse",
+          "parenting",
+          "marmoset",
+          "fish",
+          "pups",
+          "parenting mouse",
+          "marmosets",
+          "schooling fish",
+          "Tri-mouse dataset",
+          "maDLCopt",
+          "Marmoset dataset",
+          "Mouse dataset"
+        ],
+        "related_models": [
+          "DLCRNet",
+          "ResNets",
+          "EfficientNets",
+          "OpenPose",
+          "HRNet-AE",
+          "ResNet-AE",
+          "Transformers",
+          "CNNs",
+          "DLCRNet_ms5",
+          "ResNet",
+          "EfficientNet",
+          "MobileNetV2",
+          "CNN-based identity prediction",
+          "HRNet",
+          "HigherHRNet",
+          "DeepLabCut",
+          "DeepLabCuts",
+          "idtracker.ai",
+          "SORT",
+          "affinity models",
+          "CNN",
+          "Transformer"
+        ],
+        "related_papers": [
+          "Cao et al.",
+          "18",
+          "21",
+          "39",
+          "40",
+          "41",
+          "42",
+          "45",
+          "46",
+          "47",
+          "48",
+          "49"
+        ],
+        "tools": [
+          "idTracker.ai",
+          "DeepLabCut-Live!",
+          "DLCRNet",
+          "NetworkX",
+          "py-motmetrics"
+        ],
+        "benchmarks": [
+          "COCO",
+          "idtracker.ai",
+          "benchmark.deeplabcut.org",
+          "maDLCopt.deeplabcut.org",
+          "MOTA"
+        ]
+      },
+      "provenance": {
+        "extractor_agent": [
+          "description",
+          "type",
+          "category",
+          "target",
+          "specific_target",
+          "url",
+          "key_features",
+          "performance",
+          "model_architecture",
+          "mentions"
+        ]
+      }
+    }
+  ],
+  "verification": {
+    "resources_checked": 1,
+    "resources_present": 1,
+    "resources_dropped": 0,
+    "resources_dropped_detail": [],
+    "all_resources_present_in_text": true
+  },
+  "_extraction_chunk_count": 11
+}

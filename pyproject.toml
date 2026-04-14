@@ -54,6 +54,8 @@ spacy = ">=3.8.11,<3.9.0"
 litellm = {version = ">=1.17.0,<1.60.0"}
 transformers = ">=4.30.0,<4.46.0"
 torch = "^2.10.0"
+json-repair = ">=0.25.2,<0.26.0"
+trustcall = "^0.0.39"
 
 [tool.poetry.group.dev]
 optional = true
@@ -74,6 +76,7 @@ pdoc = "~=15.0"
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["src/tests"]
+asyncio_mode = "auto"
 markers = [
   "requires_openrouter: tests that need OpenRouter access"
 ]

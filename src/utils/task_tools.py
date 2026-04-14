@@ -9,6 +9,7 @@ Module-level mappings (for generated docs)
 ------------------------------------------
 - **GENERIC_TOOLS_BY_STAGE** (dict): ``agent_key`` → list of tool names applied to
   all task types for that agent (e.g. alignment_agent → ``["concept_mapping_tool"]``).
+  judge_agent and human_feedback have no generic tools (evaluation-only stages).
 - **TOOLS_BY_STAGE_AND_TASK** (dict): ``agent_key`` → ``task_type`` → list of
   task-specific tool names. E.g. extractor_agent + ``ner`` → ``["extract_ner_terms"]``.
 - **AGENTS_THAT_USE_TOOLS** (frozenset): Agent keys that may have tools (others get []).
@@ -42,10 +43,10 @@ logger = logging.getLogger(__name__)
 # Tools that apply to ALL task types for this agent. Combined with task-specific
 # tools when resolving; order is generic first, then task-specific (deduped by name).
 GENERIC_TOOLS_BY_STAGE: Dict[str, List[str]] = {
-    "extractor_agent": [],
-    "alignment_agent": ["concept_mapping_tool"],
-    "judge_agent": [],
-    "human_feedback": [],
+    "extractor_agent": ["repair_json"],
+    "alignment_agent": ["concept_mapping_tool", "repair_json"],
+    # judge_agent and human_feedback are evaluation-only stages — no tools attached.
+    # Tools cause spurious ReAct tool calls (e.g. empty Tool Output) and add latency.
 }
 
 # ----------------------------
@@ -83,6 +84,7 @@ def _resolve_tool(
     task_config: Optional[Dict[str, Any]] = None,
     agent_key: Optional[str] = None,
     task_key: Optional[str] = None,
+    task_type: Optional[str] = None,
 ) -> Any:
     """Resolve a tool name to a CrewAI tool instance (lazy import).
 
@@ -91,6 +93,7 @@ def _resolve_tool(
     extractor agent's role, goal, and task description for LLM-based NER.
     Otherwise returns the default (ML-only) NER tool. For ``concept_mapping_tool``,
     returns :class:`.conceptmappingtool.ConceptMappingTool` (requires BIOPORTAL_API_KEY).
+    For ``repair_json``, sets LLM context and default schema from task_type when provided.
 
     Parameters
     ----------
@@ -104,6 +107,8 @@ def _resolve_tool(
         Agent key (e.g. ``extractor_agent``); used to read role/goal from agent_config.
     task_key : str, optional
         Task key (e.g. ``extraction_task``); used to read description from task_config.
+    task_type : str, optional
+        Task type (e.g. ``ner``, ``resource``); used to set default schema for repair_json.
 
     Returns
     -------
@@ -140,13 +145,47 @@ def _resolve_tool(
             _TOOL_REGISTRY[name] = extract_ner_terms
         return _TOOL_REGISTRY.get(name)
     if name == "concept_mapping_tool":
+        backend = os.getenv("CONCEPT_MAPPING_BACKEND", "local").strip().lower()
+        registry_key = f"{name}:{backend}"
+        if registry_key not in _TOOL_REGISTRY:
+            if backend == "local":
+                try:
+                    from .conceptmappinglocal import ConceptMappingLocalTool
+                    _TOOL_REGISTRY[registry_key] = ConceptMappingLocalTool()
+                    logger.info("ConceptMappingLocalTool registered (CONCEPT_MAPPING_BACKEND=local)")
+                except Exception as e:
+                    logger.warning(f"ConceptMappingLocalTool not registered: {e}")
+                    return None
+            else:
+                try:
+                    from .conceptmappingtool import ConceptMappingTool
+                    _TOOL_REGISTRY[registry_key] = ConceptMappingTool()
+                    logger.info("ConceptMappingTool registered (CONCEPT_MAPPING_BACKEND=bioportal)")
+                except ValueError as e:
+                    logger.warning(f"ConceptMappingTool not registered (missing BIOPORTAL_API_KEY): {e}")
+                    return None
+        return _TOOL_REGISTRY.get(registry_key)
+    if name == "repair_json":
+        from .json_repair_tool import (
+            get_default_schema_for_task_type,
+            repair_json_tool,
+            set_repair_json_default_schema,
+            set_repair_json_llm_context,
+        )
+        if agent_config and agent_key:
+            agent_cfg = agent_config.get(agent_key) or {}
+            llm_config = agent_cfg.get("llm") or {}
+            api_key = (
+                llm_config.get("api_key")
+                or os.environ.get("OPENROUTER_API_KEY")
+                or os.environ.get("OPENAI_API_KEY")
+                or ""
+            )
+            set_repair_json_llm_context(llm_config=llm_config, api_key=api_key)
+        if task_type:
+            set_repair_json_default_schema(get_default_schema_for_task_type(task_type))
         if name not in _TOOL_REGISTRY:
-            try:
-                from .conceptmappingtool import ConceptMappingTool
-                _TOOL_REGISTRY[name] = ConceptMappingTool()
-            except ValueError as e:
-                logger.warning(f"ConceptMappingTool not registered (missing BIOPORTAL_API_KEY): {e}")
-                return None
+            _TOOL_REGISTRY[name] = repair_json_tool
         return _TOOL_REGISTRY.get(name)
     if name not in _TOOL_REGISTRY:
         logger.warning(f"Unknown tool name '{name}', skipping")
@@ -266,6 +305,7 @@ def get_tools_for_agent(
             task_config=task_config,
             agent_key=agent_key,
             task_key=task_key,
+            task_type=task_type,
         )
         if t is not None:
             tools.append(t)

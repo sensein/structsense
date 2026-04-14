@@ -65,6 +65,121 @@ def cli(ctx):
     default=None,
     help="Cap extraction chunk size in chars so chunk+prompt stays under model context (default 25000 for 128k models). None = no cap.",
 )
+@click.option(
+    "--skip_alignment_llm",
+    required=False,
+    default=None,
+    type=click.Choice(["true", "false", "auto"], case_sensitive=False),
+    help=(
+        "Skip the alignment LLM and call the concept mapping tool directly instead. "
+        "'auto' (default): skip when CONCEPT_MAPPING_BACKEND=local and task is NER/keyphrase/resource. "
+        "'true': always skip. 'false': always run the alignment LLM. "
+        "Can also be set via env var SKIP_ALIGNMENT_LLM=true/false/auto."
+    ),
+)
+@click.option(
+    "--skip_judge_llm",
+    required=False,
+    default=None,
+    type=click.Choice(["true", "false"], case_sensitive=False),
+    help=(
+        "Skip the judge LLM and inject default judge_score=1.0 / remarks='auto-approved' instead. "
+        "'true': always skip. 'false': always run the judge LLM (default). "
+        "Can also be set via env var SKIP_JUDGE_LLM=true/false."
+    ),
+)
+@click.option(
+    "--downstream_chunk_size",
+    required=False,
+    type=int,
+    default=None,
+    help=(
+        "Entities per chunk for parallel alignment/judge/humanfeedback. "
+        "When --enable_chunking is set, downstream stages are split into chunks of this size "
+        "and run in parallel (default: auto-calculated as ceil(total_entities / max_workers)). "
+        "E.g. with 800 entities and max_workers=8, default is 100 entities/chunk = 8 parallel jobs."
+    ),
+)
+@click.option(
+    "--model_context_window",
+    required=False,
+    type=int,
+    default=None,
+    help=(
+        "Override the auto-detected model context window (tokens) used for downstream chunk sizing. "
+        "Use this when your model is not in the built-in registry or is behind a custom proxy. "
+        "E.g. --model_context_window 200000 for a 200k-token model. "
+        "When omitted, the context window is auto-detected from the model name in the config."
+    ),
+)
+@click.option(
+    "--agent_max_iter",
+    required=False,
+    type=int,
+    default=None,
+    help=(
+        "Maximum number of reasoning iterations each CrewAI agent is allowed per run "
+        "before it is forced to return its best answer. Applies to every agent in the "
+        "pipeline (extractor, alignment, judge, humanfeedback). "
+        "CrewAI default is 20. Lower values (e.g. 3-5) reduce cost and latency for "
+        "straightforward tasks; higher values give agents more attempts on complex inputs. "
+        "Can also be set via env var AGENT_MAX_ITER=<int>."
+    ),
+)
+@click.option(
+    "--agent_max_execution_time",
+    required=False,
+    type=int,
+    default=None,
+    help=(
+        "Maximum wall-clock seconds each CrewAI agent is allowed to run before it is "
+        "interrupted and forced to return its current best answer. Default: 30s. "
+        "Set to a larger value for complex tasks. "
+        "Can also be set via env var AGENT_MAX_EXECUTION_TIME=<int>."
+    ),
+)
+@click.option(
+    "--agent_max_retry_limit",
+    required=False,
+    type=int,
+    default=None,
+    help=(
+        "Maximum number of times each CrewAI agent retries after a recoverable error "
+        "(e.g. tool failure, parse error). Default: 0 (fail fast). "
+        "Can also be set via env var AGENT_MAX_RETRY_LIMIT=<int>."
+    ),
+)
+@click.option(
+    "--preload_stage",
+    "preload_stages",
+    required=False,
+    multiple=True,
+    metavar="TASK_KEY:FILE",
+    help=(
+        "Skip a pipeline stage by loading its output from a saved JSON file. "
+        "Format: TASK_KEY:path/to/file.json  (e.g. extraction_task:00_extractor_agent_extraction_task.json). "
+        "Repeat the flag for each stage you want to skip. "
+        "Valid task keys: extraction_task, alignment_task, judge_task, humanfeedback_task."
+    ),
+)
+@click.option(
+    "--skip_stage",
+    "skip_stages",
+    required=False,
+    multiple=True,
+    metavar="TASK_KEY",
+    help=(
+        "Omit a pipeline stage entirely. The previous stage's output is passed directly "
+        "to the next non-skipped stage. Repeat the flag for each stage to skip. "
+        "Examples:\n\n"
+        "  Run extraction + alignment only:\n"
+        "    --skip_stage judge_task --skip_stage humanfeedback_task\n\n"
+        "  Run extraction + judge (skip alignment):\n"
+        "    --skip_stage alignment_task\n\n"
+        "Valid task keys: alignment_task, judge_task, humanfeedback_task. "
+        "(extraction_task cannot be skipped; use --preload_stage for that.)"
+    ),
+)
 def extract(
     config,
     api_key,
@@ -77,8 +192,33 @@ def extract(
     enable_chunking,
     downstream_max_input_chars,
     max_extraction_chunk_chars,
+    skip_alignment_llm,
+    skip_judge_llm,
+    downstream_chunk_size,
+    model_context_window,
+    agent_max_iter,
+    agent_max_execution_time,
+    agent_max_retry_limit,
+    preload_stages,
+    skip_stages,
 ):
     """Extract the terms along with sentence using a single config file."""
+    import json
+
+    # Parse --preload_stage KEY:FILE entries into a dict
+    preloaded_stages_dict = {}
+    for entry in preload_stages:
+        if ":" not in entry:
+            raise click.UsageError(
+                f"--preload_stage must be in TASK_KEY:FILE format, got: {entry!r}"
+            )
+        task_key, file_path = entry.split(":", 1)
+        if not os.path.exists(file_path):
+            raise click.UsageError(f"Preload file not found: {file_path!r}")
+        with open(file_path) as fh:
+            preloaded_stages_dict[task_key] = json.load(fh)
+        click.echo(f"Preloaded stage '{task_key}' from {file_path}")
+
     # Load the config file
     if source and source_text:
         raise click.UsageError("Please provide either --source or --source_text, not both.")
@@ -113,10 +253,28 @@ def extract(
         max_workers=max_workers,
         downstream_max_input_chars=downstream_max_input_chars,
         max_extraction_chunk_chars=max_extraction_chunk_chars,
+        downstream_chunk_size=downstream_chunk_size,
+        model_context_window=model_context_window,
+        skip_alignment_llm=(
+            None if skip_alignment_llm == "auto" or skip_alignment_llm is None
+            else skip_alignment_llm.lower() == "true"
+        ),
+        skip_judge_llm=(
+            None if skip_judge_llm is None
+            else skip_judge_llm.lower() == "true"
+        ),
+        skip_stages=list(skip_stages) if skip_stages else None,
+        agent_max_iter=agent_max_iter,
+        agent_max_execution_time=agent_max_execution_time,
+        agent_max_retry_limit=agent_max_retry_limit,
     )
 
     # Run the full pipeline (extraction → alignment → judge → humanfeedback)
-    result = asyncio.run(flow.information_extraction_task())
+    result = asyncio.run(
+        flow.information_extraction_task(
+            preloaded_stages=preloaded_stages_dict if preloaded_stages_dict else None
+        )
+    )
 
     # Output results
     click.echo("*" * 100)
@@ -126,8 +284,6 @@ def extract(
 
     # Save to file if requested
     if save_file:
-        import json
-
         with open(save_file, "w") as f:
             json.dump(result, f, indent=2)
         click.echo(f"Result saved to {save_file}")
@@ -173,6 +329,36 @@ def extract(
     default=None,
     help="Cap extraction chunk size in chars for model context (default 25000). None = no cap.",
 )
+@click.option(
+    "--agent_max_iter",
+    required=False,
+    type=int,
+    default=None,
+    help=(
+        "Maximum reasoning iterations per agent run before forced answer. "
+        "Can also be set via env var AGENT_MAX_ITER=<int>."
+    ),
+)
+@click.option(
+    "--agent_max_execution_time",
+    required=False,
+    type=int,
+    default=None,
+    help=(
+        "Maximum wall-clock seconds per agent run before forced answer. Default: 30s. "
+        "Can also be set via env var AGENT_MAX_EXECUTION_TIME=<int>."
+    ),
+)
+@click.option(
+    "--agent_max_retry_limit",
+    required=False,
+    type=int,
+    default=None,
+    help=(
+        "Maximum agent-level retries on recoverable errors. Default: 0. "
+        "Can also be set via env var AGENT_MAX_RETRY_LIMIT=<int>."
+    ),
+)
 def run_agent(
     config,
     agent_key,
@@ -187,6 +373,9 @@ def run_agent(
     enable_chunking,
     downstream_max_input_chars,
     max_extraction_chunk_chars,
+    agent_max_iter,
+    agent_max_execution_time,
+    agent_max_retry_limit,
 ):
     """Run a specific agent-task combination directly with full control.
 
@@ -243,6 +432,9 @@ def run_agent(
         max_workers=max_workers,
         downstream_max_input_chars=downstream_max_input_chars,
         max_extraction_chunk_chars=max_extraction_chunk_chars,
+        agent_max_iter=agent_max_iter,
+        agent_max_execution_time=agent_max_execution_time,
+        agent_max_retry_limit=agent_max_retry_limit,
     )
 
     # Run the specific agent-task directly
