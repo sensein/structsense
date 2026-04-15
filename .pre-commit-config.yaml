@@ -33,9 +33,9 @@ repos:
     args: [--maxkb=15000]
   - id: check-case-conflict
   - id: end-of-file-fixer
-    exclude: \.(pdf|svg|png|jpg|jpeg|zip|json)$
+    exclude: \.(pdf|svg|png|jpg|jpeg|zip|json)$|^evaluation/(?!.*\.(md|yaml|py)$).*$
   - id: trailing-whitespace
-    exclude: \.(pdf|svg|png|jpg|jpeg|zip|json)$
+    exclude: \.(pdf|svg|png|jpg|jpeg|zip|json)$|^evaluation/(?!.*\.(md|yaml|py)$).*$
   # removing checks for json since they are mostly results (we can think about it later)
 #  - id: pretty-format-json
 #    args:
@@ -54,7 +54,7 @@ repos:
   rev: v2.3.0
   hooks:
   - id: codespell
-    exclude: \.(pdf|svg|png|jpg|jpeg|zip|json)$|^evaluation/(?!.*\.(md|yaml)$).*$
+    exclude: \.(pdf|svg|png|jpg|jpeg|zip|json)$|^evaluation/(?!.*\.(md|yaml|py)$).*$
     args:
     - --skip=poetry.lock,docs_style/pdoc-theme/syntax-highlighting.css,*.cha
     - --ignore-words-list=SIE,sie

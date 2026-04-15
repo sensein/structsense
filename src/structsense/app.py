@@ -268,12 +268,14 @@ def _end_stage_llm_tracking(task_key: str, n_chunks: int, stage_elapsed: float) 
     agent_key = tracker.get("agent_key", "unknown")
 
     # Store for final summary
-    tracker.update({
-        "n_chunks": n_chunks,
-        "calls": stage_calls,
-        "calls_per_chunk": calls_per_chunk,
-        "elapsed": stage_elapsed,
-    })
+    tracker.update(
+        {
+            "n_chunks": n_chunks,
+            "calls": stage_calls,
+            "calls_per_chunk": calls_per_chunk,
+            "elapsed": stage_elapsed,
+        }
+    )
 
     llm_logger = logging.getLogger("llm_calls")
     if llm_logger.handlers:
@@ -281,8 +283,7 @@ def _end_stage_llm_tracking(task_key: str, n_chunks: int, stage_elapsed: float) 
         llm_logger.info(f"[STAGE COMPLETE] {agent_key} / {task_key}")
         llm_logger.info(f"  Chunks          : {n_chunks}")
         llm_logger.info(f"  LLM calls       : {stage_calls}")
-        llm_logger.info(f"  Calls/chunk     : {calls_per_chunk:.1f}  "
-                        f"(= {n_chunks} chunks × {calls_per_chunk:.1f} calls/chunk)")
+        llm_logger.info(f"  Calls/chunk     : {calls_per_chunk:.1f}  " f"(= {n_chunks} chunks × {calls_per_chunk:.1f} calls/chunk)")
         llm_logger.info(f"  Stage elapsed   : {stage_elapsed:.1f}s")
         llm_logger.info(f"  Running total   : {current_n} calls so far this run")
         llm_logger.info("-" * 70)
@@ -290,7 +291,12 @@ def _end_stage_llm_tracking(task_key: str, n_chunks: int, stage_elapsed: float) 
 
     logger.info(
         "[llm_tracking] %s/%s: %d chunks × %.1f calls/chunk = %d LLM calls (%.1fs)",
-        agent_key, task_key, n_chunks, calls_per_chunk, stage_calls, stage_elapsed,
+        agent_key,
+        task_key,
+        n_chunks,
+        calls_per_chunk,
+        stage_calls,
+        stage_elapsed,
     )
 
 
@@ -323,7 +329,9 @@ def _on_before_llm_call(context):
     llm_logger.info("=" * 70)
     llm_logger.info(f"[LLM CALL #{n}]")
     llm_logger.info(f"Agent          : {agent_role}")
-    llm_logger.info(f"max_iter       : {agent_max_iter}  |  max_execution_time: {agent_max_exec_time}s  |  max_retry_limit: {agent_max_retry}")
+    llm_logger.info(
+        f"max_iter       : {agent_max_iter}  |  max_execution_time: {agent_max_exec_time}s  |  max_retry_limit: {agent_max_retry}"
+    )
     llm_logger.info(f"Task           : {task_desc[:120]}")
     llm_logger.info(f"Iteration      : {iteration}")
     llm_logger.info(f"Messages       : {len(messages)}")
@@ -420,34 +428,34 @@ class StructSenseFlow:
     """
 
     def __init__(
-            self,
-            agent_config: Union[str, dict],
-            task_config: Union[str, dict],
-            embedder_config: Union[str, dict],
-            source_text: Optional[str] = None,
-            source: Optional[Union[str, dict]] = None,
-            enable_human_feedback: bool = False,
-            enable_chunking: bool = False,
-            knowledge_config: Optional[Union[str, dict]] = None,
-            agent_feedback_config: Optional[Dict[str, bool]] = None,
-            env_file: Optional[str] = None,
-            api_key: Optional[str] = None,
-            chunk_size: Optional[int] = None,
-            max_workers: Optional[int] = None,
-            downstream_max_input_chars: Optional[int] = None,
-            max_extraction_chunk_chars: Optional[int] = None,
-            return_full_pipeline_details: bool = False,
-            stage_output_dir: Optional[str] = os.getcwd(),
-            downstream_chunk_size: Optional[int] = None,
-            skip_alignment_llm: Optional[bool] = None,
-            skip_judge_llm: Optional[bool] = None,
-            direct_judge_api: Optional[bool] = True,
-            direct_humanfeedback_api: Optional[bool] = True,
-            model_context_window: Optional[int] = None,
-            skip_stages: Optional[List[str]] = None,
-            agent_max_iter: Optional[int] = None,
-            agent_max_execution_time: Optional[int] = None,
-            agent_max_retry_limit: Optional[int] = None,
+        self,
+        agent_config: Union[str, dict],
+        task_config: Union[str, dict],
+        embedder_config: Union[str, dict],
+        source_text: Optional[str] = None,
+        source: Optional[Union[str, dict]] = None,
+        enable_human_feedback: bool = False,
+        enable_chunking: bool = False,
+        knowledge_config: Optional[Union[str, dict]] = None,
+        agent_feedback_config: Optional[Dict[str, bool]] = None,
+        env_file: Optional[str] = None,
+        api_key: Optional[str] = None,
+        chunk_size: Optional[int] = None,
+        max_workers: Optional[int] = None,
+        downstream_max_input_chars: Optional[int] = None,
+        max_extraction_chunk_chars: Optional[int] = None,
+        return_full_pipeline_details: bool = False,
+        stage_output_dir: Optional[str] = os.getcwd(),
+        downstream_chunk_size: Optional[int] = None,
+        skip_alignment_llm: Optional[bool] = None,
+        skip_judge_llm: Optional[bool] = None,
+        direct_judge_api: Optional[bool] = True,
+        direct_humanfeedback_api: Optional[bool] = True,
+        model_context_window: Optional[int] = None,
+        skip_stages: Optional[List[str]] = None,
+        agent_max_iter: Optional[int] = None,
+        agent_max_execution_time: Optional[int] = None,
+        agent_max_retry_limit: Optional[int] = None,
     ):
         """Initialize StructSenseFlow with config paths and input.
 
@@ -696,7 +704,8 @@ class StructSenseFlow:
                 skip_alignment_llm = str_to_bool(_env_sal)
             logger.info(
                 "skip_alignment_llm overridden by env SKIP_ALIGNMENT_LLM=%s -> %s",
-                os.environ["SKIP_ALIGNMENT_LLM"], skip_alignment_llm,
+                os.environ["SKIP_ALIGNMENT_LLM"],
+                skip_alignment_llm,
             )
         self.skip_alignment_llm = skip_alignment_llm
 
@@ -708,7 +717,8 @@ class StructSenseFlow:
             skip_judge_llm = str_to_bool(os.environ["SKIP_JUDGE_LLM"].strip())
             logger.info(
                 "skip_judge_llm overridden by env SKIP_JUDGE_LLM=%s -> %s",
-                os.environ["SKIP_JUDGE_LLM"], skip_judge_llm,
+                os.environ["SKIP_JUDGE_LLM"],
+                skip_judge_llm,
             )
         self.skip_judge_llm = skip_judge_llm
 
@@ -719,7 +729,8 @@ class StructSenseFlow:
             direct_judge_api = str_to_bool(os.environ["DIRECT_JUDGE_API"].strip())
             logger.info(
                 "direct_judge_api overridden by env DIRECT_JUDGE_API=%s -> %s",
-                os.environ["DIRECT_JUDGE_API"], direct_judge_api,
+                os.environ["DIRECT_JUDGE_API"],
+                direct_judge_api,
             )
         self.direct_judge_api = direct_judge_api if direct_judge_api is not None else True
 
@@ -729,7 +740,8 @@ class StructSenseFlow:
             direct_humanfeedback_api = str_to_bool(os.environ["DIRECT_HUMANFEEDBACK_API"].strip())
             logger.info(
                 "direct_humanfeedback_api overridden by env DIRECT_HUMANFEEDBACK_API=%s -> %s",
-                os.environ["DIRECT_HUMANFEEDBACK_API"], direct_humanfeedback_api,
+                os.environ["DIRECT_HUMANFEEDBACK_API"],
+                direct_humanfeedback_api,
             )
         self.direct_humanfeedback_api = direct_humanfeedback_api if direct_humanfeedback_api is not None else True
 
@@ -765,7 +777,9 @@ class StructSenseFlow:
                 agent_max_execution_time = int(os.environ["AGENT_MAX_EXECUTION_TIME"])
                 logger.info("agent_max_execution_time overridden by env AGENT_MAX_EXECUTION_TIME=%d", agent_max_execution_time)
             except ValueError:
-                logger.warning("AGENT_MAX_EXECUTION_TIME env var is not a valid integer (%r) — ignoring", os.environ["AGENT_MAX_EXECUTION_TIME"])
+                logger.warning(
+                    "AGENT_MAX_EXECUTION_TIME env var is not a valid integer (%r) — ignoring", os.environ["AGENT_MAX_EXECUTION_TIME"]
+                )
         self.agent_max_execution_time: Optional[int] = agent_max_execution_time
 
         # Max agent-level retries on recoverable errors. Env var AGENT_MAX_RETRY_LIMIT=<int>.
@@ -811,10 +825,6 @@ class StructSenseFlow:
         # Cache for pipeline-level task type: detected once at extraction phase,
         # reused for all downstream stages within the same pipeline run.
         self._pipeline_task_type: Optional[str] = None
-
-
-
-
 
     async def run_agent_task(
         self,
@@ -1282,9 +1292,10 @@ class StructSenseFlow:
                 prev_output = preloaded
                 entity_count = len(preloaded.get("entities") or []) if isinstance(preloaded, dict) else "n/a"
                 logger.info(
-                    "[preloaded] Skipping %s/%s — using saved output "
-                    "(entities=%s, keys=%s)",
-                    agent_key, task_key, entity_count,
+                    "[preloaded] Skipping %s/%s — using saved output " "(entities=%s, keys=%s)",
+                    agent_key,
+                    task_key,
+                    entity_count,
                     list(preloaded.keys()) if isinstance(preloaded, dict) else "?",
                 )
                 stage_timings[task_key] = 0.0
@@ -1321,19 +1332,15 @@ class StructSenseFlow:
                 # Resource alignment (like NER alignment) only needs ontology mapping — the
                 # LLM adds no value over a direct batch tool call when the local backend is used.
                 _auto_skip = (
-                    task_type in ("ner", "keyphrase_extraction", "resource", "structured_extraction")
-                    and _cm_backend_now == "local"
+                    task_type in ("ner", "keyphrase_extraction", "resource", "structured_extraction") and _cm_backend_now == "local"
                 )
-                _do_skip = (
-                    self.skip_alignment_llm is True
-                    or (self.skip_alignment_llm is None and _auto_skip)
-                )
+                _do_skip = self.skip_alignment_llm is True or (self.skip_alignment_llm is None and _auto_skip)
                 if _do_skip:
                     import copy as _copy
+
                     stage_start_time = time.time()
                     logger.info(
-                        "[alignment_task] Fast-alignment bypass active — "
-                        "calling concept mapping tool directly, skipping alignment LLM"
+                        "[alignment_task] Fast-alignment bypass active — " "calling concept mapping tool directly, skipping alignment LLM"
                     )
 
                     # Collect texts for concept mapping.
@@ -1341,6 +1348,7 @@ class StructSenseFlow:
                     # For resource/structured_extraction: resource name from resources list.
                     # Both paths deduplicate before calling the tool.
                     _fa_texts: list = []
+
                     def _fa_collect(ent):
                         if isinstance(ent, dict):
                             t = ent.get("entity") or ent.get("text") or ent.get("name")
@@ -1382,6 +1390,7 @@ class StructSenseFlow:
                     if _fa_unique:
                         try:
                             from utils.conceptmappinglocal import ConceptMappingLocalTool as _CMToolFA
+
                             _CMToolFA()._run(text=_fa_unique)
                         except Exception as _fa_exc:
                             logger.warning("[alignment_task] Fast-alignment tool call failed: %s", _fa_exc)
@@ -1398,9 +1407,7 @@ class StructSenseFlow:
                             # NER/keyphrase: inject ontology fields into entity dicts
                             _fa_entities = _aligned.get("entities") or []
                             if _fa_entities:
-                                _fa_enriched = inject_alignment_concept_mapping_into_ner_entities(
-                                    _fa_entities, _fa_session
-                                )
+                                _fa_enriched = inject_alignment_concept_mapping_into_ner_entities(_fa_entities, _fa_session)
                                 logger.info(
                                     "[alignment_task] Fast-alignment enriched %d entities with ontology fields",
                                     _fa_enriched,
@@ -1417,9 +1424,7 @@ class StructSenseFlow:
                             for _rkey in ("resources", "aligned_resources", "extracted_resources"):
                                 _fa_resources = _aligned.get(_rkey) or []
                                 if _fa_resources:
-                                    _fa_res_enriched += inject_alignment_concept_mapping_into_resources(
-                                        _fa_resources, _fa_session
-                                    )
+                                    _fa_res_enriched += inject_alignment_concept_mapping_into_resources(_fa_resources, _fa_session)
                             if _fa_res_enriched:
                                 logger.info(
                                     "[alignment_task] Fast-alignment enriched %d resources with ontology fields",
@@ -1474,11 +1479,9 @@ class StructSenseFlow:
             # ------------------------------------------------------------------
             if task_key == "judge_task" and prev_output is not None and self.skip_judge_llm:
                 import copy as _jcopy
+
                 stage_start_time = time.time()
-                logger.info(
-                    "[judge_task] Fast-judge bypass active — "
-                    "injecting default judge_score/remarks, skipping judge LLM"
-                )
+                logger.info("[judge_task] Fast-judge bypass active — " "injecting default judge_score/remarks, skipping judge LLM")
                 _judged = _jcopy.deepcopy(prev_output)
                 _judged["judge_method"] = "auto_approved"
                 _judged["judge_llm_skipped"] = True
@@ -1490,9 +1493,7 @@ class StructSenseFlow:
                         _jent.setdefault("judge_score", 1.0)
                         _jent.setdefault("remarks", "auto-approved: judge LLM skipped")
                         _jfa_count += 1
-                logger.info(
-                    "[judge_task] Fast-judge: injected default scores into %d entities", _jfa_count
-                )
+                logger.info("[judge_task] Fast-judge: injected default scores into %d entities", _jfa_count)
 
                 promote_stage_output_to_canonical(_judged, task_type)
 
@@ -1500,9 +1501,7 @@ class StructSenseFlow:
                 pipeline_stages[task_key] = _judged
                 stage_elapsed = time.time() - stage_start_time
                 stage_timings[f"{agent_key}_{task_key}"] = stage_elapsed
-                logger.info(
-                    "[judge_task] Fast-judge completed in %.2fs (LLM call skipped)", stage_elapsed
-                )
+                logger.info("[judge_task] Fast-judge completed in %.2fs (LLM call skipped)", stage_elapsed)
 
                 if self.stage_output_dir and pipeline_stages.get(task_key) is not None:
                     try:
@@ -1536,10 +1535,9 @@ class StructSenseFlow:
             # ------------------------------------------------------------------
             if task_key == "judge_task" and prev_output is not None and self.direct_judge_api:
                 import copy as _djcopy
+
                 stage_start_time = time.time()
-                logger.info(
-                    "[judge_task] Direct-API judge active — bypassing CrewAI agent"
-                )
+                logger.info("[judge_task] Direct-API judge active — bypassing CrewAI agent")
 
                 # Resolve LLM config for the judge agent from its agent_config entry
                 _djllm = self.agent_config.get(agent_key, {}).get("llm", {})
@@ -1552,29 +1550,20 @@ class StructSenseFlow:
                     _dj_base_url = "https://openrouter.ai/api/v1"
                     logger.warning(
                         "[judge_task] Direct-API: no LLM config found for agent_key=%s — using fallback model=%s",
-                        agent_key, _dj_model,
+                        agent_key,
+                        _dj_model,
                     )
                 # OpenRouter expects model ID without the "openrouter/" prefix
                 if "openrouter" in _dj_base_url.lower() and _dj_model.startswith("openrouter/"):
                     _dj_model = _dj_model.replace("openrouter/", "", 1)
 
-                _dj_api_key = (
-                    os.environ.get("OPENROUTER_API_KEY")
-                    or os.environ.get("OPENAI_API_KEY")
-                    or ""
-                )
+                _dj_api_key = os.environ.get("OPENROUTER_API_KEY") or os.environ.get("OPENAI_API_KEY") or ""
                 _djudged = _djcopy.deepcopy(prev_output)
                 _dj_entities = _djudged.get("entities") or []
 
                 # Determine primary work-item list and its key (entities for NER/keyphrase,
                 # resources for resource/structured_extraction tasks)
-                _dj_items_key = (
-                    "entities"
-                    if _djudged.get("entities")
-                    else "resources"
-                    if _djudged.get("resources")
-                    else "entities"
-                )
+                _dj_items_key = "entities" if _djudged.get("entities") else "resources" if _djudged.get("resources") else "entities"
                 _dj_entities = _djudged.get(_dj_items_key) or []
 
                 # Token-aware batch size — reuse the same compute_downstream_chunk_size
@@ -1586,11 +1575,7 @@ class StructSenseFlow:
                     if isinstance(_ps, dict) and "_extraction_chunk_count" in _ps:
                         _dj_extraction_chunk_count = _ps["_extraction_chunk_count"]
                         break
-                _dj_task_cfg = (
-                    self.task_config.get(task_key, {})
-                    if isinstance(self.task_config, dict)
-                    else {}
-                )
+                _dj_task_cfg = self.task_config.get(task_key, {}) if isinstance(self.task_config, dict) else {}
                 _dj_prompt_overhead = estimate_agent_prompt_tokens(
                     agent_config=self.agent_config.get(agent_key, {}),
                     task_config=_dj_task_cfg,
@@ -1636,16 +1621,21 @@ class StructSenseFlow:
                         "[judge_task] Direct-API output guard: output_cap=%d tok "
                         "(%.1f tok/item → max %d items), min_chunks=%d (→ max %d items) "
                         "→ batch %d → %d items",
-                        _dj_out_cap, _dj_tok_per_item, _dj_out_capped,
-                        _dj_min_chunks, _dj_min_chunk_batch,
-                        _dj_batch, _dj_effective,
+                        _dj_out_cap,
+                        _dj_tok_per_item,
+                        _dj_out_capped,
+                        _dj_min_chunks,
+                        _dj_min_chunk_batch,
+                        _dj_batch,
+                        _dj_effective,
                     )
                 _dj_batch = _dj_effective
 
                 logger.info(
-                    "[judge_task] Direct-API batch size: %d items/batch "
-                    "(should_batch=%s, model=%s)",
-                    _dj_batch, _dj_should_batch, _dj_model,
+                    "[judge_task] Direct-API batch size: %d items/batch " "(should_batch=%s, model=%s)",
+                    _dj_batch,
+                    _dj_should_batch,
+                    _dj_model,
                 )
 
                 async def _judge_entities_direct(_ents, _model, _base_url, _key, _batch_idx, _items_key, _attempt=0):
@@ -1660,14 +1650,15 @@ class StructSenseFlow:
                     """
                     _MAX_RETRIES = 3
                     from openai import AsyncOpenAI as _AsyncOpenAI
+
                     _c = _AsyncOpenAI(base_url=_base_url, api_key=_key)
                     _sys = (
                         "You are a neuroscience NER quality judge. "
-                        f"For EVERY item in the input \"{_items_key}\" list add exactly two fields: "
-                        "\"judge_score\" (float 0.0-1.0, where 1.0=perfect alignment) and "
-                        "\"remarks\" (string, brief explanation). "
+                        f'For EVERY item in the input "{_items_key}" list add exactly two fields: '
+                        '"judge_score" (float 0.0-1.0, where 1.0=perfect alignment) and '
+                        '"remarks" (string, brief explanation). '
                         "Preserve ALL existing fields unchanged. "
-                        f"Return ONLY valid JSON: {{\"{_items_key}\": [...]}}. No markdown, no prose."
+                        f'Return ONLY valid JSON: {{"{_items_key}": [...]}}. No markdown, no prose.'
                     )
                     _payload = json.dumps({_items_key: _ents}, ensure_ascii=False)
 
@@ -1727,7 +1718,11 @@ class StructSenseFlow:
                         # Truncated JSON (Unterminated string, Expecting value, etc.) — split batch in half
                         logger.warning(
                             "[judge_task] Direct API batch %d JSON parse error (attempt %d/%d, %d items): %s — splitting batch",
-                            _batch_idx + 1, _attempt + 1, _MAX_RETRIES, len(_ents), _ex,
+                            _batch_idx + 1,
+                            _attempt + 1,
+                            _MAX_RETRIES,
+                            len(_ents),
+                            _ex,
                         )
                         if len(_ents) > 1:
                             _mid = len(_ents) // 2
@@ -1740,10 +1735,14 @@ class StructSenseFlow:
                         return _ents
                     except Exception as _ex:
                         if _attempt + 1 < _MAX_RETRIES:
-                            _wait = 2 ** _attempt
+                            _wait = 2**_attempt
                             logger.warning(
                                 "[judge_task] Direct API batch %d error (attempt %d/%d, retry in %ds): %s",
-                                _batch_idx + 1, _attempt + 1, _MAX_RETRIES, _wait, _ex,
+                                _batch_idx + 1,
+                                _attempt + 1,
+                                _MAX_RETRIES,
+                                _wait,
+                                _ex,
                             )
                             await asyncio.sleep(_wait)
                             return await _judge_entities_direct(_ents, _model, _base_url, _key, _batch_idx, _items_key, _attempt + 1)
@@ -1754,22 +1753,27 @@ class StructSenseFlow:
                     _begin_stage_llm_tracking(task_key, agent_key)
                     try:
                         # Split into batches and run all in parallel
-                        _dj_batches = [
-                            _dj_entities[_dj_i: _dj_i + _dj_batch]
-                            for _dj_i in range(0, len(_dj_entities), _dj_batch)
-                        ]
+                        _dj_batches = [_dj_entities[_dj_i : _dj_i + _dj_batch] for _dj_i in range(0, len(_dj_entities), _dj_batch)]
                         _dj_n_batches = len(_dj_batches)
                         logger.info(
                             "[judge_task] Direct-API judge: %d items → %d batches × %d, running in parallel",
-                            len(_dj_entities), _dj_n_batches, _dj_batch,
+                            len(_dj_entities),
+                            _dj_n_batches,
+                            _dj_batch,
                         )
-                        _dj_batch_results = await asyncio.gather(*[
-                            _judge_entities_direct(
-                                _dj_batches[_bi], _dj_model, _dj_base_url, _dj_api_key,
-                                _bi, _dj_items_key,
-                            )
-                            for _bi in range(_dj_n_batches)
-                        ])
+                        _dj_batch_results = await asyncio.gather(
+                            *[
+                                _judge_entities_direct(
+                                    _dj_batches[_bi],
+                                    _dj_model,
+                                    _dj_base_url,
+                                    _dj_api_key,
+                                    _bi,
+                                    _dj_items_key,
+                                )
+                                for _bi in range(_dj_n_batches)
+                            ]
+                        )
                         _dj_scored: list = []
                         for _dj_result in _dj_batch_results:
                             for _e in _dj_result:
@@ -1782,12 +1786,12 @@ class StructSenseFlow:
                         _end_stage_llm_tracking(task_key, _dj_n_batches, time.time() - stage_start_time)
                         logger.info(
                             "[judge_task] Direct-API judge scored %d %s in %.2fs",
-                            len(_dj_scored), _dj_items_key, time.time() - stage_start_time,
+                            len(_dj_scored),
+                            _dj_items_key,
+                            time.time() - stage_start_time,
                         )
                     except Exception as _dj_exc:
-                        logger.warning(
-                            "[judge_task] Direct-API judge failed (%s); injecting defaults", _dj_exc
-                        )
+                        logger.warning("[judge_task] Direct-API judge failed (%s); injecting defaults", _dj_exc)
                         for _e in _dj_entities:
                             if isinstance(_e, dict):
                                 _e.setdefault("judge_score", 0.8)
@@ -1802,7 +1806,8 @@ class StructSenseFlow:
                     _djudged["judge_method"] = "auto_approved"
                     logger.info(
                         "[judge_task] Direct-API judge: no items/key, injected defaults into %d %s",
-                        len(_dj_entities), _dj_items_key,
+                        len(_dj_entities),
+                        _dj_items_key,
                     )
 
                 # --- post-processing: same checks as the CrewAI chunked path ---
@@ -1813,9 +1818,9 @@ class StructSenseFlow:
                 _dj_post_count = len(_djudged.get(_dj_items_key) or [])
                 if _dj_post_count < _dj_pre_count:
                     logger.warning(
-                        "[judge_task] Direct-API: item count dropped %d → %d; "
-                        "recovering from best prior stage.",
-                        _dj_pre_count, _dj_post_count,
+                        "[judge_task] Direct-API: item count dropped %d → %d; " "recovering from best prior stage.",
+                        _dj_pre_count,
+                        _dj_post_count,
                     )
                     _dj_fallback = None
                     for _fkey in list(pipeline_stages.keys())[::-1]:
@@ -1824,15 +1829,16 @@ class StructSenseFlow:
                             _dj_fallback = _fs
                             logger.info(
                                 "[judge_task] Direct-API: recovered %d %s from stage '%s'",
-                                len(_fs.get(_dj_items_key, [])), _dj_items_key, _fkey,
+                                len(_fs.get(_dj_items_key, [])),
+                                _dj_items_key,
+                                _fkey,
                             )
                             break
                     if _dj_fallback is not None:
                         from utils.downstream_agent_helper import _extend_previous_stage
+
                         _djudged = _extend_previous_stage(_dj_fallback, _djudged)
-                        _djudged[_dj_items_key] = (
-                            _dj_fallback.get(_dj_items_key) or _djudged.get(_dj_items_key) or []
-                        )
+                        _djudged[_dj_items_key] = _dj_fallback.get(_dj_items_key) or _djudged.get(_dj_items_key) or []
 
                 # 2. Ontology consistency pass: unify ontology IDs that may differ
                 #    across parallel batches for the same entity text.
@@ -1854,9 +1860,7 @@ class StructSenseFlow:
                 pipeline_stages[task_key] = _djudged
                 stage_elapsed = time.time() - stage_start_time
                 stage_timings[f"{agent_key}_{task_key}"] = stage_elapsed
-                logger.info(
-                    "[judge_task] Direct-API judge completed in %.2fs", stage_elapsed
-                )
+                logger.info("[judge_task] Direct-API judge completed in %.2fs", stage_elapsed)
 
                 if self.stage_output_dir and pipeline_stages.get(task_key) is not None:
                     try:
@@ -1945,11 +1949,15 @@ class StructSenseFlow:
                     #     [alignment_task] Pre-computing: 87 terms (entities=2, key_terms=10, raw_extracted=75)
                     _cm_backend = os.getenv("CONCEPT_MAPPING_BACKEND", "local").strip().lower()
                     if _cm_backend == "local" and task_type in (
-                        "ner", "extraction", "keyphrase_extraction",
-                        "resource", "structured_extraction",
+                        "ner",
+                        "extraction",
+                        "keyphrase_extraction",
+                        "resource",
+                        "structured_extraction",
                     ):
                         try:
                             from utils.conceptmappinglocal import ConceptMappingLocalTool as _CMTool
+
                             _pre_texts: list = []
 
                             def _collect_entity_text(ent):
@@ -2016,9 +2024,9 @@ class StructSenseFlow:
                                 )
                         except Exception as _pre_exc:
                             import traceback
+
                             print(
-                                f"[PRE-COMPUTE ERROR] Concept mapping pre-compute failed: {_pre_exc}\n"
-                                f"{traceback.format_exc()}",
+                                f"[PRE-COMPUTE ERROR] Concept mapping pre-compute failed: {_pre_exc}\n" f"{traceback.format_exc()}",
                                 flush=True,
                             )
                             logger.warning("[alignment_task] Pre-compute concept mapping skipped: %s", _pre_exc)
@@ -2086,7 +2094,8 @@ class StructSenseFlow:
                             logger.info(
                                 "[humanfeedback_task] prev_output had empty entities after judge stage "
                                 "(wrong-schema / default-fallback case); recovered %d entities from '%s'.",
-                                len(_fs["entities"]), _fk,
+                                len(_fs["entities"]),
+                                _fk,
                             )
                             break
 
@@ -2172,10 +2181,9 @@ class StructSenseFlow:
                 and self.direct_humanfeedback_api
             ):
                 import copy as _hfcopy
+
                 stage_start_time = time.time()
-                logger.info(
-                    "[humanfeedback_task] Direct-API humanfeedback active — bypassing CrewAI agent"
-                )
+                logger.info("[humanfeedback_task] Direct-API humanfeedback active — bypassing CrewAI agent")
 
                 # Resolve LLM config for the humanfeedback agent from its agent_config entry
                 _hf_llm = self.agent_config.get(agent_key, {}).get("llm", {})
@@ -2188,26 +2196,19 @@ class StructSenseFlow:
                     _hf_base_url = "https://openrouter.ai/api/v1"
                     logger.warning(
                         "[humanfeedback_task] Direct-API: no LLM config found for agent_key=%s — using fallback model=%s",
-                        agent_key, _hf_model,
+                        agent_key,
+                        _hf_model,
                     )
                 if "openrouter" in _hf_base_url.lower() and _hf_model.startswith("openrouter/"):
                     _hf_model = _hf_model.replace("openrouter/", "", 1)
 
-                _hf_api_key = (
-                    os.environ.get("OPENROUTER_API_KEY")
-                    or os.environ.get("OPENAI_API_KEY")
-                    or ""
-                )
+                _hf_api_key = os.environ.get("OPENROUTER_API_KEY") or os.environ.get("OPENAI_API_KEY") or ""
 
                 # Extract the full judged payload and feedback text from extra_inputs
                 _hf_payload_key = "judged_structured_information_with_human_feedback"
-                _hf_judged = _hfcopy.deepcopy(
-                    extra_inputs.get(_hf_payload_key) or prev_output
-                )
+                _hf_judged = _hfcopy.deepcopy(extra_inputs.get(_hf_payload_key) or prev_output)
                 _hf_feedback = (
-                    extra_inputs.get("user_feedback_text")
-                    or extra_inputs.get("modification_context")
-                    or "No specific feedback provided."
+                    extra_inputs.get("user_feedback_text") or extra_inputs.get("modification_context") or "No specific feedback provided."
                 )
                 # Source text and extraction output — passed so the LLM can find entities
                 # missed by earlier stages when the user reports a low entity count.
@@ -2215,11 +2216,7 @@ class StructSenseFlow:
                 _hf_extraction_out = extra_inputs.get("extraction_results")
 
                 # Determine primary work-item list and key
-                _hf_items_key = (
-                    "entities" if _hf_judged.get("entities")
-                    else "resources" if _hf_judged.get("resources")
-                    else "entities"
-                )
+                _hf_items_key = "entities" if _hf_judged.get("entities") else "resources" if _hf_judged.get("resources") else "entities"
                 _hf_items = _hf_judged.get(_hf_items_key) or []
 
                 # Token-aware batch sizing — same logic as judge and CrewAI chunked path
@@ -2230,11 +2227,7 @@ class StructSenseFlow:
                     if isinstance(_ps, dict) and "_extraction_chunk_count" in _ps:
                         _hf_extraction_chunk_count = _ps["_extraction_chunk_count"]
                         break
-                _hf_task_cfg = (
-                    self.task_config.get(task_key, {})
-                    if isinstance(self.task_config, dict)
-                    else {}
-                )
+                _hf_task_cfg = self.task_config.get(task_key, {}) if isinstance(self.task_config, dict) else {}
                 _hf_prompt_overhead = estimate_agent_prompt_tokens(
                     agent_config=self.agent_config.get(agent_key, {}),
                     task_config=_hf_task_cfg,
@@ -2264,21 +2257,25 @@ class StructSenseFlow:
                         "[humanfeedback_task] Direct-API output guard: output_cap=%d tok "
                         "(%.1f tok/item → max %d items), min_chunks=%d (→ max %d items) "
                         "→ batch %d → %d items",
-                        _hf_out_cap, _hf_tok_per_item, _hf_out_capped,
-                        _hf_min_chunks, _hf_min_chunk_batch,
-                        _hf_batch, _hf_effective,
+                        _hf_out_cap,
+                        _hf_tok_per_item,
+                        _hf_out_capped,
+                        _hf_min_chunks,
+                        _hf_min_chunk_batch,
+                        _hf_batch,
+                        _hf_effective,
                     )
                 _hf_batch = _hf_effective
 
                 logger.info(
-                    "[humanfeedback_task] Direct-API batch size: %d items/batch "
-                    "(should_batch=%s, model=%s)",
-                    _hf_batch, _hf_should_batch, _hf_model,
+                    "[humanfeedback_task] Direct-API batch size: %d items/batch " "(should_batch=%s, model=%s)",
+                    _hf_batch,
+                    _hf_should_batch,
+                    _hf_model,
                 )
 
                 async def _humanfeedback_items_direct(
-                    _ents, _model, _base_url, _key, _batch_idx, _items_key, _feedback,
-                    _source_text="", _extraction_out=None, _attempt=0
+                    _ents, _model, _base_url, _key, _batch_idx, _items_key, _feedback, _source_text="", _extraction_out=None, _attempt=0
                 ):
                     """Apply human feedback to a batch of items via a direct LLM call.
 
@@ -2295,6 +2292,7 @@ class StructSenseFlow:
                     """
                     _MAX_RETRIES = 3
                     from openai import AsyncOpenAI as _AsyncOpenAI
+
                     _c = _AsyncOpenAI(base_url=_base_url, api_key=_key)
                     # Build task-aware system prompt so any natural-language feedback works
                     # for NER, resource extraction, generic extraction, or any other task type.
@@ -2313,12 +2311,12 @@ class StructSenseFlow:
                         _item_desc = f"{_items_key} items — apply any corrections or additions requested"
                     _sys = (
                         f"You are a human feedback integration agent for a {_task_desc} pipeline. "
-                        f"Apply the human feedback below to every item in the \"{_items_key}\" list. "
+                        f'Apply the human feedback below to every item in the "{_items_key}" list. '
                         f"Specifically: {_item_desc}. "
                         "If the feedback indicates items are missing, search the source text and "
                         "raw extraction output (provided below) to find and add them. "
                         "Preserve ALL existing fields that are not being corrected. "
-                        f"Return ONLY valid JSON: {{\"{_items_key}\": [...]}}. No markdown, no prose."
+                        f'Return ONLY valid JSON: {{"{_items_key}": [...]}}. No markdown, no prose.'
                     )
                     # Build user message: feedback + optional source context + current items
                     _user_parts = [f"Human feedback:\n{_feedback}"]
@@ -2389,49 +2387,99 @@ class StructSenseFlow:
                         # Truncated JSON (Unterminated string, Expecting value, etc.) — split batch in half
                         logger.warning(
                             "[humanfeedback_task] Direct API batch %d JSON parse error (attempt %d/%d, %d items): %s — splitting batch",
-                            _batch_idx + 1, _attempt + 1, _MAX_RETRIES, len(_ents), _ex,
+                            _batch_idx + 1,
+                            _attempt + 1,
+                            _MAX_RETRIES,
+                            len(_ents),
+                            _ex,
                         )
                         if len(_ents) > 1:
                             _mid = len(_ents) // 2
                             _l_res, _r_res = await asyncio.gather(
-                                _humanfeedback_items_direct(_ents[:_mid], _model, _base_url, _key, _batch_idx, _items_key, _feedback, _source_text, _extraction_out, 0),
-                                _humanfeedback_items_direct(_ents[_mid:], _model, _base_url, _key, _batch_idx, _items_key, _feedback, _source_text, _extraction_out, 0),
+                                _humanfeedback_items_direct(
+                                    _ents[:_mid],
+                                    _model,
+                                    _base_url,
+                                    _key,
+                                    _batch_idx,
+                                    _items_key,
+                                    _feedback,
+                                    _source_text,
+                                    _extraction_out,
+                                    0,
+                                ),
+                                _humanfeedback_items_direct(
+                                    _ents[_mid:],
+                                    _model,
+                                    _base_url,
+                                    _key,
+                                    _batch_idx,
+                                    _items_key,
+                                    _feedback,
+                                    _source_text,
+                                    _extraction_out,
+                                    0,
+                                ),
                             )
                             return _l_res + _r_res
                         logger.warning("[humanfeedback_task] Direct API single-item batch still failed — returning original item")
                         return _ents
                     except Exception as _ex:
                         if _attempt + 1 < _MAX_RETRIES:
-                            _wait = 2 ** _attempt
+                            _wait = 2**_attempt
                             logger.warning(
                                 "[humanfeedback_task] Direct API batch %d error (attempt %d/%d, retry in %ds): %s",
-                                _batch_idx + 1, _attempt + 1, _MAX_RETRIES, _wait, _ex,
+                                _batch_idx + 1,
+                                _attempt + 1,
+                                _MAX_RETRIES,
+                                _wait,
+                                _ex,
                             )
                             await asyncio.sleep(_wait)
-                            return await _humanfeedback_items_direct(_ents, _model, _base_url, _key, _batch_idx, _items_key, _feedback, _source_text, _extraction_out, _attempt + 1)
-                        logger.warning("[humanfeedback_task] Direct API batch %d failed after %d attempts: %s", _batch_idx + 1, _MAX_RETRIES, _ex)
+                            return await _humanfeedback_items_direct(
+                                _ents,
+                                _model,
+                                _base_url,
+                                _key,
+                                _batch_idx,
+                                _items_key,
+                                _feedback,
+                                _source_text,
+                                _extraction_out,
+                                _attempt + 1,
+                            )
+                        logger.warning(
+                            "[humanfeedback_task] Direct API batch %d failed after %d attempts: %s", _batch_idx + 1, _MAX_RETRIES, _ex
+                        )
                         return _ents
 
                 if _hf_items and _hf_api_key:
                     _begin_stage_llm_tracking(task_key, agent_key)
                     try:
-                        _hf_batches = [
-                            _hf_items[_hf_i: _hf_i + _hf_batch]
-                            for _hf_i in range(0, len(_hf_items), _hf_batch)
-                        ]
+                        _hf_batches = [_hf_items[_hf_i : _hf_i + _hf_batch] for _hf_i in range(0, len(_hf_items), _hf_batch)]
                         _hf_n_batches = len(_hf_batches)
                         logger.info(
                             "[humanfeedback_task] Direct-API: %d items → %d batches × %d, running in parallel",
-                            len(_hf_items), _hf_n_batches, _hf_batch,
+                            len(_hf_items),
+                            _hf_n_batches,
+                            _hf_batch,
                         )
-                        _hf_batch_results = await asyncio.gather(*[
-                            _humanfeedback_items_direct(
-                                _hf_batches[_bi], _hf_model, _hf_base_url, _hf_api_key,
-                                _bi, _hf_items_key, _hf_feedback,
-                                _hf_source_text, _hf_extraction_out,
-                            )
-                            for _bi in range(_hf_n_batches)
-                        ])
+                        _hf_batch_results = await asyncio.gather(
+                            *[
+                                _humanfeedback_items_direct(
+                                    _hf_batches[_bi],
+                                    _hf_model,
+                                    _hf_base_url,
+                                    _hf_api_key,
+                                    _bi,
+                                    _hf_items_key,
+                                    _hf_feedback,
+                                    _hf_source_text,
+                                    _hf_extraction_out,
+                                )
+                                for _bi in range(_hf_n_batches)
+                            ]
+                        )
                         _hf_revised: list = []
                         for _hf_result in _hf_batch_results:
                             _hf_revised.extend(_hf_result)
@@ -2440,19 +2488,20 @@ class StructSenseFlow:
                         _end_stage_llm_tracking(task_key, _hf_n_batches, time.time() - stage_start_time)
                         logger.info(
                             "[humanfeedback_task] Direct-API revised %d %s in %.2fs",
-                            len(_hf_revised), _hf_items_key, time.time() - stage_start_time,
+                            len(_hf_revised),
+                            _hf_items_key,
+                            time.time() - stage_start_time,
                         )
                     except Exception as _hf_exc:
-                        logger.warning(
-                            "[humanfeedback_task] Direct-API failed (%s); keeping judge output unchanged", _hf_exc
-                        )
+                        logger.warning("[humanfeedback_task] Direct-API failed (%s); keeping judge output unchanged", _hf_exc)
                         _hf_judged["humanfeedback_method"] = "direct_api_fallback"
                 else:
                     # No API key or no items: pass judge output through unchanged
                     _hf_judged["humanfeedback_method"] = "direct_api_passthrough"
                     logger.info(
                         "[humanfeedback_task] Direct-API: no items/key — passing judge output through (%d %s)",
-                        len(_hf_items), _hf_items_key,
+                        len(_hf_items),
+                        _hf_items_key,
                     )
 
                 # --- post-processing: same checks as the CrewAI chunked path ---
@@ -2462,9 +2511,9 @@ class StructSenseFlow:
                 _hf_post_count = len(_hf_judged.get(_hf_items_key) or [])
                 if _hf_post_count < _hf_pre_count:
                     logger.warning(
-                        "[humanfeedback_task] Direct-API: item count dropped %d → %d; "
-                        "recovering from best prior stage.",
-                        _hf_pre_count, _hf_post_count,
+                        "[humanfeedback_task] Direct-API: item count dropped %d → %d; " "recovering from best prior stage.",
+                        _hf_pre_count,
+                        _hf_post_count,
                     )
                     _hf_fallback = None
                     for _fkey in list(pipeline_stages.keys())[::-1]:
@@ -2473,15 +2522,16 @@ class StructSenseFlow:
                             _hf_fallback = _fs
                             logger.info(
                                 "[humanfeedback_task] Direct-API: recovered %d %s from stage '%s'",
-                                len(_fs.get(_hf_items_key, [])), _hf_items_key, _fkey,
+                                len(_fs.get(_hf_items_key, [])),
+                                _hf_items_key,
+                                _fkey,
                             )
                             break
                     if _hf_fallback is not None:
                         from utils.downstream_agent_helper import _extend_previous_stage
+
                         _hf_judged = _extend_previous_stage(_hf_fallback, _hf_judged)
-                        _hf_judged[_hf_items_key] = (
-                            _hf_fallback.get(_hf_items_key) or _hf_judged.get(_hf_items_key) or []
-                        )
+                        _hf_judged[_hf_items_key] = _hf_fallback.get(_hf_items_key) or _hf_judged.get(_hf_items_key) or []
 
                 # 2. Ontology consistency pass
                 _hf_final_items = _hf_judged.get(_hf_items_key)
@@ -2502,9 +2552,7 @@ class StructSenseFlow:
                 pipeline_stages[task_key] = _hf_judged
                 stage_elapsed = time.time() - stage_start_time
                 stage_timings[f"{agent_key}_{task_key}"] = stage_elapsed
-                logger.info(
-                    "[humanfeedback_task] Direct-API completed in %.2fs", stage_elapsed
-                )
+                logger.info("[humanfeedback_task] Direct-API completed in %.2fs", stage_elapsed)
 
                 if self.stage_output_dir and pipeline_stages.get(task_key) is not None:
                     try:
@@ -2621,11 +2669,7 @@ class StructSenseFlow:
 
                 # Resolve model string for the current downstream agent
                 _agent_llm_cfg = self.agent_config.get(agent_key, {}).get("llm", {})
-                _model_str = (
-                    _agent_llm_cfg.get("model", "")
-                    if isinstance(_agent_llm_cfg, dict)
-                    else str(_agent_llm_cfg)
-                )
+                _model_str = _agent_llm_cfg.get("model", "") if isinstance(_agent_llm_cfg, dict) else str(_agent_llm_cfg)
 
                 # Probe OpenRouter for the real context window if the model is
                 # served through OpenRouter and we have an API key.  The result
@@ -2633,15 +2677,8 @@ class StructSenseFlow:
                 # most once per model per process lifetime.
                 if not self.model_context_window and _model_str:
                     _or_api_key = os.environ.get("OPENROUTER_API_KEY", "")
-                    _or_base_url = (
-                        (_agent_llm_cfg.get("base_url") or "")
-                        if isinstance(_agent_llm_cfg, dict)
-                        else ""
-                    )
-                    if _or_api_key and (
-                        "openrouter" in (_model_str or "").lower()
-                        or "openrouter" in (_or_base_url or "").lower()
-                    ):
+                    _or_base_url = (_agent_llm_cfg.get("base_url") or "") if isinstance(_agent_llm_cfg, dict) else ""
+                    if _or_api_key and ("openrouter" in (_model_str or "").lower() or "openrouter" in (_or_base_url or "").lower()):
                         _probe_base = _or_base_url or "https://openrouter.ai/api/v1"
                         probe_openrouter_context_window(
                             model_str=_model_str,
@@ -2654,18 +2691,16 @@ class StructSenseFlow:
                 # description template + CrewAI framework boilerplate).
                 # This avoids the fixed 10 k fallback which was 100× too small
                 # for detailed configs with many entity-type examples.
-                _task_cfg = (
-                    self.task_config.get(task_key, {})
-                    if isinstance(self.task_config, dict)
-                    else {}
-                )
+                _task_cfg = self.task_config.get(task_key, {}) if isinstance(self.task_config, dict) else {}
                 _prompt_overhead = estimate_agent_prompt_tokens(
                     agent_config=self.agent_config.get(agent_key, {}),
                     task_config=_task_cfg,
                 )
                 logger.debug(
                     "[chunk_size] Adaptive prompt overhead for '%s/%s': %d tokens",
-                    agent_key, task_key, _prompt_overhead,
+                    agent_key,
+                    task_key,
+                    _prompt_overhead,
                 )
 
                 _ecs, _token_should_chunk = compute_downstream_chunk_size(
@@ -2696,26 +2731,28 @@ class StructSenseFlow:
                 #                             exceeds the model's usable budget.
                 #   enable_chunking      only gates whether the *extraction* stage
                 #                        itself is split; it does NOT gate downstream.
-                should_chunk = (
-                    use_chunked
-                    and isinstance(payload, dict)
-                    and _token_should_chunk
-                )
+                should_chunk = use_chunked and isinstance(payload, dict) and _token_should_chunk
 
                 if use_chunked and should_chunk:
                     # Record entity count going IN so we can verify nothing is lost after merge.
                     _pre_split_entities = len(payload.get("entities") or []) if isinstance(payload, dict) else 0
                     _pre_split_resources = len(payload.get("resources") or []) if isinstance(payload, dict) else 0
                     _chunk_size_source = (
-                        "explicit downstream_chunk_size" if self.downstream_chunk_size
-                        else f"token-aware/extraction_chunks={_extraction_chunk_count}" if _extraction_chunk_count
+                        "explicit downstream_chunk_size"
+                        if self.downstream_chunk_size
+                        else f"token-aware/extraction_chunks={_extraction_chunk_count}"
+                        if _extraction_chunk_count
                         else f"token-aware/max_workers={_workers}"
                     )
                     logger.info(
                         "[%s] Splitting payload for parallel processing: %d entities, %d resources "
                         "→ ~%d per chunk (model=%s, source=%s)",
-                        task_key, _pre_split_entities, _pre_split_resources, _ecs,
-                        _model_str or "unknown", _chunk_size_source,
+                        task_key,
+                        _pre_split_entities,
+                        _pre_split_resources,
+                        _ecs,
+                        _model_str or "unknown",
+                        _chunk_size_source,
                     )
 
                     chunks = split_structured_payload(
@@ -2744,7 +2781,8 @@ class StructSenseFlow:
                     if len(chunks) > 1:
                         logger.info(
                             "[%s] Running %d chunks in parallel",
-                            task_key, len(chunks),
+                            task_key,
+                            len(chunks),
                         )
                         chunk_results = await asyncio.gather(*[run_one_structured_chunk(c) for c in chunks])
                     else:
@@ -2781,7 +2819,9 @@ class StructSenseFlow:
                                     "[%s] Entity count dropped after parallel merge: %d → %d. "
                                     "LLM may have omitted entities from some chunks. "
                                     "Falling back to best available prior stage to prevent data loss.",
-                                    task_key, _pre_split_entities, _post_merge_entities,
+                                    task_key,
+                                    _pre_split_entities,
+                                    _post_merge_entities,
                                 )
                                 # Recover from best available stage (extraction → alignment for judge, etc.)
                                 _fallback = None
@@ -2789,12 +2829,15 @@ class StructSenseFlow:
                                     _fs = pipeline_stages.get(_fkey)
                                     if isinstance(_fs, dict) and len(_fs.get("entities") or []) >= _pre_split_entities:
                                         _fallback = _fs
-                                        logger.info("[%s] Recovered %d entities from stage '%s'", task_key, len(_fs.get("entities", [])), _fkey)
+                                        logger.info(
+                                            "[%s] Recovered %d entities from stage '%s'", task_key, len(_fs.get("entities", [])), _fkey
+                                        )
                                         break
                                 if _fallback is not None:
                                     # Merge: keep richer ontology/judge fields from current output,
                                     # but restore the full entity list from fallback
                                     from utils.downstream_agent_helper import _extend_previous_stage
+
                                     prev_output = _extend_previous_stage(_fallback, prev_output)
                                     prev_output["entities"] = _fallback.get("entities") or prev_output.get("entities") or []
 
@@ -2808,7 +2851,9 @@ class StructSenseFlow:
                                 prev_output["entities"] = unify_ontology_across_entities(ents)
                                 logger.info(
                                     "[%s] Ontology consistency pass: %d entities unified across %d chunks",
-                                    task_key, len(ents), len(raw_list),
+                                    task_key,
+                                    len(ents),
+                                    len(raw_list),
                                 )
 
                         pipeline_stages[task_key] = prev_output
@@ -2862,9 +2907,7 @@ class StructSenseFlow:
                             ckey = self._detect_container_key(results_list[0])
                             if ckey:
                                 try:
-                                    prev_output = merge_downstream_chunk_results_with_provenance(
-                                        results_list, ckey, agent_key
-                                    )
+                                    prev_output = merge_downstream_chunk_results_with_provenance(results_list, ckey, agent_key)
                                     pipeline_stages[task_key] = prev_output
                                 except (AttributeError, TypeError, KeyError, ValueError) as e:
                                     logger.warning(
@@ -3007,13 +3050,10 @@ class StructSenseFlow:
                         for _rkey in ("resources", "aligned_resources", "extracted_resources"):
                             _l2_resources = prev_output.get(_rkey) or []
                             if _l2_resources:
-                                _l2_enriched += inject_alignment_concept_mapping_into_resources(
-                                    _l2_resources, session_outputs
-                                )
+                                _l2_enriched += inject_alignment_concept_mapping_into_resources(_l2_resources, session_outputs)
                         if _l2_enriched:
                             logger.info(
-                                "[alignment_task] Enriched %d resources with concept mapping "
-                                "(ontology_id/ontology_label/ontology)",
+                                "[alignment_task] Enriched %d resources with concept mapping " "(ontology_id/ontology_label/ontology)",
                                 _l2_enriched,
                             )
 
@@ -3048,8 +3088,7 @@ class StructSenseFlow:
                     _stage_path = os.path.join(self.stage_output_dir, _stage_fname)
                     with open(_stage_path, "w", encoding="utf-8") as _sf:
                         json.dump(pipeline_stages[task_key], _sf, indent=2, ensure_ascii=False, default=str)
-                    logger.info("[stage_output] Wrote %s (%.1f KB)", _stage_path,
-                                os.path.getsize(_stage_path) / 1024)
+                    logger.info("[stage_output] Wrote %s (%.1f KB)", _stage_path, os.path.getsize(_stage_path) / 1024)
                 except Exception as _se:
                     logger.warning("[stage_output] Failed to write stage file: %s", _se)
 
@@ -3123,9 +3162,7 @@ class StructSenseFlow:
         if task_type == "ner" and isinstance(prev_output, dict):
             _ner_keys = ("judge_ner_terms", "aligned_ner_terms", "extracted_terms")
             _no_ner_output = (
-                not prev_output.get("entities")
-                and not prev_output.get("key_terms")
-                and not any(prev_output.get(k) for k in _ner_keys)
+                not prev_output.get("entities") and not prev_output.get("key_terms") and not any(prev_output.get(k) for k in _ner_keys)
             )
             if _no_ner_output:
                 # Walk pipeline stages from most-refined to least-refined looking for entities.
@@ -3172,9 +3209,7 @@ class StructSenseFlow:
                     flattened = _flatten_container_to_list(inner)
                     if flattened and all(isinstance(x, dict) for x in flattened):
                         final["entities"] = flattened
-                        final["key_terms"] = final.get("key_terms") or (
-                            inner.get("key_terms") if isinstance(inner, dict) else []
-                        )
+                        final["key_terms"] = final.get("key_terms") or (inner.get("key_terms") if isinstance(inner, dict) else [])
                         logger.debug("Unwrapped final result from key %s (list/container, %d entities)", key, len(flattened))
                     break
         final["errors"] = all_errors
@@ -3219,9 +3254,7 @@ class StructSenseFlow:
             if _final_entities:
                 _final_session = get_alignment_tool_outputs()
                 if _final_session:
-                    _final_enriched = inject_alignment_concept_mapping_into_ner_entities(
-                        _final_entities, _final_session
-                    )
+                    _final_enriched = inject_alignment_concept_mapping_into_ner_entities(_final_entities, _final_session)
                     if _final_enriched:
                         logger.info(
                             "[final] Re-injected concept mapping into %d / %d NER entities",

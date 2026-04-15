@@ -91,23 +91,18 @@ logger = logging.getLogger("ConceptMappingLocalTool")
 # Env-var helpers (read at call time so .env load order is respected)
 # ---------------------------------------------------------------------------
 
+
 def _local_base_url() -> str:
     return os.getenv("LOCAL_CONCEPT_MAPPING_URL", "http://localhost:8000").rstrip("/")
 
 
 def _local_api_key() -> Optional[str]:
-    v = (
-        os.getenv("LOCAL_CONCEPT_MAPPING_API_KEY", "").strip()
-        or os.getenv("OPENROUTER_API_KEY", "").strip()
-    )
+    v = os.getenv("LOCAL_CONCEPT_MAPPING_API_KEY", "").strip() or os.getenv("OPENROUTER_API_KEY", "").strip()
     return v if v else None
 
 
 def _local_model() -> Optional[str]:
-    v = (
-        os.getenv("LOCAL_CONCEPT_MAPPING_MODEL", "").strip()
-        or os.getenv("OPENROUTER_MODEL", "").strip()
-    )
+    v = os.getenv("LOCAL_CONCEPT_MAPPING_MODEL", "").strip() or os.getenv("OPENROUTER_MODEL", "").strip()
     return v if v else None
 
 
@@ -121,6 +116,7 @@ def _local_timeout() -> float:
 # ---------------------------------------------------------------------------
 # ConceptMappingLocalTool
 # ---------------------------------------------------------------------------
+
 
 class ConceptMappingLocalTool(BaseTool):
     """
@@ -268,7 +264,9 @@ class ConceptMappingLocalTool(BaseTool):
             body = "<unreadable>"
         logger.warning(
             "Local concept mapping service returned HTTP %s for %s | response: %s",
-            resp.status_code, url, body,
+            resp.status_code,
+            url,
+            body,
         )
         return None
 
@@ -283,10 +281,7 @@ class ConceptMappingLocalTool(BaseTool):
           - ``ontology_label`` → ontology_label
           - ``ontology``       → ontology_id (acronym, e.g. "HP", "MONDO")
         """
-        valid = [
-            it for it in items
-            if isinstance(it, dict) and it.get("ontology_id") and it.get("ontology_label")
-        ][:max_results]
+        valid = [it for it in items if isinstance(it, dict) and it.get("ontology_id") and it.get("ontology_label")][:max_results]
 
         if not valid:
             return {"error": "No mapping found", "ontology_id": None, "ontology_label": None, "ontology": None}
@@ -369,7 +364,7 @@ class ConceptMappingLocalTool(BaseTool):
 
         # Split uncached terms into sub-batches
         n_batches = math.ceil(len(uncached) / batch_size)
-        sub_batches = [uncached[i * batch_size:(i + 1) * batch_size] for i in range(n_batches)]
+        sub_batches = [uncached[i * batch_size : (i + 1) * batch_size] for i in range(n_batches)]
 
         def _fetch_sub_batch(batch: list) -> dict:
             """POST one sub-batch; returns {term: [ResultItem, ...]}."""
@@ -385,7 +380,10 @@ class ConceptMappingLocalTool(BaseTool):
         else:
             logger.info(
                 "ConceptMappingLocalTool: %d terms → %d parallel sub-batches (batch_size=%d, workers=%d)",
-                len(uncached), len(sub_batches), batch_size, max_workers,
+                len(uncached),
+                len(sub_batches),
+                batch_size,
+                max_workers,
             )
             with ThreadPoolExecutor(max_workers=min(max_workers, len(sub_batches))) as executor:
                 futures = {executor.submit(_fetch_sub_batch, sb): sb for sb in sub_batches}
@@ -452,10 +450,12 @@ class ConceptMappingLocalTool(BaseTool):
             result = []
             for item in text:
                 if isinstance(item, dict) and item.get("text"):
-                    result.append({
-                        "text": _sanitize_text(item["text"]),
-                        "context": (item.get("context") or "").strip() or None,
-                    })
+                    result.append(
+                        {
+                            "text": _sanitize_text(item["text"]),
+                            "context": (item.get("context") or "").strip() or None,
+                        }
+                    )
                 elif isinstance(item, str) and item.strip():
                     result.append({"text": _sanitize_text(item), "context": shared_context})
             return result
@@ -471,10 +471,12 @@ class ConceptMappingLocalTool(BaseTool):
                     result = []
                     for item in parsed:
                         if isinstance(item, dict) and item.get("text"):
-                            result.append({
-                                "text": _sanitize_text(item["text"]),
-                                "context": (item.get("context") or "").strip() or None,
-                            })
+                            result.append(
+                                {
+                                    "text": _sanitize_text(item["text"]),
+                                    "context": (item.get("context") or "").strip() or None,
+                                }
+                            )
                         elif isinstance(item, str) and item.strip():
                             result.append({"text": _sanitize_text(item), "context": shared_context})
                     if result:
@@ -530,8 +532,10 @@ class ConceptMappingLocalTool(BaseTool):
             "batch" if is_batch else "single",
             len(term_objects),
             max_results,
-            [(o["text"], o["context"][:40] + "..." if o.get("context") and len(o["context"]) > 40 else o.get("context"))
-             for o in term_objects],
+            [
+                (o["text"], o["context"][:40] + "..." if o.get("context") and len(o["context"]) > 40 else o.get("context"))
+                for o in term_objects
+            ],
         )
 
         mapped = self._map_terms(term_objects, max_results, ontologies)
@@ -544,12 +548,15 @@ class ConceptMappingLocalTool(BaseTool):
                         _ALIGNMENT_TOOL_OUTPUTS.append({"input": term, "output": dict(mapping)})
         else:
             first_term = term_objects[0]["text"]
-            out = mapped.get(first_term, {
-                "error": "No mapping returned",
-                "ontology_id": None,
-                "ontology_label": None,
-                "ontology": None,
-            })
+            out = mapped.get(
+                first_term,
+                {
+                    "error": "No mapping returned",
+                    "ontology_id": None,
+                    "ontology_label": None,
+                    "ontology": None,
+                },
+            )
             if isinstance(out, dict) and "error" not in out:
                 with _ALIGNMENT_TOOL_OUTPUTS_LOCK:
                     _ALIGNMENT_TOOL_OUTPUTS.append({"input": first_term, "output": dict(out)})

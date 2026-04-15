@@ -42,12 +42,7 @@ class ContextWindowManager:
     - Priority-based content selection
     """
 
-    def __init__(
-        self,
-        max_tokens: int = 100000,
-        encoding_model: str = "cl100k_base",
-        reserve_tokens: int = 2000
-    ):
+    def __init__(self, max_tokens: int = 100000, encoding_model: str = "cl100k_base", reserve_tokens: int = 2000):
         """
         Initialize context window manager.
 
@@ -132,12 +127,7 @@ class ContextWindowManager:
 
         return fits, token_count
 
-    def prepare_for_downstream_agent(
-        self,
-        results: Dict[str, Any],
-        agent_key: str,
-        max_tokens: Optional[int] = None
-    ) -> Dict[str, Any]:
+    def prepare_for_downstream_agent(self, results: Dict[str, Any], agent_key: str, max_tokens: Optional[int] = None) -> Dict[str, Any]:
         """
         Prepare results for downstream agent consumption with token limit.
 
@@ -157,8 +147,7 @@ class ContextWindowManager:
             return results
 
         logger.warning(
-            f"Results for {agent_key} exceed token limit: {current_tokens}/{max_tokens} tokens. "
-            "Applying intelligent compression..."
+            f"Results for {agent_key} exceed token limit: {current_tokens}/{max_tokens} tokens. " "Applying intelligent compression..."
         )
 
         # Apply compression strategies
@@ -173,12 +162,7 @@ class ContextWindowManager:
 
         return compressed
 
-    def _compress_results(
-        self,
-        results: Dict[str, Any],
-        max_tokens: int,
-        agent_key: str
-    ) -> Dict[str, Any]:
+    def _compress_results(self, results: Dict[str, Any], max_tokens: int, agent_key: str) -> Dict[str, Any]:
         """
         Intelligently compress results to fit token limit.
 
@@ -358,12 +342,7 @@ class ContextWindowManager:
 
         return priority_list
 
-    def _create_summary(
-        self,
-        results: Dict[str, Any],
-        max_tokens: int,
-        agent_key: str
-    ) -> Dict[str, Any]:
+    def _create_summary(self, results: Dict[str, Any], max_tokens: int, agent_key: str) -> Dict[str, Any]:
         """
         Create a hierarchical summary of results.
 
@@ -375,10 +354,7 @@ class ContextWindowManager:
         Returns:
             Summarized results
         """
-        summary = {
-            "_summary_mode": True,
-            "_original_token_count": self.estimate_tokens(results)
-        }
+        summary = {"_summary_mode": True, "_original_token_count": self.estimate_tokens(results)}
 
         # Downstream agents (e.g. judge) expect "entities", "key_terms", "resources" as lists.
         # Always emit those keys as lists (sample if needed) so structure is preserved.
@@ -399,11 +375,7 @@ class ContextWindowManager:
 
         return summary
 
-    def _aggressive_truncation(
-        self,
-        results: Dict[str, Any],
-        max_tokens: int
-    ) -> Dict[str, Any]:
+    def _aggressive_truncation(self, results: Dict[str, Any], max_tokens: int) -> Dict[str, Any]:
         """
         Last resort: aggressively truncate to fit token limit.
 
@@ -445,12 +417,7 @@ class ContextWindowManager:
 
         return essential
 
-    def split_for_parallel_processing(
-        self,
-        text: str,
-        max_chunk_tokens: int,
-        overlap_tokens: int = 100
-    ) -> List[Dict[str, Any]]:
+    def split_for_parallel_processing(self, text: str, max_chunk_tokens: int, overlap_tokens: int = 100) -> List[Dict[str, Any]]:
         """
         Split text into token-aware chunks for parallel processing.
 
@@ -471,13 +438,7 @@ class ContextWindowManager:
         total_tokens = len(tokens)
 
         if total_tokens <= max_chunk_tokens:
-            return [{
-                "text": text,
-                "start": 0,
-                "end": len(text),
-                "token_count": total_tokens,
-                "chunk_id": 0
-            }]
+            return [{"text": text, "start": 0, "end": len(text), "token_count": total_tokens, "chunk_id": 0}]
 
         chunks = []
         chunk_id = 0
@@ -490,13 +451,9 @@ class ContextWindowManager:
             chunk_tokens = tokens[start_token:end_token]
             chunk_text = self.encoding.decode(chunk_tokens)
 
-            chunks.append({
-                "text": chunk_text,
-                "start": start_token,
-                "end": end_token,
-                "token_count": len(chunk_tokens),
-                "chunk_id": chunk_id
-            })
+            chunks.append(
+                {"text": chunk_text, "start": start_token, "end": end_token, "token_count": len(chunk_tokens), "chunk_id": chunk_id}
+            )
 
             chunk_id += 1
             start_token = end_token - overlap_tokens  # Overlap for context continuity
@@ -504,12 +461,7 @@ class ContextWindowManager:
         logger.info(f"Split text into {len(chunks)} chunks (max {max_chunk_tokens} tokens/chunk)")
         return chunks
 
-    def _char_based_split(
-        self,
-        text: str,
-        max_chars: int,
-        overlap_chars: int
-    ) -> List[Dict[str, Any]]:
+    def _char_based_split(self, text: str, max_chars: int, overlap_chars: int) -> List[Dict[str, Any]]:
         """Fallback character-based splitting when tokenizer unavailable."""
         chunks = []
         chunk_id = 0
@@ -520,13 +472,9 @@ class ContextWindowManager:
             end = min(start + max_chars, text_len)
             chunk_text = text[start:end]
 
-            chunks.append({
-                "text": chunk_text,
-                "start": start,
-                "end": end,
-                "token_count": self.count_tokens(chunk_text),
-                "chunk_id": chunk_id
-            })
+            chunks.append(
+                {"text": chunk_text, "start": start, "end": end, "token_count": self.count_tokens(chunk_text), "chunk_id": chunk_id}
+            )
 
             chunk_id += 1
             start = end - overlap_chars

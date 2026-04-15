@@ -33,6 +33,7 @@ from pathlib import Path
 # TEXT UTILITIES
 # =============================================================================
 
+
 def normalize(text: str) -> str:
     """Normalize text for comparison."""
     if not text:
@@ -83,20 +84,37 @@ GROUND_TRUTH = {
             "related_models": {
                 # Core models mentioned in the paper (consensus across 3+ outputs)
                 "required": [
-                    "PRTR", "TokenPose", "TransPose", "HRFormer", "MAE", "ViT",
+                    "PRTR",
+                    "TokenPose",
+                    "TransPose",
+                    "HRFormer",
+                    "MAE",
+                    "ViT",
                 ],
                 "optional": [
-                    "ViT-B", "ViT-L", "ViT-H", "HRNet", "SimpleBaseline",
-                    "Swin", "MLP-Mixer", "ResNet",
+                    "ViT-B",
+                    "ViT-L",
+                    "ViT-H",
+                    "HRNet",
+                    "SimpleBaseline",
+                    "Swin",
+                    "MLP-Mixer",
+                    "ResNet",
                 ],
             },
             "datasets": {
                 "required": [
-                    "MS COCO", "ImageNet", "AI Challenger", "MPII",
-                    "CrowdPose", "OCHuman",
+                    "MS COCO",
+                    "ImageNet",
+                    "AI Challenger",
+                    "MPII",
+                    "CrowdPose",
+                    "OCHuman",
                 ],
                 "optional": [
-                    "AIC", "ImageNet-1K", "ImageNet-22K",
+                    "AIC",
+                    "ImageNet-1K",
+                    "ImageNet-22K",
                 ],
             },
             "benchmarks": {
@@ -121,19 +139,30 @@ GROUND_TRUTH = {
         "mentions": {
             "related_models": {
                 "required": [
-                    "DLCRNet", "OpenPose", "HRNet", "ResNet",
+                    "DLCRNet",
+                    "OpenPose",
+                    "HRNet",
+                    "ResNet",
                 ],
                 "optional": [
-                    "EfficientNet", "DLCRNet_ms5", "MobileNet",
-                    "ResNet-AE", "HRNet-AE", "Transformer",
+                    "EfficientNet",
+                    "DLCRNet_ms5",
+                    "MobileNet",
+                    "ResNet-AE",
+                    "HRNet-AE",
+                    "Transformer",
                 ],
             },
             "datasets": {
                 "required": [
-                    "tri-mouse", "parenting", "marmoset", "fish",
+                    "tri-mouse",
+                    "parenting",
+                    "marmoset",
+                    "fish",
                 ],
                 "optional": [
-                    "COCO", "pups",
+                    "COCO",
+                    "pups",
                 ],
             },
             "benchmarks": {
@@ -143,7 +172,10 @@ GROUND_TRUTH = {
             "tools": {
                 "required": ["idtracker.ai"],
                 "optional": [
-                    "DeepLabCut-Live", "NetworkX", "py-motmetrics", "MMPose",
+                    "DeepLabCut-Live",
+                    "NetworkX",
+                    "py-motmetrics",
+                    "MMPose",
                 ],
             },
         },
@@ -154,6 +186,7 @@ GROUND_TRUTH = {
 # =============================================================================
 # EVALUATION DIMENSIONS
 # =============================================================================
+
 
 def eval_primary_fields(resource: dict, gt: dict) -> dict:
     """Evaluate primary resource metadata fields."""
@@ -268,10 +301,7 @@ def eval_mentions(resource: dict, gt: dict) -> dict:
         extra = []
         for item in extracted:
             item_name = item.get("name", item) if isinstance(item, dict) else str(item)
-            is_known = any(
-                normalize(gt_name) in normalize(item_name) or normalize(item_name) in normalize(gt_name)
-                for gt_name in all_gt
-            )
+            is_known = any(normalize(gt_name) in normalize(item_name) or normalize(item_name) in normalize(gt_name) for gt_name in all_gt)
             if not is_known:
                 extra.append(item_name)
 
@@ -300,9 +330,13 @@ def eval_ontology_mappings(resource: dict) -> dict:
     sensible_mappings = 0
 
     # Check primary field mappings
-    for field in ["mapped_target_concept", "mapped_name_concept",
-                  "mapped_type_concept", "mapped_category_concept",
-                  "mapped_specific_target_concept"]:
+    for field in [
+        "mapped_target_concept",
+        "mapped_name_concept",
+        "mapped_type_concept",
+        "mapped_category_concept",
+        "mapped_specific_target_concept",
+    ]:
         mappings = resource.get(field, [])
         if not mappings:
             continue
@@ -323,25 +357,48 @@ def eval_ontology_mappings(resource: dict) -> dict:
             ont_id = m.get("id", "")
 
             # Heuristic: flag pharmaceutical/drug mappings for CS/ML resources
-            is_pharma = any(kw in normalize(ontology_label) for kw in [
-                "drug", "pharmaceutical", "tablet", "capsule", "injection",
-                "susp,", "mg/ml", "vaccine", "therapy", "dosage",
-                "calfactant", "antigen",
-            ])
-            is_plant = any(kw in normalize(ontology_label) for kw in [
-                "magnolia", "plant", "flower",
-            ])
-            is_genetic_disease = any(kw in normalize(ontology_label) for kw in [
-                "amelogenesis", "imperfecta",
-            ])
+            is_pharma = any(
+                kw in normalize(ontology_label)
+                for kw in [
+                    "drug",
+                    "pharmaceutical",
+                    "tablet",
+                    "capsule",
+                    "injection",
+                    "susp,",
+                    "mg/ml",
+                    "vaccine",
+                    "therapy",
+                    "dosage",
+                    "calfactant",
+                    "antigen",
+                ]
+            )
+            is_plant = any(
+                kw in normalize(ontology_label)
+                for kw in [
+                    "magnolia",
+                    "plant",
+                    "flower",
+                ]
+            )
+            is_genetic_disease = any(
+                kw in normalize(ontology_label)
+                for kw in [
+                    "amelogenesis",
+                    "imperfecta",
+                ]
+            )
 
             if is_pharma or is_plant or is_genetic_disease:
-                issues.append({
-                    "field": field,
-                    "label": ontology_label[:80],
-                    "ontology": ontology,
-                    "issue": "nonsensical mapping",
-                })
+                issues.append(
+                    {
+                        "field": field,
+                        "label": ontology_label[:80],
+                        "ontology": ontology,
+                        "issue": "nonsensical mapping",
+                    }
+                )
             else:
                 sensible_mappings += 1
 
@@ -355,17 +412,29 @@ def eval_ontology_mappings(resource: dict) -> dict:
             if not ont_label:
                 continue
             total_mappings += 1
-            is_bad = any(kw in normalize(ont_label) for kw in [
-                "calfactant", "magnolia", "amelogenesis", "mg/ml",
-                "tablet", "capsule", "injection", "vaccine",
-                "pharmaceutical", "drug product",
-            ])
+            is_bad = any(
+                kw in normalize(ont_label)
+                for kw in [
+                    "calfactant",
+                    "magnolia",
+                    "amelogenesis",
+                    "mg/ml",
+                    "tablet",
+                    "capsule",
+                    "injection",
+                    "vaccine",
+                    "pharmaceutical",
+                    "drug product",
+                ]
+            )
             if is_bad:
-                issues.append({
-                    "field": f"mentions.{cat_key}",
-                    "label": ont_label[:80],
-                    "issue": "nonsensical mapping",
-                })
+                issues.append(
+                    {
+                        "field": f"mentions.{cat_key}",
+                        "label": ont_label[:80],
+                        "issue": "nonsensical mapping",
+                    }
+                )
             else:
                 sensible_mappings += 1
 
@@ -383,6 +452,7 @@ def eval_ontology_mappings(resource: dict) -> dict:
 # =============================================================================
 # MAIN EVALUATION
 # =============================================================================
+
 
 def detect_paper(filepath: str) -> str | None:
     """Detect which paper a result file belongs to."""
@@ -432,9 +502,7 @@ def evaluate_file(filepath: str) -> dict:
     # Overall score: weighted
     weights = {"primary_fields": 0.40, "mentions": 0.40, "ontology_mappings": 0.20}
     overall = sum(
-        dimensions[dim]["overall_score"] * weights[dim]
-        if "overall_score" in dimensions[dim]
-        else dimensions[dim]["score"] * weights[dim]
+        dimensions[dim]["overall_score"] * weights[dim] if "overall_score" in dimensions[dim] else dimensions[dim]["score"] * weights[dim]
         for dim in weights
     )
 
@@ -451,6 +519,7 @@ def evaluate_file(filepath: str) -> dict:
 # =============================================================================
 # AUTO-DISCOVERY
 # =============================================================================
+
 
 def find_result_files(base_dir: str) -> list[str]:
     """Find all final result JSON files."""
@@ -470,6 +539,7 @@ def find_result_files(base_dir: str) -> list[str]:
 # =============================================================================
 # REPORTING
 # =============================================================================
+
 
 def print_report(reports: list[dict], verbose: bool = False) -> None:
     """Print human-readable report."""
@@ -565,12 +635,13 @@ def print_report(reports: list[dict], verbose: bool = False) -> None:
 # CLI
 # =============================================================================
 
+
 def main():
-    parser = argparse.ArgumentParser(
-        description="Evaluate resource extraction quality"
-    )
+    parser = argparse.ArgumentParser(description="Evaluate resource extraction quality")
     parser.add_argument(
-        "input", nargs="?", default=None,
+        "input",
+        nargs="?",
+        default=None,
         help="Path to result JSON file (or auto-detect from resource_extraction dir)",
     )
     parser.add_argument("-o", "--output", help="Save detailed report as JSON")

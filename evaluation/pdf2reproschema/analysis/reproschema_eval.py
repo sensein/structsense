@@ -41,8 +41,11 @@ GT_ACTIVITY = {
     "prefLabel_keywords": ["mood", "feelings", "questionnaire", "long"],
     "description_keywords": ["feeling", "acting", "recently", "past two weeks"],
     "preamble_keywords": [
-        "not true", "sometimes", "true",
-        "past two weeks", "feeling or acting",
+        "not true",
+        "sometimes",
+        "true",
+        "past two weeks",
+        "feeling or acting",
     ],
     "citation_keywords": ["angold", "costello", "1987", "duke"],
 }
@@ -99,6 +102,7 @@ GT_INPUT_TYPE = "radio"
 # TEXT SIMILARITY
 # =============================================================================
 
+
 def normalize_text(text: str) -> str:
     """Normalize text for comparison."""
     text = text.strip()
@@ -128,6 +132,7 @@ def contains_keywords(text: str, keywords: list[str]) -> tuple[int, int]:
 # EVALUATION DIMENSIONS
 # =============================================================================
 
+
 def eval_item_completeness(data: dict) -> dict:
     """Check if all 33 items were extracted."""
     items = data.get("items", [])
@@ -151,21 +156,25 @@ def eval_question_text(data: dict) -> dict:
             extracted_q = items[i].get("question", "")
             sim = text_similarity(gt_q, extracted_q)
             total_sim += sim
-            results.append({
-                "item_num": i + 1,
-                "gt": gt_q,
-                "extracted": extracted_q,
-                "similarity": round(sim, 3),
-                "pass": sim >= 0.85,
-            })
+            results.append(
+                {
+                    "item_num": i + 1,
+                    "gt": gt_q,
+                    "extracted": extracted_q,
+                    "similarity": round(sim, 3),
+                    "pass": sim >= 0.85,
+                }
+            )
         else:
-            results.append({
-                "item_num": i + 1,
-                "gt": gt_q,
-                "extracted": "",
-                "similarity": 0.0,
-                "pass": False,
-            })
+            results.append(
+                {
+                    "item_num": i + 1,
+                    "gt": gt_q,
+                    "extracted": "",
+                    "similarity": 0.0,
+                    "pass": False,
+                }
+            )
 
     n_pass = sum(1 for r in results if r["pass"])
     avg_sim = total_sim / len(GT_QUESTIONS) if GT_QUESTIONS else 0
@@ -203,11 +212,13 @@ def eval_response_options(data: dict) -> dict:
             if ext_values == gt_values and ext_names == gt_names:
                 correct += 1  # Same content, maybe different order
             else:
-                issues.append({
-                    "item_id": item.get("id", f"item_{i}"),
-                    "expected": expected,
-                    "extracted": extracted,
-                })
+                issues.append(
+                    {
+                        "item_id": item.get("id", f"item_{i}"),
+                        "expected": expected,
+                        "extracted": extracted,
+                    }
+                )
 
     n_items = len(items) if items else GT_NUM_ITEMS
     return {
@@ -231,9 +242,7 @@ def eval_scoring(data: dict) -> dict:
         if scoring:
             items_with_scoring += 1
             # Normalize and compare
-            norm_scoring = {
-                normalize_text(str(k)).upper(): v for k, v in scoring.items()
-            }
+            norm_scoring = {normalize_text(str(k)).upper(): v for k, v in scoring.items()}
             if norm_scoring == GT_SCORING:
                 correct_scoring += 1
 
@@ -359,11 +368,13 @@ def eval_input_type(data: dict) -> dict:
         if input_type == GT_INPUT_TYPE:
             correct += 1
         else:
-            issues.append({
-                "item_id": item.get("id"),
-                "expected": GT_INPUT_TYPE,
-                "extracted": input_type,
-            })
+            issues.append(
+                {
+                    "item_id": item.get("id"),
+                    "expected": GT_INPUT_TYPE,
+                    "extracted": input_type,
+                }
+            )
 
     n = len(items) if items else GT_NUM_ITEMS
     return {
@@ -377,6 +388,7 @@ def eval_input_type(data: dict) -> dict:
 # =============================================================================
 # MAIN EVALUATION
 # =============================================================================
+
 
 def evaluate_file(filepath: str) -> dict:
     """Evaluate a single result file."""
@@ -416,10 +428,7 @@ def evaluate_file(filepath: str) -> dict:
         "input_type": 0.05,
     }
 
-    overall = sum(
-        dimensions[dim]["score"] * weights[dim]
-        for dim in weights
-    )
+    overall = sum(dimensions[dim]["score"] * weights[dim] for dim in weights)
 
     return {
         "file": filepath,
@@ -432,6 +441,7 @@ def evaluate_file(filepath: str) -> dict:
 # =============================================================================
 # AUTO-DISCOVERY
 # =============================================================================
+
 
 def find_result_files(base_dir: str) -> list[dict]:
     """Find all result JSON files."""
@@ -452,11 +462,13 @@ def find_result_files(base_dir: str) -> list[dict]:
             else:
                 variant = "unknown"
 
-            files.append({
-                "path": str(json_file),
-                "model": model,
-                "variant": variant,
-            })
+            files.append(
+                {
+                    "path": str(json_file),
+                    "model": model,
+                    "variant": variant,
+                }
+            )
 
     return files
 
@@ -464,6 +476,7 @@ def find_result_files(base_dir: str) -> list[dict]:
 # =============================================================================
 # REPORTING
 # =============================================================================
+
 
 def print_report(reports: list[dict], verbose: bool = False) -> None:
     """Print human-readable report."""
@@ -489,7 +502,9 @@ def print_report(reports: list[dict], verbose: bool = False) -> None:
 
         # Question text
         qt = dims["question_text"]
-        print(f"  Question Text:        {qt['correct']}/{qt['total']}  ({qt['score']*100:.0f}%)  avg similarity: {qt['average_similarity']:.3f}")
+        print(
+            f"  Question Text:        {qt['correct']}/{qt['total']}  ({qt['score']*100:.0f}%)  avg similarity: {qt['average_similarity']:.3f}"
+        )
         if qt["mismatches"] and verbose:
             for m in qt["mismatches"]:
                 print(f"    Q{m['item_num']}: sim={m['similarity']:.3f}")
@@ -531,8 +546,7 @@ def print_report(reports: list[dict], verbose: bool = False) -> None:
         # Item order
         io = dims["item_order"]
         order_status = "correct" if io["items_in_order"] else "wrong"
-        field_status = "present & correct" if io["order_field_correct"] else \
-                       "present but wrong" if io["order_field_present"] else "missing"
+        field_status = "present & correct" if io["order_field_correct"] else "present but wrong" if io["order_field_present"] else "missing"
         print(f"  Item Order:           {io['score']*100:.0f}%  (sequence: {order_status}; order field: {field_status})")
 
         # Input type
@@ -544,7 +558,9 @@ def print_report(reports: list[dict], verbose: bool = False) -> None:
         print(f"\n{'='*70}")
         print(f"  SUMMARY")
         print(f"{'='*70}")
-        print(f"\n  {'File':<45s} {'Status':<8s} {'Items':>5s} {'QText':>6s} {'Resp':>5s} {'Score':>6s} {'Meta':>5s} {'Order':>5s} {'Overall':>8s}")
+        print(
+            f"\n  {'File':<45s} {'Status':<8s} {'Items':>5s} {'QText':>6s} {'Resp':>5s} {'Score':>6s} {'Meta':>5s} {'Order':>5s} {'Overall':>8s}"
+        )
         print(f"  {'-'*90}")
         for r in reports:
             fname = os.path.basename(r["file"])[:45]
@@ -569,10 +585,9 @@ def print_report(reports: list[dict], verbose: bool = False) -> None:
 # CLI
 # =============================================================================
 
+
 def main():
-    parser = argparse.ArgumentParser(
-        description="Evaluate PDF-to-ReproSchema extraction quality"
-    )
+    parser = argparse.ArgumentParser(description="Evaluate PDF-to-ReproSchema extraction quality")
     parser.add_argument(
         "input",
         nargs="?",
@@ -580,11 +595,13 @@ def main():
         help="Path to result JSON file (or auto-detect from pdf2reproschema dir)",
     )
     parser.add_argument(
-        "-o", "--output",
+        "-o",
+        "--output",
         help="Save detailed report as JSON",
     )
     parser.add_argument(
-        "-v", "--verbose",
+        "-v",
+        "--verbose",
         action="store_true",
         help="Show per-item details for mismatches",
     )
