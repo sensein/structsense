@@ -33,15 +33,19 @@ repos:
     args: [--maxkb=15000]
   - id: check-case-conflict
   - id: end-of-file-fixer
+    exclude: \.(pdf|svg|png|jpg|jpeg|zip|json)$
   - id: trailing-whitespace
-  - id: pretty-format-json
-    args:
-    - --autofix
-    - --indent=4
-    - --no-sort-keys
+    exclude: \.(pdf|svg|png|jpg|jpeg|zip|json)$
+  # removing checks for json since they are mostly results (we can think about it later)
+#  - id: pretty-format-json
+#    args:
+#    - --autofix
+#    - --indent=4
+#    - --no-sort-keys
   - id: check-merge-conflict
   - id: check-yaml
-  - id: check-json
+    # removing checks for json since they are mostly results (we can think about it later)
+#  - id: check-json
   - id: check-toml
   - id: detect-private-key
   - id: name-tests-test
@@ -50,8 +54,9 @@ repos:
   rev: v2.3.0
   hooks:
   - id: codespell
+    exclude: \.(pdf|svg|png|jpg|jpeg|zip|json)$|^evaluation/(?!.*\.(md|yaml)$).*$
     args:
-    - --skip=poetry.lock,docs_style/pdoc-theme/syntax-highlighting.css,*.cha,*.ipynb,example/sample_metadata.csv,evaluation/benchmark,evaluation/pdf2reproschema/old,evaluation/ner/old,evaluation/pdf2reproschema/old/evaluation
+    - --skip=poetry.lock,docs_style/pdoc-theme/syntax-highlighting.css,*.cha
     - --ignore-words-list=SIE,sie
 
 - repo: https://github.com/hija/clean-dotenv
