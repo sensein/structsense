@@ -28,7 +28,6 @@ jobs:
         python -m pip install poetry==2.3.2
     - name: Install dependencies with Poetry
       run: |
-        poetry lock
         poetry install --with dev
       shell: bash
     - name: Run unit tests
@@ -84,7 +83,6 @@ jobs:
         python -m pip install poetry==2.3.2
     - name: Install dependencies with Poetry
       run: |
-        poetry lock
         poetry install --with dev
       shell: bash
     - name: Run OpenRouter integration tests
@@ -125,7 +123,6 @@ jobs:
     - name: Install dependencies with Poetry
       run: |
         poetry env use ${{ matrix.python-version }}
-        poetry lock
         poetry install --with dev
         poetry env info
       shell: bash
