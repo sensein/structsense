@@ -12,19 +12,11 @@ repos:
   - id: ruff
   - id: ruff-format
 
-- repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
-  rev: v2.13.0
+- repo: https://github.com/ComPWA/taplo-pre-commit
+  rev: v0.9.3
   hooks:
-  - id: pretty-format-yaml
-    args:
-    - --autofix
-    - --indent=2
-  - id: pretty-format-toml
+  - id: taplo-format
     exclude: ^poetry.lock$
-    args:
-    - --autofix
-    - --indent=2
-    - --no-sort
 
 - repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v4.6.0

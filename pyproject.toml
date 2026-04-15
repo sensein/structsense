@@ -3,9 +3,9 @@ name = "structsense"
 dynamic = ["version", "dependencies"]
 description = "structsense is a powerful multi-agent system designed to extract structured information from unstructured data. By orchestrating intelligent agents, it helps you make sense of complex information — hence the name structsense. Whether you're working with scientific texts, documents, or messy data, structsense enables you to transform it into meaningful, structured insights."
 readme = "README.md"
-license = {text = "Apache-2.0"}
-authors = [{name = "tekrajchhetri", email = "tekraj@mit.edu"}]
-maintainers = [{name = "tekrajchhetri", email = "tekraj@mit.edu"}]
+license = { text = "Apache-2.0" }
+authors = [{ name = "tekrajchhetri", email = "tekraj@mit.edu" }]
+maintainers = [{ name = "tekrajchhetri", email = "tekraj@mit.edu" }]
 requires-python = ">=3.10,<3.13"
 keywords = ["agentic ai", "named entity recognition"]
 classifiers = [
@@ -14,7 +14,7 @@ classifiers = [
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "License :: OSI Approved :: Apache Software License",
-  "Operating System :: OS Independent"
+  "Operating System :: OS Independent",
 ]
 
 [project.urls]
@@ -27,13 +27,11 @@ structsense-cli = "structsense.cli:cli"
 
 [tool.poetry]
 packages = [
-  {include = "structsense", from = "src"},
-  {include = "crew", from = "src"},
-  {include = "utils", from = "src"}
+  { include = "structsense", from = "src" },
+  { include = "crew", from = "src" },
+  { include = "utils", from = "src" },
 ]
-include = [
-  "src/structsense/default_config_ner/*.yaml"
-]
+include = ["src/structsense/default_config_ner/*.yaml"]
 requires-poetry = ">=2.0"
 version = "0.0.0"
 
@@ -51,7 +49,7 @@ weave = "^0.51.39"
 mlflow = "^3.5.0"
 poetry = "^2.1.1"
 spacy = ">=3.8.11,<3.9.0"
-litellm = {version = ">=1.17.0,<1.60.0"}
+litellm = { version = ">=1.17.0,<1.60.0" }
 transformers = ">=4.30.0,<4.46.0"
 torch = "^2.10.0"
 json-repair = ">=0.25.2,<0.26.0"
@@ -61,7 +59,7 @@ trustcall = "^0.0.39"
 optional = true
 
 [tool.poetry.group.dev.dependencies]
-pytest-xdist = {version = "~=3.6", extras = ["psutil"]}
+pytest-xdist = { version = "~=3.6", extras = ["psutil"] }
 pre-commit = "~=4.0"
 ruff = "~=0.3"
 codespell = "~=2.3"
@@ -77,9 +75,7 @@ pdoc = "~=15.0"
 pythonpath = ["src"]
 testpaths = ["src/tests"]
 asyncio_mode = "auto"
-markers = [
-  "requires_openrouter: tests that need OpenRouter access"
-]
+markers = ["requires_openrouter: tests that need OpenRouter access"]
 
 [tool.ruff]
 exclude = [
@@ -103,7 +99,7 @@ exclude = [
   "build",
   "dist",
   "node_modules",
-  "venv"
+  "venv",
 ]
 line-length = 140
 indent-width = 4
