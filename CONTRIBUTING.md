@@ -5,8 +5,6 @@ Pull requests are always welcome, and we appreciate any help you give. Note that
 When submitting a pull request, we ask you to check the following:
 
 1. **Unit tests**, **documentation**, and **code style** are in order.
-   See the [Developer Guide](DEVELOPER.md) for setup instructions and the Continuous Integration for up-to-date requirements.
-
-   It is also OK to submit work in progress if you're unsure of what this exactly means, in which case you'll likely be asked to make some further changes.
+   See the [Developer Guide](DEVELOPER.md) for setup instructions and testing.
 
 2. The contributed code will be **licensed under the same [license](LICENSE.txt) as the rest of the repository**. If you did not write the code yourself, you must ensure the existing license is compatible and include the license information in the contributed files, or obtain permission from the original author to relicense the contributed code.
