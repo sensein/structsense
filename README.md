@@ -10,6 +10,7 @@
 ## Table of Contents
 
 - [Features](#features)
+- [Architecture](#architecture)
 - [Installation](#installation)
 - [Quick Start](#quick-start)
 - [Usage](#usage)
@@ -43,6 +44,18 @@
 - **Partial pipeline** — run any subset of stages; combine `--skip_stage` with `--preload_stage` to resume from any checkpoint
 - **Any LLM via OpenRouter** — configure model per agent in YAML
 - **Single config file** — one YAML drives the entire pipeline
+
+---
+
+## Architecture
+
+The figure below illustrates the overall architecture of **StructSense**.
+
+
+<img width="2571" height="823" alt="with_arch_search-with_search_api drawio (1)" src="https://github.com/user-attachments/assets/8f652c10-4301-4193-b1c8-f750229f972c" />
+
+StructSense integrates a local concept mapping service, which can also be used independently. The service is available here:  
+- https://github.com/sensein/search_hybrid
 
 ---
 
@@ -464,7 +477,7 @@ By default (`skip_alignment_llm=None`), the alignment LLM is **automatically byp
 - `CONCEPT_MAPPING_BACKEND=local` (which is the default)
 - Task type is `ner`, `keyphrase_extraction`, `resource`, or `structured_extraction`
 
-When bypassed, the concept mapping tool is called directly from Python in one batch (4000 concept/request--see [https://github.com/sensein/search_hybrid/tree/dev](https://github.com/sensein/search_hybrid/tree/dev)) — much
+When bypassed, the concept mapping tool is called directly from Python in one batch (4000 concept/request--see [https://github.com/sensein/search_hybrid](https://github.com/sensein/search_hybrid)) — much
 faster than running the LLM. The output records `alignment_method: "direct_tool_call"`.
 
 ```bash
