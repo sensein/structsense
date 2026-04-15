@@ -2,8 +2,21 @@
 
 `structsense` is a multi-agent system for extracting structured information from unstructured text and documents. It orchestrates a configurable pipeline of AI agents — extractor → alignment → judge → human feedback — each driven by a single YAML config file.
 
-**Documentation:** [docs.brainkb.org](http://docs.brainkb.org/structsense_overview.html)
 **License:** [Apache 2.0](LICENSE.txt)
+
+If you find this work useful or build upon it, please consider citing:
+
+```bibtex
+@misc{chhetri2025structsensetaskagnosticagenticframework,
+  title        = {STRUCTSENSE: A Task-Agnostic Agentic Framework for Structured Information Extraction with Human-In-The-Loop Evaluation and Benchmarking},
+  author       = {Tek Raj Chhetri and Yibei Chen and Puja Trivedi and Dorota Jarecka and Saif Haobsh and Patrick Ray and Lydia Ng and Satrajit S. Ghosh},
+  year         = {2025},
+  eprint       = {2507.03674},
+  archivePrefix= {arXiv},
+  primaryClass = {cs.CL},
+  url          = {https://arxiv.org/abs/2507.03674}
+}
+```
 
 ---
 
