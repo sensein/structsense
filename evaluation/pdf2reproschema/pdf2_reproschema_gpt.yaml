@@ -132,7 +132,7 @@ task_config:
         "order": ["PHQ9_01", "PHQ9_02", "..."]
       }
 
-    # do not chage this, remove it later
+    # do not change this, remove it later
     agent_id: extractor_agent
 
   alignment_task:
@@ -191,7 +191,7 @@ task_config:
         ]
       }
 
-    # do not chage this, remove it later
+    # do not change this, remove it later
     agent_id: alignment_agent
 
   judge_task:
@@ -268,7 +268,7 @@ task_config:
         }
       }
 
-    # do not chage this, remove it later
+    # do not change this, remove it later
     agent_id: judge_agent
 
   humanfeedback_task:
