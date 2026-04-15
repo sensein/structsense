@@ -23,7 +23,6 @@ from pathlib import Path
 from typing import Any, Dict, List, Tuple, Optional
 
 
-
 IN_FILE = Path("JNLPBA_gene_protein_test.tsv")
 OUT_TEXT = Path("JNLPBA_gene_protein_test_text.txt")
 OUT_ENTS_JSONL = Path("JNLPBA_gene_protein_test_entities_mapping.jsonl")
@@ -123,9 +122,7 @@ def read_bio_file(path: Path) -> Tuple[List[List[str]], List[List[Tuple[str, str
                 if only == ",":
                     flush()
                     continue
-                raise ValueError(
-                    f"Line {lineno}: not enough columns for TOKEN_COL={TOKEN_COL}, TAG_COL={TAG_COL}: {raw!r}"
-                )
+                raise ValueError(f"Line {lineno}: not enough columns for TOKEN_COL={TOKEN_COL}, TAG_COL={TAG_COL}: {raw!r}")
 
             token = parts[TOKEN_COL].strip()
             tag_raw = parts[TAG_COL].strip()

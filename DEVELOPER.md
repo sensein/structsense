@@ -1,33 +1,33 @@
-# StructSense Information for Developer 
+# StructSense Information for Developer
 
 This document provides the overview of the major **StructSense** component and flow.
 
 ## Key Functions
 
 ### Pipeline entry and flow
-- **`StructSenseFlow.information_extraction_task()`** (`app.py`)  
+- **`StructSenseFlow.information_extraction_task()`** (`app.py`)
   Main entry: runs extraction → alignment → judge → humanfeedback in order; builds `final`, injects `aligned_resources` for resource task, calls `promote_canonical_resources_for_resource_task`, handles skip end concept mapping and provenance.
-- **`StructSenseFlow.run_agent_task()`** (`app.py`)  
+- **`StructSenseFlow.run_agent_task()`** (`app.py`)
   Runs one agent–task pair (with optional chunking). Used by the pipeline for each stage and by CLI `run-agent`. Passes `pick_richest_alignment` for resource alignment so multiple alignment blobs are returned for merge.
-- **`StructSenseFlow._get_detected_task_type()`** (`app.py`)  
+- **`StructSenseFlow._get_detected_task_type()`** (`app.py`)
   Returns `"ner"`, `"resource"`, `"structured_extraction"`, or `"extraction"` from task config (LLM or heuristic). Drives post-processor, merger, and whether alignment blobs are extracted for merge.
 ###  Crew run and parsing
 
-- **`run_crew_extraction()` / `run_crew_extraction_async()`** (`crew_utils.py`)  
+- **`run_crew_extraction()` / `run_crew_extraction_async()`** (`crew_utils.py`)
   Generic crew runner: no-chunk path (single run) or chunked path. No-chunk path can return multiple results when alignment returns multiple blobs (`pick_richest_alignment` + `_parse_crew_output_alignment_blobs`).
 
-- **`_run_crew_on_retry()` / `_run_crew_on_retry_async()`** (`crew_utils.py`)  
+- **`_run_crew_on_retry()` / `_run_crew_on_retry_async()`** (`crew_utils.py`)
   One (or two on retry) crew kickoff; parse string output via `_parse_raw_string` → `_parse_crew_output_alignment_blobs` (if alignment resource) or `_parse_crew_output_string`.
 
-- **`_parse_crew_output_alignment_blobs(s)`** (`crew_utils.py`)  
+- **`_parse_crew_output_alignment_blobs(s)`** (`crew_utils.py`)
   Extracts all top-level JSON blobs with `aligned_resources` and returns a list (2+) or single dict so the app can merge them in postprocessing.
 
-- **`_extract_all_json_blobs(s)`** (`crew_utils.py`)  
+- **`_extract_all_json_blobs(s)`** (`crew_utils.py`)
   Brace-matching extraction of every `{...}` in a string; used to get multiple alignment blocks from one LLM response.
 
 The other functions include tool registration and invocation and merging results.
 
-## Module Overview 
+## Module Overview
 
 - **`src/structsense/app.py`**: Main entry point for **StructSense**, responsible for initializing the pipeline and orchestrating agent execution.
 - **`src/structsense/cli.py`**: Defines and handles command-line interface (CLI) options for running **StructSense**.
@@ -52,7 +52,7 @@ The other functions include tool registration and invocation and merging results
 Tools are attached **per stage (agent) and per task type**. The flow is:
 - **Task type** is detected from the extractor task description (`task_detection.py`).
 - **Tool names** for that (agent_key, task_type) come from `task_tools.py` (generic + task-specific).
-- **Tool names** are resolved to **CrewAI tool instances** in `_resolve_tool()` in `task_tools.py`. 
+- **Tool names** are resolved to **CrewAI tool instances** in `_resolve_tool()` in `task_tools.py`.
 - The agent is built with those tools; CrewAI runs the agent and the LLM can **call** the tools during execution.
 
 ### Steps to Add a New Tool
@@ -67,7 +67,7 @@ Tools are attached **per stage (agent) and per task type**. The flow is:
 - To add a new tool, update `_resolve_tool(name, ...)` in `src/utils/task_tools.py` to map the tool name to its corresponding function or instantiated class.
 
     **Example (function tool):**
-    
+
     ```python
     # In task_tools.py _resolve_tool()
     if name == "your_new_tool":
@@ -112,13 +112,13 @@ The pipeline detects **task type** from the extractor task description (LLM or h
 
 Tools are resolved **per stage (agent) and task type** so different agents and tasks can use different tools.
 
-- **Stage (agent)**  
+- **Stage (agent)**
   Only the **extractor** stage receives tools by default; **alignment**, **judge**, and **human_feedback** use no tools (LLM-only).
 
-- **Generic tools**  
+- **Generic tools**
   An agent can have **generic** tools that apply to **all** task types (e.g. a shared search or lookup). Configured in `GENERIC_TOOLS_BY_STAGE` in `src/utils/task_tools.py`.
 
-- **Task-specific tools**  
+- **Task-specific tools**
   Task types (e.g. `ner`, `keyphrase_extraction`) get additional tools (e.g. `extract_ner_terms`). Configured in `TOOLS_BY_TASK_TYPE` (in `task_detection`) for the extractor and in `TOOLS_BY_STAGE_AND_TASK` for other agents.
 
 **Current mapping:**

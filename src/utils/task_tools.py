@@ -29,6 +29,7 @@ See Also
 - :mod:`task_detection` – Defines :data:`TOOLS_BY_TASK_TYPE` used here.
 - :mod:`structsense.app` – Uses :func:`get_tools_for_agent` when initializing agents.
 """
+
 import logging
 import os
 from typing import Any, Dict, List, Optional
@@ -120,6 +121,7 @@ def _resolve_tool(
     if name == "extract_ner_terms":
         if agent_config and task_config and agent_key and task_key:
             from .ner_tool import set_ner_domain_context, extract_ner_terms
+
             agent_cfg = agent_config.get(agent_key) or {}
             task_cfg = task_config.get(task_key)
             agent_role = (agent_cfg.get("role") or "").strip()
@@ -130,8 +132,7 @@ def _resolve_tool(
             else:
                 task_description = str(task_cfg or "").strip()
             llm_config = agent_cfg.get("llm") or {}
-            api_key = (llm_config.get("api_key") or os.environ.get("OPENROUTER_API_KEY") or
-                       os.environ.get("OPENAI_API_KEY"))
+            api_key = llm_config.get("api_key") or os.environ.get("OPENROUTER_API_KEY") or os.environ.get("OPENAI_API_KEY")
             set_ner_domain_context(
                 agent_role=agent_role,
                 agent_goal=agent_goal,
@@ -142,6 +143,7 @@ def _resolve_tool(
             )
         if name not in _TOOL_REGISTRY:
             from .ner_tool import extract_ner_terms
+
             _TOOL_REGISTRY[name] = extract_ner_terms
         return _TOOL_REGISTRY.get(name)
     if name == "concept_mapping_tool":
@@ -151,6 +153,7 @@ def _resolve_tool(
             if backend == "local":
                 try:
                     from .conceptmappinglocal import ConceptMappingLocalTool
+
                     _TOOL_REGISTRY[registry_key] = ConceptMappingLocalTool()
                     logger.info("ConceptMappingLocalTool registered (CONCEPT_MAPPING_BACKEND=local)")
                 except Exception as e:
@@ -159,6 +162,7 @@ def _resolve_tool(
             else:
                 try:
                     from .conceptmappingtool import ConceptMappingTool
+
                     _TOOL_REGISTRY[registry_key] = ConceptMappingTool()
                     logger.info("ConceptMappingTool registered (CONCEPT_MAPPING_BACKEND=bioportal)")
                 except ValueError as e:
@@ -172,15 +176,11 @@ def _resolve_tool(
             set_repair_json_default_schema,
             set_repair_json_llm_context,
         )
+
         if agent_config and agent_key:
             agent_cfg = agent_config.get(agent_key) or {}
             llm_config = agent_cfg.get("llm") or {}
-            api_key = (
-                llm_config.get("api_key")
-                or os.environ.get("OPENROUTER_API_KEY")
-                or os.environ.get("OPENAI_API_KEY")
-                or ""
-            )
+            api_key = llm_config.get("api_key") or os.environ.get("OPENROUTER_API_KEY") or os.environ.get("OPENAI_API_KEY") or ""
             set_repair_json_llm_context(llm_config=llm_config, api_key=api_key)
         if task_type:
             set_repair_json_default_schema(get_default_schema_for_task_type(task_type))

@@ -207,10 +207,9 @@ def extract_pdf_content(file_path: str, grobid_server: str, external_service: st
                 # which is sufficient for NER / extraction pipelines that operate on plain text.
                 try:
                     import fitz as _fitz
+
                     _doc = _fitz.open(str(file_path))
-                    _raw = "\n\n".join(
-                        page.get_text() for page in _doc if page.get_text().strip()
-                    ).strip()
+                    _raw = "\n\n".join(page.get_text() for page in _doc if page.get_text().strip()).strip()
                     _doc.close()
                     if _raw:
                         extracted_data["sections"].append({"heading": "Content", "content": _raw})

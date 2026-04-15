@@ -12,7 +12,7 @@ This folder contains configuration files used to run different tasks. It include
 #### ⚠️ Important Notes
 
 - **Do not rename** predefined YAML keys such as `task_config` and `agent_config`.
-  You can update: agent descriptions, task descriptions, and `embedder_config`.   
+  You can update: agent descriptions, task descriptions, and `embedder_config`.
 
 - **Do not replace variables** enclosed in curly braces (`{}`); they are dynamically populated at runtime. Names must match the pipeline input map (see `config_template` for examples):
   - **Extraction input:** `{input_text}` — input text (e.g. PDF content or raw text)

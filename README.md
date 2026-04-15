@@ -17,7 +17,7 @@
   - [Python](#python)
 - [Configuration](#configuration)
   - [Config file structure](#config-file-structure)
-  - [Task types](#task-types) 
+  - [Task types](#task-types)
 - [Pipeline Options](#pipeline-options)
   - [Skip pipeline stages](#skip-pipeline-stages)
   - [Alignment options](#alignment-options)
@@ -119,7 +119,7 @@ with open("result.json", "w") as f:
 ## Advanced Usage
 
 ### Using CLI
- 
+
 #### Full pipeline
 
 Runs extraction → alignment → judge → optional human feedback and returns the final structured result.
@@ -532,7 +532,7 @@ flow = StructSenseFlow(..., skip_judge_llm=True)
 |---|---|
 | `False` / `None` (default) | Run judge |
 | `True` | No LLM call — all entities receive `judge_score=1.0`, `remarks="auto-approved"` |
- 
+
 #### Run the custom judge agent or through CrewAI (`direct_judge_api`)
 
 When `direct_judge_api=True` (default), the judge LLM is still used, but it does **not** run through the CrewAI agent loop. Instead, StructSense uses a custom implementation that calls the LLM directly through `AsyncOpenAI` in parallel batches with retry support.
@@ -594,7 +594,7 @@ You can preload multiple stages. `--source` / `--source_text` is still required 
 *Preloading multiple stages:*
 
 ```bash
-structsense-cli extract --env_file=.env --save_file=output.json --chunk_size=2000 --max_workers=8 --enable_chunking --config=some-config.yaml --source=vitpose.pdf --preload_stage extraction_task:00_extractor_agent_extraction_task.json --preload_stage alignment_task:01_alignment_agent_alignment_task.json --api_key=sk-or-v 
+structsense-cli extract --env_file=.env --save_file=output.json --chunk_size=2000 --max_workers=8 --enable_chunking --config=some-config.yaml --source=vitpose.pdf --preload_stage extraction_task:00_extractor_agent_extraction_task.json --preload_stage alignment_task:01_alignment_agent_alignment_task.json --api_key=sk-or-v
 ```
 ---
 
@@ -623,7 +623,7 @@ LOCAL_CONCEPT_MAPPING_URL=http://localhost:8000
 | `LOCAL_CONCEPT_MAPPING_TIMEOUT`            | `30` | Request timeout in seconds                                                                         |
 | `MAX_CONCEPT_MAPPING_RESULTS`              | `1` | Results per term (1–20)                                                                            |
 
- 
+
 ### BioPortal
 
 Uses the [BioPortal](https://bioportal.bioontology.org/) REST API for ontology lookup with automatic ontology detection.

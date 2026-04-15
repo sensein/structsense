@@ -9,7 +9,7 @@
 # tort, or otherwise, arising from, out of, or in connection with the
 # software or the use or other dealings in the software.
 # -----------------------------------------------------------------------------
- 
+
 # @Author  : Tek Raj Chhetri
 # @Email   : tekraj@mit.edu
 # @Web     : https://tekrajchhetri.com/
@@ -182,8 +182,6 @@ warnings.filterwarnings("ignore", message=".*serialization.*")
 warnings.filterwarnings("ignore", message=".*Expected.*fields.*")
 
 
-
-
 def _run_crew_on_retry(
     crew: Crew,
     text: str,
@@ -324,11 +322,11 @@ async def _run_crew_on_retry_async(
         return _parse_crew_output_string(raw_str)
 
     # Check if akickoff is available (newer CrewAI versions)
-    has_akickoff = hasattr(crew, 'akickoff')
-    has_kickoff_async = hasattr(crew, 'kickoff_async')
-    
+    has_akickoff = hasattr(crew, "akickoff")
+    has_kickoff_async = hasattr(crew, "kickoff_async")
+
     # Log which method we're using (only once, not per attempt)
-    if not hasattr(_run_crew_on_retry_async, '_method_logged'):
+    if not hasattr(_run_crew_on_retry_async, "_method_logged"):
         if has_akickoff:
             logger.debug("Using native async akickoff() for best performance")
         elif has_kickoff_async:
@@ -473,12 +471,16 @@ def run_crew_extraction(
     # Get timing logger if available
     timing_logger = logging.getLogger("timing")
     has_timing_logger = bool(timing_logger.handlers)
-    
+
     # ---------------- NO CHUNKING PATH ----------------
     if not chunk_size or len(full_text) <= chunk_size:
         exec_start = time.time()
         raw = _run_crew_on_retry(
-            crew, full_text, input_key, default_result, extra_inputs,
+            crew,
+            full_text,
+            input_key,
+            default_result,
+            extra_inputs,
             pick_richest_alignment=pick_richest_alignment,
         )
         exec_time = time.time() - exec_start
@@ -496,9 +498,7 @@ def run_crew_extraction(
             }
 
         if "error" in raw:
-            errors.append(
-                {"scope": "full", "index": None, "error": raw["error"]}
-            )
+            errors.append({"scope": "full", "index": None, "error": raw["error"]})
 
         all_raw_results.append(raw)
 
@@ -507,16 +507,13 @@ def run_crew_extraction(
             if post_process:
                 try:
                     from .ner_tool import get_spacy_model
+
                     nlp = get_spacy_model()
                     full_doc = nlp(full_text)
                     processed = post_process(full_text, full_doc, {"text": full_text, "start": 0}, raw)
                     all_results.append(processed)
                 except Exception as e:
-                    errors.append({
-                        "scope": "full",
-                        "index": None,
-                        "error": f"Post-processing failed: {e}"
-                    })
+                    errors.append({"scope": "full", "index": None, "error": f"Post-processing failed: {e}"})
                     all_results.append(raw)
             else:
                 all_results.append(raw)
@@ -536,6 +533,7 @@ def run_crew_extraction(
             timing_logger.info(f"  Chunk size capped to {max_chunk_chars} chars (max_chunk_chars) for model context limit")
     chunking_start = time.time()
     from .ner_tool import get_spacy_model
+
     nlp = get_spacy_model()
     full_doc = nlp(full_text)
     chunks = _chunk_doc_by_sentences(full_doc, max_chars=effective_chunk_size)
@@ -545,28 +543,30 @@ def run_crew_extraction(
 
     if max_workers is None:
         max_workers = min(8, len(chunks))
-    
+
     logger.info(f"Processing {len(chunks)} chunks with {max_workers} parallel workers")
     if has_timing_logger:
         timing_logger.info(f"  Parallel workers: {max_workers}")
-    
+
     # Extract agent and task from the crew for creating new instances per thread
     # This is necessary because Crew instances are not thread-safe
-    agents = crew.agents if hasattr(crew, 'agents') else []
-    tasks = crew.tasks if hasattr(crew, 'tasks') else []
+    agents = crew.agents if hasattr(crew, "agents") else []
+    tasks = crew.tasks if hasattr(crew, "tasks") else []
     memory_config = {
-        'long_term_memory_config': getattr(crew, 'long_term_memory_config', None),
-        'short_term_memory': getattr(crew, 'short_term_memory', None),
-        'entity_memory': getattr(crew, 'entity_memory', None),
+        "long_term_memory_config": getattr(crew, "long_term_memory_config", None),
+        "short_term_memory": getattr(crew, "short_term_memory", None),
+        "entity_memory": getattr(crew, "entity_memory", None),
     }
     # Disable memory for parallel chunking to avoid SQLite database locking issues
     # Multiple Crew instances writing to the same database causes "database is locked" errors
     original_has_memory = any(memory_config.values())
     has_memory = False  # Disabled for parallel chunking
     if original_has_memory:
-        logger.warning("Memory disabled for parallel chunking to avoid SQLite database locking issues. Memory will be available for non-chunked execution.")
-    crew_process = crew.process if hasattr(crew, 'process') else Process.sequential
-    crew_verbose = crew.verbose if hasattr(crew, 'verbose') else False
+        logger.warning(
+            "Memory disabled for parallel chunking to avoid SQLite database locking issues. Memory will be available for non-chunked execution."
+        )
+    crew_process = crew.process if hasattr(crew, "process") else Process.sequential
+    crew_verbose = crew.verbose if hasattr(crew, "verbose") else False
 
     def _copy_agents_tasks_for_chunk():
         """Return a copy of agents and tasks so each chunk's Crew has isolated state.
@@ -581,9 +581,7 @@ def run_crew_extraction(
         except Exception as e:
             # Deep copy failed (likely due to thread locks)
             # Recreate agents/tasks from config instead
-            logger.debug(
-                f"Deep-copy failed ({e}). Recreating agents/tasks from config for chunk isolation."
-            )
+            logger.debug(f"Deep-copy failed ({e}). Recreating agents/tasks from config for chunk isolation.")
 
             # Recreate agents - get config from existing agent
             new_agents = []
@@ -595,12 +593,12 @@ def run_crew_extraction(
                         goal=agent.goal,
                         backstory=agent.backstory,
                         llm=agent.llm,  # LLM objects are usually safe to share
-                        tools=agent.tools.copy() if hasattr(agent.tools, 'copy') else agent.tools,
-                        allow_delegation=agent.allow_delegation if hasattr(agent, 'allow_delegation') else False,
-                        verbose=agent.verbose if hasattr(agent, 'verbose') else False,
-                        max_iter=agent.max_iter if hasattr(agent, 'max_iter') else 1,
-                        max_execution_time=agent.max_execution_time if hasattr(agent, 'max_execution_time') else 30,
-                        max_retry_limit=agent.max_retry_limit if hasattr(agent, 'max_retry_limit') else 0,
+                        tools=agent.tools.copy() if hasattr(agent.tools, "copy") else agent.tools,
+                        allow_delegation=agent.allow_delegation if hasattr(agent, "allow_delegation") else False,
+                        verbose=agent.verbose if hasattr(agent, "verbose") else False,
+                        max_iter=agent.max_iter if hasattr(agent, "max_iter") else 1,
+                        max_execution_time=agent.max_execution_time if hasattr(agent, "max_execution_time") else 30,
+                        max_retry_limit=agent.max_retry_limit if hasattr(agent, "max_retry_limit") else 0,
                     )
                     new_agents.append(new_agent)
                 except Exception as agent_error:
@@ -616,7 +614,7 @@ def run_crew_extraction(
                         description=task.description,
                         expected_output=task.expected_output,
                         agent=new_agents[i] if i < len(new_agents) else task.agent,
-                        output_pydantic=task.output_pydantic if hasattr(task, 'output_pydantic') else None,
+                        output_pydantic=task.output_pydantic if hasattr(task, "output_pydantic") else None,
                     )
                     new_tasks.append(new_task)
                 except Exception as task_error:
@@ -627,7 +625,7 @@ def run_crew_extraction(
 
     def create_crew_for_chunk():
         """Create a new Crew instance for thread safety.
-        
+
         Note: verbose is disabled for parallel execution to reduce overhead
         from CrewAI's flow management system.
         Memory is disabled for parallel chunking to avoid SQLite database locking.
@@ -659,19 +657,19 @@ def run_crew_extraction(
         """Process a single chunk with detailed timing."""
         idx, ch = chunk_data
         chunk_start = time.time()
-        
+
         # Create crew for this chunk
         crew_creation_start = time.time()
         crew = create_crew_for_chunk()
         crew_creation_time = time.time() - crew_creation_start
-        
+
         # Run extraction
         exec_start = time.time()
         raw = _run_crew_on_retry(crew, ch["text"], input_key, default_result, extra_inputs)
         exec_time = time.time() - exec_start
-        
+
         chunk_time = time.time() - chunk_start
-        
+
         return {
             "idx": idx,
             "chunk": ch,
@@ -680,30 +678,27 @@ def run_crew_extraction(
                 "total": chunk_time,
                 "crew_creation": crew_creation_time,
                 "execution": exec_time,
-            }
+            },
         }
 
     parallel_start = time.time()
     chunk_times = {}  # Track individual chunk times
     crew_creation_times = []
     execution_times = []
-    
+
     with ThreadPoolExecutor(max_workers=max_workers) as ex:
-        futures = {
-            ex.submit(process_chunk_with_timing, (idx, ch)): idx
-            for idx, ch in enumerate(chunks)
-        }
+        futures = {ex.submit(process_chunk_with_timing, (idx, ch)): idx for idx, ch in enumerate(chunks)}
 
         for fut in as_completed(futures):
             idx = futures[fut]
-            
+
             try:
                 chunk_result = fut.result()
                 idx = chunk_result["idx"]
                 chunk = chunk_result["chunk"]
                 raw = chunk_result["raw"]
                 timing = chunk_result["timing"]
-                
+
                 chunk_times[idx] = timing["total"]
                 crew_creation_times.append(timing["crew_creation"])
                 execution_times.append(timing["execution"])
@@ -721,18 +716,16 @@ def run_crew_extraction(
                             processed = post_process(full_text, full_doc, chunk, raw)
                             all_results.append(processed)
                         except Exception as e:
-                            errors.append({
-                                "scope": "chunk",
-                                "index": idx,
-                                "error": f"Post-processing failed: {e}"
-                            })
+                            errors.append({"scope": "chunk", "index": idx, "error": f"Post-processing failed: {e}"})
                             all_results.append(raw)
                     else:
                         all_results.append(raw)
                 post_time = time.time() - post_start
-                
+
                 if has_timing_logger and (idx < 5 or idx % 10 == 0):  # Log first 5 and every 10th chunk
-                    timing_logger.info(f"    Chunk {idx}: {timing['total']:.3f}s (crew: {timing['crew_creation']:.3f}s, exec: {timing['execution']:.3f}s, post: {post_time:.3f}s)")
+                    timing_logger.info(
+                        f"    Chunk {idx}: {timing['total']:.3f}s (crew: {timing['crew_creation']:.3f}s, exec: {timing['execution']:.3f}s, post: {post_time:.3f}s)"
+                    )
             except Exception as e:
                 # Extreme safety: if even result() fails, record error and skip
                 msg = f"Unexpected future error: {e}"
@@ -749,7 +742,7 @@ def run_crew_extraction(
         avg_execution = sum(execution_times) / len(execution_times) if execution_times else 0
         total_crew_creation = sum(crew_creation_times)
         total_execution = sum(execution_times)
-        
+
         timing_logger.info(f"  Parallel execution: {parallel_time:.3f}s")
         timing_logger.info(f"    - Total crew creation time: {total_crew_creation:.3f}s (avg: {avg_crew_creation:.3f}s per chunk)")
         timing_logger.info(f"    - Total execution time: {total_execution:.3f}s (avg: {avg_execution:.3f}s per chunk)")
@@ -783,10 +776,10 @@ async def run_crew_extraction_async(
 ) -> Dict[str, Any]:
     """
     Async version of run_crew_extraction using native async execution.
-    
+
     Uses CrewAI's akickoff() for better concurrency with I/O-bound workloads.
     Recommended for high-concurrency scenarios. See: https://docs.crewai.com/en/learn/kickoff-async
-    
+
     This function NEVER raises due to crew/task failures.
     It returns best-effort results plus an 'errors' list.
 
@@ -823,12 +816,16 @@ async def run_crew_extraction_async(
     # Get timing logger if available
     timing_logger = logging.getLogger("timing")
     has_timing_logger = bool(timing_logger.handlers)
-    
+
     # ---------------- NO CHUNKING PATH ----------------
     if not chunk_size or len(full_text) <= chunk_size:
         exec_start = time.time()
         raw = await _run_crew_on_retry_async(
-            crew, full_text, input_key, default_result, extra_inputs,
+            crew,
+            full_text,
+            input_key,
+            default_result,
+            extra_inputs,
             pick_richest_alignment=pick_richest_alignment,
         )
         exec_time = time.time() - exec_start
@@ -846,9 +843,7 @@ async def run_crew_extraction_async(
             }
 
         if "error" in raw:
-            errors.append(
-                {"scope": "full", "index": None, "error": raw["error"]}
-            )
+            errors.append({"scope": "full", "index": None, "error": raw["error"]})
 
         all_raw_results.append(raw)
 
@@ -857,16 +852,13 @@ async def run_crew_extraction_async(
             if post_process:
                 try:
                     from .ner_tool import get_spacy_model
+
                     nlp = get_spacy_model()
                     full_doc = nlp(full_text)
                     processed = post_process(full_text, full_doc, {"text": full_text, "start": 0}, raw)
                     all_results.append(processed)
                 except Exception as e:
-                    errors.append({
-                        "scope": "full",
-                        "index": None,
-                        "error": f"Post-processing failed: {e}"
-                    })
+                    errors.append({"scope": "full", "index": None, "error": f"Post-processing failed: {e}"})
                     all_results.append(raw)
             else:
                 all_results.append(raw)
@@ -886,6 +878,7 @@ async def run_crew_extraction_async(
             timing_logger.info(f"  Chunk size capped to {max_chunk_chars} chars (max_chunk_chars) for model context limit")
     chunking_start = time.time()
     from .ner_tool import get_spacy_model
+
     nlp = get_spacy_model()
     full_doc = nlp(full_text)
     chunks = _chunk_doc_by_sentences(full_doc, max_chars=effective_chunk_size)
@@ -895,20 +888,22 @@ async def run_crew_extraction_async(
         timing_logger.info(f"  Note: Creating {len(chunks)} Crew instances (one per chunk) with isolated agents/tasks")
 
     # Extract agent and task from the crew for creating new instances per async task
-    agents = crew.agents if hasattr(crew, 'agents') else []
-    tasks = crew.tasks if hasattr(crew, 'tasks') else []
+    agents = crew.agents if hasattr(crew, "agents") else []
+    tasks = crew.tasks if hasattr(crew, "tasks") else []
     memory_config = {
-        'long_term_memory_config': getattr(crew, 'long_term_memory_config', None),
-        'short_term_memory': getattr(crew, 'short_term_memory', None),
-        'entity_memory': getattr(crew, 'entity_memory', None),
+        "long_term_memory_config": getattr(crew, "long_term_memory_config", None),
+        "short_term_memory": getattr(crew, "short_term_memory", None),
+        "entity_memory": getattr(crew, "entity_memory", None),
     }
     # Disable memory for parallel chunking to avoid SQLite database locking issues
     # Multiple Crew instances writing to the same database causes "database is locked" errors
     original_has_memory = any(memory_config.values())
     has_memory = False  # Disabled for parallel chunking
     if original_has_memory:
-        logger.warning("Memory disabled for parallel chunking to avoid SQLite database locking issues. Memory will be available for non-chunked execution.")
-    crew_process = crew.process if hasattr(crew, 'process') else Process.sequential
+        logger.warning(
+            "Memory disabled for parallel chunking to avoid SQLite database locking issues. Memory will be available for non-chunked execution."
+        )
+    crew_process = crew.process if hasattr(crew, "process") else Process.sequential
 
     def _copy_agents_tasks_async():
         """Return a copy of agents and tasks so each chunk's Crew has isolated state.
@@ -922,9 +917,7 @@ async def run_crew_extraction_async(
         except Exception as e:
             # Deep copy failed (likely due to thread locks)
             # Recreate agents/tasks from config instead
-            logger.debug(
-                f"Deep-copy failed ({e}). Recreating agents/tasks from config for chunk isolation."
-            )
+            logger.debug(f"Deep-copy failed ({e}). Recreating agents/tasks from config for chunk isolation.")
 
             # Recreate agents
             new_agents = []
@@ -935,12 +928,12 @@ async def run_crew_extraction_async(
                         goal=agent.goal,
                         backstory=agent.backstory,
                         llm=agent.llm,
-                        tools=agent.tools.copy() if hasattr(agent.tools, 'copy') else agent.tools,
-                        allow_delegation=agent.allow_delegation if hasattr(agent, 'allow_delegation') else False,
-                        verbose=agent.verbose if hasattr(agent, 'verbose') else False,
-                        max_iter=agent.max_iter if hasattr(agent, 'max_iter') else 1,
-                        max_execution_time=agent.max_execution_time if hasattr(agent, 'max_execution_time') else 30,
-                        max_retry_limit=agent.max_retry_limit if hasattr(agent, 'max_retry_limit') else 0,
+                        tools=agent.tools.copy() if hasattr(agent.tools, "copy") else agent.tools,
+                        allow_delegation=agent.allow_delegation if hasattr(agent, "allow_delegation") else False,
+                        verbose=agent.verbose if hasattr(agent, "verbose") else False,
+                        max_iter=agent.max_iter if hasattr(agent, "max_iter") else 1,
+                        max_execution_time=agent.max_execution_time if hasattr(agent, "max_execution_time") else 30,
+                        max_retry_limit=agent.max_retry_limit if hasattr(agent, "max_retry_limit") else 0,
                     )
                     new_agents.append(new_agent)
                 except Exception as agent_error:
@@ -955,7 +948,7 @@ async def run_crew_extraction_async(
                         description=task.description,
                         expected_output=task.expected_output,
                         agent=new_agents[i] if i < len(new_agents) else task.agent,
-                        output_pydantic=task.output_pydantic if hasattr(task, 'output_pydantic') else None,
+                        output_pydantic=task.output_pydantic if hasattr(task, "output_pydantic") else None,
                     )
                     new_tasks.append(new_task)
                 except Exception as task_error:
@@ -966,14 +959,14 @@ async def run_crew_extraction_async(
 
     async def process_chunk_async(chunk_data):
         """Process a single chunk with async execution and detailed timing.
-        
+
         Note: We create a new Crew instance per chunk for thread safety.
         Each chunk gets its own copy of agents/tasks to avoid context accumulation (token limit errors).
         Memory is disabled for parallel chunking to avoid SQLite database locking.
         """
         idx, ch = chunk_data
         chunk_start = time.time()
-        
+
         # Create crew for this chunk with isolated agents/tasks (avoids token accumulation)
         crew_creation_start = time.time()
         os.environ["OTEL_SDK_DISABLED"] = "true"
@@ -992,14 +985,14 @@ async def run_crew_extraction_async(
             entity_memory=None,
         )
         crew_creation_time = time.time() - crew_creation_start
-        
+
         # Run extraction with async
         exec_start = time.time()
         raw = await _run_crew_on_retry_async(chunk_crew, ch["text"], input_key, default_result, extra_inputs)
         exec_time = time.time() - exec_start
-        
+
         chunk_time = time.time() - chunk_start
-        
+
         return {
             "idx": idx,
             "chunk": ch,
@@ -1008,27 +1001,27 @@ async def run_crew_extraction_async(
                 "total": chunk_time,
                 "crew_creation": crew_creation_time,
                 "execution": exec_time,
-            }
+            },
         }
 
     parallel_start = time.time()
     chunk_times = {}
     crew_creation_times = []
     execution_times = []
-    
+
     # Use asyncio.gather for native async concurrency
     # This is more efficient than ThreadPoolExecutor for I/O-bound workloads
     # Note: We create one Crew per chunk (required for thread safety)
     # but agents/tasks are reused, so the overhead is minimal
     chunk_tasks = [process_chunk_async((idx, ch)) for idx, ch in enumerate(chunks)]
-    
+
     # Limit concurrency if max_workers is specified
     # For async, we can handle more concurrent tasks than threads, but still respect limits
     if max_workers and max_workers < len(chunks):
         # Process in batches to respect max_workers limit
         results_list = []
         for i in range(0, len(chunk_tasks), max_workers):
-            batch = chunk_tasks[i:i + max_workers]
+            batch = chunk_tasks[i : i + max_workers]
             batch_results = await asyncio.gather(*batch, return_exceptions=True)
             results_list.extend(batch_results)
         chunk_results = results_list
@@ -1040,13 +1033,13 @@ async def run_crew_extraction_async(
             # Process in batches
             results_list = []
             for i in range(0, len(chunk_tasks), effective_max):
-                batch = chunk_tasks[i:i + effective_max]
+                batch = chunk_tasks[i : i + effective_max]
                 batch_results = await asyncio.gather(*batch, return_exceptions=True)
                 results_list.extend(batch_results)
             chunk_results = results_list
         else:
             chunk_results = await asyncio.gather(*chunk_tasks, return_exceptions=True)
-    
+
     # Process results
     for result in chunk_results:
         if isinstance(result, Exception):
@@ -1054,12 +1047,12 @@ async def run_crew_extraction_async(
             print(f"[WARN] {msg}")
             errors.append({"scope": "chunk", "index": None, "error": msg})
             continue
-            
+
         idx = result["idx"]
         chunk = result["chunk"]
         raw = result["raw"]
         timing = result["timing"]
-        
+
         chunk_times[idx] = timing["total"]
         crew_creation_times.append(timing["crew_creation"])
         execution_times.append(timing["execution"])
@@ -1077,18 +1070,16 @@ async def run_crew_extraction_async(
                     processed = post_process(full_text, full_doc, chunk, raw)
                     all_results.append(processed)
                 except Exception as e:
-                    errors.append({
-                        "scope": "chunk",
-                        "index": idx,
-                        "error": f"Post-processing failed: {e}"
-                    })
+                    errors.append({"scope": "chunk", "index": idx, "error": f"Post-processing failed: {e}"})
                     all_results.append(raw)
             else:
                 all_results.append(raw)
         post_time = time.time() - post_start
-        
+
         if has_timing_logger and (idx < 5 or idx % 10 == 0):
-            timing_logger.info(f"    Chunk {idx}: {timing['total']:.3f}s (crew: {timing['crew_creation']:.3f}s, exec: {timing['execution']:.3f}s, post: {post_time:.3f}s)")
+            timing_logger.info(
+                f"    Chunk {idx}: {timing['total']:.3f}s (crew: {timing['crew_creation']:.3f}s, exec: {timing['execution']:.3f}s, post: {post_time:.3f}s)"
+            )
 
     parallel_time = time.time() - parallel_start
     if has_timing_logger:
@@ -1099,7 +1090,7 @@ async def run_crew_extraction_async(
         avg_execution = sum(execution_times) / len(execution_times) if execution_times else 0
         total_crew_creation = sum(crew_creation_times)
         total_execution = sum(execution_times)
-        
+
         timing_logger.info(f"  Async parallel execution: {parallel_time:.3f}s")
         timing_logger.info(f"    - Total crew creation time: {total_crew_creation:.3f}s (avg: {avg_crew_creation:.3f}s per chunk)")
         timing_logger.info(f"    - Total execution time: {total_execution:.3f}s (avg: {avg_execution:.3f}s per chunk)")
@@ -1119,8 +1110,8 @@ async def run_crew_extraction_async(
 # Default instruction so alignment agent uses the Concept Mapping Tool when attached (even if config doesn't mention it).
 _ALIGNMENT_CONCEPT_MAPPING_INSTRUCTION = (
     " You have the Concept Mapping Tool: use it to map terms (e.g. entities, target, specific_target, type, category) "
-    "to ontologies (e.g. BioPortal). Set concept_mapping_provenance to \"tool\" when using the tool, "
-    "or \"llm_knowledge\" when using your own knowledge."
+    'to ontologies (e.g. BioPortal). Set concept_mapping_provenance to "tool" when using the tool, '
+    'or "llm_knowledge" when using your own knowledge.'
 )
 
 
@@ -1128,9 +1119,7 @@ def _inject_alignment_concept_mapping_instruction(task_cfg: Dict[str, Any]) -> N
     """If task description/expected_output doesn't mention the Concept Mapping Tool, append default instruction."""
     if not task_cfg or not isinstance(task_cfg, dict):
         return
-    combined = " ".join(
-        str(task_cfg.get(k) or "") for k in ("description", "expected_output") if task_cfg.get(k)
-    ).lower()
+    combined = " ".join(str(task_cfg.get(k) or "") for k in ("description", "expected_output") if task_cfg.get(k)).lower()
     if "concept mapping" in combined or "concept_mapping" in combined:
         return
     desc = (task_cfg.get("description") or "").strip()
@@ -1197,10 +1186,8 @@ def initialize_agent_and_task(
             _agent_kwargs["max_retry_limit"] = max_retry_limit
 
         agent_init = DynamicAgent(**_agent_kwargs)
-        
-        task_init = DynamicAgentTask(
-            tasks_config=task_cfg
-        )
+
+        task_init = DynamicAgentTask(tasks_config=task_cfg)
 
         # Build agent - structsense build_agent() returns a single Agent
         # but it accesses self.agents_config directly, so we need to set it properly
@@ -1234,11 +1221,11 @@ def initialize_memory(
 ) -> Tuple[Optional[LongTermMemory], Optional[ShortTermMemory], Optional[EntityMemory]]:
     """
     Initialize memory storage systems for CrewAI.
-    
+
     Args:
         embedder_config: Embedder configuration dictionary
         memory_path: Optional path for memory storage (default: ./crew_memory)
-        
+
     Returns:
         Tuple of (long_term_memory, short_term_memory, entity_memory)
         Each can be None if initialization fails
@@ -1246,16 +1233,14 @@ def initialize_memory(
     try:
         if memory_path is None:
             memory_path = Path(os.getcwd()) / "crew_memory"
-        
+
         os.environ["CREWAI_STORAGE_DIR"] = str(memory_path)
         storage_path = db_storage_path()
 
         # Debug storage path
         logger.info(f"Storage path: {storage_path}")
         logger.info(f"Path exists: {os.path.exists(storage_path)}")
-        logger.info(
-            f"Is writable: {os.access(storage_path, os.W_OK) if os.path.exists(storage_path) else 'Path does not exist'}"
-        )
+        logger.info(f"Is writable: {os.access(storage_path, os.W_OK) if os.path.exists(storage_path) else 'Path does not exist'}")
 
         # Create with proper permissions
         if not os.path.exists(storage_path):
@@ -1269,12 +1254,12 @@ def initialize_memory(
         # 3. Direct embedder config dict
         embedder_config_for_rag = None
         if isinstance(embedder_config, dict):
-            if 'provider' in embedder_config:
+            if "provider" in embedder_config:
                 # Format: {provider: "ollama", config: {...}}
                 embedder_config_for_rag = embedder_config
-            elif 'embedder_config' in embedder_config:
+            elif "embedder_config" in embedder_config:
                 # Nested format: {embedder_config: {provider: ..., config: ...}}
-                embedder_config_for_rag = embedder_config['embedder_config']
+                embedder_config_for_rag = embedder_config["embedder_config"]
             else:
                 # Direct config dict
                 embedder_config_for_rag = embedder_config
@@ -1282,9 +1267,7 @@ def initialize_memory(
             embedder_config_for_rag = embedder_config  # fallback
 
         # Check if using Ollama embedder but not running Ollama
-        if (isinstance(embedder_config_for_rag, dict) and
-            embedder_config_for_rag.get('provider') == 'ollama' and
-            not check_ollama_health()):
+        if isinstance(embedder_config_for_rag, dict) and embedder_config_for_rag.get("provider") == "ollama" and not check_ollama_health():
             logger.warning("Ollama embedder configured but Ollama not available. Disabling memory to prevent errors.")
             return None, None, None
 
@@ -1317,9 +1300,7 @@ def initialize_memory(
         # Initialize memory components with error handling
         long_term_memory = None
         try:
-            long_term_memory = LongTermMemory(
-                storage=LTMSQLiteStorage(db_path=str(long_term_storage))
-            )
+            long_term_memory = LongTermMemory(storage=LTMSQLiteStorage(db_path=str(long_term_storage)))
             logger.info("Long-term memory initialized successfully")
         except Exception as e:
             logger.warning(f"Failed to initialize long-term memory: {e}")
@@ -1327,9 +1308,7 @@ def initialize_memory(
 
         short_term_memory = None
         try:
-            short_term_memory = ShortTermMemory(
-                storage=RAGStorage(**rag_storage_config)
-            )
+            short_term_memory = ShortTermMemory(storage=RAGStorage(**rag_storage_config))
             logger.info("Short-term memory initialized successfully")
         except Exception as e:
             logger.warning(f"Failed to initialize short-term memory: {e}")
@@ -1337,9 +1316,7 @@ def initialize_memory(
 
         entity_memory = None
         try:
-            entity_memory = EntityMemory(
-                storage=RAGStorage(**rag_storage_config)
-            )
+            entity_memory = EntityMemory(storage=RAGStorage(**rag_storage_config))
             logger.info("Entity memory initialized successfully")
         except Exception as e:
             logger.warning(f"Failed to initialize entity memory: {e}")

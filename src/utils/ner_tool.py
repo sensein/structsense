@@ -9,7 +9,7 @@
 # tort, or otherwise, arising from, out of, or in connection with the
 # software or the use or other dealings in the software.
 # -----------------------------------------------------------------------------
- 
+
 # @Author  : Tek Raj Chhetri
 # @Email   : tekraj@mit.edu
 # @Web     : https://tekrajchhetri.com/
@@ -66,14 +66,18 @@ def set_ner_domain_context(
 ) -> None:
     """Set domain context for extract_ner_terms so it also runs LLM-based NER. Call before attaching the tool to the agent."""
     global _ner_domain_context
-    _ner_domain_context = {
-        "agent_role": (agent_role or "").strip(),
-        "agent_goal": (agent_goal or "").strip(),
-        "task_description": (task_description or "").strip(),
-        "llm_config": llm_config or {},
-        "api_key": api_key,
-        "enable_llm_ner": bool(enable_llm_ner),
-    } if (agent_role or agent_goal or task_description) and enable_llm_ner else None
+    _ner_domain_context = (
+        {
+            "agent_role": (agent_role or "").strip(),
+            "agent_goal": (agent_goal or "").strip(),
+            "task_description": (task_description or "").strip(),
+            "llm_config": llm_config or {},
+            "api_key": api_key,
+            "enable_llm_ner": bool(enable_llm_ner),
+        }
+        if (agent_role or agent_goal or task_description) and enable_llm_ner
+        else None
+    )
 
 
 def clear_ner_domain_context() -> None:
@@ -105,7 +109,7 @@ def get_device():
         gpu_name = torch.cuda.get_device_name(0)
         logger.info(f"Using CUDA GPU: {gpu_name}")
     # Check for MPS (Apple Silicon)
-    elif hasattr(torch.backends, 'mps') and torch.backends.mps.is_available():
+    elif hasattr(torch.backends, "mps") and torch.backends.mps.is_available():
         _device = "mps"
         logger.info("Using Apple Silicon MPS")
     # Default to CPU
@@ -159,18 +163,14 @@ def load_pipe(name):
         logger.info(f"Loading {name} on {torch_device} (no-meta path)")
 
         # Load tokenizer
-        tok = AutoTokenizer.from_pretrained(
-            name,
-            use_fast=True,
-            trust_remote_code=True
-        )
+        tok = AutoTokenizer.from_pretrained(name, use_fast=True, trust_remote_code=True)
 
         # Load model with explicit settings to avoid meta tensors
         model = AutoModelForTokenClassification.from_pretrained(
             name,
             trust_remote_code=True,
-            device_map=None,              # Don't use device_map (causes meta tensors)
-            low_cpu_mem_usage=False,      # CRITICAL: Prevents meta initialization
+            device_map=None,  # Don't use device_map (causes meta tensors)
+            low_cpu_mem_usage=False,  # CRITICAL: Prevents meta initialization
             torch_dtype=torch.float16 if use_fp16 else None,
         )
 
@@ -289,13 +289,15 @@ def process_text_with_model(text, model_name):
 
                 label = canonical_label(str(group))
 
-                entities.append({
-                    "entity": token_text,
-                    "label": label,
-                    "start": int(ent.get("start", 0)),
-                    "end": int(ent.get("end", 0)),
-                    "source_model": model_name,
-                })
+                entities.append(
+                    {
+                        "entity": token_text,
+                        "label": label,
+                        "start": int(ent.get("start", 0)),
+                        "end": int(ent.get("end", 0)),
+                        "source_model": model_name,
+                    }
+                )
             except Exception as e:
                 logger.error(f"Error processing entity from {model_name}: {e}")
                 continue
@@ -457,7 +459,7 @@ def extract_entities_with_llm(
     # LiteLLM-style "ollama/<name>" prefix that CrewAI/LiteLLM uses internally.
     # Strip the "ollama/" prefix so the OpenAI client sends the correct model ID.
     if is_ollama_or_local and isinstance(model, str) and model.startswith("ollama/"):
-        model = model[len("ollama/"):]
+        model = model[len("ollama/") :]
         logger.info("LLM NER: stripped ollama/ prefix -> model=%r", model)
     if not is_ollama_or_local and not api_key:
         logger.warning(
@@ -537,13 +539,15 @@ Return only the JSON object, no other text."""
         if not ent_text:
             continue
         start, end = _find_entity_span(text, ent_text)
-        entities.append({
-            "entity": ent_text,
-            "label": canonical_label(label),
-            "start": start,
-            "end": end,
-            "source_model": LLM_NER_SOURCE_MODEL,
-        })
+        entities.append(
+            {
+                "entity": ent_text,
+                "label": canonical_label(label),
+                "start": start,
+                "end": end,
+                "source_model": LLM_NER_SOURCE_MODEL,
+            }
+        )
     if entities:
         logger.info(f"✓ LLM NER: Found {len(entities)} entities")
     return entities

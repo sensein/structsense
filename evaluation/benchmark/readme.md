@@ -3,8 +3,8 @@
 This directory provides benchmarking datasets and StructSense results for evaluating NER performance.
 
 The dataset includes named entity recognition (NER) annotations (test set) from widely used biomedical corpora:
-- **NCBI Disease** (`ncbi/`) — disease entities 
-- **S800** (`s800/`) — species entities 
+- **NCBI Disease** (`ncbi/`) — disease entities
+- **S800** (`s800/`) — species entities
 
 Original dataset: [https://drive.google.com/drive/u/1/folders/11xgW5F_z6F3ePARTbNDA9InpBScIyNte](https://drive.google.com/drive/u/1/folders/11xgW5F_z6F3ePARTbNDA9InpBScIyNte)
 

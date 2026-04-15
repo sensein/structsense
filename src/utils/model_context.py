@@ -46,7 +46,7 @@ def _normalize_openrouter_model_id(model_str: str) -> str:
     """
     m = (model_str or "").strip()
     if m.lower().startswith("openrouter/"):
-        m = m[len("openrouter/"):]
+        m = m[len("openrouter/") :]
     # Strip ":variant" suffixes like ":nitro", ":extended", ":free"
     if ":" in m:
         m = m.split(":")[0]
@@ -86,12 +86,14 @@ def fetch_and_cache_openrouter_context_window(
     if normalized in _openrouter_context_cache:
         logger.debug(
             "[openrouter] Context window for '%s' already cached: %d",
-            normalized, _openrouter_context_cache[normalized],
+            normalized,
+            _openrouter_context_cache[normalized],
         )
         return _openrouter_context_cache[normalized]
 
     try:
         import requests as _req
+
         url = base_url.rstrip("/") + "/models"
         resp = _req.get(
             url,
@@ -116,19 +118,23 @@ def fetch_and_cache_openrouter_context_window(
             _openrouter_context_cache[normalized] = matched_ctx
             logger.info(
                 "[openrouter] Fetched context window for '%s' (%s): %d tokens",
-                model_str, normalized, matched_ctx,
+                model_str,
+                normalized,
+                matched_ctx,
             )
             return matched_ctx
 
         logger.debug(
             "[openrouter] Model '%s' not found in /models response (%d entries)",
-            normalized, len(models),
+            normalized,
+            len(models),
         )
 
     except Exception as exc:
         logger.debug(
             "[openrouter] Failed to fetch model info for '%s': %s",
-            model_str, exc,
+            model_str,
+            exc,
         )
 
     return None
@@ -172,11 +178,13 @@ def update_context_cache_from_error(model_str: str, error_str: str) -> Optional[
     normalized = _normalize_openrouter_model_id(model_str)
     _openrouter_context_cache[normalized] = max_ctx
     logger.info(
-        "[openrouter] Learned context window from error for '%s': %d tokens "
-        "(request was %d tokens)",
-        model_str, max_ctx, requested,
+        "[openrouter] Learned context window from error for '%s': %d tokens " "(request was %d tokens)",
+        model_str,
+        max_ctx,
+        requested,
     )
     return max_ctx
+
 
 # ---------------------------------------------------------------------------
 # Fallback prompt overhead when the actual agent/task config is not available.
@@ -206,132 +214,117 @@ _CONTEXT_SAFETY_FACTOR: float = 0.70
 # ---------------------------------------------------------------------------
 _MODEL_CONTEXT_PATTERNS: list = [
     # ── Meta Llama 4 ──────────────────────────────────────────────────────
-    ("llama-4-scout",           10_000_000),   # Llama 4 Scout: 10M context
-    ("llama-4-maverick",         1_000_000),   # Llama 4 Maverick: 1M
-    ("llama-4",                  1_000_000),   # Llama 4 generic
+    ("llama-4-scout", 10_000_000),  # Llama 4 Scout: 10M context
+    ("llama-4-maverick", 1_000_000),  # Llama 4 Maverick: 1M
+    ("llama-4", 1_000_000),  # Llama 4 generic
     # Llama 3.x
-    ("llama-3.3",                  128_000),
-    ("llama-3.2",                  128_000),
-    ("llama-3.1",                  128_000),
-    ("llama-3",                      8_000),
-    ("llama",                      128_000),   # fallback for any Llama
-
+    ("llama-3.3", 128_000),
+    ("llama-3.2", 128_000),
+    ("llama-3.1", 128_000),
+    ("llama-3", 8_000),
+    ("llama", 128_000),  # fallback for any Llama
     # ── OpenAI GPT ────────────────────────────────────────────────────────
-    ("gpt-4.1",                  1_000_000),   # GPT-4.1: 1M
-    ("gpt-5-mini",                 400_000),
-    ("gpt-5-nano",                 400_000),
-    ("gpt-5",                      400_000),
-    ("gpt-4o-mini",                128_000),
-    ("gpt-4o",                     128_000),
-    ("gpt-4-turbo",                128_000),
-    ("gpt-4",                      128_000),
-    ("gpt-3.5-turbo-16k",           16_000),
-    ("gpt-3.5",                      4_000),
-    ("o3-mini",                    200_000),
-    ("o3",                         200_000),
-    ("o1-mini",                    128_000),
-    ("o1",                         128_000),
-
+    ("gpt-4.1", 1_000_000),  # GPT-4.1: 1M
+    ("gpt-5-mini", 400_000),
+    ("gpt-5-nano", 400_000),
+    ("gpt-5", 400_000),
+    ("gpt-4o-mini", 128_000),
+    ("gpt-4o", 128_000),
+    ("gpt-4-turbo", 128_000),
+    ("gpt-4", 128_000),
+    ("gpt-3.5-turbo-16k", 16_000),
+    ("gpt-3.5", 4_000),
+    ("o3-mini", 200_000),
+    ("o3", 200_000),
+    ("o1-mini", 128_000),
+    ("o1", 128_000),
     # ── Anthropic Claude ──────────────────────────────────────────────────
     # All Claude 3+ models: 200 k (1 M in beta)
-    ("claude-3-5-sonnet",          200_000),
-    ("claude-3-5-haiku",           200_000),
-    ("claude-3-5",                 200_000),
-    ("claude-3-opus",              200_000),
-    ("claude-3-sonnet",            200_000),
-    ("claude-3-haiku",             200_000),
-    ("claude-3",                   200_000),
-    ("claude-sonnet-4",            200_000),
-    ("claude-opus-4",              200_000),
-    ("claude-haiku-4",             200_000),
-    ("claude",                     200_000),   # fallback for any Claude
-
+    ("claude-3-5-sonnet", 200_000),
+    ("claude-3-5-haiku", 200_000),
+    ("claude-3-5", 200_000),
+    ("claude-3-opus", 200_000),
+    ("claude-3-sonnet", 200_000),
+    ("claude-3-haiku", 200_000),
+    ("claude-3", 200_000),
+    ("claude-sonnet-4", 200_000),
+    ("claude-opus-4", 200_000),
+    ("claude-haiku-4", 200_000),
+    ("claude", 200_000),  # fallback for any Claude
     # ── Google Gemini ─────────────────────────────────────────────────────
-    ("gemini-2.5",               1_000_000),
-    ("gemini-2.0",               1_000_000),
-    ("gemini-2",                 1_000_000),
-    ("gemini-1.5",               1_000_000),
-    ("gemini-1.0",                  32_000),
-    ("gemini-pro-1",                32_000),
-    ("gemini",                   1_000_000),   # fallback for any Gemini
-
+    ("gemini-2.5", 1_000_000),
+    ("gemini-2.0", 1_000_000),
+    ("gemini-2", 1_000_000),
+    ("gemini-1.5", 1_000_000),
+    ("gemini-1.0", 32_000),
+    ("gemini-pro-1", 32_000),
+    ("gemini", 1_000_000),  # fallback for any Gemini
     # ── DeepSeek ──────────────────────────────────────────────────────────
-    ("deepseek-r1",                128_000),
-    ("deepseek-v3",                128_000),
-    ("deepseek-v2",                128_000),
-    ("deepseek-coder",             128_000),
-    ("deepseek",                   128_000),   # fallback
-
+    ("deepseek-r1", 128_000),
+    ("deepseek-v3", 128_000),
+    ("deepseek-v2", 128_000),
+    ("deepseek-coder", 128_000),
+    ("deepseek", 128_000),  # fallback
     # ── Mistral ───────────────────────────────────────────────────────────
-    ("mistral-large-3",            256_000),
-    ("mistral-large-2",            128_000),
-    ("mistral-large",              128_000),
-    ("mistral-medium-3",           131_000),
-    ("mistral-medium",             128_000),
-    ("mistral-small",              128_000),
-    ("mistral-7b",                  32_000),
-    ("mixtral-8x22b",               65_000),
-    ("mixtral-8x7b",                32_000),
-    ("mixtral",                     32_000),
-    ("ministral",                  256_000),
-    ("mistral",                    128_000),   # fallback
-
+    ("mistral-large-3", 256_000),
+    ("mistral-large-2", 128_000),
+    ("mistral-large", 128_000),
+    ("mistral-medium-3", 131_000),
+    ("mistral-medium", 128_000),
+    ("mistral-small", 128_000),
+    ("mistral-7b", 32_000),
+    ("mixtral-8x22b", 65_000),
+    ("mixtral-8x7b", 32_000),
+    ("mixtral", 32_000),
+    ("ministral", 256_000),
+    ("mistral", 128_000),  # fallback
     # ── Qwen (Alibaba) ────────────────────────────────────────────────────
-    ("qwen3-coder",                256_000),
-    ("qwen3-235b",                 256_000),
-    ("qwen3-32b",                  128_000),
-    ("qwen3",                      256_000),
-    ("qwen2.5-72b",                128_000),
-    ("qwen2.5",                    128_000),
-    ("qwen2",                      128_000),
-    ("qwen-long",                1_000_000),
-    ("qwen",                       128_000),   # fallback
-
+    ("qwen3-coder", 256_000),
+    ("qwen3-235b", 256_000),
+    ("qwen3-32b", 128_000),
+    ("qwen3", 256_000),
+    ("qwen2.5-72b", 128_000),
+    ("qwen2.5", 128_000),
+    ("qwen2", 128_000),
+    ("qwen-long", 1_000_000),
+    ("qwen", 128_000),  # fallback
     # ── Nvidia Nemotron ───────────────────────────────────────────────────
-    ("nemotron-3-ultra",         1_000_000),
-    ("nemotron-3-super",         1_000_000),
-    ("nemotron-3-nano",          1_000_000),
-    ("nemotron",                 1_000_000),   # fallback
-
+    ("nemotron-3-ultra", 1_000_000),
+    ("nemotron-3-super", 1_000_000),
+    ("nemotron-3-nano", 1_000_000),
+    ("nemotron", 1_000_000),  # fallback
     # ── xAI Grok ─────────────────────────────────────────────────────────
-    ("grok-3",                     131_000),
-    ("grok-2",                     131_000),
-    ("grok-1.5",                   131_000),
-    ("grok",                       131_000),
-
+    ("grok-3", 131_000),
+    ("grok-2", 131_000),
+    ("grok-1.5", 131_000),
+    ("grok", 131_000),
     # ── Cohere Command ────────────────────────────────────────────────────
-    ("command-r-plus",             128_000),
-    ("command-r",                  128_000),
-    ("command",                      4_000),
-
+    ("command-r-plus", 128_000),
+    ("command-r", 128_000),
+    ("command", 4_000),
     # ── Amazon Nova / Titan ───────────────────────────────────────────────
-    ("nova-pro",                   300_000),
-    ("nova-lite",                  300_000),
-    ("nova-micro",                 128_000),
-    ("nova",                       300_000),
-    ("titan",                       32_000),
-
+    ("nova-pro", 300_000),
+    ("nova-lite", 300_000),
+    ("nova-micro", 128_000),
+    ("nova", 300_000),
+    ("titan", 32_000),
     # ── Microsoft Phi ─────────────────────────────────────────────────────
-    ("phi-4",                       16_000),
-    ("phi-3.5",                    128_000),
-    ("phi-3",                      128_000),
-    ("phi",                        128_000),
-
+    ("phi-4", 16_000),
+    ("phi-3.5", 128_000),
+    ("phi-3", 128_000),
+    ("phi", 128_000),
     # ── Yi (01.AI) ────────────────────────────────────────────────────────
-    ("yi-large",                   200_000),
-    ("yi-34b",                      32_000),
-    ("yi",                          32_000),
-
+    ("yi-large", 200_000),
+    ("yi-34b", 32_000),
+    ("yi", 32_000),
     # ── Falcon ────────────────────────────────────────────────────────────
-    ("falcon",                       8_000),
-
+    ("falcon", 8_000),
     # ── Perplexity / Sonar ────────────────────────────────────────────────
-    ("sonar-pro",                  127_000),
-    ("sonar",                      127_000),
-
+    ("sonar-pro", 127_000),
+    ("sonar", 127_000),
     # ── WizardLM / Vicuna / misc open-source ─────────────────────────────
-    ("wizardlm",                     32_000),
-    ("vicuna",                        4_000),
+    ("wizardlm", 32_000),
+    ("vicuna", 4_000),
 ]
 
 # Default used when no pattern matches
@@ -361,7 +354,9 @@ def get_model_context_window(model_str: str) -> int:
         cached = _openrouter_context_cache[normalized]
         logger.debug(
             "Model context window: cache hit for '%s' (%s) → %d tokens",
-            model_str, normalized, cached,
+            model_str,
+            normalized,
+            cached,
         )
         return cached
 
@@ -370,13 +365,16 @@ def get_model_context_window(model_str: str) -> int:
         if pattern in m:
             logger.debug(
                 "Model context window: matched '%s' → pattern='%s' → %d tokens",
-                model_str, pattern, ctx,
+                model_str,
+                pattern,
+                ctx,
             )
             return ctx
 
     logger.debug(
         "Model context window: no pattern matched '%s', using default %d",
-        model_str, _DEFAULT_CONTEXT_WINDOW,
+        model_str,
+        _DEFAULT_CONTEXT_WINDOW,
     )
     return _DEFAULT_CONTEXT_WINDOW
 
@@ -458,6 +456,7 @@ def probe_openrouter_context_window(
 
     try:
         import requests as _req
+
         url = base_url.rstrip("/") + "/chat/completions"
         resp = _req.post(
             url,
@@ -481,16 +480,20 @@ def probe_openrouter_context_window(
                 real_ctx, requested = parsed
                 _openrouter_context_cache[normalized] = real_ctx
                 logger.info(
-                    "[probe] Confirmed context window for '%s' (%s): %d tokens "
-                    "(static estimate was %d, probe sent %d tokens)",
-                    model_str, normalized, real_ctx, static_ctx, requested,
+                    "[probe] Confirmed context window for '%s' (%s): %d tokens " "(static estimate was %d, probe sent %d tokens)",
+                    model_str,
+                    normalized,
+                    real_ctx,
+                    static_ctx,
+                    requested,
                 )
                 return real_ctx
 
             # 400 but not a context-length error — fall through to static.
             logger.debug(
                 "[probe] 400 response for '%s' but no context-length pattern: %s",
-                model_str, error_text[:200],
+                model_str,
+                error_text[:200],
             )
 
         elif resp.status_code == 200:
@@ -498,22 +501,28 @@ def probe_openrouter_context_window(
             # the oversized target as a confirmed lower bound.
             _openrouter_context_cache[normalized] = target_tokens
             logger.info(
-                "[probe] Model '%s' accepted %d-token probe (static est. %d). "
-                "Using %d as confirmed lower bound.",
-                model_str, target_tokens, static_ctx, target_tokens,
+                "[probe] Model '%s' accepted %d-token probe (static est. %d). " "Using %d as confirmed lower bound.",
+                model_str,
+                target_tokens,
+                static_ctx,
+                target_tokens,
             )
             return target_tokens
 
         else:
             logger.debug(
                 "[probe] Unexpected status %d for '%s', falling back to static %d",
-                resp.status_code, model_str, static_ctx,
+                resp.status_code,
+                model_str,
+                static_ctx,
             )
 
     except Exception as exc:
         logger.debug(
             "[probe] HTTP probe failed for '%s': %s — using static estimate %d",
-            model_str, exc, static_ctx,
+            model_str,
+            exc,
+            static_ctx,
         )
 
     return static_ctx
@@ -711,7 +720,8 @@ def compute_downstream_chunk_size(
     if context_window_override:
         logger.info(
             "[chunk_size] Using user-supplied context window: %d tokens (model='%s')",
-            context_window_override, model_str,
+            context_window_override,
+            model_str,
         )
 
     # Prompt overhead: use the adaptive estimate when available, else fallback.
@@ -737,9 +747,12 @@ def compute_downstream_chunk_size(
     if payload_tokens <= usable_tokens:
         # Everything fits → single call, maximise context utilisation.
         logger.info(
-            "[chunk_size] model='%s' ctx=%d prompt_overhead=%d usable=%.0f "
-            "payload=%d tokens → fits in one call, no chunking",
-            model_str, context_window, prompt_overhead, usable_tokens, payload_tokens,
+            "[chunk_size] model='%s' ctx=%d prompt_overhead=%d usable=%.0f " "payload=%d tokens → fits in one call, no chunking",
+            model_str,
+            context_window,
+            prompt_overhead,
+            usable_tokens,
+            payload_tokens,
         )
         return n_items, False
 
@@ -755,7 +768,14 @@ def compute_downstream_chunk_size(
     logger.info(
         "[chunk_size] model='%s' ctx=%d prompt_overhead=%d usable=%.0f "
         "payload=%d tokens n_items=%d → min_chunks=%d (capped at workers=%d) ecs=%d",
-        model_str, context_window, prompt_overhead, usable_tokens, payload_tokens,
-        n_items, min_chunks, target_workers, ecs,
+        model_str,
+        context_window,
+        prompt_overhead,
+        usable_tokens,
+        payload_tokens,
+        n_items,
+        min_chunks,
+        target_workers,
+        ecs,
     )
     return ecs, True

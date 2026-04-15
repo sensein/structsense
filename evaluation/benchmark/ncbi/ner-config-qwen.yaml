@@ -80,4 +80,3 @@ embedder_config:
   config:
     api_base: http://localhost:11434
     model: nomic-embed-text
-

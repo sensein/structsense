@@ -58,7 +58,7 @@ task_config:
 
     expected_output: >
       output format: json
-      Example output: 
+      Example output:
         "extracted_terms":{
             #data
          }
@@ -76,7 +76,7 @@ task_config:
     expected_output: >
       output format: json
 
-      Example output: 
+      Example output:
         "aligned_terms":{
             #data
          }
@@ -116,7 +116,7 @@ task_config:
     expected_output: >
       output format: json
 
-      Example output: 
+      Example output:
         "judged_terms":{
             #data
          }

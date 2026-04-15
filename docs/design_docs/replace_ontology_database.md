@@ -48,13 +48,13 @@ The system will replace direct database lookups with BioPortal API calls for con
 3. Return, for each concept:
 
    * Ontology IRI
-   * Preferred label  
+   * Preferred label
    * Ontology (acronym)
    * Example response
     ```json
     {
         "ontology_id": "http://www.radlex.org/RID/RID6529",
-        "ontology_label": "hippocampus", 
+        "ontology_label": "hippocampus",
         "ontology": "RADLEX"
     }
     ```

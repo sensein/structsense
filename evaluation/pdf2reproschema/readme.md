@@ -46,7 +46,7 @@ The staged outputs are organized into:
 
 ## 📁 Expected Output Structure
 
-The pipeline produces a JSON file containing the final output from the judge agent. 
+The pipeline produces a JSON file containing the final output from the judge agent.
 
 Key points about the output:
 1. **Format**: The output is always a JSON file

@@ -9,7 +9,7 @@
 # tort, or otherwise, arising from, out of, or in connection with the
 # software or the use or other dealings in the software.
 # -----------------------------------------------------------------------------
- 
+
 # @Author  : Tek Raj Chhetri
 # @Email   : tekraj@mit.edu
 # @Web     : https://tekrajchhetri.com/
@@ -41,6 +41,8 @@ MAX_QUERY_LENGTH = 500
 # Throttle BioPortal API to avoid 429 Rate Limit (min seconds between requests)
 _bioportal_throttle_lock = threading.Lock()
 _bioportal_last_request_time = 0.0
+
+
 def _bioportal_interval() -> float:
     """Read at request time so .env is respected. Lower = faster, but may hit 429."""
     try:
@@ -54,6 +56,7 @@ def _bioportal_backoff() -> float:
         return max(0.5, float(os.getenv("BIOPORTAL_BACKOFF_AFTER_429", "2.0")))
     except (TypeError, ValueError):
         return 2.0
+
 
 # In-memory cache: term -> mapping result. Speeds up large runs when same term appears often or across runs.
 _CONCEPT_MAPPING_CACHE: dict = {}
@@ -102,24 +105,28 @@ def format_alignment_tool_outputs_as_concept_mapping(session_outputs: list) -> l
             for term, mapping in out.items():
                 if not isinstance(mapping, dict) or mapping.get("error"):
                     continue
-                result.append({
-                    "term": term,
-                    "source": "alignment_agent_tool",
-                    "ontology_id": _top1(mapping.get("ontology_id")),
-                    "ontology_label": _top1(mapping.get("ontology_label")),
-                    "ontology": _top1(mapping.get("ontology")),
-                    "concept_mapping_provenance": "tool",
-                })
+                result.append(
+                    {
+                        "term": term,
+                        "source": "alignment_agent_tool",
+                        "ontology_id": _top1(mapping.get("ontology_id")),
+                        "ontology_label": _top1(mapping.get("ontology_label")),
+                        "ontology": _top1(mapping.get("ontology")),
+                        "concept_mapping_provenance": "tool",
+                    }
+                )
         else:
             # Single concept: out = {ontology_id, ontology_label, ontology}
-            result.append({
-                "term": inp,
-                "source": "alignment_agent_tool",
-                "ontology_id": _top1(out.get("ontology_id")),
-                "ontology_label": _top1(out.get("ontology_label")),
-                "ontology": _top1(out.get("ontology")),
-                "concept_mapping_provenance": "tool",
-            })
+            result.append(
+                {
+                    "term": inp,
+                    "source": "alignment_agent_tool",
+                    "ontology_id": _top1(out.get("ontology_id")),
+                    "ontology_label": _top1(out.get("ontology_label")),
+                    "ontology": _top1(out.get("ontology")),
+                    "concept_mapping_provenance": "tool",
+                }
+            )
     return result
 
 
@@ -181,6 +188,7 @@ def _normalize_max_results(value, default: Optional[int] = None) -> int:
         return max(1, min(n, 20))
     except (TypeError, ValueError):
         return default
+
 
 class ConceptMappingTool(BaseTool):
     """
@@ -359,12 +367,9 @@ class ConceptMappingTool(BaseTool):
         super().__init__(api_key=api_key, **kwargs)
 
         # Now we can set session after super().__init__
-        object.__setattr__(self, 'session', requests.Session())
+        object.__setattr__(self, "session", requests.Session())
         self.session.headers.update({"Authorization": f"apikey token={api_key}"})
-        logger.info(
-            "ConceptMappingTool initialized (BIOPORTAL_API_KEY is set; "
-            "requests are throttled to avoid 429 rate limit)"
-        )
+        logger.info("ConceptMappingTool initialized (BIOPORTAL_API_KEY is set; " "requests are throttled to avoid 429 rate limit)")
 
     def _make_request(self, endpoint: str, params: dict = None) -> Optional[dict]:
         """Make API request with throttling and error handling. Uses BIOPORTAL_API_KEY in Authorization header."""
@@ -416,11 +421,7 @@ class ConceptMappingTool(BaseTool):
         if not text:
             logger.info("Using fallback ontologies (empty input)")
             return ["SNOMEDCT", "MONDO", "NCIT", "GO", "HP", "CHEBI"]
-        params = {
-            "input": text,
-            "input_type": 1,
-            "output_type": 1
-        }
+        params = {"input": text, "input_type": 1, "output_type": 1}
 
         result = self._make_request("/recommender", params)
 
@@ -458,11 +459,11 @@ class ConceptMappingTool(BaseTool):
         Determine if input is batch (multiple concepts) or single
         Heuristic: Check if contains comma AND multiple distinct terms
         """
-        if ',' not in text:
+        if "," not in text:
             return False
 
         # Split by comma and check if we have multiple non-empty terms
-        terms = [t.strip() for t in text.split(',') if t.strip()]
+        terms = [t.strip() for t in text.split(",") if t.strip()]
 
         # If 2+ short terms (likely list), treat as batch
         # If 1 term with commas (likely sentence), treat as single
@@ -472,20 +473,16 @@ class ConceptMappingTool(BaseTool):
         return False
 
     def _map_single_concept(
-            self,
-            text: str,
-            ontology_list: Optional[list],
-            max_results: Optional[int] = None,
+        self,
+        text: str,
+        ontology_list: Optional[list],
+        max_results: Optional[int] = None,
     ) -> dict:
         """Map a single concept to ontology IRIs and labels. Uses in-memory cache to avoid duplicate API calls."""
         max_results = _normalize_max_results(max_results)
         query = _sanitize_text(text) if text else ""
         if not query:
-            return {
-                "error": f"No valid text to map: {text!r}",
-                "ontology_id": None,
-                "ontology_label": None
-            }
+            return {"error": f"No valid text to map: {text!r}", "ontology_id": None, "ontology_label": None}
         # Cache lookup (same term = one API call across entities and runs)
         cache_key = f"{query}|{max_results}"
         with _CONCEPT_MAPPING_CACHE_LOCK:
@@ -495,11 +492,7 @@ class ConceptMappingTool(BaseTool):
         if ontology_list is None:
             ontology_list = self._recommend_ontologies(text)
 
-        params = {
-            "q": query,
-            "pagesize": min(max_results, 20),
-            "also_search_obsolete": "false"
-        }
+        params = {"q": query, "pagesize": min(max_results, 20), "also_search_obsolete": "false"}
         if ontology_list and isinstance(ontology_list, list):
             acrons = [str(o).strip() for o in ontology_list if str(o).strip()]
             if acrons:
@@ -509,26 +502,14 @@ class ConceptMappingTool(BaseTool):
             result = self._make_request("/search", params)
         except Exception as e:
             logger.debug("Concept mapping request failed for %r: %s", query[:80] if query else "", e)
-            return {
-                "error": "Concept mapping failed",
-                "ontology_id": None,
-                "ontology_label": None
-            }
+            return {"error": "Concept mapping failed", "ontology_id": None, "ontology_label": None}
 
         if not result or "collection" not in result:
-            return {
-                "error": f"No ontology matches found for: {text}",
-                "ontology_id": None,
-                "ontology_label": None
-            }
+            return {"error": f"No ontology matches found for: {text}", "ontology_id": None, "ontology_label": None}
 
         collection = result.get("collection")
         if not isinstance(collection, list):
-            return {
-                "error": f"No ontology matches found for: {text}",
-                "ontology_id": None,
-                "ontology_label": None
-            }
+            return {"error": f"No ontology matches found for: {text}", "ontology_id": None, "ontology_label": None}
 
         # Extract IRI and label pairs (guard against non-dict items or missing fields)
         matches = []
@@ -547,33 +528,27 @@ class ConceptMappingTool(BaseTool):
             iri_str = str(iri).strip() if iri else ""
             label_str = str(label).strip() if label else ""
             if iri_str and label_str:
-                matches.append({
-                    "iri": iri_str,
-                    "label": label_str,
-                    "ontology": str(ontology).strip() if ontology else "",
-                })
+                matches.append(
+                    {
+                        "iri": iri_str,
+                        "label": label_str,
+                        "ontology": str(ontology).strip() if ontology else "",
+                    }
+                )
 
         if not matches:
-            return {
-                "error": f"No ontology matches found for: {text}",
-                "ontology_id": None,
-                "ontology_label": None
-            }
+            return {"error": f"No ontology matches found for: {text}", "ontology_id": None, "ontology_label": None}
 
         logger.info(f"Mapped '{text}' to {len(matches)} concepts")
 
         # Return format based on number of results; store in cache for reuse
         if max_results == 1 or len(matches) == 1:
-            out = {
-                "ontology_id": matches[0]["iri"],
-                "ontology_label": matches[0]["label"],
-                "ontology": matches[0]["ontology"]
-            }
+            out = {"ontology_id": matches[0]["iri"], "ontology_label": matches[0]["label"], "ontology": matches[0]["ontology"]}
         else:
             out = {
                 "ontology_id": [m["iri"] for m in matches],
                 "ontology_label": [m["label"] for m in matches],
-                "ontology": [m["ontology"] for m in matches]
+                "ontology": [m["ontology"] for m in matches],
             }
         # FIFO cache eviction strategy
         with _CONCEPT_MAPPING_CACHE_LOCK:
@@ -583,12 +558,7 @@ class ConceptMappingTool(BaseTool):
             _CONCEPT_MAPPING_CACHE[cache_key] = out
         return out
 
-    def _map_batch_concepts(
-            self,
-            text: str,
-            max_results: int,
-            ontology_list: Optional[list]
-    ) -> dict:
+    def _map_batch_concepts(self, text: str, max_results: int, ontology_list: Optional[list]) -> dict:
         """Map multiple concepts (comma-separated) to ontologies"""
         # Parse and sanitize each concept (avoid empty or junk from extra chars)
         seen = set()
@@ -607,21 +577,12 @@ class ConceptMappingTool(BaseTool):
         # Map each concept
         results = {}
         for concept_text in text_list:
-            result = self._map_single_concept(
-                text=concept_text,
-                max_results=max_results,
-                ontology_list=ontology_list
-            )
+            result = self._map_single_concept(text=concept_text, max_results=max_results, ontology_list=ontology_list)
             results[concept_text] = result
 
         return results
 
-    def _run(
-            self,
-            text: str,
-            max_results: Optional[int] = None,
-            ontologies: Optional[str] = None
-    ) -> dict:
+    def _run(self, text: str, max_results: Optional[int] = None, ontologies: Optional[str] = None) -> dict:
         """
         Execute the tool - automatically handles single or batch mapping
 
@@ -699,5 +660,3 @@ class ConceptMappingTool(BaseTool):
             with _ALIGNMENT_TOOL_OUTPUTS_LOCK:
                 _ALIGNMENT_TOOL_OUTPUTS.append({"input": text, "output": dict(out)})
         return out
-
-

@@ -28,63 +28,298 @@ from pathlib import Path
 
 # Single characters and Greek letters
 _SINGLE_CHARS = set("abcdefghijklmnopqrstuvwxyz") | {
-    "α", "β", "γ", "δ", "ε", "ζ", "η", "θ", "ι", "κ", "λ", "μ",
-    "ν", "ξ", "ο", "π", "ρ", "σ", "τ", "υ", "φ", "χ", "ψ", "ω",
-    "ℝ", "ẋ", "ẏ",
+    "α",
+    "β",
+    "γ",
+    "δ",
+    "ε",
+    "ζ",
+    "η",
+    "θ",
+    "ι",
+    "κ",
+    "λ",
+    "μ",
+    "ν",
+    "ξ",
+    "ο",
+    "π",
+    "ρ",
+    "σ",
+    "τ",
+    "υ",
+    "φ",
+    "χ",
+    "ψ",
+    "ω",
+    "ℝ",
+    "ẋ",
+    "ẏ",
 }
 
 # 2-char entities that are noise (not valid gene/region abbreviations)
 _NOISE_2CHAR = {
-    "rn", "de", "rt", "ns", "ms", "mt", "se", "rf", "or", "as",
-    "sc", "f1", "bi", "pc", "un", "im", "so", "pl", "go", "gr",
-    "ca", "eq", "nn", "ij", "fs", "fm", "no", "it",
+    "rn",
+    "de",
+    "rt",
+    "ns",
+    "ms",
+    "mt",
+    "se",
+    "rf",
+    "or",
+    "as",
+    "sc",
+    "f1",
+    "bi",
+    "pc",
+    "un",
+    "im",
+    "so",
+    "pl",
+    "go",
+    "gr",
+    "ca",
+    "eq",
+    "nn",
+    "ij",
+    "fs",
+    "fm",
+    "no",
+    "it",
 }
 
 # Stopwords and generic terms
 _STOPWORDS = {
-    "the", "a", "an", "is", "are", "was", "were", "be", "been",
-    "this", "that", "these", "those", "we", "our", "they", "their",
-    "each", "all", "both", "other", "such", "than", "also", "only",
-    "can", "may", "will", "would", "should", "could", "here", "there",
-    "where", "when", "how", "what", "which", "who", "whom",
-    "not", "nor", "but", "and", "or", "if", "then", "so", "as",
-    "of", "in", "on", "at", "to", "for", "with", "by", "from",
-    "up", "about", "into", "through", "during", "before", "after",
-    "above", "between", "under", "same", "different", "new", "old",
-    "well", "e.g", "i.e", "etc", "vs", "using", "used", "based",
-    "use", "given", "show", "shown", "see", "found", "first", "second",
-    "across", "within", "however", "therefore", "thus", "specifically",
-    "respectively", "additionally", "overall", "including",
-    "corresponding", "particular", "unique",
+    "the",
+    "a",
+    "an",
+    "is",
+    "are",
+    "was",
+    "were",
+    "be",
+    "been",
+    "this",
+    "that",
+    "these",
+    "those",
+    "we",
+    "our",
+    "they",
+    "their",
+    "each",
+    "all",
+    "both",
+    "other",
+    "such",
+    "than",
+    "also",
+    "only",
+    "can",
+    "may",
+    "will",
+    "would",
+    "should",
+    "could",
+    "here",
+    "there",
+    "where",
+    "when",
+    "how",
+    "what",
+    "which",
+    "who",
+    "whom",
+    "not",
+    "nor",
+    "but",
+    "and",
+    "or",
+    "if",
+    "then",
+    "so",
+    "as",
+    "of",
+    "in",
+    "on",
+    "at",
+    "to",
+    "for",
+    "with",
+    "by",
+    "from",
+    "up",
+    "about",
+    "into",
+    "through",
+    "during",
+    "before",
+    "after",
+    "above",
+    "between",
+    "under",
+    "same",
+    "different",
+    "new",
+    "old",
+    "well",
+    "e.g",
+    "i.e",
+    "etc",
+    "vs",
+    "using",
+    "used",
+    "based",
+    "use",
+    "given",
+    "show",
+    "shown",
+    "see",
+    "found",
+    "first",
+    "second",
+    "across",
+    "within",
+    "however",
+    "therefore",
+    "thus",
+    "specifically",
+    "respectively",
+    "additionally",
+    "overall",
+    "including",
+    "corresponding",
+    "particular",
+    "unique",
 }
 
 # Generic adjectives/quantifiers
 _GENERIC_ADJ = {
-    "single", "multiple", "several", "various", "specific", "general",
-    "total", "full", "complete", "partial", "main", "major", "minor",
-    "key", "important", "significant", "similar", "distinct", "common",
-    "rare", "standard", "alternative", "additional", "potential",
-    "possible", "true", "false", "positive", "negative", "final",
-    "initial", "primary", "secondary", "relative", "absolute",
-    "average", "mean", "maximum", "minimum", "optimal",
-    "high", "low", "large", "small",
+    "single",
+    "multiple",
+    "several",
+    "various",
+    "specific",
+    "general",
+    "total",
+    "full",
+    "complete",
+    "partial",
+    "main",
+    "major",
+    "minor",
+    "key",
+    "important",
+    "significant",
+    "similar",
+    "distinct",
+    "common",
+    "rare",
+    "standard",
+    "alternative",
+    "additional",
+    "potential",
+    "possible",
+    "true",
+    "false",
+    "positive",
+    "negative",
+    "final",
+    "initial",
+    "primary",
+    "secondary",
+    "relative",
+    "absolute",
+    "average",
+    "mean",
+    "maximum",
+    "minimum",
+    "optimal",
+    "high",
+    "low",
+    "large",
+    "small",
 }
 
 # Generic meta/document terms (not named entities)
 _GENERIC_META = {
-    "data", "model", "models", "method", "methods", "approach",
-    "analysis", "results", "study", "studies", "work", "paper",
-    "figure", "table", "section", "level", "levels", "type", "types",
-    "set", "sets", "group", "groups", "case", "cases", "step", "steps",
-    "number", "value", "values", "sample", "samples", "feature",
-    "features", "pattern", "patterns", "structure", "structures",
-    "system", "systems", "process", "function", "input", "output",
-    "task", "note", "example", "comparison", "effect", "effects",
-    "performance", "quality", "resolution", "information", "details",
-    "framework", "pipeline", "network", "parameter", "parameters",
-    "setting", "settings", "condition", "conditions", "state", "states",
-    "component", "components", "version", "test", "fig", "fig.",
-    "supplementary", "et al", "et al.", "types",
+    "data",
+    "model",
+    "models",
+    "method",
+    "methods",
+    "approach",
+    "analysis",
+    "results",
+    "study",
+    "studies",
+    "work",
+    "paper",
+    "figure",
+    "table",
+    "section",
+    "level",
+    "levels",
+    "type",
+    "types",
+    "set",
+    "sets",
+    "group",
+    "groups",
+    "case",
+    "cases",
+    "step",
+    "steps",
+    "number",
+    "value",
+    "values",
+    "sample",
+    "samples",
+    "feature",
+    "features",
+    "pattern",
+    "patterns",
+    "structure",
+    "structures",
+    "system",
+    "systems",
+    "process",
+    "function",
+    "input",
+    "output",
+    "task",
+    "note",
+    "example",
+    "comparison",
+    "effect",
+    "effects",
+    "performance",
+    "quality",
+    "resolution",
+    "information",
+    "details",
+    "framework",
+    "pipeline",
+    "network",
+    "parameter",
+    "parameters",
+    "setting",
+    "settings",
+    "condition",
+    "conditions",
+    "state",
+    "states",
+    "component",
+    "components",
+    "version",
+    "test",
+    "fig",
+    "fig.",
+    "supplementary",
+    "et al",
+    "et al.",
+    "types",
 }
 
 # Figure/table reference patterns
@@ -96,14 +331,10 @@ _FIGURE_RE = re.compile(
 )
 
 # Pure numeric values (integers, floats, percentages, ranges, scientific notation)
-_NUMERIC_RE = re.compile(
-    r"^[\d.,\s%eE+\-–—/×]+$"
-)
+_NUMERIC_RE = re.compile(r"^[\d.,\s%eE+\-–—/×]+$")
 
 # Citation-like numbers (comma-separated reference numbers)
-_CITATION_RE = re.compile(
-    r"^\d[\d,\s]+$"
-)
+_CITATION_RE = re.compile(r"^\d[\d,\s]+$")
 
 # Equation references
 _EQUATION_RE = re.compile(
@@ -112,9 +343,7 @@ _EQUATION_RE = re.compile(
 )
 
 # Punctuation-only artifacts
-_PUNCT_RE = re.compile(
-    r"^[\[\]\(\)\{\}\-_.,;:!?\s/]+$"
-)
+_PUNCT_RE = re.compile(r"^[\[\]\(\)\{\}\-_.,;:!?\s/]+$")
 
 # URL patterns
 _URL_RE = re.compile(r"^https?:", re.IGNORECASE)
@@ -156,6 +385,7 @@ def is_excluded(entity: str) -> tuple[bool, str]:
 # =============================================================================
 # SOURCE MODEL FILTER
 # =============================================================================
+
 
 def is_only_en_core_web_sm(entity_data: dict) -> bool:
     """Check if entity comes exclusively from en_core_web_sm."""
@@ -240,7 +470,6 @@ _ENTITY_LABEL_MAP: dict[str, str] = {
     "gpin-bf cholinergic": "CELL_TYPE",
     "gpe sox6-ctxnd1": "CELL_TYPE",
     "tac3-plpp4 interneurons": "CELL_TYPE",
-
     # --- BRAIN_REGION ---
     "putamen": "BRAIN_REGION",
     "caudate nucleus": "BRAIN_REGION",
@@ -267,7 +496,6 @@ _ENTITY_LABEL_MAP: dict[str, str] = {
     "thalamus": "BRAIN_REGION",
     "amygdala": "BRAIN_REGION",
     "cerebellum": "BRAIN_REGION",
-
     # --- GENE ---
     "gene": "GENE",
     "drd1": "GENE",
@@ -295,7 +523,6 @@ _ENTITY_LABEL_MAP: dict[str, str] = {
     "proenkephalin": "GENE",
     "th": "GENE",
     "pv": "GENE",
-
     # --- CHEMICAL ---
     "methanol": "CHEMICAL",
     "ethanol": "CHEMICAL",
@@ -316,13 +543,11 @@ _ENTITY_LABEL_MAP: dict[str, str] = {
     "glutamate": "CHEMICAL",
     "serotonin": "CHEMICAL",
     "acetylcholine": "CHEMICAL",
-
     # --- DISEASE ---
     "parkinsons disease": "DISEASE",
     "huntingtons disease": "DISEASE",
     "neurodegenerative disease": "DISEASE",
     "alzheimers disease": "DISEASE",
-
     # --- SPECIES ---
     "non-human primate": "SPECIES",
     "primate": "SPECIES",
@@ -331,13 +556,11 @@ _ENTITY_LABEL_MAP: dict[str, str] = {
     "macaque": "SPECIES",
     "rat": "SPECIES",
     "mice": "SPECIES",
-
     # --- ORGANIZATION ---
     "sigmaaldrich": "ORGANIZATION",
     "scipy": "ORGANIZATION",
     "thermo fisher scientific": "ORGANIZATION",
     "zymo research": "ORGANIZATION",
-
     # --- METHOD ---
     "umap": "METHOD",
     "ns-forest workflow": "METHOD",
@@ -359,7 +582,6 @@ _ENTITY_LABEL_MAP: dict[str, str] = {
     "testing method": "METHOD",
     "in vivo electrophysiological": "METHOD",
     "connectivity assays": "METHOD",
-
     # --- METRIC ---
     "positive predictive value": "METRIC",
     "enrichment score": "METRIC",
@@ -377,7 +599,6 @@ _ENTITY_LABEL_MAP: dict[str, str] = {
     "accuracy": "METRIC",
     "sensitivity": "METRIC",
     "specificity": "METRIC",
-
     # --- ANATOMICAL_STRUCTURE (→ BRAIN_REGION canonical) ---
     "anatomical domains": "BRAIN_REGION",
     "white matter tracts": "BRAIN_REGION",
@@ -389,14 +610,12 @@ _ENTITY_LABEL_MAP: dict[str, str] = {
     "lung": "BRAIN_REGION",
     "kidney": "BRAIN_REGION",
     "striosome": "BRAIN_REGION",
-
     # --- MODEL/COMPUTATIONAL ---
     "rnn": "MODEL",
     "rnns": "MODEL",
     "latent circuit model": "MODEL",
     "latent circuit": "MODEL",
     "random forest": "METHOD",
-
     # --- SOFTWARE/TOOL ---
     "ns-forest": "METHOD",  # acceptable as both METHOD and SOFTWARE
     "ns-forest v4.0": "SOFTWARE",
@@ -409,26 +628,22 @@ _ENTITY_LABEL_MAP: dict[str, str] = {
     "stereo-seq": "METHOD",
     "scrna-seq": "METHOD",
     "scrna seq": "METHOD",
-
     # --- GENE (additional) ---
     "genes": "GENE",
     "marker genes": "GENE",
     "marker gene": "GENE",
     "vip": "GENE",
     "pvalb": "GENE",
-
     # --- DATASET ---
     "hlca": "DATASET",
     "asctb": "DATASET",
     "human cell atlas": "DATASET",
     "allen human brain atlas": "DATASET",
-
     # --- CONCEPT/PROCESS ---
     "connectivity": "CONCEPT",
     "circuit mechanisms": "CONCEPT",
     "context-dependent decision-making": "CONCEPT",
     "monkeys": "SPECIES",
-
     # --- Entities that are both BRAIN_REGION and SPECIES-qualified ---
     "human brain": "BRAIN_REGION",
     "mouse brain": "BRAIN_REGION",
@@ -506,7 +721,6 @@ _KEYWORD_RULES: list[tuple[re.Pattern | list[str], str]] = [
     (["lymphocyte"], "CELL_TYPE"),
     (["fibroblast"], "CELL_TYPE"),
     (["epithelial"], "CELL_TYPE"),
-
     # BRAIN_REGION — keyword patterns
     (["cortex"], "BRAIN_REGION"),
     (["cortical"], "BRAIN_REGION"),
@@ -524,22 +738,18 @@ _KEYWORD_RULES: list[tuple[re.Pattern | list[str], str]] = [
     (["prefrontal"], "BRAIN_REGION"),
     (["ventral"], "BRAIN_REGION"),
     (["dorsal"], "BRAIN_REGION"),
-
     # GENE — common gene name patterns (uppercase 2-6 chars often genes)
     (["receptor"], "GENE"),
     (["kinase"], "GENE"),
     (["transcription factor"], "GENE"),
     (["transporter"], "GENE"),
-
     # DISEASE
     (["disease"], "DISEASE"),
     (["disorder"], "DISEASE"),
     (["syndrome"], "DISEASE"),
-
     # SPECIES
     (["primate"], "SPECIES"),
     (["macaque"], "SPECIES"),
-
     # METHOD
     (["sequencing"], "METHOD"),
     (["clustering"], "METHOD"),
@@ -551,17 +761,14 @@ _KEYWORD_RULES: list[tuple[re.Pattern | list[str], str]] = [
     (["transcriptomics"], "METHOD"),
     (["proteomics"], "METHOD"),
     (["algorithm"], "METHOD"),
-
     # SOFTWARE
     (["python"], "SOFTWARE"),
     (["scanpy"], "SOFTWARE"),
     (["seurat"], "SOFTWARE"),
-
     # CHEMICAL
     (["buffer"], "CHEMICAL"),
     (["solution"], "CHEMICAL"),
     (["reagent"], "CHEMICAL"),
-
     # METRIC
     (["score"], "METRIC"),
     (["fraction"], "METRIC"),
@@ -570,12 +777,10 @@ _KEYWORD_RULES: list[tuple[re.Pattern | list[str], str]] = [
     (["precision"], "METRIC"),
     (["recall"], "METRIC"),
     (["f1"], "METRIC"),
-
     # DATASET
     (["atlas"], "DATASET"),
     (["database"], "DATASET"),
     (["dataset"], "DATASET"),
-
     # SPECIES
     (["mouse"], "SPECIES"),
     (["mice"], "SPECIES"),
@@ -591,7 +796,7 @@ def _match_keyword_rule(entity_lower: str) -> str | None:
             for kw in keywords_or_pattern:
                 # Use word boundary matching to avoid substring false positives
                 # e.g., "rat" shouldn't match "curation"
-                if re.search(r'(?:^|[\s\-_/])' + re.escape(kw), entity_lower):
+                if re.search(r"(?:^|[\s\-_/])" + re.escape(kw), entity_lower):
                     return label
         else:
             if keywords_or_pattern.search(entity_lower):
@@ -602,6 +807,7 @@ def _match_keyword_rule(entity_lower: str) -> str | None:
 # =============================================================================
 # SCORING LOGIC
 # =============================================================================
+
 
 def _normalize_label(label: str) -> str:
     """Normalize label for comparison (uppercase, underscores)."""
@@ -766,14 +972,39 @@ _LABEL_ALIASES: dict[str, str] = {
 # If a label canonicalizes to one of these, and we have no conflicting evidence,
 # we trust it as "likely correct"
 _VALID_CANONICAL_LABELS = {
-    "CELL_TYPE", "BRAIN_REGION", "GENE", "CHEMICAL", "DISEASE", "SPECIES",
-    "METHOD", "SOFTWARE", "ORGANIZATION", "DATASET", "DATABASE", "METRIC",
-    "DATA_TYPE", "BIOLOGICAL_PROCESS", "MODEL", "PARAMETER",
-    "FIELD_OF_STUDY", "CONCEPT", "PERSON", "VARIABLE",
-    "STIMULUS", "BEHAVIOR", "MATERIAL", "DEVICE",
-    "MOLECULE", "CELLULAR_COMPONENT", "NEURAL_COMPONENT",
-    "MATHEMATICAL_OBJECT", "NEUROANATOMY", "SYSTEM",
-    "FIGURE", "CITATION", "PRODUCT",
+    "CELL_TYPE",
+    "BRAIN_REGION",
+    "GENE",
+    "CHEMICAL",
+    "DISEASE",
+    "SPECIES",
+    "METHOD",
+    "SOFTWARE",
+    "ORGANIZATION",
+    "DATASET",
+    "DATABASE",
+    "METRIC",
+    "DATA_TYPE",
+    "BIOLOGICAL_PROCESS",
+    "MODEL",
+    "PARAMETER",
+    "FIELD_OF_STUDY",
+    "CONCEPT",
+    "PERSON",
+    "VARIABLE",
+    "STIMULUS",
+    "BEHAVIOR",
+    "MATERIAL",
+    "DEVICE",
+    "MOLECULE",
+    "CELLULAR_COMPONENT",
+    "NEURAL_COMPONENT",
+    "MATHEMATICAL_OBJECT",
+    "NEUROANATOMY",
+    "SYSTEM",
+    "FIGURE",
+    "CITATION",
+    "PRODUCT",
 }
 
 
@@ -887,6 +1118,7 @@ def score_entity(entity_text: str, assigned_label: str) -> tuple[str, str, str]:
 # MAIN EVALUATION
 # =============================================================================
 
+
 def evaluate_file(filepath: str, verbose: bool = False) -> dict:
     """Evaluate a single NER result JSON file. Returns a report dict."""
     with open(filepath) as f:
@@ -933,9 +1165,7 @@ def evaluate_file(filepath: str, verbose: bool = False) -> dict:
         if excluded:
             report["excluded"]["count"] += 1
             report["excluded"]["reasons"][reason] += 1
-            report["excluded"]["entities"].append(
-                {"entity": entity_text, "reason": reason}
-            )
+            report["excluded"]["entities"].append({"entity": entity_text, "reason": reason})
             continue
 
         evaluated_entities.append(ent)
@@ -949,15 +1179,17 @@ def evaluate_file(filepath: str, verbose: bool = False) -> dict:
 
         report["evaluated"]["count"] += 1
         report["evaluated"][verdict] += 1
-        report["evaluated"]["details"].append({
-            "entity": entity_text,
-            "assigned_label": label,
-            "verdict": verdict,
-            "expected_label": expected,
-            "reason": reason,
-            "judge_score": ent.get("judge_score"),
-            "ontology_id": ent.get("ontology_id", ""),
-        })
+        report["evaluated"]["details"].append(
+            {
+                "entity": entity_text,
+                "assigned_label": label,
+                "verdict": verdict,
+                "expected_label": expected,
+                "reason": reason,
+                "judge_score": ent.get("judge_score"),
+                "ontology_id": ent.get("ontology_id", ""),
+            }
+        )
 
     # Detect label conflicts (same entity, different labels)
     for ent_key, labels in entity_labels.items():
@@ -1009,12 +1241,10 @@ def print_report(report: dict, verbose: bool = False) -> None:
         print(f"\n  Entities with conflicting labels: {len(conflicts)}")
         if verbose:
             for ent, labels in sorted(conflicts.items()):
-                print(f"    \"{ent}\": {labels}")
+                print(f'    "{ent}": {labels}')
 
     # Incorrect details
-    incorrect_items = [
-        d for d in report["evaluated"]["details"] if d["verdict"] == "incorrect"
-    ]
+    incorrect_items = [d for d in report["evaluated"]["details"] if d["verdict"] == "incorrect"]
     if incorrect_items:
         print(f"\n  Incorrect labels ({len(incorrect_items)}):")
         # Group by reason type
@@ -1028,18 +1258,12 @@ def print_report(report: dict, verbose: bool = False) -> None:
             for item in items[:20]:  # show first 20
                 expected = item["expected_label"]
                 exp_str = f", expected '{expected}'" if expected else ""
-                print(
-                    f"      \"{item['entity']}\" — "
-                    f"got '{item['assigned_label']}'"
-                    f"{exp_str}"
-                )
+                print(f"      \"{item['entity']}\" — " f"got '{item['assigned_label']}'" f"{exp_str}")
             if len(items) > 20:
                 print(f"      ... and {len(items)-20} more")
 
     if verbose:
-        unknown_items = [
-            d for d in report["evaluated"]["details"] if d["verdict"] == "unknown"
-        ]
+        unknown_items = [d for d in report["evaluated"]["details"] if d["verdict"] == "unknown"]
         if unknown_items:
             print(f"\n  Unknown entities ({len(unknown_items)}):")
             for item in unknown_items:
@@ -1066,19 +1290,19 @@ def find_nhil_files(directory: str) -> list[str]:
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Evaluate NER entity-label correctness"
-    )
+    parser = argparse.ArgumentParser(description="Evaluate NER entity-label correctness")
     parser.add_argument(
         "input",
         help="Path to a JSON file or directory containing NER results",
     )
     parser.add_argument(
-        "-o", "--output",
+        "-o",
+        "--output",
         help="Save detailed report as JSON",
     )
     parser.add_argument(
-        "-v", "--verbose",
+        "-v",
+        "--verbose",
         action="store_true",
         help="Show per-entity decisions including unknowns",
     )
@@ -1116,10 +1340,7 @@ def main():
         print(f"\n{'='*70}")
         print(f"  SUMMARY ACROSS ALL FILES")
         print(f"{'='*70}")
-        print(
-            f"\n  {'File':<50s} {'Total':>5s} {'Eval':>5s} "
-            f"{'Corr':>5s} {'Incor':>5s} {'Unkn':>5s} {'Acc%':>6s}"
-        )
+        print(f"\n  {'File':<50s} {'Total':>5s} {'Eval':>5s} " f"{'Corr':>5s} {'Incor':>5s} {'Unkn':>5s} {'Acc%':>6s}")
         print(f"  {'-'*82}")
 
         totals = {"total": 0, "eval": 0, "correct": 0, "incorrect": 0, "unknown": 0}

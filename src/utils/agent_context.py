@@ -36,6 +36,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class AgentResult:
     """Stores result from a single agent execution."""
+
     agent_key: str
     task_key: str
     chunk_id: Optional[int]
@@ -93,7 +94,7 @@ class AgentContext:
         result: Dict[str, Any],
         chunk_id: Optional[int] = None,
         confidence: float = 0.0,
-        metadata: Optional[Dict[str, Any]] = None
+        metadata: Optional[Dict[str, Any]] = None,
     ):
         """
         Add result from an agent execution.
@@ -120,7 +121,7 @@ class AgentContext:
             result=result,
             confidence=confidence,
             metadata=metadata or {},
-            token_count=token_count
+            token_count=token_count,
         )
 
         self.agent_results[agent_key].append(agent_result)
@@ -164,12 +165,7 @@ class AgentContext:
 
         return merged
 
-    def get_summary(
-        self,
-        agent_key: str,
-        max_tokens: Optional[int] = None,
-        include_confidence: bool = True
-    ) -> Dict[str, Any]:
+    def get_summary(self, agent_key: str, max_tokens: Optional[int] = None, include_confidence: bool = True) -> Dict[str, Any]:
         """
         Get a token-aware summary of agent results.
 
@@ -302,7 +298,7 @@ class AgentContext:
                         "result": r.result,
                         "confidence": r.confidence,
                         "metadata": r.metadata,
-                        "token_count": r.token_count
+                        "token_count": r.token_count,
                     }
                     for r in results
                 ]
@@ -311,7 +307,7 @@ class AgentContext:
             "confidence_scores": self.confidence_scores,
             "entity_mappings": self.entity_mappings,
             "metadata": self.metadata,
-            "total_tokens": self.get_total_tokens()
+            "total_tokens": self.get_total_tokens(),
         }
 
 
@@ -407,5 +403,5 @@ class ThreadSafeMemory:
             return {
                 "total_keys": len(self.memory),
                 "access_counts": self.access_count.copy(),
-                "most_accessed": max(self.access_count.items(), key=lambda x: x[1]) if self.access_count else None
+                "most_accessed": max(self.access_count.items(), key=lambda x: x[1]) if self.access_count else None,
             }

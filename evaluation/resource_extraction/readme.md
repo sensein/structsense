@@ -52,7 +52,7 @@ Resource types include:
 ## 📚 Example Papers
 
 1. Xu, Y., Zhang, J., Zhang, Q., & Tao, D. (2022). Vitpose: Simple vision transformer baselines for human pose estimation. Advances in neural information processing systems, 35, 38571-38584.
-2. Lauer, J., Zhou, M., Ye, S. et al. Multi-animal pose estimation, identification and tracking with DeepLabCut. Nat Methods 19, 496–504 (2022). https://doi.org/10.1038/s41592-022-01443-0 
+2. Lauer, J., Zhou, M., Ye, S. et al. Multi-animal pose estimation, identification and tracking with DeepLabCut. Nat Methods 19, 496–504 (2022). https://doi.org/10.1038/s41592-022-01443-0
 ---
 
 ## 🧪 Usage

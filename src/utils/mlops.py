@@ -9,7 +9,7 @@
 # tort, or otherwise, arising from, out of, or in connection with the
 # software or the use or other dealings in the software.
 # -----------------------------------------------------------------------------
- 
+
 # @Author  : Tek Raj Chhetri
 # @Email   : tekraj@mit.edu
 # @Web     : https://tekrajchhetri.com/
@@ -31,7 +31,7 @@ logger = logging.getLogger(__name__)
 
 def setup_monitoring() -> None:
     """Set up monitoring tools if enabled.
-    
+
     Checks environment variables and initializes:
     - Weights & Biases (if ENABLE_WEIGHTSANDBIAS=true)
     - MLflow (if ENABLE_MLFLOW=true)
@@ -39,6 +39,7 @@ def setup_monitoring() -> None:
     if os.getenv("ENABLE_WEIGHTSANDBIAS", "false").lower() == "true":
         try:
             import weave
+
             weave.init(project_name="StructSense")
             logger.info("Weights & Biases monitoring enabled")
         except ImportError:
@@ -47,6 +48,7 @@ def setup_monitoring() -> None:
     if os.getenv("ENABLE_MLFLOW", "false").lower() == "true":
         try:
             import mlflow
+
             mlflow.crewai.autolog()
             mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URL", "http://localhost:5000"))
             mlflow.set_experiment("StructSense")
