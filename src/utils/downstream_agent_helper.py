@@ -38,7 +38,7 @@ def prepare_alignment_agent_input(
     original_text: str,
     agent_context: Optional[AgentContext] = None,
     context_manager: Optional[ContextWindowManager] = None,
-    max_tokens: Optional[int] = None
+    max_tokens: Optional[int] = None,
 ) -> Dict[str, Any]:
     """
     Prepare input for alignment agent.
@@ -79,7 +79,7 @@ def prepare_judge_agent_input(
     extraction_results: Optional[Dict[str, Any]] = None,
     agent_context: Optional[AgentContext] = None,
     context_manager: Optional[ContextWindowManager] = None,
-    max_tokens: Optional[int] = None
+    max_tokens: Optional[int] = None,
 ) -> Dict[str, Any]:
     """
     Prepare input for judge agent.
@@ -101,7 +101,8 @@ def prepare_judge_agent_input(
     # Merge extraction into alignment so judge receives all entities (extraction + alignment additions)
     if extraction_results and isinstance(extraction_results, dict):
         full_alignment = _extend_previous_stage(
-            extraction_results, alignment_results,
+            extraction_results,
+            alignment_results,
             list_keys=["entities", "key_terms", "resources", "aligned_resources", "judge_resource"],
         )
     else:
@@ -164,7 +165,8 @@ def prepare_humanfeedback_agent_input(
     # Merge alignment into judge so human feedback receives all entities (alignment + judge additions)
     if alignment_results and isinstance(alignment_results, dict):
         full_judge = _extend_previous_stage(
-            alignment_results, judge_results,
+            alignment_results,
+            judge_results,
             list_keys=["entities", "key_terms", "resources", "aligned_resources", "judge_resource"],
         )
     else:
@@ -280,6 +282,7 @@ def _extract_entities_from_chunk(chunk: Dict[str, Any]) -> List[Dict[str, Any]]:
     the largest available set so no entities are silently lost during chunked merges.
     """
     from utils.postprocessing import _flatten_container_to_list  # avoid circular at module level
+
     best: List[Dict[str, Any]] = chunk.get("entities") or []
     for raw_key in ("aligned_ner_terms", "extracted_terms", "judge_ner_terms"):
         container = chunk.get(raw_key)
@@ -383,7 +386,10 @@ def _cap_result_for_context(
         out[f"{key}_original_count"] = len(lst)
         logger.info(
             "[%s] Capped %s to %s items (was %s) to fit context limit",
-            stage, key, limit, len(lst),
+            stage,
+            key,
+            limit,
+            len(lst),
         )
     return out
 

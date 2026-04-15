@@ -194,7 +194,9 @@ class HumanInTheLoop:
                 return self.request_feedback(data, step_name, agent_name)
             elif choice == "3":
                 self.output_handler("Opening your default editor for feedback...")
-                self.output_handler("When done: SAVE and CLOSE the editor (e.g. nano: Ctrl+O, Enter, then Ctrl+X). You do not need to press 1/3/4 again.")
+                self.output_handler(
+                    "When done: SAVE and CLOSE the editor (e.g. nano: Ctrl+O, Enter, then Ctrl+X). You do not need to press 1/3/4 again."
+                )
                 # Current output JSON is shown as commented-out reference only so it
                 # cannot be accidentally parsed as feedback when the user closes without editing.
                 commented_json = "\n".join(f"# {line}" for line in json.dumps(data, indent=2).splitlines())
@@ -218,9 +220,7 @@ class HumanInTheLoop:
                 )
                 feedback_input = self.open_editor_with_template(template)
                 # Remove comment lines
-                feedback_input = "\n".join(
-                    line for line in feedback_input.splitlines() if not line.strip().startswith("#")
-                ).strip()
+                feedback_input = "\n".join(line for line in feedback_input.splitlines() if not line.strip().startswith("#")).strip()
                 # Also treat untouched placeholder as no feedback
                 if feedback_input.strip() == "[WRITE YOUR FEEDBACK HERE]":
                     feedback_input = ""

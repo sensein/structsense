@@ -8,7 +8,7 @@ The current version implements the following specialized tool (see figure) for N
 ![](docs/design_docs/ner_tool.png)
 ### 2. Implements the specialized concept mapping tool, `Concept Mapping tool`, avoiding the need for manually maintaining the ontology database.
 - The concept mapping tool implements features such as throttling (see default values below), i.e., minimum seconds between BioPortal requests (throttle; lower = faster, higher 429 risk). This done to take into account the rate limit of the bioportal.
-    
+
     | Variable | Where used | Default | Description |
     |----------|------------|---------|-------------|
     | `BIOPORTAL_API_KEY` | `conceptmappingtool.py` | — | **Required** for ConceptMappingTool. Used in Authorization header. |
@@ -17,7 +17,7 @@ The current version implements the following specialized tool (see figure) for N
     | `MAX_CONCEPT_MAPPING_RESULTS` | `conceptmappingtool.py` | `1` | Top-N results per concept (1–50). |
     | `CONCEPT_MAPPING_CACHE_SIZE` | `conceptmappingtool.py` | `2000` | Max in-memory cache entries for concept mapping. |
     | `CONCEPT_MAPPING_MAX_TERMS` | `postprocessing.py` | — | Optional cap on how many unique terms are mapped in batch (rest get null). |
-    
+
 - To avoid the continuous API call, it implements the inmemory caching (to be replaced with new caching mechanism), i.e., `_CONCEPT_MAPPING_CACHE` (dict). The cache size is default `2000` set with `CONCEPT_MAPPING_CACHE_SIZE`. The FIFO-style cache eviction is applied, i.e., when the cache is full, one oldest entry is removed before inserting a new one. The lookup is done using `_map_single_concept()` before making an API call.
 ### 3. Implements automatic task detection
 This version of **`StructSense`** introduces automatic task detection to support accurate task-to-tool mapping, enabling agents to invoke the most relevant tools for a given task.
@@ -30,7 +30,7 @@ The implementation combines an **LLM-based classifier** with a **heuristic fallb
 | `"structured extraction"` or `"structured_extraction"` | `structured_extraction` |
 | Otherwise | `extraction` |
 
-Task detection is executed **once per stage** at the point where tools and post-processing are selected (e.g., `information_extraction_task`).  
+Task detection is executed **once per stage** at the point where tools and post-processing are selected (e.g., `information_extraction_task`).
 In the full pipeline, the **first stage’s task type** determines the post-processing key and the default result shape. While each stage may theoretically define its own task type, the initial stage serves as the canonical reference for downstream processing.
 
 ### 4. Fixed chunking behavior

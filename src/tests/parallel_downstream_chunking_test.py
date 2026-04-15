@@ -8,6 +8,7 @@ Tests cover:
 
 All tests are fully offline — no API key, no LLM, no network.
 """
+
 import sys
 import os
 import pytest
@@ -26,6 +27,7 @@ from utils.downstream_agent_helper import (
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
+
 
 def _make_entities(n: int, label: str = "brain region") -> list:
     return [
@@ -48,16 +50,16 @@ def _make_payload(n_entities: int, n_key_terms: int = 0) -> dict:
     }
 
 
-
 # ---------------------------------------------------------------------------
 # unify_ontology_across_entities
 # ---------------------------------------------------------------------------
 
-class TestUnifyOntologyAcrossEntities:
 
+class TestUnifyOntologyAcrossEntities:
     def test_single_entity_unchanged(self):
-        entities = [{"entity": "hippocampus", "label": "brain region",
-                     "ontology_id": "UBERON:0001954", "concept_mapping_provenance": "tool"}]
+        entities = [
+            {"entity": "hippocampus", "label": "brain region", "ontology_id": "UBERON:0001954", "concept_mapping_provenance": "tool"}
+        ]
         result = unify_ontology_across_entities(entities)
         assert result[0]["ontology_id"] == "UBERON:0001954"
 
@@ -65,10 +67,13 @@ class TestUnifyOntologyAcrossEntities:
         """Two occurrences of same entity: one has tool mapping, one has llm_knowledge.
         After unification both should carry the tool mapping."""
         entities = [
-            {"entity": "hippocampus", "label": "brain region",
-             "ontology_id": "UBERON:0001954", "concept_mapping_provenance": "tool"},
-            {"entity": "hippocampus", "label": "brain region",
-             "ontology_id": "UBERON:0002421", "concept_mapping_provenance": "llm_knowledge"},
+            {"entity": "hippocampus", "label": "brain region", "ontology_id": "UBERON:0001954", "concept_mapping_provenance": "tool"},
+            {
+                "entity": "hippocampus",
+                "label": "brain region",
+                "ontology_id": "UBERON:0002421",
+                "concept_mapping_provenance": "llm_knowledge",
+            },
         ]
         result = unify_ontology_across_entities(entities)
         # Both occurrences must now carry the tool-backed ID
@@ -78,10 +83,8 @@ class TestUnifyOntologyAcrossEntities:
     def test_real_iri_beats_na(self):
         """One occurrence has a real IRI, another has N/A."""
         entities = [
-            {"entity": "CA1", "label": "brain region",
-             "ontology_id": "UBERON:0003881", "concept_mapping_provenance": "tool"},
-            {"entity": "CA1", "label": "brain region",
-             "ontology_id": "N/A", "concept_mapping_provenance": "llm_knowledge"},
+            {"entity": "CA1", "label": "brain region", "ontology_id": "UBERON:0003881", "concept_mapping_provenance": "tool"},
+            {"entity": "CA1", "label": "brain region", "ontology_id": "N/A", "concept_mapping_provenance": "llm_knowledge"},
         ]
         result = unify_ontology_across_entities(entities)
         assert all(e["ontology_id"] == "UBERON:0003881" for e in result)
@@ -89,12 +92,20 @@ class TestUnifyOntologyAcrossEntities:
     def test_preserves_all_instances(self):
         """Unification must not deduplicate entity instances — all rows are kept."""
         entities = [
-            {"entity": "IL-6", "label": "cytokine",
-             "sentence": "IL-6 was elevated.", "ontology_id": "PR:000001164",
-             "concept_mapping_provenance": "tool"},
-            {"entity": "IL-6", "label": "cytokine",
-             "sentence": "IL-6 mediates signalling.", "ontology_id": "N/A",
-             "concept_mapping_provenance": "llm_knowledge"},
+            {
+                "entity": "IL-6",
+                "label": "cytokine",
+                "sentence": "IL-6 was elevated.",
+                "ontology_id": "PR:000001164",
+                "concept_mapping_provenance": "tool",
+            },
+            {
+                "entity": "IL-6",
+                "label": "cytokine",
+                "sentence": "IL-6 mediates signalling.",
+                "ontology_id": "N/A",
+                "concept_mapping_provenance": "llm_knowledge",
+            },
         ]
         result = unify_ontology_across_entities(entities)
         # Both rows preserved
@@ -109,10 +120,8 @@ class TestUnifyOntologyAcrossEntities:
     def test_different_labels_not_unified(self):
         """Entities with the same text but different labels are treated independently."""
         entities = [
-            {"entity": "CD4", "label": "cell surface marker",
-             "ontology_id": "PR:000001004", "concept_mapping_provenance": "tool"},
-            {"entity": "CD4", "label": "t-cell subtype",
-             "ontology_id": "CL:0000624", "concept_mapping_provenance": "tool"},
+            {"entity": "CD4", "label": "cell surface marker", "ontology_id": "PR:000001004", "concept_mapping_provenance": "tool"},
+            {"entity": "CD4", "label": "t-cell subtype", "ontology_id": "CL:0000624", "concept_mapping_provenance": "tool"},
         ]
         result = unify_ontology_across_entities(entities)
         ids = {e["ontology_id"] for e in result}
@@ -124,9 +133,11 @@ class TestUnifyOntologyAcrossEntities:
         assert unify_ontology_across_entities([]) == []
 
     def test_non_dict_items_skipped(self):
-        entities = [None, "string_item",
-                    {"entity": "p53", "label": "gene",
-                     "ontology_id": "NCBIGene:7157", "concept_mapping_provenance": "tool"}]
+        entities = [
+            None,
+            "string_item",
+            {"entity": "p53", "label": "gene", "ontology_id": "NCBIGene:7157", "concept_mapping_provenance": "tool"},
+        ]
         result = unify_ontology_across_entities(entities)
         # Non-dict items pass through unchanged, dict item is processed
         assert result[2]["ontology_id"] == "NCBIGene:7157"
@@ -134,8 +145,7 @@ class TestUnifyOntologyAcrossEntities:
     def test_missing_ontology_fields_filled_from_best(self):
         """Entity with no ontology_id receives it from a sibling with the same text."""
         entities = [
-            {"entity": "neocortex", "label": "brain region",
-             "ontology_id": "UBERON:0001950", "concept_mapping_provenance": "tool"},
+            {"entity": "neocortex", "label": "brain region", "ontology_id": "UBERON:0001950", "concept_mapping_provenance": "tool"},
             {"entity": "neocortex", "label": "brain region"},  # no ontology fields at all
         ]
         result = unify_ontology_across_entities(entities)
@@ -148,8 +158,8 @@ class TestUnifyOntologyAcrossEntities:
 # split_structured_payload + merge_structured_chunk_results
 # ---------------------------------------------------------------------------
 
-class TestSplitAndMerge:
 
+class TestSplitAndMerge:
     def test_no_data_loss_small(self):
         """After split → merge, entity count must equal original count."""
         n = 50
@@ -171,9 +181,7 @@ class TestSplitAndMerge:
         # merge_structured_chunk_results expects raw result dicts from agent runs,
         # so we pass the chunk dicts directly as mock results)
         merged = merge_structured_chunk_results(chunks)
-        assert len(merged.get("entities") or []) == n, (
-            f"merge lost entities: {len(merged.get('entities', []))} != {n}"
-        )
+        assert len(merged.get("entities") or []) == n, f"merge lost entities: {len(merged.get('entities', []))} != {n}"
 
     def test_single_chunk_no_split(self):
         """A payload with fewer entities than the cap stays as one chunk."""
@@ -233,38 +241,34 @@ class TestSplitAndMerge:
             max_key_terms_per_chunk=215,
         )
         # Entity-driven: ceil(2130/645) = 4 chunks
-        assert len(chunks) == 4, (
-            f"Expected 4 entity-driven chunks, got {len(chunks)}. "
-            "key_terms must not inflate chunk count."
-        )
+        assert len(chunks) == 4, f"Expected 4 entity-driven chunks, got {len(chunks)}. " "key_terms must not inflate chunk count."
         # Every chunk must have at least one entity
         for i, chunk in enumerate(chunks):
-            assert len(chunk.get("entities") or []) > 0, (
-                f"Chunk {i} has empty entities — key_terms inflated chunk count"
-            )
+            assert len(chunk.get("entities") or []) > 0, f"Chunk {i} has empty entities — key_terms inflated chunk count"
 
 
 # ---------------------------------------------------------------------------
 # Integration: split → unify ontology
 # ---------------------------------------------------------------------------
 
-class TestIntegration:
 
+class TestIntegration:
     def test_full_round_trip_ontology_consistency(self):
         """Simulate parallel alignment producing inconsistent ontology IDs for the same
         entity text, then verify unify_ontology_across_entities fixes them."""
         # Two 'chunks' processed by different alignment LLM calls
         chunk_a_entities = [
-            {"entity": "hippocampus", "label": "brain region",
-             "ontology_id": "UBERON:0001954", "concept_mapping_provenance": "tool"},
-            {"entity": "CA1", "label": "brain region",
-             "ontology_id": "UBERON:0003881", "concept_mapping_provenance": "tool"},
+            {"entity": "hippocampus", "label": "brain region", "ontology_id": "UBERON:0001954", "concept_mapping_provenance": "tool"},
+            {"entity": "CA1", "label": "brain region", "ontology_id": "UBERON:0003881", "concept_mapping_provenance": "tool"},
         ]
         chunk_b_entities = [
-            {"entity": "hippocampus", "label": "brain region",
-             "ontology_id": "UBERON:0002421", "concept_mapping_provenance": "llm_knowledge"},
-            {"entity": "dentate gyrus", "label": "brain region",
-             "ontology_id": "UBERON:0001885", "concept_mapping_provenance": "tool"},
+            {
+                "entity": "hippocampus",
+                "label": "brain region",
+                "ontology_id": "UBERON:0002421",
+                "concept_mapping_provenance": "llm_knowledge",
+            },
+            {"entity": "dentate gyrus", "label": "brain region", "ontology_id": "UBERON:0001885", "concept_mapping_provenance": "tool"},
         ]
 
         merged_chunk_a = {"entities": chunk_a_entities, "key_terms": []}
@@ -272,14 +276,12 @@ class TestIntegration:
         merged = merge_structured_chunk_results([merged_chunk_a, merged_chunk_b])
 
         # Before unification hippocampus has two different IDs
-        hippo_ids = {e["ontology_id"] for e in merged["entities"]
-                     if e["entity"] == "hippocampus"}
+        hippo_ids = {e["ontology_id"] for e in merged["entities"] if e["entity"] == "hippocampus"}
         assert len(hippo_ids) == 2
 
         # After unification all occurrences must share the tool-backed ID
         merged["entities"] = unify_ontology_across_entities(merged["entities"])
-        hippo_ids_after = {e["ontology_id"] for e in merged["entities"]
-                           if e["entity"] == "hippocampus"}
+        hippo_ids_after = {e["ontology_id"] for e in merged["entities"] if e["entity"] == "hippocampus"}
         assert hippo_ids_after == {"UBERON:0001954"}  # tool-backed wins
 
         # Total entity count preserved

@@ -1,5 +1,8 @@
 fail_fast: false
 
+_exclude_default: &exclude_default \.(pdf|svg|png|jpg|jpeg|zip|json)$|^evaluation/(?!.*\.(md|yaml|py)$).*$
+_exclude_codespell: &exclude_codespell \.(pdf|svg|png|jpg|jpeg|zip|json)$|^evaluation/(?!.*\.(md|yaml)$).*$
+
 repos:
 - repo: https://github.com/python-poetry/poetry
   rev: 2.1.3
@@ -12,19 +15,11 @@ repos:
   - id: ruff
   - id: ruff-format
 
-- repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
-  rev: v2.13.0
+- repo: https://github.com/ComPWA/taplo-pre-commit
+  rev: v0.9.3
   hooks:
-  - id: pretty-format-yaml
-    args:
-    - --autofix
-    - --indent=2
-  - id: pretty-format-toml
+  - id: taplo-format
     exclude: ^poetry.lock$
-    args:
-    - --autofix
-    - --indent=2
-    - --no-sort
 
 - repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v4.6.0
@@ -33,15 +28,19 @@ repos:
     args: [--maxkb=15000]
   - id: check-case-conflict
   - id: end-of-file-fixer
+    exclude: *exclude_default
   - id: trailing-whitespace
-  - id: pretty-format-json
-    args:
-    - --autofix
-    - --indent=4
-    - --no-sort-keys
+    exclude: *exclude_default
+  # removing checks for json since they are mostly results (we can think about it later)
+#  - id: pretty-format-json
+#    args:
+#    - --autofix
+#    - --indent=4
+#    - --no-sort-keys
   - id: check-merge-conflict
   - id: check-yaml
-  - id: check-json
+    # removing checks for json since they are mostly results (we can think about it later)
+#  - id: check-json
   - id: check-toml
   - id: detect-private-key
   - id: name-tests-test
@@ -50,8 +49,9 @@ repos:
   rev: v2.3.0
   hooks:
   - id: codespell
+    exclude: *exclude_codespell
     args:
-    - --skip=poetry.lock,docs_style/pdoc-theme/syntax-highlighting.css,*.cha,*.ipynb,example/sample_metadata.csv,evaluation/benchmark,evaluation/pdf2reproschema/old,evaluation/ner/old,evaluation/pdf2reproschema/old/evaluation
+    - --skip=poetry.lock,docs_style/pdoc-theme/syntax-highlighting.css,*.cha
     - --ignore-words-list=SIE,sie
 
 - repo: https://github.com/hija/clean-dotenv

@@ -19,6 +19,7 @@ See Also
 - :mod:`task_tools` – Uses :data:`TOOLS_BY_TASK_TYPE` to attach tools per task type.
 - :mod:`postprocessing` – Uses task type to select post-processor and result merger.
 """
+
 import json
 from dataclasses import dataclass
 from typing import Dict, Any, Optional, List, Union, Tuple
@@ -45,11 +46,12 @@ class TaskDetection:
     raw : dict
         Full parsed JSON from the LLM response.
     """
-    task_type: str                  # canonical type from taxonomy
-    confidence: float               # 0.0 - 1.0
-    labels: List[str]               # optional sublabels (e.g., "multi_label", "few_shot")
-    rationale: str                  # short explanation
-    raw: Dict[str, Any]             # full parsed JSON from LLM
+
+    task_type: str  # canonical type from taxonomy
+    confidence: float  # 0.0 - 1.0
+    labels: List[str]  # optional sublabels (e.g., "multi_label", "few_shot")
+    rationale: str  # short explanation
+    raw: Dict[str, Any]  # full parsed JSON from LLM
 
 
 DEFAULT_TAXONOMY: Dict[str, Union[str, Dict[str, Any]]] = {
@@ -97,7 +99,6 @@ DEFAULT_TAXONOMY: Dict[str, Union[str, Dict[str, Any]]] = {
         "specific_target, url, and mentions (datasets, models, tools, papers). Use when the task asks for resource extraction, "
         "extracted resources, or structured resource schema with mentions."
     ),
-
     # ----------------------------
     # Marr’s framework extraction (3-level organization) - see https://github.com/sensein/ner_reader/blob/main/docs/README_marr_system.md
     # ----------------------------
@@ -106,7 +107,6 @@ DEFAULT_TAXONOMY: Dict[str, Union[str, Dict[str, Any]]] = {
         "Return entities and/or statements categorized into L1 (Computational), L2 (Algorithmic), and L3 (Implementational). "
         "Useful for neuroscience/biomedicine summaries where claims span goals, algorithms, and substrates."
     ),
-
     # Helper context
     "marr_extraction_schema": {
         "L1_computational_level": {
@@ -125,7 +125,6 @@ DEFAULT_TAXONOMY: Dict[str, Union[str, Dict[str, Any]]] = {
             "entity_types": ["ANATOMICAL_REGION", "CELL_TYPE", "MOLECULAR_COMPONENT"],
         },
     },
-
     # ----------------------------
     # Classification
     # ----------------------------
@@ -149,7 +148,6 @@ DEFAULT_TAXONOMY: Dict[str, Union[str, Dict[str, Any]]] = {
         "Categorize text by subject area (e.g., neuroscience, biomedicine, finance, legal). "
         "Useful for indexing, routing, and downstream specialized handling."
     ),
-
     # ----------------------------
     # QA & Retrieval
     # ----------------------------
@@ -161,7 +159,6 @@ DEFAULT_TAXONOMY: Dict[str, Union[str, Dict[str, Any]]] = {
         "Answer a question by first retrieving relevant documents/passages, then synthesizing an answer grounded in them. "
         "Use when the answer depends on external context or a knowledge base."
     ),
-
     # ----------------------------
     # Transformation
     # ----------------------------
@@ -181,7 +178,6 @@ DEFAULT_TAXONOMY: Dict[str, Union[str, Dict[str, Any]]] = {
         "Rewrite text to match a target style/tone/voice (e.g., formal, concise, layperson-friendly, academic). "
         "Meaning should remain stable unless asked to change content."
     ),
-
     # ----------------------------
     # Generation
     # ----------------------------
@@ -197,23 +193,19 @@ DEFAULT_TAXONOMY: Dict[str, Union[str, Dict[str, Any]]] = {
         "Generate natural language from structured data (tables/JSON/metrics). "
         "Should be faithful to the data, mention key trends, and avoid hallucinating numbers."
     ),
-
     # ----------------------------
     # Code
     # ----------------------------
     "code_generation": (
-        "Write code based on requirements/specifications. "
-        "Includes creating functions, scripts, APIs, tests, and integrations."
+        "Write code based on requirements/specifications. " "Includes creating functions, scripts, APIs, tests, and integrations."
     ),
     "code_explanation": (
-        "Explain what code does, how it works, and why. "
-        "May include step-by-step walkthroughs, complexity notes, and edge cases."
+        "Explain what code does, how it works, and why. " "May include step-by-step walkthroughs, complexity notes, and edge cases."
     ),
     "code_refactoring": (
         "Improve code structure/readability/maintainability without changing behavior. "
         "Includes renaming, modularizing, simplifying logic, and improving performance safely."
     ),
-
     # ----------------------------
     # Evaluation
     # ----------------------------
@@ -225,14 +217,10 @@ DEFAULT_TAXONOMY: Dict[str, Union[str, Dict[str, Any]]] = {
         "Assess factual accuracy of claims and identify unsupported statements. "
         "Prefer explicit evidence, highlight uncertainty, and separate verified vs unverified content."
     ),
-
     # ----------------------------
     # Fallback
     # ----------------------------
-    "other": (
-        "Use only when the task does not fit any defined category. "
-        "If possible, prefer the closest match rather than 'other'."
-    ),
+    "other": ("Use only when the task does not fit any defined category. " "If possible, prefer the closest match rather than 'other'."),
 }
 
 # ----------------------------
@@ -268,9 +256,7 @@ def get_tool_names_for_task_type(task_type: str) -> List[str]:
     return list(TOOLS_BY_TASK_TYPE.get(str(task_type).strip().lower(), []))
 
 
-def _split_taxonomy(
-    taxonomy: Dict[str, Union[str, Dict[str, Any]]]
-) -> Tuple[Dict[str, str], Dict[str, Any]]:
+def _split_taxonomy(taxonomy: Dict[str, Union[str, Dict[str, Any]]]) -> Tuple[Dict[str, str], Dict[str, Any]]:
     """
     Split taxonomy into:
       - task_descriptions: {task_type: description}
@@ -296,10 +282,7 @@ def _build_task_detection_prompt(taskconfig: str, taxonomy: Dict[str, Union[str,
     task_descriptions, extra_context = _split_taxonomy(taxonomy)
     task_types = sorted(task_descriptions.keys())
 
-    taxonomy_block = [
-        {"task_type": t, "description": task_descriptions[t]}
-        for t in task_types
-    ]
+    taxonomy_block = [{"task_type": t, "description": task_descriptions[t]} for t in task_types]
 
     prompt_obj = {
         "role": "task-classification-engine",
@@ -345,7 +328,7 @@ def _safe_parse_json(text: str) -> Dict[str, Any]:
     start = text.find("{")
     end = text.rfind("}")
     if start != -1 and end != -1 and end > start:
-        candidate = text[start:end + 1]
+        candidate = text[start : end + 1]
         return json.loads(candidate)
 
     raise ValueError("LLM output is not valid JSON.")

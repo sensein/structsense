@@ -84,7 +84,7 @@ def _infer_schema_from_raw(raw: str) -> Optional[str]:
     # 2) Regex fallback: find top-level "key": or 'key': and next token [ { or literal
     hint = {}
     # Match "key": or 'key': or key: (unquoted)
-    for m in re.finditer(r'''["']?([^"'\s:{}]+)["']?\s*:\s*''', raw):
+    for m in re.finditer(r"""["']?([^"'\s:{}]+)["']?\s*:\s*""", raw):
         key = (m.group(1) or "").strip()
         if not key or key in ("true", "false", "null"):
             continue
@@ -205,9 +205,7 @@ def _trustcall_extract(raw: str, schema_hint: str) -> str:
     try:
         from trustcall import create_extractor
     except ImportError as e:
-        raise ValueError(
-            "TrustCall fallback requires: pip install trustcall"
-        ) from e
+        raise ValueError("TrustCall fallback requires: pip install trustcall") from e
 
     llm_config = _repair_llm_context.get("llm_config") or {}
     api_key = _repair_llm_context.get("api_key") or ""
@@ -220,6 +218,7 @@ def _trustcall_extract(raw: str, schema_hint: str) -> str:
     if "openrouter" in base_url:
         try:
             from langchain_openrouter import ChatOpenRouter
+
             llm = ChatOpenRouter(
                 model=model,
                 temperature=0,
@@ -227,6 +226,7 @@ def _trustcall_extract(raw: str, schema_hint: str) -> str:
             )
         except ImportError:
             from langchain_openai import ChatOpenAI
+
             llm = ChatOpenAI(
                 model=model,
                 openai_api_key=api_key,
@@ -235,6 +235,7 @@ def _trustcall_extract(raw: str, schema_hint: str) -> str:
             )
     else:
         from langchain_openai import ChatOpenAI
+
         llm = ChatOpenAI(
             model=model,
             openai_api_key=api_key,
@@ -243,9 +244,9 @@ def _trustcall_extract(raw: str, schema_hint: str) -> str:
         )
     DynamicModel = _build_model_from_schema(schema_hint)
     extractor = create_extractor(llm, tools=[DynamicModel], tool_choice=DynamicModel.__name__)
-    result = extractor.invoke({
-        "messages": [("user", f"Extract data matching this schema from the text.\nSchema: {schema_hint}\n\nText:\n{raw}")]
-    })
+    result = extractor.invoke(
+        {"messages": [("user", f"Extract data matching this schema from the text.\nSchema: {schema_hint}\n\nText:\n{raw}")]}
+    )
     if result.get("responses"):
         return result["responses"][0].model_dump_json(indent=2)
     raise ValueError("TrustCall returned no responses")
@@ -253,7 +254,6 @@ def _trustcall_extract(raw: str, schema_hint: str) -> str:
 
 def _build_model_from_schema(schema_hint: str) -> type:
     """Build a Pydantic model from a JSON schema hint (e.g. {\"entities\": \"array\", \"key_terms\": \"array\"})."""
-
 
     try:
         hint = json.loads(jr_repair(schema_hint, return_objects=False))

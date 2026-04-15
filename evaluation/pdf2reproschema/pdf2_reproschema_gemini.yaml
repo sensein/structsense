@@ -7,12 +7,12 @@ agent_config:
     role: >
       Questionnaire metadata extraction specialist
     goal: >
-      Extract all questionnaire components from the given PDF including activity metadata (title, description, preamble), 
-      individual items (questions, response options, input types), and scoring logic in a structured format 
+      Extract all questionnaire components from the given PDF including activity metadata (title, description, preamble),
+      individual items (questions, response options, input types), and scoring logic in a structured format
       suitable for ReproSchema conversion. Do not make up components. Make sure you extract all related components from each question.
     backstory: >
-      You are an expert at parsing questionnaires and surveys, identifying the hierarchical structure of 
-      assessments. You extract metadata that maps to ReproSchema concepts: activities (questionnaires), 
+      You are an expert at parsing questionnaires and surveys, identifying the hierarchical structure of
+      assessments. You extract metadata that maps to ReproSchema concepts: activities (questionnaires),
       items (questions), and response constraints.
     llm:
       model: openrouter/google/gemini-3.1-flash-lite-preview:nitro
@@ -24,11 +24,11 @@ agent_config:
     role: >
       ReproSchema metadata formatter
     goal: >
-      Transform extracted questionnaire data into a structured JSON format containing all necessary metadata 
+      Transform extracted questionnaire data into a structured JSON format containing all necessary metadata
       for ReproSchema conversion, ensuring completeness and proper organization of activity and item information.
     backstory: >
-      You specialize in organizing questionnaire metadata into clean, structured formats. You understand 
-      ReproSchema requirements and ensure all extracted information is properly categorized for items, 
+      You specialize in organizing questionnaire metadata into clean, structured formats. You understand
+      ReproSchema requirements and ensure all extracted information is properly categorized for items,
       activities, response options, and scoring logic.
     llm:
       model: openrouter/google/gemini-3.1-flash-lite-preview:nitro
@@ -39,11 +39,11 @@ agent_config:
     role: >
       Metadata completeness validator
     goal: >
-      Validate that all questionnaire components have been accurately extracted and formatted, ensuring no 
+      Validate that all questionnaire components have been accurately extracted and formatted, ensuring no
       questions, response options, or metadata are missing from the structured output.
     backstory: >
-      You are a quality assurance specialist who verifies extraction completeness. You cross-reference the 
-      structured output against the original PDF content to ensure all items, response scales, and activity 
+      You are a quality assurance specialist who verifies extraction completeness. You cross-reference the
+      structured output against the original PDF content to ensure all items, response scales, and activity
       metadata are captured accurately.
     llm:
       model: openrouter/google/gemini-3.1-flash-lite-preview:nitro
@@ -54,10 +54,10 @@ agent_config:
     role: >
       Metadata refinement specialist
     goal: >
-      Incorporate human feedback to correct extraction errors, clarify ambiguous items, and ensure the 
+      Incorporate human feedback to correct extraction errors, clarify ambiguous items, and ensure the
       structured metadata accurately represents the original questionnaire.
     backstory: >
-      You collaborate with human reviewers to refine extracted metadata, fixing any misinterpretations 
+      You collaborate with human reviewers to refine extracted metadata, fixing any misinterpretations
       and ensuring the output will produce valid ReproSchema when converted.
     llm:
       model: openrouter/google/gemini-3.1-flash-lite-preview:nitro
@@ -69,18 +69,18 @@ task_config:
   extraction_task:
     description: >
       Extract all questionnaire components from the given PDF for ReproSchema conversion.
-      
+
       Input: {input_text}
-      
+
       Extract the following metadata:
-      
+
       1. Activity-level metadata:
          - id: Short identifier for the questionnaire using the first letter of the questionnaire title but ignore words such as "and" (e.g., "MOOD AND FEELINGS QUESTIONNAIRE: Long Version" will be "MFQ-long" )
          - prefLabel: Display name of the questionnaire
          - description: Full description of the assessment
          - preamble: Instructions or introductory text if any
          - citation: Source reference if available
-      
+
       2. For each item/question:
          - id: Unique identifier (e.g., "Q1", "Q2")
          - question: Full question text
@@ -89,13 +89,13 @@ task_config:
          - valueRequired: Whether response is mandatory
          - responseOptions: List of choices with value and name
          - scoring: How responses map to scores
-      
+
       3. Additional metadata:
          - computedScores: Any total scores or subscales with calculation formulas
          - conditionalLogic: Skip patterns or branching rules
          - languages: Available languages
          - order: Sequence of items
-   
+
 
     expected_output: >
       output format: json
@@ -132,13 +132,13 @@ task_config:
         "order": ["PHQ9_01", "PHQ9_02", "..."]
       }
 
-    # do not chage this, remove it later
+    # do not change this, remove it later
     agent_id: extractor_agent
 
   alignment_task:
-    description: > 
+    description: >
       Inputs: {extracted_structured_information}
-      
+
       Instructions:
       - Format the extracted metadata into a comprehensive JSON structure for ReproSchema conversion
       - Organize all metadata with proper structure and relationships
@@ -147,7 +147,7 @@ task_config:
       - Include computed scores with proper JavaScript expressions
       - Add UI ordering and configuration
       - Ensure all fields use appropriate data types and structures
-       
+
 
     expected_output: >
       output format: json
@@ -191,14 +191,14 @@ task_config:
         ]
       }
 
-    # do not chage this, remove it later
+    # do not change this, remove it later
     agent_id: alignment_agent
 
   judge_task:
     description: >
-      {aligned_structured_information} 
-         
-      Instructions: 
+      {aligned_structured_information}
+
+      Instructions:
       - Validate that all questions from the original PDF are captured in the structured output
       - Check that response options match exactly with the source
       - Verify activity metadata (title, description, preamble) is complete and accurate
@@ -206,11 +206,11 @@ task_config:
       - Confirm scoring logic and computed scores are properly represented
       - Identify any missing, incomplete, or misrepresented information
       - Provide a completeness score and detailed feedback
-    
+
       Important: "judged_terms" should also include the output from previous agents
 
-    expected_output: > 
-      output format: json 
+    expected_output: >
+      output format: json
       Example output: "judged_terms":{
       "refined_metadata":{
               "schemaType": "reproschema:Activity",
@@ -268,19 +268,19 @@ task_config:
         }
       }
 
-    # do not chage this, remove it later
+    # do not change this, remove it later
     agent_id: judge_agent
 
   humanfeedback_task:
     description: >
       Input: {judged_structured_information_with_human_feedback}
 
-      modification_context: 
+      modification_context:
         {modification_context}
-      
+
       user_feedback_text:
         {user_feedback_text}
-      
+
       Instructions:
       - Apply human feedback to refine the extracted metadata
       - Correct any extraction errors identified by the reviewer
@@ -289,11 +289,11 @@ task_config:
       - Improve formatting and structure based on feedback
       - Ensure the refined output maintains ReproSchema compatibility
       - Document all changes made based on feedback
-      
-      
-  
 
-    expected_output: > 
+
+
+
+    expected_output: >
       output format: json
       Example output: "judged_terms":{
          "refined_metadata":{
@@ -368,5 +368,3 @@ embedder_config:
   config:
     api_base: http://localhost:11434
     model: nomic-embed-text
-
-

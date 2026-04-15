@@ -209,9 +209,7 @@ def extract(
     preloaded_stages_dict = {}
     for entry in preload_stages:
         if ":" not in entry:
-            raise click.UsageError(
-                f"--preload_stage must be in TASK_KEY:FILE format, got: {entry!r}"
-            )
+            raise click.UsageError(f"--preload_stage must be in TASK_KEY:FILE format, got: {entry!r}")
         task_key, file_path = entry.split(":", 1)
         if not os.path.exists(file_path):
             raise click.UsageError(f"Preload file not found: {file_path!r}")
@@ -255,14 +253,8 @@ def extract(
         max_extraction_chunk_chars=max_extraction_chunk_chars,
         downstream_chunk_size=downstream_chunk_size,
         model_context_window=model_context_window,
-        skip_alignment_llm=(
-            None if skip_alignment_llm == "auto" or skip_alignment_llm is None
-            else skip_alignment_llm.lower() == "true"
-        ),
-        skip_judge_llm=(
-            None if skip_judge_llm is None
-            else skip_judge_llm.lower() == "true"
-        ),
+        skip_alignment_llm=(None if skip_alignment_llm == "auto" or skip_alignment_llm is None else skip_alignment_llm.lower() == "true"),
+        skip_judge_llm=(None if skip_judge_llm is None else skip_judge_llm.lower() == "true"),
         skip_stages=list(skip_stages) if skip_stages else None,
         agent_max_iter=agent_max_iter,
         agent_max_execution_time=agent_max_execution_time,
@@ -270,11 +262,7 @@ def extract(
     )
 
     # Run the full pipeline (extraction → alignment → judge → humanfeedback)
-    result = asyncio.run(
-        flow.information_extraction_task(
-            preloaded_stages=preloaded_stages_dict if preloaded_stages_dict else None
-        )
-    )
+    result = asyncio.run(flow.information_extraction_task(preloaded_stages=preloaded_stages_dict if preloaded_stages_dict else None))
 
     # Output results
     click.echo("*" * 100)
@@ -334,10 +322,7 @@ def extract(
     required=False,
     type=int,
     default=None,
-    help=(
-        "Maximum reasoning iterations per agent run before forced answer. "
-        "Can also be set via env var AGENT_MAX_ITER=<int>."
-    ),
+    help=("Maximum reasoning iterations per agent run before forced answer. " "Can also be set via env var AGENT_MAX_ITER=<int>."),
 )
 @click.option(
     "--agent_max_execution_time",
@@ -354,10 +339,7 @@ def extract(
     required=False,
     type=int,
     default=None,
-    help=(
-        "Maximum agent-level retries on recoverable errors. Default: 0. "
-        "Can also be set via env var AGENT_MAX_RETRY_LIMIT=<int>."
-    ),
+    help=("Maximum agent-level retries on recoverable errors. Default: 0. " "Can also be set via env var AGENT_MAX_RETRY_LIMIT=<int>."),
 )
 def run_agent(
     config,

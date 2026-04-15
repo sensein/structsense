@@ -23,7 +23,7 @@ python token_cost_speed_analysis.py --task reproschema --file reproschema/repros
 
 Generates 4 plots in both PNG and SVG formats:
 - Cost distribution by model
-- Token usage (input/output) by model  
+- Token usage (input/output) by model
 - Speed distribution by model
 - Speed vs cost scatter plot
 

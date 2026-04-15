@@ -6,6 +6,7 @@ from typing import List, Optional, Union, Dict, Any
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
+
 def _chunk_doc_by_sentences(doc, max_chars: int) -> List[Dict[str, Any]]:
     """
     Split a document into text chunks based on sentence boundaries, ensuring
@@ -75,7 +76,7 @@ def _get_sentence_info_for_span(doc, start: int, end: int) -> Dict[str, Any]:
     """
     for sent in doc.sents:
         if sent.start_char <= start < sent.end_char:
-            sentence_text = doc.text[sent.start_char:sent.end_char]
+            sentence_text = doc.text[sent.start_char : sent.end_char]
             sentence_start_offset = start - sent.start_char
             sentence_end_offset = end - sent.start_char
             return {
@@ -125,11 +126,7 @@ def _validate_text_presence(
     global_end = chunk_start + local_end
 
     # Basic bounds check
-    if (
-        global_start < 0
-        or global_end > len(full_text)
-        or global_start >= global_end
-    ):
+    if global_start < 0 or global_end > len(full_text) or global_start >= global_end:
         return None
 
     # Check that text at that span matches the entity text
@@ -227,11 +224,11 @@ def _globalize_entities(
             "sentence_start": sentence_info["sentence_start_offset"],
             "sentence_end": sentence_info["sentence_end_offset"],
         }
-        
+
         # Preserve source_model if present
         if "source_model" in ent:
             result_ent["source_model"] = ent["source_model"]
-        
+
         results.append(result_ent)
 
     return results
@@ -244,23 +241,23 @@ def _find_text_in_chunk(
 ) -> Optional[tuple[int, int]]:
     """
     Find text in the chunk region of full_text.
-    
+
     Args:
         full_text: The complete text document
         chunk: Dictionary with "start" and "text" keys
         text: The text to find
-        
+
     Returns:
         Tuple (global_start, global_end) if text is found, None otherwise
     """
     chunk_start = chunk.get("start", 0)
     chunk_text = chunk.get("text", "")
-    
+
     # Search within this chunk's region in the full text
     region_start = chunk_start
     region_end = min(chunk_start + len(chunk_text), len(full_text))
     region = full_text[region_start:region_end]
-    
+
     # Try exact match first (case-sensitive)
     rel_pos = region.find(text)
     if rel_pos == -1:
@@ -270,8 +267,8 @@ def _find_text_in_chunk(
         rel_pos = region_lower.find(text_lower)
         if rel_pos == -1:
             # Try normalized whitespace matching
-            region_normalized = ' '.join(region.split())
-            text_normalized = ' '.join(text.split())
+            region_normalized = " ".join(region.split())
+            text_normalized = " ".join(text.split())
             rel_pos_normalized = region_normalized.find(text_normalized)
             if rel_pos_normalized == -1:
                 return None
@@ -280,25 +277,23 @@ def _find_text_in_chunk(
             rel_pos = region.find(text_normalized[:20]) if len(text_normalized) > 20 else -1
             if rel_pos == -1:
                 return None
-    
+
     global_start = region_start + rel_pos
     global_end = global_start + len(text)
-    
+
     # Verify the found text matches
     if global_end > len(full_text):
         return None
-    
+
     found_text = full_text[global_start:global_end]
     if found_text.lower() != text.lower():
         # Found position doesn't match exactly, return None
         return None
-    
+
     return (global_start, global_end)
 
 
-def _merge_ner_entities_with_occurrences(
-    entities: List[Dict[str, Any]]
-) -> List[Dict[str, Any]]:
+def _merge_ner_entities_with_occurrences(entities: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     """
     Merge entities with the same (text, label) and accumulate all their locations.
 
@@ -335,12 +330,12 @@ def _merge_ner_entities_with_occurrences(
         # and include global positions separately
         occ = {
             "start": ent.get("sentence_start", 0),  # Sentence-level position
-            "end": ent.get("sentence_end", 0),      # Sentence-level position
+            "end": ent.get("sentence_end", 0),  # Sentence-level position
             "global_start": ent.get("global_start", ent.get("start", 0)),  # Global position
-            "global_end": ent.get("global_end", ent.get("end", 0)),        # Global position
+            "global_end": ent.get("global_end", ent.get("end", 0)),  # Global position
             "sentence": ent.get("sentence", ""),
         }
-        
+
         # Preserve source_model in occurrence if present
         if "source_model" in ent:
             occ["source_model"] = ent["source_model"]
@@ -358,8 +353,7 @@ def _merge_ner_entities_with_occurrences(
         else:
             # Check for duplicate based on global positions
             if not any(
-                o["global_start"] == occ["global_start"] and o["global_end"] == occ["global_end"]
-                for o in merged[key]["occurrences"]
+                o["global_start"] == occ["global_start"] and o["global_end"] == occ["global_end"] for o in merged[key]["occurrences"]
             ):
                 merged[key]["occurrences"].append(occ)
                 # Add source_model to the set if present
@@ -371,5 +365,5 @@ def _merge_ner_entities_with_occurrences(
     for merged_ent in merged.values():
         merged_ent["source_models"] = sorted(list(merged_ent["source_models"])) if merged_ent["source_models"] else []
         result.append(merged_ent)
-    
+
     return result

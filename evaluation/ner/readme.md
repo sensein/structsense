@@ -59,10 +59,10 @@ The final output includes:
 
 The following papers were used to evaluate the pipeline:
 
-- [Discovery of Optimal Cell Type Classification Marker Genes from Single-Cell RNA Sequencing Data](https://www.biorxiv.org/content/10.1101/2024.04.22.590194v2)  
+- [Discovery of Optimal Cell Type Classification Marker Genes from Single-Cell RNA Sequencing Data](https://www.biorxiv.org/content/10.1101/2024.04.22.590194v2)
   Result directory: `paper_discovery_of_optimal_cell`
 
-- [Latent Circuit Inference from Heterogeneous Neural Responses During Cognitive Tasks](https://www.nature.com/articles/s41593-025-01869-7)  
+- [Latent Circuit Inference from Heterogeneous Neural Responses During Cognitive Tasks](https://www.nature.com/articles/s41593-025-01869-7)
   Result directory: `latent-circuit-inference`
 
 ## Command Used to Run `structsense`

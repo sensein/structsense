@@ -32,6 +32,7 @@ from pathlib import Path
 # TEXT NORMALIZATION
 # =============================================================================
 
+
 def normalize_entity_text(text: str) -> str:
     """Normalize entity text for matching.
 
@@ -49,6 +50,7 @@ def normalize_entity_text(text: str) -> str:
 # SPAN OVERLAP
 # =============================================================================
 
+
 def span_overlap_ratio(gt_start: int, gt_end: int, pred_start: int, pred_end: int) -> float:
     """Compute overlap ratio relative to ground truth span length."""
     overlap_start = max(gt_start, pred_start)
@@ -65,6 +67,7 @@ def span_overlap_ratio(gt_start: int, gt_end: int, pred_start: int, pred_end: in
 # SOURCE MODEL FILTER
 # =============================================================================
 
+
 def is_only_en_core_web_sm(entity_data: dict) -> bool:
     """Check if entity comes exclusively from en_core_web_sm."""
     sources = set()
@@ -77,6 +80,7 @@ def is_only_en_core_web_sm(entity_data: dict) -> bool:
 # =============================================================================
 # DATA LOADING
 # =============================================================================
+
 
 def load_ground_truth(jsonl_path: str) -> list[dict]:
     """Load ground truth from JSONL. Returns flat list of entity mentions.
@@ -92,14 +96,16 @@ def load_ground_truth(jsonl_path: str) -> list[dict]:
                 continue
             sent = json.loads(line)
             for ent in sent.get("entities_global", []):
-                mentions.append({
-                    "text": ent["text"],
-                    "normalized": normalize_entity_text(ent["text"]),
-                    "char_start": ent["char_start"],
-                    "char_end": ent["char_end"],
-                    "sentence_id": sent["sentence_id"],
-                    "sentence_text": sent["sentence_text"],
-                })
+                mentions.append(
+                    {
+                        "text": ent["text"],
+                        "normalized": normalize_entity_text(ent["text"]),
+                        "char_start": ent["char_start"],
+                        "char_end": ent["char_end"],
+                        "sentence_id": sent["sentence_id"],
+                        "sentence_text": sent["sentence_text"],
+                    }
+                )
     return mentions
 
 
@@ -149,6 +155,7 @@ def load_results(json_path: str) -> tuple[list[dict], dict[str, list[dict]], lis
 # MATCHING
 # =============================================================================
 
+
 def match_ground_truth(
     gt_mentions: list[dict],
     text_index: dict[str, list[dict]],
@@ -179,15 +186,17 @@ def match_ground_truth(
 
         # Tier 2: Span overlap
         matched_span = False
-        for (rs, re_, rt, rd) in intervals:
+        for rs, re_, rt, rd in intervals:
             ratio = span_overlap_ratio(gt_start, gt_end, rs, re_)
             if ratio >= overlap_threshold:
-                span_matches.append({
-                    **gt,
-                    "match_type": "span",
-                    "matched_text": rt,
-                    "overlap_ratio": ratio,
-                })
+                span_matches.append(
+                    {
+                        **gt,
+                        "match_type": "span",
+                        "matched_text": rt,
+                        "overlap_ratio": ratio,
+                    }
+                )
                 matched_span = True
                 break
         if matched_span:
@@ -201,11 +210,13 @@ def match_ground_truth(
                 shorter = min(len(gt_norm), len(result_norm))
                 longer = max(len(gt_norm), len(result_norm))
                 if shorter >= 3 and shorter / longer >= 0.3:
-                    partial_matches.append({
-                        **gt,
-                        "match_type": "partial",
-                        "matched_text": result_norm,
-                    })
+                    partial_matches.append(
+                        {
+                            **gt,
+                            "match_type": "partial",
+                            "matched_text": result_norm,
+                        }
+                    )
                     matched_partial = True
                     break
         if matched_partial:
@@ -261,6 +272,7 @@ def compute_extra_entities(
 # EVALUATION
 # =============================================================================
 
+
 def evaluate(gt_path: str, result_path: str, overlap_threshold: float = 0.5) -> dict:
     """Evaluate one result file against one ground truth file."""
     gt_mentions = load_ground_truth(gt_path)
@@ -307,18 +319,21 @@ def _summarize_missed(missed: list[dict]) -> list[dict]:
 
     summary = []
     for text, mentions in sorted(by_text.items(), key=lambda x: -len(x[1])):
-        summary.append({
-            "text": text,
-            "normalized": mentions[0]["normalized"],
-            "count": len(mentions),
-            "example_sentence": mentions[0]["sentence_text"][:120],
-        })
+        summary.append(
+            {
+                "text": text,
+                "normalized": mentions[0]["normalized"],
+                "count": len(mentions),
+                "example_sentence": mentions[0]["sentence_text"][:120],
+            }
+        )
     return summary
 
 
 # =============================================================================
 # AUTO-DISCOVERY
 # =============================================================================
+
 
 def find_benchmark_files(benchmark_dir: str, dataset_filter: str = None) -> list[dict]:
     """Auto-discover GT + result file pairs in the benchmark directory."""
@@ -360,13 +375,15 @@ def find_benchmark_files(benchmark_dir: str, dataset_filter: str = None) -> list
                 else:
                     variant = "unknown"
 
-                pairs.append({
-                    "dataset": dataset_name,
-                    "gt_path": gt_path,
-                    "result_path": str(json_file),
-                    "model": model_name,
-                    "variant": variant,
-                })
+                pairs.append(
+                    {
+                        "dataset": dataset_name,
+                        "gt_path": gt_path,
+                        "result_path": str(json_file),
+                        "model": model_name,
+                        "variant": variant,
+                    }
+                )
 
     return pairs
 
@@ -374,6 +391,7 @@ def find_benchmark_files(benchmark_dir: str, dataset_filter: str = None) -> list
 # =============================================================================
 # REPORTING
 # =============================================================================
+
 
 def print_report(reports_by_dataset: dict[str, list[dict]], verbose: bool = False) -> None:
     """Print human-readable report grouped by dataset."""
@@ -389,10 +407,14 @@ def print_report(reports_by_dataset: dict[str, list[dict]], verbose: bool = Fals
 
         for r in reports:
             model = os.path.basename(os.path.dirname(r["result_file"]))
-            variant = "nhil" if "nhil" in os.path.basename(r["result_file"]).lower() or \
-                       "no_hil" in os.path.basename(r["result_file"]).lower() or \
-                       "non_hil" in os.path.basename(r["result_file"]).lower() or \
-                       "without_hil" in os.path.basename(r["result_file"]).lower() else "hil"
+            variant = (
+                "nhil"
+                if "nhil" in os.path.basename(r["result_file"]).lower()
+                or "no_hil" in os.path.basename(r["result_file"]).lower()
+                or "non_hil" in os.path.basename(r["result_file"]).lower()
+                or "without_hil" in os.path.basename(r["result_file"]).lower()
+                else "hil"
+            )
             fname = os.path.basename(r["result_file"])
 
             print(f"\n  {model} ({variant}) — {fname}")
@@ -401,8 +423,12 @@ def print_report(reports_by_dataset: dict[str, list[dict]], verbose: bool = Fals
             print(f"  Evaluated:           {r['result_evaluated']:5d}")
             print()
             print(f"  Recall (strict):     {r['exact_matches']:4d}/{gt_total}  ({r['recall_strict']*100:5.1f}%)  [exact text match]")
-            print(f"  Recall (relaxed):    {r['exact_matches']+r['span_matches']+r['partial_matches']:4d}/{gt_total}  ({r['recall_relaxed']*100:5.1f}%)  [+ span + partial]")
-            print(f"    Exact:  {r['exact_matches']:4d}  |  Span: {r['span_matches']:3d}  |  Partial: {r['partial_matches']:3d}  |  Missed: {r['missed']:4d}")
+            print(
+                f"  Recall (relaxed):    {r['exact_matches']+r['span_matches']+r['partial_matches']:4d}/{gt_total}  ({r['recall_relaxed']*100:5.1f}%)  [+ span + partial]"
+            )
+            print(
+                f"    Exact:  {r['exact_matches']:4d}  |  Span: {r['span_matches']:3d}  |  Partial: {r['partial_matches']:3d}  |  Missed: {r['missed']:4d}"
+            )
             print()
             print(f"  Extra entities:      {r['extra_entities']:5d}  (beyond ground truth)")
 
@@ -429,10 +455,14 @@ def print_report(reports_by_dataset: dict[str, list[dict]], verbose: bool = Fals
         for dataset, reports in reports_by_dataset.items():
             for r in reports:
                 model = os.path.basename(os.path.dirname(r["result_file"]))
-                variant = "nhil" if "nhil" in os.path.basename(r["result_file"]).lower() or \
-                           "no_hil" in os.path.basename(r["result_file"]).lower() or \
-                           "non_hil" in os.path.basename(r["result_file"]).lower() or \
-                           "without_hil" in os.path.basename(r["result_file"]).lower() else "hil"
+                variant = (
+                    "nhil"
+                    if "nhil" in os.path.basename(r["result_file"]).lower()
+                    or "no_hil" in os.path.basename(r["result_file"]).lower()
+                    or "non_hil" in os.path.basename(r["result_file"]).lower()
+                    or "without_hil" in os.path.basename(r["result_file"]).lower()
+                    else "hil"
+                )
                 print(
                     f"  {dataset:<12s} {model:<30s} {variant:<5s} "
                     f"{r['gt_total']:>5d} "
@@ -447,10 +477,9 @@ def print_report(reports_by_dataset: dict[str, list[dict]], verbose: bool = Fals
 # CLI
 # =============================================================================
 
+
 def main():
-    parser = argparse.ArgumentParser(
-        description="Evaluate NER extraction recall against benchmark ground truth"
-    )
+    parser = argparse.ArgumentParser(description="Evaluate NER extraction recall against benchmark ground truth")
     parser.add_argument(
         "--dataset",
         help="Evaluate only this dataset (e.g., ncbi, s800)",
@@ -464,11 +493,13 @@ def main():
         help="Path to StructSense result JSON file (requires --gt)",
     )
     parser.add_argument(
-        "-o", "--output",
+        "-o",
+        "--output",
         help="Save detailed report as JSON",
     )
     parser.add_argument(
-        "-v", "--verbose",
+        "-v",
+        "--verbose",
         action="store_true",
         help="Show all missed entities (not just top 10)",
     )
