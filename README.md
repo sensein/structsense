@@ -67,7 +67,7 @@ The figure below illustrates the overall architecture of **StructSense**.
 
 <img width="2571" height="823" alt="with_arch_search-with_search_api drawio (1)" src="https://github.com/user-attachments/assets/8f652c10-4301-4193-b1c8-f750229f972c" />
 
-StructSense integrates a local concept mapping service, which can also be used independently. The service is available here:  
+StructSense integrates a local concept mapping service, which can also be used independently. The service is available here:
 - https://github.com/sensein/search_hybrid
 
 ---
