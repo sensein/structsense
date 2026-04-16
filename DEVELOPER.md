@@ -20,8 +20,10 @@ poetry install --with dev
 Create a `.env` file in the project root:
 
 ```bash
-OPENROUTER_API_KEY=your-key-here        # required for LLM calls
-BIOPORTAL_API_KEY=your-key-here         # optional, only for BioPortal concept mapping
+# required for LLM calls
+OPENROUTER_API_KEY=your-key-here
+# optional, only for BioPortal concept mapping
+BIOPORTAL_API_KEY=your-key-here
 ```
 
 ### Pre-commit Hooks
