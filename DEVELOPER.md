@@ -4,7 +4,7 @@
 
 ### Requirements
 
-- Python 3.10–3.12
+- Python 3.10-3.13
 - [Poetry](https://python-poetry.org/) >= 2.0
 
 ### Install
