@@ -1,4 +1,47 @@
-# StructSense Information for Developer
+# StructSense Developer Guide
+
+## Development Setup
+
+### Requirements
+
+- Python 3.10-3.13
+- [Poetry](https://python-poetry.org/) >= 2.0
+
+### Install
+
+```bash
+git clone https://github.com/sensein/structsense.git
+cd structsense
+poetry install --with dev
+```
+
+### Environment Variables
+
+Create a `.env` file in the project root:
+
+```bash
+# required for LLM calls
+OPENROUTER_API_KEY=your-key-here
+# optional, only for BioPortal concept mapping
+BIOPORTAL_API_KEY=your-key-here
+```
+
+### Pre-commit Hooks
+
+```bash
+poetry run pre-commit install
+```
+
+### Running Tests
+
+```bash
+poetry run pytest                                      # all tests (requires OPENROUTER_API_KEY)
+poetry run pytest -m "not requires_openrouter"         # unit tests only
+```
+
+---
+
+## Architecture Overview
 
 This document provides the overview of the major **StructSense** component and flow.
 
