@@ -63,20 +63,6 @@ This two-stage design means StructSense's final output is in **ontology space**,
 
 ---
 
-## StructSense Feature Set
-
-| Feature | Description |
-|---|---|
-| Multi-agent pipeline | Extraction → ontology alignment → quality judging → optional human-in-the-loop |
-| Task-type auto-detection | Detects NER, resource extraction, or structured extraction from config |
-| Chunking | Splits large PDFs into sentence-aligned chunks; runs extraction in parallel |
-| Fast alignment | Skips the alignment LLM agent entirely; calls `POST /map/batch` on the local concept mapping service directly. No BioPortal query, no Recommender API call. Returns `{ontology_id, ontology_label, ontology}` — same shape as BioPortal tool. In-memory cache means repeated runs on the same corpus bypass HTTP entirely. |
-| Pluggable concept mapping | BioPortal (cloud) or local hybrid BM25 + dense retrieval, switchable via env var |
-| Partial pipeline | Run any subset of stages via `--skip_stage` / `--preload_stage` |
-| Any LLM via OpenRouter | Model configured per agent in YAML |
-| Single config file | One YAML drives the entire pipeline |
-
----
 
 ## What to Hold Constant Across Both Systems
 
