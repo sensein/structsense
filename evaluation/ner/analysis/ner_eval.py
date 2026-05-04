@@ -949,23 +949,118 @@ _LABEL_ALIASES: dict[str, str] = {
     "TASK": "CONCEPT",
     "EVENT": "CONCEPT",
     "STIMULUS": "STIMULUS",
+    "STIMULUS_TYPE": "STIMULUS",
+    "STIMULUS_FEATURE": "STIMULUS",
+    "STIMULUS_MODALITY": "STIMULUS",
+    "STIMULUS_CONDITION": "STIMULUS",
+    "STIMULUS_PARAMETER": "STIMULUS",
+    "SENSORY_FEATURE": "STIMULUS",
+    "SENSORY_MODALITY": "STIMULUS",
+    "SENSORY_INPUT": "STIMULUS",
     "BEHAVIOR": "BEHAVIOR",
+    "BEHAVIORAL_OUTCOME": "BEHAVIOR",
+    "BEHAVIORALOUTCOME": "BEHAVIOR",
     "COLOR": "CONCEPT",
     "MATERIAL": "MATERIAL",
     "DEVICE": "DEVICE",
     "MOLECULE": "MOLECULE",
     "MOLECULAR_TOOL": "MOLECULE",
+    "BIOMOLECULE": "MOLECULE",
+    "MOLECULARTOOL": "MOLECULE",
     "CELLULAR_COMPONENT": "CELLULAR_COMPONENT",
-    "NEURAL_COMPONENT": "NEURAL_COMPONENT",
-    "MATHEMATICAL_OBJECT": "MATHEMATICAL_OBJECT",
+    "CELLCOMPONENT": "CELLULAR_COMPONENT",
+    "NEURAL_COMPONENT": "CONCEPT",
+    "NEURALREPRESENTATION": "CONCEPT",
+    "MATHEMATICAL_OBJECT": "CONCEPT",
+    "MATHEMATICALCONCEPT": "CONCEPT",
     "NEUROANATOMY": "BRAIN_REGION",
     "ANATOMICAL_ENTITY": "BRAIN_REGION",
-    "SYSTEM": "SYSTEM",
+    "ANAT": "BRAIN_REGION",
+    "BODY_PART": "BRAIN_REGION",
+    "BODYPART": "BRAIN_REGION",
+    "AREA": "BRAIN_REGION",
+    "SYSTEM": "CONCEPT",
     "SECTION": "CONCEPT",
     "DATA": "DATA_TYPE",
+    "DATASTRUCTURE": "DATA_TYPE",
     "MEASURE": "METRIC",
+    "STATISTICALMEASURE": "METRIC",
+    "STATISTICALTEST": "METRIC",
+    "STATISTICALVALUE": "METRIC",
+    "STATISTIC": "METRIC",
     "VARIABLE": "VARIABLE",
     "PERSON": "PERSON",
+    # Blacklisted clinical labels → map to CLINICAL_NER (always incorrect)
+    "DIAGNOSTIC_PROCEDURE": "CLINICAL_NER",
+    "DETAILED_DESCRIPTION": "CLINICAL_NER",
+    "SIGN_SYMPTOM": "CLINICAL_NER",
+    "LAB_VALUE": "CLINICAL_NER",
+    "DISEASE_DISORDER": "CLINICAL_NER",
+    "SEVERITY": "CLINICAL_NER",
+    "COREFERENCE": "CLINICAL_NER",
+    "THERAPEUTIC_PROCEDURE": "CLINICAL_NER",
+    # Catch-all vague labels → UNCATEGORIZED
+    "ENTITY": "UNCATEGORIZED",
+    "MISC": "UNCATEGORIZED",
+    "OTHER": "UNCATEGORIZED",
+    "MISCELLANEOUS": "UNCATEGORIZED",
+    "UNKNOWN": "UNCATEGORIZED",
+    "O": "UNCATEGORIZED",
+    "BIO": "UNCATEGORIZED",
+    "NORP": "UNCATEGORIZED",
+    # Additional CamelCase / variant aliases
+    "TECHNICAL_TERM": "CONCEPT",
+    "TECHNICALTERM": "CONCEPT",
+    "KEY_CONCEPT": "CONCEPT",
+    "PSYCHOLOGICAL_CONCEPT": "CONCEPT",
+    "EXPERIMENTALCONDITION": "METHOD",
+    "EXPERIMENTALMEASURE": "METRIC",
+    "EXPERIMENTALSTIMULUS": "STIMULUS",
+    "BIOPROCESS": "BIOLOGICAL_PROCESS",
+    "BIOL_PROCESS": "BIOLOGICAL_PROCESS",
+    "BIO_PROCESS": "BIOLOGICAL_PROCESS",
+    "PROCESSES": "BIOLOGICAL_PROCESS",
+    "MESH": "CONCEPT",
+    "ACRONYM": "CONCEPT",
+    "ACRONYMDEFINITION": "CONCEPT",
+    "ABBREVIATION": "CONCEPT",
+    "COORDINATEAXIS": "CONCEPT",
+    "PROGRAM": "SOFTWARE",
+    "SOFTWAREVERSION": "SOFTWARE",
+    "SOFTWARECOMPONENT": "SOFTWARE",
+    "FILEFORMAT": "DATA_TYPE",
+    "THRESHOLDLEVEL": "PARAMETER",
+    "HYPERPARAMETER": "PARAMETER",
+    "GENEPRODUCT": "GENE",
+    "PROTEIN_FAMILY": "GENE",
+    "RNA": "GENE",
+    "DNA": "GENE",
+    "REAGENT": "CHEMICAL",
+    "BUFFER": "CHEMICAL",
+    "CHEMICAL_BUFFER": "CHEMICAL",
+    "CHEMICAL_SOLUTION": "CHEMICAL",
+    "FLUOROPHORE": "CHEMICAL",
+    "ENZYME": "CHEMICAL",
+    "MEDICATION": "CHEMICAL",
+    "BIOCHEMICAL": "CHEMICAL",
+    "NEURALNETWORK": "MODEL",
+    "NETWORK": "MODEL",
+    "NETWORK_STRUCTURE": "MODEL",
+    "SYSTEM_ARCHITECTURE": "MODEL",
+    "ACTIVATION_FUNCTION": "MODEL",
+    "TISSUE_TYPE": "BRAIN_REGION",
+    "COMPARTMENT": "BRAIN_REGION",
+    "PHENOTYPE": "BIOLOGICAL_PROCESS",
+    "PATHWAY": "BIOLOGICAL_PROCESS",
+    "PHYSIOLOGICAL_PROCESS": "BIOLOGICAL_PROCESS",
+    "PHYSIOLOGICAL_RESPONSE": "BIOLOGICAL_PROCESS",
+    "MOL_FUNCTION": "BIOLOGICAL_PROCESS",
+    "GO_FUNCTION": "BIOLOGICAL_PROCESS",
+    "MECHANISM": "BIOLOGICAL_PROCESS",
+    "CONNECTIVITY": "CONCEPT",
+    "HIERARCHICAL_LEVEL": "CONCEPT",
+    "ARTIFACT": "CONCEPT",
+    "VERSION": "CONCEPT",
 }
 
 # Canonical labels that we consider "valid" for neuroscience NER
@@ -1272,6 +1367,170 @@ def print_report(report: dict, verbose: bool = False) -> None:
     print()
 
 
+# =============================================================================
+# PER-LABEL ACCURACY
+# =============================================================================
+
+_MODEL_NAMES = ["Gemini", "GPT-4o-mini", "Qwen"]
+
+
+def _infer_model(filepath: str) -> str:
+    """Infer model name from filepath."""
+    fp = filepath.lower()
+    if "gemini" in fp:
+        return "Gemini"
+    if "gpt" in fp:
+        return "GPT-4o-mini"
+    if "qwen" in fp:
+        return "Qwen"
+    return "Unknown"
+
+
+def compute_per_label_accuracy(
+    reports: list[dict],
+) -> dict[str, dict[str, dict[str, int]]]:
+    """Compute accuracy per canonical label per model.
+
+    Returns: {canonical_label: {model: {"total": N, "correct": N}}}
+    sorted by total count descending.
+    """
+    stats: dict[str, dict[str, dict[str, int]]] = defaultdict(
+        lambda: defaultdict(lambda: {"total": 0, "correct": 0})
+    )
+    for report in reports:
+        model = _infer_model(report["file"])
+        for detail in report["evaluated"]["details"]:
+            canon = _canonicalize_label(detail["assigned_label"])
+            stats[canon][model]["total"] += 1
+            if detail["verdict"] == "correct":
+                stats[canon][model]["correct"] += 1
+
+    # Sort by total count descending
+    sorted_stats = dict(
+        sorted(
+            stats.items(),
+            key=lambda item: sum(v["total"] for v in item[1].values()),
+            reverse=True,
+        )
+    )
+    return sorted_stats
+
+
+def print_per_label_table(label_stats: dict) -> None:
+    """Print a formatted per-label accuracy table."""
+    print(f"\n{'='*90}")
+    print(f"  PER-ENTITY-TYPE ACCURACY")
+    print(f"{'='*90}")
+
+    header = f"  {'Label':<25s}"
+    for m in _MODEL_NAMES:
+        header += f" {m:>18s}"
+    header += f" {'All':>18s}"
+    print(header)
+    print(f"  {'-'*97}")
+
+    for label, model_stats in label_stats.items():
+        row = f"  {label:<25s}"
+        all_total = 0
+        all_correct = 0
+        for m in _MODEL_NAMES:
+            s = model_stats.get(m, {"total": 0, "correct": 0})
+            t, c = s["total"], s["correct"]
+            all_total += t
+            all_correct += c
+            if t > 0:
+                cell = f"{c}/{t} ({c/t*100:.0f}%)"
+                row += f" {cell:>18s}"
+            else:
+                row += f" {'—':>18s}"
+        if all_total > 0:
+            cell = f"{all_correct}/{all_total} ({all_correct/all_total*100:.0f}%)"
+            row += f" {cell:>18s}"
+        else:
+            row += f" {'—':>18s}"
+        print(row)
+
+    print()
+
+
+def export_latex_table(
+    label_stats: dict, output_path: str, min_count: int = 10
+) -> None:
+    """Export per-label accuracy as a LaTeX table.
+
+    Labels with fewer than min_count total entities are grouped into
+    an 'Other (rare)' row.
+    """
+    lines = [
+        r"\begin{table*}[ht]",
+        r"\centering",
+        r"\caption{NER Label Correctness by Entity Type (All Models, NHIL)}",
+        r"\label{tab:ner-per-label}",
+        r"\begin{tabular}{lrrrr}",
+        r"\toprule",
+        r"\textbf{Entity Type} & \textbf{Gemini} & \textbf{GPT-4o-mini} & \textbf{Qwen} & \textbf{All} \\",
+        r"\midrule",
+    ]
+
+    # Separate main labels from rare ones
+    other_stats: dict[str, dict[str, int]] = defaultdict(lambda: {"total": 0, "correct": 0})
+
+    for label, model_stats in label_stats.items():
+        all_total = sum(v["total"] for v in model_stats.values())
+        if all_total < min_count:
+            for m in _MODEL_NAMES:
+                s = model_stats.get(m, {"total": 0, "correct": 0})
+                other_stats[m]["total"] += s["total"]
+                other_stats[m]["correct"] += s["correct"]
+            continue
+
+        all_correct = 0
+        cells = []
+        for m in _MODEL_NAMES:
+            s = model_stats.get(m, {"total": 0, "correct": 0})
+            t, c = s["total"], s["correct"]
+            all_correct += c
+            if t > 0:
+                cells.append(f"{c/t*100:.0f}\\% ({c}/{t})")
+            else:
+                cells.append("---")
+        cells.append(
+            f"\\textbf{{{all_correct/all_total*100:.0f}\\%}} ({all_correct}/{all_total})"
+        )
+
+        escaped_label = label.replace("_", r"\_")
+        lines.append(f"{escaped_label} & {' & '.join(cells)} \\\\")
+
+    # Add Other row if any rare labels exist
+    other_total = sum(v["total"] for v in other_stats.values())
+    if other_total > 0:
+        lines.append(r"\midrule")
+        other_correct = 0
+        cells = []
+        for m in _MODEL_NAMES:
+            s = other_stats.get(m, {"total": 0, "correct": 0})
+            t, c = s["total"], s["correct"]
+            other_correct += c
+            if t > 0:
+                cells.append(f"{c/t*100:.0f}\\% ({c}/{t})")
+            else:
+                cells.append("---")
+        cells.append(
+            f"\\textbf{{{other_correct/other_total*100:.0f}\\%}} ({other_correct}/{other_total})"
+        )
+        lines.append(f"Other (rare) & {' & '.join(cells)} \\\\")
+
+    lines.extend([
+        r"\bottomrule",
+        r"\end{tabular}",
+        r"\end{table*}",
+    ])
+
+    with open(output_path, "w") as f:
+        f.write("\n".join(lines) + "\n")
+    print(f"  LaTeX table saved to: {output_path}")
+
+
 def find_nhil_files(directory: str) -> list[str]:
     """Find all non-hil result JSON files in a directory tree."""
     patterns = [
@@ -1310,6 +1569,16 @@ def main():
         "--summary-only",
         action="store_true",
         help="Only print summary table, skip per-file details",
+    )
+    parser.add_argument(
+        "--per-label",
+        action="store_true",
+        help="Show per-entity-type accuracy breakdown and export LaTeX table",
+    )
+    parser.add_argument(
+        "--latex-output",
+        default=None,
+        help="Path for LaTeX table output (default: <input_dir>/analysis/results_per_label.tex)",
     )
 
     args = parser.parse_args()
@@ -1367,6 +1636,18 @@ def main():
             f"{totals['correct']:>5d} {totals['incorrect']:>5d} {totals['unknown']:>5d} {acc:>6s}"
         )
         print()
+
+    # Per-label accuracy breakdown
+    if args.per_label and len(all_reports) > 0:
+        label_stats = compute_per_label_accuracy(all_reports)
+        print_per_label_table(label_stats)
+
+        latex_path = args.latex_output
+        if latex_path is None and os.path.isdir(args.input):
+            latex_path = os.path.join(args.input, "analysis", "results_per_label.tex")
+        if latex_path:
+            os.makedirs(os.path.dirname(latex_path), exist_ok=True)
+            export_latex_table(label_stats, latex_path)
 
     # Save JSON report
     if args.output:
