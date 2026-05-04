@@ -63,7 +63,6 @@ This two-stage design means StructSense's final output is in **ontology space**,
 
 ---
 
-
 ## What to Hold Constant Across Both Systems
 
 | Standardize | Can Differ |
@@ -266,38 +265,61 @@ Run a third judge LLM call treating the union or consensus of both systems as a 
 
 ## Evaluation Strategy
 
-The label space mismatch means comparison must happen across two independent layers. Do not collapse these into a single metric.
+The label space mismatch means comparison must happen across two layers, each with sub-steps. Do not collapse these into a single metric.
 
-### Layer 1 — Entity Span Comparison (Label-Agnostic)
+### Layer 1 — Entity Span and Label Comparison
 
-Compare entity text strings only, before any label is considered. Answers: *do the systems find the same entities?*
+Layer 1 has two sub-steps that each answer a distinct question.
 
-This is valid at **two checkpoints**:
+---
 
-**Checkpoint A — Post-extraction, pre-alignment**
-Compare StructSense's extractor agent output directly against the direct API call using the `entity` text field. Apply Mapping B (`STRUCTSENSE_LABEL_TO_SCHEMA`) to StructSense labels and compare against the direct API's 8-category labels. This isolates whether multi-agent extraction finds more entities, independent of alignment.
+**Layer 1A — Post-extraction, pre-alignment (entity span + label comparison)**
+
+Answers: *do both systems find the same entities, and do they agree on the category?*
+
+Run before the alignment agent. Compare StructSense's extractor output directly against the direct API call. Apply **Mapping B** (`STRUCTSENSE_LABEL_TO_SCHEMA`) to collapse StructSense's extractor labels (`MUTATION`, `GENE`, `DISEASE`) into the 8-category schema, making them directly comparable to the direct API's output.
 
 ```
 PDF text
     ↓
-StructSense extractor agent  ←── Layer 1A comparison ──→  Direct API call
-  (entity + label fields)        entity text + schema label   (entity text + schema label)
+StructSense extractor agent                        Direct API call
+  entity: "missense mutations"                     entity: "missense mutations"
+  label:  MUTATION → (Mapping B) → gene_protein    label: gene_protein
     ↓
-StructSense alignment agent
+  ← Layer 1A: compare entity text + collapsed label →
+    ↓
+StructSense alignment agent (not yet run)
 ```
 
-**Checkpoint B — Post-alignment (full pipeline)**
-Use the full StructSense output. Apply Mapping A (`collapse_ontology_to_schema`) to `result["ontology"]` to bring entity ontology terms into schema space. Filter to entities where `judge_score` is available — low-scoring entities (e.g. < 0.8) should be flagged separately rather than included in the main overlap calculation, since StructSense itself has flagged them as poor alignments.
+Metrics at this checkpoint:
+- Jaccard overlap on entity text spans
+- Per-category label agreement rate (after Mapping B collapse)
+- Entities where spans match but collapsed labels disagree
+
+---
+
+**Layer 1B — Post-alignment, full pipeline (entity span + label comparison)**
+
+Answers: *after full StructSense pipeline runs, do both systems still agree on entity coverage and category?*
+
+Use the complete StructSense output. Apply **Mapping A** (`collapse_ontology_to_schema`) to `result["ontology"]` to bring ontology terms into schema space. Split entities by `judge_score` before computing overlap — low-confidence entities (< 0.8) are flagged separately since StructSense itself has marked them as poor alignments.
+
+```
+StructSense full output                            Direct API call
+  entity: "missense mutations"                     entity: "missense mutations"
+  ontology: "IOBC" → (Mapping A) → gene_protein    label: gene_protein
+  judge_score: 1.0 → high confidence
+    ↓
+  ← Layer 1B: compare entity text + collapsed label (high-conf only) →
+```
 
 ```python
-# Use entity text spans for overlap, ontology collapse for label comparison
 structsense_entities = [
     {"text": e["entity"], "schema_label": collapse_ontology_to_schema(e["ontology"]),
      "judge_score": e.get("judge_score")}
     for e in structsense_output["entities"]
 ]
 
-# Split by judge confidence before computing overlap
 high_conf = [e for e in structsense_entities if (e["judge_score"] or 0) >= 0.8]
 low_conf  = [e for e in structsense_entities if (e["judge_score"] or 0) <  0.8]
 
@@ -307,9 +329,17 @@ api_spans         = {e["text"] for e in api_output["entities"]}
 jaccard = len(structsense_spans & api_spans) / len(structsense_spans | api_spans)
 ```
 
+Metrics at this checkpoint:
+- Jaccard overlap on entity text spans (high-confidence only)
+- Per-category label agreement rate (after Mapping A collapse)
+- Low-confidence entity rate — proportion of StructSense entities excluded due to poor alignment
+- Entities where spans match but collapsed labels disagree (indicates mapping gaps)
+
+---
+
 ### Layer 2 — Label Quality (System-Specific, Independent)
 
-Evaluate each system's labels independently. Do **not** cross-compare labels directly.
+Evaluate each system's labels independently on their own terms. Do **not** cross-compare labels directly — this layer is about correctness within each system's label space, not agreement between systems.
 
 **For StructSense:** `judge_score` and `remarks` are already present in the output — produced by the quality judging agent. Use these directly rather than running a separate judge call.
 
@@ -320,45 +350,39 @@ Evaluate each system's labels independently. Do **not** cross-compare labels dir
 | StructSense (local/fast mode) | `ontology` acronym + `ontology_label` | Is the local service's chosen ontology appropriate for the entity type? |
 | Direct API | Schema label vs. LLM-judge | Is the assigned 8-category label correct for this entity? |
 
-### Layer 3 — BCKB Downstream Utility (Primary Decision Metric)
-
-Since the ultimate purpose is HOMBA alignment, the most actionable metric is: **are StructSense's BioPortal terms crosswalkable to HOMBA?**
-
-```
-StructSense BioPortal output → MNI → AHRA → HOMBA crosswalk → resolvable? (Y/N)
-```
-
-This reframes the comparison from *"do the labels match?"* to *"which system produces output more useful to BCKB downstream?"*
-
 ---
 
 ## Metrics
 
-**Layer 1 — Span overlap (per paper)**
+**Layer 1A — Span and label comparison, pre-alignment (per paper)**
 ```
-Jaccard:             |A ∩ B| / |A ∪ B|
-StructSense-only:    |A \ B|   # multi-agent catches; direct API misses
-API-only:            |B \ A|   # direct API catches; multi-agent misses
+Jaccard (spans):              |A ∩ B| / |A ∪ B|
+StructSense-only spans:       |A \ B|
+API-only spans:               |B \ A|
+Label agreement rate:         spans in both systems where collapsed label matches / total shared spans
+Label disagreement instances: spans that match but collapsed labels differ (indicates Mapping B gaps)
+```
+
+**Layer 1B — Span and label comparison, post-alignment (per paper)**
+```
+Jaccard (spans, high-conf):         computed on StructSense entities with judge_score >= 0.8 only
+StructSense-only spans:             |A \ B|
+API-only spans:                     |B \ A|
+Label agreement rate:               spans in both systems where collapsed label matches / total shared spans
+Low-confidence entity rate:         entities with judge_score < 0.8 / total StructSense entities
+Label disagreement instances:       spans that match but collapsed labels differ (indicates Mapping A gaps)
 ```
 
 **Layer 2 — Label quality (per system)**
 ```
 StructSense:
   judge_score distribution (mean, median, % below 0.8 threshold)
-  low-confidence entity rate: entities with judge_score < 0.8 / total entities
   unclassified rate (Mapping A): ontology acronym not in ONTOLOGY_TO_SCHEMA
   unclassified rate (Mapping B): extractor label not in STRUCTSENSE_LABEL_TO_SCHEMA
 
 Direct API:
-  Per-category F1 (if human ground truth available)
+  per-category F1 (if human ground truth available)
   LLM-judge correctness rate (if using consensus approach)
-```
-
-**Layer 3 — BCKB utility (StructSense only)**
-```
-HOMBA resolvability rate:  entities successfully crosswalked / total entities
-Unclassified rate:         entities where collapse mapping returned "unclassified" / total entities
-                           (health signal — high rate indicates mapping gaps or unexpected ontology namespaces)
 ```
 
 Aggregate all metrics across papers.
@@ -431,10 +455,10 @@ Running evaluations at each level identifies which StructSense components earn t
 # 4. Direct API label quality CSV (Layer 2)
 #    columns: paper_id, entity_text, assigned_schema_label, judge_correct (Y/N)
 #
-# 5. HOMBA resolvability CSV (Layer 3, StructSense only)
+# 5. StructSense post-alignment entity CSV (Layer 1B input, StructSense only)
 #    columns: paper_id, entity_text, ontology_id (full IRI), ontology_acronym,
-#             ontology_label, judge_score, alignment_mode,
-#             collapsed_schema_label, homba_resolvable (Y/N)
+#             ontology_label, judge_score, remarks, alignment_mode,
+#             collapsed_schema_label (Mapping A), confidence_band (high|low)
 ```
 
 ---
