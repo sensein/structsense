@@ -59,7 +59,7 @@ alignment_agent:
   #                  concept mapping tool called directly in batch via POST /map/batch
 ```
 
-This two-stage design means StructSense's final output is in **ontology space**, while a direct API call produces output in **schema space** (fixed category labels). The exact ontology format depends on which alignment mode is active — this affects the collapse mapping. See Label Space Problem below.
+This two-stage design means StructSense's final output is in **ontology space**, while a direct API call produces output in **free-form label space** (LLM-assigned labels, no fixed schema). The exact ontology format depends on which alignment mode is active. See Label Space Problem below.
 
 ---
 
@@ -85,28 +85,19 @@ The two systems operate in fundamentally different label spaces by design:
 |---|---|---|---|
 | StructSense | BioPortal (cloud) | Full IRI + ontology acronym (separate field) | `ontology_id: http://purl.obolibrary.org/obo/MONDO_0007254`, `ontology: MONDO` |
 | StructSense | Local / fast alignment | Full OBO IRI + ontology acronym (separate field) | `ontology_id: http://purl.obolibrary.org/obo/UBERON_0001870`, `ontology: UBERON` |
-| Direct API call | N/A | Fixed 8-category schema | `brain_region`, `neurotransmitter` |
+| Direct API call | N/A | Free-form LLM-assigned labels (no fixed schema) | `BRAIN_REGION`, `GENE`, `CELL_TYPE` |
 
-Both StructSense alignment modes return the **same output shape**: `{ontology_id, ontology_label, ontology}`. The `ontology` field always carries the acronym directly — no IRI parsing is needed for the collapse mapping. The key difference between modes is *which ontologies* are selected and *how*: BioPortal uses a Recommender API to auto-detect ontologies per term (non-deterministic), while the local service uses its own indexed ontology set. Forcing identical labels at extraction time would break StructSense's pipeline — see Evaluation Strategy below.
+Both StructSense alignment modes return the **same output shape**: `{ontology_id, ontology_label, ontology}`. The `ontology` field always carries the acronym directly — no IRI parsing is needed. The key difference between modes is *which ontologies* are selected and *how*: BioPortal uses a Recommender API to auto-detect ontologies per term (non-deterministic), while the local service uses its own indexed ontology set. Forcing identical labels at extraction time would break StructSense's pipeline — see Evaluation Strategy below.
 
-There is also a **third label space dimension**: StructSense's extractor agent uses its own internal label taxonomy (`MUTATION`, `GENE`, `DISEASE`, etc.) which is distinct from both the ontology space and the direct API's 8-category schema. Two collapse mappings are therefore required — see Ontology Collapse Mapping below.
+StructSense's extractor agent also uses its own internal label taxonomy (`MUTATION`, `GENE`, `DISEASE`, etc.). Rather than hand-curating a fixed schema collapse mapping, both systems' labels are normalized at comparison time using `_canonicalize_label()` from `evaluation/ner/analysis/ner_eval.py`. This function resolves aliases and prefix patterns (e.g. `BRAIN_AREA`, `ANATOMY`, `ANATOMICAL_STRUCTURE` all canonicalize to `BRAIN_REGION`) without requiring either system to use a predetermined label set.
 
 ---
 
-## Entity Schema (Direct API Call and Pre-Alignment Comparison)
+## Direct API Call — Label Approach
 
-The fixed schema used by the direct API call, and for pre-alignment comparison against StructSense's extractor agent output:
+The direct API call (`evaluation/ner_comparison/direct_api.py`) does **not** provide a fixed label list to the model. The prompt instructs the LLM to assign the most precise and descriptive label it thinks is appropriate, with examples (`BRAIN_REGION`, `CELL_TYPE`, `GENE`, `DISEASE`, `METHOD`, `CHEMICAL`, `SPECIES`, `SOFTWARE`) as guidance only.
 
-| Label | Examples |
-|---|---|
-| `brain_region` | prefrontal cortex, CA1, striatum |
-| `cell_type` | pyramidal neuron, astrocyte, interneuron |
-| `neurotransmitter` | dopamine, GABA, serotonin |
-| `receptor` | NMDA-R, D2 receptor |
-| `technique` | fMRI, patch clamp, optogenetics |
-| `behavior_task` | fear conditioning, Morris water maze |
-| `disorder` | Parkinson's disease, schizophrenia |
-| `gene_protein` | BDNF, tau, PSD-95 |
+This means the direct API and StructSense's extractor agent operate in the same unconstrained label space. Label comparison uses canonical normalization — not schema collapse — so no pre-agreed taxonomy is required from either system.
 
 ## StructSense Final Output Schema
 
@@ -149,83 +140,23 @@ Each entity in StructSense's output contains the following fields:
 
 ---
 
-## Ontology Collapse Mapping (StructSense Post-Alignment)
+## Label Canonicalization
 
-Two collapse mappings are required to bring StructSense's output into the same space as the direct API call.
+Rather than hand-curating fixed schema collapse mappings, label comparison uses `_canonicalize_label()` from `evaluation/ner/analysis/ner_eval.py`. This function normalizes free-form label strings to canonical forms via an alias table and prefix rules, and is shared across both Layer 1A and Layer 1B.
 
-### Mapping A — Ontology acronym → schema label
+Examples of what canonicalization handles:
 
-Use `result["ontology"]` directly as the lookup key — **never parse the IRI**.
+| Raw label | Canonical form |
+|---|---|
+| `BRAIN_AREA`, `ANATOMY`, `ANATOMICAL_STRUCTURE`, `NEUROANATOMY` | `BRAIN_REGION` |
+| `GENE_OR_PROTEIN`, `PROTEIN`, `GENETIC_MARKER`, `BIOLOGICAL_MARKER` | `GENE` |
+| `TECHNIQUE`, `METHODOLOGY`, `EXPERIMENTAL_TECHNIQUE`, `ALGORITHM` | `METHOD` |
+| `CELL`, `CELLTYPE`, `CELL_CLUSTER`, `CELL_SUBCLASS` | `CELL_TYPE` |
+| `ORGANISM` | `SPECIES` |
 
-```python
-# Both BioPortal and local tools return: {ontology_id: <IRI>, ontology_label: <str>, ontology: <acronym>}
+Entity filtering before any comparison uses `is_excluded()` from the same module, which removes noise, stopwords, generic meta-terms, punctuation artifacts, and citation/figure references.
 
-ONTOLOGY_TO_SCHEMA = {
-    # Brain regions
-    "UBERON":   "brain_region",
-    "FMA":      "brain_region",
-    "RADLEX":   "brain_region",     # BioPortal maps many neuroanatomy terms to RADLEX
-                                    # e.g. hippocampus → RADLEX:RID6529
-    # Cell types
-    "CL":       "cell_type",        # Cell Ontology
-    # Neurotransmitters / small molecules
-    "CHEBI":    "neurotransmitter",
-    # Genes / proteins / mutations
-    "PR":       "gene_protein",     # Protein Ontology
-    "NCIT":     "gene_protein",     # NCI Thesaurus
-    "GO":       "gene_protein",     # Gene Ontology — in BioPortal fallback set
-    "IOBC":     "gene_protein",     # Integrated Object-Based Corpus (Japanese bioinformatics ontology)
-                                    # observed in real StructSense output for GENE, MUTATION entities
-                                    # broad mapping — review unclassified IOBC entries manually
-    # Disorders / phenotypes
-    "DOID":     "disorder",
-    "MONDO":    "disorder",
-    "HP":       "disorder",         # Human Phenotype Ontology
-    "SNOMEDCT": "disorder",         # in BioPortal fallback ontology set
-    "MEDDRA":   "disorder",         # BioPortal returns MEDDRA for clinical phrases
-    # Behaviour / tasks
-    "NBO":      "behavior_task",
-    # Techniques
-    "ERO":      "technique",
-    "OBI":      "technique",        # Ontology for Biomedical Investigations
-}
-
-def collapse_ontology_to_schema(ontology_acronym: str) -> str:
-    return ONTOLOGY_TO_SCHEMA.get(ontology_acronym, "unclassified")
-```
-
-### Mapping B — StructSense label → schema label
-
-The extractor agent uses its own label taxonomy. This must also be mapped to the 8-category schema for pre-alignment comparison (Layer 1A) and as a cross-check against the ontology mapping.
-
-```python
-STRUCTSENSE_LABEL_TO_SCHEMA = {
-    "GENE":          "gene_protein",
-    "PROTEIN":       "gene_protein",
-    "MUTATION":      "gene_protein",
-    "BRAIN_REGION":  "brain_region",
-    "ANATOMY":       "brain_region",
-    "CELL_TYPE":     "cell_type",
-    "NEUROTRANSMITTER": "neurotransmitter",
-    "RECEPTOR":      "receptor",
-    "DISEASE":       "disorder",
-    "DISORDER":      "disorder",
-    "BEHAVIOR":      "behavior_task",
-    "TASK":          "behavior_task",
-    "TECHNIQUE":     "technique",
-    "METHOD":        "technique",
-}
-
-def collapse_label_to_schema(structsense_label: str) -> str:
-    return STRUCTSENSE_LABEL_TO_SCHEMA.get(structsense_label.upper(), "unclassified")
-```
-
-> **Note:** The StructSense label taxonomy is derived from the extractor agent's prompt/config and may not match the keys above exactly. Inspect actual extractor output to confirm label strings before finalising this mapping.
-
-> **BioPortal fallback ontologies** (used when Recommender API fails):
-> `SNOMEDCT`, `MONDO`, `NCIT`, `GO`, `HP`, `CHEBI` — all covered in Mapping A above.
-
-> Track the `unclassified` rate in both mappings as a health signal. A high rate in Mapping A indicates new ontologies appearing in output; a high rate in Mapping B indicates new extractor labels.
+> **Ontology field note:** StructSense's `result["ontology"]` (the acronym, e.g. `UBERON`, `IOBC`, `MONDO`) is not used in the Layer 1 label comparison. Layer 1 compares the extractor agent's `label` field from both systems. The ontology field is relevant for Layer 2 qualitative analysis only (e.g. checking whether the Recommender selected a sensible ontology for a given entity). Always read `result["ontology"]` directly — never parse the IRI.
 
 ---
 
@@ -277,24 +208,24 @@ Layer 1 has two sub-steps that each answer a distinct question.
 
 Answers: *do both systems find the same entities, and do they agree on the category?*
 
-Run before the alignment agent. Compare StructSense's extractor output directly against the direct API call. Apply **Mapping B** (`STRUCTSENSE_LABEL_TO_SCHEMA`) to collapse StructSense's extractor labels (`MUTATION`, `GENE`, `DISEASE`) into the 8-category schema, making them directly comparable to the direct API's output.
+Run before the alignment agent. Compare StructSense's extractor output directly against the direct API call. Both systems assign free-form labels; agreement is determined by canonicalizing both labels via `_canonicalize_label()` and checking for equality. Noise entities are filtered by `is_excluded()` before comparison. Spans are normalized (lowercased, abbreviation-expanded) before matching.
 
 ```
 PDF text
     ↓
 StructSense extractor agent                        Direct API call
   entity: "missense mutations"                     entity: "missense mutations"
-  label:  MUTATION → (Mapping B) → gene_protein    label: gene_protein
+  label:  MUTATION → _canonicalize_label → GENE    label: gene_protein → _canonicalize_label → GENE
     ↓
-  ← Layer 1A: compare entity text + collapsed label →
+  ← Layer 1A: compare normalized spans + canonical labels →
     ↓
 StructSense alignment agent (not yet run)
 ```
 
 Metrics at this checkpoint:
-- Jaccard overlap on entity text spans
-- Per-category label agreement rate (after Mapping B collapse)
-- Entities where spans match but collapsed labels disagree
+- Jaccard overlap on normalized entity text spans
+- Label agreement rate (fraction of shared spans where canonical labels match)
+- Entities where spans match but canonical labels disagree
 
 ---
 
@@ -302,38 +233,32 @@ Metrics at this checkpoint:
 
 Answers: *after full StructSense pipeline runs, do both systems still agree on entity coverage and category?*
 
-Use the complete StructSense output. Apply **Mapping A** (`collapse_ontology_to_schema`) to `result["ontology"]` to bring ontology terms into schema space. Split entities by `judge_score` before computing overlap — low-confidence entities (< 0.8) are flagged separately since StructSense itself has marked them as poor alignments.
+Use the complete StructSense output. The label compared is still the extractor agent's `label` field (not the ontology), canonicalized via `_canonicalize_label()` — keeping this layer directly comparable to Layer 1A. Split entities by `judge_score` before computing overlap — low-confidence entities (< 0.8) are flagged separately since StructSense itself has marked them as poor alignments.
 
 ```
 StructSense full output                            Direct API call
   entity: "missense mutations"                     entity: "missense mutations"
-  ontology: "IOBC" → (Mapping A) → gene_protein    label: gene_protein
+  label: "MUTATION" → _canonicalize_label → GENE   label: "gene_protein" → _canonicalize_label → GENE
   judge_score: 1.0 → high confidence
     ↓
-  ← Layer 1B: compare entity text + collapsed label (high-conf only) →
+  ← Layer 1B: compare normalized spans + canonical labels (high-conf only) →
 ```
 
 ```python
-structsense_entities = [
-    {"text": e["entity"], "schema_label": collapse_ontology_to_schema(e["ontology"]),
-     "judge_score": e.get("judge_score")}
-    for e in structsense_output["entities"]
-]
+high_conf = [e for e in structsense_output["entities"] if (e.get("judge_score") or 0) >= 0.8]
+low_conf  = [e for e in structsense_output["entities"] if (e.get("judge_score") or 0) <  0.8]
 
-high_conf = [e for e in structsense_entities if (e["judge_score"] or 0) >= 0.8]
-low_conf  = [e for e in structsense_entities if (e["judge_score"] or 0) <  0.8]
-
-structsense_spans = {e["text"] for e in high_conf}
-api_spans         = {e["text"] for e in api_output["entities"]}
+structsense_spans = {normalize_span(e["entity"]) for e in high_conf}
+api_spans         = {normalize_span(e["entity"]) for e in api_output["entities"]}
 
 jaccard = len(structsense_spans & api_spans) / len(structsense_spans | api_spans)
 ```
 
 Metrics at this checkpoint:
-- Jaccard overlap on entity text spans (high-confidence only)
-- Per-category label agreement rate (after Mapping A collapse)
+- Jaccard overlap on normalized entity text spans (high-confidence only)
+- Label agreement rate (fraction of shared spans where canonical labels match)
 - Low-confidence entity rate — proportion of StructSense entities excluded due to poor alignment
-- Entities where spans match but collapsed labels disagree (indicates mapping gaps)
+- Entities where spans match but canonical labels disagree
 
 ---
 
@@ -348,7 +273,7 @@ Evaluate each system's labels independently on their own terms. Do **not** cross
 | StructSense (any mode) | `judge_score` + `remarks` (built-in) | Did the judging agent flag poor alignment? Aggregate `judge_score` distribution per paper. Flag entities with `judge_score < 0.8` for manual review using the `remarks` field. |
 | StructSense (BioPortal mode) | `ontology` acronym + `ontology_label` | Did the Recommender select a sensible ontology? e.g. did "hippocampus" map to RADLEX/UBERON vs. an unrelated ontology? |
 | StructSense (local/fast mode) | `ontology` acronym + `ontology_label` | Is the local service's chosen ontology appropriate for the entity type? |
-| Direct API | Schema label vs. LLM-judge | Is the assigned 8-category label correct for this entity? |
+| Direct API | `score_entity()` from `ner_eval.py` | Is the LLM-assigned free-form label correct for this entity? Uses the heuristic dictionary and keyword rules in `ner_eval.py`. |
 
 ---
 
@@ -356,11 +281,11 @@ Evaluate each system's labels independently on their own terms. Do **not** cross
 
 **Layer 1A — Span and label comparison, pre-alignment (per paper)**
 ```
-Jaccard (spans):              |A ∩ B| / |A ∪ B|
+Jaccard (spans):              |A ∩ B| / |A ∪ B|   (spans normalized + abbreviation-expanded)
 StructSense-only spans:       |A \ B|
 API-only spans:               |B \ A|
-Label agreement rate:         spans in both systems where collapsed label matches / total shared spans
-Label disagreement instances: spans that match but collapsed labels differ (indicates Mapping B gaps)
+Label agreement rate:         shared spans where _canonicalize_label(ss_label) == _canonicalize_label(api_label) / total shared spans
+Label disagreement instances: shared spans where canonical labels differ (raw labels recorded for inspection)
 ```
 
 **Layer 1B — Span and label comparison, post-alignment (per paper)**
@@ -368,20 +293,20 @@ Label disagreement instances: spans that match but collapsed labels differ (indi
 Jaccard (spans, high-conf):         computed on StructSense entities with judge_score >= 0.8 only
 StructSense-only spans:             |A \ B|
 API-only spans:                     |B \ A|
-Label agreement rate:               spans in both systems where collapsed label matches / total shared spans
+Label agreement rate:               shared spans where canonical labels match / total shared spans
 Low-confidence entity rate:         entities with judge_score < 0.8 / total StructSense entities
-Label disagreement instances:       spans that match but collapsed labels differ (indicates Mapping A gaps)
+Label disagreement instances:       shared spans where canonical labels differ
 ```
 
 **Layer 2 — Label quality (per system)**
 ```
 StructSense:
   judge_score distribution (mean, median, % below 0.8 threshold)
-  unclassified rate (Mapping A): ontology acronym not in ONTOLOGY_TO_SCHEMA
-  unclassified rate (Mapping B): extractor label not in STRUCTSENSE_LABEL_TO_SCHEMA
+  ontology coverage: fraction of entities where result["ontology"] is a known neuroscience ontology
+  IOBC rate: fraction of entities mapped to IOBC (broad ontology, warrants manual review)
 
 Direct API:
-  per-category F1 (if human ground truth available)
+  score_entity() verdict distribution (correct / incorrect / unknown) from ner_eval.py
   LLM-judge correctness rate (if using consensus approach)
 ```
 
@@ -431,9 +356,12 @@ Running evaluations at each level identifies which StructSense components earn t
 ## Implementation Notes
 
 ```python
-# Normalization runs before ANY comparison (Layer 1 or Layer 2)
-# "PFC" and "prefrontal cortex" must be treated as a match, not a miss
-# Strategies: alias dictionary, abbreviation expansion, or embedding similarity
+# Normalization runs before ANY span comparison (Layer 1A or Layer 1B)
+# "PFC" and "prefrontal cortex" are treated as a match via abbreviation expansion.
+# normalize_span() in layer1_metrics.py handles this.
+# is_excluded() from ner_eval.py filters noise before comparison.
+
+# Label comparison uses _canonicalize_label() from ner_eval.py — no fixed schema needed.
 
 # Recommended outputs:
 # 1. per-paper span overlap CSV (Layer 1)
@@ -441,35 +369,36 @@ Running evaluations at each level identifies which StructSense components earn t
 #             structsense_only_count, api_only_count,
 #             structsense_low_conf_count  # entities excluded due to judge_score < 0.8
 #
-# 2. per-paper disagreements CSV (Layer 1, for qualitative review)
-#    columns: paper_id, entity_text, in_structsense, in_api,
-#             structsense_label, structsense_schema_label,  # Mapping B output
-#             api_schema_label
+# 2. per-paper label disagreements CSV (Layer 1, for qualitative review)
+#    columns: paper_id, entity_normalized, in_structsense, in_api,
+#             structsense_label, structsense_canonical,
+#             api_label, api_canonical
 #
 # 3. StructSense entity quality CSV (Layer 2)
-#    columns: paper_id, entity_text, extractor_label, schema_label (Mapping B),
-#             ontology_acronym, ontology_label, ontology_schema_label (Mapping A),
+#    columns: paper_id, entity_text, extractor_label, canonical_label,
+#             ontology_acronym, ontology_label,
 #             judge_score, remarks, concept_mapping_provenance,
 #             alignment_mode (bioportal|local|fast)
 #
 # 4. Direct API label quality CSV (Layer 2)
-#    columns: paper_id, entity_text, assigned_schema_label, judge_correct (Y/N)
+#    columns: paper_id, entity_text, assigned_label, canonical_label,
+#             score_entity_verdict (correct|incorrect|unknown), expected_label
 #
 # 5. StructSense post-alignment entity CSV (Layer 1B input, StructSense only)
-#    columns: paper_id, entity_text, ontology_id (full IRI), ontology_acronym,
-#             ontology_label, judge_score, remarks, alignment_mode,
-#             collapsed_schema_label (Mapping A), confidence_band (high|low)
+#    columns: paper_id, entity_text, extractor_label, canonical_label,
+#             ontology_id (full IRI), ontology_acronym, ontology_label,
+#             judge_score, remarks, alignment_mode, confidence_band (high|low)
 ```
 
 ---
 
 ## Key Risks
 
-**Collapse mapping error** — the ontology-to-schema mapping is hand-curated and incomplete. A bad mapping silently conflates alignment quality with extraction quality. Validate on a small sample before running the full corpus and track the `unclassified` rate per run as a health signal.
+**Canonicalization gaps** — `_canonicalize_label()` in `ner_eval.py` covers observed label variants but is not exhaustive. A label the LLM invents that has no alias entry will not match even a semantically equivalent label from the other system — it will appear as a disagreement rather than an unknown. Monitor the label disagreement records for patterns of uncovered labels and extend `_LABEL_ALIASES` or `_LABEL_PREFIX_RULES` in `ner_eval.py` as needed.
 
-**IOBC is the dominant ontology in observed output** — real StructSense output shows `IOBC` (Integrated Object-Based Corpus, `purl.jp/bio/4/`) as the returned ontology for GENE, MUTATION, and DISEASE entities. IOBC is a broad Japanese bioinformatics ontology and is not a standard neuroscience resource. It is mapped to `gene_protein` in Mapping A as a starting point, but this is a coarse approximation — IOBC entries can span genes, diseases, and cell components. Treat IOBC-mapped entities as requiring manual review until the mapping is validated.
+**IOBC is the dominant ontology in observed output** — real StructSense output shows `IOBC` (Integrated Object-Based Corpus, `purl.jp/bio/4/`) as the returned ontology for GENE, MUTATION, and DISEASE entities. IOBC is a broad Japanese bioinformatics ontology and is not a standard neuroscience resource. It is not used in the Layer 1 label comparison (which uses the extractor `label` field), but it is relevant to Layer 2 ontology quality analysis. Treat IOBC-mapped entities as requiring manual review.
 
-**StructSense label taxonomy is not documented in the spec** — the extractor agent's label set (MUTATION, GENE, DISEASE, etc.) is inferred from observed output, not from a schema definition. The full set of possible labels depends on the extractor agent's prompt and config. Run the extractor on a small sample and collect all unique `label` values before finalising Mapping B.
+**StructSense label taxonomy is not fully documented** — the extractor agent's label set (MUTATION, GENE, DISEASE, etc.) depends on the extractor agent's prompt and config. Run the extractor on a small sample and inspect unique `label` values to verify they canonicalize correctly before running at scale.
 
 **Both tools return full IRIs — use the `ontology` field, never parse the IRI** — both BioPortal and the local service return `{ontology_id: <full IRI>, ontology_label: <str>, ontology: <acronym>}`. The acronym is always in `result["ontology"]`. Never attempt to extract it from the IRI string — IRI formats vary widely across ontologies (OBO, BioPortal, RADLEX, MEDDRA, custom) and parsing is fragile. Always look up `result["ontology"]` in the collapse mapping.
 
@@ -481,6 +410,6 @@ Running evaluations at each level identifies which StructSense components earn t
 
 **In-memory cache confound** — `ConceptMappingLocalTool` maintains an in-memory cache keyed by `local|{term}|{max_results}`. After the first run on a corpus, repeated runs serve from cache, making latency measurements artificially fast and consistency scores artificially high. Clear the cache (or use a fresh process) between evaluation runs when measuring latency or consistency.
 
-**Schema drift (pre-alignment comparison only)** — if StructSense's extractor agent and the direct API call are implicitly using different entity definitions at extraction time, Layer 1A comparison measures prompt engineering rather than architecture. Inspect the extractor agent's prompt and explicitly provide the fixed schema to both systems at this stage.
+**Prompt drift (pre-alignment comparison only)** — if StructSense's extractor agent and the direct API call use sufficiently different prompts, Layer 1A comparison may measure prompt engineering rather than architecture. For Framing B (controlled), use the same system prompt text for both systems. For Framing A (best-vs-best), document each system's prompt alongside results so differences can be attributed.
 
 **BioPortal query variability (cloud mode only)** — BioPortal results can vary based on query phrasing and API version. If the alignment agent is free to rephrase entity strings before querying, alignment output is not fully deterministic. Log all BioPortal queries and responses for reproducibility.
