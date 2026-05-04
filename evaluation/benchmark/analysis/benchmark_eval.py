@@ -29,6 +29,55 @@ from pathlib import Path
 
 
 # =============================================================================
+# LABEL FILTERS — dataset-specific accepted labels
+# =============================================================================
+
+_DISEASE_LABELS = {
+    "disease", "disease_disorder", "disease_or_syndrome", "disorder",
+    "disease_or_phenotype", "disease_or_condition", "disease_or_symptom",
+    "disease_group", "disease_symptom", "disease_phenotype",
+    "medical_condition", "condition", "genetic_condition",
+    "clinical_feature", "clinical_finding", "clinical_sign",
+    "symptom", "sign_symptom", "phenotype",
+    "pathological_process",
+}
+
+_SPECIES_LABELS = {
+    "species", "organism", "taxon", "taxonomy",
+    "animal", "plant", "virus", "bacteria", "fungus",
+    "microorganism", "pathogen",
+}
+
+
+def _normalize_label_for_filter(label: str) -> str:
+    """Normalize label for filter matching."""
+    return label.strip().lower().replace(" ", "_").replace("-", "_")
+
+
+def _matches_label_filter(label: str, accepted_labels: set[str]) -> bool:
+    """Check if a label matches the accepted set (case-insensitive, flexible)."""
+    norm = _normalize_label_for_filter(label)
+    # Exact match
+    if norm in accepted_labels:
+        return True
+    # Check if any accepted label is a substring (e.g., "disease" in "disease_or_syndrome")
+    for accepted in accepted_labels:
+        if accepted in norm:
+            return True
+    return False
+
+
+def get_label_filter(dataset_name: str) -> set[str] | None:
+    """Return the label filter set for a dataset, or None for no filtering."""
+    name = dataset_name.lower()
+    if "ncbi" in name or "disease" in name:
+        return _DISEASE_LABELS
+    if "s800" in name or "species" in name:
+        return _SPECIES_LABELS
+    return None
+
+
+# =============================================================================
 # TEXT NORMALIZATION
 # =============================================================================
 
@@ -109,11 +158,16 @@ def load_ground_truth(jsonl_path: str) -> list[dict]:
     return mentions
 
 
-def load_results(json_path: str) -> tuple[list[dict], dict[str, list[dict]], list[tuple]]:
+def load_results(
+    json_path: str, label_filter: set[str] | None = None
+) -> tuple[list[dict], dict[str, list[dict]], list[tuple], int, int, int]:
     """Load StructSense results. Returns:
-    - entities: raw entity list (after filtering)
+    - entities: entity list (after filtering)
     - text_index: normalized_text -> [entity_data, ...]
     - intervals: sorted list of (global_start, global_end, entity_text, entity_data)
+    - total_count: raw entity count
+    - filtered_count: en_core_web_sm filtered count
+    - label_filtered_count: label-filtered count (0 if no label_filter)
     """
     with open(json_path) as f:
         data = json.load(f)
@@ -124,6 +178,16 @@ def load_results(json_path: str) -> tuple[list[dict], dict[str, list[dict]], lis
     # Filter en_core_web_sm-only
     entities = [e for e in raw_entities if not is_only_en_core_web_sm(e)]
     filtered_count = total_count - len(entities)
+
+    # Optional: filter by label
+    label_filtered_count = 0
+    if label_filter is not None:
+        before = len(entities)
+        entities = [
+            e for e in entities
+            if _matches_label_filter(e.get("label", ""), label_filter)
+        ]
+        label_filtered_count = before - len(entities)
 
     # Build text index
     text_index: dict[str, list[dict]] = defaultdict(list)
@@ -148,7 +212,7 @@ def load_results(json_path: str) -> tuple[list[dict], dict[str, list[dict]], lis
 
     intervals.sort(key=lambda x: x[0])
 
-    return entities, dict(text_index), intervals, total_count, filtered_count
+    return entities, dict(text_index), intervals, total_count, filtered_count, label_filtered_count
 
 
 # =============================================================================
@@ -272,21 +336,32 @@ def compute_extra_entities(
 # EVALUATION
 # =============================================================================
 
+def evaluate(
+    gt_path: str,
+    result_path: str,
+    overlap_threshold: float = 0.5,
+    dataset_name: str = "",
+) -> dict:
+    """Evaluate one result file against one ground truth file.
 
-def evaluate(gt_path: str, result_path: str, overlap_threshold: float = 0.5) -> dict:
-    """Evaluate one result file against one ground truth file."""
+    Runs two evaluations:
+    1. All entities (label-agnostic extraction recall)
+    2. Label-filtered entities (labeled recall — only entities with correct type)
+    """
     gt_mentions = load_ground_truth(gt_path)
-    entities, text_index, intervals, total_count, filtered_count = load_results(result_path)
-
-    match_report = match_ground_truth(gt_mentions, text_index, intervals, overlap_threshold)
-
     gt_unique = len({m["normalized"] for m in gt_mentions})
+    gt_total = len(gt_mentions)
+
+    # --- Evaluation 1: All entities (label-agnostic) ---
+    entities, text_index, intervals, total_count, filtered_count, _ = load_results(
+        result_path
+    )
+    match_report = match_ground_truth(gt_mentions, text_index, intervals, overlap_threshold)
 
     n_exact = len(match_report["exact_matches"])
     n_span = len(match_report["span_matches"])
     n_partial = len(match_report["partial_matches"])
     n_missed = len(match_report["missed"])
-    gt_total = len(gt_mentions)
 
     extra_count, extra_labels = compute_extra_entities(entities, gt_mentions, text_index)
 
@@ -308,6 +383,61 @@ def evaluate(gt_path: str, result_path: str, overlap_threshold: float = 0.5) -> 
         "extra_entity_labels": dict(extra_labels.most_common()),
         "missed_entities": _summarize_missed(match_report["missed"]),
     }
+
+    # --- Evaluation 2: Label-filtered (labeled recall) ---
+    label_filter = get_label_filter(dataset_name)
+    if label_filter is not None:
+        (
+            lf_entities, lf_text_index, lf_intervals,
+            _, _, label_filtered_count,
+        ) = load_results(result_path, label_filter=label_filter)
+
+        lf_match = match_ground_truth(
+            gt_mentions, lf_text_index, lf_intervals, overlap_threshold
+        )
+
+        lf_exact = len(lf_match["exact_matches"])
+        lf_span = len(lf_match["span_matches"])
+        lf_partial = len(lf_match["partial_matches"])
+        lf_missed = len(lf_match["missed"])
+
+        # Precision: of all label-filtered entities, how many match GT?
+        gt_norms = {m["normalized"] for m in gt_mentions}
+        lf_total = len(lf_entities)
+        lf_matched_count = 0
+        for ent in lf_entities:
+            norm = normalize_entity_text(ent["entity"])
+            matched = norm in gt_norms
+            if not matched:
+                for gt_norm in gt_norms:
+                    if gt_norm in norm or norm in gt_norm:
+                        shorter = min(len(gt_norm), len(norm))
+                        longer = max(len(gt_norm), len(norm))
+                        if shorter >= 3 and shorter / longer >= 0.3:
+                            matched = True
+                            break
+            if matched:
+                lf_matched_count += 1
+
+        lf_precision = lf_matched_count / lf_total if lf_total > 0 else 0.0
+
+        report["labeled"] = {
+            "label_filter": sorted(label_filter),
+            "entities_before_filter": len(lf_entities) + label_filtered_count,
+            "entities_after_filter": lf_total,
+            "label_filtered_count": label_filtered_count,
+            "exact_matches": lf_exact,
+            "span_matches": lf_span,
+            "partial_matches": lf_partial,
+            "missed": lf_missed,
+            "recall_strict": lf_exact / gt_total if gt_total > 0 else 0.0,
+            "recall_relaxed": (lf_exact + lf_span + lf_partial) / gt_total if gt_total > 0 else 0.0,
+            "precision": lf_precision,
+            "precision_matched": lf_matched_count,
+            "precision_total": lf_total,
+            "missed_entities": _summarize_missed(lf_match["missed"]),
+        }
+
     return report
 
 
@@ -437,6 +567,17 @@ def print_report(reports_by_dataset: dict[str, list[dict]], verbose: bool = Fals
                 label_str = ", ".join(f"{l}({c})" for l, c in top_labels)
                 print(f"    Top labels: {label_str}")
 
+            # Labeled recall + precision
+            if "labeled" in r:
+                lf = r["labeled"]
+                print(f"\n  Labeled evaluation (entities with matching type only):")
+                print(f"  Entities after label filter: {lf['entities_after_filter']} "
+                      f"(removed {lf['label_filtered_count']} non-matching)")
+                lf_matched = lf["exact_matches"] + lf["span_matches"] + lf["partial_matches"]
+                print(f"  Labeled strict:    {lf['exact_matches']:4d}/{gt_total}  ({lf['recall_strict']*100:5.1f}%)")
+                print(f"  Labeled relaxed:   {lf_matched:4d}/{gt_total}  ({lf['recall_relaxed']*100:5.1f}%)")
+                print(f"  Precision:         {lf['precision_matched']:4d}/{lf['precision_total']}  ({lf['precision']*100:5.1f}%)")
+
             if r["missed_entities"]:
                 n_show = 30 if verbose else 10
                 print(f"\n  Missed GT entities (top {min(n_show, len(r['missed_entities']))}):")
@@ -450,8 +591,14 @@ def print_report(reports_by_dataset: dict[str, list[dict]], verbose: bool = Fals
         print(f"\n{'='*70}")
         print(f"  SUMMARY TABLE")
         print(f"{'='*70}")
-        print(f"\n  {'Dataset':<12s} {'Model':<30s} {'Var':<5s} {'GT':>5s} {'Strict':>8s} {'Relaxed':>8s} {'Extra':>6s}")
-        print(f"  {'-'*80}")
+        has_labeled = any("labeled" in r for reports in reports_by_dataset.values() for r in reports)
+        if has_labeled:
+            print(f"\n  {'Dataset':<12s} {'Model':<30s} {'Var':<5s} {'GT':>5s} "
+                  f"{'Strict':>8s} {'Relaxed':>8s} {'LblStrict':>10s} {'LblRelax':>10s} {'Prec':>8s} {'Extra':>6s}")
+            print(f"  {'-'*112}")
+        else:
+            print(f"\n  {'Dataset':<12s} {'Model':<30s} {'Var':<5s} {'GT':>5s} {'Strict':>8s} {'Relaxed':>8s} {'Extra':>6s}")
+            print(f"  {'-'*80}")
         for dataset, reports in reports_by_dataset.items():
             for r in reports:
                 model = os.path.basename(os.path.dirname(r["result_file"]))
@@ -463,13 +610,24 @@ def print_report(reports_by_dataset: dict[str, list[dict]], verbose: bool = Fals
                     or "without_hil" in os.path.basename(r["result_file"]).lower()
                     else "hil"
                 )
-                print(
+                line = (
                     f"  {dataset:<12s} {model:<30s} {variant:<5s} "
                     f"{r['gt_total']:>5d} "
                     f"{r['recall_strict']*100:>6.1f}% "
                     f"{r['recall_relaxed']*100:>6.1f}% "
-                    f"{r['extra_entities']:>6d}"
                 )
+                if has_labeled:
+                    if "labeled" in r:
+                        lf = r["labeled"]
+                        line += (
+                            f"{lf['recall_strict']*100:>8.1f}% "
+                            f"{lf['recall_relaxed']*100:>8.1f}% "
+                            f"{lf['precision']*100:>6.1f}% "
+                        )
+                    else:
+                        line += f"{'N/A':>9s} {'N/A':>9s} {'N/A':>7s} "
+                line += f"{r['extra_entities']:>6d}"
+                print(line)
         print()
 
 
@@ -527,8 +685,8 @@ def main():
 
     # Explicit GT + result pair
     if args.gt and args.result:
-        report = evaluate(args.gt, args.result, args.overlap_threshold)
         dataset_name = Path(args.gt).parent.name
+        report = evaluate(args.gt, args.result, args.overlap_threshold, dataset_name)
         reports_by_dataset = {dataset_name: [report]}
     elif args.gt or args.result:
         print("Error: --gt and --result must be used together")
@@ -546,7 +704,10 @@ def main():
 
         reports_by_dataset = defaultdict(list)
         for pair in pairs:
-            report = evaluate(pair["gt_path"], pair["result_path"], args.overlap_threshold)
+            report = evaluate(
+                pair["gt_path"], pair["result_path"],
+                args.overlap_threshold, pair["dataset"],
+            )
             reports_by_dataset[pair["dataset"]].append(report)
 
     # Print
