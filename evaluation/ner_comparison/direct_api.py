@@ -44,7 +44,7 @@ def extract_entities(
     base_url: str | None = None,
     api_key: str | None = None,
     temperature: float = 0.0,
-    max_tokens: int = 4096,
+    max_tokens: int = 16384,
     extra_litellm_kwargs: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Run a single LiteLLM completion call to extract neuroscientific entities.
@@ -87,7 +87,10 @@ def extract_entities(
     response = litellm.completion(**kwargs)
 
     raw = response.choices[0].message.content or ""
-    usage = dict(response.usage) if response.usage else {}
+    usage = json.loads(json.dumps(dict(response.usage), default=lambda o: vars(o) if hasattr(o, "__dict__") else str(o))) if response.usage else {}
+
+    if response.usage and response.usage.completion_tokens >= max_tokens:
+        logger.warning("direct_api: completion_tokens hit max_tokens=%d — response likely truncated", max_tokens)
 
     entities = _parse_entities(raw)
     logger.info("direct_api: extracted %d entities", len(entities))
@@ -101,7 +104,13 @@ def extract_entities(
 
 
 def _parse_entities(raw: str) -> list[dict[str, Any]]:
-    """Parse the JSON entity list from the model's raw response."""
+    """Parse the JSON entity list from the model's raw response.
+
+    Falls back to regex extraction of complete entity objects when the response
+    is truncated (e.g. model hit output token limit mid-stream).
+    """
+    import re
+
     raw = raw.strip()
     # Strip markdown code fences if the model wrapped the JSON
     if raw.startswith("```"):
@@ -112,6 +121,20 @@ def _parse_entities(raw: str) -> list[dict[str, Any]]:
         data = json.loads(raw)
         return data.get("entities", [])
     except json.JSONDecodeError:
-        logger.warning("direct_api: failed to parse JSON response; returning empty entity list")
-        logger.debug("raw response was: %r", raw)
-        return []
+        pass
+
+    # Recover complete entity objects from a truncated response
+    entity_re = re.compile(r'\{[^{}]*"entity"\s*:\s*"[^"]*"[^{}]*\}')
+    recovered = []
+    for m in entity_re.finditer(raw):
+        try:
+            recovered.append(json.loads(m.group()))
+        except json.JSONDecodeError:
+            continue
+    if recovered:
+        logger.warning("direct_api: truncated response — recovered %d entities via regex", len(recovered))
+        return recovered
+
+    logger.warning("direct_api: failed to parse JSON response; returning empty entity list")
+    logger.debug("raw response was: %r", raw)
+    return []
