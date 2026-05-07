@@ -16,6 +16,9 @@ import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 
+# Type alias for sentence-grounded span keys: (normalized_entity, sentence_fingerprint)
+SpanKey = tuple[str, str]
+
 # Import shared heuristics from the existing ner_eval module
 sys.path.insert(0, str(Path(__file__).parent.parent / "ner" / "analysis"))
 from ner_eval import _canonicalize_label, is_excluded  # noqa: E402
@@ -70,6 +73,24 @@ def normalize_span(text: str) -> str:
     return " ".join(expanded.lower().split())
 
 
+def normalize_sentence(text: str) -> str:
+    """Normalize a sentence for comparison.
+
+    Strips StructSense chunk-prefix artifacts of the form "Section Name\\n['" that
+    appear in the occurrences[].sentence field, then lowercases and collapses whitespace.
+    API sentences are plain text and pass through unchanged.
+    """
+    if "\n" in text:
+        text = re.sub(r"^[^\n]*\n\[?'?", "", text)
+        text = re.sub(r"'?\]?\s*$", "", text)
+    return " ".join(text.lower().split())
+
+
+def sentence_fingerprint(sentence: str, n: int = 8) -> str:
+    """First n words of a normalized sentence — cheap, stable position proxy."""
+    return " ".join(sentence.split()[:n])
+
+
 # ---------------------------------------------------------------------------
 # Layer 1A — pre-alignment
 # ---------------------------------------------------------------------------
@@ -79,8 +100,8 @@ def normalize_span(text: str) -> str:
 class Layer1AResult:
     paper_id: str
     jaccard: float
-    structsense_only: list[str]
-    api_only: list[str]
+    structsense_only: list[SpanKey]
+    api_only: list[SpanKey]
     shared_count: int
     label_agreement_rate: float     # fraction of shared spans where canonical labels agree
     label_disagreements: list[dict] # shared spans where canonical labels differ
@@ -127,7 +148,8 @@ def compute_layer1a(
             disagreements.append(
                 {
                     "paper_id": paper_id,
-                    "entity_normalized": span,
+                    "entity_normalized": span[0],
+                    "sentence_fingerprint": span[1],
                     "structsense_label": ss_map[span],
                     "structsense_canonical": ss_canon,
                     "api_label": api_map[span],
@@ -157,8 +179,8 @@ def compute_layer1a(
 class Layer1BResult:
     paper_id: str
     jaccard_high_conf: float
-    structsense_only: list[str]
-    api_only: list[str]
+    structsense_only: list[SpanKey]
+    api_only: list[SpanKey]
     shared_count: int
     label_agreement_rate: float
     label_disagreements: list[dict]
@@ -216,7 +238,8 @@ def compute_layer1b(
             disagreements.append(
                 {
                     "paper_id": paper_id,
-                    "entity_normalized": span,
+                    "entity_normalized": span[0],
+                    "sentence_fingerprint": span[1],
                     "structsense_label": ss_map[span],
                     "structsense_canonical": ss_canon,
                     "api_label": api_map[span],
@@ -246,13 +269,22 @@ def compute_layer1b(
 # ---------------------------------------------------------------------------
 
 
-def _build_entity_map(entities: list[dict]) -> dict[str, str]:
-    """Build a normalized_span → label map, filtering out excluded entities.
+def _build_entity_map(entities: list[dict]) -> dict[SpanKey, str]:
+    """Build a (normalized_span, sentence_fingerprint) → label map.
 
-    When the same normalized span appears multiple times, the last label wins
-    (duplicates are a known issue tracked separately).
+    Keying on sentence fingerprint grounds each entity to a specific mention in the
+    paper rather than just its surface form, enabling position-aware comparison.
+
+    StructSense entities carry an occurrences list; each occurrence (potentially from
+    a different sentence) becomes its own key so duplicate mentions in different
+    sentences are preserved rather than collapsed.
+
+    API entities carry a top-level sentence field and produce one key per entity dict.
+
+    NOTE: if the same (entity, sentence) pair appears more than once the last label
+    wins. True within-sentence duplicates are a known issue tracked separately.
     """
-    result: dict[str, str] = {}
+    result: dict[SpanKey, str] = {}
     for e in entities:
         text = e.get("entity", "")
         label = e.get("label", "")
@@ -260,6 +292,18 @@ def _build_entity_map(entities: list[dict]) -> dict[str, str]:
         if excluded:
             continue
         norm = normalize_span(text)
-        if norm:
-            result[norm] = label
+        if not norm:
+            continue
+
+        occurrences = e.get("occurrences")
+        if occurrences:
+            # StructSense: expand each occurrence into its own (entity, sentence) key
+            for occ in occurrences:
+                fp = sentence_fingerprint(normalize_sentence(occ.get("sentence", "")))
+                result[(norm, fp)] = label
+        else:
+            # Direct API: use top-level sentence field
+            fp = sentence_fingerprint(normalize_sentence(e.get("sentence", "")))
+            result[(norm, fp)] = label
+
     return result

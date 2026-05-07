@@ -23,6 +23,7 @@ you think is appropriate — do not constrain yourself to a fixed list of catego
 Guidelines:
 - Extract the exact surface form from the text — do not paraphrase or normalize.
 - Include the character offsets (start, end) within the text you were given.
+- Include the complete sentence from the text that contains the entity in the "sentence" field.
 - Do not hallucinate entities that are not present in the text.
 - Assign labels that reflect the entity's scientific role (e.g. BRAIN_REGION, CELL_TYPE, \
 GENE, DISEASE, METHOD, CHEMICAL, SPECIES, SOFTWARE) — but use whatever label best fits.
@@ -31,7 +32,7 @@ GENE, DISEASE, METHOD, CHEMICAL, SPECIES, SOFTWARE) — but use whatever label b
 Return ONLY a JSON object in this exact format — no commentary, no markdown fences:
 {
   "entities": [
-    {"entity": "<surface form>", "label": "<YOUR_LABEL>", "start": <int>, "end": <int>},
+    {"entity": "<surface form>", "label": "<YOUR_LABEL>", "start": <int>, "end": <int>, "sentence": "<complete sentence containing this entity>"},
     ...
   ]
 }
@@ -60,7 +61,7 @@ def extract_entities(
 
     Returns:
         Dict with keys:
-          "entities": list of {entity, label, start, end}
+          "entities": list of {entity, label, start, end, sentence}
           "model": model string used
           "usage": token usage dict from the API response
           "raw_response": raw completion text (for debugging)

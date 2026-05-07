@@ -89,7 +89,7 @@ def _print_layer1a(r) -> None:
     if r.label_disagreements:
         print("  Top 10 label disagreements:")
         for d in r.label_disagreements[:10]:
-            print(f"    '{d['entity_normalized']}' — SS:{d['structsense_canonical']} vs API:{d['api_canonical']}")
+            print(f"    '{d['entity_normalized']}' [{d['sentence_fingerprint']}...] — SS:{d['structsense_canonical']} vs API:{d['api_canonical']}")
 
 
 def _print_layer1b(r) -> None:

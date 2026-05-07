@@ -1,1367 +1,1824 @@
 {
   "entities": [
     {
-      "entity": "Higher cortical areas",
-      "label": "BRAIN_REGION",
-      "start": 1,
-      "end": 22
-    },
-    {
-      "entity": "sensory",
-      "label": "SENSORY_MODALITY",
-      "start": 36,
-      "end": 43
-    },
-    {
-      "entity": "cognitive",
-      "label": "COGNITIVE_PROCESS",
-      "start": 45,
-      "end": 54
-    },
-    {
-      "entity": "motor signals",
-      "label": "MOTOR_ACTIVITY",
-      "start": 59,
-      "end": 71
-    },
-    {
-      "entity": "neurons",
-      "label": "CELL_TYPE",
-      "start": 101,
-      "end": 108
-    },
-    {
-      "entity": "Dimensionality reduction methods",
-      "label": "METHOD",
-      "start": 130,
-      "end": 161
-    },
-    {
-      "entity": "neural activity",
-      "label": "NEURAL_ACTIVITY",
-      "start": 181,
-      "end": 196
-    },
-    {
-      "entity": "task variables",
-      "label": "TASK_VARIABLE",
-      "start": 197,
-      "end": 211
-    },
-    {
-      "entity": "heterogeneous responses",
-      "label": "NEURAL_RESPONSE",
-      "start": 230,
-      "end": 253
-    },
-    {
-      "entity": "connectivity",
-      "label": "NEURAL_CONNECTIVITY",
-      "start": 266,
-      "end": 278
-    },
-    {
-      "entity": "behavior",
-      "label": "BEHAVIOR",
-      "start": 286,
-      "end": 294
-    },
-    {
       "entity": "latent circuit model",
       "label": "MODEL",
-      "start": 300,
-      "end": 320
+      "start": 0,
+      "end": 20,
+      "sentence": "To bridge the gap between dimensionality reduction, circuit mechanisms and single-neuron heterogeneity, we develop a latent circuit model (Fig. 1c)."
     },
     {
-      "entity": "dimensionality reduction approach",
+      "entity": "dimensionality reduction methods",
       "label": "METHOD",
-      "start": 323,
-      "end": 354
+      "start": 20,
+      "end": 50,
+      "sentence": "Similar to other dimensionality reduction methods, we model high-dimensional neural responses y  \u211d N (N is the number of neurons) during a cognitive task using low-dimensional latent variables x  \u211d n as"
     },
     {
-      "entity": "task variables",
-      "label": "TASK_VARIABLE",
-      "start": 362,
-      "end": 376
+      "entity": "rectified linear (ReLU)",
+      "label": "ACTIVATION_FUNCTION",
+      "start": 0,
+      "end": 27,
+      "sentence": "where f is a rectified linear (ReLU) activation function."
     },
     {
-      "entity": "low-dimensional recurrent connectivity",
-      "label": "NEURAL_CONNECTIVITY",
-      "start": 383,
-      "end": 420
-    },
-    {
-      "entity": "behavioral output",
-      "label": "BEHAVIORAL_OUTPUT",
-      "start": 434,
-      "end": 451
-    },
-    {
-      "entity": "latent circuit inference",
-      "label": "METHOD",
-      "start": 459,
-      "end": 482
-    },
-    {
-      "entity": "recurrent neural networks",
-      "label": "MODEL",
-      "start": 486,
-      "end": 510
-    },
-    {
-      "entity": "context-dependent decision-making task",
-      "label": "TASK",
-      "start": 526,
-      "end": 560
-    },
-    {
-      "entity": "suppression mechanism",
-      "label": "NEURAL_MECHANISM",
-      "start": 570,
-      "end": 591
-    },
-    {
-      "entity": "contextual representations",
-      "label": "NEURAL_REPRESENTATION",
-      "start": 595,
-      "end": 619
-    },
-    {
-      "entity": "sensory responses",
-      "label": "NEURAL_RESPONSE",
-      "start": 628,
-      "end": 645
-    },
-    {
-      "entity": "behavioral effects",
-      "label": "BEHAVIORAL_EFFECT",
-      "start": 674,
-      "end": 692
-    },
-    {
-      "entity": "patterned connectivity perturbations",
-      "label": "NEURAL_MANIPULATION",
-      "start": 696,
-      "end": 730
-    },
-    {
-      "entity": "latent circuit model",
-      "label": "MODEL",
-      "start": 743,
-      "end": 763
-    },
-    {
-      "entity": "sensory responses",
-      "label": "NEURAL_RESPONSE",
-      "start": 780,
-      "end": 797
-    },
-    {
-      "entity": "prefrontal cortex",
+      "entity": "PFC",
       "label": "BRAIN_REGION",
-      "start": 801,
-      "end": 818
+      "start": 0,
+      "end": 3,
+      "sentence": "We find similar suppression of irrelevant sensory responses in the prefrontal cortex of monkeys performing the same task."
+    },
+    {
+      "entity": "RNN",
+      "label": "MODEL",
+      "start": 0,
+      "end": 3,
+      "sentence": "Although trained RNNs are a class of neural circuit models, the complexity of their high-dimensional activity and connectivity obscures the interpretation of circuit mechanisms in these networks 30."
     },
     {
       "entity": "monkeys",
       "label": "SPECIES",
-      "start": 822,
-      "end": 829
+      "start": 0,
+      "end": 7,
+      "sentence": "We find similar suppression of irrelevant sensory responses in the prefrontal cortex of monkeys performing the same task."
     },
     {
-      "entity": "task",
+      "entity": "context-dependent decision-making task",
       "label": "TASK",
-      "start": 839,
-      "end": 843
+      "start": 0,
+      "end": 36,
+      "sentence": "We applied our latent circuit inference to RNNs optimized to perform a context-dependent decision-making task, which requires the discrimination of either the color or motion feature of a sensory stimulus depending on the context cue 19 (Fig. 2a,b and Methods)."
     },
     {
-      "entity": "causal interactions",
-      "label": "CAUSAL_RELATION",
-      "start": 866,
-      "end": 884
+      "entity": "contextual cue",
+      "label": "STIMULUS",
+      "start": 0,
+      "end": 16,
+      "sentence": "In the context-dependent decision-making task, at the beginning of each trial, a context cue briefly appears to indicate either the color or motion context for the current trial."
+    },
+    {
+      "entity": "color",
+      "label": "TASK_VARIABLE",
+      "start": 0,
+      "end": 5,
+      "sentence": "The right motion and red color are associated with the right choice, and the left motion and green color are associated with the left choice."
+    },
+    {
+      "entity": "motion",
+      "label": "TASK_VARIABLE",
+      "start": 0,
+      "end": 6,
+      "sentence": "The right motion and red color are associated with the right choice, and the left motion and green color are associated with the left choice."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity recordings",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 25,
+      "sentence": "We analyzed a publicly available dataset of neural activity recordings from the PFC (in and around the frontal eye field) from two monkeys performing a context-dependent decision-making task 19."
     },
     {
       "entity": "task variables",
       "label": "TASK_VARIABLE",
-      "start": 890,
-      "end": 904
+      "start": 0,
+      "end": 14,
+      "sentence": "By contrast, representations of task variables in the latent circuit model interact via recurrent connectivity to implement the computations necessary to solve the task."
     },
     {
-      "entity": "behaviorally relevant computations",
-      "label": "NEURAL_COMPUTATION",
-      "start": 918,
-      "end": 950
+      "entity": "behavioral output",
+      "label": "OUTPUT",
+      "start": 0,
+      "end": 16,
+      "sentence": "Thus, these models explicitly specify a circuit mechanism in the connectivity structure that gives rise to a dynamical mechanism controlling the flow of neural trajectories to implement task computations."
     },
     {
-      "entity": "neural response data",
-      "label": "NEURAL_DATA",
-      "start": 956,
-      "end": 975
-    },
-    {
-      "entity": "Cognitive functions",
-      "label": "COGNITIVE_FUNCTION",
-      "start": 980,
-      "end": 998
-    },
-    {
-      "entity": "higher cortical areas",
-      "label": "BRAIN_REGION",
-      "start": 1007,
-      "end": 1028
-    },
-    {
-      "entity": "sensory",
-      "label": "SENSORY_MODALITY",
-      "start": 1046,
-      "end": 1053
-    },
-    {
-      "entity": "contextual signals",
-      "label": "NEURAL_SIGNAL",
-      "start": 1058,
-      "end": 1075
-    },
-    {
-      "entity": "behavioral response",
-      "label": "BEHAVIORAL_RESPONSE",
-      "start": 1092,
-      "end": 1111
+      "entity": "cognitive tasks",
+      "label": "TASK",
+      "start": 0,
+      "end": 15,
+      "sentence": "These computations result from interactions between excitatory and inhibitory neurons in cortical circuits."
     },
     {
       "entity": "excitatory",
-      "label": "NEUROTRANSMITTER_ACTION",
-      "start": 1141,
-      "end": 1151
-    },
-    {
-      "entity": "inhibitory neurons",
       "label": "CELL_TYPE",
-      "start": 1156,
-      "end": 1173
+      "start": 0,
+      "end": 10,
+      "sentence": "These computations result from interactions between excitatory and inhibitory neurons in cortical circuits."
     },
     {
-      "entity": "cortical circuits",
-      "label": "NEURAL_CIRCUIT",
-      "start": 1177,
-      "end": 1193
+      "entity": "inhibitory",
+      "label": "CELL_TYPE",
+      "start": 0,
+      "end": 10,
+      "sentence": "These computations result from interactions between excitatory and inhibitory neurons in cortical circuits."
     },
     {
       "entity": "neural circuit models",
       "label": "MODEL",
-      "start": 1210,
-      "end": 1229
+      "start": 0,
+      "end": 22,
+      "sentence": "Traditionally, hand-crafted neural circuit models were used to pose specific mechanistic hypotheses about how excitation and inhibition between a few neural populations representing task variables control the flow of information from input to behavioral output."
     },
     {
-      "entity": "mechanistic hypotheses",
-      "label": "SCIENTIFIC_HYPOTHESIS",
-      "start": 1244,
-      "end": 1266
-    },
-    {
-      "entity": "excitation",
-      "label": "NEUROTRANSMITTER_ACTION",
-      "start": 1275,
-      "end": 1285
-    },
-    {
-      "entity": "inhibition",
-      "label": "NEUROTRANSMITTER_ACTION",
-      "start": 1290,
-      "end": 1300
-    },
-    {
-      "entity": "neural populations",
-      "label": "NEURAL_POPULATION",
-      "start": 1309,
-      "end": 1327
-    },
-    {
-      "entity": "task variables",
-      "label": "TASK_VARIABLE",
-      "start": 1328,
-      "end": 1342
-    },
-    {
-      "entity": "information",
-      "label": "NEURAL_SIGNAL",
-      "start": 1361,
-      "end": 1372
-    },
-    {
-      "entity": "behavioral output",
-      "label": "BEHAVIORAL_OUTPUT",
-      "start": 1383,
-      "end": 1399
-    },
-    {
-      "entity": "circuit models",
+      "entity": "high-dimensional recurrent neural network",
       "label": "MODEL",
-      "start": 1459,
-      "end": 1472
-    },
-    {
-      "entity": "connectivity structure",
-      "label": "NEURAL_CONNECTIVITY",
-      "start": 1487,
-      "end": 1509
-    },
-    {
-      "entity": "dynamical system description",
-      "label": "MODEL",
-      "start": 1519,
-      "end": 1547
-    },
-    {
-      "entity": "cognitive task execution",
-      "label": "TASK",
-      "start": 1559,
-      "end": 1583
-    },
-    {
-      "entity": "circuit mechanism",
-      "label": "NEURAL_MECHANISM",
-      "start": 1627,
-      "end": 1644
-    },
-    {
-      "entity": "connectivity structure",
-      "label": "NEURAL_CONNECTIVITY",
-      "start": 1648,
-      "end": 1670
-    },
-    {
-      "entity": "dynamical mechanism",
-      "label": "NEURAL_MECHANISM",
-      "start": 1686,
-      "end": 1705
-    },
-    {
-      "entity": "neural trajectories",
-      "label": "NEURAL_ACTIVITY",
-      "start": 1719,
-      "end": 1736
-    },
-    {
-      "entity": "task computations",
-      "label": "NEURAL_COMPUTATION",
-      "start": 1749,
-      "end": 1767
-    },
-    {
-      "entity": "connectivity",
-      "label": "NEURAL_CONNECTIVITY",
-      "start": 1790,
-      "end": 1802
-    },
-    {
-      "entity": "neural dynamics",
-      "label": "NEURAL_ACTIVITY",
-      "start": 1806,
-      "end": 1821
-    },
-    {
-      "entity": "behavioral output",
-      "label": "BEHAVIORAL_OUTPUT",
-      "start": 1826,
-      "end": 1842
-    },
-    {
-      "entity": "dynamics",
-      "label": "NEURAL_ACTIVITY",
-      "start": 1867,
-      "end": 1875
-    },
-    {
-      "entity": "behavioral performance",
-      "label": "BEHAVIORAL_PERFORMANCE",
-      "start": 1880,
-      "end": 1902
-    },
-    {
-      "entity": "circuit structure",
-      "label": "NEURAL_CIRCUIT",
-      "start": 1920,
-      "end": 1936
-    },
-    {
-      "entity": "excitation-inhibition balance",
-      "label": "NEURAL_BALANCE",
-      "start": 1958,
-      "end": 1987
-    },
-    {
-      "entity": "experiments",
-      "label": "EXPERIMENT",
-      "start": 2028,
-      "end": 2039
-    },
-    {
-      "entity": "circuit models",
-      "label": "MODEL",
-      "start": 2051,
-      "end": 2064
-    },
-    {
-      "entity": "complexity",
-      "label": "NEURAL_COMPLEXITY",
-      "start": 2081,
-      "end": 2091
-    },
-    {
-      "entity": "heterogeneity",
-      "label": "NEURAL_HETEROGENEITY",
-      "start": 2095,
-      "end": 2108
-    },
-    {
-      "entity": "singleneuron responses",
-      "label": "NEURAL_RESPONSE",
-      "start": 2112,
-      "end": 2134
-    },
-    {
-      "entity": "cortex",
-      "label": "BRAIN_REGION",
-      "start": 2138,
-      "end": 2144
-    },
-    {
-      "entity": "Single neurons",
-      "label": "CELL_TYPE",
-      "start": 2149,
-      "end": 2163
-    },
-    {
-      "entity": "prefrontal cortex (PFC)",
-      "label": "BRAIN_REGION",
-      "start": 2174,
-      "end": 2196
-    },
-    {
-      "entity": "complex heterogeneous tuning",
-      "label": "NEURAL_RESPONSE",
-      "start": 2202,
-      "end": 2229
-    },
-    {
-      "entity": "task variables",
-      "label": "TASK_VARIABLE",
-      "start": 2233,
-      "end": 2247
-    },
-    {
-      "entity": "circuit mechanisms",
-      "label": "NEURAL_MECHANISM",
-      "start": 2293,
-      "end": 2310
-    },
-    {
-      "entity": "heterogeneous responses",
-      "label": "NEURAL_RESPONSE",
-      "start": 2319,
-      "end": 2342
-    },
-    {
-      "entity": "recurrent neural network (RNN) models",
-      "label": "MODEL",
-      "start": 2346,
-      "end": 2382
-    },
-    {
-      "entity": "cognitive tasks",
-      "label": "TASK",
-      "start": 2399,
-      "end": 2414
-    },
-    {
-      "entity": "neural activity data",
-      "label": "NEURAL_DATA",
-      "start": 2436,
-      "end": 2455
-    },
-    {
-      "entity": "recurrent connectivity parameters",
-      "label": "NEURAL_CONNECTIVITY",
-      "start": 2474,
-      "end": 2505
-    },
-    {
-      "entity": "RNNs",
-      "label": "MODEL",
-      "start": 2515,
-      "end": 2519
-    },
-    {
-      "entity": "neural circuit models",
-      "label": "MODEL",
-      "start": 2529,
-      "end": 2548
-    },
-    {
-      "entity": "complexity",
-      "label": "NEURAL_COMPLEXITY",
-      "start": 2553,
-      "end": 2563
-    },
-    {
-      "entity": "high-dimensional activity",
-      "label": "NEURAL_ACTIVITY",
-      "start": 2567,
-      "end": 2590
-    },
-    {
-      "entity": "connectivity",
-      "label": "NEURAL_CONNECTIVITY",
-      "start": 2594,
-      "end": 2606
-    },
-    {
-      "entity": "circuit mechanisms",
-      "label": "NEURAL_MECHANISM",
-      "start": 2622,
-      "end": 2639
-    },
-    {
-      "entity": "dynamical mechanisms",
-      "label": "NEURAL_MECHANISM",
-      "start": 2670,
-      "end": 2689
-    },
-    {
-      "entity": "task computations",
-      "label": "NEURAL_COMPUTATION",
-      "start": 2693,
-      "end": 2711
-    },
-    {
-      "entity": "fixed points",
-      "label": "NEURAL_ACTIVITY",
-      "start": 2738,
-      "end": 2750
-    },
-    {
-      "entity": "linearized dynamics",
-      "label": "NEURAL_ACTIVITY",
-      "start": 2755,
-      "end": 2773
-    },
-    {
-      "entity": "RNNs",
-      "label": "MODEL",
-      "start": 2774,
-      "end": 2778
-    },
-    {
-      "entity": "dynamical system",
-      "label": "MODEL",
-      "start": 2797,
-      "end": 2813
+      "start": 0,
+      "end": 36,
+      "sentence": "Similar heterogeneous responses emerge in high-dimensional recurrent neural network (RNN) models trained to perform cognitive tasks 19,222324 or reproduce neural activity data 2526272829 by optimizing recurrent connectivity parameters."
     },
     {
       "entity": "neural response data",
-      "label": "NEURAL_DATA",
-      "start": 2821,
-      "end": 2840
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 19,
+      "sentence": "Thus, high-dimensional RNNs currently serve as intermediate mechanistic models of heterogeneous neural responses, suggest that RNNs and conceivably the PFC implement qualitatively novel task solutions that do not exist in small circuits and emerge only in high-dimensional networks 19,47,48."
     },
     {
-      "entity": "network connectivity",
-      "label": "NEURAL_CONNECTIVITY",
-      "start": 2899,
-      "end": 2919
-    },
-    {
-      "entity": "high-dimensional RNNs",
-      "label": "MODEL",
-      "start": 2930,
-      "end": 2950
-    },
-    {
-      "entity": "mechanistic models",
-      "label": "MODEL",
-      "start": 2964,
-      "end": 2982
-    },
-    {
-      "entity": "heterogeneous neural responses",
-      "label": "NEURAL_RESPONSE",
-      "start": 2983,
-      "end": 3011
-    },
-    {
-      "entity": "RNNs",
-      "label": "MODEL",
-      "start": 3020,
-      "end": 3024
-    },
-    {
-      "entity": "PFC",
-      "label": "BRAIN_REGION",
-      "start": 3039,
-      "end": 3042
-    },
-    {
-      "entity": "task solutions",
-      "label": "TASK_SOLUTION",
-      "start": 3065,
-      "end": 3079
-    },
-    {
-      "entity": "small circuits",
-      "label": "NEURAL_CIRCUIT",
-      "start": 3094,
-      "end": 3108
-    },
-    {
-      "entity": "high-dimensional networks",
-      "label": "NEURAL_NETWORK",
-      "start": 3119,
-      "end": 3142
-    },
-    {
-      "entity": "correlation-based dimensionality reduction methods",
-      "label": "METHOD",
-      "start": 3160,
-      "end": 3206
-    },
-    {
-      "entity": "connectivity",
-      "label": "NEURAL_CONNECTIVITY",
-      "start": 3224,
-      "end": 3236
-    },
-    {
-      "entity": "causal mechanisms",
-      "label": "CAUSAL_RELATION",
-      "start": 3240,
-      "end": 3257
-    },
-    {
-      "entity": "heterogeneous neural responses",
-      "label": "NEURAL_RESPONSE",
-      "start": 3267,
-      "end": 3295
-    },
-    {
-      "entity": "cognitive tasks",
-      "label": "TASK",
-      "start": 3302,
-      "end": 3317
-    },
-    {
-      "entity": "low-dimensional circuit mechanisms",
-      "label": "NEURAL_MECHANISM",
-      "start": 3323,
-      "end": 3355
-    },
-    {
-      "entity": "latent circuit model",
-      "label": "MODEL",
-      "start": 3380,
-      "end": 3400
-    },
-    {
-      "entity": "dimensionality reduction approach",
-      "label": "METHOD",
-      "start": 3403,
-      "end": 3434
-    },
-    {
-      "entity": "neural responses",
-      "label": "NEURAL_RESPONSE",
-      "start": 3452,
-      "end": 3468
-    },
-    {
-      "entity": "task behavior",
-      "label": "TASK_BEHAVIOR",
-      "start": 3473,
-      "end": 3487
-    },
-    {
-      "entity": "recurrent interactions",
-      "label": "NEURAL_INTERACTION",
-      "start": 3498,
-      "end": 3519
-    },
-    {
-      "entity": "task variables",
-      "label": "TASK_VARIABLE",
-      "start": 3523,
-      "end": 3537
-    },
-    {
-      "entity": "causal mechanism",
-      "label": "CAUSAL_RELATION",
-      "start": 3541,
-      "end": 3557
-    },
-    {
-      "entity": "task execution",
-      "label": "TASK_EXECUTION",
-      "start": 3561,
-      "end": 3576
-    },
-    {
-      "entity": "neural responses",
-      "label": "NEURAL_RESPONSE",
-      "start": 3591,
-      "end": 3607
-    },
-    {
-      "entity": "dynamics",
-      "label": "NEURAL_ACTIVITY",
-      "start": 3627,
-      "end": 3635
-    },
-    {
-      "entity": "low-dimensional latent circuit",
-      "label": "NEURAL_CIRCUIT",
-      "start": 3639,
-      "end": 3668
-    },
-    {
-      "entity": "heterogeneous neural responses",
-      "label": "NEURAL_RESPONSE",
-      "start": 3699,
-      "end": 3727
-    },
-    {
-      "entity": "low-dimensional circuit mechanism",
-      "label": "NEURAL_MECHANISM",
-      "start": 3733,
-      "end": 3765
-    },
-    {
-      "entity": "low-dimensional latent circuit connectivity",
-      "label": "NEURAL_CONNECTIVITY",
-      "start": 3793,
-      "end": 3830
-    },
-    {
-      "entity": "task-relevant dynamics",
-      "label": "NEURAL_ACTIVITY",
-      "start": 3834,
-      "end": 3855
-    },
-    {
-      "entity": "heterogeneous mixing",
-      "label": "NEURAL_INTERACTION",
-      "start": 3859,
-      "end": 3879
-    },
-    {
-      "entity": "single-neuron responses",
-      "label": "NEURAL_RESPONSE",
-      "start": 3883,
-      "end": 3905
-    },
-    {
-      "entity": "latent circuit inference",
-      "label": "METHOD",
-      "start": 3911,
-      "end": 3934
-    },
-    {
-      "entity": "RNNs",
-      "label": "MODEL",
-      "start": 3947,
-      "end": 3951
-    },
-    {
-      "entity": "context-dependent decision-making task",
-      "label": "TASK",
-      "start": 3964,
-      "end": 3998
-    },
-    {
-      "entity": "circuit mechanism",
-      "label": "NEURAL_MECHANISM",
-      "start": 4010,
-      "end": 4027
-    },
-    {
-      "entity": "inhibition",
-      "label": "NEUROTRANSMITTER_ACTION",
-      "start": 4034,
-      "end": 4044
-    },
-    {
-      "entity": "sensory representations",
-      "label": "NEURAL_REPRESENTATION",
-      "start": 4048,
-      "end": 4072
-    },
-    {
-      "entity": "behavioral effects",
-      "label": "BEHAVIORAL_EFFECT",
-      "start": 4101,
-      "end": 4119
-    },
-    {
-      "entity": "patterned perturbations",
-      "label": "NEURAL_MANIPULATION",
-      "start": 4123,
-      "end": 4145
-    },
-    {
-      "entity": "RNN activity",
-      "label": "NEURAL_ACTIVITY",
-      "start": 4149,
-      "end": 4162
-    },
-    {
-      "entity": "connectivity",
-      "label": "NEURAL_CONNECTIVITY",
-      "start": 4166,
-      "end": 4178
-    },
-    {
-      "entity": "latent circuit model",
-      "label": "MODEL",
-      "start": 4191,
-      "end": 4211
-    },
-    {
-      "entity": "neural recordings",
-      "label": "NEURAL_DATA",
-      "start": 4230,
-      "end": 4247
-    },
-    {
-      "entity": "PFC",
-      "label": "BRAIN_REGION",
-      "start": 4251,
-      "end": 4254
-    },
-    {
-      "entity": "monkeys",
-      "label": "SPECIES",
-      "start": 4258,
-      "end": 4265
-    },
-    {
-      "entity": "context-dependent decision-making task",
-      "label": "TASK",
-      "start": 4279,
-      "end": 4313
-    },
-    {
-      "entity": "suppression mechanism",
-      "label": "NEURAL_MECHANISM",
-      "start": 4330,
-      "end": 4351
-    },
-    {
-      "entity": "correlation-based methods",
-      "label": "METHOD",
-      "start": 4399,
-      "end": 4424
-    },
-    {
-      "entity": "RNN perturbations",
-      "label": "NEURAL_MANIPULATION",
-      "start": 4433,
-      "end": 4450
-    },
-    {
-      "entity": "dimensionality reduction methods",
-      "label": "METHOD",
-      "start": 4455,
-      "end": 4486
-    },
-    {
-      "entity": "causal interactions",
-      "label": "CAUSAL_RELATION",
-      "start": 4509,
-      "end": 4527
-    },
-    {
-      "entity": "latent variables",
-      "label": "LATENT_VARIABLE",
-      "start": 4532,
-      "end": 4548
-    },
-    {
-      "entity": "behaviorally irrelevant representations",
-      "label": "NEURAL_REPRESENTATION",
-      "start": 4561,
-      "end": 4598
-    },
-    {
-      "entity": "high-dimensional networks",
-      "label": "NEURAL_NETWORK",
-      "start": 4612,
-      "end": 4635
-    },
-    {
-      "entity": "low-dimensional circuit mechanisms",
-      "label": "NEURAL_MECHANISM",
-      "start": 4641,
-      "end": 4673
+      "entity": "neural activity data",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 20,
+      "sentence": "Similar heterogeneous responses emerge in high-dimensional recurrent neural network (RNN) models trained to perform cognitive tasks 19,222324 or reproduce neural activity data 2526272829 by optimizing recurrent connectivity parameters."
     },
     {
       "entity": "dynamical mechanisms",
-      "label": "NEURAL_MECHANISM",
-      "start": 4718,
-      "end": 4737
+      "label": "MECHANISM",
+      "start": 0,
+      "end": 19,
+      "sentence": "It has been possible to determine dynamical mechanisms of task computations by either characterizing fixed points and linearized dynamics around them in RNNs 19,31 or fitting a dynamical system directly to neural response data 27,32333435."
     },
     {
       "entity": "circuit mechanisms",
-      "label": "NEURAL_MECHANISM",
-      "start": 4741,
-      "end": 4758
-    },
-    {
-      "entity": "single-neuron responses",
-      "label": "NEURAL_RESPONSE",
-      "start": 4770,
-      "end": 4792
-    },
-    {
-      "entity": "population activity",
-      "label": "NEURAL_ACTIVITY",
-      "start": 4811,
-      "end": 4829
-    },
-    {
-      "entity": "low dimensional",
-      "label": "DIMENSIONALITY",
-      "start": 4834,
-      "end": 4848
-    },
-    {
-      "entity": "cognitive tasks",
-      "label": "TASK",
-      "start": 4858,
-      "end": 4873
-    },
-    {
-      "entity": "brain areas",
-      "label": "BRAIN_REGION",
-      "start": 4878,
-      "end": 4889
-    },
-    {
-      "entity": "dimensionality reduction methods",
-      "label": "METHOD",
-      "start": 4893,
-      "end": 4924
-    },
-    {
-      "entity": "latent variables",
-      "label": "LATENT_VARIABLE",
-      "start": 4970,
-      "end": 4986
+      "label": "MECHANISM",
+      "start": 0,
+      "end": 17,
+      "sentence": "Thus, high-dimensional RNNs currently serve as intermediate mechanistic models of heterogeneous neural responses, suggest that RNNs and conceivably the PFC implement qualitatively novel task solutions that do not exist in small circuits and emerge only in high-dimensional networks 19,47,48."
     },
     {
       "entity": "neural population activity",
-      "label": "NEURAL_ACTIVITY",
-      "start": 4990,
-      "end": 5014
-    },
-    {
-      "entity": "population level",
-      "label": "NEURAL_POPULATION",
-      "start": 5050,
-      "end": 5066
-    },
-    {
-      "entity": "unsupervised methods",
-      "label": "METHOD",
-      "start": 5070,
-      "end": 5089
-    },
-    {
-      "entity": "task inputs",
-      "label": "TASK_INPUT",
-      "start": 5113,
-      "end": 5124
-    },
-    {
-      "entity": "behavioral outputs",
-      "label": "BEHAVIORAL_OUTPUT",
-      "start": 5129,
-      "end": 5147
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 24,
+      "sentence": "Accordingly, dimensionality reduction methods are commonly used to reveal representations of low-dimensional latent variables in neural population activity, which reflect computations emerging at the population level."
     },
     {
       "entity": "latent variables",
-      "label": "LATENT_VARIABLE",
-      "start": 5156,
-      "end": 5172
-    },
-    {
-      "entity": "cognitive task execution",
-      "label": "TASK",
-      "start": 5181,
-      "end": 5205
-    },
-    {
-      "entity": "dimensionality reduction methods",
-      "label": "METHOD",
-      "start": 5223,
-      "end": 5254
-    },
-    {
-      "entity": "neural representations",
-      "label": "NEURAL_REPRESENTATION",
-      "start": 5267,
-      "end": 5288
+      "label": "VARIABLE",
+      "start": 0,
+      "end": 15,
+      "sentence": "Because unsupervised methods do not explicitly model task inputs and behavioral outputs, the latent variables they infer may be unrelated to the cognitive task execution 26,37383940."
     },
     {
       "entity": "task inputs",
-      "label": "TASK_INPUT",
-      "start": 5293,
-      "end": 5304
-    },
-    {
-      "entity": "behavioral outputs",
-      "label": "BEHAVIORAL_OUTPUT",
-      "start": 5309,
-      "end": 5327
-    },
-    {
-      "entity": "low-dimensional projections",
-      "label": "NEURAL_PROJECTION",
-      "start": 5333,
-      "end": 5359
-    },
-    {
-      "entity": "neural population activity",
-      "label": "NEURAL_ACTIVITY",
-      "start": 5363,
-      "end": 5387
-    },
-    {
-      "entity": "task variables",
       "label": "TASK_VARIABLE",
-      "start": 5404,
-      "end": 5418
-    },
-    {
-      "entity": "RNNs",
-      "label": "MODEL",
-      "start": 5440,
-      "end": 5444
-    },
-    {
-      "entity": "circuit models",
-      "label": "MODEL",
-      "start": 5449,
-      "end": 5462
-    },
-    {
-      "entity": "recurrent interactions",
-      "label": "NEURAL_INTERACTION",
-      "start": 5476,
-      "end": 5497
-    },
-    {
-      "entity": "task variables",
-      "label": "TASK_VARIABLE",
-      "start": 5501,
-      "end": 5515
-    },
-    {
-      "entity": "neural representations",
-      "label": "NEURAL_REPRESENTATION",
-      "start": 5557,
-      "end": 5578
-    },
-    {
-      "entity": "driving behavior",
-      "label": "BEHAVIOR",
-      "start": 5599,
-      "end": 5615
-    },
-    {
-      "entity": "causal predictive power",
-      "label": "CAUSAL_RELATION",
-      "start": 5626,
-      "end": 5649
-    },
-    {
-      "entity": "dynamical",
-      "label": "NEURAL_ACTIVITY",
-      "start": 5653,
-      "end": 5662
-    },
-    {
-      "entity": "circuit mechanisms",
-      "label": "NEURAL_MECHANISM",
-      "start": 5667,
-      "end": 5684
-    },
-    {
-      "entity": "circuit mechanisms",
-      "label": "NEURAL_MECHANISM",
-      "start": 5703,
-      "end": 5720
-    },
-    {
-      "entity": "correlation-based dimensionality reduction methods",
-      "label": "METHOD",
-      "start": 5724,
-      "end": 5770
-    },
-    {
-      "entity": "PFCs",
-      "label": "BRAIN_REGION",
-      "start": 5789,
-      "end": 5793
-    },
-    {
-      "entity": "context-dependent decision-making",
-      "label": "TASK",
-      "start": 5798,
-      "end": 5829
-    },
-    {
-      "entity": "Context-dependent decision-making",
-      "label": "TASK",
-      "start": 5833,
-      "end": 5864
-    },
-    {
-      "entity": "stimulus-response mappings",
-      "label": "NEURAL_MAPPING",
-      "start": 5894,
-      "end": 5921
-    },
-    {
-      "entity": "circuit models",
-      "label": "MODEL",
-      "start": 5934,
-      "end": 5947
-    },
-    {
-      "entity": "inhibition",
-      "label": "NEUROTRANSMITTER_ACTION",
-      "start": 5977,
-      "end": 5987
-    },
-    {
-      "entity": "sensory representations",
-      "label": "NEURAL_REPRESENTATION",
-      "start": 5991,
-      "end": 6015
-    },
-    {
-      "entity": "PFC data",
-      "label": "NEURAL_DATA",
-      "start": 6059,
-      "end": 6067
-    },
-    {
-      "entity": "RNN activity",
-      "label": "NEURAL_ACTIVITY",
-      "start": 6071,
-      "end": 6084
-    },
-    {
-      "entity": "sensory responses",
-      "label": "NEURAL_RESPONSE",
-      "start": 6099,
-      "end": 6116
-    },
-    {
-      "entity": "inhibitory circuit mechanism",
-      "label": "NEURAL_MECHANISM",
-      "start": 6143,
-      "end": 6170
-    },
-    {
-      "entity": "task variables",
-      "label": "TASK_VARIABLE",
-      "start": 6247,
-      "end": 6261
-    },
-    {
-      "entity": "neural activity",
-      "label": "NEURAL_ACTIVITY",
-      "start": 6290,
-      "end": 6305
-    },
-    {
-      "entity": "task variables",
-      "label": "TASK_VARIABLE",
-      "start": 6329,
-      "end": 6343
-    },
-    {
-      "entity": "neural activity space",
-      "label": "NEURAL_ACTIVITY",
-      "start": 6371,
-      "end": 6392
-    },
-    {
-      "entity": "task variable",
-      "label": "TASK_VARIABLE",
-      "start": 6429,
-      "end": 6443
-    },
-    {
-      "entity": "neural population state space",
-      "label": "NEURAL_ACTIVITY",
-      "start": 6461,
-      "end": 6490
-    },
-    {
-      "entity": "Latent circuit model",
-      "label": "MODEL",
-      "start": 6500,
-      "end": 6519
-    },
-    {
-      "entity": "Embedding matrix",
-      "label": "NEURAL_ENCODING",
-      "start": 6521,
-      "end": 6538
-    },
-    {
-      "entity": "population state space",
-      "label": "NEURAL_ACTIVITY",
-      "start": 6567,
-      "end": 6591
-    },
-    {
-      "entity": "latent circuit",
-      "label": "NEURAL_CIRCUIT",
-      "start": 6610,
-      "end": 6624
-    },
-    {
-      "entity": "task inputs",
-      "label": "TASK_INPUT",
-      "start": 6660,
-      "end": 6671
+      "start": 0,
+      "end": 10,
+      "sentence": "Because unsupervised methods do not explicitly model task inputs and behavioral outputs, the latent variables they infer may be unrelated to the cognitive task execution 26,37383940."
     },
     {
       "entity": "task outputs",
-      "label": "TASK_OUTPUT",
-      "start": 6676,
-      "end": 6688
+      "label": "OUTPUT",
+      "start": 0,
+      "end": 12,
+      "sentence": "We also require the latent circuit to perform the task, that is, we can read out the task outputs z from circuit activity via the output connectivity w out."
+    },
+    {
+      "entity": "cognitive flexibility",
+      "label": "FUNCTION",
+      "start": 0,
+      "end": 20,
+      "sentence": "Thus, inhibitory mechanisms for cognitive flexibility are compatible with the existence of irrelevant stimulus representations in the PFC."
+    },
+    {
+      "entity": "neural recordings",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 16,
+      "sentence": "Moreover, fitting the latent circuit model to neural recordings from the PFC of monkeys performing the same context-dependent decision-making task revealed a qualitatively similar suppression mechanism, in contrast to previous analyses of the same data with correlation-based methods 19,21."
+    },
+    {
+      "entity": "neural circuit",
+      "label": "MODEL",
+      "start": 0,
+      "end": 13,
+      "sentence": "Thus, these models explicitly specify a circuit mechanism in the connectivity structure that gives rise to a dynamical mechanism controlling the flow of neural trajectories to implement task computations."
+    },
+    {
+      "entity": "neural populations",
+      "label": "CELL_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "Traditionally, hand-crafted neural circuit models were used to pose specific mechanistic hypotheses about how excitation and inhibition between a few neural populations representing task variables control the flow of information from input to behavioral output."
+    },
+    {
+      "entity": "neural trajectories",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 18,
+      "sentence": "Thus, these models explicitly specify a circuit mechanism in the connectivity structure that gives rise to a dynamical mechanism controlling the flow of neural trajectories to implement task computations."
+    },
+    {
+      "entity": "task execution",
+      "label": "TASK",
+      "start": 0,
+      "end": 15,
+      "sentence": "Thus, these models explicitly specify a circuit mechanism in the connectivity structure that gives rise to a dynamical mechanism controlling the flow of neural trajectories to implement task computations."
+    },
+    {
+      "entity": "neural dynamics",
+      "label": "MECHANISM",
+      "start": 0,
+      "end": 15,
+      "sentence": "By linking connectivity to neural dynamics and behavioral output, these models can predict changes in dynamics and behavioral performance under perturbations of the circuit structure (for example, changes in excitation-inhibition balance 12) and thus can be causally validated in experiments 131415."
+    },
+    {
+      "entity": "circuit structure",
+      "label": "STRUCTURE",
+      "start": 0,
+      "end": 16,
+      "sentence": "By linking connectivity to neural dynamics and behavioral output, these models can predict changes in dynamics and behavioral performance under perturbations of the circuit structure (for example, changes in excitation-inhibition balance 12) and thus can be causally validated in experiments 131415."
+    },
+    {
+      "entity": "circuit mechanism",
+      "label": "MECHANISM",
+      "start": 0,
+      "end": 16,
+      "sentence": "Thus, these models explicitly specify a circuit mechanism in the connectivity structure that gives rise to a dynamical mechanism controlling the flow of neural trajectories to implement task computations."
+    },
+    {
+      "entity": "circuit models",
+      "label": "MODEL",
+      "start": 0,
+      "end": 14,
+      "sentence": "However, hand-crafted circuit models come short of capturing the complexity and heterogeneity of singleneuron responses in the cortex."
+    },
+    {
+      "entity": "circuit inference",
+      "label": "METHOD",
+      "start": 0,
+      "end": 16,
+      "sentence": "We therefore proceeded to validate the inferred circuit mechanism directly in the RNN in three ways: in the RNN activity, in the RNN connectivity and by confirming behavioral effects of the RNN perturbations predicted by the latent circuit model."
+    },
+    {
+      "entity": "circuit connectivity",
+      "label": "CONNECTIVITY",
+      "start": 0,
+      "end": 18,
+      "sentence": "The relation between connectivity matrices has the powerful consequence that we can validate the latent circuit mechanism directly in the RNN connectivity."
+    },
+    {
+      "entity": "latent circuit connectivity",
+      "label": "CONNECTIVITY",
+      "start": 0,
+      "end": 25,
+      "sentence": "The relation between connectivity matrices has the powerful consequence that we can validate the latent circuit mechanism directly in the RNN connectivity."
+    },
+    {
+      "entity": "latent circuit parameters",
+      "label": "PARAMETER",
+      "start": 0,
+      "end": 23,
+      "sentence": "We infer the latent circuit parameters (Q, w rec , w in and w out ) from neural activity y by minimizing the loss function L   k,t y -Qx 2  z -w out x 2 , where k and t index trials and time within a trial, respectively (Methods)."
+    },
+    {
+      "entity": "loss function",
+      "label": "FUNCTION",
+      "start": 0,
+      "end": 14,
+      "sentence": "We infer the latent circuit parameters (Q, w rec , w in and w out ) from neural activity y by minimizing the loss function L   k,t y -Qx 2  z -w out x 2 , where k and t index trials and time within a trial, respectively (Methods)."
+    },
+    {
+      "entity": "neural circuit dynamics",
+      "label": "MECHANISM",
+      "start": 0,
+      "end": 24,
+      "sentence": "The latent circuit model captures task-related neural activity in the low-dimensional subspace spanned by the columns of Q, with dynamics within this subspace generated by the neural circuit Eq. ( 2)."
+    },
+    {
+      "entity": "neural circuit",
+      "label": "MODEL",
+      "start": 0,
+      "end": 13,
+      "sentence": "The latent circuit model captures task-related neural activity in the low-dimensional subspace spanned by the columns of Q, with dynamics within this subspace generated by the neural circuit Eq. ( 2)."
     },
     {
       "entity": "neural activity",
-      "label": "NEURAL_ACTIVITY",
-      "start": 6727,
-      "end": 6742
-    },
-    {
-      "entity": "latent circuit",
-      "label": "NEURAL_CIRCUIT",
-      "start": 6764,
-      "end": 6778
-    },
-    {
-      "entity": "RNN",
-      "label": "MODEL",
-      "start": 6809,
-      "end": 6812
-    },
-    {
-      "entity": "latent circuit",
-      "label": "NEURAL_CIRCUIT",
-      "start": 6830,
-      "end": 6844
-    },
-    {
-      "entity": "connectivity",
-      "label": "NEURAL_CONNECTIVITY",
-      "start": 6859,
-      "end": 6871
-    },
-    {
-      "entity": "RNN",
-      "label": "MODEL",
-      "start": 6903,
-      "end": 6906
-    },
-    {
-      "entity": "latent circuit",
-      "label": "NEURAL_CIRCUIT",
-      "start": 6921,
-      "end": 6935
-    },
-    {
-      "entity": "latent circuit model",
-      "label": "MODEL",
-      "start": 6960,
-      "end": 6980
-    },
-    {
-      "entity": "dimensionality reduction",
-      "label": "METHOD",
-      "start": 6999,
-      "end": 7021
-    },
-    {
-      "entity": "circuit mechanisms",
-      "label": "NEURAL_MECHANISM",
-      "start": 7023,
-      "end": 7040
-    },
-    {
-      "entity": "single-neuron heterogeneity",
-      "label": "NEURAL_HETEROGENEITY",
-      "start": 7044,
-      "end": 7070
-    },
-    {
-      "entity": "latent circuit model",
-      "label": "MODEL",
-      "start": 7075,
-      "end": 7095
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
     },
     {
       "entity": "neural responses",
-      "label": "NEURAL_RESPONSE",
-      "start": 7137,
-      "end": 7153
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
     },
     {
-      "entity": "cognitive task",
-      "label": "TASK",
-      "start": 7190,
-      "end": 7204
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
     },
     {
-      "entity": "latent variables",
-      "label": "LATENT_VARIABLE",
-      "start": 7227,
-      "end": 7243
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
     },
     {
-      "entity": "neural circuit",
-      "label": "NEURAL_CIRCUIT",
-      "start": 7278,
-      "end": 7292
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
     },
     {
-      "entity": "latent nodes",
-      "label": "NEURAL_NODE",
-      "start": 7318,
-      "end": 7330
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
     },
     {
-      "entity": "neural circuit",
-      "label": "NEURAL_CIRCUIT",
-      "start": 7358,
-      "end": 7372
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
     },
     {
-      "entity": "task inputs",
-      "label": "TASK_INPUT",
-      "start": 7398,
-      "end": 7409
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural responses",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 15,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
+    },
+    {
+      "entity": "neural activity",
+      "label": "DATA_TYPE",
+      "start": 0,
+      "end": 14,
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21."
     }
   ],
-  "model": "openrouter/google/gemini-2.0-flash-001",
+  "model": "openrouter/openai/gpt-4o-mini",
   "usage": {
-    "completion_tokens": 8192,
-    "prompt_tokens": 18558,
-    "total_tokens": 26750,
+    "completion_tokens": 16384,
+    "prompt_tokens": 18668,
+    "total_tokens": 35052,
     "completion_tokens_details": {
       "accepted_prediction_tokens": null,
       "audio_tokens": 0,
@@ -1375,13 +1832,13 @@
       "text_tokens": null,
       "image_tokens": null
     },
-    "cost": 0.0051326,
+    "cost": 0.0126306,
     "is_byok": false,
     "cost_details": {
-      "upstream_inference_cost": 0.0051326,
-      "upstream_inference_prompt_cost": 0.0018558,
-      "upstream_inference_completions_cost": 0.0032768
+      "upstream_inference_cost": 0.0126306,
+      "upstream_inference_prompt_cost": 0.0028002,
+      "upstream_inference_completions_cost": 0.0098304
     }
   },
-  "raw_response": "```json\n{\n  \"entities\": [\n    {\"entity\": \"Higher cortical areas\", \"label\": \"BRAIN_REGION\", \"start\": 1, \"end\": 22},\n    {\"entity\": \"sensory\", \"label\": \"SENSORY_MODALITY\", \"start\": 36, \"end\": 43},\n    {\"entity\": \"cognitive\", \"label\": \"COGNITIVE_PROCESS\", \"start\": 45, \"end\": 54},\n    {\"entity\": \"motor signals\", \"label\": \"MOTOR_ACTIVITY\", \"start\": 59, \"end\": 71},\n    {\"entity\": \"neurons\", \"label\": \"CELL_TYPE\", \"start\": 101, \"end\": 108},\n    {\"entity\": \"Dimensionality reduction methods\", \"label\": \"METHOD\", \"start\": 130, \"end\": 161},\n    {\"entity\": \"neural activity\", \"label\": \"NEURAL_ACTIVITY\", \"start\": 181, \"end\": 196},\n    {\"entity\": \"task variables\", \"label\": \"TASK_VARIABLE\", \"start\": 197, \"end\": 211},\n    {\"entity\": \"heterogeneous responses\", \"label\": \"NEURAL_RESPONSE\", \"start\": 230, \"end\": 253},\n    {\"entity\": \"connectivity\", \"label\": \"NEURAL_CONNECTIVITY\", \"start\": 266, \"end\": 278},\n    {\"entity\": \"behavior\", \"label\": \"BEHAVIOR\", \"start\": 286, \"end\": 294},\n    {\"entity\": \"latent circuit model\", \"label\": \"MODEL\", \"start\": 300, \"end\": 320},\n    {\"entity\": \"dimensionality reduction approach\", \"label\": \"METHOD\", \"start\": 323, \"end\": 354},\n    {\"entity\": \"task variables\", \"label\": \"TASK_VARIABLE\", \"start\": 362, \"end\": 376},\n    {\"entity\": \"low-dimensional recurrent connectivity\", \"label\": \"NEURAL_CONNECTIVITY\", \"start\": 383, \"end\": 420},\n    {\"entity\": \"behavioral output\", \"label\": \"BEHAVIORAL_OUTPUT\", \"start\": 434, \"end\": 451},\n    {\"entity\": \"latent circuit inference\", \"label\": \"METHOD\", \"start\": 459, \"end\": 482},\n    {\"entity\": \"recurrent neural networks\", \"label\": \"MODEL\", \"start\": 486, \"end\": 510},\n    {\"entity\": \"context-dependent decision-making task\", \"label\": \"TASK\", \"start\": 526, \"end\": 560},\n    {\"entity\": \"suppression mechanism\", \"label\": \"NEURAL_MECHANISM\", \"start\": 570, \"end\": 591},\n    {\"entity\": \"contextual representations\", \"label\": \"NEURAL_REPRESENTATION\", \"start\": 595, \"end\": 619},\n    {\"entity\": \"sensory responses\", \"label\": \"NEURAL_RESPONSE\", \"start\": 628, \"end\": 645},\n    {\"entity\": \"behavioral effects\", \"label\": \"BEHAVIORAL_EFFECT\", \"start\": 674, \"end\": 692},\n    {\"entity\": \"patterned connectivity perturbations\", \"label\": \"NEURAL_MANIPULATION\", \"start\": 696, \"end\": 730},\n    {\"entity\": \"latent circuit model\", \"label\": \"MODEL\", \"start\": 743, \"end\": 763},\n    {\"entity\": \"sensory responses\", \"label\": \"NEURAL_RESPONSE\", \"start\": 780, \"end\": 797},\n    {\"entity\": \"prefrontal cortex\", \"label\": \"BRAIN_REGION\", \"start\": 801, \"end\": 818},\n    {\"entity\": \"monkeys\", \"label\": \"SPECIES\", \"start\": 822, \"end\": 829},\n    {\"entity\": \"task\", \"label\": \"TASK\", \"start\": 839, \"end\": 843},\n    {\"entity\": \"causal interactions\", \"label\": \"CAUSAL_RELATION\", \"start\": 866, \"end\": 884},\n    {\"entity\": \"task variables\", \"label\": \"TASK_VARIABLE\", \"start\": 890, \"end\": 904},\n    {\"entity\": \"behaviorally relevant computations\", \"label\": \"NEURAL_COMPUTATION\", \"start\": 918, \"end\": 950},\n    {\"entity\": \"neural response data\", \"label\": \"NEURAL_DATA\", \"start\": 956, \"end\": 975},\n    {\"entity\": \"Cognitive functions\", \"label\": \"COGNITIVE_FUNCTION\", \"start\": 980, \"end\": 998},\n    {\"entity\": \"higher cortical areas\", \"label\": \"BRAIN_REGION\", \"start\": 1007, \"end\": 1028},\n    {\"entity\": \"sensory\", \"label\": \"SENSORY_MODALITY\", \"start\": 1046, \"end\": 1053},\n    {\"entity\": \"contextual signals\", \"label\": \"NEURAL_SIGNAL\", \"start\": 1058, \"end\": 1075},\n    {\"entity\": \"behavioral response\", \"label\": \"BEHAVIORAL_RESPONSE\", \"start\": 1092, \"end\": 1111},\n    {\"entity\": \"excitatory\", \"label\": \"NEUROTRANSMITTER_ACTION\", \"start\": 1141, \"end\": 1151},\n    {\"entity\": \"inhibitory neurons\", \"label\": \"CELL_TYPE\", \"start\": 1156, \"end\": 1173},\n    {\"entity\": \"cortical circuits\", \"label\": \"NEURAL_CIRCUIT\", \"start\": 1177, \"end\": 1193},\n    {\"entity\": \"neural circuit models\", \"label\": \"MODEL\", \"start\": 1210, \"end\": 1229},\n    {\"entity\": \"mechanistic hypotheses\", \"label\": \"SCIENTIFIC_HYPOTHESIS\", \"start\": 1244, \"end\": 1266},\n    {\"entity\": \"excitation\", \"label\": \"NEUROTRANSMITTER_ACTION\", \"start\": 1275, \"end\": 1285},\n    {\"entity\": \"inhibition\", \"label\": \"NEUROTRANSMITTER_ACTION\", \"start\": 1290, \"end\": 1300},\n    {\"entity\": \"neural populations\", \"label\": \"NEURAL_POPULATION\", \"start\": 1309, \"end\": 1327},\n    {\"entity\": \"task variables\", \"label\": \"TASK_VARIABLE\", \"start\": 1328, \"end\": 1342},\n    {\"entity\": \"information\", \"label\": \"NEURAL_SIGNAL\", \"start\": 1361, \"end\": 1372},\n    {\"entity\": \"behavioral output\", \"label\": \"BEHAVIORAL_OUTPUT\", \"start\": 1383, \"end\": 1399},\n    {\"entity\": \"circuit models\", \"label\": \"MODEL\", \"start\": 1459, \"end\": 1472},\n    {\"entity\": \"connectivity structure\", \"label\": \"NEURAL_CONNECTIVITY\", \"start\": 1487, \"end\": 1509},\n    {\"entity\": \"dynamical system description\", \"label\": \"MODEL\", \"start\": 1519, \"end\": 1547},\n    {\"entity\": \"cognitive task execution\", \"label\": \"TASK\", \"start\": 1559, \"end\": 1583},\n    {\"entity\": \"circuit mechanism\", \"label\": \"NEURAL_MECHANISM\", \"start\": 1627, \"end\": 1644},\n    {\"entity\": \"connectivity structure\", \"label\": \"NEURAL_CONNECTIVITY\", \"start\": 1648, \"end\": 1670},\n    {\"entity\": \"dynamical mechanism\", \"label\": \"NEURAL_MECHANISM\", \"start\": 1686, \"end\": 1705},\n    {\"entity\": \"neural trajectories\", \"label\": \"NEURAL_ACTIVITY\", \"start\": 1719, \"end\": 1736},\n    {\"entity\": \"task computations\", \"label\": \"NEURAL_COMPUTATION\", \"start\": 1749, \"end\": 1767},\n    {\"entity\": \"connectivity\", \"label\": \"NEURAL_CONNECTIVITY\", \"start\": 1790, \"end\": 1802},\n    {\"entity\": \"neural dynamics\", \"label\": \"NEURAL_ACTIVITY\", \"start\": 1806, \"end\": 1821},\n    {\"entity\": \"behavioral output\", \"label\": \"BEHAVIORAL_OUTPUT\", \"start\": 1826, \"end\": 1842},\n    {\"entity\": \"dynamics\", \"label\": \"NEURAL_ACTIVITY\", \"start\": 1867, \"end\": 1875},\n    {\"entity\": \"behavioral performance\", \"label\": \"BEHAVIORAL_PERFORMANCE\", \"start\": 1880, \"end\": 1902},\n    {\"entity\": \"circuit structure\", \"label\": \"NEURAL_CIRCUIT\", \"start\": 1920, \"end\": 1936},\n    {\"entity\": \"excitation-inhibition balance\", \"label\": \"NEURAL_BALANCE\", \"start\": 1958, \"end\": 1987},\n    {\"entity\": \"experiments\", \"label\": \"EXPERIMENT\", \"start\": 2028, \"end\": 2039},\n    {\"entity\": \"circuit models\", \"label\": \"MODEL\", \"start\": 2051, \"end\": 2064},\n    {\"entity\": \"complexity\", \"label\": \"NEURAL_COMPLEXITY\", \"start\": 2081, \"end\": 2091},\n    {\"entity\": \"heterogeneity\", \"label\": \"NEURAL_HETEROGENEITY\", \"start\": 2095, \"end\": 2108},\n    {\"entity\": \"singleneuron responses\", \"label\": \"NEURAL_RESPONSE\", \"start\": 2112, \"end\": 2134},\n    {\"entity\": \"cortex\", \"label\": \"BRAIN_REGION\", \"start\": 2138, \"end\": 2144},\n    {\"entity\": \"Single neurons\", \"label\": \"CELL_TYPE\", \"start\": 2149, \"end\": 2163},\n    {\"entity\": \"prefrontal cortex (PFC)\", \"label\": \"BRAIN_REGION\", \"start\": 2174, \"end\": 2196},\n    {\"entity\": \"complex heterogeneous tuning\", \"label\": \"NEURAL_RESPONSE\", \"start\": 2202, \"end\": 2229},\n    {\"entity\": \"task variables\", \"label\": \"TASK_VARIABLE\", \"start\": 2233, \"end\": 2247},\n    {\"entity\": \"circuit mechanisms\", \"label\": \"NEURAL_MECHANISM\", \"start\": 2293, \"end\": 2310},\n    {\"entity\": \"heterogeneous responses\", \"label\": \"NEURAL_RESPONSE\", \"start\": 2319, \"end\": 2342},\n    {\"entity\": \"recurrent neural network (RNN) models\", \"label\": \"MODEL\", \"start\": 2346, \"end\": 2382},\n    {\"entity\": \"cognitive tasks\", \"label\": \"TASK\", \"start\": 2399, \"end\": 2414},\n    {\"entity\": \"neural activity data\", \"label\": \"NEURAL_DATA\", \"start\": 2436, \"end\": 2455},\n    {\"entity\": \"recurrent connectivity parameters\", \"label\": \"NEURAL_CONNECTIVITY\", \"start\": 2474, \"end\": 2505},\n    {\"entity\": \"RNNs\", \"label\": \"MODEL\", \"start\": 2515, \"end\": 2519},\n    {\"entity\": \"neural circuit models\", \"label\": \"MODEL\", \"start\": 2529, \"end\": 2548},\n    {\"entity\": \"complexity\", \"label\": \"NEURAL_COMPLEXITY\", \"start\": 2553, \"end\": 2563},\n    {\"entity\": \"high-dimensional activity\", \"label\": \"NEURAL_ACTIVITY\", \"start\": 2567, \"end\": 2590},\n    {\"entity\": \"connectivity\", \"label\": \"NEURAL_CONNECTIVITY\", \"start\": 2594, \"end\": 2606},\n    {\"entity\": \"circuit mechanisms\", \"label\": \"NEURAL_MECHANISM\", \"start\": 2622, \"end\": 2639},\n    {\"entity\": \"dynamical mechanisms\", \"label\": \"NEURAL_MECHANISM\", \"start\": 2670, \"end\": 2689},\n    {\"entity\": \"task computations\", \"label\": \"NEURAL_COMPUTATION\", \"start\": 2693, \"end\": 2711},\n    {\"entity\": \"fixed points\", \"label\": \"NEURAL_ACTIVITY\", \"start\": 2738, \"end\": 2750},\n    {\"entity\": \"linearized dynamics\", \"label\": \"NEURAL_ACTIVITY\", \"start\": 2755, \"end\": 2773},\n    {\"entity\": \"RNNs\", \"label\": \"MODEL\", \"start\": 2774, \"end\": 2778},\n    {\"entity\": \"dynamical system\", \"label\": \"MODEL\", \"start\": 2797, \"end\": 2813},\n    {\"entity\": \"neural response data\", \"label\": \"NEURAL_DATA\", \"start\": 2821, \"end\": 2840},\n    {\"entity\": \"network connectivity\", \"label\": \"NEURAL_CONNECTIVITY\", \"start\": 2899, \"end\": 2919},\n    {\"entity\": \"high-dimensional RNNs\", \"label\": \"MODEL\", \"start\": 2930, \"end\": 2950},\n    {\"entity\": \"mechanistic models\", \"label\": \"MODEL\", \"start\": 2964, \"end\": 2982},\n    {\"entity\": \"heterogeneous neural responses\", \"label\": \"NEURAL_RESPONSE\", \"start\": 2983, \"end\": 3011},\n    {\"entity\": \"RNNs\", \"label\": \"MODEL\", \"start\": 3020, \"end\": 3024},\n    {\"entity\": \"PFC\", \"label\": \"BRAIN_REGION\", \"start\": 3039, \"end\": 3042},\n    {\"entity\": \"task solutions\", \"label\": \"TASK_SOLUTION\", \"start\": 3065, \"end\": 3079},\n    {\"entity\": \"small circuits\", \"label\": \"NEURAL_CIRCUIT\", \"start\": 3094, \"end\": 3108},\n    {\"entity\": \"high-dimensional networks\", \"label\": \"NEURAL_NETWORK\", \"start\": 3119, \"end\": 3142},\n    {\"entity\": \"correlation-based dimensionality reduction methods\", \"label\": \"METHOD\", \"start\": 3160, \"end\": 3206},\n    {\"entity\": \"connectivity\", \"label\": \"NEURAL_CONNECTIVITY\", \"start\": 3224, \"end\": 3236},\n    {\"entity\": \"causal mechanisms\", \"label\": \"CAUSAL_RELATION\", \"start\": 3240, \"end\": 3257},\n    {\"entity\": \"heterogeneous neural responses\", \"label\": \"NEURAL_RESPONSE\", \"start\": 3267, \"end\": 3295},\n    {\"entity\": \"cognitive tasks\", \"label\": \"TASK\", \"start\": 3302, \"end\": 3317},\n    {\"entity\": \"low-dimensional circuit mechanisms\", \"label\": \"NEURAL_MECHANISM\", \"start\": 3323, \"end\": 3355},\n    {\"entity\": \"latent circuit model\", \"label\": \"MODEL\", \"start\": 3380, \"end\": 3400},\n    {\"entity\": \"dimensionality reduction approach\", \"label\": \"METHOD\", \"start\": 3403, \"end\": 3434},\n    {\"entity\": \"neural responses\", \"label\": \"NEURAL_RESPONSE\", \"start\": 3452, \"end\": 3468},\n    {\"entity\": \"task behavior\", \"label\": \"TASK_BEHAVIOR\", \"start\": 3473, \"end\": 3487},\n    {\"entity\": \"recurrent interactions\", \"label\": \"NEURAL_INTERACTION\", \"start\": 3498, \"end\": 3519},\n    {\"entity\": \"task variables\", \"label\": \"TASK_VARIABLE\", \"start\": 3523, \"end\": 3537},\n    {\"entity\": \"causal mechanism\", \"label\": \"CAUSAL_RELATION\", \"start\": 3541, \"end\": 3557},\n    {\"entity\": \"task execution\", \"label\": \"TASK_EXECUTION\", \"start\": 3561, \"end\": 3576},\n    {\"entity\": \"neural responses\", \"label\": \"NEURAL_RESPONSE\", \"start\": 3591, \"end\": 3607},\n    {\"entity\": \"dynamics\", \"label\": \"NEURAL_ACTIVITY\", \"start\": 3627, \"end\": 3635},\n    {\"entity\": \"low-dimensional latent circuit\", \"label\": \"NEURAL_CIRCUIT\", \"start\": 3639, \"end\": 3668},\n    {\"entity\": \"heterogeneous neural responses\", \"label\": \"NEURAL_RESPONSE\", \"start\": 3699, \"end\": 3727},\n    {\"entity\": \"low-dimensional circuit mechanism\", \"label\": \"NEURAL_MECHANISM\", \"start\": 3733, \"end\": 3765},\n    {\"entity\": \"low-dimensional latent circuit connectivity\", \"label\": \"NEURAL_CONNECTIVITY\", \"start\": 3793, \"end\": 3830},\n    {\"entity\": \"task-relevant dynamics\", \"label\": \"NEURAL_ACTIVITY\", \"start\": 3834, \"end\": 3855},\n    {\"entity\": \"heterogeneous mixing\", \"label\": \"NEURAL_INTERACTION\", \"start\": 3859, \"end\": 3879},\n    {\"entity\": \"single-neuron responses\", \"label\": \"NEURAL_RESPONSE\", \"start\": 3883, \"end\": 3905},\n    {\"entity\": \"latent circuit inference\", \"label\": \"METHOD\", \"start\": 3911, \"end\": 3934},\n    {\"entity\": \"RNNs\", \"label\": \"MODEL\", \"start\": 3947, \"end\": 3951},\n    {\"entity\": \"context-dependent decision-making task\", \"label\": \"TASK\", \"start\": 3964, \"end\": 3998},\n    {\"entity\": \"circuit mechanism\", \"label\": \"NEURAL_MECHANISM\", \"start\": 4010, \"end\": 4027},\n    {\"entity\": \"inhibition\", \"label\": \"NEUROTRANSMITTER_ACTION\", \"start\": 4034, \"end\": 4044},\n    {\"entity\": \"sensory representations\", \"label\": \"NEURAL_REPRESENTATION\", \"start\": 4048, \"end\": 4072},\n    {\"entity\": \"behavioral effects\", \"label\": \"BEHAVIORAL_EFFECT\", \"start\": 4101, \"end\": 4119},\n    {\"entity\": \"patterned perturbations\", \"label\": \"NEURAL_MANIPULATION\", \"start\": 4123, \"end\": 4145},\n    {\"entity\": \"RNN activity\", \"label\": \"NEURAL_ACTIVITY\", \"start\": 4149, \"end\": 4162},\n    {\"entity\": \"connectivity\", \"label\": \"NEURAL_CONNECTIVITY\", \"start\": 4166, \"end\": 4178},\n    {\"entity\": \"latent circuit model\", \"label\": \"MODEL\", \"start\": 4191, \"end\": 4211},\n    {\"entity\": \"neural recordings\", \"label\": \"NEURAL_DATA\", \"start\": 4230, \"end\": 4247},\n    {\"entity\": \"PFC\", \"label\": \"BRAIN_REGION\", \"start\": 4251, \"end\": 4254},\n    {\"entity\": \"monkeys\", \"label\": \"SPECIES\", \"start\": 4258, \"end\": 4265},\n    {\"entity\": \"context-dependent decision-making task\", \"label\": \"TASK\", \"start\": 4279, \"end\": 4313},\n    {\"entity\": \"suppression mechanism\", \"label\": \"NEURAL_MECHANISM\", \"start\": 4330, \"end\": 4351},\n    {\"entity\": \"correlation-based methods\", \"label\": \"METHOD\", \"start\": 4399, \"end\": 4424},\n    {\"entity\": \"RNN perturbations\", \"label\": \"NEURAL_MANIPULATION\", \"start\": 4433, \"end\": 4450},\n    {\"entity\": \"dimensionality reduction methods\", \"label\": \"METHOD\", \"start\": 4455, \"end\": 4486},\n    {\"entity\": \"causal interactions\", \"label\": \"CAUSAL_RELATION\", \"start\": 4509, \"end\": 4527},\n    {\"entity\": \"latent variables\", \"label\": \"LATENT_VARIABLE\", \"start\": 4532, \"end\": 4548},\n    {\"entity\": \"behaviorally irrelevant representations\", \"label\": \"NEURAL_REPRESENTATION\", \"start\": 4561, \"end\": 4598},\n    {\"entity\": \"high-dimensional networks\", \"label\": \"NEURAL_NETWORK\", \"start\": 4612, \"end\": 4635},\n    {\"entity\": \"low-dimensional circuit mechanisms\", \"label\": \"NEURAL_MECHANISM\", \"start\": 4641, \"end\": 4673},\n    {\"entity\": \"dynamical mechanisms\", \"label\": \"NEURAL_MECHANISM\", \"start\": 4718, \"end\": 4737},\n    {\"entity\": \"circuit mechanisms\", \"label\": \"NEURAL_MECHANISM\", \"start\": 4741, \"end\": 4758},\n    {\"entity\": \"single-neuron responses\", \"label\": \"NEURAL_RESPONSE\", \"start\": 4770, \"end\": 4792},\n    {\"entity\": \"population activity\", \"label\": \"NEURAL_ACTIVITY\", \"start\": 4811, \"end\": 4829},\n    {\"entity\": \"low dimensional\", \"label\": \"DIMENSIONALITY\", \"start\": 4834, \"end\": 4848},\n    {\"entity\": \"cognitive tasks\", \"label\": \"TASK\", \"start\": 4858, \"end\": 4873},\n    {\"entity\": \"brain areas\", \"label\": \"BRAIN_REGION\", \"start\": 4878, \"end\": 4889},\n    {\"entity\": \"dimensionality reduction methods\", \"label\": \"METHOD\", \"start\": 4893, \"end\": 4924},\n    {\"entity\": \"latent variables\", \"label\": \"LATENT_VARIABLE\", \"start\": 4970, \"end\": 4986},\n    {\"entity\": \"neural population activity\", \"label\": \"NEURAL_ACTIVITY\", \"start\": 4990, \"end\": 5014},\n    {\"entity\": \"population level\", \"label\": \"NEURAL_POPULATION\", \"start\": 5050, \"end\": 5066},\n    {\"entity\": \"unsupervised methods\", \"label\": \"METHOD\", \"start\": 5070, \"end\": 5089},\n    {\"entity\": \"task inputs\", \"label\": \"TASK_INPUT\", \"start\": 5113, \"end\": 5124},\n    {\"entity\": \"behavioral outputs\", \"label\": \"BEHAVIORAL_OUTPUT\", \"start\": 5129, \"end\": 5147},\n    {\"entity\": \"latent variables\", \"label\": \"LATENT_VARIABLE\", \"start\": 5156, \"end\": 5172},\n    {\"entity\": \"cognitive task execution\", \"label\": \"TASK\", \"start\": 5181, \"end\": 5205},\n    {\"entity\": \"dimensionality reduction methods\", \"label\": \"METHOD\", \"start\": 5223, \"end\": 5254},\n    {\"entity\": \"neural representations\", \"label\": \"NEURAL_REPRESENTATION\", \"start\": 5267, \"end\": 5288},\n    {\"entity\": \"task inputs\", \"label\": \"TASK_INPUT\", \"start\": 5293, \"end\": 5304},\n    {\"entity\": \"behavioral outputs\", \"label\": \"BEHAVIORAL_OUTPUT\", \"start\": 5309, \"end\": 5327},\n    {\"entity\": \"low-dimensional projections\", \"label\": \"NEURAL_PROJECTION\", \"start\": 5333, \"end\": 5359},\n    {\"entity\": \"neural population activity\", \"label\": \"NEURAL_ACTIVITY\", \"start\": 5363, \"end\": 5387},\n    {\"entity\": \"task variables\", \"label\": \"TASK_VARIABLE\", \"start\": 5404, \"end\": 5418},\n    {\"entity\": \"RNNs\", \"label\": \"MODEL\", \"start\": 5440, \"end\": 5444},\n    {\"entity\": \"circuit models\", \"label\": \"MODEL\", \"start\": 5449, \"end\": 5462},\n    {\"entity\": \"recurrent interactions\", \"label\": \"NEURAL_INTERACTION\", \"start\": 5476, \"end\": 5497},\n    {\"entity\": \"task variables\", \"label\": \"TASK_VARIABLE\", \"start\": 5501, \"end\": 5515},\n    {\"entity\": \"neural representations\", \"label\": \"NEURAL_REPRESENTATION\", \"start\": 5557, \"end\": 5578},\n    {\"entity\": \"driving behavior\", \"label\": \"BEHAVIOR\", \"start\": 5599, \"end\": 5615},\n    {\"entity\": \"causal predictive power\", \"label\": \"CAUSAL_RELATION\", \"start\": 5626, \"end\": 5649},\n    {\"entity\": \"dynamical\", \"label\": \"NEURAL_ACTIVITY\", \"start\": 5653, \"end\": 5662},\n    {\"entity\": \"circuit mechanisms\", \"label\": \"NEURAL_MECHANISM\", \"start\": 5667, \"end\": 5684},\n    {\"entity\": \"circuit mechanisms\", \"label\": \"NEURAL_MECHANISM\", \"start\": 5703, \"end\": 5720},\n    {\"entity\": \"correlation-based dimensionality reduction methods\", \"label\": \"METHOD\", \"start\": 5724, \"end\": 5770},\n    {\"entity\": \"PFCs\", \"label\": \"BRAIN_REGION\", \"start\": 5789, \"end\": 5793},\n    {\"entity\": \"context-dependent decision-making\", \"label\": \"TASK\", \"start\": 5798, \"end\": 5829},\n    {\"entity\": \"Context-dependent decision-making\", \"label\": \"TASK\", \"start\": 5833, \"end\": 5864},\n    {\"entity\": \"stimulus-response mappings\", \"label\": \"NEURAL_MAPPING\", \"start\": 5894, \"end\": 5921},\n    {\"entity\": \"circuit models\", \"label\": \"MODEL\", \"start\": 5934, \"end\": 5947},\n    {\"entity\": \"inhibition\", \"label\": \"NEUROTRANSMITTER_ACTION\", \"start\": 5977, \"end\": 5987},\n    {\"entity\": \"sensory representations\", \"label\": \"NEURAL_REPRESENTATION\", \"start\": 5991, \"end\": 6015},\n    {\"entity\": \"PFC data\", \"label\": \"NEURAL_DATA\", \"start\": 6059, \"end\": 6067},\n    {\"entity\": \"RNN activity\", \"label\": \"NEURAL_ACTIVITY\", \"start\": 6071, \"end\": 6084},\n    {\"entity\": \"sensory responses\", \"label\": \"NEURAL_RESPONSE\", \"start\": 6099, \"end\": 6116},\n    {\"entity\": \"inhibitory circuit mechanism\", \"label\": \"NEURAL_MECHANISM\", \"start\": 6143, \"end\": 6170},\n    {\"entity\": \"task variables\", \"label\": \"TASK_VARIABLE\", \"start\": 6247, \"end\": 6261},\n    {\"entity\": \"neural activity\", \"label\": \"NEURAL_ACTIVITY\", \"start\": 6290, \"end\": 6305},\n    {\"entity\": \"task variables\", \"label\": \"TASK_VARIABLE\", \"start\": 6329, \"end\": 6343},\n    {\"entity\": \"neural activity space\", \"label\": \"NEURAL_ACTIVITY\", \"start\": 6371, \"end\": 6392},\n    {\"entity\": \"task variable\", \"label\": \"TASK_VARIABLE\", \"start\": 6429, \"end\": 6443},\n    {\"entity\": \"neural population state space\", \"label\": \"NEURAL_ACTIVITY\", \"start\": 6461, \"end\": 6490},\n    {\"entity\": \"Latent circuit model\", \"label\": \"MODEL\", \"start\": 6500, \"end\": 6519},\n    {\"entity\": \"Embedding matrix\", \"label\": \"NEURAL_ENCODING\", \"start\": 6521, \"end\": 6538},\n    {\"entity\": \"population state space\", \"label\": \"NEURAL_ACTIVITY\", \"start\": 6567, \"end\": 6591},\n    {\"entity\": \"latent circuit\", \"label\": \"NEURAL_CIRCUIT\", \"start\": 6610, \"end\": 6624},\n    {\"entity\": \"task inputs\", \"label\": \"TASK_INPUT\", \"start\": 6660, \"end\": 6671},\n    {\"entity\": \"task outputs\", \"label\": \"TASK_OUTPUT\", \"start\": 6676, \"end\": 6688},\n    {\"entity\": \"neural activity\", \"label\": \"NEURAL_ACTIVITY\", \"start\": 6727, \"end\": 6742},\n    {\"entity\": \"latent circuit\", \"label\": \"NEURAL_CIRCUIT\", \"start\": 6764, \"end\": 6778},\n    {\"entity\": \"RNN\", \"label\": \"MODEL\", \"start\": 6809, \"end\": 6812},\n    {\"entity\": \"latent circuit\", \"label\": \"NEURAL_CIRCUIT\", \"start\": 6830, \"end\": 6844},\n    {\"entity\": \"connectivity\", \"label\": \"NEURAL_CONNECTIVITY\", \"start\": 6859, \"end\": 6871},\n    {\"entity\": \"RNN\", \"label\": \"MODEL\", \"start\": 6903, \"end\": 6906},\n    {\"entity\": \"latent circuit\", \"label\": \"NEURAL_CIRCUIT\", \"start\": 6921, \"end\": 6935},\n    {\"entity\": \"latent circuit model\", \"label\": \"MODEL\", \"start\": 6960, \"end\": 6980},\n    {\"entity\": \"dimensionality reduction\", \"label\": \"METHOD\", \"start\": 6999, \"end\": 7021},\n    {\"entity\": \"circuit mechanisms\", \"label\": \"NEURAL_MECHANISM\", \"start\": 7023, \"end\": 7040},\n    {\"entity\": \"single-neuron heterogeneity\", \"label\": \"NEURAL_HETEROGENEITY\", \"start\": 7044, \"end\": 7070},\n    {\"entity\": \"latent circuit model\", \"label\": \"MODEL\", \"start\": 7075, \"end\": 7095},\n    {\"entity\": \"neural responses\", \"label\": \"NEURAL_RESPONSE\", \"start\": 7137, \"end\": 7153},\n    {\"entity\": \"cognitive task\", \"label\": \"TASK\", \"start\": 7190, \"end\": 7204},\n    {\"entity\": \"latent variables\", \"label\": \"LATENT_VARIABLE\", \"start\": 7227, \"end\": 7243},\n    {\"entity\": \"neural circuit\", \"label\": \"NEURAL_CIRCUIT\", \"start\": 7278, \"end\": 7292},\n    {\"entity\": \"latent nodes\", \"label\": \"NEURAL_NODE\", \"start\": 7318, \"end\": 7330},\n    {\"entity\": \"neural circuit\", \"label\": \"NEURAL_CIRCUIT\", \"start\": 7358, \"end\": 7372},\n    {\"entity\": \"task inputs\", \"label\": \"TASK_INPUT\", \"start\": 7398, \"end\": 7409},\n    {\"entity"
+  "raw_response": "{\n  \"entities\": [\n    {\"entity\": \"latent circuit model\", \"label\": \"MODEL\", \"start\": 0, \"end\": 20, \"sentence\": \"To bridge the gap between dimensionality reduction, circuit mechanisms and single-neuron heterogeneity, we develop a latent circuit model (Fig. 1c).\"},\n    {\"entity\": \"dimensionality reduction methods\", \"label\": \"METHOD\", \"start\": 20, \"end\": 50, \"sentence\": \"Similar to other dimensionality reduction methods, we model high-dimensional neural responses y  \u211d N (N is the number of neurons) during a cognitive task using low-dimensional latent variables x  \u211d n as\"},\n    {\"entity\": \"rectified linear (ReLU)\", \"label\": \"ACTIVATION_FUNCTION\", \"start\": 0, \"end\": 27, \"sentence\": \"where f is a rectified linear (ReLU) activation function.\"},\n    {\"entity\": \"PFC\", \"label\": \"BRAIN_REGION\", \"start\": 0, \"end\": 3, \"sentence\": \"We find similar suppression of irrelevant sensory responses in the prefrontal cortex of monkeys performing the same task.\"},\n    {\"entity\": \"RNN\", \"label\": \"MODEL\", \"start\": 0, \"end\": 3, \"sentence\": \"Although trained RNNs are a class of neural circuit models, the complexity of their high-dimensional activity and connectivity obscures the interpretation of circuit mechanisms in these networks 30.\"},\n    {\"entity\": \"monkeys\", \"label\": \"SPECIES\", \"start\": 0, \"end\": 7, \"sentence\": \"We find similar suppression of irrelevant sensory responses in the prefrontal cortex of monkeys performing the same task.\"},\n    {\"entity\": \"context-dependent decision-making task\", \"label\": \"TASK\", \"start\": 0, \"end\": 36, \"sentence\": \"We applied our latent circuit inference to RNNs optimized to perform a context-dependent decision-making task, which requires the discrimination of either the color or motion feature of a sensory stimulus depending on the context cue 19 (Fig. 2a,b and Methods).\"},\n    {\"entity\": \"contextual cue\", \"label\": \"STIMULUS\", \"start\": 0, \"end\": 16, \"sentence\": \"In the context-dependent decision-making task, at the beginning of each trial, a context cue briefly appears to indicate either the color or motion context for the current trial.\"},\n    {\"entity\": \"color\", \"label\": \"TASK_VARIABLE\", \"start\": 0, \"end\": 5, \"sentence\": \"The right motion and red color are associated with the right choice, and the left motion and green color are associated with the left choice.\"},\n    {\"entity\": \"motion\", \"label\": \"TASK_VARIABLE\", \"start\": 0, \"end\": 6, \"sentence\": \"The right motion and red color are associated with the right choice, and the left motion and green color are associated with the left choice.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity recordings\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 25, \"sentence\": \"We analyzed a publicly available dataset of neural activity recordings from the PFC (in and around the frontal eye field) from two monkeys performing a context-dependent decision-making task 19.\"},\n    {\"entity\": \"task variables\", \"label\": \"TASK_VARIABLE\", \"start\": 0, \"end\": 14, \"sentence\": \"By contrast, representations of task variables in the latent circuit model interact via recurrent connectivity to implement the computations necessary to solve the task.\"},\n    {\"entity\": \"behavioral output\", \"label\": \"OUTPUT\", \"start\": 0, \"end\": 16, \"sentence\": \"Thus, these models explicitly specify a circuit mechanism in the connectivity structure that gives rise to a dynamical mechanism controlling the flow of neural trajectories to implement task computations.\"},\n    {\"entity\": \"cognitive tasks\", \"label\": \"TASK\", \"start\": 0, \"end\": 15, \"sentence\": \"These computations result from interactions between excitatory and inhibitory neurons in cortical circuits.\"},\n    {\"entity\": \"excitatory\", \"label\": \"CELL_TYPE\", \"start\": 0, \"end\": 10, \"sentence\": \"These computations result from interactions between excitatory and inhibitory neurons in cortical circuits.\"},\n    {\"entity\": \"inhibitory\", \"label\": \"CELL_TYPE\", \"start\": 0, \"end\": 10, \"sentence\": \"These computations result from interactions between excitatory and inhibitory neurons in cortical circuits.\"},\n    {\"entity\": \"neural circuit models\", \"label\": \"MODEL\", \"start\": 0, \"end\": 22, \"sentence\": \"Traditionally, hand-crafted neural circuit models were used to pose specific mechanistic hypotheses about how excitation and inhibition between a few neural populations representing task variables control the flow of information from input to behavioral output.\"},\n    {\"entity\": \"high-dimensional recurrent neural network\", \"label\": \"MODEL\", \"start\": 0, \"end\": 36, \"sentence\": \"Similar heterogeneous responses emerge in high-dimensional recurrent neural network (RNN) models trained to perform cognitive tasks 19,222324 or reproduce neural activity data 2526272829 by optimizing recurrent connectivity parameters.\"},\n    {\"entity\": \"neural response data\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 19, \"sentence\": \"Thus, high-dimensional RNNs currently serve as intermediate mechanistic models of heterogeneous neural responses, suggest that RNNs and conceivably the PFC implement qualitatively novel task solutions that do not exist in small circuits and emerge only in high-dimensional networks 19,47,48.\"},\n    {\"entity\": \"neural activity data\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 20, \"sentence\": \"Similar heterogeneous responses emerge in high-dimensional recurrent neural network (RNN) models trained to perform cognitive tasks 19,222324 or reproduce neural activity data 2526272829 by optimizing recurrent connectivity parameters.\"},\n    {\"entity\": \"dynamical mechanisms\", \"label\": \"MECHANISM\", \"start\": 0, \"end\": 19, \"sentence\": \"It has been possible to determine dynamical mechanisms of task computations by either characterizing fixed points and linearized dynamics around them in RNNs 19,31 or fitting a dynamical system directly to neural response data 27,32333435.\"},\n    {\"entity\": \"circuit mechanisms\", \"label\": \"MECHANISM\", \"start\": 0, \"end\": 17, \"sentence\": \"Thus, high-dimensional RNNs currently serve as intermediate mechanistic models of heterogeneous neural responses, suggest that RNNs and conceivably the PFC implement qualitatively novel task solutions that do not exist in small circuits and emerge only in high-dimensional networks 19,47,48.\"},\n    {\"entity\": \"neural population activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 24, \"sentence\": \"Accordingly, dimensionality reduction methods are commonly used to reveal representations of low-dimensional latent variables in neural population activity, which reflect computations emerging at the population level.\"},\n    {\"entity\": \"latent variables\", \"label\": \"VARIABLE\", \"start\": 0, \"end\": 15, \"sentence\": \"Because unsupervised methods do not explicitly model task inputs and behavioral outputs, the latent variables they infer may be unrelated to the cognitive task execution 26,37383940.\"},\n    {\"entity\": \"task inputs\", \"label\": \"TASK_VARIABLE\", \"start\": 0, \"end\": 10, \"sentence\": \"Because unsupervised methods do not explicitly model task inputs and behavioral outputs, the latent variables they infer may be unrelated to the cognitive task execution 26,37383940.\"},\n    {\"entity\": \"task outputs\", \"label\": \"OUTPUT\", \"start\": 0, \"end\": 12, \"sentence\": \"We also require the latent circuit to perform the task, that is, we can read out the task outputs z from circuit activity via the output connectivity w out.\"},\n    {\"entity\": \"cognitive flexibility\", \"label\": \"FUNCTION\", \"start\": 0, \"end\": 20, \"sentence\": \"Thus, inhibitory mechanisms for cognitive flexibility are compatible with the existence of irrelevant stimulus representations in the PFC.\"},\n    {\"entity\": \"neural recordings\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 16, \"sentence\": \"Moreover, fitting the latent circuit model to neural recordings from the PFC of monkeys performing the same context-dependent decision-making task revealed a qualitatively similar suppression mechanism, in contrast to previous analyses of the same data with correlation-based methods 19,21.\"},\n    {\"entity\": \"neural circuit\", \"label\": \"MODEL\", \"start\": 0, \"end\": 13, \"sentence\": \"Thus, these models explicitly specify a circuit mechanism in the connectivity structure that gives rise to a dynamical mechanism controlling the flow of neural trajectories to implement task computations.\"},\n    {\"entity\": \"neural populations\", \"label\": \"CELL_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"Traditionally, hand-crafted neural circuit models were used to pose specific mechanistic hypotheses about how excitation and inhibition between a few neural populations representing task variables control the flow of information from input to behavioral output.\"},\n    {\"entity\": \"neural trajectories\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 18, \"sentence\": \"Thus, these models explicitly specify a circuit mechanism in the connectivity structure that gives rise to a dynamical mechanism controlling the flow of neural trajectories to implement task computations.\"},\n    {\"entity\": \"task execution\", \"label\": \"TASK\", \"start\": 0, \"end\": 15, \"sentence\": \"Thus, these models explicitly specify a circuit mechanism in the connectivity structure that gives rise to a dynamical mechanism controlling the flow of neural trajectories to implement task computations.\"},\n    {\"entity\": \"neural dynamics\", \"label\": \"MECHANISM\", \"start\": 0, \"end\": 15, \"sentence\": \"By linking connectivity to neural dynamics and behavioral output, these models can predict changes in dynamics and behavioral performance under perturbations of the circuit structure (for example, changes in excitation-inhibition balance 12) and thus can be causally validated in experiments 131415.\"},\n    {\"entity\": \"circuit structure\", \"label\": \"STRUCTURE\", \"start\": 0, \"end\": 16, \"sentence\": \"By linking connectivity to neural dynamics and behavioral output, these models can predict changes in dynamics and behavioral performance under perturbations of the circuit structure (for example, changes in excitation-inhibition balance 12) and thus can be causally validated in experiments 131415.\"},\n    {\"entity\": \"circuit mechanism\", \"label\": \"MECHANISM\", \"start\": 0, \"end\": 16, \"sentence\": \"Thus, these models explicitly specify a circuit mechanism in the connectivity structure that gives rise to a dynamical mechanism controlling the flow of neural trajectories to implement task computations.\"},\n    {\"entity\": \"circuit models\", \"label\": \"MODEL\", \"start\": 0, \"end\": 14, \"sentence\": \"However, hand-crafted circuit models come short of capturing the complexity and heterogeneity of singleneuron responses in the cortex.\"},\n    {\"entity\": \"circuit inference\", \"label\": \"METHOD\", \"start\": 0, \"end\": 16, \"sentence\": \"We therefore proceeded to validate the inferred circuit mechanism directly in the RNN in three ways: in the RNN activity, in the RNN connectivity and by confirming behavioral effects of the RNN perturbations predicted by the latent circuit model.\"},\n    {\"entity\": \"circuit connectivity\", \"label\": \"CONNECTIVITY\", \"start\": 0, \"end\": 18, \"sentence\": \"The relation between connectivity matrices has the powerful consequence that we can validate the latent circuit mechanism directly in the RNN connectivity.\"},\n    {\"entity\": \"latent circuit connectivity\", \"label\": \"CONNECTIVITY\", \"start\": 0, \"end\": 25, \"sentence\": \"The relation between connectivity matrices has the powerful consequence that we can validate the latent circuit mechanism directly in the RNN connectivity.\"},\n    {\"entity\": \"latent circuit parameters\", \"label\": \"PARAMETER\", \"start\": 0, \"end\": 23, \"sentence\": \"We infer the latent circuit parameters (Q, w rec , w in and w out ) from neural activity y by minimizing the loss function L   k,t y -Qx 2  z -w out x 2 , where k and t index trials and time within a trial, respectively (Methods).\"},\n    {\"entity\": \"loss function\", \"label\": \"FUNCTION\", \"start\": 0, \"end\": 14, \"sentence\": \"We infer the latent circuit parameters (Q, w rec , w in and w out ) from neural activity y by minimizing the loss function L   k,t y -Qx 2  z -w out x 2 , where k and t index trials and time within a trial, respectively (Methods).\"},\n    {\"entity\": \"neural circuit dynamics\", \"label\": \"MECHANISM\", \"start\": 0, \"end\": 24, \"sentence\": \"The latent circuit model captures task-related neural activity in the low-dimensional subspace spanned by the columns of Q, with dynamics within this subspace generated by the neural circuit Eq. ( 2).\"},\n    {\"entity\": \"neural circuit\", \"label\": \"MODEL\", \"start\": 0, \"end\": 13, \"sentence\": \"The latent circuit model captures task-related neural activity in the low-dimensional subspace spanned by the columns of Q, with dynamics within this subspace generated by the neural circuit Eq. ( 2).\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural activity\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 14, \"sentence\": \"We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies 19,21.\"},\n    {\"entity\": \"neural responses\", \"label\": \"DATA_TYPE\", \"start\": 0, \"end\": 15, \"sentence\": \"We fitted the latent circuit model to"
 }
