@@ -116,6 +116,7 @@ def main() -> None:
     parser.add_argument("--staged-dir", required=True, type=Path, help="Path to StructSense staged_nhil directory")
     parser.add_argument("--model", required=True, help="LiteLLM model string")
     parser.add_argument("--paper-id", default=None, help="Paper identifier (defaults to staged-dir parent name)")
+    parser.add_argument("--max-tokens", type=int, default=16384, help="Max output tokens for the direct API call (default: 16384)")
     parser.add_argument("--api-cache", default=None, type=Path, help="Path to save/load direct API output JSON")
     parser.add_argument("--output", "-o", default=None, type=Path, help="Write full results to JSON")
     args = parser.parse_args()
@@ -159,8 +160,8 @@ def main() -> None:
             raw = extract_pdf_content(file_path=str(args.pdf), grobid_server=grobid_url, external_service="false")
             text = _structured_data_to_text(raw)
             logger.info("Extracted %d chars from PDF", len(text))
-        logger.info("Calling direct API  model=%s  text_len=%d chars", args.model, len(text))
-        api_result = extract_entities(text=text, model=args.model)
+        logger.info("Calling direct API  model=%s  text_len=%d chars  max_tokens=%d", args.model, len(text), args.max_tokens)
+        api_result = extract_entities(text=text, model=args.model, max_tokens=args.max_tokens)
         logger.info("  %d entities extracted", len(api_result["entities"]))
         if args.api_cache:
             args.api_cache.parent.mkdir(parents=True, exist_ok=True)
