@@ -6,10 +6,10 @@ Loads StructSense staged outputs, runs (or loads cached) direct API extraction,
 then computes Layer 1A (pre-alignment) and Layer 1B (post-alignment) metrics.
 
 Output files are written to:
-    outputs/<paper_id>/<model>/chunking/direct_api.json     (API cache, chunked run)
-    outputs/<paper_id>/<model>/chunking/layer1.json         (metrics, chunked run)
-    outputs/<paper_id>/<model>/no_chunking/direct_api.json  (API cache, single-call run)
-    outputs/<paper_id>/<model>/no_chunking/layer1.json      (metrics, single-call run)
+    outputs/<paper_id>/<model>/chunking/<paper_id>_<model>_chunking_direct_api.json
+    outputs/<paper_id>/<model>/chunking/<paper_id>_<model>_chunking_layer1.json
+    outputs/<paper_id>/<model>/no_chunking/<paper_id>_<model>_no_chunking_direct_api.json
+    outputs/<paper_id>/<model>/no_chunking/<paper_id>_<model>_no_chunking_layer1.json
 
 These directories are created automatically. --api-cache and --output override
 the defaults if explicit paths are needed.
@@ -159,8 +159,10 @@ def main() -> None:
 
     paper_id = args.paper_id or args.staged_dir.parent.name
     out_dir = _resolve_output_dir(paper_id, args.model, args.chunk)
-    api_cache: Path = args.api_cache or (out_dir / "direct_api.json")
-    output_path: Path = args.output or (out_dir / "layer1.json")
+    chunk_label = "chunking" if args.chunk else "no_chunking"
+    stem = f"{paper_id}_{_model_slug(args.model)}_{chunk_label}"
+    api_cache: Path = args.api_cache or (out_dir / f"{stem}_direct_api.json")
+    output_path: Path = args.output or (out_dir / f"{stem}_layer1.json")
     logger.info("Output directory: %s", out_dir)
 
     # Load StructSense entities
