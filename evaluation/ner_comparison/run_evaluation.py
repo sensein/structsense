@@ -5,15 +5,20 @@ Runner for Layer 1 NER comparison: StructSense vs. direct API call.
 Loads StructSense staged outputs, runs (or loads cached) direct API extraction,
 then computes Layer 1A (pre-alignment) and Layer 1B (post-alignment) metrics.
 
+Output files are written to:
+    outputs/<paper_id>/<model>/direct_api.json   (API cache)
+    outputs/<paper_id>/<model>/layer1.json       (metrics)
+
+These directories are created automatically. --api-cache and --output override
+the defaults if explicit paths are needed.
+
 Usage:
     # With a pre-extracted text file:
     python run_evaluation.py \\
         --text input.txt \\
         --staged-dir path/to/staged_nhil \\
         --model openrouter/google/gemini-2.0-flash-001 \\
-        [--paper-id my_paper] \\
-        [--api-cache outputs/my_paper_direct_api.json] \\
-        [--output outputs/my_paper_layer1.json]
+        [--paper-id my_paper]
 
     # With a PDF (requires a running Grobid server):
     python run_evaluation.py \\
@@ -21,9 +26,7 @@ Usage:
         --staged-dir path/to/staged_nhil \\
         --model openrouter/google/gemini-2.0-flash-001 \\
         [--grobid-url http://localhost:8070] \\
-        [--paper-id my_paper] \\
-        [--api-cache outputs/my_paper_direct_api.json] \\
-        [--output outputs/my_paper_layer1.json]
+        [--paper-id my_paper]
 
 Inputs:
     --text / --pdf  Input text: either a plain-text file or a PDF extracted via Grobid.
@@ -35,9 +38,8 @@ Inputs:
     --grobid-url    Grobid server URL (default: $GROBID_SERVER_URL_OR_EXTERNAL_SERVICE
                     or http://localhost:8070). Only used with --pdf.
     --paper-id      Identifier string for this paper (defaults to staged-dir parent name).
-    --api-cache     Path to save/load the direct API JSON output. If the file exists,
-                    the API call is skipped and the cached result is used.
-    --output        Path to write the full results as JSON (optional).
+    --api-cache     Override default path for the direct API JSON cache.
+    --output        Override default path for the metrics JSON output.
 """
 
 from __future__ import annotations
@@ -57,6 +59,7 @@ logger = logging.getLogger(__name__)
 
 _HERE = Path(__file__).parent
 _REPO_ROOT = _HERE.parent.parent
+_OUTPUTS_ROOT = _HERE / "outputs"
 sys.path.insert(0, str(_HERE))
 sys.path.insert(0, str(_HERE.parent / "ner" / "analysis"))
 sys.path.insert(0, str(_REPO_ROOT / "src"))
@@ -69,6 +72,21 @@ from utils.utils import _structured_data_to_text, extract_pdf_content  # noqa: E
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
+
+
+def _model_slug(model: str) -> str:
+    """Return a filesystem-safe name for a model string.
+
+    Takes the last path component, e.g. 'openrouter/openai/gpt-4o' -> 'gpt-4o'.
+    """
+    return model.split("/")[-1]
+
+
+def _resolve_output_dir(paper_id: str, model: str) -> Path:
+    """Return outputs/<paper_id>/<model_slug>/, creating it if needed."""
+    out_dir = _OUTPUTS_ROOT / paper_id / _model_slug(model)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    return out_dir
 
 
 def _load_entities(path: Path) -> list[dict]:
@@ -119,8 +137,8 @@ def main() -> None:
     parser.add_argument("--max-tokens", type=int, default=16384, help="Max output tokens for the direct API call (default: 16384)")
     parser.add_argument("--chunk", action="store_true", default=False, help="Split text into chunks before calling the API (improves recall on long documents)")
     parser.add_argument("--chunk-size", type=int, default=30000, help="Max characters per chunk when --chunk is enabled (default: 30000)")
-    parser.add_argument("--api-cache", default=None, type=Path, help="Path to save/load direct API output JSON")
-    parser.add_argument("--output", "-o", default=None, type=Path, help="Write full results to JSON")
+    parser.add_argument("--api-cache", default=None, type=Path, help="Override default path for the direct API JSON cache")
+    parser.add_argument("--output", "-o", default=None, type=Path, help="Override default path for the metrics JSON output")
     args = parser.parse_args()
 
     # Validate inputs
@@ -138,6 +156,10 @@ def main() -> None:
             parser.error(f"Required staged file not found: {f}")
 
     paper_id = args.paper_id or args.staged_dir.parent.name
+    out_dir = _resolve_output_dir(paper_id, args.model)
+    api_cache: Path = args.api_cache or (out_dir / "direct_api.json")
+    output_path: Path = args.output or (out_dir / "layer1.json")
+    logger.info("Output directory: %s", out_dir)
 
     # Load StructSense entities
     logger.info("Loading extractor stage output: %s", extractor_file)
@@ -149,9 +171,9 @@ def main() -> None:
     logger.info("  %d entities", len(ss_judge_entities))
 
     # Direct API — use cache if available
-    if args.api_cache and args.api_cache.is_file():
-        logger.info("Loading cached direct API output: %s", args.api_cache)
-        api_result = json.loads(args.api_cache.read_text())
+    if api_cache.is_file():
+        logger.info("Loading cached direct API output: %s", api_cache)
+        api_result = json.loads(api_cache.read_text())
     else:
         if args.text:
             text = args.text.read_text(encoding="utf-8")
@@ -170,10 +192,8 @@ def main() -> None:
             logger.info("Calling direct API  model=%s  text_len=%d chars  max_tokens=%d", args.model, len(text), args.max_tokens)
             api_result = extract_entities(text=text, model=args.model, max_tokens=args.max_tokens)
         logger.info("  %d entities extracted", len(api_result["entities"]))
-        if args.api_cache:
-            args.api_cache.parent.mkdir(parents=True, exist_ok=True)
-            args.api_cache.write_text(json.dumps(api_result, indent=2))
-            logger.info("Direct API output cached to: %s", args.api_cache)
+        api_cache.write_text(json.dumps(api_result, indent=2))
+        logger.info("Direct API output cached to: %s", api_cache)
 
     api_entities = api_result["entities"]
 
@@ -187,20 +207,18 @@ def main() -> None:
     print()
 
     # Save
-    if args.output:
-        from dataclasses import asdict
-        results = {
-            "paper_id": paper_id,
-            "model": args.model,
-            "layer1a": asdict(r1a),
-            "layer1b": asdict(r1b),
-            "direct_api_entity_count": len(api_entities),
-            "direct_api_model": api_result.get("model"),
-            "direct_api_usage": api_result.get("usage"),
-        }
-        args.output.parent.mkdir(parents=True, exist_ok=True)
-        args.output.write_text(json.dumps(results, indent=2))
-        logger.info("Results saved to: %s", args.output)
+    from dataclasses import asdict
+    results = {
+        "paper_id": paper_id,
+        "model": args.model,
+        "layer1a": asdict(r1a),
+        "layer1b": asdict(r1b),
+        "direct_api_entity_count": len(api_entities),
+        "direct_api_model": api_result.get("model"),
+        "direct_api_usage": api_result.get("usage"),
+    }
+    output_path.write_text(json.dumps(results, indent=2))
+    logger.info("Results saved to: %s", output_path)
 
 
 if __name__ == "__main__":
