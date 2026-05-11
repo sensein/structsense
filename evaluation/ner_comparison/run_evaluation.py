@@ -6,8 +6,10 @@ Loads StructSense staged outputs, runs (or loads cached) direct API extraction,
 then computes Layer 1A (pre-alignment) and Layer 1B (post-alignment) metrics.
 
 Output files are written to:
-    outputs/<paper_id>/<model>/direct_api.json   (API cache)
-    outputs/<paper_id>/<model>/layer1.json       (metrics)
+    outputs/<paper_id>/<model>/chunking/direct_api.json     (API cache, chunked run)
+    outputs/<paper_id>/<model>/chunking/layer1.json         (metrics, chunked run)
+    outputs/<paper_id>/<model>/no_chunking/direct_api.json  (API cache, single-call run)
+    outputs/<paper_id>/<model>/no_chunking/layer1.json      (metrics, single-call run)
 
 These directories are created automatically. --api-cache and --output override
 the defaults if explicit paths are needed.
@@ -82,9 +84,9 @@ def _model_slug(model: str) -> str:
     return model.split("/")[-1]
 
 
-def _resolve_output_dir(paper_id: str, model: str) -> Path:
-    """Return outputs/<paper_id>/<model_slug>/, creating it if needed."""
-    out_dir = _OUTPUTS_ROOT / paper_id / _model_slug(model)
+def _resolve_output_dir(paper_id: str, model: str, chunked: bool) -> Path:
+    """Return outputs/<paper_id>/<model_slug>/<chunking|no_chunking>/, creating it if needed."""
+    out_dir = _OUTPUTS_ROOT / paper_id / _model_slug(model) / ("chunking" if chunked else "no_chunking")
     out_dir.mkdir(parents=True, exist_ok=True)
     return out_dir
 
@@ -156,7 +158,7 @@ def main() -> None:
             parser.error(f"Required staged file not found: {f}")
 
     paper_id = args.paper_id or args.staged_dir.parent.name
-    out_dir = _resolve_output_dir(paper_id, args.model)
+    out_dir = _resolve_output_dir(paper_id, args.model, args.chunk)
     api_cache: Path = args.api_cache or (out_dir / "direct_api.json")
     output_path: Path = args.output or (out_dir / "layer1.json")
     logger.info("Output directory: %s", out_dir)
