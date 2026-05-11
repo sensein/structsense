@@ -61,7 +61,7 @@ sys.path.insert(0, str(_HERE))
 sys.path.insert(0, str(_HERE.parent / "ner" / "analysis"))
 sys.path.insert(0, str(_REPO_ROOT / "src"))
 
-from direct_api import extract_entities  # noqa: E402
+from direct_api import extract_entities, extract_entities_chunked  # noqa: E402
 from layer1_metrics import compute_layer1a, compute_layer1b  # noqa: E402
 from utils.utils import _structured_data_to_text, extract_pdf_content  # noqa: E402
 
@@ -117,6 +117,8 @@ def main() -> None:
     parser.add_argument("--model", required=True, help="LiteLLM model string")
     parser.add_argument("--paper-id", default=None, help="Paper identifier (defaults to staged-dir parent name)")
     parser.add_argument("--max-tokens", type=int, default=16384, help="Max output tokens for the direct API call (default: 16384)")
+    parser.add_argument("--chunk", action="store_true", default=False, help="Split text into chunks before calling the API (improves recall on long documents)")
+    parser.add_argument("--chunk-size", type=int, default=30000, help="Max characters per chunk when --chunk is enabled (default: 30000)")
     parser.add_argument("--api-cache", default=None, type=Path, help="Path to save/load direct API output JSON")
     parser.add_argument("--output", "-o", default=None, type=Path, help="Write full results to JSON")
     args = parser.parse_args()
@@ -160,8 +162,13 @@ def main() -> None:
             raw = extract_pdf_content(file_path=str(args.pdf), grobid_server=grobid_url, external_service="false")
             text = _structured_data_to_text(raw)
             logger.info("Extracted %d chars from PDF", len(text))
-        logger.info("Calling direct API  model=%s  text_len=%d chars  max_tokens=%d", args.model, len(text), args.max_tokens)
-        api_result = extract_entities(text=text, model=args.model, max_tokens=args.max_tokens)
+        if args.chunk:
+            logger.info("Calling direct API (chunked)  model=%s  text_len=%d chars  chunk_size=%d  max_tokens=%d",
+                        args.model, len(text), args.chunk_size, args.max_tokens)
+            api_result = extract_entities_chunked(text=text, model=args.model, chunk_size=args.chunk_size, max_tokens=args.max_tokens)
+        else:
+            logger.info("Calling direct API  model=%s  text_len=%d chars  max_tokens=%d", args.model, len(text), args.max_tokens)
+            api_result = extract_entities(text=text, model=args.model, max_tokens=args.max_tokens)
         logger.info("  %d entities extracted", len(api_result["entities"]))
         if args.api_cache:
             args.api_cache.parent.mkdir(parents=True, exist_ok=True)

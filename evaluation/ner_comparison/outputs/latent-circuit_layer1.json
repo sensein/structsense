@@ -1,9 +1,9 @@
 {
   "paper_id": "latent-circuit",
-  "model": "openrouter/openai/gpt-4o-mini",
+  "model": "openrouter/openai/gpt-5.4-mini",
   "layer1a": {
     "paper_id": "latent-circuit",
-    "jaccard": 0.009411764705882352,
+    "jaccard": 0.08410548823948681,
     "structsense_only": [
       [
         "100 ms after the stimulus onset",
@@ -131,10 +131,6 @@
       ],
       [
         "behavioral outputs",
-        "because unsupervised methods do not explicitly model task"
-      ],
-      [
-        "behavioral outputs",
         "therefore, targeted dimensionality reduction methods directly model neural"
       ],
       [
@@ -190,16 +186,8 @@
         "however, because correlation-based dimensionality reduction methods bear no"
       ],
       [
-        "cayley transform",
-        "to transform it into an unconstrained problem, we"
-      ],
-      [
         "choice",
         "(b) projection of pfc responses onto motion, color"
-      ],
-      [
-        "choice axis",
-        "next, the choice axis is the difference of"
       ],
       [
         "choice axis",
@@ -322,6 +310,10 @@
         "the latent circuit inference can be broadly applied"
       ],
       [
+        "cognitive flexibility",
+        "thus, inhibitory mechanisms for cognitive flexibility are compatible"
+      ],
+      [
         "cognitive functions",
         "discussion ['single neurons in higher cortical areas show"
       ],
@@ -330,16 +322,8 @@
         "online content ['any methods, additional references, nature portfolio"
       ],
       [
-        "cognitive functions",
-        "we show that incorporating causal interactions among task"
-      ],
-      [
         "cognitive task",
         "similar to other dimensionality reduction methods, we model"
-      ],
-      [
-        "cognitive task execution",
-        "because these circuit models usually assume a relatively"
       ],
       [
         "cognitive task execution",
@@ -395,10 +379,6 @@
       ],
       [
         "color",
-        "context-dependent decision-making task ['in the context-dependent decision-making task,"
-      ],
-      [
-        "color",
         "for each coherence level, the motion and color"
       ],
       [
@@ -426,14 +406,6 @@
         "the strength of motion and color stimuli varies"
       ],
       [
-        "color axis",
-        "further, the motion axis is the difference of"
-      ],
-      [
-        "color axis",
-        "we see the same effects in the absolute"
-      ],
-      [
         "color coherence",
         ""
       ],
@@ -455,10 +427,6 @@
       ],
       [
         "color coherence",
-        "the strength of motion and color stimuli varies"
-      ],
-      [
-        "color coherence",
         "this resulted in 72 neural trajectories for each"
       ],
       [
@@ -475,15 +443,7 @@
       ],
       [
         "color context",
-        "in the color context, the choice should be"
-      ],
-      [
-        "color context",
         "the monkeys were rewarded for saccades to the"
-      ],
-      [
-        "color context node",
-        "further, the color context node has inhibitory connections"
       ],
       [
         "color context trials",
@@ -496,10 +456,6 @@
       [
         "color context trials",
         "on motion context trials, the cue input is"
-      ],
-      [
-        "color context trials",
-        "projections of rnn activity onto the motion and"
       ],
       [
         "color context trials",
@@ -638,10 +594,6 @@
         "in this local linear piece, we have the"
       ],
       [
-        "connectivity matrices",
-        "we can then derive an explicit relationship between"
-      ],
-      [
         "connectivity perturbations",
         "in such cases, we can dissect the circuit"
       ],
@@ -695,10 +647,6 @@
       ],
       [
         "context cue",
-        "latent circuit for context-dependent decision-making ['we applied our"
-      ],
-      [
-        "context cue",
         "to encourage the network to integrate sensory evidence"
       ],
       [
@@ -732,10 +680,6 @@
       [
         "context nodes",
         "this pattern of connections from the context nodes"
-      ],
-      [
-        "context-dependent decision-making",
-        "context-dependent decision-making requires flexible trial-by-trial switching between alternative"
       ],
       [
         "context-dependent decision-making",
@@ -775,10 +719,6 @@
       ],
       [
         "context-dependent decision-making task",
-        "context-dependent decision-making task ['in the context-dependent decision-making task,"
-      ],
-      [
-        "context-dependent decision-making task",
         "in general, a solution to which an rnn"
       ],
       [
@@ -792,18 +732,6 @@
       [
         "context-dependent decision-making task",
         "we applied latent circuit inference to rnns optimized"
-      ],
-      [
-        "context-dependent decision-making task",
-        "we apply the latent circuit inference to recurrent"
-      ],
-      [
-        "context-dependent decisionmaking",
-        "the fitted latent circuit model captured an overwhelming"
-      ],
-      [
-        "contexts",
-        "in the main cluster, the circuits were balanced"
       ],
       [
         "contexts",
@@ -874,20 +802,12 @@
         "we then compute the correlation coefficients between the"
       ],
       [
-        "correlation-based dimensionality reduction methods",
-        "however, because correlation-based dimensionality reduction methods bear no"
-      ],
-      [
         "correlation-based methods",
         "however, unlike rnns and circuit models, these correlation-based"
       ],
       [
         "cortex",
         "rnns mimic the heterogeneity and mixed selectivity of"
-      ],
-      [
-        "cortical circuits",
-        "these computations result from interactions between excitatory and"
       ],
       [
         "crafted",
@@ -904,10 +824,6 @@
       [
         "custom python code",
         "( 1)-( 3) to neural response data y"
-      ],
-      [
-        "dales law",
-        "the recurrent matrix is constrained to satisfy dales"
       ],
       [
         "dales law",
@@ -932,10 +848,6 @@
       [
         "deco",
         "for context-dependent decision-making, we conclude that the dynamics"
-      ],
-      [
-        "decoder axis",
-        "analysis of pfc data"
       ],
       [
         "decoder axis",
@@ -1050,8 +962,8 @@
         "assuming that the latent circuit provides a good"
       ],
       [
-        "dynamical mechanism",
-        "thus, these models explicitly specify a circuit mechanism"
+        "dynamical mechanisms",
+        "it has been possible to determine dynamical mechanisms"
       ],
       [
         "dynamical mechanisms",
@@ -1064,10 +976,6 @@
       [
         "dynamical selection vector mechanism",
         "we analyzed dynamics in our rnns and found"
-      ],
-      [
-        "dynamical system",
-        "because these circuit models usually assume a relatively"
       ],
       [
         "dynamical system",
@@ -1126,10 +1034,6 @@
         "to control for this variability, we fitted a"
       ],
       [
-        "embedding q",
-        "we infer the latent circuit parameters (q, w"
-      ],
-      [
         "ensemble",
         "to test whether circuit mechanisms varied between rnns"
       ],
@@ -1158,20 +1062,12 @@
         "( 10) using the first-order euler scheme with"
       ],
       [
-        "exc",
-        "each column of q defines an axis in"
-      ],
-      [
         "excitation",
         "in the main cluster, the circuits were balanced"
       ],
       [
         "excitation",
         "traditionally, hand-crafted neural circuit models were used to"
-      ],
-      [
-        "excitation-inhibition balance",
-        "by linking connectivity to neural dynamics and behavioral"
       ],
       [
         "excitatory connection",
@@ -1204,10 +1100,6 @@
       [
         "extended data",
         "online content ['any methods, additional references, nature portfolio"
-      ],
-      [
-        "external task variables",
-        "therefore, targeted dimensionality reduction methods directly model neural"
       ],
       [
         "firing rates",
@@ -1258,16 +1150,8 @@
         "all recorded units that had at least four"
       ],
       [
-        "frontal eye field",
-        "['we analyzed a publicly available dataset of neural"
-      ],
-      [
         "gain g",
         "g \u03b2 log(1 e \u03b2x ) for a"
-      ],
-      [
-        "gaussian kernel",
-        "within the training and test sets, we z"
       ],
       [
         "gaussian random variables",
@@ -1322,10 +1206,6 @@
         "our model fits neural responses with dynamics generated"
       ],
       [
-        "heterogeneous neural responses",
-        "thus, high-dimensional rnns currently serve as intermediate mechanistic"
-      ],
-      [
         "high accuracy",
         "we confirm that the latent circuit models fitted"
       ],
@@ -1367,10 +1247,6 @@
       ],
       [
         "high-dimensional network",
-        "in general, it is unclear whether a latent"
-      ],
-      [
-        "high-dimensional network",
         "these latent models serve as a control to"
       ],
       [
@@ -1380,10 +1256,6 @@
       [
         "high-dimensional networks",
         "our work translates such circuit dissection methods 56,57"
-      ],
-      [
-        "high-dimensional networks",
-        "thus, high-dimensional rnns currently serve as intermediate mechanistic"
       ],
       [
         "high-dimensional networks",
@@ -1430,10 +1302,6 @@
         "thus, the latent circuit provides a dimensionality reduction"
       ],
       [
-        "high-dimensional system",
-        "y qx to obtain the correspondence between the"
-      ],
-      [
         "highdimensional system",
         ""
       ],
@@ -1447,15 +1315,7 @@
       ],
       [
         "higher cortical areas",
-        "higher cortical areas carry a wide range of"
-      ],
-      [
-        "higher cortical areas",
         "our work translates such circuit dissection methods 56,57"
-      ],
-      [
-        "higher cortical areas",
-        "we show that incorporating causal interactions among task"
       ],
       [
         "histogram",
@@ -1508,10 +1368,6 @@
       [
         "inferred latent connectivity",
         "these latent models serve as a control to"
-      ],
-      [
-        "inh",
-        "each column of q defines an axis in"
       ],
       [
         "inhibition",
@@ -1838,10 +1694,6 @@
         "we set the time constant \u03c4 200 ms,"
       ],
       [
-        "latent circuit embedding q",
-        "space of latent circuit mechanisms ['we next asked"
-      ],
-      [
         "latent circuit fits",
         "however, our conclusions do not depend on this"
       ],
@@ -1860,10 +1712,6 @@
       [
         "latent circuit inference",
         "we applied latent circuit inference to rnns optimized"
-      ],
-      [
-        "latent circuit inference",
-        "we apply the latent circuit inference to recurrent"
       ],
       [
         "latent circuit mechanism",
@@ -1904,10 +1752,6 @@
       [
         "latent circuit model",
         "in general, a solution to which an rnn"
-      ],
-      [
-        "latent circuit model",
-        "in general, it is unclear whether a latent"
       ],
       [
         "latent circuit model",
@@ -1979,6 +1823,10 @@
       ],
       [
         "latent circuit model",
+        "to bridge the gap between dimensionality reduction, circuit"
+      ],
+      [
+        "latent circuit model",
         "to confirm that this difference results from recurrent"
       ],
       [
@@ -1992,10 +1840,6 @@
       [
         "latent circuit model",
         "we compared projections of rnn activity onto axes"
-      ],
-      [
-        "latent circuit model",
-        "we develop the latent circuit model, a dimensionality"
       ],
       [
         "latent circuit model",
@@ -2039,10 +1883,6 @@
       ],
       [
         "latent circuit models",
-        "for each of these rnns, we fitted an"
-      ],
-      [
-        "latent circuit models",
         "histogram of correlation coefficients \u03c1 between recurrent connectivity"
       ],
       [
@@ -2063,11 +1903,11 @@
       ],
       [
         "latent circuit models",
-        "we fit responses of these rnns with latent"
+        "we fitted latent circuit models to smoothed condition-averaged"
       ],
       [
-        "latent circuit models",
-        "we fitted latent circuit models to smoothed condition-averaged"
+        "latent circuit parameters",
+        "we infer the latent circuit parameters (q, w"
       ],
       [
         "latent circuit solutions",
@@ -2080,10 +1920,6 @@
       [
         "latent circuit trajectories",
         "to control this tradeoff, we used a modified"
-      ],
-      [
-        "latent circuits",
-        "for each of these rnns, we fitted an"
       ],
       [
         "latent connection w ji",
@@ -2100,10 +1936,6 @@
       [
         "latent connectivity",
         "rnns mimic the heterogeneity and mixed selectivity of"
-      ],
-      [
-        "latent connectivity",
-        "the advantage of the mechanistic model for latent"
       ],
       [
         "latent connectivity",
@@ -2194,10 +2026,6 @@
         "our latent circuit model accounts for single-neuron heterogeneity"
       ],
       [
-        "latent variables",
-        "using rnn perturbations, we show that dimensionality reduction"
-      ],
-      [
         "latent vector field v(x)",
         "using the orthonormality of q, we then derive"
       ],
@@ -2224,10 +2052,6 @@
       [
         "left choice",
         "the right motion and red color are associated"
-      ],
-      [
-        "left choice node",
-        "in the latent circuit, sensory nodes representing stimuli"
       ],
       [
         "left choice trials",
@@ -2295,10 +2119,6 @@
       ],
       [
         "low-dimensional circuit mechanisms",
-        "however, because correlation-based dimensionality reduction methods bear no"
-      ],
-      [
-        "low-dimensional circuit mechanisms",
         "online content ['any methods, additional references, nature portfolio"
       ],
       [
@@ -2344,10 +2164,6 @@
       [
         "low-dimensional dynamics",
         "thus, the latent circuit provides a dimensionality reduction"
-      ],
-      [
-        "low-dimensional latent circuit",
-        "our model fits neural responses with dynamics generated"
       ],
       [
         "low-dimensional latent circuit",
@@ -2443,10 +2259,6 @@
       ],
       [
         "mann-whitney test",
-        "the irrelevant color representation is significantly less suppressed"
-      ],
-      [
-        "mann-whitney test",
         "the irrelevant motion representation is significantly less suppressed"
       ],
       [
@@ -2460,10 +2272,6 @@
       [
         "mann-whitney u-test",
         "third, we use a mann-whitney u-test to determine"
-      ],
-      [
-        "mante et al. 19",
-        "neural recording data were previously described in mante"
       ],
       [
         "matrix b",
@@ -2567,10 +2375,6 @@
       ],
       [
         "monkey a",
-        "this dataset consisted of 762 units from monkey"
-      ],
-      [
-        "monkey a",
         "to facilitate comparison with previous studies analyzing the"
       ],
       [
@@ -2588,10 +2392,6 @@
       [
         "monkey f",
         "in our analyses, we included neurons that had"
-      ],
-      [
-        "monkey f",
-        "this dataset consisted of 762 units from monkey"
       ],
       [
         "monkey f",
@@ -2655,10 +2455,6 @@
       ],
       [
         "motion",
-        "context-dependent decision-making task ['in the context-dependent decision-making task,"
-      ],
-      [
-        "motion",
         "for each coherence level, the motion and color"
       ],
       [
@@ -2694,14 +2490,6 @@
         "as expected, driving rnn activity along the motion"
       ],
       [
-        "motion axis",
-        "further, the motion axis is the difference of"
-      ],
-      [
-        "motion axis",
-        "the absolute value of the projection onto motion"
-      ],
-      [
         "motion coherence",
         ""
       ],
@@ -2726,10 +2514,6 @@
         "we trained a linear decoder to predict the"
       ],
       [
-        "motion coherence",
-        "we use motion coherence m c and color"
-      ],
-      [
         "motion context",
         "by projecting rnn responses onto the difference of"
       ],
@@ -2743,10 +2527,6 @@
       ],
       [
         "motion context node",
-        "further, the color context node has inhibitory connections"
-      ],
-      [
-        "motion context node",
         "the latent circuit mechanism predicts that weakening the"
       ],
       [
@@ -2756,10 +2536,6 @@
       [
         "motion context trials",
         "on motion context trials, the cue input is"
-      ],
-      [
-        "motion context trials",
-        "projections of rnn activity onto the motion and"
       ],
       [
         "motion context trials",
@@ -2792,10 +2568,6 @@
       [
         "multiple task variables",
         "higher cortical areas carry a wide range of"
-      ],
-      [
-        "multiunits",
-        "this dataset consisted of 762 units from monkey"
       ],
       [
         "nature portfolio reporting summaries",
@@ -2867,6 +2639,10 @@
       ],
       [
         "neural dynamics",
+        "by linking connectivity to neural dynamics and behavioral"
+      ],
+      [
+        "neural dynamics",
         "our results motivate future work incorporating low-dimensional recurrent"
       ],
       [
@@ -2874,12 +2650,12 @@
         "therefore, targeted dimensionality reduction methods directly model neural"
       ],
       [
-        "neural recording data",
-        "neural recording data were previously described in mante"
+        "neural populations",
+        "traditionally, hand-crafted neural circuit models were used to"
       ],
       [
-        "neural representations",
-        "therefore, targeted dimensionality reduction methods directly model neural"
+        "neural recording data",
+        "neural recording data were previously described in mante"
       ],
       [
         "neural response data",
@@ -3126,10 +2902,6 @@
         ""
       ],
       [
-        "pfcs",
-        "hence, it remains uncertain whether neural representations uncovered"
-      ],
-      [
         "piecewise-linear dynamical systems",
         "in addition, the equality of piecewise-linear dynamical systems"
       ],
@@ -3175,10 +2947,6 @@
       ],
       [
         "prefrontal cortex",
-        "analysis of pfc data"
-      ],
-      [
-        "prefrontal cortex",
         "because neural responses were centered, we additionally fit"
       ],
       [
@@ -3212,10 +2980,6 @@
       [
         "prefrontal cortex",
         "relationship between connectivity of the rnn and latent"
-      ],
-      [
-        "prefrontal cortex",
-        "representations of irrelevant stimuli in the pfc ['our"
       ],
       [
         "prefrontal cortex",
@@ -3263,10 +3027,6 @@
       ],
       [
         "prefrontal cortex",
-        "we see the same effects in the absolute"
-      ],
-      [
-        "prefrontal cortex",
         "we therefore sought to determine whether the latent"
       ],
       [
@@ -3296,10 +3056,6 @@
       [
         "previous studies",
         "following previous studies 19 , from activity of"
-      ],
-      [
-        "principal component analysis",
-        "all converged latent circuits provided accurate fits of"
       ],
       [
         "principal components",
@@ -3343,19 +3099,7 @@
       ],
       [
         "python",
-        "context-dependent decision-making task ['in the context-dependent decision-making task,"
-      ],
-      [
-        "python",
         "we used the python software package seaborn for"
-      ],
-      [
-        "pytorch",
-        "context-dependent decision-making task ['in the context-dependent decision-making task,"
-      ],
-      [
-        "pytorch",
-        "the parameters b, w rec , w in"
       ],
       [
         "q t q",
@@ -3418,10 +3162,6 @@
         "all recorded units that had at least four"
       ],
       [
-        "rectified linear",
-        "we fitted responses of these rnns with our"
-      ],
-      [
         "recurrent and input connectivity matrices",
         "we consider rnns with dynamics', 'where w rec"
       ],
@@ -3466,10 +3206,6 @@
         "however, unlike rnns and circuit models, these correlation-based"
       ],
       [
-        "recurrent neural networks",
-        "we apply the latent circuit inference to recurrent"
-      ],
-      [
         "recurrent noise term",
         "the latent circuit model was fitted with a"
       ],
@@ -3490,10 +3226,6 @@
         "in the latent circuit, sensory nodes representing stimuli"
       ],
       [
-        "red color node",
-        "the latent circuit mechanism predicts that weakening the"
-      ],
-      [
         "regression coefficients",
         "analysis of pfc data"
       ],
@@ -3512,18 +3244,6 @@
       [
         "regression models",
         "this conclusion was derived using dimensionality reduction methods"
-      ],
-      [
-        "relu",
-        "relationship between connectivity of the rnn and latent"
-      ],
-      [
-        "relu",
-        "we fitted responses of these rnns with our"
-      ],
-      [
-        "relu",
-        "\u211d n as', 'where q \u211d nn is"
       ],
       [
         "representations",
@@ -3564,10 +3284,6 @@
       [
         "right choice",
         "the right motion and red color are associated"
-      ],
-      [
-        "right choice node",
-        "in the latent circuit, sensory nodes representing stimuli"
       ],
       [
         "right choice node",
@@ -3814,10 +3530,6 @@
         "first, if the latent circuit faithfully describes the"
       ],
       [
-        "rnn connectivity perturbations",
-        "space of latent circuit mechanisms ['we next asked"
-      ],
-      [
         "rnn dynamics",
         "we discretize the rnn dynamics eq."
       ],
@@ -3826,20 +3538,12 @@
         "to control for this variability, we fitted a"
       ],
       [
-        "rnn responses",
-        "this choice of the latent circuit dimensionality agrees"
-      ],
-      [
         "rnn simulations",
         "rnn simulations ['we simulate dynamics of time-discretized rnns"
       ],
       [
         "rnn training",
         "by setting \u03bb orth to a smaller value"
-      ],
-      [
-        "rnn trajectories",
-        "the fitted latent circuit model captured an overwhelming"
       ],
       [
         "rnn trajectories",
@@ -3864,14 +3568,6 @@
       [
         "rnns",
         "although dynamical mechanisms have been studied in rnns"
-      ],
-      [
-        "rnns",
-        "although the circuit solutions in two of the"
-      ],
-      [
-        "rnns",
-        "although trained rnns are a class of neural"
       ],
       [
         "rnns",
@@ -3967,10 +3663,6 @@
       ],
       [
         "rnns",
-        "to test whether our results extend to networks"
-      ],
-      [
-        "rnns",
         "we analyzed dynamics in our rnns and found"
       ],
       [
@@ -4008,10 +3700,6 @@
       [
         "sample size",
         "results were consistent across networks; therefore, we found"
-      ],
-      [
-        "seaborn",
-        "we used the python software package seaborn for"
       ],
       [
         "second perturbation",
@@ -4071,10 +3759,6 @@
       ],
       [
         "sensory nodes",
-        "in the latent circuit, sensory nodes representing stimuli"
-      ],
-      [
-        "sensory nodes",
         "in the two other clusters, the circuits showed"
       ],
       [
@@ -4108,10 +3792,6 @@
       [
         "sensory stimulus",
         "after a short delay, a sensory stimulus appears"
-      ],
-      [
-        "sensory stimulus",
-        "latent circuit for context-dependent decision-making ['we applied our"
       ],
       [
         "sensory to choice nodes",
@@ -4159,14 +3839,6 @@
       ],
       [
         "single neurons",
-        "higher cortical areas carry a wide range of"
-      ],
-      [
-        "single neurons",
-        "this dataset consisted of 762 units from monkey"
-      ],
-      [
-        "single neurons",
         "thus, rnns do not find qualitatively distinct solutions"
       ],
       [
@@ -4180,10 +3852,6 @@
       [
         "single-neuron heterogeneity",
         "to bridge the gap between dimensionality reduction, circuit"
-      ],
-      [
-        "single-neuron responses",
-        "the model simultaneously infers a low-dimensional latent circuit"
       ],
       [
         "single-neuron responses",
@@ -4322,10 +3990,6 @@
         "to decode motion coherence from rnn responses, we"
       ],
       [
-        "stimulus input",
-        "stimulus input was given to the model from"
-      ],
-      [
         "stimulus offset",
         "neural recordings correspond to 100 ms after stimulus"
       ],
@@ -4344,10 +4008,6 @@
       [
         "stimulus-response mapping",
         "this pattern of connections from the context nodes"
-      ],
-      [
-        "stimulus-response mappings",
-        "context-dependent decision-making requires flexible trial-by-trial switching between alternative"
       ],
       [
         "stimulus-response mappings",
@@ -4399,10 +4059,6 @@
       ],
       [
         "suppression mechanism",
-        "we apply the latent circuit inference to recurrent"
-      ],
-      [
-        "suppression mechanism",
         "we confirmed that pfc responses significantly constrained the"
       ],
       [
@@ -4414,20 +4070,12 @@
         "rnn training ['to train the rnn, we minimize"
       ],
       [
-        "targeted dimensionality reduction methods",
-        "therefore, targeted dimensionality reduction methods directly model neural"
-      ],
-      [
         "targets",
         "because the color of the targets was randomized"
       ],
       [
         "targets",
         "from 2,250 ms after the start of the"
-      ],
-      [
-        "task behavior",
-        "however, because correlation-based dimensionality reduction methods bear no"
       ],
       [
         "task computations",
@@ -4472,6 +4120,10 @@
       [
         "task outputs",
         "( 2), are driven by task inputs u"
+      ],
+      [
+        "task outputs",
+        "we also require the latent circuit to perform"
       ],
       [
         "task performance",
@@ -4767,19 +4419,7 @@
       ],
       [
         "w in",
-        "the latent nodes interact via the recurrent connectivity"
-      ],
-      [
-        "w in",
         "the parameters b, w rec , w in"
-      ],
-      [
-        "w in",
-        "w rec and w in are the recurrent"
-      ],
-      [
-        "w in",
-        "we consider rnns with dynamics', 'where w rec"
       ],
       [
         "w in",
@@ -4800,18 +4440,10 @@
       [
         "w out",
         "we initialize w in with zeros except for"
-      ],
-      [
-        "w rec",
-        "allowing for these input correlations in rnns and"
       ],
       [
         "w rec",
         "because the variable x depends implicitly on the"
-      ],
-      [
-        "w rec",
-        "the latent nodes interact via the recurrent connectivity"
       ],
       [
         "w rec",
@@ -4823,14 +4455,6 @@
       ],
       [
         "w rec",
-        "w rec and w in are the recurrent"
-      ],
-      [
-        "w rec",
-        "we consider rnns with dynamics', 'where w rec"
-      ],
-      [
-        "w rec",
         "we infer the latent circuit parameters (q, w"
       ],
       [
@@ -4838,36 +4462,16 @@
         "we used the python software package seaborn for"
       ],
       [
-        "w t out",
-        "here, b is the matrix corresponding to the"
-      ],
-      [
         "weight decay",
         "we used a learning rate of 0.01 and"
       ],
       [
-        "y ikt",
-        "rnn training ['to train the rnn, we minimize"
-      ],
-      [
-        "z 1",
-        "the network has two outputs, z 1 and"
-      ],
-      [
         "z 1",
         "we constructed two target outputs (z 1 and"
       ],
       [
         "z 2",
-        "the network has two outputs, z 1 and"
-      ],
-      [
-        "z 2",
         "we constructed two target outputs (z 1 and"
-      ],
-      [
-        "z ikt",
-        "rnn training ['to train the rnn, we minimize"
       ],
       [
         "z scored",
@@ -4878,40 +4482,16 @@
         "from 2,250 ms after the start of the"
       ],
       [
-        "z target,1",
-        "the network has two outputs, z 1 and"
-      ],
-      [
         "z target,2",
         "from 2,250 ms after the start of the"
-      ],
-      [
-        "z target,2",
-        "the network has two outputs, z 1 and"
-      ],
-      [
-        "\u03b4t",
-        "( 10) using the first-order euler scheme with"
-      ],
-      [
-        "\u03b7 t",
-        "at each simulation time step, we add an"
       ],
       [
         "\u03bb orth",
         "by setting \u03bb orth to a smaller value"
       ],
       [
-        "\u03bb orth",
-        "the hyperparameter \u03bb orth controls the penalty weight."
-      ],
-      [
         "\u03bb orth hyperparameter",
         "these correlations can be captured in the latent"
-      ],
-      [
-        "\u03be t",
-        "( 10) using the first-order euler scheme with"
       ],
       [
         "\u03c0 n",
@@ -4920,24 +4500,84 @@
       [
         "\u03c3 rec",
         "the latent circuit model was fitted with a"
-      ],
-      [
-        "\ud835\udca9\ud835\udca9(0, 1)",
-        "( 10) using the first-order euler scheme with"
       ]
     ],
     "api_only": [
       [
-        "behavioral output",
-        "thus, these models explicitly specify a circuit mechanism"
+        "10 ms",
+        "we thus modeled the task with 150 time"
       ],
       [
-        "circuit connectivity",
-        "the relation between connectivity matrices has the powerful"
+        "100 latent circuit models",
+        "for each of these networks, we trained 100"
       ],
       [
-        "circuit inference",
-        "we therefore proceeded to validate the inferred circuit"
+        "150 time steps",
+        "we thus modeled the task with 150 time"
+      ],
+      [
+        "1n",
+        "allowing for these input correlations in rnns and"
+      ],
+      [
+        "200 fits",
+        "points represent mean across 200 fits."
+      ],
+      [
+        "200 rnns",
+        "in the ensemble of 200 rnns trained on"
+      ],
+      [
+        "323 neurons",
+        "in our analyses, we included neurons that had"
+      ],
+      [
+        "483 neurons",
+        "in our analyses, we included neurons that had"
+      ],
+      [
+        "4n",
+        "allowing for these input correlations in rnns and"
+      ],
+      [
+        "95 confidence interval",
+        "shading represents a 95 confidence interval estimated via"
+      ],
+      [
+        "adam",
+        "the training is performed with the adam algorithm."
+      ],
+      [
+        "adam optimizer",
+        "the parameters b, w rec , w in"
+      ],
+      [
+        "behavioral effects",
+        "we validate this mechanism by confirming the behavioral"
+      ],
+      [
+        "behavioral task performance",
+        "this agreement confirms that the latent connectivity structure"
+      ],
+      [
+        "c c",
+        "we use motion coherence m c and color"
+      ],
+      [
+        "causal interactions",
+        "we show that incorporating causal interactions among task"
+      ],
+      [
+        "choice",
+        "the right motion and red color are associated"
+      ],
+      [
+        "choice node",
+        "the latent circuit model consisted of eight nodes"
+      ],
+      [
+        "choice nodes",
+        "the latent circuit model consisted of eight nodes"
       ],
       [
         "circuit mechanism",
@@ -4945,186 +4585,706 @@
       ],
       [
         "circuit mechanisms",
-        "thus, high-dimensional rnns currently serve as intermediate mechanistic"
-      ],
-      [
-        "circuit models",
         "however, hand-crafted circuit models come short of capturing"
       ],
       [
-        "circuit structure",
-        "by linking connectivity to neural dynamics and behavioral"
+        "circuit models",
+        "traditionally, hand-crafted neural circuit models were used to"
+      ],
+      [
+        "cluster",
+        "the variability of task solutions was much greater"
+      ],
+      [
+        "cluster 2",
+        "only p 3 of rnns in cluster 1"
+      ],
+      [
+        "cluster 3",
+        "same as a-d for cluster 3. (m) different"
+      ],
+      [
+        "cognitive task",
+        "because these circuit models usually assume a relatively"
       ],
       [
         "cognitive tasks",
-        "these computations result from interactions between excitatory and"
-      ],
-      [
-        "color",
-        "the right motion and red color are associated"
-      ],
-      [
-        "context-dependent decision-making task",
-        "we applied our latent circuit inference to rnns"
-      ],
-      [
-        "contextual cue",
-        "in the context-dependent decision-making task, at the beginning"
-      ],
-      [
-        "dimensionality reduction methods",
-        "similar to other dimensionality reduction methods, we model"
-      ],
-      [
-        "excitatory",
-        "these computations result from interactions between excitatory and"
-      ],
-      [
-        "high-dimensional recurrent neural network",
         "similar heterogeneous responses emerge in high-dimensional recurrent neural"
       ],
       [
-        "inhibitory",
-        "these computations result from interactions between excitatory and"
+        "color context",
+        "further, the color context node has inhibitory connections"
       ],
       [
-        "latent circuit connectivity",
-        "the relation between connectivity matrices has the powerful"
+        "color nodes",
+        "the latent circuit model consisted of eight nodes"
       ],
       [
-        "latent variables",
-        "because unsupervised methods do not explicitly model task"
+        "color-context trials",
+        "the absolute value of the projection onto motion"
       ],
       [
-        "loss function",
-        "we infer the latent circuit parameters (q, w"
+        "color-left",
+        "the recurrent connections between the color-right and color-left"
       ],
       [
-        "motion",
-        "the right motion and red color are associated"
+        "color-right",
+        "the recurrent connections between the color-right and color-left"
       ],
       [
-        "neural activity",
-        "we fitted the latent circuit model to the"
+        "color-sensitive neurons",
+        "projections onto the color axis show suppressed color"
       ],
       [
-        "neural activity data",
-        "similar heterogeneous responses emerge in high-dimensional recurrent neural"
+        "context",
+        "context-dependent decision-making task ['in the context-dependent decision-making task,"
       ],
       [
-        "neural activity recordings",
-        "we analyzed a publicly available dataset of neural"
+        "context node",
+        "the latent circuit model consisted of eight nodes"
       ],
       [
-        "neural circuit",
-        "the latent circuit model captures task-related neural activity"
+        "context nodes",
+        "the latent circuit model consisted of eight nodes"
       ],
       [
-        "neural circuit",
-        "thus, these models explicitly specify a circuit mechanism"
+        "context representations",
+        "this result confirms both the behavioral relevance of"
       ],
       [
-        "neural circuit dynamics",
-        "the latent circuit model captures task-related neural activity"
+        "context-dependent decision-making",
+        "we apply the latent circuit inference to recurrent"
       ],
       [
-        "neural recordings",
+        "contextdependent decision-making",
+        "3 asymmetric inhibitory mechanism for contextdependent decision-making."
+      ],
+      [
+        "contextual input",
+        "contextual input was given to the model from"
+      ],
+      [
+        "correlation-based methods",
         "moreover, fitting the latent circuit model to neural"
       ],
       [
-        "neural response data",
+        "cortex",
+        "we find similar suppression of irrelevant sensory responses"
+      ],
+      [
+        "dimensionality reduction",
+        "we develop the latent circuit model, a dimensionality"
+      ],
+      [
+        "dimensionality reduction methods",
+        "however, because correlation-based dimensionality reduction methods bear no"
+      ],
+      [
+        "e i",
+        "( 14) and (15), we then translate connectivity"
+      ],
+      [
+        "embedding matrix q",
+        "we conjugated the rnn connectivity matrices with the"
+      ],
+      [
+        "error",
+        "rnn training ['to train the rnn, we minimize"
+      ],
+      [
+        "excitatory and inhibitory neurons",
+        "these computations result from interactions between excitatory and"
+      ],
+      [
+        "gaussian mixture model",
+        "the projection reveals three major solution clusters, which"
+      ],
+      [
+        "green",
+        "the right motion and red color are associated"
+      ],
+      [
+        "high-dimensional network",
         "thus, high-dimensional rnns currently serve as intermediate mechanistic"
       ],
       [
+        "i irrel",
+        "context-dependent selection arises because in each context, the"
+      ],
+      [
+        "i rel",
+        "context-dependent selection arises because in each context, the"
+      ],
+      [
+        "latent circuit",
+        "in general, it is unclear whether a latent"
+      ],
+      [
+        "latent circuit",
+        "we develop the latent circuit model, a dimensionality"
+      ],
+      [
+        "latent circuit connectivity",
+        "the model simultaneously infers a low-dimensional latent circuit"
+      ],
+      [
+        "latent circuit mechanism",
+        "because, in practice, we search for the latent"
+      ],
+      [
+        "latent circuit model",
+        "dots represent individual trial conditions, bars represent their"
+      ],
+      [
+        "latent circuit solutions",
+        "all converged latent circuits provided accurate fits of"
+      ],
+      [
+        "latent circuits",
+        "(b) we analyzed the dynamical mechanism in an"
+      ],
+      [
+        "latent connectivity matrix",
+        "this result further reinforces that task alone does"
+      ],
+      [
+        "latent models",
+        "these latent models produced a significantly worse fit"
+      ],
+      [
+        "latent nodes",
+        "the latent nodes interact via the recurrent connectivity"
+      ],
+      [
+        "latent variable",
+        "using rnn perturbations, we show that dimensionality reduction"
+      ],
+      [
+        "low-dimensional circuit mechanism",
+        "however, because correlation-based dimensionality reduction methods bear no"
+      ],
+      [
+        "low-rank structure",
+        "( 5) shows that the latent circuit connectivity"
+      ],
+      [
+        "m c",
+        "we use motion coherence m c and color"
+      ],
+      [
+        "mann-whitney u test",
+        "fits were significantly worse when the latent circuit"
+      ],
+      [
+        "mann-whitney u-test",
+        "9a and 10; one-sided mann-whitney u-test; monkey a:"
+      ],
+      [
+        "monkey a",
+        "(b) latent circuit connectivity inferred from pfc responses"
+      ],
+      [
+        "monkey f",
+        "dots represent individual trial conditions, bars represent their"
+      ],
+      [
+        "monkeys choice",
+        "trials are sorted by the monkeys choice and"
+      ],
+      [
+        "motion and color axis",
+        "the gray shading indicates the duration of sensory"
+      ],
+      [
+        "motion axes",
+        "(c) the latent circuit model in which the"
+      ],
+      [
+        "motion axis",
+        "these effects were not due to a non-specific"
+      ],
+      [
+        "motion context",
+        "context-dependent decision-making task ['in the context-dependent decision-making task,"
+      ],
+      [
+        "motion context",
+        "further, the color context node has inhibitory connections"
+      ],
+      [
+        "motion nodes",
+        "the latent circuit model consisted of eight nodes"
+      ],
+      [
+        "motion-context trials",
+        "we see the same effects in the absolute"
+      ],
+      [
+        "motion-left node",
+        "the motion-right node has stronger self-excitation than the"
+      ],
+      [
+        "motion-right node",
+        "the motion-right node has stronger self-excitation than the"
+      ],
+      [
+        "nature portfolio",
+        "online content ['any methods, additional references, nature portfolio"
+      ],
+      [
+        "neural circuit",
+        "traditionally, hand-crafted neural circuit models were used to"
+      ],
+      [
         "neural responses",
-        "we fitted the latent circuit model to the"
+        "thus, high-dimensional rnns currently serve as intermediate mechanistic"
       ],
       [
         "neural trajectories",
         "thus, these models explicitly specify a circuit mechanism"
       ],
       [
-        "rectified linear (relu)",
-        "where f is a rectified linear (relu) activation"
+        "output behavior",
+        "the structure in the rnn connectivity responsible for"
+      ],
+      [
+        "prefrontal cortex",
+        "however, hand-crafted circuit models come short of capturing"
+      ],
+      [
+        "prefrontal cortex responses",
+        "because neural responses were centered, we additionally fit"
+      ],
+      [
+        "principal components",
+        "this choice of the latent circuit dimensionality agrees"
+      ],
+      [
+        "python",
+        "to neural response data y by minimizing the"
+      ],
+      [
+        "q i",
+        ""
+      ],
+      [
+        "q i",
+        "( 14) and (15), we then translate connectivity"
+      ],
+      [
+        "q t",
+        "this chain of equalities shows how to translate"
+      ],
+      [
+        "q t",
+        "using the orthonormality of q, we then derive"
+      ],
+      [
+        "q\u03b4 ji q t",
+        "this chain of equalities shows how to translate"
+      ],
+      [
+        "r 2 q",
+        "to control this tradeoff, we used a modified"
+      ],
+      [
+        "r 2 x",
+        "to control this tradeoff, we used a modified"
+      ],
+      [
+        "r 2 z",
+        "to control this tradeoff, we used a modified"
+      ],
+      [
+        "recurrent connectivity",
+        "we develop the latent circuit model, a dimensionality"
+      ],
+      [
+        "recurrent neural network",
+        "we apply the latent circuit inference to recurrent"
+      ],
+      [
+        "red",
+        "the right motion and red color are associated"
       ],
       [
         "rnn",
-        "although trained rnns are a class of neural"
+        "although the circuit solutions in two of the"
       ],
       [
-        "task execution",
-        "thus, these models explicitly specify a circuit mechanism"
+        "rnn",
+        "similar heterogeneous responses emerge in high-dimensional recurrent neural"
+      ],
+      [
+        "rnn",
+        "to test whether our results extend to networks"
+      ],
+      [
+        "rnn activity",
+        "we validated this mechanism by confirming the behavioral"
+      ],
+      [
+        "rnn activity patterns",
+        "we projected rnn responses onto the columns of"
+      ],
+      [
+        "rnn connectivity",
+        "because, in practice, we search for the latent"
+      ],
+      [
+        "rnn models",
+        "statistics and reproducibility ['we analyzed data from 200"
+      ],
+      [
+        "rnn perturbations",
+        "using rnn perturbations, we show that dimensionality reduction"
+      ],
+      [
+        "rnn responses",
+        "when fitting rnn responses with the latent circuit"
+      ],
+      [
+        "rnn units",
+        "after training, rnn units show heterogeneous mixed selectivity"
+      ],
+      [
+        "sensory color nodes",
+        "the latent circuit model consisted of eight nodes"
+      ],
+      [
+        "sensory motion nodes",
+        "the latent circuit model consisted of eight nodes"
+      ],
+      [
+        "sensory node",
+        "in the latent circuit, sensory nodes representing stimuli"
+      ],
+      [
+        "sensory representations",
+        "we applied latent circuit inference to rnns optimized"
+      ],
+      [
+        "single neurons",
+        "however, hand-crafted circuit models come short of capturing"
+      ],
+      [
+        "six color coherence levels",
+        "the task therefore had 72 unique stimulus conditions"
+      ],
+      [
+        "six motion coherence levels",
+        "the task therefore had 72 unique stimulus conditions"
+      ],
+      [
+        "softplus",
+        "to test whether our results extend to networks"
+      ],
+      [
+        "standard deviation",
+        "standard deviation of connectivity weights across top 10"
+      ],
+      [
+        "stimulus-response mapping",
+        "context-dependent decision-making requires flexible trial-by-trial switching between alternative"
+      ],
+      [
+        "target outputs",
+        "therefore, we assessed the similarity of task solutions"
+      ],
+      [
+        "target rnn",
+        "these latent models produced a significantly worse fit"
+      ],
+      [
+        "targeted dimensionality reduction",
+        "projections onto the color axis show suppressed color"
+      ],
+      [
+        "task performance",
+        "this agreement confirms that the latent connectivity structure"
+      ],
+      [
+        "task solutions",
+        "thus, high-dimensional rnns currently serve as intermediate mechanistic"
       ],
       [
         "task variables",
-        "by contrast, representations of task variables in the"
+        "higher cortical areas carry a wide range of"
+      ],
+      [
+        "the checkerboard pattern",
+        "the checkerboard pattern of connections from sensory to"
+      ],
+      [
+        "the pattern of inhibitory connections",
+        "the pattern of inhibitory connections from the context"
+      ],
+      [
+        "top 10",
+        "standard deviation of connectivity weights across top 10"
+      ],
+      [
+        "two contexts",
+        "the task therefore had 72 unique stimulus conditions"
+      ],
+      [
+        "u 0",
+        "rnn training ['to train the rnn, we minimize"
+      ],
+      [
+        "u c",
+        "in the color context, the choice should be"
+      ],
+      [
+        "u c,g",
+        "in the color context, the choice should be"
+      ],
+      [
+        "u c,r",
+        "in the color context, the choice should be"
+      ],
+      [
+        "u m",
+        "in the color context, the choice should be"
+      ],
+      [
+        "u m,l",
+        "in the color context, the choice should be"
+      ],
+      [
+        "u m,r",
+        "in the color context, the choice should be"
+      ],
+      [
+        "u noise",
+        "at each simulation time step, we add an"
+      ],
+      [
+        "v l",
+        "only inputs aligned with the left eigenvector (v"
+      ],
+      [
+        "v r",
+        "only inputs aligned with the left eigenvector (v"
+      ],
+      [
+        "w in",
+        "online content ['any methods, additional references, nature portfolio"
+      ],
+      [
+        "w in",
+        "this chain of equalities shows how to translate"
+      ],
+      [
+        "w ji",
+        "this chain of equalities shows how to translate"
+      ],
+      [
+        "w out",
+        "we read out a set of task outputs"
+      ],
+      [
+        "w rec",
+        "(c) the latent circuit model in which the"
+      ],
+      [
+        "w rec",
+        "c, the latent circuit model in which the"
+      ],
+      [
+        "z target",
+        "the network has two outputs, z 1 and"
+      ],
+      [
+        "z target (t)",
+        "rnn training ['to train the rnn, we minimize"
+      ],
+      [
+        "z(t)",
+        "rnn training ['to train the rnn, we minimize"
+      ],
+      [
+        "\u03b4 ij",
+        ""
+      ],
+      [
+        "\u03b4 ji",
+        "this chain of equalities shows how to translate"
+      ],
+      [
+        "\u03b8 1",
+        "in each context, the selection mechanism is characterized"
+      ],
+      [
+        "\u03b8 2",
+        "in each context, the selection mechanism is characterized"
+      ],
+      [
+        "\u03b8 3",
+        "in each context, the selection mechanism is characterized"
+      ],
+      [
+        "\u03bb r",
+        "we used a learning rate of 0.01 and"
+      ],
+      [
+        "\u03c3 in",
+        "at each simulation time step, we add an"
+      ],
+      [
+        "\u03c3 rec",
+        "we set the time constant \u03c4 200 ms,"
+      ],
+      [
+        "\u211d 1kt",
+        "to decode motion coherence from rnn responses, we"
+      ],
+      [
+        "\u211d 1n",
+        "to decode motion coherence from rnn responses, we"
+      ],
+      [
+        "\u211d nkt",
+        "to decode motion coherence from rnn responses, we"
       ]
     ],
-    "shared_count": 12,
-    "label_agreement_rate": 0.3333333333333333,
+    "shared_count": 118,
+    "label_agreement_rate": 0.15254237288135594,
     "label_disagreements": [
       {
         "paper_id": "latent-circuit",
-        "entity_normalized": "cognitive flexibility",
-        "sentence_fingerprint": "thus, inhibitory mechanisms for cognitive flexibility are compatible",
-        "structsense_label": "MISC",
-        "structsense_canonical": "UNCATEGORIZED",
-        "api_label": "FUNCTION",
-        "api_canonical": "FUNCTION"
-      },
-      {
-        "paper_id": "latent-circuit",
-        "entity_normalized": "latent circuit parameters",
-        "sentence_fingerprint": "we infer the latent circuit parameters (q, w",
-        "structsense_label": "ENTITY",
-        "structsense_canonical": "UNCATEGORIZED",
-        "api_label": "PARAMETER",
-        "api_canonical": "PARAMETER"
-      },
-      {
-        "paper_id": "latent-circuit",
-        "entity_normalized": "neural population activity",
-        "sentence_fingerprint": "accordingly, dimensionality reduction methods are commonly used to",
+        "entity_normalized": "dynamical mechanism",
+        "sentence_fingerprint": "thus, these models explicitly specify a circuit mechanism",
         "structsense_label": "PROCESS",
         "structsense_canonical": "BIOLOGICAL_PROCESS",
-        "api_label": "DATA_TYPE",
-        "api_canonical": "DATA_TYPE"
+        "api_label": "NEURAL_MECHANISM",
+        "api_canonical": "CONCEPT"
       },
       {
         "paper_id": "latent-circuit",
-        "entity_normalized": "task outputs",
-        "sentence_fingerprint": "we also require the latent circuit to perform",
-        "structsense_label": "ORG",
-        "structsense_canonical": "ORGANIZATION",
-        "api_label": "OUTPUT",
-        "api_canonical": "OUTPUT"
+        "entity_normalized": "mante et al. 19",
+        "sentence_fingerprint": "neural recording data were previously described in mante",
+        "structsense_label": "PERSON",
+        "structsense_canonical": "PERSON",
+        "api_label": "CITATION",
+        "api_canonical": "CITATION"
       },
       {
         "paper_id": "latent-circuit",
-        "entity_normalized": "task inputs",
-        "sentence_fingerprint": "because unsupervised methods do not explicitly model task",
-        "structsense_label": "TASK",
+        "entity_normalized": "single-neuron responses",
+        "sentence_fingerprint": "the model simultaneously infers a low-dimensional latent circuit",
+        "structsense_label": "CONCEPT",
         "structsense_canonical": "CONCEPT",
-        "api_label": "TASK_VARIABLE",
-        "api_canonical": "TASK_VARIABLE"
+        "api_label": "PHENOMENON",
+        "api_canonical": "PHENOMENON"
       },
       {
         "paper_id": "latent-circuit",
-        "entity_normalized": "neural populations",
-        "sentence_fingerprint": "traditionally, hand-crafted neural circuit models were used to",
+        "entity_normalized": "cognitive task execution",
+        "sentence_fingerprint": "because these circuit models usually assume a relatively",
         "structsense_label": "ENTITY",
         "structsense_canonical": "UNCATEGORIZED",
-        "api_label": "CELL_TYPE",
-        "api_canonical": "CELL_TYPE"
+        "api_label": "BEHAVIORAL_PHENOMENON",
+        "api_canonical": "CONCEPT"
       },
       {
         "paper_id": "latent-circuit",
-        "entity_normalized": "latent circuit model",
-        "sentence_fingerprint": "to bridge the gap between dimensionality reduction, circuit",
+        "entity_normalized": "rnn responses",
+        "sentence_fingerprint": "this choice of the latent circuit dimensionality agrees",
+        "structsense_label": "MODEL_OUTPUT",
+        "structsense_canonical": "MODEL",
+        "api_label": "PHENOMENON",
+        "api_canonical": "PHENOMENON"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "color axis",
+        "sentence_fingerprint": "further, the motion axis is the difference of",
+        "structsense_label": "ORG",
+        "structsense_canonical": "ORGANIZATION",
+        "api_label": "LATENT_AXIS",
+        "api_canonical": "LATENT_AXIS"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "latent variables",
+        "sentence_fingerprint": "using rnn perturbations, we show that dimensionality reduction",
+        "structsense_label": "Detailed_description",
+        "structsense_canonical": "CLINICAL_NER",
+        "api_label": "CONCEPTUAL_VARIABLE",
+        "api_canonical": "CONCEPTUAL_VARIABLE"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "relu",
+        "sentence_fingerprint": "we fitted responses of these rnns with our",
+        "structsense_label": "MISC",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "ACTIVATION_FUNCTION",
+        "api_canonical": "MODEL"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "stimulus-response mappings",
+        "sentence_fingerprint": "context-dependent decision-making requires flexible trial-by-trial switching between alternative",
         "structsense_label": "METHOD",
         "structsense_canonical": "METHOD",
-        "api_label": "MODEL",
+        "api_label": "BEHAVIORAL_RULE",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "sensory stimulus",
+        "sentence_fingerprint": "latent circuit for context-dependent decision-making ['we applied our",
+        "structsense_label": "MISC",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "STIMULUS",
+        "api_canonical": "STIMULUS"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "motion",
+        "sentence_fingerprint": "context-dependent decision-making task ['in the context-dependent decision-making task,",
+        "structsense_label": "CONCEPT",
+        "structsense_canonical": "CONCEPT",
+        "api_label": "STIMULUS_FEATURE",
+        "api_canonical": "STIMULUS"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "w rec",
+        "sentence_fingerprint": "w rec and w in are the recurrent",
+        "structsense_label": "PERSON",
+        "structsense_canonical": "PERSON",
+        "api_label": "MODEL_PARAMETER",
         "api_canonical": "MODEL"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "higher cortical areas",
+        "sentence_fingerprint": "we show that incorporating causal interactions among task",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "BRAIN_REGION",
+        "api_canonical": "BRAIN_REGION"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "relu",
+        "sentence_fingerprint": "relationship between connectivity of the rnn and latent",
+        "structsense_label": "PRODUCT",
+        "structsense_canonical": "PRODUCT",
+        "api_label": "ACTIVATION_FUNCTION",
+        "api_canonical": "MODEL"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "rnns",
+        "sentence_fingerprint": "to test whether our results extend to networks",
+        "structsense_label": "ORG",
+        "structsense_canonical": "ORGANIZATION",
+        "api_label": "RECURRENT_NEURAL_NETWORKS",
+        "api_canonical": "RECURRENT_NEURAL_NETWORKS"
       },
       {
         "paper_id": "latent-circuit",
@@ -5132,14 +5292,770 @@
         "sentence_fingerprint": "traditionally, hand-crafted neural circuit models were used to",
         "structsense_label": "ENTITY",
         "structsense_canonical": "UNCATEGORIZED",
-        "api_label": "MODEL",
+        "api_label": "COMPUTATIONAL_MODEL",
+        "api_canonical": "METHOD"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "sensory nodes",
+        "sentence_fingerprint": "in the latent circuit, sensory nodes representing stimuli",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "NEURAL_COMPONENT",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "rnns",
+        "sentence_fingerprint": "although trained rnns are a class of neural",
+        "structsense_label": "MODEL",
+        "structsense_canonical": "MODEL",
+        "api_label": "COMPUTATIONAL_MODEL",
+        "api_canonical": "METHOD"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "y ikt",
+        "sentence_fingerprint": "rnn training ['to train the rnn, we minimize",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "NEURAL_ACTIVITY",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "monkey f",
+        "sentence_fingerprint": "this dataset consisted of 762 units from monkey",
+        "structsense_label": "ORG",
+        "structsense_canonical": "ORGANIZATION",
+        "api_label": "SPECIES",
+        "api_canonical": "SPECIES"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "motion axis",
+        "sentence_fingerprint": "further, the motion axis is the difference of",
+        "structsense_label": "ORG",
+        "structsense_canonical": "ORGANIZATION",
+        "api_label": "LATENT_AXIS",
+        "api_canonical": "LATENT_AXIS"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "\u03be t",
+        "sentence_fingerprint": "( 10) using the first-order euler scheme with",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "NOISE_TERM",
+        "api_canonical": "NOISE_TERM"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "prefrontal cortex",
+        "sentence_fingerprint": "representations of irrelevant stimuli in the pfc ['our",
+        "structsense_label": "ORG",
+        "structsense_canonical": "ORGANIZATION",
+        "api_label": "BRAIN_REGION",
+        "api_canonical": "BRAIN_REGION"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "left choice node",
+        "sentence_fingerprint": "in the latent circuit, sensory nodes representing stimuli",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "NEURAL_COMPONENT",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "task inputs",
+        "sentence_fingerprint": "because unsupervised methods do not explicitly model task",
+        "structsense_label": "TASK",
+        "structsense_canonical": "CONCEPT",
+        "api_label": "CONCEPTUAL_VARIABLE",
+        "api_canonical": "CONCEPTUAL_VARIABLE"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "prefrontal cortex",
+        "sentence_fingerprint": "analysis of pfc data",
+        "structsense_label": "ORG",
+        "structsense_canonical": "ORGANIZATION",
+        "api_label": "BRAIN_REGION",
+        "api_canonical": "BRAIN_REGION"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "z 1",
+        "sentence_fingerprint": "the network has two outputs, z 1 and",
+        "structsense_label": "VARIABLE",
+        "structsense_canonical": "VARIABLE",
+        "api_label": "TARGET_OUTPUT",
+        "api_canonical": "TARGET_OUTPUT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "dynamical system",
+        "sentence_fingerprint": "because these circuit models usually assume a relatively",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "MATHEMATICAL_MODEL",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "rnn trajectories",
+        "sentence_fingerprint": "the fitted latent circuit model captured an overwhelming",
+        "structsense_label": "MISC",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "DYNAMICAL_PATTERN",
+        "api_canonical": "DYNAMICAL_PATTERN"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "\u03b7 t",
+        "sentence_fingerprint": "at each simulation time step, we add an",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "NOISE_TERM",
+        "api_canonical": "NOISE_TERM"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "choice axis",
+        "sentence_fingerprint": "next, the choice axis is the difference of",
+        "structsense_label": "MISC",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "LATENT_AXIS",
+        "api_canonical": "LATENT_AXIS"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "color context trials",
+        "sentence_fingerprint": "projections of rnn activity onto the motion and",
+        "structsense_label": "NA",
+        "structsense_canonical": "NA",
+        "api_label": "EXPERIMENTAL_CONDITION",
+        "api_canonical": "METHOD"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "red color node",
+        "sentence_fingerprint": "the latent circuit mechanism predicts that weakening the",
+        "structsense_label": "ANATOMICAL_STRUCTURE",
+        "structsense_canonical": "BRAIN_REGION",
+        "api_label": "NEURAL_COMPONENT",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "w in",
+        "sentence_fingerprint": "we consider rnns with dynamics', 'where w rec",
+        "structsense_label": "MATRIX",
+        "structsense_canonical": "MATRIX",
+        "api_label": "PARAMETER",
+        "api_canonical": "PARAMETER"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "high-dimensional network",
+        "sentence_fingerprint": "in general, it is unclear whether a latent",
+        "structsense_label": "MISC",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "COMPUTATIONAL_NETWORK",
+        "api_canonical": "METHOD"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "excitation-inhibition balance",
+        "sentence_fingerprint": "by linking connectivity to neural dynamics and behavioral",
+        "structsense_label": "PROCESS",
+        "structsense_canonical": "BIOLOGICAL_PROCESS",
+        "api_label": "CIRCUIT_PROPERTY",
+        "api_canonical": "CIRCUIT_PROPERTY"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "inh",
+        "sentence_fingerprint": "each column of q defines an axis in",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "ABBREVIATION",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "color context node",
+        "sentence_fingerprint": "further, the color context node has inhibitory connections",
+        "structsense_label": "OTHER",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "NEURAL_COMPONENT",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "context-dependent decision-making",
+        "sentence_fingerprint": "context-dependent decision-making requires flexible trial-by-trial switching between alternative",
+        "structsense_label": "METHOD",
+        "structsense_canonical": "METHOD",
+        "api_label": "BEHAVIORAL_TASK",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "gaussian kernel",
+        "sentence_fingerprint": "within the training and test sets, we z",
+        "structsense_label": "METHOD",
+        "structsense_canonical": "METHOD",
+        "api_label": "SMOOTHING_KERNEL",
+        "api_canonical": "SMOOTHING_KERNEL"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "context cue",
+        "sentence_fingerprint": "latent circuit for context-dependent decision-making ['we applied our",
+        "structsense_label": "MISC",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "CONTEXTUAL_CUE",
+        "api_canonical": "CONTEXTUAL_CUE"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "z ikt",
+        "sentence_fingerprint": "rnn training ['to train the rnn, we minimize",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "MODEL_OUTPUT",
         "api_canonical": "MODEL"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "connectivity matrices",
+        "sentence_fingerprint": "we can then derive an explicit relationship between",
+        "structsense_label": "PERSON",
+        "structsense_canonical": "PERSON",
+        "api_label": "CONNECTIVITY",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "latent circuit embedding q",
+        "sentence_fingerprint": "space of latent circuit mechanisms ['we next asked",
+        "structsense_label": "CONCEPT",
+        "structsense_canonical": "CONCEPT",
+        "api_label": "MATRIX",
+        "api_canonical": "MATRIX"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "neural population activity",
+        "sentence_fingerprint": "accordingly, dimensionality reduction methods are commonly used to",
+        "structsense_label": "PROCESS",
+        "structsense_canonical": "BIOLOGICAL_PROCESS",
+        "api_label": "PHENOMENON",
+        "api_canonical": "PHENOMENON"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "cayley transform",
+        "sentence_fingerprint": "to transform it into an unconstrained problem, we",
+        "structsense_label": "METHOD",
+        "structsense_canonical": "METHOD",
+        "api_label": "MATHEMATICAL_TRANSFORM",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "contexts",
+        "sentence_fingerprint": "in the main cluster, the circuits were balanced",
+        "structsense_label": "EVENT",
+        "structsense_canonical": "CONCEPT",
+        "api_label": "CONTEXT",
+        "api_canonical": "CONTEXT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "single neurons",
+        "sentence_fingerprint": "this dataset consisted of 762 units from monkey",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "CELL_TYPE",
+        "api_canonical": "CELL_TYPE"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "cognitive functions",
+        "sentence_fingerprint": "we show that incorporating causal interactions among task",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "PHENOMENON",
+        "api_canonical": "PHENOMENON"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "z 2",
+        "sentence_fingerprint": "the network has two outputs, z 1 and",
+        "structsense_label": "VARIABLE",
+        "structsense_canonical": "VARIABLE",
+        "api_label": "TARGET_OUTPUT",
+        "api_canonical": "TARGET_OUTPUT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "z target,1",
+        "sentence_fingerprint": "the network has two outputs, z 1 and",
+        "structsense_label": "VARIABLE",
+        "structsense_canonical": "VARIABLE",
+        "api_label": "TARGET_OUTPUT",
+        "api_canonical": "TARGET_OUTPUT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "embedding q",
+        "sentence_fingerprint": "we infer the latent circuit parameters (q, w",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "MATRIX",
+        "api_canonical": "MATRIX"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "recurrent neural networks",
+        "sentence_fingerprint": "we apply the latent circuit inference to recurrent",
+        "structsense_label": "MODEL",
+        "structsense_canonical": "MODEL",
+        "api_label": "COMPUTATIONAL_MODEL",
+        "api_canonical": "METHOD"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "w rec",
+        "sentence_fingerprint": "allowing for these input correlations in rnns and",
+        "structsense_label": "PERSON",
+        "structsense_canonical": "PERSON",
+        "api_label": "RECURRENT_WEIGHT_MATRIX",
+        "api_canonical": "RECURRENT_WEIGHT_MATRIX"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "\ud835\udca9\ud835\udca9(0, 1)",
+        "sentence_fingerprint": "( 10) using the first-order euler scheme with",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "NORMAL_DISTRIBUTION",
+        "api_canonical": "NORMAL_DISTRIBUTION"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "color axis",
+        "sentence_fingerprint": "we see the same effects in the absolute",
+        "structsense_label": "MENTION",
+        "structsense_canonical": "MENTION",
+        "api_label": "DIMENSIONAL_AXIS",
+        "api_canonical": "DIMENSIONAL_AXIS"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "color coherence",
+        "sentence_fingerprint": "the strength of motion and color stimuli varies",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "TASK_VARIABLE",
+        "api_canonical": "TASK_VARIABLE"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "\u03bb orth",
+        "sentence_fingerprint": "the hyperparameter \u03bb orth controls the penalty weight.",
+        "structsense_label": "MISC",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "REGULARIZATION_PARAMETER",
+        "api_canonical": "REGULARIZATION_PARAMETER"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "motion axis",
+        "sentence_fingerprint": "the absolute value of the projection onto motion",
+        "structsense_label": "FEATURE_AXIS",
+        "structsense_canonical": "FEATURE_AXIS",
+        "api_label": "LATENT_AXIS",
+        "api_canonical": "LATENT_AXIS"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "latent circuits",
+        "sentence_fingerprint": "for each of these rnns, we fitted an",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "COMPUTATIONAL_MODEL",
+        "api_canonical": "METHOD"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "motion context node",
+        "sentence_fingerprint": "further, the color context node has inhibitory connections",
+        "structsense_label": "OTHER",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "NEURAL_COMPONENT",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "w in",
+        "sentence_fingerprint": "the latent nodes interact via the recurrent connectivity",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "PARAMETER",
+        "api_canonical": "PARAMETER"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "\u03b4t",
+        "sentence_fingerprint": "( 10) using the first-order euler scheme with",
+        "structsense_label": "MEASURE",
+        "structsense_canonical": "METRIC",
+        "api_label": "TIME_STEP_PARAMETER",
+        "api_canonical": "TIME_STEP_PARAMETER"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "dales law",
+        "sentence_fingerprint": "the recurrent matrix is constrained to satisfy dales",
+        "structsense_label": "LAW",
+        "structsense_canonical": "LAW",
+        "api_label": "NETWORK_CONSTRAINT",
+        "api_canonical": "NETWORK_CONSTRAINT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "relu",
+        "sentence_fingerprint": "\u211d n as', 'where q \u211d nn is",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "ACTIVATION_FUNCTION",
+        "api_canonical": "MODEL"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "high-dimensional system",
+        "sentence_fingerprint": "y qx to obtain the correspondence between the",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "COMPUTATIONAL_MODEL",
+        "api_canonical": "METHOD"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "cortical circuits",
+        "sentence_fingerprint": "these computations result from interactions between excitatory and",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "NEURAL_CIRCUIT",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "heterogeneous neural responses",
+        "sentence_fingerprint": "thus, high-dimensional rnns currently serve as intermediate mechanistic",
+        "structsense_label": "PROCESS",
+        "structsense_canonical": "BIOLOGICAL_PROCESS",
+        "api_label": "PHENOMENON",
+        "api_canonical": "PHENOMENON"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "exc",
+        "sentence_fingerprint": "each column of q defines an axis in",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "ABBREVIATION",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "external task variables",
+        "sentence_fingerprint": "therefore, targeted dimensionality reduction methods directly model neural",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "CONCEPTUAL_VARIABLE",
+        "api_canonical": "CONCEPTUAL_VARIABLE"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "motion coherence",
+        "sentence_fingerprint": "we use motion coherence m c and color",
+        "structsense_label": "MEASURE",
+        "structsense_canonical": "METRIC",
+        "api_label": "TASK_VARIABLE",
+        "api_canonical": "TASK_VARIABLE"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "low-dimensional latent circuit",
+        "sentence_fingerprint": "our model fits neural responses with dynamics generated",
+        "structsense_label": "CONCEPT",
+        "structsense_canonical": "CONCEPT",
+        "api_label": "COMPUTATIONAL_MODEL",
+        "api_canonical": "METHOD"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "latent connectivity",
+        "sentence_fingerprint": "the advantage of the mechanistic model for latent",
+        "structsense_label": "ORG",
+        "structsense_canonical": "ORGANIZATION",
+        "api_label": "CONNECTIVITY",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "latent circuit model",
+        "sentence_fingerprint": "we develop the latent circuit model, a dimensionality",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "COMPUTATIONAL_MODEL",
+        "api_canonical": "METHOD"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "color",
+        "sentence_fingerprint": "context-dependent decision-making task ['in the context-dependent decision-making task,",
+        "structsense_label": "CONCEPT",
+        "structsense_canonical": "CONCEPT",
+        "api_label": "STIMULUS_FEATURE",
+        "api_canonical": "STIMULUS"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "color context",
+        "sentence_fingerprint": "in the color context, the choice should be",
+        "structsense_label": "CONTEXT",
+        "structsense_canonical": "CONTEXT",
+        "api_label": "TASK_CONTEXT",
+        "api_canonical": "TASK_CONTEXT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "mann-whitney test",
+        "sentence_fingerprint": "the irrelevant color representation is significantly less suppressed",
+        "structsense_label": "TEST",
+        "structsense_canonical": "TEST",
+        "api_label": "STATISTICAL_TEST",
+        "api_canonical": "METHOD"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "task behavior",
+        "sentence_fingerprint": "however, because correlation-based dimensionality reduction methods bear no",
+        "structsense_label": "BEHAVIOR",
+        "structsense_canonical": "BEHAVIOR",
+        "api_label": "BEHAVIORAL_PHENOMENON",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "frontal eye field",
+        "sentence_fingerprint": "['we analyzed a publicly available dataset of neural",
+        "structsense_label": "LOC",
+        "structsense_canonical": "LOC",
+        "api_label": "BRAIN_REGION",
+        "api_canonical": "BRAIN_REGION"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "rectified linear",
+        "sentence_fingerprint": "we fitted responses of these rnns with our",
+        "structsense_label": "MISC",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "ACTIVATION_FUNCTION",
+        "api_canonical": "MODEL"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "z target,2",
+        "sentence_fingerprint": "the network has two outputs, z 1 and",
+        "structsense_label": "VARIABLE",
+        "structsense_canonical": "VARIABLE",
+        "api_label": "TARGET_OUTPUT",
+        "api_canonical": "TARGET_OUTPUT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "suppression mechanism",
+        "sentence_fingerprint": "we apply the latent circuit inference to recurrent",
+        "structsense_label": "PROCESS",
+        "structsense_canonical": "BIOLOGICAL_PROCESS",
+        "api_label": "NEURAL_MECHANISM",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "multiunits",
+        "sentence_fingerprint": "this dataset consisted of 762 units from monkey",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "NEURAL_RECORDING_UNIT",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "rnns",
+        "sentence_fingerprint": "although the circuit solutions in two of the",
+        "structsense_label": "ORG",
+        "structsense_canonical": "ORGANIZATION",
+        "api_label": "NEURAL_NETWORK_MODEL",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "python",
+        "sentence_fingerprint": "context-dependent decision-making task ['in the context-dependent decision-making task,",
+        "structsense_label": "LANGUAGE",
+        "structsense_canonical": "LANGUAGE",
+        "api_label": "PROGRAMMING_LANGUAGE",
+        "api_canonical": "SOFTWARE"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "high-dimensional networks",
+        "sentence_fingerprint": "thus, high-dimensional rnns currently serve as intermediate mechanistic",
+        "structsense_label": "NETWORK",
+        "structsense_canonical": "MODEL",
+        "api_label": "COMPUTATIONAL_MODEL",
+        "api_canonical": "METHOD"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "pytorch",
+        "sentence_fingerprint": "the parameters b, w rec , w in",
+        "structsense_label": "ORG",
+        "structsense_canonical": "ORGANIZATION",
+        "api_label": "SOFTWARE_LIBRARY",
+        "api_canonical": "SOFTWARE"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "pfcs",
+        "sentence_fingerprint": "hence, it remains uncertain whether neural representations uncovered",
+        "structsense_label": "ORG",
+        "structsense_canonical": "ORGANIZATION",
+        "api_label": "BRAIN_REGION",
+        "api_canonical": "BRAIN_REGION"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "latent circuit models",
+        "sentence_fingerprint": "for each of these rnns, we fitted an",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "COMPUTATIONAL_MODEL",
+        "api_canonical": "METHOD"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "w rec",
+        "sentence_fingerprint": "the latent nodes interact via the recurrent connectivity",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "PARAMETER",
+        "api_canonical": "PARAMETER"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "w rec",
+        "sentence_fingerprint": "we consider rnns with dynamics', 'where w rec",
+        "structsense_label": "MATRIX",
+        "structsense_canonical": "MATRIX",
+        "api_label": "PARAMETER",
+        "api_canonical": "PARAMETER"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "right choice node",
+        "sentence_fingerprint": "in the latent circuit, sensory nodes representing stimuli",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "NEURAL_COMPONENT",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "monkey a",
+        "sentence_fingerprint": "this dataset consisted of 762 units from monkey",
+        "structsense_label": "ORG",
+        "structsense_canonical": "ORGANIZATION",
+        "api_label": "SPECIES",
+        "api_canonical": "SPECIES"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "stimulus input",
+        "sentence_fingerprint": "stimulus input was given to the model from",
+        "structsense_label": "TASK_COMPONENT",
+        "structsense_canonical": "TASK_COMPONENT",
+        "api_label": "INPUT_MODULATION",
+        "api_canonical": "INPUT_MODULATION"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "w in",
+        "sentence_fingerprint": "w rec and w in are the recurrent",
+        "structsense_label": "PERSON",
+        "structsense_canonical": "PERSON",
+        "api_label": "MODEL_PARAMETER",
+        "api_canonical": "MODEL"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "w t out",
+        "sentence_fingerprint": "here, b is the matrix corresponding to the",
+        "structsense_label": "PRODUCT",
+        "structsense_canonical": "PRODUCT",
+        "api_label": "OUTPUT_WEIGHT_MATRIX_TRANSPOSE",
+        "api_canonical": "OUTPUT_WEIGHT_MATRIX_TRANSPOSE"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "pytorch",
+        "sentence_fingerprint": "context-dependent decision-making task ['in the context-dependent decision-making task,",
+        "structsense_label": "SOFTWARE",
+        "structsense_canonical": "SOFTWARE",
+        "api_label": "DEEP_LEARNING_FRAMEWORK",
+        "api_canonical": "DEEP_LEARNING_FRAMEWORK"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "decoder axis",
+        "sentence_fingerprint": "analysis of pfc data",
+        "structsense_label": "MISC",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "LINEAR_DECODER_AXIS",
+        "api_canonical": "LINEAR_DECODER_AXIS"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "motion context trials",
+        "sentence_fingerprint": "projections of rnn activity onto the motion and",
+        "structsense_label": "NA",
+        "structsense_canonical": "NA",
+        "api_label": "EXPERIMENTAL_CONDITION",
+        "api_canonical": "METHOD"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "neural representations",
+        "sentence_fingerprint": "therefore, targeted dimensionality reduction methods directly model neural",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "PHENOMENON",
+        "api_canonical": "PHENOMENON"
       }
     ]
   },
   "layer1b": {
     "paper_id": "latent-circuit",
-    "jaccard_high_conf": 0.010357815442561206,
+    "jaccard_high_conf": 0.08105872622001654,
     "structsense_only": [
       [
         "100 ms after the stimulus onset",
@@ -5243,10 +6159,6 @@
       ],
       [
         "behavioral outputs",
-        "because unsupervised methods do not explicitly model task"
-      ],
-      [
-        "behavioral outputs",
         "therefore, targeted dimensionality reduction methods directly model neural"
       ],
       [
@@ -5294,16 +6206,8 @@
         "however, because correlation-based dimensionality reduction methods bear no"
       ],
       [
-        "cayley transform",
-        "to transform it into an unconstrained problem, we"
-      ],
-      [
         "choice",
         "(b) projection of pfc responses onto motion, color"
-      ],
-      [
-        "choice axis",
-        "next, the choice axis is the difference of"
       ],
       [
         "choice node",
@@ -5382,6 +6286,10 @@
         "the fitted latent circuit model captured an overwhelming"
       ],
       [
+        "cognitive flexibility",
+        "thus, inhibitory mechanisms for cognitive flexibility are compatible"
+      ],
+      [
         "cognitive functions",
         "discussion ['single neurons in higher cortical areas show"
       ],
@@ -5390,16 +6298,8 @@
         "online content ['any methods, additional references, nature portfolio"
       ],
       [
-        "cognitive functions",
-        "we show that incorporating causal interactions among task"
-      ],
-      [
         "cognitive task",
         "similar to other dimensionality reduction methods, we model"
-      ],
-      [
-        "cognitive task execution",
-        "because these circuit models usually assume a relatively"
       ],
       [
         "cognitive task execution",
@@ -5451,10 +6351,6 @@
       ],
       [
         "color",
-        "context-dependent decision-making task ['in the context-dependent decision-making task,"
-      ],
-      [
-        "color",
         "further, the color context node has inhibitory connections"
       ],
       [
@@ -5470,16 +6366,8 @@
         "the strength of motion and color stimuli varies"
       ],
       [
-        "color axis",
-        "we see the same effects in the absolute"
-      ],
-      [
         "color coherence",
         "for each coherence level, the motion and color"
-      ],
-      [
-        "color coherence",
-        "the strength of motion and color stimuli varies"
       ],
       [
         "color coherence",
@@ -5499,15 +6387,7 @@
       ],
       [
         "color context",
-        "in the color context, the choice should be"
-      ],
-      [
-        "color context",
         "the monkeys were rewarded for saccades to the"
-      ],
-      [
-        "color context node",
-        "further, the color context node has inhibitory connections"
       ],
       [
         "color context trials",
@@ -5675,10 +6555,6 @@
       ],
       [
         "context cue",
-        "latent circuit for context-dependent decision-making ['we applied our"
-      ],
-      [
-        "context cue",
         "to encourage the network to integrate sensory evidence"
       ],
       [
@@ -5708,10 +6584,6 @@
       [
         "context nodes",
         "this pattern of connections from the context nodes"
-      ],
-      [
-        "context-dependent decision-making",
-        "context-dependent decision-making requires flexible trial-by-trial switching between alternative"
       ],
       [
         "context-dependent decision-making",
@@ -5751,10 +6623,6 @@
       ],
       [
         "context-dependent decision-making task",
-        "context-dependent decision-making task ['in the context-dependent decision-making task,"
-      ],
-      [
-        "context-dependent decision-making task",
         "in general, a solution to which an rnn"
       ],
       [
@@ -5768,14 +6636,6 @@
       [
         "context-dependent decision-making task",
         "we applied latent circuit inference to rnns optimized"
-      ],
-      [
-        "context-dependent decision-making task",
-        "we apply the latent circuit inference to recurrent"
-      ],
-      [
-        "context-dependent decisionmaking",
-        "the fitted latent circuit model captured an overwhelming"
       ],
       [
         "contexts",
@@ -5846,16 +6706,8 @@
         "we then compute the correlation coefficients between the"
       ],
       [
-        "correlation-based dimensionality reduction methods",
-        "however, because correlation-based dimensionality reduction methods bear no"
-      ],
-      [
         "correlation-based methods",
         "however, unlike rnns and circuit models, these correlation-based"
-      ],
-      [
-        "cortical circuits",
-        "these computations result from interactions between excitatory and"
       ],
       [
         "current context",
@@ -5864,10 +6716,6 @@
       [
         "custom python code",
         "( 1)-( 3) to neural response data y"
-      ],
-      [
-        "dales law",
-        "the recurrent matrix is constrained to satisfy dales"
       ],
       [
         "dales law",
@@ -5888,10 +6736,6 @@
       [
         "decision output",
         "because the irrelevant sensory representation is suppressed, it"
-      ],
-      [
-        "decoder axis",
-        "analysis of pfc data"
       ],
       [
         "decoder axis",
@@ -5990,8 +6834,8 @@
         "assuming that the latent circuit provides a good"
       ],
       [
-        "dynamical mechanism",
-        "thus, these models explicitly specify a circuit mechanism"
+        "dynamical mechanisms",
+        "it has been possible to determine dynamical mechanisms"
       ],
       [
         "dynamical mechanisms",
@@ -6004,10 +6848,6 @@
       [
         "dynamical selection vector mechanism",
         "we analyzed dynamics in our rnns and found"
-      ],
-      [
-        "dynamical system",
-        "because these circuit models usually assume a relatively"
       ],
       [
         "dynamical system",
@@ -6046,10 +6886,6 @@
         "for each of these rnns, we fitted an"
       ],
       [
-        "embedding q",
-        "we infer the latent circuit parameters (q, w"
-      ],
-      [
         "error",
         "specifically, the suppression mechanism predicts that the representations"
       ],
@@ -6072,10 +6908,6 @@
       [
         "euler scheme",
         "( 10) using the first-order euler scheme with"
-      ],
-      [
-        "exc",
-        "each column of q defines an axis in"
       ],
       [
         "excitation",
@@ -6118,10 +6950,6 @@
         "online content ['any methods, additional references, nature portfolio"
       ],
       [
-        "external task variables",
-        "therefore, targeted dimensionality reduction methods directly model neural"
-      ],
-      [
         "firing rates",
         "the first term is the task error, and"
       ],
@@ -6158,16 +6986,8 @@
         "thus, these models explicitly specify a circuit mechanism"
       ],
       [
-        "frontal eye field",
-        "['we analyzed a publicly available dataset of neural"
-      ],
-      [
         "gain g",
         "g \u03b2 log(1 e \u03b2x ) for a"
-      ],
-      [
-        "gaussian kernel",
-        "within the training and test sets, we z"
       ],
       [
         "generic rnns",
@@ -6255,10 +7075,6 @@
       ],
       [
         "high-dimensional networks",
-        "thus, high-dimensional rnns currently serve as intermediate mechanistic"
-      ],
-      [
-        "high-dimensional networks",
         "thus, inhibitory mechanisms for cognitive flexibility are compatible"
       ],
       [
@@ -6302,10 +7118,6 @@
         "thus, the latent circuit provides a dimensionality reduction"
       ],
       [
-        "high-dimensional system",
-        "y qx to obtain the correspondence between the"
-      ],
-      [
         "highdimensional system",
         ""
       ],
@@ -6316,14 +7128,6 @@
       [
         "higher cortical areas",
         "discussion ['single neurons in higher cortical areas show"
-      ],
-      [
-        "higher cortical areas",
-        "higher cortical areas carry a wide range of"
-      ],
-      [
-        "higher cortical areas",
-        "we show that incorporating causal interactions among task"
       ],
       [
         "histogram",
@@ -6376,10 +7180,6 @@
       [
         "inferred latent connectivity",
         "these latent models serve as a control to"
-      ],
-      [
-        "inh",
-        "each column of q defines an axis in"
       ],
       [
         "inhibition",
@@ -6662,10 +7462,6 @@
         "we set the time constant \u03c4 200 ms,"
       ],
       [
-        "latent circuit embedding q",
-        "space of latent circuit mechanisms ['we next asked"
-      ],
-      [
         "latent circuit inference",
         "in general, a solution to which an rnn"
       ],
@@ -6680,10 +7476,6 @@
       [
         "latent circuit inference",
         "we applied latent circuit inference to rnns optimized"
-      ],
-      [
-        "latent circuit inference",
-        "we apply the latent circuit inference to recurrent"
       ],
       [
         "latent circuit mechanism",
@@ -6720,10 +7512,6 @@
       [
         "latent circuit model",
         "in general, a solution to which an rnn"
-      ],
-      [
-        "latent circuit model",
-        "in general, it is unclear whether a latent"
       ],
       [
         "latent circuit model",
@@ -6787,6 +7575,10 @@
       ],
       [
         "latent circuit model",
+        "to bridge the gap between dimensionality reduction, circuit"
+      ],
+      [
+        "latent circuit model",
         "to confirm that this difference results from recurrent"
       ],
       [
@@ -6800,10 +7592,6 @@
       [
         "latent circuit model",
         "we compared projections of rnn activity onto axes"
-      ],
-      [
-        "latent circuit model",
-        "we develop the latent circuit model, a dimensionality"
       ],
       [
         "latent circuit model",
@@ -6843,10 +7631,6 @@
       ],
       [
         "latent circuit models",
-        "for each of these rnns, we fitted an"
-      ],
-      [
-        "latent circuit models",
         "histogram of correlation coefficients \u03c1 between recurrent connectivity"
       ],
       [
@@ -6867,11 +7651,11 @@
       ],
       [
         "latent circuit models",
-        "we fit responses of these rnns with latent"
+        "we fitted latent circuit models to smoothed condition-averaged"
       ],
       [
-        "latent circuit models",
-        "we fitted latent circuit models to smoothed condition-averaged"
+        "latent circuit parameters",
+        "we infer the latent circuit parameters (q, w"
       ],
       [
         "latent circuit solutions",
@@ -6886,10 +7670,6 @@
         "to control this tradeoff, we used a modified"
       ],
       [
-        "latent circuits",
-        "for each of these rnns, we fitted an"
-      ],
-      [
         "latent connection w ji",
         "rnn simulations ['we simulate dynamics of time-discretized rnns"
       ],
@@ -6900,10 +7680,6 @@
       [
         "latent connectivity",
         "for each of these rnns, we fitted an"
-      ],
-      [
-        "latent connectivity",
-        "the advantage of the mechanistic model for latent"
       ],
       [
         "latent connectivity",
@@ -6994,10 +7770,6 @@
         "our latent circuit model accounts for single-neuron heterogeneity"
       ],
       [
-        "latent variables",
-        "using rnn perturbations, we show that dimensionality reduction"
-      ],
-      [
         "latent vector field v(x)",
         "using the orthonormality of q, we then derive"
       ],
@@ -7016,10 +7788,6 @@
       [
         "left choice",
         "the right motion and red color are associated"
-      ],
-      [
-        "left choice node",
-        "in the latent circuit, sensory nodes representing stimuli"
       ],
       [
         "left choice trials",
@@ -7083,10 +7851,6 @@
       ],
       [
         "low-dimensional circuit mechanisms",
-        "however, because correlation-based dimensionality reduction methods bear no"
-      ],
-      [
-        "low-dimensional circuit mechanisms",
         "online content ['any methods, additional references, nature portfolio"
       ],
       [
@@ -7128,10 +7892,6 @@
       [
         "low-dimensional dynamics",
         "thus, the latent circuit provides a dimensionality reduction"
-      ],
-      [
-        "low-dimensional latent circuit",
-        "our model fits neural responses with dynamics generated"
       ],
       [
         "low-dimensional latent circuit",
@@ -7211,10 +7971,6 @@
       ],
       [
         "mann-whitney test",
-        "the irrelevant color representation is significantly less suppressed"
-      ],
-      [
-        "mann-whitney test",
         "the irrelevant motion representation is significantly less suppressed"
       ],
       [
@@ -7224,10 +7980,6 @@
       [
         "mann-whitney u-test",
         "third, we use a mann-whitney u-test to determine"
-      ],
-      [
-        "mante et al. 19",
-        "neural recording data were previously described in mante"
       ],
       [
         "matrix b",
@@ -7375,10 +8127,6 @@
       ],
       [
         "motion",
-        "context-dependent decision-making task ['in the context-dependent decision-making task,"
-      ],
-      [
-        "motion",
         "further, the color context node has inhibitory connections"
       ],
       [
@@ -7396,10 +8144,6 @@
       [
         "motion axis",
         "as expected, driving rnn activity along the motion"
-      ],
-      [
-        "motion axis",
-        "the absolute value of the projection onto motion"
       ],
       [
         "motion coherence",
@@ -7422,10 +8166,6 @@
         "we trained a linear decoder to predict the"
       ],
       [
-        "motion coherence",
-        "we use motion coherence m c and color"
-      ],
-      [
         "motion context",
         "by projecting rnn responses onto the difference of"
       ],
@@ -7436,10 +8176,6 @@
       [
         "motion context",
         "the monkeys were rewarded for saccades to the"
-      ],
-      [
-        "motion context node",
-        "further, the color context node has inhibitory connections"
       ],
       [
         "motion context node",
@@ -7476,10 +8212,6 @@
       [
         "motion stimulus",
         "in the color context, the choice should be"
-      ],
-      [
-        "multiunits",
-        "this dataset consisted of 762 units from monkey"
       ],
       [
         "neural activity",
@@ -7527,6 +8259,10 @@
       ],
       [
         "neural dynamics",
+        "by linking connectivity to neural dynamics and behavioral"
+      ],
+      [
+        "neural dynamics",
         "our results motivate future work incorporating low-dimensional recurrent"
       ],
       [
@@ -7534,12 +8270,12 @@
         "therefore, targeted dimensionality reduction methods directly model neural"
       ],
       [
-        "neural recording data",
-        "neural recording data were previously described in mante"
+        "neural populations",
+        "traditionally, hand-crafted neural circuit models were used to"
       ],
       [
-        "neural representations",
-        "therefore, targeted dimensionality reduction methods directly model neural"
+        "neural recording data",
+        "neural recording data were previously described in mante"
       ],
       [
         "neural response data",
@@ -7815,10 +8551,6 @@
       ],
       [
         "prefrontal cortex",
-        "representations of irrelevant stimuli in the pfc ['our"
-      ],
-      [
-        "prefrontal cortex",
         "responses of the latent circuit were fitted to"
       ],
       [
@@ -7859,10 +8591,6 @@
       ],
       [
         "prefrontal cortex",
-        "we see the same effects in the absolute"
-      ],
-      [
-        "prefrontal cortex",
         "we therefore sought to determine whether the latent"
       ],
       [
@@ -7892,10 +8620,6 @@
       [
         "previous studies",
         "following previous studies 19 , from activity of"
-      ],
-      [
-        "principal component analysis",
-        "all converged latent circuits provided accurate fits of"
       ],
       [
         "principal components",
@@ -7935,19 +8659,7 @@
       ],
       [
         "python",
-        "context-dependent decision-making task ['in the context-dependent decision-making task,"
-      ],
-      [
-        "python",
         "we used the python software package seaborn for"
-      ],
-      [
-        "pytorch",
-        "context-dependent decision-making task ['in the context-dependent decision-making task,"
-      ],
-      [
-        "pytorch",
-        "the parameters b, w rec , w in"
       ],
       [
         "q t q",
@@ -8038,10 +8750,6 @@
         "however, unlike rnns and circuit models, these correlation-based"
       ],
       [
-        "recurrent neural networks",
-        "we apply the latent circuit inference to recurrent"
-      ],
-      [
         "recurrent noise term",
         "the latent circuit model was fitted with a"
       ],
@@ -8056,10 +8764,6 @@
       [
         "red color",
         "in the latent circuit, sensory nodes representing stimuli"
-      ],
-      [
-        "red color node",
-        "the latent circuit mechanism predicts that weakening the"
       ],
       [
         "regression coefficients",
@@ -8082,10 +8786,6 @@
         "this conclusion was derived using dimensionality reduction methods"
       ],
       [
-        "relu",
-        "we fitted responses of these rnns with our"
-      ],
-      [
         "rhesus monkeys",
         "the dataset consists of several hundred pfc neurons"
       ],
@@ -8100,10 +8800,6 @@
       [
         "right choice",
         "the right motion and red color are associated"
-      ],
-      [
-        "right choice node",
-        "in the latent circuit, sensory nodes representing stimuli"
       ],
       [
         "right choice node",
@@ -8278,10 +8974,6 @@
         "first, if the latent circuit faithfully describes the"
       ],
       [
-        "rnn connectivity perturbations",
-        "space of latent circuit mechanisms ['we next asked"
-      ],
-      [
         "rnn dynamics",
         "we discretize the rnn dynamics eq."
       ],
@@ -8290,20 +8982,12 @@
         "to control for this variability, we fitted a"
       ],
       [
-        "rnn responses",
-        "this choice of the latent circuit dimensionality agrees"
-      ],
-      [
         "rnn simulations",
         "rnn simulations ['we simulate dynamics of time-discretized rnns"
       ],
       [
         "rnn training",
         "by setting \u03bb orth to a smaller value"
-      ],
-      [
-        "rnn trajectories",
-        "the fitted latent circuit model captured an overwhelming"
       ],
       [
         "rnn unit",
@@ -8316,10 +9000,6 @@
       [
         "rnns",
         "8).', 'we find that rnns do not necessarily"
-      ],
-      [
-        "rnns",
-        "although trained rnns are a class of neural"
       ],
       [
         "rnns",
@@ -8403,10 +9083,6 @@
       ],
       [
         "rnns",
-        "to test whether our results extend to networks"
-      ],
-      [
-        "rnns",
         "we analyzed dynamics in our rnns and found"
       ],
       [
@@ -8440,10 +9116,6 @@
       [
         "sample size",
         "results were consistent across networks; therefore, we found"
-      ],
-      [
-        "seaborn",
-        "we used the python software package seaborn for"
       ],
       [
         "second perturbation",
@@ -8495,10 +9167,6 @@
       ],
       [
         "sensory nodes",
-        "in the latent circuit, sensory nodes representing stimuli"
-      ],
-      [
-        "sensory nodes",
         "the first perturbation turns off the context mechanism"
       ],
       [
@@ -8524,10 +9192,6 @@
       [
         "sensory stimulus",
         "after a short delay, a sensory stimulus appears"
-      ],
-      [
-        "sensory stimulus",
-        "latent circuit for context-dependent decision-making ['we applied our"
       ],
       [
         "sensory to choice nodes",
@@ -8567,14 +9231,6 @@
       ],
       [
         "single neurons",
-        "higher cortical areas carry a wide range of"
-      ],
-      [
-        "single neurons",
-        "this dataset consisted of 762 units from monkey"
-      ],
-      [
-        "single neurons",
         "thus, rnns do not find qualitatively distinct solutions"
       ],
       [
@@ -8588,10 +9244,6 @@
       [
         "single-neuron heterogeneity",
         "to bridge the gap between dimensionality reduction, circuit"
-      ],
-      [
-        "single-neuron responses",
-        "the model simultaneously infers a low-dimensional latent circuit"
       ],
       [
         "single-neuron responses",
@@ -8702,10 +9354,6 @@
         "to decode motion coherence from rnn responses, we"
       ],
       [
-        "stimulus input",
-        "stimulus input was given to the model from"
-      ],
-      [
         "stimulus offset",
         "neural recordings correspond to 100 ms after stimulus"
       ],
@@ -8720,10 +9368,6 @@
       [
         "stimulus-response mapping",
         "this pattern of connections from the context nodes"
-      ],
-      [
-        "stimulus-response mappings",
-        "context-dependent decision-making requires flexible trial-by-trial switching between alternative"
       ],
       [
         "stimulus-response mappings",
@@ -8763,10 +9407,6 @@
       ],
       [
         "suppression mechanism",
-        "we apply the latent circuit inference to recurrent"
-      ],
-      [
-        "suppression mechanism",
         "we confirmed that pfc responses significantly constrained the"
       ],
       [
@@ -8778,20 +9418,12 @@
         "rnn training ['to train the rnn, we minimize"
       ],
       [
-        "targeted dimensionality reduction methods",
-        "therefore, targeted dimensionality reduction methods directly model neural"
-      ],
-      [
         "targets",
         "because the color of the targets was randomized"
       ],
       [
         "targets",
         "from 2,250 ms after the start of the"
-      ],
-      [
-        "task behavior",
-        "however, because correlation-based dimensionality reduction methods bear no"
       ],
       [
         "task computations",
@@ -9071,15 +9703,7 @@
       ],
       [
         "w in",
-        "the latent nodes interact via the recurrent connectivity"
-      ],
-      [
-        "w in",
         "the parameters b, w rec , w in"
-      ],
-      [
-        "w in",
-        "we consider rnns with dynamics', 'where w rec"
       ],
       [
         "w in",
@@ -9107,19 +9731,11 @@
       ],
       [
         "w rec",
-        "the latent nodes interact via the recurrent connectivity"
-      ],
-      [
-        "w rec",
         "the parameters b, w rec , w in"
       ],
       [
         "w rec",
         "this relation does not necessarily imply that the"
-      ],
-      [
-        "w rec",
-        "we consider rnns with dynamics', 'where w rec"
       ],
       [
         "w rec",
@@ -9130,72 +9746,28 @@
         "we used the python software package seaborn for"
       ],
       [
-        "w t out",
-        "here, b is the matrix corresponding to the"
-      ],
-      [
         "weight decay",
         "we used a learning rate of 0.01 and"
       ],
       [
-        "y ikt",
-        "rnn training ['to train the rnn, we minimize"
-      ],
-      [
-        "z 1",
-        "the network has two outputs, z 1 and"
-      ],
-      [
         "z 1",
         "we constructed two target outputs (z 1 and"
       ],
       [
         "z 2",
-        "the network has two outputs, z 1 and"
-      ],
-      [
-        "z 2",
         "we constructed two target outputs (z 1 and"
-      ],
-      [
-        "z ikt",
-        "rnn training ['to train the rnn, we minimize"
       ],
       [
         "z scored",
         "within the training and test sets, we z"
       ],
       [
-        "z target,1",
-        "the network has two outputs, z 1 and"
-      ],
-      [
-        "z target,2",
-        "the network has two outputs, z 1 and"
-      ],
-      [
-        "\u03b4t",
-        "( 10) using the first-order euler scheme with"
-      ],
-      [
-        "\u03b7 t",
-        "at each simulation time step, we add an"
-      ],
-      [
         "\u03bb orth",
         "by setting \u03bb orth to a smaller value"
       ],
       [
-        "\u03bb orth",
-        "the hyperparameter \u03bb orth controls the penalty weight."
-      ],
-      [
         "\u03bb orth hyperparameter",
         "these correlations can be captured in the latent"
-      ],
-      [
-        "\u03be t",
-        "( 10) using the first-order euler scheme with"
       ],
       [
         "\u03c0 n",
@@ -9204,24 +9776,84 @@
       [
         "\u03c3 rec",
         "the latent circuit model was fitted with a"
-      ],
-      [
-        "\ud835\udca9\ud835\udca9(0, 1)",
-        "( 10) using the first-order euler scheme with"
       ]
     ],
     "api_only": [
       [
-        "behavioral output",
-        "thus, these models explicitly specify a circuit mechanism"
+        "10 ms",
+        "we thus modeled the task with 150 time"
       ],
       [
-        "circuit connectivity",
-        "the relation between connectivity matrices has the powerful"
+        "100 latent circuit models",
+        "for each of these networks, we trained 100"
       ],
       [
-        "circuit inference",
-        "we therefore proceeded to validate the inferred circuit"
+        "150 time steps",
+        "we thus modeled the task with 150 time"
+      ],
+      [
+        "1n",
+        "allowing for these input correlations in rnns and"
+      ],
+      [
+        "200 fits",
+        "points represent mean across 200 fits."
+      ],
+      [
+        "200 rnns",
+        "in the ensemble of 200 rnns trained on"
+      ],
+      [
+        "323 neurons",
+        "in our analyses, we included neurons that had"
+      ],
+      [
+        "483 neurons",
+        "in our analyses, we included neurons that had"
+      ],
+      [
+        "4n",
+        "allowing for these input correlations in rnns and"
+      ],
+      [
+        "95 confidence interval",
+        "shading represents a 95 confidence interval estimated via"
+      ],
+      [
+        "adam",
+        "the training is performed with the adam algorithm."
+      ],
+      [
+        "adam optimizer",
+        "the parameters b, w rec , w in"
+      ],
+      [
+        "behavioral effects",
+        "we validate this mechanism by confirming the behavioral"
+      ],
+      [
+        "behavioral task performance",
+        "this agreement confirms that the latent connectivity structure"
+      ],
+      [
+        "c c",
+        "we use motion coherence m c and color"
+      ],
+      [
+        "causal interactions",
+        "we show that incorporating causal interactions among task"
+      ],
+      [
+        "choice",
+        "the right motion and red color are associated"
+      ],
+      [
+        "choice node",
+        "the latent circuit model consisted of eight nodes"
+      ],
+      [
+        "choice nodes",
+        "the latent circuit model consisted of eight nodes"
       ],
       [
         "circuit mechanism",
@@ -9229,181 +9861,759 @@
       ],
       [
         "circuit mechanisms",
-        "thus, high-dimensional rnns currently serve as intermediate mechanistic"
-      ],
-      [
-        "circuit models",
         "however, hand-crafted circuit models come short of capturing"
       ],
       [
-        "circuit structure",
-        "by linking connectivity to neural dynamics and behavioral"
+        "circuit models",
+        "traditionally, hand-crafted neural circuit models were used to"
+      ],
+      [
+        "cluster",
+        "the variability of task solutions was much greater"
+      ],
+      [
+        "cluster 2",
+        "only p 3 of rnns in cluster 1"
+      ],
+      [
+        "cluster 3",
+        "same as a-d for cluster 3. (m) different"
+      ],
+      [
+        "cognitive task",
+        "because these circuit models usually assume a relatively"
       ],
       [
         "cognitive tasks",
-        "these computations result from interactions between excitatory and"
-      ],
-      [
-        "color",
-        "the right motion and red color are associated"
-      ],
-      [
-        "context-dependent decision-making task",
-        "we applied our latent circuit inference to rnns"
-      ],
-      [
-        "contextual cue",
-        "in the context-dependent decision-making task, at the beginning"
-      ],
-      [
-        "dimensionality reduction methods",
-        "similar to other dimensionality reduction methods, we model"
-      ],
-      [
-        "excitatory",
-        "these computations result from interactions between excitatory and"
-      ],
-      [
-        "high-dimensional recurrent neural network",
         "similar heterogeneous responses emerge in high-dimensional recurrent neural"
       ],
       [
-        "inhibitory",
-        "these computations result from interactions between excitatory and"
+        "color axis",
+        "further, the motion axis is the difference of"
       ],
       [
-        "latent circuit connectivity",
-        "the relation between connectivity matrices has the powerful"
+        "color context",
+        "further, the color context node has inhibitory connections"
       ],
       [
-        "latent variables",
-        "because unsupervised methods do not explicitly model task"
+        "color context trials",
+        "projections of rnn activity onto the motion and"
       ],
       [
-        "loss function",
-        "we infer the latent circuit parameters (q, w"
+        "color nodes",
+        "the latent circuit model consisted of eight nodes"
       ],
       [
-        "motion",
-        "the right motion and red color are associated"
+        "color-context trials",
+        "the absolute value of the projection onto motion"
       ],
       [
-        "neural activity",
-        "we fitted the latent circuit model to the"
+        "color-left",
+        "the recurrent connections between the color-right and color-left"
       ],
       [
-        "neural activity data",
-        "similar heterogeneous responses emerge in high-dimensional recurrent neural"
+        "color-right",
+        "the recurrent connections between the color-right and color-left"
       ],
       [
-        "neural activity recordings",
-        "we analyzed a publicly available dataset of neural"
+        "color-sensitive neurons",
+        "projections onto the color axis show suppressed color"
       ],
       [
-        "neural circuit",
-        "the latent circuit model captures task-related neural activity"
+        "connectivity matrices",
+        "we can then derive an explicit relationship between"
       ],
       [
-        "neural circuit",
-        "thus, these models explicitly specify a circuit mechanism"
+        "context",
+        "context-dependent decision-making task ['in the context-dependent decision-making task,"
       ],
       [
-        "neural circuit dynamics",
-        "the latent circuit model captures task-related neural activity"
+        "context node",
+        "the latent circuit model consisted of eight nodes"
       ],
       [
-        "neural recordings",
+        "context nodes",
+        "the latent circuit model consisted of eight nodes"
+      ],
+      [
+        "context representations",
+        "this result confirms both the behavioral relevance of"
+      ],
+      [
+        "context-dependent decision-making",
+        "we apply the latent circuit inference to recurrent"
+      ],
+      [
+        "contextdependent decision-making",
+        "3 asymmetric inhibitory mechanism for contextdependent decision-making."
+      ],
+      [
+        "contexts",
+        "in the main cluster, the circuits were balanced"
+      ],
+      [
+        "contextual input",
+        "contextual input was given to the model from"
+      ],
+      [
+        "correlation-based methods",
         "moreover, fitting the latent circuit model to neural"
       ],
       [
-        "neural response data",
+        "cortex",
+        "we find similar suppression of irrelevant sensory responses"
+      ],
+      [
+        "dimensionality reduction",
+        "we develop the latent circuit model, a dimensionality"
+      ],
+      [
+        "dimensionality reduction methods",
+        "however, because correlation-based dimensionality reduction methods bear no"
+      ],
+      [
+        "e i",
+        "( 14) and (15), we then translate connectivity"
+      ],
+      [
+        "embedding matrix q",
+        "we conjugated the rnn connectivity matrices with the"
+      ],
+      [
+        "error",
+        "rnn training ['to train the rnn, we minimize"
+      ],
+      [
+        "excitation-inhibition balance",
+        "by linking connectivity to neural dynamics and behavioral"
+      ],
+      [
+        "excitatory and inhibitory neurons",
+        "these computations result from interactions between excitatory and"
+      ],
+      [
+        "gaussian mixture model",
+        "the projection reveals three major solution clusters, which"
+      ],
+      [
+        "green",
+        "the right motion and red color are associated"
+      ],
+      [
+        "heterogeneous neural responses",
         "thus, high-dimensional rnns currently serve as intermediate mechanistic"
       ],
       [
+        "high-dimensional network",
+        "in general, it is unclear whether a latent"
+      ],
+      [
+        "high-dimensional network",
+        "thus, high-dimensional rnns currently serve as intermediate mechanistic"
+      ],
+      [
+        "i irrel",
+        "context-dependent selection arises because in each context, the"
+      ],
+      [
+        "i rel",
+        "context-dependent selection arises because in each context, the"
+      ],
+      [
+        "latent circuit",
+        "in general, it is unclear whether a latent"
+      ],
+      [
+        "latent circuit",
+        "we develop the latent circuit model, a dimensionality"
+      ],
+      [
+        "latent circuit connectivity",
+        "the model simultaneously infers a low-dimensional latent circuit"
+      ],
+      [
+        "latent circuit mechanism",
+        "because, in practice, we search for the latent"
+      ],
+      [
+        "latent circuit model",
+        "dots represent individual trial conditions, bars represent their"
+      ],
+      [
+        "latent circuit solutions",
+        "all converged latent circuits provided accurate fits of"
+      ],
+      [
+        "latent circuits",
+        "(b) we analyzed the dynamical mechanism in an"
+      ],
+      [
+        "latent connectivity matrix",
+        "this result further reinforces that task alone does"
+      ],
+      [
+        "latent models",
+        "these latent models produced a significantly worse fit"
+      ],
+      [
+        "latent nodes",
+        "the latent nodes interact via the recurrent connectivity"
+      ],
+      [
+        "latent variable",
+        "using rnn perturbations, we show that dimensionality reduction"
+      ],
+      [
+        "low-dimensional circuit mechanism",
+        "however, because correlation-based dimensionality reduction methods bear no"
+      ],
+      [
+        "low-rank structure",
+        "( 5) shows that the latent circuit connectivity"
+      ],
+      [
+        "m c",
+        "we use motion coherence m c and color"
+      ],
+      [
+        "mann-whitney u test",
+        "fits were significantly worse when the latent circuit"
+      ],
+      [
+        "mann-whitney u-test",
+        "9a and 10; one-sided mann-whitney u-test; monkey a:"
+      ],
+      [
+        "monkey a",
+        "(b) latent circuit connectivity inferred from pfc responses"
+      ],
+      [
+        "monkey a",
+        "this dataset consisted of 762 units from monkey"
+      ],
+      [
+        "monkey f",
+        "dots represent individual trial conditions, bars represent their"
+      ],
+      [
+        "monkey f",
+        "this dataset consisted of 762 units from monkey"
+      ],
+      [
+        "monkeys choice",
+        "trials are sorted by the monkeys choice and"
+      ],
+      [
+        "motion and color axis",
+        "the gray shading indicates the duration of sensory"
+      ],
+      [
+        "motion axes",
+        "(c) the latent circuit model in which the"
+      ],
+      [
+        "motion axis",
+        "further, the motion axis is the difference of"
+      ],
+      [
+        "motion axis",
+        "these effects were not due to a non-specific"
+      ],
+      [
+        "motion context",
+        "context-dependent decision-making task ['in the context-dependent decision-making task,"
+      ],
+      [
+        "motion context",
+        "further, the color context node has inhibitory connections"
+      ],
+      [
+        "motion context trials",
+        "projections of rnn activity onto the motion and"
+      ],
+      [
+        "motion nodes",
+        "the latent circuit model consisted of eight nodes"
+      ],
+      [
+        "motion-context trials",
+        "we see the same effects in the absolute"
+      ],
+      [
+        "motion-left node",
+        "the motion-right node has stronger self-excitation than the"
+      ],
+      [
+        "motion-right node",
+        "the motion-right node has stronger self-excitation than the"
+      ],
+      [
+        "nature portfolio",
+        "online content ['any methods, additional references, nature portfolio"
+      ],
+      [
+        "neural circuit",
+        "traditionally, hand-crafted neural circuit models were used to"
+      ],
+      [
         "neural responses",
-        "we fitted the latent circuit model to the"
+        "thus, high-dimensional rnns currently serve as intermediate mechanistic"
       ],
       [
         "neural trajectories",
         "thus, these models explicitly specify a circuit mechanism"
       ],
       [
-        "rectified linear (relu)",
-        "where f is a rectified linear (relu) activation"
+        "output behavior",
+        "the structure in the rnn connectivity responsible for"
+      ],
+      [
+        "pfcs",
+        "hence, it remains uncertain whether neural representations uncovered"
+      ],
+      [
+        "prefrontal cortex",
+        "analysis of pfc data"
+      ],
+      [
+        "prefrontal cortex",
+        "however, hand-crafted circuit models come short of capturing"
+      ],
+      [
+        "prefrontal cortex responses",
+        "because neural responses were centered, we additionally fit"
+      ],
+      [
+        "principal components",
+        "this choice of the latent circuit dimensionality agrees"
+      ],
+      [
+        "python",
+        "to neural response data y by minimizing the"
+      ],
+      [
+        "q i",
+        ""
+      ],
+      [
+        "q i",
+        "( 14) and (15), we then translate connectivity"
+      ],
+      [
+        "q t",
+        "this chain of equalities shows how to translate"
+      ],
+      [
+        "q t",
+        "using the orthonormality of q, we then derive"
+      ],
+      [
+        "q\u03b4 ji q t",
+        "this chain of equalities shows how to translate"
+      ],
+      [
+        "r 2 q",
+        "to control this tradeoff, we used a modified"
+      ],
+      [
+        "r 2 x",
+        "to control this tradeoff, we used a modified"
+      ],
+      [
+        "r 2 z",
+        "to control this tradeoff, we used a modified"
+      ],
+      [
+        "rectified linear",
+        "we fitted responses of these rnns with our"
+      ],
+      [
+        "recurrent connectivity",
+        "we develop the latent circuit model, a dimensionality"
+      ],
+      [
+        "recurrent neural network",
+        "we apply the latent circuit inference to recurrent"
+      ],
+      [
+        "red",
+        "the right motion and red color are associated"
+      ],
+      [
+        "relu",
+        "relationship between connectivity of the rnn and latent"
+      ],
+      [
+        "relu",
+        "\u211d n as', 'where q \u211d nn is"
       ],
       [
         "rnn",
-        "although trained rnns are a class of neural"
+        "although the circuit solutions in two of the"
       ],
       [
-        "task execution",
-        "thus, these models explicitly specify a circuit mechanism"
+        "rnn",
+        "similar heterogeneous responses emerge in high-dimensional recurrent neural"
       ],
       [
-        "task outputs",
-        "we also require the latent circuit to perform"
+        "rnn",
+        "to test whether our results extend to networks"
+      ],
+      [
+        "rnn activity",
+        "we validated this mechanism by confirming the behavioral"
+      ],
+      [
+        "rnn activity patterns",
+        "we projected rnn responses onto the columns of"
+      ],
+      [
+        "rnn connectivity",
+        "because, in practice, we search for the latent"
+      ],
+      [
+        "rnn models",
+        "statistics and reproducibility ['we analyzed data from 200"
+      ],
+      [
+        "rnn perturbations",
+        "using rnn perturbations, we show that dimensionality reduction"
+      ],
+      [
+        "rnn responses",
+        "when fitting rnn responses with the latent circuit"
+      ],
+      [
+        "rnn units",
+        "after training, rnn units show heterogeneous mixed selectivity"
+      ],
+      [
+        "rnns",
+        "although the circuit solutions in two of the"
+      ],
+      [
+        "sensory color nodes",
+        "the latent circuit model consisted of eight nodes"
+      ],
+      [
+        "sensory motion nodes",
+        "the latent circuit model consisted of eight nodes"
+      ],
+      [
+        "sensory node",
+        "in the latent circuit, sensory nodes representing stimuli"
+      ],
+      [
+        "sensory representations",
+        "we applied latent circuit inference to rnns optimized"
+      ],
+      [
+        "single neurons",
+        "however, hand-crafted circuit models come short of capturing"
+      ],
+      [
+        "six color coherence levels",
+        "the task therefore had 72 unique stimulus conditions"
+      ],
+      [
+        "six motion coherence levels",
+        "the task therefore had 72 unique stimulus conditions"
+      ],
+      [
+        "softplus",
+        "to test whether our results extend to networks"
+      ],
+      [
+        "standard deviation",
+        "standard deviation of connectivity weights across top 10"
+      ],
+      [
+        "stimulus-response mapping",
+        "context-dependent decision-making requires flexible trial-by-trial switching between alternative"
+      ],
+      [
+        "target outputs",
+        "therefore, we assessed the similarity of task solutions"
+      ],
+      [
+        "target rnn",
+        "these latent models produced a significantly worse fit"
+      ],
+      [
+        "targeted dimensionality reduction",
+        "projections onto the color axis show suppressed color"
+      ],
+      [
+        "task performance",
+        "this agreement confirms that the latent connectivity structure"
+      ],
+      [
+        "task solutions",
+        "thus, high-dimensional rnns currently serve as intermediate mechanistic"
       ],
       [
         "task variables",
-        "by contrast, representations of task variables in the"
+        "higher cortical areas carry a wide range of"
+      ],
+      [
+        "the checkerboard pattern",
+        "the checkerboard pattern of connections from sensory to"
+      ],
+      [
+        "the pattern of inhibitory connections",
+        "the pattern of inhibitory connections from the context"
+      ],
+      [
+        "top 10",
+        "standard deviation of connectivity weights across top 10"
+      ],
+      [
+        "two contexts",
+        "the task therefore had 72 unique stimulus conditions"
+      ],
+      [
+        "u 0",
+        "rnn training ['to train the rnn, we minimize"
+      ],
+      [
+        "u c",
+        "in the color context, the choice should be"
+      ],
+      [
+        "u c,g",
+        "in the color context, the choice should be"
+      ],
+      [
+        "u c,r",
+        "in the color context, the choice should be"
+      ],
+      [
+        "u m",
+        "in the color context, the choice should be"
+      ],
+      [
+        "u m,l",
+        "in the color context, the choice should be"
+      ],
+      [
+        "u m,r",
+        "in the color context, the choice should be"
+      ],
+      [
+        "u noise",
+        "at each simulation time step, we add an"
+      ],
+      [
+        "v l",
+        "only inputs aligned with the left eigenvector (v"
+      ],
+      [
+        "v r",
+        "only inputs aligned with the left eigenvector (v"
+      ],
+      [
+        "w in",
+        "online content ['any methods, additional references, nature portfolio"
+      ],
+      [
+        "w in",
+        "this chain of equalities shows how to translate"
+      ],
+      [
+        "w in",
+        "w rec and w in are the recurrent"
+      ],
+      [
+        "w ji",
+        "this chain of equalities shows how to translate"
+      ],
+      [
+        "w out",
+        "we read out a set of task outputs"
+      ],
+      [
+        "w rec",
+        "(c) the latent circuit model in which the"
+      ],
+      [
+        "w rec",
+        "allowing for these input correlations in rnns and"
+      ],
+      [
+        "w rec",
+        "c, the latent circuit model in which the"
+      ],
+      [
+        "w rec",
+        "w rec and w in are the recurrent"
+      ],
+      [
+        "z target",
+        "the network has two outputs, z 1 and"
+      ],
+      [
+        "z target (t)",
+        "rnn training ['to train the rnn, we minimize"
+      ],
+      [
+        "z(t)",
+        "rnn training ['to train the rnn, we minimize"
+      ],
+      [
+        "\u03b4 ij",
+        ""
+      ],
+      [
+        "\u03b4 ji",
+        "this chain of equalities shows how to translate"
+      ],
+      [
+        "\u03b8 1",
+        "in each context, the selection mechanism is characterized"
+      ],
+      [
+        "\u03b8 2",
+        "in each context, the selection mechanism is characterized"
+      ],
+      [
+        "\u03b8 3",
+        "in each context, the selection mechanism is characterized"
+      ],
+      [
+        "\u03bb r",
+        "we used a learning rate of 0.01 and"
+      ],
+      [
+        "\u03c3 in",
+        "at each simulation time step, we add an"
+      ],
+      [
+        "\u03c3 rec",
+        "we set the time constant \u03c4 200 ms,"
+      ],
+      [
+        "\u211d 1kt",
+        "to decode motion coherence from rnn responses, we"
+      ],
+      [
+        "\u211d 1n",
+        "to decode motion coherence from rnn responses, we"
+      ],
+      [
+        "\u211d nkt",
+        "to decode motion coherence from rnn responses, we"
       ]
     ],
-    "shared_count": 11,
-    "label_agreement_rate": 0.36363636363636365,
+    "shared_count": 98,
+    "label_agreement_rate": 0.1836734693877551,
     "label_disagreements": [
       {
         "paper_id": "latent-circuit",
-        "entity_normalized": "cognitive flexibility",
-        "sentence_fingerprint": "thus, inhibitory mechanisms for cognitive flexibility are compatible",
-        "structsense_label": "MISC",
-        "structsense_canonical": "UNCATEGORIZED",
-        "api_label": "FUNCTION",
-        "api_canonical": "FUNCTION"
-      },
-      {
-        "paper_id": "latent-circuit",
-        "entity_normalized": "latent circuit parameters",
-        "sentence_fingerprint": "we infer the latent circuit parameters (q, w",
-        "structsense_label": "ENTITY",
-        "structsense_canonical": "UNCATEGORIZED",
-        "api_label": "PARAMETER",
-        "api_canonical": "PARAMETER"
-      },
-      {
-        "paper_id": "latent-circuit",
-        "entity_normalized": "neural population activity",
-        "sentence_fingerprint": "accordingly, dimensionality reduction methods are commonly used to",
+        "entity_normalized": "dynamical mechanism",
+        "sentence_fingerprint": "thus, these models explicitly specify a circuit mechanism",
         "structsense_label": "PROCESS",
         "structsense_canonical": "BIOLOGICAL_PROCESS",
-        "api_label": "DATA_TYPE",
-        "api_canonical": "DATA_TYPE"
+        "api_label": "NEURAL_MECHANISM",
+        "api_canonical": "CONCEPT"
       },
       {
         "paper_id": "latent-circuit",
-        "entity_normalized": "task inputs",
-        "sentence_fingerprint": "because unsupervised methods do not explicitly model task",
-        "structsense_label": "TASK",
+        "entity_normalized": "mante et al. 19",
+        "sentence_fingerprint": "neural recording data were previously described in mante",
+        "structsense_label": "PERSON",
+        "structsense_canonical": "PERSON",
+        "api_label": "CITATION",
+        "api_canonical": "CITATION"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "single-neuron responses",
+        "sentence_fingerprint": "the model simultaneously infers a low-dimensional latent circuit",
+        "structsense_label": "CONCEPT",
         "structsense_canonical": "CONCEPT",
-        "api_label": "TASK_VARIABLE",
-        "api_canonical": "TASK_VARIABLE"
+        "api_label": "PHENOMENON",
+        "api_canonical": "PHENOMENON"
       },
       {
         "paper_id": "latent-circuit",
-        "entity_normalized": "neural populations",
-        "sentence_fingerprint": "traditionally, hand-crafted neural circuit models were used to",
+        "entity_normalized": "cognitive task execution",
+        "sentence_fingerprint": "because these circuit models usually assume a relatively",
         "structsense_label": "ENTITY",
         "structsense_canonical": "UNCATEGORIZED",
-        "api_label": "CELL_TYPE",
-        "api_canonical": "CELL_TYPE"
+        "api_label": "BEHAVIORAL_PHENOMENON",
+        "api_canonical": "CONCEPT"
       },
       {
         "paper_id": "latent-circuit",
-        "entity_normalized": "latent circuit model",
-        "sentence_fingerprint": "to bridge the gap between dimensionality reduction, circuit",
+        "entity_normalized": "rnn responses",
+        "sentence_fingerprint": "this choice of the latent circuit dimensionality agrees",
+        "structsense_label": "MODEL_OUTPUT",
+        "structsense_canonical": "MODEL",
+        "api_label": "PHENOMENON",
+        "api_canonical": "PHENOMENON"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "latent variables",
+        "sentence_fingerprint": "using rnn perturbations, we show that dimensionality reduction",
+        "structsense_label": "Detailed_description",
+        "structsense_canonical": "CLINICAL_NER",
+        "api_label": "CONCEPTUAL_VARIABLE",
+        "api_canonical": "CONCEPTUAL_VARIABLE"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "relu",
+        "sentence_fingerprint": "we fitted responses of these rnns with our",
+        "structsense_label": "MISC",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "ACTIVATION_FUNCTION",
+        "api_canonical": "MODEL"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "stimulus-response mappings",
+        "sentence_fingerprint": "context-dependent decision-making requires flexible trial-by-trial switching between alternative",
         "structsense_label": "METHOD",
         "structsense_canonical": "METHOD",
-        "api_label": "MODEL",
-        "api_canonical": "MODEL"
+        "api_label": "BEHAVIORAL_RULE",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "sensory stimulus",
+        "sentence_fingerprint": "latent circuit for context-dependent decision-making ['we applied our",
+        "structsense_label": "MISC",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "STIMULUS",
+        "api_canonical": "STIMULUS"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "motion",
+        "sentence_fingerprint": "context-dependent decision-making task ['in the context-dependent decision-making task,",
+        "structsense_label": "CONCEPT",
+        "structsense_canonical": "CONCEPT",
+        "api_label": "STIMULUS_FEATURE",
+        "api_canonical": "STIMULUS"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "higher cortical areas",
+        "sentence_fingerprint": "we show that incorporating causal interactions among task",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "BRAIN_REGION",
+        "api_canonical": "BRAIN_REGION"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "rnns",
+        "sentence_fingerprint": "to test whether our results extend to networks",
+        "structsense_label": "ORG",
+        "structsense_canonical": "ORGANIZATION",
+        "api_label": "RECURRENT_NEURAL_NETWORKS",
+        "api_canonical": "RECURRENT_NEURAL_NETWORKS"
       },
       {
         "paper_id": "latent-circuit",
@@ -9411,39 +10621,624 @@
         "sentence_fingerprint": "traditionally, hand-crafted neural circuit models were used to",
         "structsense_label": "ENTITY",
         "structsense_canonical": "UNCATEGORIZED",
-        "api_label": "MODEL",
+        "api_label": "COMPUTATIONAL_MODEL",
+        "api_canonical": "METHOD"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "sensory nodes",
+        "sentence_fingerprint": "in the latent circuit, sensory nodes representing stimuli",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "NEURAL_COMPONENT",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "rnns",
+        "sentence_fingerprint": "although trained rnns are a class of neural",
+        "structsense_label": "MODEL",
+        "structsense_canonical": "MODEL",
+        "api_label": "COMPUTATIONAL_MODEL",
+        "api_canonical": "METHOD"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "y ikt",
+        "sentence_fingerprint": "rnn training ['to train the rnn, we minimize",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "NEURAL_ACTIVITY",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "\u03be t",
+        "sentence_fingerprint": "( 10) using the first-order euler scheme with",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "NOISE_TERM",
+        "api_canonical": "NOISE_TERM"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "prefrontal cortex",
+        "sentence_fingerprint": "representations of irrelevant stimuli in the pfc ['our",
+        "structsense_label": "ORG",
+        "structsense_canonical": "ORGANIZATION",
+        "api_label": "BRAIN_REGION",
+        "api_canonical": "BRAIN_REGION"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "left choice node",
+        "sentence_fingerprint": "in the latent circuit, sensory nodes representing stimuli",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "NEURAL_COMPONENT",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "task inputs",
+        "sentence_fingerprint": "because unsupervised methods do not explicitly model task",
+        "structsense_label": "TASK",
+        "structsense_canonical": "CONCEPT",
+        "api_label": "CONCEPTUAL_VARIABLE",
+        "api_canonical": "CONCEPTUAL_VARIABLE"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "z 1",
+        "sentence_fingerprint": "the network has two outputs, z 1 and",
+        "structsense_label": "VARIABLE",
+        "structsense_canonical": "VARIABLE",
+        "api_label": "TARGET_OUTPUT",
+        "api_canonical": "TARGET_OUTPUT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "dynamical system",
+        "sentence_fingerprint": "because these circuit models usually assume a relatively",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "MATHEMATICAL_MODEL",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "rnn trajectories",
+        "sentence_fingerprint": "the fitted latent circuit model captured an overwhelming",
+        "structsense_label": "MISC",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "DYNAMICAL_PATTERN",
+        "api_canonical": "DYNAMICAL_PATTERN"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "\u03b7 t",
+        "sentence_fingerprint": "at each simulation time step, we add an",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "NOISE_TERM",
+        "api_canonical": "NOISE_TERM"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "choice axis",
+        "sentence_fingerprint": "next, the choice axis is the difference of",
+        "structsense_label": "MISC",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "LATENT_AXIS",
+        "api_canonical": "LATENT_AXIS"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "red color node",
+        "sentence_fingerprint": "the latent circuit mechanism predicts that weakening the",
+        "structsense_label": "ANATOMICAL_STRUCTURE",
+        "structsense_canonical": "BRAIN_REGION",
+        "api_label": "NEURAL_COMPONENT",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "w in",
+        "sentence_fingerprint": "we consider rnns with dynamics', 'where w rec",
+        "structsense_label": "MATRIX",
+        "structsense_canonical": "MATRIX",
+        "api_label": "PARAMETER",
+        "api_canonical": "PARAMETER"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "inh",
+        "sentence_fingerprint": "each column of q defines an axis in",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "ABBREVIATION",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "color context node",
+        "sentence_fingerprint": "further, the color context node has inhibitory connections",
+        "structsense_label": "OTHER",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "NEURAL_COMPONENT",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "context-dependent decision-making",
+        "sentence_fingerprint": "context-dependent decision-making requires flexible trial-by-trial switching between alternative",
+        "structsense_label": "METHOD",
+        "structsense_canonical": "METHOD",
+        "api_label": "BEHAVIORAL_TASK",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "gaussian kernel",
+        "sentence_fingerprint": "within the training and test sets, we z",
+        "structsense_label": "METHOD",
+        "structsense_canonical": "METHOD",
+        "api_label": "SMOOTHING_KERNEL",
+        "api_canonical": "SMOOTHING_KERNEL"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "context cue",
+        "sentence_fingerprint": "latent circuit for context-dependent decision-making ['we applied our",
+        "structsense_label": "MISC",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "CONTEXTUAL_CUE",
+        "api_canonical": "CONTEXTUAL_CUE"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "z ikt",
+        "sentence_fingerprint": "rnn training ['to train the rnn, we minimize",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "MODEL_OUTPUT",
         "api_canonical": "MODEL"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "latent circuit embedding q",
+        "sentence_fingerprint": "space of latent circuit mechanisms ['we next asked",
+        "structsense_label": "CONCEPT",
+        "structsense_canonical": "CONCEPT",
+        "api_label": "MATRIX",
+        "api_canonical": "MATRIX"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "neural population activity",
+        "sentence_fingerprint": "accordingly, dimensionality reduction methods are commonly used to",
+        "structsense_label": "PROCESS",
+        "structsense_canonical": "BIOLOGICAL_PROCESS",
+        "api_label": "PHENOMENON",
+        "api_canonical": "PHENOMENON"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "cayley transform",
+        "sentence_fingerprint": "to transform it into an unconstrained problem, we",
+        "structsense_label": "METHOD",
+        "structsense_canonical": "METHOD",
+        "api_label": "MATHEMATICAL_TRANSFORM",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "single neurons",
+        "sentence_fingerprint": "this dataset consisted of 762 units from monkey",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "CELL_TYPE",
+        "api_canonical": "CELL_TYPE"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "cognitive functions",
+        "sentence_fingerprint": "we show that incorporating causal interactions among task",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "PHENOMENON",
+        "api_canonical": "PHENOMENON"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "z 2",
+        "sentence_fingerprint": "the network has two outputs, z 1 and",
+        "structsense_label": "VARIABLE",
+        "structsense_canonical": "VARIABLE",
+        "api_label": "TARGET_OUTPUT",
+        "api_canonical": "TARGET_OUTPUT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "z target,1",
+        "sentence_fingerprint": "the network has two outputs, z 1 and",
+        "structsense_label": "VARIABLE",
+        "structsense_canonical": "VARIABLE",
+        "api_label": "TARGET_OUTPUT",
+        "api_canonical": "TARGET_OUTPUT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "embedding q",
+        "sentence_fingerprint": "we infer the latent circuit parameters (q, w",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "MATRIX",
+        "api_canonical": "MATRIX"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "recurrent neural networks",
+        "sentence_fingerprint": "we apply the latent circuit inference to recurrent",
+        "structsense_label": "MODEL",
+        "structsense_canonical": "MODEL",
+        "api_label": "COMPUTATIONAL_MODEL",
+        "api_canonical": "METHOD"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "\ud835\udca9\ud835\udca9(0, 1)",
+        "sentence_fingerprint": "( 10) using the first-order euler scheme with",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "NORMAL_DISTRIBUTION",
+        "api_canonical": "NORMAL_DISTRIBUTION"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "color axis",
+        "sentence_fingerprint": "we see the same effects in the absolute",
+        "structsense_label": "MENTION",
+        "structsense_canonical": "MENTION",
+        "api_label": "DIMENSIONAL_AXIS",
+        "api_canonical": "DIMENSIONAL_AXIS"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "color coherence",
+        "sentence_fingerprint": "the strength of motion and color stimuli varies",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "TASK_VARIABLE",
+        "api_canonical": "TASK_VARIABLE"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "\u03bb orth",
+        "sentence_fingerprint": "the hyperparameter \u03bb orth controls the penalty weight.",
+        "structsense_label": "MISC",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "REGULARIZATION_PARAMETER",
+        "api_canonical": "REGULARIZATION_PARAMETER"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "motion axis",
+        "sentence_fingerprint": "the absolute value of the projection onto motion",
+        "structsense_label": "FEATURE_AXIS",
+        "structsense_canonical": "FEATURE_AXIS",
+        "api_label": "LATENT_AXIS",
+        "api_canonical": "LATENT_AXIS"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "latent circuits",
+        "sentence_fingerprint": "for each of these rnns, we fitted an",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "COMPUTATIONAL_MODEL",
+        "api_canonical": "METHOD"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "motion context node",
+        "sentence_fingerprint": "further, the color context node has inhibitory connections",
+        "structsense_label": "OTHER",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "NEURAL_COMPONENT",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "w in",
+        "sentence_fingerprint": "the latent nodes interact via the recurrent connectivity",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "PARAMETER",
+        "api_canonical": "PARAMETER"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "\u03b4t",
+        "sentence_fingerprint": "( 10) using the first-order euler scheme with",
+        "structsense_label": "MEASURE",
+        "structsense_canonical": "METRIC",
+        "api_label": "TIME_STEP_PARAMETER",
+        "api_canonical": "TIME_STEP_PARAMETER"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "dales law",
+        "sentence_fingerprint": "the recurrent matrix is constrained to satisfy dales",
+        "structsense_label": "LAW",
+        "structsense_canonical": "LAW",
+        "api_label": "NETWORK_CONSTRAINT",
+        "api_canonical": "NETWORK_CONSTRAINT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "high-dimensional system",
+        "sentence_fingerprint": "y qx to obtain the correspondence between the",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "COMPUTATIONAL_MODEL",
+        "api_canonical": "METHOD"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "cortical circuits",
+        "sentence_fingerprint": "these computations result from interactions between excitatory and",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "NEURAL_CIRCUIT",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "exc",
+        "sentence_fingerprint": "each column of q defines an axis in",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "ABBREVIATION",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "external task variables",
+        "sentence_fingerprint": "therefore, targeted dimensionality reduction methods directly model neural",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "CONCEPTUAL_VARIABLE",
+        "api_canonical": "CONCEPTUAL_VARIABLE"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "motion coherence",
+        "sentence_fingerprint": "we use motion coherence m c and color",
+        "structsense_label": "MEASURE",
+        "structsense_canonical": "METRIC",
+        "api_label": "TASK_VARIABLE",
+        "api_canonical": "TASK_VARIABLE"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "low-dimensional latent circuit",
+        "sentence_fingerprint": "our model fits neural responses with dynamics generated",
+        "structsense_label": "CONCEPT",
+        "structsense_canonical": "CONCEPT",
+        "api_label": "COMPUTATIONAL_MODEL",
+        "api_canonical": "METHOD"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "latent connectivity",
+        "sentence_fingerprint": "the advantage of the mechanistic model for latent",
+        "structsense_label": "ORG",
+        "structsense_canonical": "ORGANIZATION",
+        "api_label": "CONNECTIVITY",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "latent circuit model",
+        "sentence_fingerprint": "we develop the latent circuit model, a dimensionality",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "COMPUTATIONAL_MODEL",
+        "api_canonical": "METHOD"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "color",
+        "sentence_fingerprint": "context-dependent decision-making task ['in the context-dependent decision-making task,",
+        "structsense_label": "CONCEPT",
+        "structsense_canonical": "CONCEPT",
+        "api_label": "STIMULUS_FEATURE",
+        "api_canonical": "STIMULUS"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "color context",
+        "sentence_fingerprint": "in the color context, the choice should be",
+        "structsense_label": "CONTEXT",
+        "structsense_canonical": "CONTEXT",
+        "api_label": "TASK_CONTEXT",
+        "api_canonical": "TASK_CONTEXT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "mann-whitney test",
+        "sentence_fingerprint": "the irrelevant color representation is significantly less suppressed",
+        "structsense_label": "TEST",
+        "structsense_canonical": "TEST",
+        "api_label": "STATISTICAL_TEST",
+        "api_canonical": "METHOD"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "task behavior",
+        "sentence_fingerprint": "however, because correlation-based dimensionality reduction methods bear no",
+        "structsense_label": "BEHAVIOR",
+        "structsense_canonical": "BEHAVIOR",
+        "api_label": "BEHAVIORAL_PHENOMENON",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "frontal eye field",
+        "sentence_fingerprint": "['we analyzed a publicly available dataset of neural",
+        "structsense_label": "LOC",
+        "structsense_canonical": "LOC",
+        "api_label": "BRAIN_REGION",
+        "api_canonical": "BRAIN_REGION"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "z target,2",
+        "sentence_fingerprint": "the network has two outputs, z 1 and",
+        "structsense_label": "VARIABLE",
+        "structsense_canonical": "VARIABLE",
+        "api_label": "TARGET_OUTPUT",
+        "api_canonical": "TARGET_OUTPUT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "suppression mechanism",
+        "sentence_fingerprint": "we apply the latent circuit inference to recurrent",
+        "structsense_label": "PROCESS",
+        "structsense_canonical": "BIOLOGICAL_PROCESS",
+        "api_label": "NEURAL_MECHANISM",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "multiunits",
+        "sentence_fingerprint": "this dataset consisted of 762 units from monkey",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "NEURAL_RECORDING_UNIT",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "python",
+        "sentence_fingerprint": "context-dependent decision-making task ['in the context-dependent decision-making task,",
+        "structsense_label": "LANGUAGE",
+        "structsense_canonical": "LANGUAGE",
+        "api_label": "PROGRAMMING_LANGUAGE",
+        "api_canonical": "SOFTWARE"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "high-dimensional networks",
+        "sentence_fingerprint": "thus, high-dimensional rnns currently serve as intermediate mechanistic",
+        "structsense_label": "NETWORK",
+        "structsense_canonical": "MODEL",
+        "api_label": "COMPUTATIONAL_MODEL",
+        "api_canonical": "METHOD"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "pytorch",
+        "sentence_fingerprint": "the parameters b, w rec , w in",
+        "structsense_label": "ORG",
+        "structsense_canonical": "ORGANIZATION",
+        "api_label": "SOFTWARE_LIBRARY",
+        "api_canonical": "SOFTWARE"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "latent circuit models",
+        "sentence_fingerprint": "for each of these rnns, we fitted an",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "COMPUTATIONAL_MODEL",
+        "api_canonical": "METHOD"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "w rec",
+        "sentence_fingerprint": "the latent nodes interact via the recurrent connectivity",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "PARAMETER",
+        "api_canonical": "PARAMETER"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "w rec",
+        "sentence_fingerprint": "we consider rnns with dynamics', 'where w rec",
+        "structsense_label": "MATRIX",
+        "structsense_canonical": "MATRIX",
+        "api_label": "PARAMETER",
+        "api_canonical": "PARAMETER"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "right choice node",
+        "sentence_fingerprint": "in the latent circuit, sensory nodes representing stimuli",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "NEURAL_COMPONENT",
+        "api_canonical": "CONCEPT"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "stimulus input",
+        "sentence_fingerprint": "stimulus input was given to the model from",
+        "structsense_label": "TASK_COMPONENT",
+        "structsense_canonical": "TASK_COMPONENT",
+        "api_label": "INPUT_MODULATION",
+        "api_canonical": "INPUT_MODULATION"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "w t out",
+        "sentence_fingerprint": "here, b is the matrix corresponding to the",
+        "structsense_label": "PRODUCT",
+        "structsense_canonical": "PRODUCT",
+        "api_label": "OUTPUT_WEIGHT_MATRIX_TRANSPOSE",
+        "api_canonical": "OUTPUT_WEIGHT_MATRIX_TRANSPOSE"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "pytorch",
+        "sentence_fingerprint": "context-dependent decision-making task ['in the context-dependent decision-making task,",
+        "structsense_label": "SOFTWARE",
+        "structsense_canonical": "SOFTWARE",
+        "api_label": "DEEP_LEARNING_FRAMEWORK",
+        "api_canonical": "DEEP_LEARNING_FRAMEWORK"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "decoder axis",
+        "sentence_fingerprint": "analysis of pfc data",
+        "structsense_label": "MISC",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "LINEAR_DECODER_AXIS",
+        "api_canonical": "LINEAR_DECODER_AXIS"
+      },
+      {
+        "paper_id": "latent-circuit",
+        "entity_normalized": "neural representations",
+        "sentence_fingerprint": "therefore, targeted dimensionality reduction methods directly model neural",
+        "structsense_label": "ENTITY",
+        "structsense_canonical": "UNCATEGORIZED",
+        "api_label": "PHENOMENON",
+        "api_canonical": "PHENOMENON"
       }
     ],
     "low_conf_count": 262,
     "total_structsense_count": 1410,
     "low_conf_rate": 0.18581560283687942
   },
-  "direct_api_entity_count": 259,
-  "direct_api_model": "openrouter/openai/gpt-4o-mini",
+  "direct_api_entity_count": 844,
+  "direct_api_model": "openrouter/openai/gpt-5.4-mini",
   "direct_api_usage": {
-    "completion_tokens": 16384,
-    "prompt_tokens": 18668,
-    "total_tokens": 35052,
-    "completion_tokens_details": {
-      "accepted_prediction_tokens": null,
-      "audio_tokens": 0,
-      "reasoning_tokens": 0,
-      "rejected_prediction_tokens": null,
-      "text_tokens": null
-    },
-    "prompt_tokens_details": {
-      "audio_tokens": 0,
-      "cached_tokens": 0,
-      "text_tokens": null,
-      "image_tokens": null
-    },
-    "cost": 0.0126306,
-    "is_byok": false,
-    "cost_details": {
-      "upstream_inference_cost": 0.0126306,
-      "upstream_inference_prompt_cost": 0.0028002,
-      "upstream_inference_completions_cost": 0.0098304
-    }
+    "completion_tokens": 56740,
+    "prompt_tokens": 19468,
+    "total_tokens": 76208,
+    "cost": 0.26993100000000003,
+    "is_byok": 0
   }
 }

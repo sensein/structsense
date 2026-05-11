@@ -104,6 +104,104 @@ def extract_entities(
     }
 
 
+def extract_entities_chunked(
+    text: str,
+    model: str,
+    chunk_size: int = 30000,
+    **kwargs: Any,
+) -> dict[str, Any]:
+    """Extract entities by splitting text into chunks and merging results.
+
+    Uses StructSense's sentence-boundary chunker (text_chunking._chunk_doc_by_sentences)
+    and offset globalizer (_globalize_entities) when spaCy is available, so each
+    returned entity has an accurate sentence field drawn directly from the document
+    text — the same source StructSense uses. Falls back to paragraph-boundary
+    splitting if spaCy is unavailable.
+
+    Args:
+        text: Full input text.
+        model: LiteLLM model string.
+        chunk_size: Max characters per chunk (default 30000).
+        **kwargs: Passed through to extract_entities() (e.g. max_tokens, api_key).
+
+    Returns:
+        Same structure as extract_entities(), with entities merged across all chunks
+        and usage counts summed.
+    """
+    # Try sentence-boundary chunking via StructSense utilities + spaCy
+    use_spacy = False
+    raw_chunks: list[dict] = []
+    full_doc = None
+    try:
+        import spacy
+        from utils.text_chunking import _chunk_doc_by_sentences, _globalize_entities
+
+        nlp = spacy.load("en_core_web_sm")
+        full_doc = nlp(text)
+        raw_chunks = _chunk_doc_by_sentences(full_doc, chunk_size)
+        use_spacy = True
+        logger.info("extract_entities_chunked: using sentence-boundary chunking (spaCy)")
+    except Exception as e:
+        logger.warning("extract_entities_chunked: spaCy unavailable (%s) — falling back to paragraph chunking", e)
+        raw_chunks = [{"text": c, "start": 0} for c in _chunk_text_by_paragraphs(text, chunk_size)]
+
+    logger.info("extract_entities_chunked: %d chunks (chunk_size=%d)", len(raw_chunks), chunk_size)
+
+    all_entities: list[dict[str, Any]] = []
+    merged_usage: dict[str, Any] = {}
+
+    for i, chunk in enumerate(raw_chunks):
+        chunk_text = chunk["text"]
+        logger.info("  chunk %d/%d  len=%d chars", i + 1, len(raw_chunks), len(chunk_text))
+        result = extract_entities(text=chunk_text, model=model, **kwargs)
+
+        if use_spacy and full_doc is not None:
+            # Globalise offsets and attach sentence context from the full document
+            from utils.text_chunking import _globalize_entities
+            entities = _globalize_entities(text, full_doc, chunk, result["entities"])
+        else:
+            entities = result["entities"]
+
+        all_entities.extend(entities)
+        for k, v in result.get("usage", {}).items():
+            if isinstance(v, (int, float)):
+                merged_usage[k] = merged_usage.get(k, 0) + v
+
+    logger.info("extract_entities_chunked: %d total entities across %d chunks", len(all_entities), len(raw_chunks))
+    return {
+        "entities": all_entities,
+        "model": model,
+        "usage": merged_usage,
+        "raw_response": f"[chunked: {len(raw_chunks)} chunks, {len(all_entities)} entities]",
+        "chunk_count": len(raw_chunks),
+    }
+
+
+def _chunk_text_by_paragraphs(text: str, max_chars: int) -> list[str]:
+    """Fallback: split text at paragraph boundaries when spaCy is unavailable."""
+    import re
+
+    paragraphs = re.split(r"\n\n+", text)
+    chunks: list[str] = []
+    current: list[str] = []
+    current_len = 0
+
+    for para in paragraphs:
+        para_len = len(para) + 2
+        if current and current_len + para_len > max_chars:
+            chunks.append("\n\n".join(current))
+            current = [para]
+            current_len = para_len
+        else:
+            current.append(para)
+            current_len += para_len
+
+    if current:
+        chunks.append("\n\n".join(current))
+
+    return chunks
+
+
 def _parse_entities(raw: str) -> list[dict[str, Any]]:
     """Parse the JSON entity list from the model's raw response.
 
