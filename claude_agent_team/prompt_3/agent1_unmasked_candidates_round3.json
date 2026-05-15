@@ -1,0 +1,107 @@
+[
+  {
+    "line_approx": 60,
+    "candidate": "GABA (neurotransmitter)",
+    "decision": "new entity (BiologicalConcept) \u2014 captured as E243b"
+  },
+  {
+    "line_approx": 350,
+    "candidate": "STAR (STAR Methods)",
+    "decision": "non-entity (section reference)"
+  },
+  {
+    "line_approx": 1268,
+    "candidate": "20X SSC / 0.1\u00d7 SSC / 2xSSC",
+    "decision": "new entity (Reagent) \u2014 captured as E517"
+  },
+  {
+    "line_approx": 1368,
+    "candidate": "PBS",
+    "decision": "new entity (Reagent) \u2014 captured as E516"
+  },
+  {
+    "line_approx": 21,
+    "candidate": "Center for Neural Circuit Mapping (CNCM)",
+    "decision": "new entity (Organization) \u2014 captured as E518"
+  },
+  {
+    "line_approx": 2680,
+    "candidate": "AMY (amygdala)",
+    "decision": "new entity (BrainRegion) \u2014 captured as E519"
+  },
+  {
+    "line_approx": 2680,
+    "candidate": "SLEA",
+    "decision": "new entity (BrainRegion) \u2014 captured as E520"
+  },
+  {
+    "line_approx": 1125,
+    "candidate": "MER1 / MER2 / MER3 / MER4",
+    "decision": "new entity (Method) \u2014 captured as E521 (MERFISH+ assay labels)"
+  },
+  {
+    "line_approx": 105,
+    "candidate": "AIBS",
+    "decision": "new entity (Organization) \u2014 captured as E515"
+  },
+  {
+    "line_approx": 2080,
+    "candidate": "M33631 / D4006 / Q32854 / Q10212 / SAF (catalog numbers)",
+    "decision": "non-entity (vendor catalog numbers)"
+  },
+  {
+    "line_approx": 1620,
+    "candidate": "RESOURCE TABLE header",
+    "decision": "non-entity (heading)"
+  },
+  {
+    "line_approx": 84,
+    "candidate": "AP18 / AP19 / AP26 / AP34 / ALL section labels",
+    "decision": "non-entity (sample-section identifiers)"
+  },
+  {
+    "line_approx": 2680,
+    "candidate": "JNEUROSCI",
+    "decision": "non-entity (journal abbreviation in references)"
+  },
+  {
+    "line_approx": 2680,
+    "candidate": "NIH",
+    "decision": "non-entity (funding agency in acknowledgments)"
+  },
+  {
+    "line_approx": 280,
+    "candidate": "Neurochemically Unique Domains in the Accumbens and Putamen",
+    "decision": "non-entity (NUDAP acronym expansion \u2014 STRv D1 NUDAP captured)"
+  },
+  {
+    "line_approx": 2680,
+    "candidate": "PCR",
+    "decision": "non-entity (generic technique \u2014 polymerase chain reaction)"
+  },
+  {
+    "line_approx": 2680,
+    "candidate": "NDB",
+    "decision": "subsumed under DNA nanoball E311"
+  },
+  {
+    "line_approx": 350,
+    "candidate": "Wilcoxon rank-sum test (visible partly masked)",
+    "decision": "already captured E323"
+  },
+  {
+    "line_approx": 2073,
+    "candidate": "PE100 / PE100_50+100 (sequencing config)",
+    "decision": "non-entity (config parameter)"
+  },
+  {
+    "line_approx": 2076,
+    "candidate": "FASTQ / fastq",
+    "decision": "non-entity (file format)"
+  },
+  {
+    "line_approx": 2080,
+    "candidate": "Q10 / N bases (quality filter)",
+    "decision": "non-entity (QC parameter)"
+  }
+]

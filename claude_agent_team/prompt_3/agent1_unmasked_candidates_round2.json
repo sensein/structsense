@@ -1,0 +1,127 @@
+[
+  {
+    "line_approx": 252,
+    "candidate": "caudal and lateral ganglionic eminence",
+    "decision": "new entity (BrainRegion) \u2014 captured as E230/E231"
+  },
+  {
+    "line_approx": 191,
+    "candidate": "circuit-level organization",
+    "decision": "non-entity prose"
+  },
+  {
+    "line_approx": 198,
+    "candidate": "Caucasian male donors",
+    "decision": "non-entity demographic descriptor"
+  },
+  {
+    "line_approx": 213,
+    "candidate": "20mm x 30mm",
+    "decision": "non-entity (measurement)"
+  },
+  {
+    "line_approx": 343,
+    "candidate": "GABA transporter",
+    "decision": "new entity (ProteinFamily) \u2014 captured as E241"
+  },
+  {
+    "line_approx": 400,
+    "candidate": "semaphorin family",
+    "decision": "new entity (ProteinFamily) \u2014 captured as E240"
+  },
+  {
+    "line_approx": 425,
+    "candidate": "spatial modules",
+    "decision": "new entity (BiologicalConcept) \u2014 captured as E342"
+  },
+  {
+    "line_approx": 1487,
+    "candidate": "Cellpose 'nuclei' model",
+    "decision": "already captured as E409 Cellpose (variant)"
+  },
+  {
+    "line_approx": 2073,
+    "candidate": "Stereo-seq T FF V1.2",
+    "decision": "new entity (Reagent kit version) \u2014 captured as E513"
+  },
+  {
+    "line_approx": 2076,
+    "candidate": "FASTQ files",
+    "decision": "non-entity (file format)"
+  },
+  {
+    "line_approx": 2077,
+    "candidate": "coordinate ID (CID)",
+    "decision": "new entity (DataField) \u2014 captured as E1207"
+  },
+  {
+    "line_approx": 2078,
+    "candidate": "Molecular ID (MID)",
+    "decision": "new entity (DataField) \u2014 captured as E1208"
+  },
+  {
+    "line_approx": 2097,
+    "candidate": "watershed algorithm",
+    "decision": "already in entity list \u2014 was dropped due to newline; manually adding as 'watershed' substring would be subsumed"
+  },
+  {
+    "line_approx": 2111,
+    "candidate": "point spread function (PSF)",
+    "decision": "new entity (Method) \u2014 captured as E338"
+  },
+  {
+    "line_approx": 2384,
+    "candidate": "directed acyclic graph (DAG)",
+    "decision": "new entity (DataStructure) \u2014 captured as E341"
+  },
+  {
+    "line_approx": 2422,
+    "candidate": "field of view (FOV)",
+    "decision": "new entity (Method) \u2014 captured as E340"
+  },
+  {
+    "line_approx": 380,
+    "candidate": "neurite transcripts",
+    "decision": "new entity (BiologicalConcept) \u2014 captured as E234"
+  },
+  {
+    "line_approx": 252,
+    "candidate": "GABAergic neurons",
+    "decision": "subsumed under CN LGE/MGE/CGE GABA cell types"
+  },
+  {
+    "line_approx": 152,
+    "candidate": "neurotypical donors",
+    "decision": "non-entity demographic"
+  },
+  {
+    "line_approx": 365,
+    "candidate": "three-dimensional point cloud",
+    "decision": "non-entity (method detail)"
+  },
+  {
+    "line_approx": 478,
+    "candidate": "primate-specific",
+    "decision": "non-entity (adjective); 'primate' captured as E708"
+  },
+  {
+    "line_approx": 1632,
+    "candidate": "Gene Ontology",
+    "decision": "new entity (Database) \u2014 captured as E514"
+  },
+  {
+    "line_approx": 2206,
+    "candidate": "globus palladium",
+    "decision": "typo for globus pallidus \u2014 already captured as E208"
+  },
+  {
+    "line_approx": 2384,
+    "candidate": "go-basic.obo",
+    "decision": "non-entity (file reference)"
+  },
+  {
+    "line_approx": 2099,
+    "candidate": "ssDNA-staining",
+    "decision": "method detail \u2014 'ssDNA' captured as E236b"
+  }
+]
