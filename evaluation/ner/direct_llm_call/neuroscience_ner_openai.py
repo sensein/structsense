@@ -5,7 +5,11 @@ Usage:
     python neuroscience_ner_openai.py --file paper.pdf --model gpt-5.5
 """
 import argparse
+import json
+import os
+import re
 import sys
+from datetime import datetime
 
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -223,6 +227,12 @@ def main():
         default="{}",
         help='JSON string with paper_title / doi / source_path. Default: "{}".',
     )
+    parser.add_argument(
+        "--output-dir",
+        "-o",
+        default=".",
+        help="Directory to write the output JSON file into. Default: current dir.",
+    )
     args = parser.parse_args()
 
     client = OpenAI()
@@ -247,7 +257,25 @@ def main():
         ],
     )
 
-    print(response.output_text)
+    output_text = response.output_text
+
+    # Build a filesystem-safe filename with timestamp and model.
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    safe_model = re.sub(r"[^A-Za-z0-9._-]+", "-", args.model)
+    out_name = f"neuroscience_ner_{safe_model}_{timestamp}.json"
+    out_path = os.path.join(args.output_dir, out_name)
+
+    # Persist parsed JSON when possible; otherwise wrap the raw text.
+    try:
+        payload = json.loads(output_text)
+    except json.JSONDecodeError:
+        payload = {"raw_output": output_text}
+
+    os.makedirs(args.output_dir, exist_ok=True)
+    with open(out_path, "w", encoding="utf-8") as fh:
+        json.dump(payload, fh, ensure_ascii=False, indent=2)
+
+    print(f"Wrote output to {out_path}")
 
 
 if __name__ == "__main__":
