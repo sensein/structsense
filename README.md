@@ -2,6 +2,9 @@
 
 `structsense` is a multi-agent system for extracting structured information from unstructured text and documents. It orchestrates a configurable pipeline of AI agents — extractor → alignment → judge → human feedback — each driven by a single YAML config file.
 
+<img width="1448" height="1086" alt="structsense_stacked_4x3_TRUE_transparent" src="https://github.com/user-attachments/assets/e98d37de-bf93-49e0-a65f-2c9b86edd6c4" />
+
+
 **License:** [Apache 2.0](LICENSE.txt)
 
 If you find this work useful or build upon it, please consider citing:
