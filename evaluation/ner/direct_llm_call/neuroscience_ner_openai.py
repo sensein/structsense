@@ -164,6 +164,7 @@ def main():
                 label_counts[label] = label_counts.get(label, 0) + 1
         stats = {
             "model": args.model,
+            "prompt_file": args.prompt_file,
             "extracted_at": timestamp,
             "total_entities": len(entities),
             "entities_by_label": dict(
