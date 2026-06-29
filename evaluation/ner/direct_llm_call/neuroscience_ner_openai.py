@@ -59,6 +59,21 @@ def main():
         help="Directory to write the output JSON file into. Default: current dir.",
     )
     parser.add_argument(
+        "--temperature",
+        "-t",
+        type=float,
+        default=None,
+        help="Sampling temperature for reproducible runs (e.g. 0). "
+        "Omitted by default; some reasoning models reject this.",
+    )
+    parser.add_argument(
+        "--seed",
+        type=int,
+        default=None,
+        help="Sampling seed for reproducible runs. Omitted by default; "
+        "some reasoning models reject this.",
+    )
+    parser.add_argument(
         "--verbose",
         "-v",
         action="store_true",
@@ -111,6 +126,16 @@ def main():
         }
     ]
 
+    # Only send sampling controls when explicitly requested; some reasoning
+    # models reject temperature/seed outright.
+    request_kwargs = {}
+    if args.temperature is not None:
+        request_kwargs["temperature"] = args.temperature
+    if args.seed is not None:
+        request_kwargs["seed"] = args.seed
+    if request_kwargs:
+        vprint(f"  sampling controls: {request_kwargs}")
+
     chunks = []
     chars = 0
     next_report = 2000  # print a progress line every ~2000 chars
@@ -118,6 +143,7 @@ def main():
         model=args.model,
         instructions=system_prompt,
         input=request_input,
+        **request_kwargs,
     ) as stream:
         for event in stream:
             if event.type == "response.output_text.delta":
@@ -128,10 +154,21 @@ def main():
                     next_report += 2000
             elif event.type == "error":
                 print(f"  stream error: {event.error}")
-        stream.get_final_response()  # surfaces any terminal API error
+        final_response = stream.get_final_response()  # surfaces any terminal API error
 
     output_text = "".join(chunks)
     vprint(f"  response complete — {chars} chars total.")
+
+    # Detect truncation: a low entity count is often an output-token cutoff
+    # rather than the model deciding it was done.
+    status = getattr(final_response, "status", None)
+    if status == "incomplete":
+        reason = getattr(getattr(final_response, "incomplete_details", None), "reason", None)
+        print(
+            f"WARNING: response is INCOMPLETE (reason: {reason}). "
+            "Output was truncated — entity count is an undercount. "
+            "Consider raising the model's output-token limit or chunking the input."
+        )
 
     # Build a filesystem-safe filename with timestamp and model.
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -165,6 +202,9 @@ def main():
         stats = {
             "model": args.model,
             "prompt_file": args.prompt_file,
+            "temperature": args.temperature,
+            "seed": args.seed,
+            "response_status": status,
             "extracted_at": timestamp,
             "total_entities": len(entities),
             "entities_by_label": dict(
