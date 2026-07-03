@@ -1,0 +1,2745 @@
+{
+  "source_metadata": {
+    "paper_title": null,
+    "doi": null,
+    "source_path": null
+  },
+  "entities": [
+    {
+      "entity": "Higher cortical areas",
+      "label": "BrainRegion",
+      "sentence": "Higher cortical areas carry a wide range of sensory, cognitive and motor signals mixed in heterogeneous responses of single neurons tuned to multiple task variables.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "single neurons",
+      "label": "CellType",
+      "sentence": "Higher cortical areas carry a wide range of sensory, cognitive and motor signals mixed in heterogeneous responses of single neurons tuned to multiple task variables.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "Dimensionality reduction methods",
+      "label": "Method",
+      "sentence": "Dimensionality reduction methods that rely on correlations between neural activity and task variables leave unknown how heterogeneous responses arise from connectivity to drive behavior.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "neural activity",
+      "label": "Measurement",
+      "sentence": "Dimensionality reduction methods that rely on correlations between neural activity and task variables leave unknown how heterogeneous responses arise from connectivity to drive behavior.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "latent circuit model",
+      "label": "ComputationalModel",
+      "sentence": "We develop the latent circuit model, a dimensionality reduction approach in which task variables interact via low-dimensional recurrent connectivity to produce behavioral output.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "dimensionality reduction",
+      "label": "Method",
+      "sentence": "We develop the latent circuit model, a dimensionality reduction approach in which task variables interact via low-dimensional recurrent connectivity to produce behavioral output.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "recurrent connectivity",
+      "label": "NeuralConnectivity",
+      "sentence": "We develop the latent circuit model, a dimensionality reduction approach in which task variables interact via low-dimensional recurrent connectivity to produce behavioral output.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "latent circuit inference",
+      "label": "Method",
+      "sentence": "We apply the latent circuit inference to recurrent neural networks trained to perform a context-dependent decision-making task and find a suppression mechanism in which contextual representations inhibit irrelevant sensory responses.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "recurrent neural networks",
+      "label": "ComputationalModel",
+      "sentence": "We apply the latent circuit inference to recurrent neural networks trained to perform a context-dependent decision-making task and find a suppression mechanism in which contextual representations inhibit irrelevant sensory responses.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "context-dependent decision-making task",
+      "label": "BehavioralAssay",
+      "sentence": "We apply the latent circuit inference to recurrent neural networks trained to perform a context-dependent decision-making task and find a suppression mechanism in which contextual representations inhibit irrelevant sensory responses.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "suppression mechanism",
+      "label": "Phenomenon",
+      "sentence": "We apply the latent circuit inference to recurrent neural networks trained to perform a context-dependent decision-making task and find a suppression mechanism in which contextual representations inhibit irrelevant sensory responses.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "sensory responses",
+      "label": "Measurement",
+      "sentence": "We apply the latent circuit inference to recurrent neural networks trained to perform a context-dependent decision-making task and find a suppression mechanism in which contextual representations inhibit irrelevant sensory responses.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "latent circuit model",
+      "label": "ComputationalModel",
+      "sentence": "We validate this mechanism by confirming the behavioral effects of patterned connectivity perturbations predicted by the latent circuit model.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "prefrontal cortex",
+      "label": "BrainRegion",
+      "sentence": "We find similar suppression of irrelevant sensory responses in the prefrontal cortex of monkeys performing the same task.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "monkeys",
+      "label": "Species",
+      "sentence": "We find similar suppression of irrelevant sensory responses in the prefrontal cortex of monkeys performing the same task.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "sensory responses",
+      "label": "Measurement",
+      "sentence": "We find similar suppression of irrelevant sensory responses in the prefrontal cortex of monkeys performing the same task.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "neural response data",
+      "label": "Measurement",
+      "sentence": "We show that incorporating causal interactions among task variables is critical for identifying behaviorally relevant computations from neural response data.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "Cognitive functions",
+      "label": "Phenomenon",
+      "sentence": "Cognitive functions depend on higher cortical areas, which integrate diverse sensory and contextual signals to produce a coherent behavioral response.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "higher cortical areas",
+      "label": "BrainRegion",
+      "sentence": "Cognitive functions depend on higher cortical areas, which integrate diverse sensory and contextual signals to produce a coherent behavioral response.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "excitatory and inhibitory neurons",
+      "label": "CellType",
+      "sentence": "These computations result from interactions between excitatory and inhibitory neurons in cortical circuits.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "cortical circuits",
+      "label": "NeuralCircuit",
+      "sentence": "These computations result from interactions between excitatory and inhibitory neurons in cortical circuits.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "neural circuit models",
+      "label": "ComputationalModel",
+      "sentence": "Traditionally, hand-crafted neural circuit models were used to pose specific mechanistic hypotheses about how excitation and inhibition between a few neural populations representing task variables control the flow of information from input to behavioral output1–11.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "neural populations",
+      "label": "CellType",
+      "sentence": "Traditionally, hand-crafted neural circuit models were used to pose specific mechanistic hypotheses about how excitation and inhibition between a few neural populations representing task variables control the flow of information from input to behavioral output1–11.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "excitation",
+      "label": "Phenomenon",
+      "sentence": "Traditionally, hand-crafted neural circuit models were used to pose specific mechanistic hypotheses about how excitation and inhibition between a few neural populations representing task variables control the flow of information from input to behavioral output1–11.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "inhibition",
+      "label": "Phenomenon",
+      "sentence": "Traditionally, hand-crafted neural circuit models were used to pose specific mechanistic hypotheses about how excitation and inhibition between a few neural populations representing task variables control the flow of information from input to behavioral output1–11.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "dynamical system",
+      "label": "ComputationalModel",
+      "sentence": "Because these circuit models usually assume a relatively simple connectivity structure, their connectivity can be directly related to a dynamical system description of computations supporting cognitive task execution5,6.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "neural trajectories",
+      "label": "Measurement",
+      "sentence": "Thus, these models explicitly specify a circuit mechanism in the connectivity structure that gives rise to a dynamical mechanism controlling the flow of neural trajectories to implement task computations.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "excitation–inhibition balance",
+      "label": "Phenomenon",
+      "sentence": "By linking connectivity to neural dynamics and behavioral output, these models can predict changes in dynamics and behavioral performance under perturbations of the circuit structure (for example, changes in excitation–inhibition balance12) and thus can be causally validated in experiments13–15.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "single-neuron responses",
+      "label": "Measurement",
+      "sentence": "However, hand-crafted circuit models come short of capturing the complexity and heterogeneity of single-neuron responses in the cortex.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "cortex",
+      "label": "BrainRegion",
+      "sentence": "However, hand-crafted circuit models come short of capturing the complexity and heterogeneity of single-neuron responses in the cortex.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "Single neurons",
+      "label": "CellType",
+      "sentence": "Single neurons in areas such as the prefrontal cortex (PFC) show complex heterogeneous tuning to multiple task variables16–21, which presents a formidable challenge for identifying underlying circuit mechanisms.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "prefrontal cortex",
+      "label": "BrainRegion",
+      "sentence": "Single neurons in areas such as the prefrontal cortex (PFC) show complex heterogeneous tuning to multiple task variables16–21, which presents a formidable challenge for identifying underlying circuit mechanisms.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BrainRegion",
+      "sentence": "Single neurons in areas such as the prefrontal cortex (PFC) show complex heterogeneous tuning to multiple task variables16–21, which presents a formidable challenge for identifying underlying circuit mechanisms.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "heterogeneous tuning",
+      "label": "Measurement",
+      "sentence": "Single neurons in areas such as the prefrontal cortex (PFC) show complex heterogeneous tuning to multiple task variables16–21, which presents a formidable challenge for identifying underlying circuit mechanisms.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "recurrent neural network",
+      "label": "ComputationalModel",
+      "sentence": "Similar heterogeneous responses emerge in high-dimensional recurrent neural network (RNN) models trained to perform cognitive tasks19,22–24 or reproduce neural activity data25–29 by optimizing recurrent connectivity parameters.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "RNN",
+      "label": "ComputationalModel",
+      "sentence": "Similar heterogeneous responses emerge in high-dimensional recurrent neural network (RNN) models trained to perform cognitive tasks19,22–24 or reproduce neural activity data25–29 by optimizing recurrent connectivity parameters.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "neural activity data",
+      "label": "Measurement",
+      "sentence": "Similar heterogeneous responses emerge in high-dimensional recurrent neural network (RNN) models trained to perform cognitive tasks19,22–24 or reproduce neural activity data25–29 by optimizing recurrent connectivity parameters.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "RNNs",
+      "label": "ComputationalModel",
+      "sentence": "Although trained RNNs are a class of neural circuit models, the complexity of their high-dimensional activity and connectivity obscures the interpretation of circuit mechanisms in these networks30.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "neural circuit models",
+      "label": "ComputationalModel",
+      "sentence": "Although trained RNNs are a class of neural circuit models, the complexity of their high-dimensional activity and connectivity obscures the interpretation of circuit mechanisms in these networks30.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "fixed points",
+      "label": "DynamicalSystemFeature",
+      "sentence": "It has been possible to determine dynamical mechanisms of task computations by either characterizing fixed points and linearized dynamics around them in RNNs19,31 or fitting a dynamical system directly to neural response data27,32–35.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "linearized dynamics",
+      "label": "DynamicalSystemFeature",
+      "sentence": "It has been possible to determine dynamical mechanisms of task computations by either characterizing fixed points and linearized dynamics around them in RNNs19,31 or fitting a dynamical system directly to neural response data27,32–35.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "RNNs",
+      "label": "ComputationalModel",
+      "sentence": "It has been possible to determine dynamical mechanisms of task computations by either characterizing fixed points and linearized dynamics around them in RNNs19,31 or fitting a dynamical system directly to neural response data27,32–35.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "dynamical system",
+      "label": "ComputationalModel",
+      "sentence": "It has been possible to determine dynamical mechanisms of task computations by either characterizing fixed points and linearized dynamics around them in RNNs19,31 or fitting a dynamical system directly to neural response data27,32–35.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "neural response data",
+      "label": "Measurement",
+      "sentence": "It has been possible to determine dynamical mechanisms of task computations by either characterizing fixed points and linearized dynamics around them in RNNs19,31 or fitting a dynamical system directly to neural response data27,32–35.",
+      "paper_location": "Page 1"
+    },
+    {
+      "entity": "RNNs",
+      "label": "ComputationalModel",
+      "sentence": "Thus, high-dimensional RNNs currently serve as intermediate mechanistic models of heterogeneous neural responses, which yield dynamical mechanisms but leave the underlying circuit mechanisms unknown.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "neural responses",
+      "label": "Measurement",
+      "sentence": "Thus, high-dimensional RNNs currently serve as intermediate mechanistic models of heterogeneous neural responses, which yield dynamical mechanisms but leave the underlying circuit mechanisms unknown.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "single-neuron responses",
+      "label": "Measurement",
+      "sentence": "Although single-neuron responses are complex and heterogeneous, their joint population activity is often low dimensional across many cognitive tasks and brain areas30,36.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "joint population activity",
+      "label": "Measurement",
+      "sentence": "Although single-neuron responses are complex and heterogeneous, their joint population activity is often low dimensional across many cognitive tasks and brain areas30,36.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "brain areas",
+      "label": "BrainRegion",
+      "sentence": "Although single-neuron responses are complex and heterogeneous, their joint population activity is often low dimensional across many cognitive tasks and brain areas30,36.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "dimensionality reduction methods",
+      "label": "Method",
+      "sentence": "Accordingly, dimensionality reduction methods are commonly used to reveal representations of low-dimensional latent variables in neural population activity, which reflect computations emerging at the population level.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "neural population activity",
+      "label": "Measurement",
+      "sentence": "Accordingly, dimensionality reduction methods are commonly used to reveal representations of low-dimensional latent variables in neural population activity, which reflect computations emerging at the population level.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "latent variables",
+      "label": "ComputationalVariable",
+      "sentence": "Accordingly, dimensionality reduction methods are commonly used to reveal representations of low-dimensional latent variables in neural population activity, which reflect computations emerging at the population level.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "unsupervised methods",
+      "label": "Method",
+      "sentence": "Because unsupervised methods do not explicitly model task inputs and behavioral outputs, the latent variables they infer may be unrelated to the cognitive task execution26,37–40.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "latent variables",
+      "label": "ComputationalVariable",
+      "sentence": "Because unsupervised methods do not explicitly model task inputs and behavioral outputs, the latent variables they infer may be unrelated to the cognitive task execution26,37–40.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "targeted dimensionality reduction methods",
+      "label": "Method",
+      "sentence": "Therefore, targeted dimensionality reduction methods directly model neural representations of task inputs and behavioral outputs by seeking low-dimensional projections of neural population activity that correlate with external task variables19,21,41–43 (Fig. 1a,b).",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "neural representations",
+      "label": "Measurement",
+      "sentence": "Therefore, targeted dimensionality reduction methods directly model neural representations of task inputs and behavioral outputs by seeking low-dimensional projections of neural population activity that correlate with external task variables19,21,41–43 (Fig. 1a,b).",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "neural population activity",
+      "label": "Measurement",
+      "sentence": "Therefore, targeted dimensionality reduction methods directly model neural representations of task inputs and behavioral outputs by seeking low-dimensional projections of neural population activity that correlate with external task variables19,21,41–43 (Fig. 1a,b).",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "RNNs",
+      "label": "ComputationalModel",
+      "sentence": "However, unlike RNNs and circuit models, these correlation-based methods do not incorporate recurrent interactions among task variables, which implement computations necessary to solve the task.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "correlation-based methods",
+      "label": "Method",
+      "sentence": "However, unlike RNNs and circuit models, these correlation-based methods do not incorporate recurrent interactions among task variables, which implement computations necessary to solve the task.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "PFC",
+      "label": "BrainRegion",
+      "sentence": "The glaring gap between circuit mechanisms and correlation-based dimensionality reduction methods is apparent in studies of the PFC’s role in context-dependent decision-making.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "context-dependent decision-making",
+      "label": "BehavioralAssay",
+      "sentence": "The glaring gap between circuit mechanisms and correlation-based dimensionality reduction methods is apparent in studies of the PFC’s role in context-dependent decision-making.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "Context-dependent decision-making",
+      "label": "BehavioralAssay",
+      "sentence": "Context-dependent decision-making requires flexible trial-by-trial switching between alternative stimulus–response mappings.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "inhibition",
+      "label": "Phenomenon",
+      "sentence": "Most circuit models hypothesize a relatively simple mechanism based on inhibition of sensory representations irrelevant in the current context8–10,44–46.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "sensory representations",
+      "label": "Measurement",
+      "sentence": "Most circuit models hypothesize a relatively simple mechanism based on inhibition of sensory representations irrelevant in the current context8–10,44–46.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "dimensionality reduction methods",
+      "label": "Method",
+      "sentence": "By contrast, dimensionality reduction methods applied to PFC data or RNN activity show minimal suppression of irrelevant sensory responses19,21, seemingly invalidating the inhibitory circuit mechanism.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "PFC",
+      "label": "BrainRegion",
+      "sentence": "By contrast, dimensionality reduction methods applied to PFC data or RNN activity show minimal suppression of irrelevant sensory responses19,21, seemingly invalidating the inhibitory circuit mechanism.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "RNN activity",
+      "label": "Measurement",
+      "sentence": "By contrast, dimensionality reduction methods applied to PFC data or RNN activity show minimal suppression of irrelevant sensory responses19,21, seemingly invalidating the inhibitory circuit mechanism.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "sensory responses",
+      "label": "Measurement",
+      "sentence": "By contrast, dimensionality reduction methods applied to PFC data or RNN activity show minimal suppression of irrelevant sensory responses19,21, seemingly invalidating the inhibitory circuit mechanism.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "RNNs",
+      "label": "ComputationalModel",
+      "sentence": "These results suggest that RNNs and conceivably the PFC implement qualitatively novel task solutions that do not exist in small circuits and emerge only in high-dimensional networks19,47,48.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "PFC",
+      "label": "BrainRegion",
+      "sentence": "These results suggest that RNNs and conceivably the PFC implement qualitatively novel task solutions that do not exist in small circuits and emerge only in high-dimensional networks19,47,48.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "latent circuit model",
+      "label": "ComputationalModel",
+      "sentence": "To bridge this gap, we develop the latent circuit model, a dimensionality reduction approach that jointly fits neural responses and task behavior and incorporates recurrent interactions among task variables to capture a causal mechanism of task execution.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "dimensionality reduction",
+      "label": "Method",
+      "sentence": "To bridge this gap, we develop the latent circuit model, a dimensionality reduction approach that jointly fits neural responses and task behavior and incorporates recurrent interactions among task variables to capture a causal mechanism of task execution.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "neural responses",
+      "label": "Measurement",
+      "sentence": "To bridge this gap, we develop the latent circuit model, a dimensionality reduction approach that jointly fits neural responses and task behavior and incorporates recurrent interactions among task variables to capture a causal mechanism of task execution.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "latent circuit",
+      "label": "ComputationalModel",
+      "sentence": "Our model fits neural responses with dynamics generated by a low-dimensional latent circuit, thereby directly testing the hypothesis that heterogeneous neural responses arise from a low-dimensional circuit mechanism.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "neural responses",
+      "label": "Measurement",
+      "sentence": "Our model fits neural responses with dynamics generated by a low-dimensional latent circuit, thereby directly testing the hypothesis that heterogeneous neural responses arise from a low-dimensional circuit mechanism.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "latent circuit connectivity",
+      "label": "NeuralConnectivity",
+      "sentence": "The model simultaneously infers a low-dimensional latent circuit connectivity generating task-relevant dynamics and heterogeneous mixing of these dynamics in single-neuron responses.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "single-neuron responses",
+      "label": "Measurement",
+      "sentence": "The model simultaneously infers a low-dimensional latent circuit connectivity generating task-relevant dynamics and heterogeneous mixing of these dynamics in single-neuron responses.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "RNNs",
+      "label": "ComputationalModel",
+      "sentence": "We applied latent circuit inference to RNNs optimized on a context-dependent decision-making task and found a circuit mechanism based on the inhibition of irrelevant sensory representations.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "context-dependent decision-making task",
+      "label": "BehavioralAssay",
+      "sentence": "We applied latent circuit inference to RNNs optimized on a context-dependent decision-making task and found a circuit mechanism based on the inhibition of irrelevant sensory representations.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "inhibition",
+      "label": "Phenomenon",
+      "sentence": "We applied latent circuit inference to RNNs optimized on a context-dependent decision-making task and found a circuit mechanism based on the inhibition of irrelevant sensory representations.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "sensory representations",
+      "label": "Measurement",
+      "sentence": "We applied latent circuit inference to RNNs optimized on a context-dependent decision-making task and found a circuit mechanism based on the inhibition of irrelevant sensory representations.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "RNN",
+      "label": "ComputationalModel",
+      "sentence": "We validated this mechanism by confirming the behavioral effects of patterned perturbations of the RNN activity and connectivity predicted by the latent circuit model.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "latent circuit model",
+      "label": "ComputationalModel",
+      "sentence": "We validated this mechanism by confirming the behavioral effects of patterned perturbations of the RNN activity and connectivity predicted by the latent circuit model.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "PFC",
+      "label": "BrainRegion",
+      "sentence": "Moreover, fitting the latent circuit model to neural recordings from the PFC of monkeys performing the same context-dependent decision-making task revealed a qualitatively similar suppression mechanism, in contrast to previous analyses of the same data with correlation-based methods19,21.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "monkeys",
+      "label": "Species",
+      "sentence": "Moreover, fitting the latent circuit model to neural recordings from the PFC of monkeys performing the same context-dependent decision-making task revealed a qualitatively similar suppression mechanism, in contrast to previous analyses of the same data with correlation-based methods19,21.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "neural recordings",
+      "label": "Method",
+      "sentence": "Moreover, fitting the latent circuit model to neural recordings from the PFC of monkeys performing the same context-dependent decision-making task revealed a qualitatively similar suppression mechanism, in contrast to previous analyses of the same data with correlation-based methods19,21.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "context-dependent decision-making task",
+      "label": "BehavioralAssay",
+      "sentence": "Moreover, fitting the latent circuit model to neural recordings from the PFC of monkeys performing the same context-dependent decision-making task revealed a qualitatively similar suppression mechanism, in contrast to previous analyses of the same data with correlation-based methods19,21.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "suppression mechanism",
+      "label": "Phenomenon",
+      "sentence": "Moreover, fitting the latent circuit model to neural recordings from the PFC of monkeys performing the same context-dependent decision-making task revealed a qualitatively similar suppression mechanism, in contrast to previous analyses of the same data with correlation-based methods19,21.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "RNN perturbations",
+      "label": "Method",
+      "sentence": "Using RNN perturbations, we show that dimensionality reduction methods that do not incorporate causal interactions among latent variables are biased toward uncovering behaviorally irrelevant representations.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "dimensionality reduction methods",
+      "label": "Method",
+      "sentence": "Using RNN perturbations, we show that dimensionality reduction methods that do not incorporate causal interactions among latent variables are biased toward uncovering behaviorally irrelevant representations.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "latent variables",
+      "label": "ComputationalVariable",
+      "sentence": "Using RNN perturbations, we show that dimensionality reduction methods that do not incorporate causal interactions among latent variables are biased toward uncovering behaviorally irrelevant representations.",
+      "paper_location": "Page 2"
+    },
+    {
+      "entity": "neural response data",
+      "label": "Measurement",
+      "sentence": "Our results show that high-dimensional networks use low-dimensional circuit mechanisms, establish the feasibility of inferring these mechanisms from neural response data and open new possibilities of causally validating circuit mechanisms in perturbation experiments.",
+      "paper_location": "Page 3"
+    },
+    {
+      "entity": "latent circuit model",
+      "label": "ComputationalModel",
+      "sentence": "To bridge the gap between dimensionality reduction, circuit mechanisms and single-neuron heterogeneity, we develop a latent circuit model (Fig. 1c).",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "single-neuron heterogeneity",
+      "label": "Measurement",
+      "sentence": "To bridge the gap between dimensionality reduction, circuit mechanisms and single-neuron heterogeneity, we develop a latent circuit model (Fig. 1c).",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "neural responses",
+      "label": "Measurement",
+      "sentence": "Similar to other dimensionality reduction methods, we model high-dimensional neural responses y ∈ ℝN (N is the number of neurons) during a cognitive task using low-dimensional latent variables x ∈ ℝn as y = Qx, (1)",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "neurons",
+      "label": "CellType",
+      "sentence": "Similar to other dimensionality reduction methods, we model high-dimensional neural responses y ∈ ℝN (N is the number of neurons) during a cognitive task using low-dimensional latent variables x ∈ ℝn as y = Qx, (1)",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "latent variables",
+      "label": "ComputationalVariable",
+      "sentence": "Similar to other dimensionality reduction methods, we model high-dimensional neural responses y ∈ ℝN (N is the number of neurons) during a cognitive task using low-dimensional latent variables x ∈ ℝn as y = Qx, (1)",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "ReLU",
+      "label": "ActivationFunction",
+      "sentence": "The latent variables x are constrained to be nodes in a neural circuit with dynamics ẋ= −x + f(wrecx + winu), (2) where f is a rectified linear (ReLU) activation function.",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "rectified linear",
+      "label": "ActivationFunction",
+      "sentence": "The latent variables x are constrained to be nodes in a neural circuit with dynamics ẋ= −x + f(wrecx + winu), (2) where f is a rectified linear (ReLU) activation function.",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "latent nodes",
+      "label": "ComputationalVariable",
+      "sentence": "The latent nodes interact via the recurrent connectivity wrec and receive external task inputs u through the input connectivity win.",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "recurrent connectivity",
+      "label": "NeuralConnectivity",
+      "sentence": "The latent nodes interact via the recurrent connectivity wrec and receive external task inputs u through the input connectivity win.",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "latent circuit",
+      "label": "ComputationalModel",
+      "sentence": "We also require the latent circuit to perform the task, that is, we can read out the task outputs z from circuit activity via the output connectivity wout: z = woutx.",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "circuit activity",
+      "label": "Measurement",
+      "sentence": "We also require the latent circuit to perform the task, that is, we can read out the task outputs z from circuit activity via the output connectivity wout: z = woutx.",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "neural activity",
+      "label": "Measurement",
+      "sentence": "We infer the latent circuit parameters (Q, wrec, win and wout) from neural activity y by minimizing the loss function L = ∑k,t∥y − Qx∥2 + ∥z − woutx∥2, where k and t index trials and time within a trial, respectively (Methods).",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "single-neuron responses",
+      "label": "Measurement",
+      "sentence": "In the latent circuit model, the heterogeneity of single-neuron responses has three possible sources: mixing of task inputs to the latent circuit via win, recurrent interactions among latent nodes via wrec and linear mixing of representations in single neurons via the embedding Q.",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "latent circuit",
+      "label": "ComputationalModel",
+      "sentence": "In the latent circuit model, the heterogeneity of single-neuron responses has three possible sources: mixing of task inputs to the latent circuit via win, recurrent interactions among latent nodes via wrec and linear mixing of representations in single neurons via the embedding Q.",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "latent nodes",
+      "label": "ComputationalVariable",
+      "sentence": "In the latent circuit model, the heterogeneity of single-neuron responses has three possible sources: mixing of task inputs to the latent circuit via win, recurrent interactions among latent nodes via wrec and linear mixing of representations in single neurons via the embedding Q.",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "single neurons",
+      "label": "CellType",
+      "sentence": "In the latent circuit model, the heterogeneity of single-neuron responses has three possible sources: mixing of task inputs to the latent circuit via win, recurrent interactions among latent nodes via wrec and linear mixing of representations in single neurons via the embedding Q.",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "latent circuit",
+      "label": "ComputationalModel",
+      "sentence": "Thus, the latent circuit provides a dimensionality reduction that incorporates an explicit mechanistic hypothesis for how the resulting low-dimensional dynamics are generated.",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "dimensionality reduction",
+      "label": "Method",
+      "sentence": "Thus, the latent circuit provides a dimensionality reduction that incorporates an explicit mechanistic hypothesis for how the resulting low-dimensional dynamics are generated.",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "low-dimensional dynamics",
+      "label": "DynamicalSystemFeature",
+      "sentence": "Thus, the latent circuit provides a dimensionality reduction that incorporates an explicit mechanistic hypothesis for how the resulting low-dimensional dynamics are generated.",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "RNNs",
+      "label": "ComputationalModel",
+      "sentence": "In this context, RNNs optimized to perform a cognitive task provide an ideal setting for testing and validating the latent circuit inference.",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "latent circuit inference",
+      "label": "Method",
+      "sentence": "In this context, RNNs optimized to perform a cognitive task provide an ideal setting for testing and validating the latent circuit inference.",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "RNNs",
+      "label": "ComputationalModel",
+      "sentence": "RNNs mimic the heterogeneity and mixed selectivity of neural responses in the cortex during cognitive tasks while providing full access to each unit’s activity, network connectivity and behavioral outcomes.",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "mixed selectivity",
+      "label": "Phenomenon",
+      "sentence": "RNNs mimic the heterogeneity and mixed selectivity of neural responses in the cortex during cognitive tasks while providing full access to each unit’s activity, network connectivity and behavioral outcomes.",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "neural responses",
+      "label": "Measurement",
+      "sentence": "RNNs mimic the heterogeneity and mixed selectivity of neural responses in the cortex during cognitive tasks while providing full access to each unit’s activity, network connectivity and behavioral outcomes.",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "cortex",
+      "label": "BrainRegion",
+      "sentence": "RNNs mimic the heterogeneity and mixed selectivity of neural responses in the cortex during cognitive tasks while providing full access to each unit’s activity, network connectivity and behavioral outcomes.",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "RNNs",
+      "label": "ComputationalModel",
+      "sentence": "We consider RNNs with dynamics ẏ= −y + f(Wrec y + Winu), (4) where Wrec and Win are the recurrent and input connectivity matrices, respectively (Methods).",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "latent circuit",
+      "label": "ComputationalModel",
+      "sentence": "Using the fact that the vector fields of the RNN and latent circuit are piecewise-linear dynamical systems, we derive a relationship between their recurrent and input connectivity matrices (Methods): QTWrecQ = wrec, QTWin = win.",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "RNN",
+      "label": "ComputationalModel",
+      "sentence": "Using the fact that the vector fields of the RNN and latent circuit are piecewise-linear dynamical systems, we derive a relationship between their recurrent and input connectivity matrices (Methods): QTWrecQ = wrec, QTWin = win.",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "piecewise-linear dynamical systems",
+      "label": "ComputationalModel",
+      "sentence": "Using the fact that the vector fields of the RNN and latent circuit are piecewise-linear dynamical systems, we derive a relationship between their recurrent and input connectivity matrices (Methods): QTWrecQ = wrec, QTWin = win.",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "latent circuit connectivity",
+      "label": "NeuralConnectivity",
+      "sentence": "The relation Eq. (5) shows that the latent circuit connectivity wrec is a low-rank structure in the connectivity of a high-dimensional network, which captures interactions among the latent variables defined by the columns of Q.",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "latent variables",
+      "label": "ComputationalVariable",
+      "sentence": "The relation Eq. (5) shows that the latent circuit connectivity wrec is a low-rank structure in the connectivity of a high-dimensional network, which captures interactions among the latent variables defined by the columns of Q.",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "RNN",
+      "label": "ComputationalModel",
+      "sentence": "The relation between connectivity matrices has the powerful consequence that we can validate the latent circuit mechanism directly in the RNN connectivity.",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "latent circuit",
+      "label": "ComputationalModel",
+      "sentence": "First, if the latent circuit faithfully describes the mechanism operating in the RNN, by conjugating the RNN connectivity matrix with Q (Eq. (5)), we expect to find low-dimensional connectivity structure similar to the latent circuit connectivity.",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "RNN",
+      "label": "ComputationalModel",
+      "sentence": "First, if the latent circuit faithfully describes the mechanism operating in the RNN, by conjugating the RNN connectivity matrix with Q (Eq. (5)), we expect to find low-dimensional connectivity structure similar to the latent circuit connectivity.",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "RNN connectivity",
+      "label": "NeuralConnectivity",
+      "sentence": "First, if the latent circuit faithfully describes the mechanism operating in the RNN, by conjugating the RNN connectivity matrix with Q (Eq. (5)), we expect to find low-dimensional connectivity structure similar to the latent circuit connectivity.",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "context-dependent decision-making",
+      "label": "BehavioralAssay",
+      "sentence": "We applied our latent circuit inference to RNNs optimized to perform a context-dependent decision-making task, which requires the discrimination of either the color or motion feature of a sensory stimulus depending on the context cue19 (Fig. 2a,b and Methods).",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "RNNs",
+      "label": "ComputationalModel",
+      "sentence": "We applied our latent circuit inference to RNNs optimized to perform a context-dependent decision-making task, which requires the discrimination of either the color or motion feature of a sensory stimulus depending on the context cue19 (Fig. 2a,b and Methods).",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "sensory stimulus",
+      "label": "Stimulus",
+      "sentence": "We applied our latent circuit inference to RNNs optimized to perform a context-dependent decision-making task, which requires the discrimination of either the color or motion feature of a sensory stimulus depending on the context cue19 (Fig. 2a,b and Methods).",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "context cue",
+      "label": "Stimulus",
+      "sentence": "We applied our latent circuit inference to RNNs optimized to perform a context-dependent decision-making task, which requires the discrimination of either the color or motion feature of a sensory stimulus depending on the context cue19 (Fig. 2a,b and Methods).",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "RNN",
+      "label": "ComputationalModel",
+      "sentence": "The RNN successfully learns the task; it makes choices according to the relevant stimulus and ignores the irrelevant stimulus in each context (Fig. 2c).",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "RNN units",
+      "label": "ComputationalUnit",
+      "sentence": "After training, RNN units show heterogeneous mixed selectivity for multiple task variables (Supplementary Fig. 1).",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "mixed selectivity",
+      "label": "Phenomenon",
+      "sentence": "After training, RNN units show heterogeneous mixed selectivity for multiple task variables (Supplementary Fig. 1).",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "RNN connectivity",
+      "label": "NeuralConnectivity",
+      "sentence": "The structure in the RNN connectivity responsible for generating the correct behavioral outputs is not immediately obvious (Fig. 2d).",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "entity": "latent circuit model",
+      "label": "ComputationalModel",
+      "sentence": "We fitted the latent circuit model to the responses of RNN units and its output behavior during the task.",
+      "paper_location": "Results; Page 4"
+    },
+    {
+      "entity": "RNN units",
+      "label": "ComputationalUnit",
+      "sentence": "We fitted the latent circuit model to the responses of RNN units and its output behavior during the task.",
+      "paper_location": "Results; Page 4"
+    },
+    {
+      "entity": "context nodes",
+      "label": "ComputationalVariable",
+      "sentence": "The latent circuit model consisted of eight nodes corresponding to task variables: two context nodes, two sensory color nodes, two sensory motion nodes and two choice nodes.",
+      "paper_location": "Results; Page 4"
+    },
+    {
+      "entity": "sensory color nodes",
+      "label": "ComputationalVariable",
+      "sentence": "The latent circuit model consisted of eight nodes corresponding to task variables: two context nodes, two sensory color nodes, two sensory motion nodes and two choice nodes.",
+      "paper_location": "Results; Page 4"
+    },
+    {
+      "entity": "sensory motion nodes",
+      "label": "ComputationalVariable",
+      "sentence": "The latent circuit model consisted of eight nodes corresponding to task variables: two context nodes, two sensory color nodes, two sensory motion nodes and two choice nodes.",
+      "paper_location": "Results; Page 4"
+    },
+    {
+      "entity": "choice nodes",
+      "label": "ComputationalVariable",
+      "sentence": "The latent circuit model consisted of eight nodes corresponding to task variables: two context nodes, two sensory color nodes, two sensory motion nodes and two choice nodes.",
+      "paper_location": "Results; Page 4"
+    },
+    {
+      "entity": "principal components",
+      "label": "Method",
+      "sentence": "This choice of the latent circuit dimensionality agrees with the dimensionality of RNN responses after training, which is usually close to the total number of inputs and outputs (the first eight principal components accounted for 97.9% of the total variance in RNN responses; Supplementary Fig. 2).",
+      "paper_location": "Results; Page 4"
+    },
+    {
+      "entity": "RNN responses",
+      "label": "Measurement",
+      "sentence": "This choice of the latent circuit dimensionality agrees with the dimensionality of RNN responses after training, which is usually close to the total number of inputs and outputs (the first eight principal components accounted for 97.9% of the total variance in RNN responses; Supplementary Fig. 2).",
+      "paper_location": "Results; Page 4"
+    },
+    {
+      "entity": "coefficient of determination",
+      "label": "Measurement",
+      "sentence": "The fitted latent circuit model captured an overwhelming amount of variance in the RNN activity (coefficient of determination r2 = 0.96 on test data) and accurately matched projected RNN trajectories (Supplementary Fig. 3).",
+      "paper_location": "Results; Page 4"
+    },
+    {
+      "entity": "RNN activity",
+      "label": "Measurement",
+      "sentence": "The fitted latent circuit model captured an overwhelming amount of variance in the RNN activity (coefficient of determination r2 = 0.96 on test data) and accurately matched projected RNN trajectories (Supplementary Fig. 3).",
+      "paper_location": "Results; Page 4"
+    },
+    {
+      "entity": "RNN trajectories",
+      "label": "Measurement",
+      "sentence": "The fitted latent circuit model captured an overwhelming amount of variance in the RNN activity (coefficient of determination r2 = 0.96 on test data) and accurately matched projected RNN trajectories (Supplementary Fig. 3).",
+      "paper_location": "Results; Page 4"
+    },
+    {
+      "entity": "latent circuit",
+      "label": "ComputationalModel",
+      "sentence": "In the latent circuit, sensory nodes representing stimuli associated with the left choice (left motion and green color) have excitatory connections to the left choice node, and sensory nodes representing stimuli associated with the right choice (right motion and red color) have excitatory connections to the right choice node.",
+      "paper_location": "Results; Page 4"
+    },
+    {
+      "entity": "sensory nodes",
+      "label": "ComputationalVariable",
+      "sentence": "In the latent circuit, sensory nodes representing stimuli associated with the left choice (left motion and green color) have excitatory connections to the left choice node, and sensory nodes representing stimuli associated with the right choice (right motion and red color) have excitatory connections to the right choice node.",
+      "paper_location": "Results; Page 4"
+    },
+    {
+      "entity": "excitatory connections",
+      "label": "NeuralConnectivity",
+      "sentence": "In the latent circuit, sensory nodes representing stimuli associated with the left choice (left motion and green color) have excitatory connections to the left choice node, and sensory nodes representing stimuli associated with the right choice (right motion and red color) have excitatory connections to the right choice node.",
+      "paper_location": "Results; Page 4"
+    },
+    {
+      "entity": "context nodes",
+      "label": "ComputationalVariable",
+      "sentence": "Further, the color context node has inhibitory connections to the sensory nodes representing motion, and the motion context node has inhibitory connections to sensory nodes representing color.",
+      "paper_location": "Results; Page 4"
+    },
+    {
+      "entity": "inhibitory connections",
+      "label": "NeuralConnectivity",
+      "sentence": "Further, the color context node has inhibitory connections to the sensory nodes representing motion, and the motion context node has inhibitory connections to sensory nodes representing color.",
+      "paper_location": "Results; Page 4"
+    },
+    {
+      "entity": "sensory nodes",
+      "label": "ComputationalVariable",
+      "sentence": "Further, the color context node has inhibitory connections to the sensory nodes representing motion, and the motion context node has inhibitory connections to sensory nodes representing color.",
+      "paper_location": "Results; Page 4"
+    },
+    {
+      "entity": "suppression mechanism",
+      "label": "Phenomenon",
+      "sentence": "This pattern of connections from the context nodes to the sensory nodes implements a suppression mechanism that inhibits the irrelevant stimulus–response mapping in each context.",
+      "paper_location": "Results; Page 4"
+    },
+    {
+      "entity": "irrelevant sensory representation",
+      "label": "Measurement",
+      "sentence": "Because the irrelevant sensory representation is suppressed, it does not drive the decision output.",
+      "paper_location": "Results; Page 4"
+    },
+    {
+      "entity": "context-dependent decision-making",
+      "label": "BehavioralAssay",
+      "sentence": "This suppression mechanism based on inhibition of irrelevant representations is qualitatively similar to mechanisms for context-dependent decision-making hypothesized in previous hand-crafted neural circuit models8,9.",
+      "paper_location": "Results; Page 4"
+    },
+    {
+      "entity": "neural circuit models",
+      "label": "ComputationalModel",
+      "sentence": "This suppression mechanism based on inhibition of irrelevant representations is qualitatively similar to mechanisms for context-dependent decision-making hypothesized in previous hand-crafted neural circuit models8,9.",
+      "paper_location": "Results; Page 4"
+    },
+    {
+      "entity": "RNN responses",
+      "label": "Measurement",
+      "sentence": "We verified that the suppression mechanism revealed in the latent circuit connectivity depended significantly on the RNN responses beyond the constraints imposed by the task alone (Extended Data Fig. 1 and Methods), suggesting that this mechanism reflects the dynamics of the RNN.",
+      "paper_location": "Results; Page 4"
+    },
+    {
+      "entity": "RNN",
+      "label": "ComputationalModel",
+      "sentence": "We therefore proceeded to validate the inferred circuit mechanism directly in the RNN in three ways: in the RNN activity, in the RNN connectivity and by confirming behavioral effects of the RNN perturbations predicted by the latent circuit model.",
+      "paper_location": "Results; Page 4"
+    },
+    {
+      "entity": "RNN activity",
+      "label": "Measurement",
+      "sentence": "We therefore proceeded to validate the inferred circuit mechanism directly in the RNN in three ways: in the RNN activity, in the RNN connectivity and by confirming behavioral effects of the RNN perturbations predicted by the latent circuit model.",
+      "paper_location": "Results; Page 4"
+    },
+    {
+      "entity": "RNN connectivity",
+      "label": "NeuralConnectivity",
+      "sentence": "We therefore proceeded to validate the inferred circuit mechanism directly in the RNN in three ways: in the RNN activity, in the RNN connectivity and by confirming behavioral effects of the RNN perturbations predicted by the latent circuit model.",
+      "paper_location": "Results; Page 4"
+    },
+    {
+      "entity": "RNN responses",
+      "label": "Measurement",
+      "sentence": "We projected RNN responses onto the columns of Q, which represent RNN activity patterns that correlate with the activity of nodes in the latent circuit (Fig. 3c).",
+      "paper_location": "Results; Page 4"
+    },
+    {
+      "entity": "RNN activity patterns",
+      "label": "Measurement",
+      "sentence": "We projected RNN responses onto the columns of Q, which represent RNN activity patterns that correlate with the activity of nodes in the latent circuit (Fig. 3c).",
+      "paper_location": "Results; Page 4"
+    },
+    {
+      "entity": "latent circuit",
+      "label": "ComputationalModel",
+      "sentence": "We projected RNN responses onto the columns of Q, which represent RNN activity patterns that correlate with the activity of nodes in the latent circuit (Fig. 3c).",
+      "paper_location": "Results; Page 4"
+    },
+    {
+      "entity": "choice axis",
+      "label": "ComputationalVariable",
+      "sentence": "Next, the choice axis is the difference of two columns of Q corresponding to the left and right choice nodes in the latent circuit.",
+      "paper_location": "Results; Page 5"
+    },
+    {
+      "entity": "RNN activity",
+      "label": "Measurement",
+      "sentence": "Projecting RNN activity onto the choice axis reveals trajectories separating according to choice regardless of context.",
+      "paper_location": "Results; Page 5"
+    },
+    {
+      "entity": "motion axis",
+      "label": "ComputationalVariable",
+      "sentence": "Further, the motion axis is the difference of columns of Q corresponding to the left and right motion nodes, and the color axis is the difference of columns of Q corresponding to the red and green color nodes.",
+      "paper_location": "Results; Page 5"
+    },
+    {
+      "entity": "color axis",
+      "label": "ComputationalVariable",
+      "sentence": "Further, the motion axis is the difference of columns of Q corresponding to the left and right motion nodes, and the color axis is the difference of columns of Q corresponding to the red and green color nodes.",
+      "paper_location": "Results; Page 5"
+    },
+    {
+      "entity": "RNN activity",
+      "label": "Measurement",
+      "sentence": "Projections of RNN activity onto the motion and color axes reveal representations of relevant sensory stimuli, whereas representations of irrelevant stimuli are suppressed.",
+      "paper_location": "Results; Page 5"
+    },
+    {
+      "entity": "sensory stimuli",
+      "label": "Stimulus",
+      "sentence": "Projections of RNN activity onto the motion and color axes reveal representations of relevant sensory stimuli, whereas representations of irrelevant stimuli are suppressed.",
+      "paper_location": "Results; Page 5"
+    },
+    {
+      "entity": "RNN activity",
+      "label": "Measurement",
+      "sentence": "The suppression of irrelevant sensory representations in RNN activity is consistent with the inhibitory mechanism revealed in the latent circuit connectivity wrec.",
+      "paper_location": "Results; Page 5"
+    },
+    {
+      "entity": "latent circuit connectivity",
+      "label": "NeuralConnectivity",
+      "sentence": "The suppression of irrelevant sensory representations in RNN activity is consistent with the inhibitory mechanism revealed in the latent circuit connectivity wrec.",
+      "paper_location": "Results; Page 5"
+    },
+    {
+      "entity": "RNN connectivity",
+      "label": "NeuralConnectivity",
+      "sentence": "Second, we used the connectivity relationships Eq. (5) to directly validate the latent circuit mechanism in the RNN connectivity.",
+      "paper_location": "Results; Page 5"
+    },
+    {
+      "entity": "latent circuit mechanism",
+      "label": "ComputationalModel",
+      "sentence": "Second, we used the connectivity relationships Eq. (5) to directly validate the latent circuit mechanism in the RNN connectivity.",
+      "paper_location": "Results; Page 5"
+    },
+    {
+      "entity": "psychometric function",
+      "label": "Measurement",
+      "sentence": "Indeed, weakening these connections in the latent circuit produced the predicted behavioral effect in the psychometric function, visible as a rotation of the decision boundary on motion context trials (Fig. 4a).",
+      "paper_location": "Results; Page 5"
+    },
+    {
+      "entity": "RNN connectivity",
+      "label": "NeuralConnectivity",
+      "sentence": "Perturbations of the RNN connectivity along the corresponding pattern produced similar behavioral effects (Fig. 4b), confirming that this connectivity pattern implements suppression of irrelevant sensory representations in the RNN.",
+      "paper_location": "Results; Page 5"
+    },
+    {
+      "entity": "sensory representations",
+      "label": "Measurement",
+      "sentence": "Perturbations of the RNN connectivity along the corresponding pattern produced similar behavioral effects (Fig. 4b), confirming that this connectivity pattern implements suppression of irrelevant sensory representations in the RNN.",
+      "paper_location": "Results; Page 5"
+    },
+    {
+      "entity": "RNN",
+      "label": "ComputationalModel",
+      "sentence": "Perturbations of the RNN connectivity along the corresponding pattern produced similar behavioral effects (Fig. 4b), confirming that this connectivity pattern implements suppression of irrelevant sensory representations in the RNN.",
+      "paper_location": "Results; Page 5"
+    },
+    {
+      "entity": "stimulus–response mappings",
+      "label": "TaskParadigm",
+      "sentence": "The second perturbation ‘turns off’ one of the stimulus–response mappings by weakening the excitatory connection from a sensory node to a choice node.",
+      "paper_location": "Results; Page 6"
+    },
+    {
+      "entity": "sensory node",
+      "label": "ComputationalVariable",
+      "sentence": "The second perturbation ‘turns off’ one of the stimulus–response mappings by weakening the excitatory connection from a sensory node to a choice node.",
+      "paper_location": "Results; Page 6"
+    },
+    {
+      "entity": "choice node",
+      "label": "ComputationalVariable",
+      "sentence": "The second perturbation ‘turns off’ one of the stimulus–response mappings by weakening the excitatory connection from a sensory node to a choice node.",
+      "paper_location": "Results; Page 6"
+    },
+    {
+      "entity": "RNN",
+      "label": "ComputationalModel",
+      "sentence": "Together, these results confirm that the RNN uses the suppression mechanism in which context representations inhibit irrelevant sensory representations.",
+      "paper_location": "Results; Page 6"
+    },
+    {
+      "entity": "suppression mechanism",
+      "label": "Phenomenon",
+      "sentence": "Together, these results confirm that the RNN uses the suppression mechanism in which context representations inhibit irrelevant sensory representations.",
+      "paper_location": "Results; Page 6"
+    },
+    {
+      "entity": "sensory representations",
+      "label": "Measurement",
+      "sentence": "Together, these results confirm that the RNN uses the suppression mechanism in which context representations inhibit irrelevant sensory representations.",
+      "paper_location": "Results; Page 6"
+    },
+    {
+      "entity": "RNN activity",
+      "label": "Measurement",
+      "sentence": "This mechanism is reflected in the low-dimensional dynamics revealed by projecting RNN activity onto axes defined by the latent circuit embedding Q.",
+      "paper_location": "Results; Page 6"
+    },
+    {
+      "entity": "RNN connectivity",
+      "label": "NeuralConnectivity",
+      "sentence": "We identified this mechanism as a latent low-dimensional structure in the RNN connectivity and ultimately validated it by confirming behavioral effects of the RNN connectivity perturbations.",
+      "paper_location": "Results; Page 6"
+    },
+    {
+      "entity": "RNNs",
+      "label": "ComputationalModel",
+      "sentence": "We next asked whether RNNs trained on the same task arrive at different circuit solutions for context-dependent decision-making.",
+      "paper_location": "Results; Page 6"
+    },
+    {
+      "entity": "context-dependent decision-making",
+      "label": "BehavioralAssay",
+      "sentence": "We next asked whether RNNs trained on the same task arrive at different circuit solutions for context-dependent decision-making.",
+      "paper_location": "Results; Page 6"
+    },
+    {
+      "entity": "latent circuit inference",
+      "label": "Method",
+      "sentence": "The latent circuit inference enables us to determine whether different RNNs use the same circuit mechanism.",
+      "paper_location": "Results; Page 6"
+    },
+    {
+      "entity": "RNNs",
+      "label": "ComputationalModel",
+      "sentence": "The latent circuit inference enables us to determine whether different RNNs use the same circuit mechanism.",
+      "paper_location": "Results; Page 6"
+    },
+    {
+      "entity": "latent connectivity",
+      "label": "NeuralConnectivity",
+      "sentence": "Therefore, we assessed the similarity of task solutions in RNNs by comparing their low-dimensional latent connectivity.",
+      "paper_location": "Results; Page 6"
+    },
+    {
+      "entity": "principal component analysis",
+      "label": "Method",
+      "sentence": "To visualize the space of latent circuit solutions, we applied a principal component analysis to the flattened connectivity matrices wrec and projected the data onto the first two principal components, which accounted for 42% of total variance (Fig. 5a).",
+      "paper_location": "Results; Page 6"
+    },
+    {
+      "entity": "principal components",
+      "label": "Method",
+      "sentence": "To visualize the space of latent circuit solutions, we applied a principal component analysis to the flattened connectivity matrices wrec and projected the data onto the first two principal components, which accounted for 42% of total variance (Fig. 5a).",
+      "paper_location": "Results; Page 6"
+    },
+    {
+      "entity": "Gaussian mixture model",
+      "label": "Method",
+      "sentence": "The projection reveals three major solution clusters, which we partitioned by fitting data with a Gaussian mixture model with three components.",
+      "paper_location": "Figure 5; Page 7"
+    },
+    {
+      "entity": "Mann–Whitney U-test",
+      "label": "StatisticalTest",
+      "sentence": "These latent models produced a significantly worse fit when the latent circuit and the target RNN were sampled from different clusters than from the same cluster (Extended Data Fig. 2m; one-sided Mann–Whitney U-test, U = 52, 593, P < 10−10), confirming differences in circuit mechanisms across clusters.",
+      "paper_location": "Results; Page 6"
+    },
+    {
+      "entity": "inhibitory suppression mechanism",
+      "label": "Phenomenon",
+      "sentence": "The inhibitory suppression mechanism that we consistently found across RNNs may seem distinct from a dynamical selection vector mechanism previously identified in RNNs trained on a similar task, which apparently does not require suppression of irrelevant sensory responses19.",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "entity": "dynamical selection vector mechanism",
+      "label": "ComputationalMechanism",
+      "sentence": "The inhibitory suppression mechanism that we consistently found across RNNs may seem distinct from a dynamical selection vector mechanism previously identified in RNNs trained on a similar task, which apparently does not require suppression of irrelevant sensory responses19.",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "entity": "RNNs",
+      "label": "ComputationalModel",
+      "sentence": "The inhibitory suppression mechanism that we consistently found across RNNs may seem distinct from a dynamical selection vector mechanism previously identified in RNNs trained on a similar task, which apparently does not require suppression of irrelevant sensory responses19.",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "entity": "sensory responses",
+      "label": "Measurement",
+      "sentence": "The inhibitory suppression mechanism that we consistently found across RNNs may seem distinct from a dynamical selection vector mechanism previously identified in RNNs trained on a similar task, which apparently does not require suppression of irrelevant sensory responses19.",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "entity": "Softplus",
+      "label": "ActivationFunction",
+      "sentence": "Furthermore, we found the same inhibitory suppression mechanism in RNNs trained without constraining their inputs to be orthogonal (Supplementary Fig. 6) and in RNNs with different biologically plausible nonlinearities (Extended Data Figs. 5 and 6).",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "entity": "PFC",
+      "label": "BrainRegion",
+      "sentence": "Our finding that RNNs use the inhibitory mechanism for context-dependent decision-making appears in conflict with previous work, which suggested that in both RNNs and the PFC, irrelevant sensory responses are not significantly suppressed19,21,51.",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "entity": "RNNs",
+      "label": "ComputationalModel",
+      "sentence": "Our finding that RNNs use the inhibitory mechanism for context-dependent decision-making appears in conflict with previous work, which suggested that in both RNNs and the PFC, irrelevant sensory responses are not significantly suppressed19,21,51.",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "entity": "context-dependent decision-making",
+      "label": "BehavioralAssay",
+      "sentence": "Our finding that RNNs use the inhibitory mechanism for context-dependent decision-making appears in conflict with previous work, which suggested that in both RNNs and the PFC, irrelevant sensory responses are not significantly suppressed19,21,51.",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "entity": "sensory responses",
+      "label": "Measurement",
+      "sentence": "Our finding that RNNs use the inhibitory mechanism for context-dependent decision-making appears in conflict with previous work, which suggested that in both RNNs and the PFC, irrelevant sensory responses are not significantly suppressed19,21,51.",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "entity": "dimensionality reduction methods",
+      "label": "Method",
+      "sentence": "This conclusion was derived using dimensionality reduction methods that fit neural responses with regression models19,21,41–43 to find low-dimensional projections that best correlate with task variables (Fig. 1b).",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "entity": "neural responses",
+      "label": "Measurement",
+      "sentence": "This conclusion was derived using dimensionality reduction methods that fit neural responses with regression models19,21,41–43 to find low-dimensional projections that best correlate with task variables (Fig. 1b).",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "entity": "regression models",
+      "label": "Method",
+      "sentence": "This conclusion was derived using dimensionality reduction methods that fit neural responses with regression models19,21,41–43 to find low-dimensional projections that best correlate with task variables (Fig. 1b).",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "entity": "PFC responses",
+      "label": "Measurement",
+      "sentence": "We therefore sought to determine whether the latent circuit and regression models identify different task representations in the same PFC responses.",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "entity": "PFC",
+      "label": "BrainRegion",
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies19,21.",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "entity": "PFC recordings",
+      "label": "Method",
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies19,21.",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "entity": "context-dependent decision-making",
+      "label": "BehavioralAssay",
+      "sentence": "We fitted the latent circuit model to the same dataset of PFC recordings during context-dependent decision-making as in the previous studies19,21.",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "entity": "PFC",
+      "label": "BrainRegion",
+      "sentence": "The dataset consists of several hundred PFC neurons (n = 727 and 574 for monkeys A and F, respectively) recorded from two rhesus monkeys performing a context-dependent decision-making task19 (Fig. 2a).",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "entity": "PFC neurons",
+      "label": "CellType",
+      "sentence": "The dataset consists of several hundred PFC neurons (n = 727 and 574 for monkeys A and F, respectively) recorded from two rhesus monkeys performing a context-dependent decision-making task19 (Fig. 2a).",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "entity": "rhesus monkeys",
+      "label": "Species",
+      "sentence": "The dataset consists of several hundred PFC neurons (n = 727 and 574 for monkeys A and F, respectively) recorded from two rhesus monkeys performing a context-dependent decision-making task19 (Fig. 2a).",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "entity": "context-dependent decision-making task",
+      "label": "BehavioralAssay",
+      "sentence": "The dataset consists of several hundred PFC neurons (n = 727 and 574 for monkeys A and F, respectively) recorded from two rhesus monkeys performing a context-dependent decision-making task19 (Fig. 2a).",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "entity": "condition-averaged PFC responses",
+      "label": "Measurement",
+      "sentence": "We fitted latent circuit models to smoothed condition-averaged PFC responses during a 750-ms window starting 100 ms after the stimulus onset19 (Methods).",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "entity": "stimulus onset",
+      "label": "StimulusTiming",
+      "sentence": "We fitted latent circuit models to smoothed condition-averaged PFC responses during a 750-ms window starting 100 ms after the stimulus onset19 (Methods).",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "entity": "PFC responses",
+      "label": "Measurement",
+      "sentence": "The latent circuit model provided good fits of PFC responses projected onto the low-dimensional subspace spanned by the columns of the inferred embedding matrix Q for both monkeys (r2 = 0.88 and 0.76 on test data for monkeys A and F, respectively; Extended Data Figs. 7a and 8a).",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "entity": "monkeys",
+      "label": "Species",
+      "sentence": "The latent circuit model provided good fits of PFC responses projected onto the low-dimensional subspace spanned by the columns of the inferred embedding matrix Q for both monkeys (r2 = 0.88 and 0.76 on test data for monkeys A and F, respectively; Extended Data Figs. 7a and 8a).",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "entity": "PFC responses",
+      "label": "Measurement",
+      "sentence": "The task subspace Q explained a smaller fraction of total variance in the PFC responses (11.0% and 7.0% for monkeys A and F, respectively) than in RNNs (Supplementary Fig. 2), which is comparable to previous reports of task-relevant variance in the PFC42 and reflects the high dimensionality of PFC activity19.",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "entity": "RNNs",
+      "label": "ComputationalModel",
+      "sentence": "The task subspace Q explained a smaller fraction of total variance in the PFC responses (11.0% and 7.0% for monkeys A and F, respectively) than in RNNs (Supplementary Fig. 2), which is comparable to previous reports of task-relevant variance in the PFC42 and reflects the high dimensionality of PFC activity19.",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "entity": "PFC",
+      "label": "BrainRegion",
+      "sentence": "The task subspace Q explained a smaller fraction of total variance in the PFC responses (11.0% and 7.0% for monkeys A and F, respectively) than in RNNs (Supplementary Fig. 2), which is comparable to previous reports of task-relevant variance in the PFC42 and reflects the high dimensionality of PFC activity19.",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "entity": "PFC activity",
+      "label": "Measurement",
+      "sentence": "The task subspace Q explained a smaller fraction of total variance in the PFC responses (11.0% and 7.0% for monkeys A and F, respectively) than in RNNs (Supplementary Fig. 2), which is comparable to previous reports of task-relevant variance in the PFC42 and reflects the high dimensionality of PFC activity19.",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "entity": "PFC responses",
+      "label": "Measurement",
+      "sentence": "Similar to the RNNs, projecting PFC responses onto the axes identified by the latent circuit model revealed significant suppression of stimulus representations when they were irrelevant (Fig. 6a and Extended Data Figs. 9a and 10; one-sided Mann–Whitney U-test; monkey A: motion P = 1.4 × 10−9 and U = 120, color P = 10−10 and U = 83; monkey F: motion P = 1.5 × 10−5 and U = 277, color P = 1.6 × 10−7 and U = 194; n = 36).",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "entity": "latent circuit model",
+      "label": "ComputationalModel",
+      "sentence": "Similar to the RNNs, projecting PFC responses onto the axes identified by the latent circuit model revealed significant suppression of stimulus representations when they were irrelevant (Fig. 6a and Extended Data Figs. 9a and 10; one-sided Mann–Whitney U-test; monkey A: motion P = 1.4 × 10−9 and U = 120, color P = 10−10 and U = 83; monkey F: motion P = 1.5 × 10−5 and U = 277, color P = 1.6 × 10−7 and U = 194; n = 36).",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "entity": "stimulus representations",
+      "label": "Measurement",
+      "sentence": "Similar to the RNNs, projecting PFC responses onto the axes identified by the latent circuit model revealed significant suppression of stimulus representations when they were irrelevant (Fig. 6a and Extended Data Figs. 9a and 10; one-sided Mann–Whitney U-test; monkey A: motion P = 1.4 × 10−9 and U = 120, color P = 10−10 and U = 83; monkey F: motion P = 1.5 × 10−5 and U = 277, color P = 1.6 × 10−7 and U = 194; n = 36).",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "entity": "Mann–Whitney U-test",
+      "label": "StatisticalTest",
+      "sentence": "Similar to the RNNs, projecting PFC responses onto the axes identified by the latent circuit model revealed significant suppression of stimulus representations when they were irrelevant (Fig. 6a and Extended Data Figs. 9a and 10; one-sided Mann–Whitney U-test; monkey A: motion P = 1.4 × 10−9 and U = 120, color P = 10−10 and U = 83; monkey F: motion P = 1.5 × 10−5 and U = 277, color P = 1.6 × 10−7 and U = 194; n = 36).",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "entity": "monkey A",
+      "label": "Species",
+      "sentence": "Similar to the RNNs, projecting PFC responses onto the axes identified by the latent circuit model revealed significant suppression of stimulus representations when they were irrelevant (Fig. 6a and Extended Data Figs. 9a and 10; one-sided Mann–Whitney U-test; monkey A: motion P = 1.4 × 10−9 and U = 120, color P = 10−10 and U = 83; monkey F: motion P = 1.5 × 10−5 and U = 277, color P = 1.6 × 10−7 and U = 194; n = 36).",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "entity": "monkey F",
+      "label": "Species",
+      "sentence": "Similar to the RNNs, projecting PFC responses onto the axes identified by the latent circuit model revealed significant suppression of stimulus representations when they were irrelevant (Fig. 6a and Extended Data Figs. 9a and 10; one-sided Mann–Whitney U-test; monkey A: motion P = 1.4 × 10−9 and U = 120, color P = 10−10 and U = 83; monkey F: motion P = 1.5 × 10−5 and U = 277, color P = 1.6 × 10−7 and U = 194; n = 36).",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "entity": "PFC data",
+      "label": "Measurement",
+      "sentence": "Consistent with the suppression seen in projected PFC activity, the inferred latent circuit connectivity showed inhibitory connections from context nodes to sensory nodes representing irrelevant stimuli in each context (Fig. 6b and Extended Data Fig. 9b).",
+      "paper_location": "Results; Page 8"
+    },
+    {
+      "entity": "PFC activity",
+      "label": "Measurement",
+      "sentence": "Consistent with the suppression seen in projected PFC activity, the inferred latent circuit connectivity showed inhibitory connections from context nodes to sensory nodes representing irrelevant stimuli in each context (Fig. 6b and Extended Data Fig. 9b).",
+      "paper_location": "Results; Page 8"
+    },
+    {
+      "entity": "latent circuit connectivity",
+      "label": "NeuralConnectivity",
+      "sentence": "Consistent with the suppression seen in projected PFC activity, the inferred latent circuit connectivity showed inhibitory connections from context nodes to sensory nodes representing irrelevant stimuli in each context (Fig. 6b and Extended Data Fig. 9b).",
+      "paper_location": "Results; Page 8"
+    },
+    {
+      "entity": "inhibitory connections",
+      "label": "NeuralConnectivity",
+      "sentence": "Consistent with the suppression seen in projected PFC activity, the inferred latent circuit connectivity showed inhibitory connections from context nodes to sensory nodes representing irrelevant stimuli in each context (Fig. 6b and Extended Data Fig. 9b).",
+      "paper_location": "Results; Page 8"
+    },
+    {
+      "entity": "sensory nodes",
+      "label": "ComputationalVariable",
+      "sentence": "Consistent with the suppression seen in projected PFC activity, the inferred latent circuit connectivity showed inhibitory connections from context nodes to sensory nodes representing irrelevant stimuli in each context (Fig. 6b and Extended Data Fig. 9b).",
+      "paper_location": "Results; Page 8"
+    },
+    {
+      "entity": "latent circuit model",
+      "label": "ComputationalModel",
+      "sentence": "The latent circuit model identified a subspace in PFC activity in which representations of irrelevant stimuli were suppressed, whereas regression methods uncovered subspaces in the same PFC data in which stimuli were nearly equally represented across contexts19,21.",
+      "paper_location": "Results; Page 8"
+    },
+    {
+      "entity": "PFC activity",
+      "label": "Measurement",
+      "sentence": "The latent circuit model identified a subspace in PFC activity in which representations of irrelevant stimuli were suppressed, whereas regression methods uncovered subspaces in the same PFC data in which stimuli were nearly equally represented across contexts19,21.",
+      "paper_location": "Results; Page 8"
+    },
+    {
+      "entity": "PFC data",
+      "label": "Measurement",
+      "sentence": "The latent circuit model identified a subspace in PFC activity in which representations of irrelevant stimuli were suppressed, whereas regression methods uncovered subspaces in the same PFC data in which stimuli were nearly equally represented across contexts19,21.",
+      "paper_location": "Results; Page 8"
+    },
+    {
+      "entity": "regression methods",
+      "label": "Method",
+      "sentence": "The latent circuit model identified a subspace in PFC activity in which representations of irrelevant stimuli were suppressed, whereas regression methods uncovered subspaces in the same PFC data in which stimuli were nearly equally represented across contexts19,21.",
+      "paper_location": "Results; Page 8"
+    },
+    {
+      "entity": "error trials",
+      "label": "BehavioralEvent",
+      "sentence": "Although we cannot directly assess the behavioral relevance of different representations in the PFC via perturbations, we can test the inhibitory suppression mechanism using neural activity on error trials.",
+      "paper_location": "Results; Page 8"
+    },
+    {
+      "entity": "neural activity",
+      "label": "Measurement",
+      "sentence": "Although we cannot directly assess the behavioral relevance of different representations in the PFC via perturbations, we can test the inhibitory suppression mechanism using neural activity on error trials.",
+      "paper_location": "Results; Page 8"
+    },
+    {
+      "entity": "PFC",
+      "label": "BrainRegion",
+      "sentence": "Although we cannot directly assess the behavioral relevance of different representations in the PFC via perturbations, we can test the inhibitory suppression mechanism using neural activity on error trials.",
+      "paper_location": "Results; Page 8"
+    },
+    {
+      "entity": "motion axis",
+      "label": "ComputationalVariable",
+      "sentence": "Specifically, the suppression mechanism predicts that the representations of irrelevant stimuli (along the motion and color axes identified by the latent circuit model) should be less suppressed on error than correct trials.",
+      "paper_location": "Results; Page 8"
+    },
+    {
+      "entity": "color axes",
+      "label": "ComputationalVariable",
+      "sentence": "Specifically, the suppression mechanism predicts that the representations of irrelevant stimuli (along the motion and color axes identified by the latent circuit model) should be less suppressed on error than correct trials.",
+      "paper_location": "Results; Page 8"
+    },
+    {
+      "entity": "linear decoder",
+      "label": "Method",
+      "sentence": "We compared projections of RNN activity onto axes obtained from the latent circuit model and a linear decoder.",
+      "paper_location": "Results; Page 8"
+    },
+    {
+      "entity": "RNN activity",
+      "label": "Measurement",
+      "sentence": "We compared projections of RNN activity onto axes obtained from the latent circuit model and a linear decoder.",
+      "paper_location": "Results; Page 8"
+    },
+    {
+      "entity": "linear decoder",
+      "label": "Method",
+      "sentence": "We trained a linear decoder to predict the signed motion coherence on each trial from RNN activity (Methods).",
+      "paper_location": "Results; Page 8"
+    },
+    {
+      "entity": "RNN activity",
+      "label": "Measurement",
+      "sentence": "We trained a linear decoder to predict the signed motion coherence on each trial from RNN activity (Methods).",
+      "paper_location": "Results; Page 8"
+    },
+    {
+      "entity": "motion coherence",
+      "label": "Measurement",
+      "sentence": "We trained a linear decoder to predict the signed motion coherence on each trial from RNN activity (Methods).",
+      "paper_location": "Results; Page 8"
+    },
+    {
+      "entity": "decoder axis",
+      "label": "ComputationalVariable",
+      "sentence": "By projecting RNN responses onto the decoder axis, we find a strong representation of irrelevant motion stimulus on color context trials without noticeable suppression (Fig. 7a).",
+      "paper_location": "Results; Page 8"
+    },
+    {
+      "entity": "RNN responses",
+      "label": "Measurement",
+      "sentence": "By projecting RNN responses onto the decoder axis, we find a strong representation of irrelevant motion stimulus on color context trials without noticeable suppression (Fig. 7a).",
+      "paper_location": "Results; Page 8"
+    },
+    {
+      "entity": "motion stimulus",
+      "label": "Stimulus",
+      "sentence": "By projecting RNN responses onto the decoder axis, we find a strong representation of irrelevant motion stimulus on color context trials without noticeable suppression (Fig. 7a).",
+      "paper_location": "Results; Page 8"
+    },
+    {
+      "entity": "PFC",
+      "label": "BrainRegion",
+      "sentence": "Thus, as in the PFC, irrelevant sensory representations in our RNN appear not suppressed along the decoder axis, whereas they appear suppressed along the axis obtained from the latent circuit model (Fig. 7b).",
+      "paper_location": "Results; Page 8"
+    },
+    {
+      "entity": "RNN",
+      "label": "ComputationalModel",
+      "sentence": "Thus, as in the PFC, irrelevant sensory representations in our RNN appear not suppressed along the decoder axis, whereas they appear suppressed along the axis obtained from the latent circuit model (Fig. 7b).",
+      "paper_location": "Results; Page 8"
+    },
+    {
+      "entity": "sensory representations",
+      "label": "Measurement",
+      "sentence": "Thus, as in the PFC, irrelevant sensory representations in our RNN appear not suppressed along the decoder axis, whereas they appear suppressed along the axis obtained from the latent circuit model (Fig. 7b).",
+      "paper_location": "Results; Page 8"
+    },
+    {
+      "entity": "RNN",
+      "label": "ComputationalModel",
+      "sentence": "How can we reconcile these qualitatively distinct perspectives on representations of irrelevant stimuli within the same RNN?",
+      "paper_location": "Results; Page 9"
+    },
+    {
+      "entity": "linear decoder",
+      "label": "Method",
+      "sentence": "We hypothesized that the appearance of irrelevant stimulus representations is possible because the linear decoder compromises behavioral relevance for decoding accuracy.",
+      "paper_location": "Results; Page 9"
+    },
+    {
+      "entity": "RNN units",
+      "label": "ComputationalUnit",
+      "sentence": "To test this idea, we stimulated RNN units with activity patterns aligned with the axes obtained from the linear decoder and the latent circuit model.",
+      "paper_location": "Results; Page 9"
+    },
+    {
+      "entity": "activity patterns",
+      "label": "Measurement",
+      "sentence": "To test this idea, we stimulated RNN units with activity patterns aligned with the axes obtained from the linear decoder and the latent circuit model.",
+      "paper_location": "Results; Page 9"
+    },
+    {
+      "entity": "linear decoder",
+      "label": "Method",
+      "sentence": "To test this idea, we stimulated RNN units with activity patterns aligned with the axes obtained from the linear decoder and the latent circuit model.",
+      "paper_location": "Results; Page 9"
+    },
+    {
+      "entity": "latent circuit model",
+      "label": "ComputationalModel",
+      "sentence": "To test this idea, we stimulated RNN units with activity patterns aligned with the axes obtained from the linear decoder and the latent circuit model.",
+      "paper_location": "Results; Page 9"
+    },
+    {
+      "entity": "psychometric functions",
+      "label": "Measurement",
+      "sentence": "If the corresponding activity patterns are behaviorally relevant, we expect the stimulation to have a substantial effect on psychometric functions.",
+      "paper_location": "Results; Page 9"
+    },
+    {
+      "entity": "RNN activity",
+      "label": "Measurement",
+      "sentence": "As expected, driving RNN activity along the motion axis of the latent circuit model shifted the decision boundary on motion context trials (Fig. 7d).",
+      "paper_location": "Results; Page 9"
+    },
+    {
+      "entity": "motion axis",
+      "label": "ComputationalVariable",
+      "sentence": "As expected, driving RNN activity along the motion axis of the latent circuit model shifted the decision boundary on motion context trials (Fig. 7d).",
+      "paper_location": "Results; Page 9"
+    },
+    {
+      "entity": "latent circuit model",
+      "label": "ComputationalModel",
+      "sentence": "As expected, driving RNN activity along the motion axis of the latent circuit model shifted the decision boundary on motion context trials (Fig. 7d).",
+      "paper_location": "Results; Page 9"
+    },
+    {
+      "entity": "decoder axis",
+      "label": "ComputationalVariable",
+      "sentence": "By contrast, stimulation of the same magnitude along the decoder axis had little effect on the psychometric function (Fig. 7c).",
+      "paper_location": "Results; Page 9"
+    },
+    {
+      "entity": "psychometric function",
+      "label": "Measurement",
+      "sentence": "By contrast, stimulation of the same magnitude along the decoder axis had little effect on the psychometric function (Fig. 7c).",
+      "paper_location": "Results; Page 9"
+    },
+    {
+      "entity": "context-dependent decision-making",
+      "label": "BehavioralAssay",
+      "sentence": "For context-dependent decision-making, we conclude that the dynamics revealed by the decoder have little behavioral relevance and thus do not invalidate the inhibitory mechanism identified by the latent circuit model.",
+      "paper_location": "Results; Page 9"
+    },
+    {
+      "entity": "latent circuit model",
+      "label": "ComputationalModel",
+      "sentence": "For context-dependent decision-making, we conclude that the dynamics revealed by the decoder have little behavioral relevance and thus do not invalidate the inhibitory mechanism identified by the latent circuit model.",
+      "paper_location": "Results; Page 9"
+    },
+    {
+      "entity": "Single neurons",
+      "label": "CellType",
+      "sentence": "Single neurons in higher cortical areas show complex heterogeneous responses during cognitive tasks, posing a challenge for identifying mechanisms of cognitive functions.",
+      "paper_location": "Discussion; Page 9"
+    },
+    {
+      "entity": "higher cortical areas",
+      "label": "BrainRegion",
+      "sentence": "Single neurons in higher cortical areas show complex heterogeneous responses during cognitive tasks, posing a challenge for identifying mechanisms of cognitive functions.",
+      "paper_location": "Discussion; Page 9"
+    },
+    {
+      "entity": "cognitive functions",
+      "label": "Phenomenon",
+      "sentence": "Single neurons in higher cortical areas show complex heterogeneous responses during cognitive tasks, posing a challenge for identifying mechanisms of cognitive functions.",
+      "paper_location": "Discussion; Page 9"
+    },
+    {
+      "entity": "latent circuit model",
+      "label": "ComputationalModel",
+      "sentence": "Our latent circuit model accounts for single-neuron heterogeneity via dimensionality reduction that incorporates low-dimensional circuit dynamics in its latent variables.",
+      "paper_location": "Discussion; Page 9"
+    },
+    {
+      "entity": "single-neuron heterogeneity",
+      "label": "Measurement",
+      "sentence": "Our latent circuit model accounts for single-neuron heterogeneity via dimensionality reduction that incorporates low-dimensional circuit dynamics in its latent variables.",
+      "paper_location": "Discussion; Page 9"
+    },
+    {
+      "entity": "dimensionality reduction",
+      "label": "Method",
+      "sentence": "Our latent circuit model accounts for single-neuron heterogeneity via dimensionality reduction that incorporates low-dimensional circuit dynamics in its latent variables.",
+      "paper_location": "Discussion; Page 9"
+    },
+    {
+      "entity": "latent variables",
+      "label": "ComputationalVariable",
+      "sentence": "Our latent circuit model accounts for single-neuron heterogeneity via dimensionality reduction that incorporates low-dimensional circuit dynamics in its latent variables.",
+      "paper_location": "Discussion; Page 9"
+    },
+    {
+      "entity": "neural response data",
+      "label": "Measurement",
+      "sentence": "We show that low-dimensional circuit mechanisms can explain task-relevant dynamics in high-dimensional networks and establish feasibility of inferring these mechanisms from neural response data.",
+      "paper_location": "Discussion; Page 9"
+    },
+    {
+      "entity": "RNNs",
+      "label": "ComputationalModel",
+      "sentence": "Our theory for interpreting the latent circuit connectivity as a low-rank connectivity in RNNs enables causally validating low-dimensional circuit mechanisms via activity and connectivity perturbations in high-dimensional networks.",
+      "paper_location": "Discussion; Page 9"
+    },
+    {
+      "entity": "latent circuit connectivity",
+      "label": "NeuralConnectivity",
+      "sentence": "Our theory for interpreting the latent circuit connectivity as a low-rank connectivity in RNNs enables causally validating low-dimensional circuit mechanisms via activity and connectivity perturbations in high-dimensional networks.",
+      "paper_location": "Discussion; Page 9"
+    },
+    {
+      "entity": "latent circuit inference",
+      "label": "Method",
+      "sentence": "The latent circuit inference can be broadly applied to identify circuit mechanisms for different cognitive tasks from neural response data (Supplementary Fig. 7) and opens new possibilities for causally testing these mechanisms in future experiments.",
+      "paper_location": "Discussion; Page 9"
+    },
+    {
+      "entity": "neural response data",
+      "label": "Measurement",
+      "sentence": "The latent circuit inference can be broadly applied to identify circuit mechanisms for different cognitive tasks from neural response data (Supplementary Fig. 7) and opens new possibilities for causally testing these mechanisms in future experiments.",
+      "paper_location": "Discussion; Page 9"
+    },
+    {
+      "entity": "latent dynamical systems",
+      "label": "ComputationalModel",
+      "sentence": "Although previous studies extensively modeled neural responses using various latent dynamical systems, our work demonstrates feasibility of fitting neural responses with low-dimensional recurrent circuits.",
+      "paper_location": "Discussion; Page 9"
+    },
+    {
+      "entity": "neural responses",
+      "label": "Measurement",
+      "sentence": "Although previous studies extensively modeled neural responses using various latent dynamical systems, our work demonstrates feasibility of fitting neural responses with low-dimensional recurrent circuits.",
+      "paper_location": "Discussion; Page 9"
+    },
+    {
+      "entity": "low-dimensional recurrent circuits",
+      "label": "NeuralCircuit",
+      "sentence": "Although previous studies extensively modeled neural responses using various latent dynamical systems, our work demonstrates feasibility of fitting neural responses with low-dimensional recurrent circuits.",
+      "paper_location": "Discussion; Page 9"
+    },
+    {
+      "entity": "neural data",
+      "label": "Measurement",
+      "sentence": "Most methods fitting low-dimensional dynamical systems to neural data do not explicitly model task inputs and behavior and do not ground the inferred dynamics in the underlying network connectivity32,33,40,52,53.",
+      "paper_location": "Discussion; Page 9"
+    },
+    {
+      "entity": "RNN architectures",
+      "label": "ComputationalModel",
+      "sentence": "On the other hand, high-dimensional RNN architectures serve as intermediate mechanistic models of neural responses, which generate latent dynamics from high-dimensional recurrent connectivity25–29.",
+      "paper_location": "Discussion; Page 9"
+    },
+    {
+      "entity": "neural responses",
+      "label": "Measurement",
+      "sentence": "On the other hand, high-dimensional RNN architectures serve as intermediate mechanistic models of neural responses, which generate latent dynamics from high-dimensional recurrent connectivity25–29.",
+      "paper_location": "Discussion; Page 9"
+    },
+    {
+      "entity": "latent dynamics",
+      "label": "DynamicalSystemFeature",
+      "sentence": "On the other hand, high-dimensional RNN architectures serve as intermediate mechanistic models of neural responses, which generate latent dynamics from high-dimensional recurrent connectivity25–29.",
+      "paper_location": "Discussion; Page 9"
+    },
+    {
+      "entity": "single-trial neural activity",
+      "label": "Measurement",
+      "sentence": "Our results motivate future work incorporating low-dimensional recurrent circuits as latent dynamics generators within these model architectures, which will enable combining their ability of fitting single-trial neural activity26,29 with the uniqueness and interpretability furnished by the latent circuit model.",
+      "paper_location": "Discussion; Page 9"
+    },
+    {
+      "entity": "neural circuit models",
+      "label": "ComputationalModel",
+      "sentence": "By relating connectivity to neural dynamics and behavior, the latent circuit model extends the causal predictive power of classical neural circuit models to the study of mechanisms of cognitive functions in high-dimensional networks.",
+      "paper_location": "Discussion; Page 9"
+    },
+    {
+      "entity": "neural dynamics",
+      "label": "Phenomenon",
+      "sentence": "By relating connectivity to neural dynamics and behavior, the latent circuit model extends the causal predictive power of classical neural circuit models to the study of mechanisms of cognitive functions in high-dimensional networks.",
+      "paper_location": "Discussion; Page 9"
+    },
+    {
+      "entity": "RNNs",
+      "label": "ComputationalModel",
+      "sentence": "Although dynamical mechanisms have been studied in RNNs by linearizing the RNN flow field around fixed points19,31, these dynamical mechanisms do not specify how a particular fixed-point configuration arises from the RNN connectivity.",
+      "paper_location": "Discussion; Page 9"
+    },
+    {
+      "entity": "fixed points",
+      "label": "DynamicalSystemFeature",
+      "sentence": "Although dynamical mechanisms have been studied in RNNs by linearizing the RNN flow field around fixed points19,31, these dynamical mechanisms do not specify how a particular fixed-point configuration arises from the RNN connectivity.",
+      "paper_location": "Discussion; Page 9"
+    },
+    {
+      "entity": "RNN connectivity",
+      "label": "NeuralConnectivity",
+      "sentence": "Although dynamical mechanisms have been studied in RNNs by linearizing the RNN flow field around fixed points19,31, these dynamical mechanisms do not specify how a particular fixed-point configuration arises from the RNN connectivity.",
+      "paper_location": "Discussion; Page 9"
+    },
+    {
+      "entity": "PFC",
+      "label": "BrainRegion",
+      "sentence": "We found that RNNs trained on a context-dependent decision-making task use a suppression mechanism in which context nodes inhibit irrelevant sensory nodes.",
+      "paper_location": "Discussion; Page 10"
+    },
+    {
+      "entity": "RNNs",
+      "label": "ComputationalModel",
+      "sentence": "We found that RNNs trained on a context-dependent decision-making task use a suppression mechanism in which context nodes inhibit irrelevant sensory nodes.",
+      "paper_location": "Discussion; Page 10"
+    },
+    {
+      "entity": "context-dependent decision-making task",
+      "label": "BehavioralAssay",
+      "sentence": "We found that RNNs trained on a context-dependent decision-making task use a suppression mechanism in which context nodes inhibit irrelevant sensory nodes.",
+      "paper_location": "Discussion; Page 10"
+    },
+    {
+      "entity": "suppression mechanism",
+      "label": "Phenomenon",
+      "sentence": "We found that RNNs trained on a context-dependent decision-making task use a suppression mechanism in which context nodes inhibit irrelevant sensory nodes.",
+      "paper_location": "Discussion; Page 10"
+    },
+    {
+      "entity": "context nodes",
+      "label": "ComputationalVariable",
+      "sentence": "We found that RNNs trained on a context-dependent decision-making task use a suppression mechanism in which context nodes inhibit irrelevant sensory nodes.",
+      "paper_location": "Discussion; Page 10"
+    },
+    {
+      "entity": "sensory nodes",
+      "label": "ComputationalVariable",
+      "sentence": "We found that RNNs trained on a context-dependent decision-making task use a suppression mechanism in which context nodes inhibit irrelevant sensory nodes.",
+      "paper_location": "Discussion; Page 10"
+    },
+    {
+      "entity": "PFC",
+      "label": "BrainRegion",
+      "sentence": "The inhibitory suppression mechanism revealed by the latent circuit model is qualitatively similar to previous neural circuit models of how PFC flexibly switches between alternative stimulus–response mappings8–10,44,45.",
+      "paper_location": "Discussion; Page 10"
+    },
+    {
+      "entity": "inhibitory suppression mechanism",
+      "label": "Phenomenon",
+      "sentence": "The inhibitory suppression mechanism revealed by the latent circuit model is qualitatively similar to previous neural circuit models of how PFC flexibly switches between alternative stimulus–response mappings8–10,44,45.",
+      "paper_location": "Discussion; Page 10"
+    },
+    {
+      "entity": "neural circuit models",
+      "label": "ComputationalModel",
+      "sentence": "The inhibitory suppression mechanism revealed by the latent circuit model is qualitatively similar to previous neural circuit models of how PFC flexibly switches between alternative stimulus–response mappings8–10,44,45.",
+      "paper_location": "Discussion; Page 10"
+    },
+    {
+      "entity": "stimulus–response mappings",
+      "label": "TaskParadigm",
+      "sentence": "The inhibitory suppression mechanism revealed by the latent circuit model is qualitatively similar to previous neural circuit models of how PFC flexibly switches between alternative stimulus–response mappings8–10,44,45.",
+      "paper_location": "Discussion; Page 10"
+    },
+    {
+      "entity": "single neurons",
+      "label": "CellType",
+      "sentence": "Thus, RNNs do not find qualitatively distinct solutions to this task, and complex selectivity of single neurons has a simple explanation as a linear mixing of the low-dimensional latent inhibitory circuit mechanism.",
+      "paper_location": "Discussion; Page 10"
+    },
+    {
+      "entity": "RNNs",
+      "label": "ComputationalModel",
+      "sentence": "Thus, RNNs do not find qualitatively distinct solutions to this task, and complex selectivity of single neurons has a simple explanation as a linear mixing of the low-dimensional latent inhibitory circuit mechanism.",
+      "paper_location": "Discussion; Page 10"
+    },
+    {
+      "entity": "PFC responses",
+      "label": "Measurement",
+      "sentence": "The latent circuit model revealed a suppression of irrelevant sensory representations in PFC responses of monkeys performing a context-dependent decision-making task.",
+      "paper_location": "Discussion; Page 10"
+    },
+    {
+      "entity": "PFC",
+      "label": "BrainRegion",
+      "sentence": "The latent circuit model revealed a suppression of irrelevant sensory representations in PFC responses of monkeys performing a context-dependent decision-making task.",
+      "paper_location": "Discussion; Page 10"
+    },
+    {
+      "entity": "monkeys",
+      "label": "Species",
+      "sentence": "The latent circuit model revealed a suppression of irrelevant sensory representations in PFC responses of monkeys performing a context-dependent decision-making task.",
+      "paper_location": "Discussion; Page 10"
+    },
+    {
+      "entity": "context-dependent decision-making task",
+      "label": "BehavioralAssay",
+      "sentence": "The latent circuit model revealed a suppression of irrelevant sensory representations in PFC responses of monkeys performing a context-dependent decision-making task.",
+      "paper_location": "Discussion; Page 10"
+    },
+    {
+      "entity": "correlation-based dimensionality reduction methods",
+      "label": "Method",
+      "sentence": "By contrast, correlation-based dimensionality reduction methods found no significant suppression of irrelevant stimuli in the same data19,21.",
+      "paper_location": "Discussion; Page 10"
+    },
+    {
+      "entity": "RNNs",
+      "label": "ComputationalModel",
+      "sentence": "We show that representations of irrelevant stimuli also exist in RNNs that provably implement an inhibitory suppression mechanism, but these representations do not causally drive choices.",
+      "paper_location": "Discussion; Page 10"
+    },
+    {
+      "entity": "inhibitory suppression mechanism",
+      "label": "Phenomenon",
+      "sentence": "We show that representations of irrelevant stimuli also exist in RNNs that provably implement an inhibitory suppression mechanism, but these representations do not causally drive choices.",
+      "paper_location": "Discussion; Page 10"
+    },
+    {
+      "entity": "PFC",
+      "label": "BrainRegion",
+      "sentence": "Thus, inhibitory mechanisms for cognitive flexibility are compatible with the existence of irrelevant stimulus representations in the PFC.",
+      "paper_location": "Discussion; Page 10"
+    },
+    {
+      "entity": "cognitive flexibility",
+      "label": "Phenomenon",
+      "sentence": "Thus, inhibitory mechanisms for cognitive flexibility are compatible with the existence of irrelevant stimulus representations in the PFC.",
+      "paper_location": "Discussion; Page 10"
+    },
+    {
+      "entity": "latent circuit model",
+      "label": "ComputationalModel",
+      "sentence": "The latent circuit model opens a route for interpreting circuit mechanisms in high-dimensional networks.",
+      "paper_location": "Discussion; Page 10"
+    },
+    {
+      "entity": "low-rank connectivity",
+      "label": "NeuralConnectivity",
+      "sentence": "Whereas low-dimensional data do not uniquely constrain the full high-dimensional connectivity in RNNs, we show that we can uniquely recover the latent low-rank connectivity within a high-dimensional network, which therefore can be reliably interpreted.",
+      "paper_location": "Discussion; Page 10"
+    },
+    {
+      "entity": "RNNs",
+      "label": "ComputationalModel",
+      "sentence": "Whereas low-dimensional data do not uniquely constrain the full high-dimensional connectivity in RNNs, we show that we can uniquely recover the latent low-rank connectivity within a high-dimensional network, which therefore can be reliably interpreted.",
+      "paper_location": "Discussion; Page 10"
+    },
+    {
+      "entity": "stomatogastric nervous system",
+      "label": "NervousSystemPart",
+      "sentence": "Marder, E. & Bucher, D. Understanding circuit dynamics using the stomatogastric nervous system of lobsters and crabs.",
+      "paper_location": "References; Page 11"
+    },
+    {
+      "entity": "lobsters",
+      "label": "Species",
+      "sentence": "Marder, E. & Bucher, D. Understanding circuit dynamics using the stomatogastric nervous system of lobsters and crabs.",
+      "paper_location": "References; Page 11"
+    },
+    {
+      "entity": "crabs",
+      "label": "Species",
+      "sentence": "Marder, E. & Bucher, D. Understanding circuit dynamics using the stomatogastric nervous system of lobsters and crabs.",
+      "paper_location": "References; Page 11"
+    },
+    {
+      "entity": "whisking oscillator circuit",
+      "label": "NeuralCircuit",
+      "sentence": "Takatoh, J. et al. The whisking oscillator circuit.",
+      "paper_location": "References; Page 11"
+    },
+    {
+      "entity": "mice",
+      "label": "Species",
+      "sentence": "Schaeffer, R., Khona, M., Meshulam, L., Brain Laboratory International & Fiete, I. Reverse-engineering recurrent neural network solutions to a hierarchical inference task for mice.",
+      "paper_location": "References; Page 11"
+    },
+    {
+      "entity": "schizophrenia",
+      "label": "Disease",
+      "sentence": "Murray, J. D. et al. Linking microcircuit dysfunction to cognitive impairment: effects of disinhibition associated with schizophrenia in a cortical working memory model.",
+      "paper_location": "References; Page 10"
+    },
+    {
+      "entity": "microcircuit dysfunction",
+      "label": "Phenotype",
+      "sentence": "Murray, J. D. et al. Linking microcircuit dysfunction to cognitive impairment: effects of disinhibition associated with schizophrenia in a cortical working memory model.",
+      "paper_location": "References; Page 10"
+    },
+    {
+      "entity": "cognitive impairment",
+      "label": "Phenotype",
+      "sentence": "Murray, J. D. et al. Linking microcircuit dysfunction to cognitive impairment: effects of disinhibition associated with schizophrenia in a cortical working memory model.",
+      "paper_location": "References; Page 10"
+    },
+    {
+      "entity": "disinhibition",
+      "label": "Phenomenon",
+      "sentence": "Murray, J. D. et al. Linking microcircuit dysfunction to cognitive impairment: effects of disinhibition associated with schizophrenia in a cortical working memory model.",
+      "paper_location": "References; Page 10"
+    },
+    {
+      "entity": "cortical working memory model",
+      "label": "ComputationalModel",
+      "sentence": "Murray, J. D. et al. Linking microcircuit dysfunction to cognitive impairment: effects of disinhibition associated with schizophrenia in a cortical working memory model.",
+      "paper_location": "References; Page 10"
+    },
+    {
+      "entity": "frontal cortex",
+      "label": "BrainRegion",
+      "sentence": "Inagaki, H. K., Fontolan, L., Romani, S. & Svoboda, K. Discrete attractor dynamics underlies persistent activity in the frontal cortex.",
+      "paper_location": "References; Page 10"
+    },
+    {
+      "entity": "persistent activity",
+      "label": "Phenomenon",
+      "sentence": "Inagaki, H. K., Fontolan, L., Romani, S. & Svoboda, K. Discrete attractor dynamics underlies persistent activity in the frontal cortex.",
+      "paper_location": "References; Page 10"
+    },
+    {
+      "entity": "discrete attractor dynamics",
+      "label": "DynamicalSystemFeature",
+      "sentence": "Inagaki, H. K., Fontolan, L., Romani, S. & Svoboda, K. Discrete attractor dynamics underlies persistent activity in the frontal cortex.",
+      "paper_location": "References; Page 10"
+    },
+    {
+      "entity": "prefrontal cortex",
+      "label": "BrainRegion",
+      "sentence": "Cromer, J. A., Roy, J. E. & Miller, E. K. Representation of multiple, independent categories in the primate prefrontal cortex.",
+      "paper_location": "References; Page 10"
+    },
+    {
+      "entity": "primate",
+      "label": "Species",
+      "sentence": "Cromer, J. A., Roy, J. E. & Miller, E. K. Representation of multiple, independent categories in the primate prefrontal cortex.",
+      "paper_location": "References; Page 10"
+    },
+    {
+      "entity": "mixed selectivity",
+      "label": "Phenomenon",
+      "sentence": "Rigotti, M. et al. The importance of mixed selectivity in complex cognitive tasks.",
+      "paper_location": "References; Page 10"
+    },
+    {
+      "entity": "prefrontal cortex",
+      "label": "BrainRegion",
+      "sentence": "Mante, V., Sussillo, D., Shenoy, K. V. & Newsome, W. T. Context-dependent computation by recurrent dynamics in prefrontal cortex.",
+      "paper_location": "References; Page 10"
+    },
+    {
+      "entity": "recurrent dynamics",
+      "label": "DynamicalSystemFeature",
+      "sentence": "Mante, V., Sussillo, D., Shenoy, K. V. & Newsome, W. T. Context-dependent computation by recurrent dynamics in prefrontal cortex.",
+      "paper_location": "References; Page 10"
+    },
+    {
+      "entity": "neural population",
+      "label": "CellType",
+      "sentence": "Raposo, D., Kaufman, M. T. & Churchland, A. K. A category-free neural population supports evolving demands during decision-making.",
+      "paper_location": "References; Page 10"
+    },
+    {
+      "entity": "prefrontal cortex",
+      "label": "BrainRegion",
+      "sentence": "Aoi, M. C., Mante, V. & Pillow, J. W. Prefrontal cortex exhibits multidimensional dynamic encoding during decision-making.",
+      "paper_location": "References; Page 10"
+    },
+    {
+      "entity": "latent circuit model",
+      "label": "ComputationalModel",
+      "sentence": "We fit the latent circuit model Eqs. (1)–(3) to neural response data y by minimizing the mean squared error loss function, L = ∑k∑t∥ ytk − Qxtk∥2+ ∥ ztk − woutxtk∥2, (7) using custom Python code59.",
+      "paper_location": "Methods; Page 12"
+    },
+    {
+      "entity": "neural response data",
+      "label": "Measurement",
+      "sentence": "We fit the latent circuit model Eqs. (1)–(3) to neural response data y by minimizing the mean squared error loss function, L = ∑k∑t∥ ytk − Qxtk∥2+ ∥ ztk − woutxtk∥2, (7) using custom Python code59.",
+      "paper_location": "Methods; Page 12"
+    },
+    {
+      "entity": "mean squared error loss function",
+      "label": "StatisticalMethod",
+      "sentence": "We fit the latent circuit model Eqs. (1)–(3) to neural response data y by minimizing the mean squared error loss function, L = ∑k∑t∥ ytk − Qxtk∥2+ ∥ ztk − woutxtk∥2, (7) using custom Python code59.",
+      "paper_location": "Methods; Page 12"
+    },
+    {
+      "entity": "Python",
+      "label": "Software",
+      "sentence": "We fit the latent circuit model Eqs. (1)–(3) to neural response data y by minimizing the mean squared error loss function, L = ∑k∑t∥ ytk − Qxtk∥2+ ∥ ztk − woutxtk∥2, (7) using custom Python code59.",
+      "paper_location": "Methods; Page 12"
+    },
+    {
+      "entity": "nonlinear least squares optimization",
+      "label": "StatisticalMethod",
+      "sentence": "Because the variable x depends implicitly on the latent circuit parameters wrec and win, the minimization of L is a nonlinear least squares optimization problem60 in which we simultaneously search for a behaviorally relevant projection of the high-dimensional activity and a low-dimensional neural circuit that generates dynamics in this projection.",
+      "paper_location": "Methods; Page 12"
+    },
+    {
+      "entity": "Cayley transform",
+      "label": "MathematicalMethod",
+      "sentence": "To transform it into an unconstrained problem, we use the Cayley transform to parameterize orthonormal matrices by the linear space of skew symmetric matrices61, Q = (I + A)(I − A)−1πn, (8)",
+      "paper_location": "Methods; Page 12"
+    },
+    {
+      "entity": "PyTorch",
+      "label": "Software",
+      "sentence": "We perform this minimization using PyTorch and the Adam optimizer with default values 0.9 and 0.999 for the decay rate of the first and second moment estimates, respectively, a learning rate of 0.02 and a weight decay of 0.001.",
+      "paper_location": "Methods; Page 12"
+    },
+    {
+      "entity": "Adam optimizer",
+      "label": "Software",
+      "sentence": "We perform this minimization using PyTorch and the Adam optimizer with default values 0.9 and 0.999 for the decay rate of the first and second moment estimates, respectively, a learning rate of 0.02 and a weight decay of 0.001.",
+      "paper_location": "Methods; Page 12"
+    },
+    {
+      "entity": "Seaborn",
+      "label": "Software",
+      "sentence": "We used the Python software package Seaborn for visualizing model parameters and responses after training.",
+      "paper_location": "Methods; Page 12"
+    },
+    {
+      "entity": "Python",
+      "label": "Software",
+      "sentence": "We used the Python software package Seaborn for visualizing model parameters and responses after training.",
+      "paper_location": "Methods; Page 12"
+    },
+    {
+      "entity": "permutation test",
+      "label": "StatisticalTest",
+      "sentence": "To determine whether the inferred latent circuit connectivity significantly depends on neural response data beyond the constraints imposed by the task alone, we performed a permutation test (Extended Data Figs. 1, 7c and 8c), which proceeds in three steps.",
+      "paper_location": "Methods; Page 12"
+    },
+    {
+      "entity": "neural response data",
+      "label": "Measurement",
+      "sentence": "To determine whether the inferred latent circuit connectivity significantly depends on neural response data beyond the constraints imposed by the task alone, we performed a permutation test (Extended Data Figs. 1, 7c and 8c), which proceeds in three steps.",
+      "paper_location": "Methods; Page 12"
+    },
+    {
+      "entity": "Mann–Whitney U-test",
+      "label": "StatisticalTest",
+      "sentence": "Third, we use a Mann–Whitney U-test to determine whether the correlation coefficients are significantly smaller for models fitted to the shuffled responses than original neural responses.",
+      "paper_location": "Methods; Page 12"
+    },
+    {
+      "entity": "RNNs",
+      "label": "ComputationalModel",
+      "sentence": "We consider RNNs of the form τẏ= −y + [Wrec y + Winu]+.",
+      "paper_location": "Methods; Page 12"
+    },
+    {
+      "entity": "rectified linear",
+      "label": "ActivationFunction",
+      "sentence": "Here, [⋅]+ is a rectified linear (ReLU) activation function, τ is a time constant, and u are external task inputs.",
+      "paper_location": "Methods; Page 12"
+    },
+    {
+      "entity": "ReLU",
+      "label": "ActivationFunction",
+      "sentence": "Here, [⋅]+ is a rectified linear (ReLU) activation function, τ is a time constant, and u are external task inputs.",
+      "paper_location": "Methods; Page 12"
+    },
+    {
+      "entity": "Softplus",
+      "label": "ActivationFunction",
+      "sentence": "To test whether our results extend to networks with a different biologically plausible nonlinearity, we trained RNNs that had a Softplus activation function f(x) = gβ log(1 + eβx) for a range of parameter β and also with varying gain g across units.",
+      "paper_location": "Methods; Page 13"
+    },
+    {
+      "entity": "RNNs",
+      "label": "ComputationalModel",
+      "sentence": "To test whether our results extend to networks with a different biologically plausible nonlinearity, we trained RNNs that had a Softplus activation function f(x) = gβ log(1 + eβx) for a range of parameter β and also with varying gain g across units.",
+      "paper_location": "Methods; Page 13"
+    },
+    {
+      "entity": "RNN simulations",
+      "label": "Method",
+      "sentence": "RNN simulations",
+      "paper_location": "Methods; Page 13"
+    },
+    {
+      "entity": "time-discretized RNNs",
+      "label": "ComputationalModel",
+      "sentence": "We simulate dynamics of time-discretized RNNs using the general framework for modeling cognitive tasks22.",
+      "paper_location": "Methods; Page 13"
+    },
+    {
+      "entity": "recurrent units",
+      "label": "ComputationalUnit",
+      "sentence": "We consider RNNs with positive activity and N = 50 recurrent units.",
+      "paper_location": "Methods; Page 13"
+    },
+    {
+      "entity": "Euler scheme",
+      "label": "NumericalMethod",
+      "sentence": "We discretize the RNN dynamics Eq. (10) using the first-order Euler scheme with a time step Δt and add a noise term to obtain yt = (1 − α)yt−1 + α[Wrec yt−1 + Winut + √2ασrecξt]+.",
+      "paper_location": "Methods; Page 13"
+    },
+    {
+      "entity": "Dale’s law",
+      "label": "NeurobiologicalPrinciple",
+      "sentence": "The recurrent matrix is constrained to satisfy Dale’s law with 80% excitatory units and 20% inhibitory units.",
+      "paper_location": "Methods; Page 13"
+    },
+    {
+      "entity": "excitatory units",
+      "label": "ComputationalUnit",
+      "sentence": "The recurrent matrix is constrained to satisfy Dale’s law with 80% excitatory units and 20% inhibitory units.",
+      "paper_location": "Methods; Page 13"
+    },
+    {
+      "entity": "inhibitory units",
+      "label": "ComputationalUnit",
+      "sentence": "The recurrent matrix is constrained to satisfy Dale’s law with 80% excitatory units and 20% inhibitory units.",
+      "paper_location": "Methods; Page 13"
+    },
+    {
+      "entity": "Python",
+      "label": "Software",
+      "sentence": "The RNN simulation and training were implemented in Python using the software package PyTorch.",
+      "paper_location": "Methods; Page 13"
+    },
+    {
+      "entity": "PyTorch",
+      "label": "Software",
+      "sentence": "The RNN simulation and training were implemented in Python using the software package PyTorch.",
+      "paper_location": "Methods; Page 13"
+    },
+    {
+      "entity": "context-dependent decision-making task",
+      "label": "BehavioralAssay",
+      "sentence": "In the context-dependent decision-making task, at the beginning of each trial, a context cue briefly appears to indicate either the color or motion context for the current trial.",
+      "paper_location": "Methods; Page 13"
+    },
+    {
+      "entity": "context cue",
+      "label": "Stimulus",
+      "sentence": "In the context-dependent decision-making task, at the beginning of each trial, a context cue briefly appears to indicate either the color or motion context for the current trial.",
+      "paper_location": "Methods; Page 13"
+    },
+    {
+      "entity": "sensory stimulus",
+      "label": "Stimulus",
+      "sentence": "After a short delay, a sensory stimulus appears that consists of motion and color features.",
+      "paper_location": "Methods; Page 13"
+    },
+    {
+      "entity": "motion coherence",
+      "label": "Measurement",
+      "sentence": "The strength of motion and color stimuli varies from trial to trial as quantified by the motion and color coherence.",
+      "paper_location": "Methods; Page 13"
+    },
+    {
+      "entity": "color coherence",
+      "label": "Measurement",
+      "sentence": "The strength of motion and color stimuli varies from trial to trial as quantified by the motion and color coherence.",
+      "paper_location": "Methods; Page 13"
+    },
+    {
+      "entity": "context cues",
+      "label": "Stimulus",
+      "sentence": "To model the context-dependent decision-making task, the network receives six inputs u corresponding to two context cues (um: motion context; uc: color context) and sensory evidence streams for motion (um,L: motion left; um,R: motion right) and color (uc,R: color red; uc,G: color green).",
+      "paper_location": "Methods; Page 13"
+    },
+    {
+      "entity": "sensory evidence streams",
+      "label": "Stimulus",
+      "sentence": "To model the context-dependent decision-making task, the network receives six inputs u corresponding to two context cues (um: motion context; uc: color context) and sensory evidence streams for motion (um,L: motion left; um,R: motion right) and color (uc,R: color red; uc,G: color green).",
+      "paper_location": "Methods; Page 13"
+    },
+    {
+      "entity": "RNN training",
+      "label": "Method",
+      "sentence": "RNN training",
+      "paper_location": "Methods; Page 14"
+    },
+    {
+      "entity": "firing rates",
+      "label": "Measurement",
+      "sentence": "The first term is the task error, and the second term serves to regularize by penalizing the magnitude of the firing rates.",
+      "paper_location": "Methods; Page 14"
+    },
+    {
+      "entity": "Adam algorithm",
+      "label": "Software",
+      "sentence": "The training is performed with the Adam algorithm.",
+      "paper_location": "Methods; Page 14"
+    },
+    {
+      "entity": "Dale’s law",
+      "label": "NeurobiologicalPrinciple",
+      "sentence": "To implement Dale’s law, connections are clipped to 0 after each training step if they change sign.",
+      "paper_location": "Methods; Page 14"
+    },
+    {
+      "entity": "Linear decoding",
+      "label": "Method",
+      "sentence": "Linear decoding",
+      "paper_location": "Methods; Page 14"
+    },
+    {
+      "entity": "linear regression model",
+      "label": "StatisticalMethod",
+      "sentence": "To decode motion coherence from RNN responses, we fit a linear regression model c = βy + b, (27) where β ∈ ℝ1×N is the vector of regression coefficients, c ∈ ℝ1×K⋅T is the motion coherence on each trial, b ∈ ℝ is a bias term, and y ∈ ℝN×K⋅T is the RNN responses at each time step during the stimulus epoch of each trial.",
+      "paper_location": "Methods; Page 14"
+    },
+    {
+      "entity": "motion coherence",
+      "label": "Measurement",
+      "sentence": "To decode motion coherence from RNN responses, we fit a linear regression model c = βy + b, (27) where β ∈ ℝ1×N is the vector of regression coefficients, c ∈ ℝ1×K⋅T is the motion coherence on each trial, b ∈ ℝ is a bias term, and y ∈ ℝN×K⋅T is the RNN responses at each time step during the stimulus epoch of each trial.",
+      "paper_location": "Methods; Page 14"
+    },
+    {
+      "entity": "RNN responses",
+      "label": "Measurement",
+      "sentence": "To decode motion coherence from RNN responses, we fit a linear regression model c = βy + b, (27) where β ∈ ℝ1×N is the vector of regression coefficients, c ∈ ℝ1×K⋅T is the motion coherence on each trial, b ∈ ℝ is a bias term, and y ∈ ℝN×K⋅T is the RNN responses at each time step during the stimulus epoch of each trial.",
+      "paper_location": "Methods; Page 14"
+    },
+    {
+      "entity": "PFC",
+      "label": "BrainRegion",
+      "sentence": "We analyzed a publicly available dataset of neural activity recordings from the PFC (in and around the frontal eye field) from two monkeys performing a context-dependent decision-making task19.",
+      "paper_location": "Methods; Page 14"
+    },
+    {
+      "entity": "frontal eye field",
+      "label": "BrainRegion",
+      "sentence": "We analyzed a publicly available dataset of neural activity recordings from the PFC (in and around the frontal eye field) from two monkeys performing a context-dependent decision-making task19.",
+      "paper_location": "Methods; Page 14"
+    },
+    {
+      "entity": "neural activity recordings",
+      "label": "Method",
+      "sentence": "We analyzed a publicly available dataset of neural activity recordings from the PFC (in and around the frontal eye field) from two monkeys performing a context-dependent decision-making task19.",
+      "paper_location": "Methods; Page 14"
+    },
+    {
+      "entity": "monkeys",
+      "label": "Species",
+      "sentence": "We analyzed a publicly available dataset of neural activity recordings from the PFC (in and around the frontal eye field) from two monkeys performing a context-dependent decision-making task19.",
+      "paper_location": "Methods; Page 14"
+    },
+    {
+      "entity": "context-dependent decision-making task",
+      "label": "BehavioralAssay",
+      "sentence": "We analyzed a publicly available dataset of neural activity recordings from the PFC (in and around the frontal eye field) from two monkeys performing a context-dependent decision-making task19.",
+      "paper_location": "Methods; Page 14"
+    },
+    {
+      "entity": "PFC data",
+      "label": "Measurement",
+      "sentence": "We fitted latent circuit models to the PFC data following similar procedures as for RNNs.",
+      "paper_location": "Methods; Page 15"
+    },
+    {
+      "entity": "latent circuit models",
+      "label": "ComputationalModel",
+      "sentence": "We fitted latent circuit models to the PFC data following similar procedures as for RNNs.",
+      "paper_location": "Methods; Page 15"
+    },
+    {
+      "entity": "RNNs",
+      "label": "ComputationalModel",
+      "sentence": "We fitted latent circuit models to the PFC data following similar procedures as for RNNs.",
+      "paper_location": "Methods; Page 15"
+    },
+    {
+      "entity": "saccade",
+      "label": "Behavior",
+      "sentence": "Monkeys reported their choice with a saccade to one of two targets presented shortly after fixation for the entire trial duration.",
+      "paper_location": "Methods; Page 14"
+    },
+    {
+      "entity": "fixation",
+      "label": "Behavior",
+      "sentence": "Monkeys reported their choice with a saccade to one of two targets presented shortly after fixation for the entire trial duration.",
+      "paper_location": "Methods; Page 14"
+    },
+    {
+      "entity": "spikes",
+      "label": "Measurement",
+      "sentence": "For each trial, we computed time-varying firing rates by counting spikes in a 50-ms sliding square window (50-ms steps).",
+      "paper_location": "Methods; Page 15"
+    },
+    {
+      "entity": "firing rates",
+      "label": "Measurement",
+      "sentence": "For each trial, we computed time-varying firing rates by counting spikes in a 50-ms sliding square window (50-ms steps).",
+      "paper_location": "Methods; Page 15"
+    },
+    {
+      "entity": "Gaussian kernel",
+      "label": "StatisticalMethod",
+      "sentence": "Within the training and test sets, we z scored and smoothed (Gaussian kernel, σ = 40 ms) the response of each unit.",
+      "paper_location": "Methods; Page 15"
+    },
+    {
+      "entity": "principal components",
+      "label": "Method",
+      "sentence": "Last, to denoise these trajectories, we projected them onto the principal components explaining 50% of their total variance (corresponding to the first 40 and 31 principal components for monkeys A and F, respectively).",
+      "paper_location": "Methods; Page 15"
+    },
+    {
+      "entity": "National Institutes of Health",
+      "label": "Organization",
+      "sentence": "This work was supported by National Institutes of Health grants RF1DA055666 and S10OD028632-01 (T.A.E.), the Alfred P. Sloan Foundation Research Fellowship (T.A.E.) and the Swartz Foundation Postdoctoral Fellowship (C.L.).",
+      "paper_location": "Acknowledgements; Page 15"
+    },
+    {
+      "entity": "PyTorch",
+      "label": "Software",
+      "sentence": "Recurrent neural networks were trained using PyTorch (version 2.4).",
+      "paper_location": "Reporting Summary; Page 27"
+    },
+    {
+      "entity": "Seaborn",
+      "label": "Software",
+      "sentence": "Plots were generated with Python (version 3.8) and Seaborn (version 0.9.0).",
+      "paper_location": "Reporting Summary; Page 27"
+    },
+    {
+      "entity": "Python",
+      "label": "Software",
+      "sentence": "Plots were generated with Python (version 3.8) and Seaborn (version 0.9.0).",
+      "paper_location": "Reporting Summary; Page 27"
+    },
+    {
+      "entity": "Plexon",
+      "label": "Instrument",
+      "sentence": "Data were recorded using the MAP data-acquisition system (Plexon Inc., Dallas, TX).",
+      "paper_location": "Reporting Summary; Page 27"
+    },
+    {
+      "entity": "MAP data-acquisition system",
+      "label": "Instrument",
+      "sentence": "Data were recorded using the MAP data-acquisition system (Plexon Inc., Dallas, TX).",
+      "paper_location": "Reporting Summary; Page 27"
+    },
+    {
+      "entity": "principal component analysis",
+      "label": "Method",
+      "sentence": "Spike sorting was conducted by clustering based on principal component analysis using the Plexon offline sorter (Plexon Inc., Dallas, TX).",
+      "paper_location": "Reporting Summary; Page 27"
+    },
+    {
+      "entity": "Plexon offline sorter",
+      "label": "Software",
+      "sentence": "Spike sorting was conducted by clustering based on principal component analysis using the Plexon offline sorter (Plexon Inc., Dallas, TX).",
+      "paper_location": "Reporting Summary; Page 27"
+    },
+    {
+      "entity": "Spike sorting",
+      "label": "Method",
+      "sentence": "Spike sorting was conducted by clustering based on principal component analysis using the Plexon offline sorter (Plexon Inc., Dallas, TX).",
+      "paper_location": "Reporting Summary; Page 27"
+    },
+    {
+      "entity": "macaque monkeys",
+      "label": "Species",
+      "sentence": "Findings were successfully replicated in two macaque monkeys.",
+      "paper_location": "Reporting Summary; Page 28"
+    },
+    {
+      "entity": "adult males",
+      "label": "Species",
+      "sentence": "The animals were adult males, ages 13 (monkey A) and 8 (monkey F) years old at the time the experiments were conducted.",
+      "paper_location": "Reporting Summary; Page 29"
+    },
+    {
+      "entity": "National Institutes of Health",
+      "label": "Organization",
+      "sentence": "All surgical and behavioral procedures conformed to the guidelines established by the National Institutes of Health and were approved by the Institutional Animal Care and Use Committee of Stanford University.",
+      "paper_location": "Reporting Summary; Page 29"
+    }
+  ],
+  "key_terms": [
+    {
+      "term": "latent circuit inference",
+      "sentence": "We apply the latent circuit inference to recurrent neural networks trained to perform a context-dependent decision-making task and find a suppression mechanism in which contextual representations inhibit irrelevant sensory responses.",
+      "paper_location": "Page 1"
+    },
+    {
+      "term": "context-dependent decision-making task",
+      "sentence": "We apply the latent circuit inference to recurrent neural networks trained to perform a context-dependent decision-making task and find a suppression mechanism in which contextual representations inhibit irrelevant sensory responses.",
+      "paper_location": "Page 1"
+    },
+    {
+      "term": "patterned connectivity perturbations",
+      "sentence": "We validate this mechanism by confirming the behavioral effects of patterned connectivity perturbations predicted by the latent circuit model.",
+      "paper_location": "Page 1"
+    },
+    {
+      "term": "causal interactions among task variables",
+      "sentence": "We show that incorporating causal interactions among task variables is critical for identifying behaviorally relevant computations from neural response data.",
+      "paper_location": "Page 1"
+    },
+    {
+      "term": "hand-crafted neural circuit models",
+      "sentence": "Traditionally, hand-crafted neural circuit models were used to pose specific mechanistic hypotheses about how excitation and inhibition between a few neural populations representing task variables control the flow of information from input to behavioral output1–11.",
+      "paper_location": "Page 1"
+    },
+    {
+      "term": "mixed selectivity",
+      "sentence": "RNNs mimic the heterogeneity and mixed selectivity of neural responses in the cortex during cognitive tasks while providing full access to each unit’s activity, network connectivity and behavioral outcomes.",
+      "paper_location": "Page 3"
+    },
+    {
+      "term": "correlation-based dimensionality reduction methods",
+      "sentence": "The glaring gap between circuit mechanisms and correlation-based dimensionality reduction methods is apparent in studies of the PFC’s role in context-dependent decision-making.",
+      "paper_location": "Page 2"
+    },
+    {
+      "term": "stimulus–response mappings",
+      "sentence": "Context-dependent decision-making requires flexible trial-by-trial switching between alternative stimulus–response mappings.",
+      "paper_location": "Page 2"
+    },
+    {
+      "term": "low-dimensional circuit mechanism",
+      "sentence": "Our model fits neural responses with dynamics generated by a low-dimensional latent circuit, thereby directly testing the hypothesis that heterogeneous neural responses arise from a low-dimensional circuit mechanism.",
+      "paper_location": "Page 2"
+    },
+    {
+      "term": "behaviorally irrelevant representations",
+      "sentence": "Using RNN perturbations, we show that dimensionality reduction methods that do not incorporate causal interactions among latent variables are biased toward uncovering behaviorally irrelevant representations.",
+      "paper_location": "Page 2"
+    },
+    {
+      "term": "orthonormal embedding matrix",
+      "sentence": "Similar to other dimensionality reduction methods, we model high-dimensional neural responses y ∈ ℝN (N is the number of neurons) during a cognitive task using low-dimensional latent variables x ∈ ℝn as y = Qx, (1) where Q ∈ ℝN×n is an orthonormal embedding matrix and n ≪ N.",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "term": "rectified linear (ReLU) activation function",
+      "sentence": "The latent variables x are constrained to be nodes in a neural circuit with dynamics ẋ= −x + f(wrecx + winu), (2) where f is a rectified linear (ReLU) activation function.",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "term": "low-dimensional subspace",
+      "sentence": "The latent circuit model captures task-related neural activity in the low-dimensional subspace spanned by the columns of Q, with dynamics within this subspace generated by the neural circuit Eq. (2).",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "term": "orthonormality constraint",
+      "sentence": "The orthonormality constraint on Q implies that the projection defined by the transpose matrix QT is a dimensionality reduction in which projection onto the ith column of Q correlates with the activity of the ith node in the latent circuit.",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "term": "low-rank structure",
+      "sentence": "The relation Eq. (5) shows that the latent circuit connectivity wrec is a low-rank structure in the connectivity of a high-dimensional network, which captures interactions among the latent variables defined by the columns of Q.",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "term": "invariant subspace",
+      "sentence": "Rather, it is a weaker condition that the linear subspace defined by Q is an invariant subspace of the high-dimensional recurrent connectivity matrix.",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "term": "rank-one perturbation",
+      "sentence": "Specifically, a change in the connection δij between nodes i and j in the latent circuit maps onto a rank-one perturbation of the RNN connectivity matrix (Fig. 1e and Methods), δij → qiqTj, (6) where qi is the ith column of Q.",
+      "paper_location": "Results; Page 3"
+    },
+    {
+      "term": "color context",
+      "sentence": "In the color context, the choice should be made according to the color and ignoring the motion stimulus and vice versa in the motion context.",
+      "paper_location": "Figure 2; Page 4"
+    },
+    {
+      "term": "motion context",
+      "sentence": "In the color context, the choice should be made according to the color and ignoring the motion stimulus and vice versa in the motion context.",
+      "paper_location": "Figure 2; Page 4"
+    },
+    {
+      "term": "psychometric functions",
+      "sentence": "Psychometric functions show that the RNN successfully learns the task; it responds to relevant stimuli and ignores irrelevant stimuli in each context.",
+      "paper_location": "Figure 2; Page 4"
+    },
+    {
+      "term": "task variables",
+      "sentence": "The latent circuit model consisted of eight nodes corresponding to task variables: two context nodes, two sensory color nodes, two sensory motion nodes and two choice nodes.",
+      "paper_location": "Results; Page 4"
+    },
+    {
+      "term": "inhibition of irrelevant representations",
+      "sentence": "This suppression mechanism based on inhibition of irrelevant representations is qualitatively similar to mechanisms for context-dependent decision-making hypothesized in previous hand-crafted neural circuit models8,9.",
+      "paper_location": "Results; Page 4"
+    },
+    {
+      "term": "suppression of irrelevant sensory representations",
+      "sentence": "The suppression of irrelevant sensory representations in RNN activity is consistent with the inhibitory mechanism revealed in the latent circuit connectivity wrec.",
+      "paper_location": "Results; Page 5"
+    },
+    {
+      "term": "latent circuit solutions",
+      "sentence": "To visualize the space of latent circuit solutions, we applied a principal component analysis to the flattened connectivity matrices wrec and projected the data onto the first two principal components, which accounted for 42% of total variance (Fig. 5a).",
+      "paper_location": "Results; Page 6"
+    },
+    {
+      "term": "solution clusters",
+      "sentence": "The latent circuit solutions from all RNNs formed three major clusters.",
+      "paper_location": "Results; Page 6"
+    },
+    {
+      "term": "inhibitory mechanism",
+      "sentence": "Although the circuit solutions in two of the clusters exploit asymmetries in the representations of sensory evidence, they still operate by an inhibitory mechanism in which irrelevant responses are suppressed (Extended Data Fig. 3).",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "term": "dynamical selection vector mechanism",
+      "sentence": "We analyzed dynamics in our RNNs and found the same selection vector mechanism (Extended Data Fig. 4), indicating that the dynamical selection vector mechanism is a local linear description of the inhibitory circuit mechanism.",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "term": "task subspace",
+      "sentence": "The task subspace Q explained a smaller fraction of total variance in the PFC responses (11.0% and 7.0% for monkeys A and F, respectively) than in RNNs (Supplementary Fig. 2), which is comparable to previous reports of task-relevant variance in the PFC42 and reflects the high dimensionality of PFC activity19.",
+      "paper_location": "Results; Page 7"
+    },
+    {
+      "term": "error trials",
+      "sentence": "Although we cannot directly assess the behavioral relevance of different representations in the PFC via perturbations, we can test the inhibitory suppression mechanism using neural activity on error trials.",
+      "paper_location": "Results; Page 8"
+    },
+    {
+      "term": "incongruent trials",
+      "sentence": "We tested this prediction on incongruent trials on which the relevant and irrelevant stimuli point to opposite choices (Methods) because the errors on incongruent trials are more likely to result from a failure of the contextual mechanism than other factors (for example, attention lapse).",
+      "paper_location": "Results; Page 8"
+    },
+    {
+      "term": "behavioral relevance",
+      "sentence": "To further test for behavioral relevance of representations identified by different dimensionality reduction methods, we again turned to RNNs in which we can measure behavioral effects of arbitrary activity perturbations.",
+      "paper_location": "Results; Page 8"
+    },
+    {
+      "term": "decoder axis",
+      "sentence": "By projecting RNN responses onto the decoder axis, we find a strong representation of irrelevant motion stimulus on color context trials without noticeable suppression (Fig. 7a).",
+      "paper_location": "Results; Page 8"
+    },
+    {
+      "term": "decision boundary",
+      "sentence": "As expected, driving RNN activity along the motion axis of the latent circuit model shifted the decision boundary on motion context trials (Fig. 7d).",
+      "paper_location": "Results; Page 9"
+    },
+    {
+      "term": "demixing representations",
+      "sentence": "Our results indicate that ‘demixing’ representations of task variables19,21,42 may not be the right objective for identifying behaviorally relevant patterns in neural activity and may provide a misleading picture of computation.",
+      "paper_location": "Results; Page 9"
+    },
+    {
+      "term": "single-trial neural activity",
+      "sentence": "Our results motivate future work incorporating low-dimensional recurrent circuits as latent dynamics generators within these model architectures, which will enable combining their ability of fitting single-trial neural activity26,29 with the uniqueness and interpretability furnished by the latent circuit model.",
+      "paper_location": "Discussion; Page 9"
+    },
+    {
+      "term": "causal predictive power",
+      "sentence": "By relating connectivity to neural dynamics and behavior, the latent circuit model extends the causal predictive power of classical neural circuit models to the study of mechanisms of cognitive functions in high-dimensional networks.",
+      "paper_location": "Discussion; Page 9"
+    },
+    {
+      "term": "out-of-distribution inputs",
+      "sentence": "The causal predictive power of the latent circuit model is further supported by its ability to predict RNN dynamics and behavior for out-of-distribution inputs (Supplementary Fig. 8).",
+      "paper_location": "Discussion; Page 9"
+    },
+    {
+      "term": "low-rank RNNs",
+      "sentence": "However, it was unclear whether low-rank RNNs use mechanisms similar to classical circuit models or implement truly novel solutions that emerge only in high-dimensional nonlinear systems.",
+      "paper_location": "Discussion; Page 9"
+    },
+    {
+      "term": "cognitive flexibility",
+      "sentence": "Thus, inhibitory mechanisms for cognitive flexibility are compatible with the existence of irrelevant stimulus representations in the PFC.",
+      "paper_location": "Discussion; Page 10"
+    },
+    {
+      "term": "circuit dissection methods",
+      "sentence": "Our work translates such circuit dissection methods56,57 to high-dimensional networks in which, unlike in small circuits, individual connections do not carry specific functions, but instead these functions arise from distributed connectivity patterns.",
+      "paper_location": "Discussion; Page 10"
+    },
+    {
+      "term": "cognitive control tasks",
+      "sentence": "Consistent with this idea, we find that RNNs trained on different tasks use a similar inhibitory control mechanism (Supplementary Fig. 7), which may generalize to other cognitive control tasks as well.",
+      "paper_location": "Discussion; Page 10"
+    },
+    {
+      "term": "nonlinear least squares optimization",
+      "sentence": "Because the variable x depends implicitly on the latent circuit parameters wrec and win, the minimization of L is a nonlinear least squares optimization problem60 in which we simultaneously search for a behaviorally relevant projection of the high-dimensional activity and a low-dimensional neural circuit that generates dynamics in this projection.",
+      "paper_location": "Methods; Page 12"
+    },
+    {
+      "term": "constrained optimization problem",
+      "sentence": "Because orthonormal matrices define a nonlinear submanifold within the space of all matrices, minimizing L corresponds to solving a constrained optimization problem over this submanifold.",
+      "paper_location": "Methods; Page 12"
+    },
+    {
+      "term": "minibatch size",
+      "sentence": "We use a minibatch size of 128 trials.",
+      "paper_location": "Methods; Page 12"
+    },
+    {
+      "term": "held out test data",
+      "sentence": "Therefore, we selected the best ten latent circuit models from this ensemble in terms of fit quality on held out test data, which formed a set of converged solutions (Fig. 5a).",
+      "paper_location": "Methods; Page 12"
+    },
+    {
+      "term": "shuffling procedure",
+      "sentence": "Our shuffling procedure randomly permutes neural responses with respect to trial conditions while preserving the input–output relationship on each trial so that the fitted latent circuit models can still perform the task.",
+      "paper_location": "Methods; Page 12"
+    },
+    {
+      "term": "input–output relationship",
+      "sentence": "Our shuffling procedure randomly permutes neural responses with respect to trial conditions while preserving the input–output relationship on each trial so that the fitted latent circuit models can still perform the task.",
+      "paper_location": "Methods; Page 12"
+    },
+    {
+      "term": "piecewise-linear systems",
+      "sentence": "Because this is an equality of two piecewise-linear systems, it holds for each local linear piece individually.",
+      "paper_location": "Methods; Page 13"
+    },
+    {
+      "term": "Softplus activation function",
+      "sentence": "To test whether our results extend to networks with a different biologically plausible nonlinearity, we trained RNNs that had a Softplus activation function f(x) = gβ log(1 + eβx) for a range of parameter β and also with varying gain g across units.",
+      "paper_location": "Methods; Page 13"
+    },
+    {
+      "term": "first-order Euler scheme",
+      "sentence": "We discretize the RNN dynamics Eq. (10) using the first-order Euler scheme with a time step Δt and add a noise term to obtain yt = (1 − α)yt−1 + α[Wrec yt−1 + Winut + √2ασrecξt]+.",
+      "paper_location": "Methods; Page 13"
+    },
+    {
+      "term": "Dale’s law",
+      "sentence": "The recurrent matrix is constrained to satisfy Dale’s law with 80% excitatory units and 20% inhibitory units.",
+      "paper_location": "Methods; Page 13"
+    },
+    {
+      "term": "motion and color sensory evidence",
+      "sentence": "After a delay of 200 ms, so that the network must maintain a memory of the context cue, the inputs corresponding to motion and color sensory evidence are presented at t = 1,200 ms for the remaining duration of the trial.",
+      "paper_location": "Methods; Page 13"
+    },
+    {
+      "term": "input noise strength",
+      "sentence": "The input noise strength is σin = 0.01.",
+      "paper_location": "Methods; Page 14"
+    },
+    {
+      "term": "mean squared error",
+      "sentence": "To train the RNN, we minimize the mean squared error between the output z(t) and the target ztarget(t): ℒ ∶= ∑ikt(zikt − ztarget,ikt)2 + λr ∑ikty2ikt.",
+      "paper_location": "Methods; Page 14"
+    },
+    {
+      "term": "L2 penalty",
+      "sentence": "We control the degree of correlation between the input and output vectors in the RNN by adding an L2 penalty λorth ∥ BTB − diag (BTB)∥2 (26) to the loss function in Eq. (25) during training.",
+      "paper_location": "Methods; Page 14"
+    },
+    {
+      "term": "linear regression model",
+      "sentence": "To decode motion coherence from RNN responses, we fit a linear regression model c = βy + b, (27) where β ∈ ℝ1×N is the vector of regression coefficients, c ∈ ℝ1×K⋅T is the motion coherence on each trial, b ∈ ℝ is a bias term, and y ∈ ℝN×K⋅T is the RNN responses at each time step during the stimulus epoch of each trial.",
+      "paper_location": "Methods; Page 14"
+    },
+    {
+      "term": "neurophysiological data",
+      "sentence": "The neurophysiological data were previously described in Ref. 19 (Mante et al., Nature, 503, 78, 2013).",
+      "paper_location": "Reporting Summary; Page 27"
+    },
+    {
+      "term": "data-acquisition system",
+      "sentence": "Data were recorded using the MAP data-acquisition system (Plexon Inc., Dallas, TX).",
+      "paper_location": "Reporting Summary; Page 27"
+    },
+    {
+      "term": "spike sorting",
+      "sentence": "Spike sorting was conducted by clustering based on principal component analysis using the Plexon offline sorter (Plexon Inc., Dallas, TX).",
+      "paper_location": "Reporting Summary; Page 27"
+    },
+    {
+      "term": "source code",
+      "sentence": "The source code to reproduce results of this study is available on GitHub (https://github.com/engellab/latentcircuit) and Zenodo (https://zenodo.org/records/14020108).",
+      "paper_location": "Reporting Summary; Page 27"
+    },
+    {
+      "term": "public repository",
+      "sentence": "The neurophysiological data were previously described in Ref. 19 (Mante et al., Nature, 503, 78, 2013) and are available in the public repository https://www.ini.uzh.ch/en/research/groups/mante/data.html for download.",
+      "paper_location": "Reporting Summary; Page 28"
+    },
+    {
+      "term": "surgical and behavioral procedures",
+      "sentence": "All surgical and behavioral procedures conformed to the guidelines established by the National Institutes of Health and were approved by the Institutional Animal Care and Use Committee of Stanford University.",
+      "paper_location": "Reporting Summary; Page 29"
+    }
+  ]
+}
