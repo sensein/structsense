@@ -1,0 +1,1651 @@
+pmid,passage_id,entity_type,entity_text,offset,length,pmid_covered,matched_anywhere,matched_same_sentence
+32183906,32183906_146,cell_vague,Lrig1+ cell,55,11,0,0,0
+32183906,32183906_146,cell_vague,RFP+ cells,286,10,0,0,0
+39098920,39098920_6,cell_phenotype,tanycyte,14,8,1,1,0
+39098920,39098920_6,cell_vague,tanycyte subtypes,233,17,1,0,0
+39098920,39098920_6,cell_phenotype,tanycyte,233,8,1,1,0
+39098920,39098920_6,cell_phenotype,tanycytes,406,9,1,1,0
+39098920,39098920_6,cell_phenotype,tanycytes,651,9,1,1,1
+39098920,39098920_6,cell_phenotype,ependymal cells,263,15,1,1,1
+37751468,37751468_50,cell_phenotype,D1- or D2-SPNs,101,14,1,0,0
+37751468,37751468_50,cell_phenotype,D1-/D2-SPNs,210,11,1,0,0
+37751468,37751468_50,cell_phenotype,D1-SPNs,331,7,1,1,0
+37751468,37751468_50,cell_phenotype,D1-SPNs,491,7,1,1,0
+37751468,37751468_50,cell_phenotype,D2-SPNs,650,7,1,1,1
+37751468,37751468_50,cell_phenotype,D2-SPNs,808,7,1,1,0
+34529655,34529655_54,cell_phenotype,inhibitory and excitatory neurons,312,33,0,0,0
+34529655,34529655_54,cell_phenotype,pacemaker excitatory cells,475,26,0,0,0
+34529655,34529655_54,cell_phenotype,Chattering neurons,511,18,0,0,0
+34529655,34529655_54,cell_phenotype,Chattering,564,10,0,0,0
+34529655,34529655_54,cell_phenotype,inhibitory neurons,241,18,0,0,0
+34529655,34529655_54,cell_phenotype,Interneuron,261,11,0,0,0
+34529655,34529655_54,cell_phenotype,Interneuron,357,11,0,0,0
+34529655,34529655_54,cell_phenotype,Pyramidal,347,9,0,0,0
+35788904,35788904_83,cell_phenotype,epithelial cell,234,15,1,0,0
+35788904,35788904_83,cell_phenotype,neutrophil,460,10,1,0,0
+35788904,35788904_83,cell_phenotype,macrophage,581,10,1,1,0
+35788904,35788904_83,cell_hetero,immune cells,800,12,1,1,1
+35788904,35788904_83,cell_phenotype,leukocyte,511,9,1,0,0
+38092912,38092912_34,cell_phenotype,Oligodendrocytes,0,16,1,1,1
+38092912,38092912_34,cell_phenotype,OPCs,111,4,1,1,1
+38092912,38092912_34,cell_phenotype,oligodendrocytes,201,16,1,1,1
+38092912,38092912_34,cell_phenotype,OPCs,222,4,1,1,1
+30761153,30761153_23,cell_vague,"subsets of T cells, NK and myeloid cells",22,40,0,0,0
+30761153,30761153_23,cell_phenotype,T cells,33,7,0,0,0
+30761153,30761153_23,cell_phenotype,NK and myeloid cells,42,20,0,0,0
+30761153,30761153_23,cell_phenotype,lymphoid and myeloid cells,96,26,0,0,0
+30761153,30761153_23,cell_phenotype,BILs,131,4,0,0,0
+30761153,30761153_23,cell_hetero,PBMC,140,4,0,0,0
+30761153,30761153_23,cell_phenotype,CD4 alphabeta T cells,252,21,0,0,0
+30761153,30761153_23,cell_phenotype,CD8 alphabeta T cells,275,21,0,0,0
+30761153,30761153_23,cell_phenotype,gammadelta T cells,298,18,0,0,0
+30761153,30761153_23,cell_phenotype,NK cells,318,8,0,0,0
+30761153,30761153_23,cell_phenotype,myeloid cells,330,13,0,0,0
+30761153,30761153_23,cell_phenotype,BIL,366,3,0,0,0
+30761153,30761153_23,cell_hetero,PBMC,374,4,0,0,0
+38017066,38017066_1,cell_phenotype,pluripotent stem cell,240,21,1,0,0
+38017066,38017066_1,cell_phenotype,astrocytes,290,10,1,1,1
+38017066,38017066_1,cell_phenotype,neurons,278,7,1,1,0
+38017066,38017066_1,cell_phenotype,neurons,660,7,1,1,0
+36333772,36333772_74,cell_phenotype,microglia,419,9,1,1,1
+36333772,36333772_74,cell_phenotype,B cells,433,7,1,1,1
+36333772,36333772_74,cell_hetero,immune cells,465,12,1,1,1
+36333772,36333772_74,cell_hetero,immune cells,629,12,1,1,0
+32503886,32503886_68,cell_phenotype,MCs,60,3,0,0,0
+32503886,32503886_68,cell_phenotype,EGCs,68,4,0,0,0
+32503886,32503886_68,cell_phenotype,EGC,120,3,0,0,0
+32503886,32503886_68,cell_phenotype,EGC,345,3,0,0,0
+32503886,32503886_68,cell_phenotype,EGCs,433,4,0,0,0
+32503886,32503886_68,cell_phenotype,AOB neurons,537,11,0,0,0
+32503886,32503886_68,cell_phenotype,EGC,603,3,0,0,0
+32503886,32503886_68,cell_phenotype,Cort+ EGCs,819,10,0,0,0
+32503886,32503886_68,cell_phenotype,EGC,1009,3,0,0,0
+32503886,32503886_68,cell_phenotype,EGC,1226,3,0,0,0
+32503886,32503886_68,cell_phenotype,EGCs,1579,4,0,0,0
+32503886,32503886_68,cell_phenotype,EGCs,1675,4,0,0,0
+32503886,32503886_68,cell_phenotype,EGCs,1798,4,0,0,0
+32503886,32503886_68,cell_phenotype,EGCs,1913,4,0,0,0
+32744501,32744501_11,cell_phenotype,astrocytes,77,10,0,0,0
+32744501,32744501_11,cell_phenotype,astrocytes,180,10,0,0,0
+32744501,32744501_11,cell_phenotype,neurogenic parenchymal astrocytes,285,33,0,0,0
+32744501,32744501_11,cell_phenotype,astrocytes,458,10,0,0,0
+31804180,31804180_21,cell_phenotype,preBotC neurons,44,15,0,0,0
+31804180,31804180_21,cell_phenotype,excitatory neuron,86,17,0,0,0
+31804180,31804180_21,cell_phenotype,inhibitory neuron,173,17,0,0,0
+31804180,31804180_21,cell_phenotype,"pre-I excitatory, n = 13 non pre-I excitatory, and n = 7 inhibitory neurons",354,75,0,0,0
+31804180,31804180_21,cell_phenotype,neuron,536,6,0,0,0
+31804180,31804180_21,cell_phenotype,neuronal,621,8,0,0,0
+31804180,31804180_21,cell_phenotype,"pre-I excitatory, n = 13 non pre-I excitatory, and n = 7 inhibitory neurons",743,75,0,0,0
+34616064,34616064_21,cell_phenotype,chandelier and basket interneuron,93,33,1,0,0
+34616064,34616064_21,cell_vague,chandelier and basket interneuron types,93,39,1,0,0
+34616064,34616064_21,cell_phenotype,basket and stellate interneurons,410,32,1,0,0
+34616064,34616064_21,cell_vague,interneuron types,546,17,1,0,0
+34616064,34616064_21,cell_phenotype,interneuron,546,11,1,1,0
+34616064,34616064_21,cell_phenotype,principal cells,237,15,1,1,1
+33654118,33654118_27,cell_phenotype,GABAergic cells,130,15,1,1,1
+33654118,33654118_27,cell_vague,subtypes of inhibitory or excitatory cells,383,42,1,0,0
+33654118,33654118_27,cell_hetero,inhibitory or excitatory cells,395,30,1,0,0
+33654118,33654118_27,cell_phenotype,parvalbumin-expressing cells,547,28,1,0,0
+33654118,33654118_27,cell_vague,subtype of GABAergic neuron in the neocortex,595,44,1,0,0
+33654118,33654118_27,cell_phenotype,GABAergic neuron,606,16,1,1,1
+33654118,33654118_27,cell_phenotype,proenkephalin-expressing (penk) cells,645,37,1,1,1
+33654118,33654118_27,cell_vague,subtype of excitatory cell present in L2/3 and L6,686,49,1,0,0
+33654118,33654118_27,cell_phenotype,excitatory cell,697,15,1,1,1
+33654118,33654118_27,cell_vague,excitatory and inhibitory populations,936,37,1,0,0
+33654118,33654118_27,cell_phenotype,excitatory and inhibitory,936,25,1,0,0
+32193397,32193397_26,cell_hetero,non-VIPin cells,31,15,1,0,0
+32193397,32193397_26,cell_hetero,non-VIP cells,385,13,1,1,0
+32193397,32193397_26,cell_hetero,non-VIPin cells,574,15,1,0,0
+32193397,32193397_26,cell_hetero,non-VIPin cells,746,15,1,0,0
+32193397,32193397_26,cell_phenotype,VIPin cells,352,11,1,0,0
+32193397,32193397_26,cell_phenotype,VIPin cells,879,11,1,0,0
+36451046,36451046_4,cell_phenotype,pituitary,34,9,1,1,1
+36451046,36451046_4,cell_hetero,Hormone-producing cells,227,23,1,1,0
+36451046,36451046_4,cell_phenotype,resident stem cells,252,19,1,0,0
+36451046,36451046_4,cell_hetero,non-hormonal support cells,276,26,1,0,0
+36451046,36451046_4,cell_phenotype,endothelia,311,10,1,0,0
+36451046,36451046_4,cell_phenotype,connective tissue,326,17,1,1,0
+36451046,36451046_4,cell_phenotype,Melanotrophs,369,12,1,1,0
+36451046,36451046_4,cell_phenotype,Lactotrophs,441,11,1,1,0
+36451046,36451046_4,cell_phenotype,Somatotrophs,460,12,1,1,0
+36451046,36451046_4,cell_phenotype,Thyrotrophs,479,11,1,1,0
+36451046,36451046_4,cell_phenotype,Gonadotrophs,498,12,1,1,0
+36451046,36451046_4,cell_phenotype,Corticotrophs,524,13,1,1,0
+36451046,36451046_4,cell_phenotype,Stem cells,590,10,1,1,0
+33664709,33664709_42,cell_vague,AP population,1017,13,1,0,0
+33664709,33664709_42,cell_vague,AP cell types,1246,13,1,1,1
+33664709,33664709_42,cell_hetero,AP cells,428,8,1,1,1
+33664709,33664709_42,cell_hetero,AP,916,2,1,1,0
+33664709,33664709_42,cell_hetero,AP,1017,2,1,1,0
+33664709,33664709_42,cell_hetero,AP cell,1246,7,1,1,0
+32193873,32193873_16,cell_phenotype,melanotropes,195,12,1,1,1
+32193873,32193873_16,cell_phenotype,Mel,210,3,1,0,0
+32193873,32193873_16,cell_phenotype,melanotrope,344,11,1,1,0
+32193873,32193873_16,cell_vague,corticotrope cell cluster,490,25,1,0,0
+32193873,32193873_16,cell_phenotype,corticotrope cell,490,17,1,0,0
+32193873,32193873_16,cell_phenotype,Cort,518,4,1,0,0
+32193873,32193873_16,cell_phenotype,melanotrope,554,11,1,1,0
+32193873,32193873_16,cell_vague,melanotrope cluster,554,19,1,0,0
+32193873,32193873_16,cell_phenotype,gonadotropes,766,12,1,1,1
+32193873,32193873_16,cell_vague,'Gona' cluster,780,14,1,0,0
+32193873,32193873_16,cell_phenotype,Gona,781,4,1,0,0
+32193873,32193873_16,cell_phenotype,gonadotrope,847,11,1,1,0
+32193873,32193873_16,cell_phenotype,gonadotrope,924,11,1,1,0
+32193873,32193873_16,cell_phenotype,melanotropes,1250,12,1,1,0
+32193873,32193873_16,cell_phenotype,corticotropes,1264,13,1,1,0
+32193873,32193873_16,cell_phenotype,gonadotropes,1283,12,1,1,0
+33077725,33077725_12,cell_phenotype,endocrine cell,26,14,0,0,0
+33077725,33077725_12,cell_phenotype,corticotropes,86,13,0,0,0
+33077725,33077725_12,cell_phenotype,somatotropes,201,12,0,0,0
+33077725,33077725_12,cell_phenotype,gonadotropes,222,12,0,0,0
+33077725,33077725_12,cell_phenotype,thyrotropes,255,11,0,0,0
+33077725,33077725_12,cell_phenotype,lactotropes,271,11,0,0,0
+33077725,33077725_12,cell_phenotype,endocrine cell,376,14,0,0,0
+36057681,36057681_46,cell_hetero,excitatory interneurons,46,23,1,1,1
+36057681,36057681_46,cell_phenotype,spinal projection neurons,123,25,1,1,1
+36057681,36057681_46,cell_phenotype,SPB neurons,265,11,1,1,1
+36057681,36057681_46,cell_phenotype,SPB neurons,390,11,1,1,0
+36057681,36057681_46,cell_phenotype,wide-dynamic range (WDR),492,24,1,1,1
+36057681,36057681_46,cell_phenotype,high threshold (HT),518,19,1,1,1
+36057681,36057681_46,cell_phenotype,low threshold (LT),542,18,1,1,1
+36057681,36057681_46,cell_phenotype,HT and WDR SPB,627,14,1,0,0
+36057681,36057681_46,cell_phenotype,WDR,744,3,1,0,0
+36057681,36057681_46,cell_phenotype,HT SPB neurons,760,14,1,1,0
+36057681,36057681_46,cell_phenotype,WDR cells,856,9,1,1,1
+36057681,36057681_46,cell_phenotype,LT (40%) or HT (0%) SPB neurons,945,31,1,0,0
+36057681,36057681_46,cell_phenotype,SPB neurons,1011,11,1,1,0
+36057681,36057681_46,cell_phenotype,WDR cells,1028,9,1,1,1
+36057681,36057681_46,cell_phenotype,WDR SPB neurons,1251,15,1,1,1
+36057681,36057681_46,cell_phenotype,HT SPB neurons,1297,14,1,1,1
+34728342,34728342_13,cell_phenotype,DMH neurons,31,11,0,0,0
+31411560,31411560_68,cell_vague,cortical-projecting subpopulations,26,34,0,0,0
+31411560,31411560_68,cell_phenotype,cortical-projecting,26,19,0,0,0
+31411560,31411560_68,cell_phenotype,DRN 5-HT neurons,64,16,0,0,0
+31411560,31411560_68,cell_phenotype,cortical-projecting neurons,174,27,0,0,0
+31411560,31411560_68,cell_phenotype,cortical-projecting,245,19,0,0,0
+31411560,31411560_68,cell_vague,cortical-projecting subpopulations,245,34,0,0,0
+31411560,31411560_68,cell_vague,subtype 5-HT-IV,301,15,0,0,0
+31411560,31411560_68,cell_vague,Str-projecting subpopulation,449,28,0,0,0
+31411560,31411560_68,cell_vague,subtype 5-HT-III,497,16,0,0,0
+31411560,31411560_68,cell_phenotype,5-HT neuron,621,11,0,0,0
+31411560,31411560_68,cell_vague,5-HT neuron subtypes,621,20,0,0,0
+31411560,31411560_68,cell_phenotype,5-HT neuron,726,11,0,0,0
+31411560,31411560_68,cell_vague,5-HT neuron subtype,726,19,0,0,0
+31411560,31411560_68,cell_vague,subtype 5-HT-III,836,16,0,0,0
+31411560,31411560_68,cell_phenotype,Str-projecting neurons,893,22,0,0,0
+31411560,31411560_68,cell_vague,subtype 5-HT-IV,957,15,0,0,0
+31411560,31411560_68,cell_phenotype,M1-projecting neurons,1001,21,0,0,0
+31411560,31411560_68,cell_phenotype,Str-projecting nor M1-projecting,1053,32,0,0,0
+31411560,31411560_68,cell_vague,Str-projecting nor M1-projecting subpopulations,1053,47,0,0,0
+31411560,31411560_68,cell_phenotype,5-HT neuron,1158,11,0,0,0
+31411560,31411560_68,cell_vague,5-HT neuron subtype,1158,19,0,0,0
+31411560,31411560_68,cell_phenotype,Str-projecting neurons in the ventrolateral DRN,1179,47,0,0,0
+31411560,31411560_68,cell_vague,neurons innervating both Str and M1,1265,35,0,0,0
+31411560,31411560_68,cell_phenotype,neurons,1265,7,0,0,0
+31411560,31411560_68,cell_vague,subtype 5-HT-IV,1346,15,0,0,0
+31411560,31411560_68,cell_vague,subtype 5-HT-III,1373,16,0,0,0
+31411560,31411560_68,cell_vague,subtypes of 5-HT neurons,1448,24,0,0,0
+31411560,31411560_68,cell_phenotype,5-HT neurons,1460,12,0,0,0
+31411560,31411560_68,cell_phenotype,5-HT neuron,1545,11,0,0,0
+31411560,31411560_68,cell_vague,5-HT neuron subtypes,1545,20,0,0,0
+37414552,37414552_8,cell_phenotype,D1-medium spiny neurons,5,23,1,0,0
+37414552,37414552_8,cell_phenotype,MSNs,30,4,1,0,0
+37414552,37414552_8,cell_phenotype,D2-MSNs,40,7,1,1,1
+37414552,37414552_8,cell_phenotype,D1-MSN,196,6,1,1,0
+37414552,37414552_8,cell_phenotype,D2-MSN,231,6,1,1,0
+37414552,37414552_8,cell_phenotype,D1-MSNs,450,7,1,1,1
+37414552,37414552_8,cell_phenotype,D2-MSNs,463,7,1,1,0
+37414552,37414552_8,cell_phenotype,VPGlutamate cells,492,17,1,1,1
+37414552,37414552_8,cell_vague,VP neuronal subpopulations,612,26,1,0,0
+37414552,37414552_8,cell_phenotype,VP neuronal,612,11,1,0,0
+37414552,37414552_8,cell_phenotype,D1-MSN,750,6,1,1,0
+37414552,37414552_8,cell_phenotype,D2-MSN,761,6,1,1,0
+38775708,38775708_11,cell_phenotype,microglia,48,9,0,0,0
+38775708,38775708_11,cell_phenotype,microglia,375,9,0,0,0
+38775708,38775708_11,cell_phenotype,AP,956,2,0,0,0
+38775708,38775708_11,cell_phenotype,apical progenitors,960,18,0,0,0
+38775708,38775708_11,cell_phenotype,IP,980,2,0,0,0
+38775708,38775708_11,cell_phenotype,intermediate progenitors,984,24,0,0,0
+38775708,38775708_11,cell_phenotype,ImmN,1010,4,0,0,0
+38775708,38775708_11,cell_phenotype,immature neurons,1016,16,0,0,0
+38775708,38775708_11,cell_phenotype,MN,1034,2,0,0,0
+38775708,38775708_11,cell_phenotype,migrating neurons,1038,17,0,0,0
+38775708,38775708_11,cell_hetero,(UL/DL) CPN,1057,11,0,0,0
+38775708,38775708_11,cell_hetero,(upper layer/deep layer) callosal projection neurons,1070,52,0,0,0
+38775708,38775708_11,cell_phenotype,SCPN,1124,4,0,0,0
+38775708,38775708_11,cell_phenotype,subcerebral projection neurons,1130,30,0,0,0
+38775708,38775708_11,cell_phenotype,CThPN,1162,5,0,0,0
+38775708,38775708_11,cell_phenotype,corticothalamic projection neurons,1169,34,0,0,0
+38775708,38775708_11,cell_phenotype,LIV,1205,3,0,0,0
+38775708,38775708_11,cell_phenotype,layer IV stellate neurons,1210,25,0,0,0
+38775708,38775708_11,cell_phenotype,IN,1237,2,0,0,0
+38775708,38775708_11,cell_phenotype,interneurons,1241,12,0,0,0
+38775708,38775708_11,cell_phenotype,CR,1255,2,0,0,0
+38775708,38775708_11,cell_phenotype,Cajal-Retzius cells,1259,19,0,0,0
+38775708,38775708_11,cell_phenotype,Astro,1280,5,0,0,0
+38775708,38775708_11,cell_phenotype,astrocytes,1287,10,0,0,0
+38775708,38775708_11,cell_phenotype,CGC,1299,3,0,0,0
+38775708,38775708_11,cell_phenotype,cycling glial cells,1304,19,0,0,0
+38775708,38775708_11,cell_phenotype,Epend,1325,5,0,0,0
+38775708,38775708_11,cell_phenotype,ependymal cells,1332,15,0,0,0
+38775708,38775708_11,cell_phenotype,OL,1349,2,0,0,0
+38775708,38775708_11,cell_phenotype,oligodendroglia,1353,15,0,0,0
+38775708,38775708_11,cell_phenotype,MG,1370,2,0,0,0
+38775708,38775708_11,cell_phenotype,microglia,1374,9,0,0,0
+38775708,38775708_11,cell_phenotype,Peri,1385,4,0,0,0
+38775708,38775708_11,cell_phenotype,pericytes,1391,9,0,0,0
+38775708,38775708_11,cell_phenotype,EC,1402,2,0,0,0
+38775708,38775708_11,cell_phenotype,endothelial cells,1406,17,0,0,0
+38775708,38775708_11,cell_phenotype,VLMC,1425,4,0,0,0
+38775708,38775708_11,cell_phenotype,vascular and leptomeningeal cells,1431,33,0,0,0
+37085502,37085502_5,cell_phenotype,NAc medium spiny projection neurons,303,35,1,1,1
+37085502,37085502_5,cell_phenotype,MSN,340,3,1,1,1
+37085502,37085502_5,cell_phenotype,neuron,356,6,1,0,0
+37085502,37085502_5,cell_vague,neuron type,356,11,1,0,0
+37085502,37085502_5,cell_phenotype,dopamine D1 receptor-expressing MSNs,443,36,1,0,0
+37085502,37085502_5,cell_phenotype,D1-MSN,481,6,1,1,1
+37085502,37085502_5,cell_phenotype,dopamine D2 receptor-expressing MSNs,593,36,1,0,0
+37085502,37085502_5,cell_phenotype,D2-MSN,631,6,1,1,1
+37085502,37085502_5,cell_phenotype,NAc D1-MSNs,718,11,1,1,0
+37085502,37085502_5,cell_phenotype,D2-MSNs,778,7,1,1,1
+37085502,37085502_5,cell_phenotype,NAc D1- and D2-MSNs,881,19,1,0,0
+35699412,35699412_10,cell_phenotype,endocrine cells,356,15,0,0,0
+35699412,35699412_10,cell_phenotype,somatotropes,386,12,0,0,0
+35699412,35699412_10,cell_phenotype,corticotropes,432,13,0,0,0
+35699412,35699412_10,cell_phenotype,lactotropes,484,11,0,0,0
+35699412,35699412_10,cell_phenotype,gonadotropes,515,12,0,0,0
+35699412,35699412_10,cell_phenotype,thyrotropes,602,11,0,0,0
+35699412,35699412_10,cell_phenotype,hormone-producing cells,788,23,0,0,0
+35699412,35699412_10,cell_phenotype,committed (progenitor) and endocrine cells,863,42,0,0,0
+35699412,35699412_10,cell_phenotype,stem cell,933,9,0,0,0
+35699412,35699412_10,cell_phenotype,pituitary stem cells,1081,20,0,0,0
+35699412,35699412_10,cell_phenotype,stem cells,1107,10,0,0,0
+35699412,35699412_10,cell_phenotype,endocrine cells,1139,15,0,0,0
+35699412,35699412_10,cell_phenotype,stem cells,1270,10,0,0,0
+35699412,35699412_10,cell_phenotype,endocrine cells,1362,15,0,0,0
+35699412,35699412_10,cell_phenotype,stem cells,1450,10,0,0,0
+35699412,35699412_10,cell_phenotype,stem cells,1749,10,0,0,0
+35699412,35699412_10,cell_phenotype,stem cells,1804,10,0,0,0
+35699412,35699412_10,cell_phenotype,stem cells,1905,10,0,0,0
+34494546,34494546_62,cell_phenotype,glia,574,4,0,0,0
+34494546,34494546_62,cell_phenotype,astrocytes,580,10,0,0,0
+34494546,34494546_62,cell_phenotype,oligodendrocytes,592,16,0,0,0
+34494546,34494546_62,cell_phenotype,microglia,614,9,0,0,0
+34494546,34494546_62,cell_phenotype,endothelial cells,636,17,0,0,0
+34494546,34494546_62,cell_vague,subtypes of neurons,663,19,0,0,0
+34494546,34494546_62,cell_phenotype,neurons,675,7,0,0,0
+34494546,34494546_62,cell_phenotype,M-astrocyte,694,11,0,0,0
+34494546,34494546_62,cell_phenotype,mitotic astrocyte,707,17,0,0,0
+34494546,34494546_62,cell_phenotype,M-OPC,726,5,0,0,0
+34494546,34494546_62,cell_phenotype,mitotic oligodendrocyte precursor cell,733,38,0,0,0
+34494546,34494546_62,cell_phenotype,OPC,773,3,0,0,0
+34494546,34494546_62,cell_phenotype,oligodendrocyte precursor cell,778,30,0,0,0
+34494546,34494546_62,cell_phenotype,MFOL,810,4,0,0,0
+34494546,34494546_62,cell_phenotype,myelin-forming oligodendrocyte,816,30,0,0,0
+34494546,34494546_62,cell_phenotype,NFOL,848,4,0,0,0
+34494546,34494546_62,cell_phenotype,newly formed oligodendrocyte,854,28,0,0,0
+34494546,34494546_62,cell_phenotype,MOL,884,3,0,0,0
+34494546,34494546_62,cell_phenotype,mature oligodendrocyte,889,22,0,0,0
+34494546,34494546_62,cell_phenotype,VLMC,913,4,0,0,0
+34494546,34494546_62,cell_phenotype,vascular and leptomeningeal cell,919,32,0,0,0
+34494546,34494546_62,cell_phenotype,EC,953,2,0,0,0
+34494546,34494546_62,cell_phenotype,endothelial cell,957,16,0,0,0
+34494546,34494546_62,cell_phenotype,PC,975,2,0,0,0
+34494546,34494546_62,cell_phenotype,pericyte,979,8,0,0,0
+34494546,34494546_62,cell_phenotype,PVM,989,3,0,0,0
+34494546,34494546_62,cell_phenotype,perivascular macrophage,994,23,0,0,0
+34573345,34573345_169,cell_phenotype,Excitatory Neurons,209,18,0,0,0
+34573345,34573345_169,cell_phenotype,Inhibitory D1 & D2 Medium Spiny Neurons,274,39,0,0,0
+34573345,34573345_169,cell_phenotype,Inhibitory direct/indirect Spiny Projection Neurons,331,51,0,0,0
+34573345,34573345_169,cell_phenotype,"Excitatory Neurons, Pyramidal Cells",441,35,0,0,0
+34573345,34573345_169,cell_phenotype,"Excitatory Neurons, Deep-layer Pyramidal cells",506,46,0,0,0
+34573345,34573345_169,cell_phenotype,Excitatory Neurons,579,18,0,0,0
+34573345,34573345_169,cell_phenotype,"Excitatory Neurons, Entorhinal Cortex Cells",627,43,0,0,0
+34573345,34573345_169,cell_phenotype,"Excitatory Neurons, CA1 Principal Cells",694,39,0,0,0
+34867212,34867212_46,cell_phenotype,UCN3-positive neurons,946,21,0,0,0
+34867212,34867212_46,cell_phenotype,CRFR2-positive neuronal cell,993,28,0,0,0
+37380974,37380974_35,cell_hetero,BVACs,70,5,1,1,0
+37380974,37380974_35,cell_phenotype,neurovascular cell,96,18,1,0,0
+37380974,37380974_35,cell_phenotype,neurovascular unit cell,330,23,1,0,0
+37380974,37380974_35,cell_vague,neurovascular unit cell types,330,29,1,0,0
+37380974,37380974_35,cell_phenotype,EC,587,2,1,1,0
+37380974,37380974_35,cell_phenotype,endothelial cell,590,16,1,1,0
+37380974,37380974_35,cell_phenotype,SMC,634,3,1,1,1
+37380974,37380974_35,cell_phenotype,smooth muscle cell,638,18,1,1,1
+37380974,37380974_35,cell_phenotype,OPC,658,3,1,1,1
+37380974,37380974_35,cell_phenotype,oligodendrocyte precursor cell,662,30,1,1,1
+37380974,37380974_35,cell_phenotype,CapEC,694,5,1,1,1
+37380974,37380974_35,cell_phenotype,capillary endothelial cell,700,26,1,1,1
+37380974,37380974_35,cell_phenotype,MG,728,2,1,1,1
+37380974,37380974_35,cell_phenotype,microglia,731,9,1,1,0
+37380974,37380974_35,cell_phenotype,aEC,766,3,1,1,1
+37380974,37380974_35,cell_phenotype,arterial endothelial cell,770,25,1,1,1
+37380974,37380974_35,cell_phenotype,AC,797,2,1,0,0
+37380974,37380974_35,cell_phenotype,astrocyte,800,9,1,1,0
+37380974,37380974_35,cell_phenotype,vEC,811,3,1,1,1
+37380974,37380974_35,cell_phenotype,venous endothelial cell,815,23,1,1,1
+37380974,37380974_35,cell_phenotype,BAM,840,3,1,0,0
+37380974,37380974_35,cell_phenotype,border-associated macrophage,844,28,1,1,0
+33141020,33141020_48,cell_phenotype,small (L-cells),77,15,0,0,0
+33141020,33141020_48,cell_phenotype,D-stellate,98,10,0,0,0
+33141020,33141020_48,cell_phenotype,tuberculoventral (TV) cells,114,27,0,0,0
+33141020,33141020_48,cell_phenotype,Small cells,147,11,0,0,0
+33141020,33141020_48,cell_phenotype,D-stellate and TV cells,188,23,0,0,0
+33141020,33141020_48,cell_phenotype,principal cells,265,15,0,0,0
+33141020,33141020_48,cell_phenotype,bushy cells,282,11,0,0,0
+33141020,33141020_48,cell_phenotype,T-stellate cells,303,16,0,0,0
+33141020,33141020_48,cell_phenotype,inhibitory neurons,396,18,0,0,0
+33141020,33141020_48,cell_phenotype,interneurons,426,12,0,0,0
+33141020,33141020_48,cell_phenotype,bushy cells,474,11,0,0,0
+33141020,33141020_48,cell_phenotype,T-stellate,490,10,0,0,0
+33141020,33141020_48,cell_phenotype,bushy cell,502,10,0,0,0
+33141020,33141020_48,cell_phenotype,T-stellate,544,10,0,0,0
+34292150,34292150_6,cell_phenotype,TC,11,2,0,0,0
+34292150,34292150_6,cell_vague,TC and MC populations,11,21,0,0,0
+34292150,34292150_6,cell_phenotype,MC,18,2,0,0,0
+34292150,34292150_6,cell_phenotype,MCs,127,3,0,0,0
+34292150,34292150_6,cell_vague,subset of MCs,347,13,0,0,0
+34292150,34292150_6,cell_phenotype,MCs,357,3,0,0,0
+34292150,34292150_6,cell_phenotype,TCs,482,3,0,0,0
+34292150,34292150_6,cell_phenotype,TCs,533,3,0,0,0
+34292150,34292150_6,cell_phenotype,MCs,864,3,0,0,0
+34292150,34292150_6,cell_phenotype,TCs,872,3,0,0,0
+31211786,31211786_1,cell_phenotype,neurons,105,7,1,1,0
+31211786,31211786_1,cell_vague,excitatory and inhibitory cell classes,464,38,1,0,0
+31211786,31211786_1,cell_vague,excitatory or inhibitory cell types,933,35,1,0,0
+31211786,31211786_1,cell_phenotype,excitatory or inhibitory cell,933,29,1,0,0
+31211786,31211786_1,cell_phenotype,excitatory and inhibitory cell,464,30,1,0,0
+34851292,34851292_23,cell_phenotype,excitatory PyCs,95,15,0,0,0
+34851292,34851292_23,cell_phenotype,glia,146,4,0,0,0
+34851292,34851292_23,cell_phenotype,inhibitory,122,10,0,0,0
+34851292,34851292_23,cell_phenotype,neurons,270,7,0,0,0
+33581058,33581058_57,cell_phenotype,EdU+ NSCs,30,9,0,0,0
+33188006,33188006_55,cell_phenotype,Som+ cells,55,10,1,0,0
+33188006,33188006_55,cell_phenotype,PKCdelta+ cells,83,15,1,0,0
+33188006,33188006_55,cell_phenotype,Som+ and PKCdelta+ neurons,190,26,1,0,0
+35008440,35008440_59,cell_phenotype,microglia,160,9,0,0,0
+35008440,35008440_59,cell_phenotype,astrocytes,197,10,0,0,0
+35008440,35008440_59,cell_phenotype,macrophages,171,11,0,0,0
+35008440,35008440_59,cell_phenotype,neurons,184,7,0,0,0
+35008440,35008440_59,cell_phenotype,neuronal,245,8,0,0,0
+31392685,31392685_1,cell_phenotype,Microglia,0,9,0,0,0
+31392685,31392685_1,cell_phenotype,microglia cells,629,15,0,0,0
+32234056,32234056_30,cell_hetero,GBM cell,523,8,1,0,0
+32234056,32234056_30,cell_hetero,malignant glioma cells,550,22,1,0,0
+37698546,37698546_54,cell_hetero,"non-neuronal, glutamatergic, and GABAergic cell",33,47,0,0,0
+37698546,37698546_54,cell_vague,"non-neuronal, glutamatergic, and GABAergic cell populations",33,59,0,0,0
+35318336,35318336_44,cell_phenotype,neurons,274,7,1,1,1
+35318336,35318336_44,cell_phenotype,neurons,396,7,1,1,0
+35318336,35318336_44,cell_phenotype,neurons,522,7,1,1,0
+35318336,35318336_44,cell_phenotype,neuronal,579,8,1,0,0
+35318336,35318336_44,cell_vague,neuronal types,579,14,1,0,0
+35318336,35318336_44,cell_vague,feature-specific neurons,659,24,1,1,1
+35318336,35318336_44,cell_phenotype,neurons,676,7,1,1,0
+35318336,35318336_44,cell_phenotype,place cells,773,11,1,1,1
+35318336,35318336_44,cell_phenotype,grid cells,789,10,1,1,1
+35318336,35318336_44,cell_phenotype,engram cells,906,12,1,1,1
+35318336,35318336_44,cell_phenotype,holistic bursting cells,997,23,1,1,1
+35318336,35318336_44,cell_vague,neuronal population,1165,19,1,0,0
+35318336,35318336_44,cell_phenotype,neuronal,1165,8,1,0,0
+35318336,35318336_44,cell_vague,neuron types,1359,12,1,0,0
+35318336,35318336_44,cell_phenotype,neuron,1359,6,1,1,0
+35318336,35318336_44,cell_phenotype,neurons,1826,7,1,1,1
+38132144,38132144_27,cell_phenotype,"""senescent"" and ""dystrophic"" microglia",38,38,0,0,0
+38132144,38132144_27,cell_phenotype,microglial cells,297,16,0,0,0
+38132144,38132144_27,cell_phenotype,over-reactive microglia,499,23,0,0,0
+38132144,38132144_27,cell_phenotype,"""senescent"" or ""dystrophic"" microglia.",628,38,0,0,0
+38132144,38132144_27,cell_phenotype,microglial,706,10,0,0,0
+38037510,38037510_24,cell_phenotype,ECs,26,3,0,0,0
+38037510,38037510_24,cell_phenotype,ECs,108,3,0,0,0
+38037510,38037510_24,cell_phenotype,PSC,198,3,0,0,0
+38037510,38037510_24,cell_phenotype,PSCs,307,4,0,0,0
+38037510,38037510_24,cell_phenotype,PSC,313,3,0,0,0
+38037510,38037510_24,cell_phenotype,ECs,361,3,0,0,0
+38037510,38037510_24,cell_phenotype,SOX2+ cells,720,11,0,0,0
+38037510,38037510_24,cell_phenotype,TUJ1+ cells,741,11,0,0,0
+38037510,38037510_24,cell_phenotype,ECs,803,3,0,0,0
+38037510,38037510_24,cell_phenotype,ECs,881,3,0,0,0
+38037510,38037510_24,cell_phenotype,SOX2+ cells,974,11,0,0,0
+38037510,38037510_24,cell_phenotype,SOX2+ and TUJ1+ cells,1155,21,0,0,0
+38037510,38037510_24,cell_phenotype,CD31+ cells,1219,11,0,0,0
+38037510,38037510_24,cell_phenotype,EC,1276,2,0,0,0
+31791377,31791377_31,cell_phenotype,cholinergic neurons,43,19,1,1,1
+31791377,31791377_31,cell_phenotype,Cholinergic neurons,122,19,1,1,0
+31791377,31791377_31,cell_phenotype,cholinergic neurons,269,19,1,1,0
+34755601,34755601_30,cell_phenotype,smooth muscle-like cells,275,24,0,0,0
+34755601,34755601_30,cell_phenotype,SMLCs,301,5,0,0,0
+34755601,34755601_30,cell_phenotype,GLUT-1+ ECs,528,11,0,0,0
+34755601,34755601_30,cell_phenotype,claudin-5+ ECs,559,14,0,0,0
+34755601,34755601_30,cell_phenotype,claudin-5+ ECs,714,14,0,0,0
+34755601,34755601_30,cell_phenotype,endothelial cells,94,17,0,0,0
+34755601,34755601_30,cell_phenotype,ECs,113,3,0,0,0
+34755601,34755601_30,cell_phenotype,EC,261,2,0,0,0
+34755601,34755601_30,cell_phenotype,ECs,432,3,0,0,0
+34755601,34755601_30,cell_phenotype,ECs,465,3,0,0,0
+31681469,31681469_38,cell_vague,aRGC,0,4,1,0,0
+31681469,31681469_38,cell_vague,apical radial glial cell,6,24,1,0,0
+31681469,31681469_38,cell_vague,bRGC,32,4,1,0,0
+31681469,31681469_38,cell_vague,basal radial glial cell,38,23,1,0,0
+31681469,31681469_38,cell_phenotype,NSPC,131,4,1,1,0
+31681469,31681469_38,cell_phenotype,neural stem and progenitor cell,137,31,1,1,0
+31681469,31681469_38,cell_phenotype,radial glial cell,13,17,1,0,0
+31681469,31681469_38,cell_phenotype,radial glial cell,44,17,1,0,0
+31681469,31681469_38,cell_phenotype,radial glial cell,208,17,1,0,0
+31681469,31681469_38,cell_phenotype,RGC,203,3,1,0,0
+31681469,31681469_38,cell_phenotype,IPC,63,3,1,0,0
+31681469,31681469_38,cell_phenotype,intermediate progenitor cell,68,28,1,0,0
+31420539,31420539_1,cell_phenotype,neurons,56,7,1,1,0
+31420539,31420539_1,cell_phenotype,ARC neurons,206,11,1,1,0
+31420539,31420539_1,cell_phenotype,ARC neurons,351,11,1,1,0
+31420539,31420539_1,cell_phenotype,neuronal,449,8,1,1,0
+31420539,31420539_1,cell_vague,neuronal types,449,14,1,1,0
+31420539,31420539_1,cell_phenotype,neuronal,508,8,1,1,0
+31420539,31420539_1,cell_vague,neuronal types,508,14,1,1,0
+31420539,31420539_1,cell_phenotype,ARC neuronal,656,12,1,0,0
+31420539,31420539_1,cell_vague,ARC neuronal types,656,18,1,1,0
+31420539,31420539_1,cell_phenotype,Ghrh-neurons,754,12,1,1,0
+31420539,31420539_1,cell_phenotype,Kisspeptin-neurons,790,18,1,1,1
+31420539,31420539_1,cell_phenotype,ARC neurons,1085,11,1,1,0
+32895383,32895383_16,cell_phenotype,astrocytes,344,10,1,1,0
+32895383,32895383_16,cell_phenotype,ependymal cells,359,15,1,1,1
+32895383,32895383_16,cell_phenotype,astrocyte,525,9,1,1,1
+32895383,32895383_16,cell_phenotype,tanycyte,536,8,1,1,1
+32895383,32895383_16,cell_phenotype,ependymal cell,550,14,1,1,1
+30735127,30735127_56,cell_vague,Cerebellar cell types,0,21,0,0,0
+30735127,30735127_56,cell_hetero,Cerebellar cell,0,15,0,0,0
+39385026,39385026_2,cell_phenotype,piriform and mediotemporal neurons,6,34,0,0,0
+37498903,37498903_65,cell_phenotype,astrocytic cell,172,15,0,0,0
+37498903,37498903_65,cell_phenotype,microglia,373,9,0,0,0
+37498903,37498903_65,cell_phenotype,astrocyte,69,9,0,0,0
+37498903,37498903_65,cell_phenotype,astrocyte,410,9,0,0,0
+37498903,37498903_65,cell_phenotype,astrocytes,498,10,0,0,0
+37498903,37498903_65,cell_phenotype,astrocyte,552,9,0,0,0
+37498903,37498903_65,cell_phenotype,neuron,562,6,0,0,0
+37498903,37498903_65,cell_phenotype,neuronal cells,206,14,0,0,0
+36705821,36705821_6,cell_phenotype,Microglial,452,10,1,1,0
+36705821,36705821_6,cell_hetero,Peripheral cells,508,16,1,0,0
+36705821,36705821_6,cell_phenotype,pericyte,702,8,1,1,0
+36705821,36705821_6,cell_phenotype,Astrocyte,688,9,1,0,0
+36705821,36705821_6,cell_phenotype,neuronal,328,8,1,1,0
+38029793,38029793_11,cell_phenotype,neural progenitors,23,18,1,1,1
+38029793,38029793_11,cell_phenotype,glioblasts,94,10,1,1,1
+38029793,38029793_11,cell_phenotype,astrocytes,109,10,1,1,1
+38029793,38029793_11,cell_phenotype,glial,161,5,1,1,0
+38029793,38029793_11,cell_phenotype,astroglia,253,9,1,1,0
+38029793,38029793_11,cell_phenotype,oligodendrocyte,271,15,1,0,0
+38029793,38029793_11,cell_phenotype,proliferating oligodendrocyte progenitor cells,309,46,1,0,0
+38029793,38029793_11,cell_phenotype,OPCs,357,4,1,1,1
+38029793,38029793_11,cell_phenotype,committed oligodendrocyte precursors,373,36,1,1,1
+38029793,38029793_11,cell_phenotype,postmitotic oligodendrocytes,420,28,1,1,1
+38029793,38029793_11,cell_vague,intermediate cell population between glioblasts and OPCs,535,56,1,0,0
+38029793,38029793_11,cell_phenotype,glioblasts,572,10,1,1,0
+38029793,38029793_11,cell_phenotype,OPCs,587,4,1,1,0
+38029793,38029793_11,cell_vague,pre-OPC state,617,13,1,0,0
+38029793,38029793_11,cell_phenotype,OPC,621,3,1,0,0
+38029793,38029793_11,cell_phenotype,ependymal cells,684,15,1,1,1
+38029793,38029793_11,cell_phenotype,ependymal progenitors,802,21,1,1,1
+38029793,38029793_11,cell_phenotype,glioblasts,863,10,1,1,1
+38029793,38029793_11,cell_vague,neural crest- and mesoderm-derived cell types,960,45,1,0,0
+38029793,38029793_11,cell_hetero,meningeal,1007,9,1,1,1
+38029793,38029793_11,cell_hetero,immune,1018,6,1,1,1
+38029793,38029793_11,cell_phenotype,microglia,1033,9,1,1,1
+38029793,38029793_11,cell_hetero,vascular,1045,8,1,1,1
+38029793,38029793_11,cell_phenotype,mural,1055,5,1,1,1
+38029793,38029793_11,cell_phenotype,endothelial,1065,11,1,1,1
+38029793,38029793_11,cell_phenotype,erythroid,1082,9,1,1,1
+38029793,38029793_11,cell_hetero,neural cells,1113,12,1,1,1
+38029793,38029793_11,cell_vague,midbrain-originating cell population (LEF1),1193,43,1,0,0
+38029793,38029793_11,cell_phenotype,isthmic and midbrain neuroblasts,1290,32,1,0,0
+38029793,38029793_11,cell_phenotype,GABAergic midbrain cells,1324,24,1,1,1
+38029793,38029793_11,cell_phenotype,motor neurons,1353,13,1,1,1
+37581939,37581939_1,cell_vague,population of GABAergic hypothalamic LepRb neurons,132,50,1,0,0
+37581939,37581939_1,cell_phenotype,GABAergic hypothalamic LepRb neurons,146,36,1,1,1
+37581939,37581939_1,cell_vague,populations of LepRb neurons,292,28,1,0,0
+37581939,37581939_1,cell_phenotype,LepRb neurons,307,13,1,1,0
+37581939,37581939_1,cell_phenotype,hypothalamic LepRb cells,398,24,1,0,0
+37581939,37581939_1,cell_vague,populations of hypothalamic LepRb neurons,468,41,1,0,0
+37581939,37581939_1,cell_phenotype,hypothalamic LepRb neurons,483,26,1,1,0
+37581939,37581939_1,cell_phenotype,GABAergic Glp1r-expressing LepRb (LepRbGlp1r) neurons,593,53,1,0,0
+37581939,37581939_1,cell_phenotype,LepRb cell,685,10,1,0,0
+37581939,37581939_1,cell_vague,LepRb cell populations,685,22,1,0,0
+37581939,37581939_1,cell_phenotype,LepRbGlp1r cells,728,16,1,0,0
+37581939,37581939_1,cell_phenotype,GABA neurons,885,12,1,1,1
+37581939,37581939_1,cell_phenotype,GABAergic Glp1r-expressing neurons,954,34,1,0,0
+37581939,37581939_1,cell_phenotype,LepRbGlp1r neurons,1038,18,1,0,0
+37581939,37581939_1,cell_phenotype,GABAergic LepRbGlp1r neuron,1173,27,1,0,0
+37581939,37581939_1,cell_vague,GABAergic LepRbGlp1r neuron population,1173,38,1,0,0
+38902234,38902234_12,cell_vague,brain cell types,572,16,1,0,0
+38902234,38902234_12,cell_hetero,brain cell,572,10,1,0,0
+38902234,38902234_12,cell_phenotype,excitatory neuronal,1336,19,1,0,0
+38902234,38902234_12,cell_phenotype,inhibitory neuronal,1372,19,1,0,0
+38902234,38902234_12,cell_phenotype,oligodendrocytic,1401,16,1,0,0
+38902234,38902234_12,cell_phenotype,astrocytic,1427,10,1,0,0
+38902234,38902234_12,cell_hetero,vascular,1446,8,1,0,0
+38902234,38902234_12,cell_phenotype,microglial,1463,10,1,0,0
+38902234,38902234_12,cell_vague,oligodendrocyte progenitor nuclei clusters,1485,42,1,0,0
+38902234,38902234_12,cell_phenotype,oligodendrocyte progenitor,1485,26,1,0,0
+38902234,38902234_12,cell_vague,excitatory neuronal cluster,1715,27,1,0,0
+38902234,38902234_12,cell_phenotype,excitatory neuronal,1715,19,1,0,0
+38902234,38902234_12,cell_phenotype,inhibitory neuronal,1918,19,1,0,0
+38902234,38902234_12,cell_phenotype,inhibitory neuronal,1995,19,1,0,0
+38902234,38902234_12,cell_phenotype,oligodendrocytic,2041,16,1,0,0
+32869744,32869744_51,cell_phenotype,excitatory neurons,31,18,0,0,0
+32869744,32869744_51,cell_vague,excitatory neuron clusters,267,26,0,0,0
+32869744,32869744_51,cell_phenotype,excitatory neuron,267,17,0,0,0
+30939814,30939814_40,cell_phenotype,Neuronal,5,8,0,0,0
+30939814,30939814_40,cell_phenotype,Microglial,14,10,0,0,0
+34117346,34117346_21,cell_phenotype,GABAergic and unidentified neurons,179,34,1,0,0
+34117346,34117346_21,cell_phenotype,GABAergic neurons,1232,17,1,1,0
+34117346,34117346_21,cell_phenotype,unidentified neurons,1296,20,1,1,0
+34117346,34117346_21,cell_phenotype,GABAergic neurons,1388,17,1,1,0
+34117346,34117346_21,cell_phenotype,unidentified neurons,1710,20,1,1,0
+34117346,34117346_21,cell_phenotype,unidentified neurons,1817,20,1,1,0
+34117346,34117346_21,cell_phenotype,neurons,428,7,1,1,0
+34117346,34117346_21,cell_phenotype,neurons,475,7,1,1,0
+34117346,34117346_21,cell_phenotype,neurons,533,7,1,1,0
+34117346,34117346_21,cell_phenotype,neurons,576,7,1,1,0
+34117346,34117346_21,cell_phenotype,Neurons,634,7,1,1,0
+34117346,34117346_21,cell_phenotype,neuron,705,6,1,1,0
+34117346,34117346_21,cell_phenotype,neurons,889,7,1,1,0
+34117346,34117346_21,cell_phenotype,neurons,979,7,1,1,0
+34117346,34117346_21,cell_phenotype,neurons,1022,7,1,1,0
+34117346,34117346_21,cell_phenotype,neurons,1528,7,1,1,0
+34117346,34117346_21,cell_phenotype,neurons,1790,7,1,1,0
+34117346,34117346_21,cell_phenotype,neurons,1899,7,1,1,0
+37758947,37758947_152,cell_phenotype,oligodendrocytes,81,16,0,0,0
+37758947,37758947_152,cell_phenotype,oligodendrocyte precursor cells,102,31,0,0,0
+37758947,37758947_152,cell_phenotype,microglia,139,9,0,0,0
+37758947,37758947_152,cell_phenotype,perivascular macrophages,153,24,0,0,0
+37758947,37758947_152,cell_phenotype,ependymal cells,183,15,0,0,0
+37758947,37758947_152,cell_phenotype,choroid plexus epithelial cells,200,31,0,0,0
+37758947,37758947_152,cell_phenotype,subcommissural organ hypendymal cells,236,37,0,0,0
+37758947,37758947_152,cell_phenotype,olfactory inhibitory neurons,279,28,0,0,0
+37758947,37758947_152,cell_phenotype,cerebellum neurons,313,18,0,0,0
+37758947,37758947_152,cell_phenotype,telencephalon projecting inhibitory neurons,337,43,0,0,0
+37758947,37758947_152,cell_phenotype,di- and mesencephalon excitatory neurons,386,40,0,0,0
+37758947,37758947_152,cell_phenotype,glutamatergic neuroblasts,432,25,0,0,0
+37758947,37758947_152,cell_hetero,non-glutamatergic neuroblasts,463,29,0,0,0
+37758947,37758947_152,cell_phenotype,di- and mesencephalon inhibitory neurons,498,40,0,0,0
+37758947,37758947_152,cell_phenotype,cholinergic and monoaminergic neurons,544,37,0,0,0
+37758947,37758947_152,cell_phenotype,peptidergic neurons,587,19,0,0,0
+37758947,37758947_152,cell_phenotype,hindbrain/spinal cord neurons,612,29,0,0,0
+37758947,37758947_152,cell_hetero,vascular cells,651,14,0,0,0
+37758947,37758947_152,cell_phenotype,astrocytes,65,10,0,0,0
+38864245,38864245_3,cell_phenotype,neuronal,512,8,0,0,0
+32073942,32073942_0,cell_phenotype,spinal motoneuron,49,17,0,0,0
+38199807,38199807_108,cell_phenotype,serotonergic neurons,203,20,1,1,1
+38199807,38199807_108,cell_phenotype,sympathetic premotor neurons,393,28,1,1,1
+38199807,38199807_108,cell_phenotype,medullary raphe neurons,526,23,1,1,1
+38199807,38199807_108,cell_vague,Ox2r-expressing DMH cells,657,25,1,1,1
+38199807,38199807_108,cell_phenotype,GABAergic,695,9,1,1,0
+38199807,38199807_108,cell_phenotype,DMH GABAergic neurons,718,21,1,0,0
+38199807,38199807_108,cell_phenotype,GABAergic neurons,822,17,1,1,1
+38199807,38199807_108,cell_phenotype,ARC GABAergic neurons,884,21,1,1,1
+38199807,38199807_108,cell_phenotype,POMC neurons,921,12,1,1,1
+38199807,38199807_108,cell_vague,subpopulation of ARC GABAergic neurons,937,38,1,0,0
+38199807,38199807_108,cell_phenotype,ARC GABAergic neurons,954,21,1,1,1
+38512130,38512130_10,cell_vague,Brain Cell type,491,15,0,0,0
+38512130,38512130_10,cell_phenotype,oligodendrocytes,742,16,0,0,0
+38512130,38512130_10,cell_phenotype,microglia,760,9,0,0,0
+38512130,38512130_10,cell_phenotype,oligodendrocyte precursor cells,794,31,0,0,0
+38512130,38512130_10,cell_phenotype,OPCs,827,4,0,0,0
+38512130,38512130_10,cell_phenotype,astrocytes,730,10,0,0,0
+38512130,38512130_10,cell_hetero,Brain Cell,491,10,0,0,0
+38512130,38512130_10,cell_phenotype,endothelial cells,771,17,0,0,0
+38512130,38512130_10,cell_phenotype,neurons,721,7,0,0,0
+30620732,30620732_3,cell_phenotype,neurons,438,7,1,0,0
+30620732,30620732_3,cell_phenotype,neuron,705,6,1,0,0
+30620732,30620732_3,cell_phenotype,inhibitory cells,969,16,1,0,0
+30620732,30620732_3,cell_phenotype,excitatory cells,998,16,1,0,0
+30620732,30620732_3,cell_phenotype,neuron,1105,6,1,0,0
+30620732,30620732_3,cell_phenotype,inhibitory cells,1305,16,1,0,0
+30620732,30620732_3,cell_vague,inhibitory cell types,1461,21,1,0,0
+30620732,30620732_3,cell_phenotype,inhibitory cell,1461,15,1,0,0
+33833082,33833082_57,cell_vague,Pyr cell population,128,19,0,0,0
+33833082,33833082_57,cell_phenotype,neurons,598,7,0,0,0
+33833082,33833082_57,cell_phenotype,neurons,702,7,0,0,0
+33833082,33833082_57,cell_phenotype,Pyr cell,128,8,0,0,0
+33833082,33833082_57,cell_phenotype,Pyr cells,922,9,0,0,0
+33833082,33833082_57,cell_phenotype,Pyr cells,1217,9,0,0,0
+33833082,33833082_57,cell_phenotype,Pyr cell,1462,8,0,0,0
+33833082,33833082_57,cell_phenotype,Pyr cells,1822,9,0,0,0
+34749773,34749773_10,cell_vague,astrocyte subset,601,16,1,0,0
+34749773,34749773_10,cell_phenotype,astrocyte,601,9,1,1,0
+34749773,34749773_10,cell_phenotype,Olig2(+)/GFAP(-) astrocytes,684,27,1,0,0
+34749773,34749773_10,cell_phenotype,Olig2(+)/GFAP(+) astrocytes,725,27,1,0,0
+34749773,34749773_10,cell_phenotype,Olig2(-)/GFAP(+) astrocytes,766,27,1,0,0
+34749773,34749773_10,cell_phenotype,Olig2(-)/GFAP(-) astrocytes,810,27,1,0,0
+34749773,34749773_10,cell_phenotype,immNEU,853,6,1,0,0
+34749773,34749773_10,cell_phenotype,OPC,897,3,1,0,0
+34749773,34749773_10,cell_phenotype,oligodendrocyte precursor cell,901,30,1,1,1
+34749773,34749773_10,cell_phenotype,immOLG,933,6,1,0,0
+34749773,34749773_10,cell_phenotype,immature oligodendrocyte,940,24,1,1,1
+34749773,34749773_10,cell_phenotype,OLG,966,3,1,1,0
+34749773,34749773_10,cell_phenotype,oligodendrocyte,970,15,1,1,0
+34749773,34749773_10,cell_phenotype,ASC,987,3,1,1,0
+34749773,34749773_10,cell_phenotype,astrocyte,991,9,1,1,1
+34749773,34749773_10,cell_phenotype,OEG,1002,3,1,0,0
+34749773,34749773_10,cell_phenotype,olfactory ensheathing glia,1006,26,1,1,1
+34749773,34749773_10,cell_phenotype,MG,1034,2,1,1,0
+34749773,34749773_10,cell_phenotype,microglia,1037,9,1,1,1
+34749773,34749773_10,cell_phenotype,MAC,1048,3,1,0,0
+34749773,34749773_10,cell_phenotype,macrophage,1052,10,1,1,1
+34749773,34749773_10,cell_phenotype,EC,1064,2,1,0,0
+34749773,34749773_10,cell_phenotype,endothelial cell,1067,16,1,1,1
+34749773,34749773_10,cell_phenotype,PC,1085,2,1,0,0
+34749773,34749773_10,cell_phenotype,pericyte,1088,8,1,1,1
+34749773,34749773_10,cell_phenotype,ependymal cell,1102,14,1,1,1
+34749773,34749773_10,cell_phenotype,VLMC,1118,4,1,0,0
+34749773,34749773_10,cell_phenotype,vascular and leptomeningeal cell,1123,32,1,1,1
+34749773,34749773_10,cell_phenotype,ABC,1157,3,1,0,0
+34749773,34749773_10,cell_phenotype,arachnoid barrier cell,1161,22,1,1,1
+34749773,34749773_10,cell_phenotype,CP,1185,2,1,0,0
+34749773,34749773_10,cell_phenotype,cycling progenitor,1188,18,1,1,1
+34749773,34749773_10,cell_phenotype,EPC,1098,3,1,0,0
+34749773,34749773_10,cell_phenotype,immature neuron,860,15,1,1,1
+34749773,34749773_10,cell_phenotype,mNEU,877,4,1,1,0
+34749773,34749773_10,cell_phenotype,mature neuron,882,13,1,1,0
+35637903,35637903_32,cell_vague,hippocampal input cell types,41,28,0,0,0
+35637903,35637903_32,cell_phenotype,hippocampal input cell,41,22,0,0,0
+32269761,32269761_17,cell_phenotype,NSCs,309,4,1,1,1
+32269761,32269761_17,cell_phenotype,astrocyte precursors,397,20,1,1,1
+32269761,32269761_17,cell_phenotype,astrocytes,65,10,1,1,0
+32269761,32269761_17,cell_phenotype,astrocyte,493,9,1,1,0
+38180614,38180614_46,cell_phenotype,neuronal,22,8,1,1,0
+38180614,38180614_46,cell_phenotype,GLUTNs,103,6,1,1,0
+38180614,38180614_46,cell_phenotype,GABANs,162,6,1,1,0
+38180614,38180614_46,cell_phenotype,Neuronal,182,8,1,1,0
+38180614,38180614_46,cell_vague,Neuronal clusters,182,17,1,0,0
+38180614,38180614_46,cell_phenotype,neurons,412,7,1,1,0
+38180614,38180614_46,cell_vague,subclusters of neurons,481,22,1,0,0
+38180614,38180614_46,cell_phenotype,neurons,496,7,1,1,0
+38180614,38180614_46,cell_phenotype,GABANs,534,6,1,1,0
+38180614,38180614_46,cell_phenotype,GABANs,553,6,1,1,0
+38180614,38180614_46,cell_phenotype,glutamatergic (left) and GABAergic neurons,605,42,1,0,0
+33097708,33097708_54,cell_phenotype,disease-associated microglia,48,28,1,0,0
+33097708,33097708_54,cell_phenotype,DAMs,78,4,1,1,0
+36384442,36384442_30,cell_phenotype,Neuroendocrine cells,137,20,1,1,0
+36384442,36384442_30,cell_phenotype,NendC,159,5,1,0,0
+36384442,36384442_30,cell_phenotype,Mature Neurons,222,14,1,1,0
+36384442,36384442_30,cell_phenotype,mNEUR,250,5,1,0,0
+36384442,36384442_30,cell_phenotype,Arachnoid barrier cells,298,23,1,1,0
+36384442,36384442_30,cell_phenotype,ABC,323,3,1,0,0
+36384442,36384442_30,cell_phenotype,Tanycytes,371,9,1,0,0
+36384442,36384442_30,cell_phenotype,TNC,382,3,1,0,0
+36384442,36384442_30,cell_phenotype,Vascular and leptomeningeal cells,424,33,1,0,0
+36384442,36384442_30,cell_phenotype,VLMC,459,4,1,0,0
+36384442,36384442_30,cell_phenotype,Oligodendrocyte precursor cells,513,31,1,0,0
+36384442,36384442_30,cell_phenotype,OPC,546,3,1,1,0
+36384442,36384442_30,cell_phenotype,Pericytes,587,9,1,0,0
+36384442,36384442_30,cell_phenotype,PC,598,2,1,0,0
+36384442,36384442_30,cell_phenotype,Olfactory ensheathing glia,638,26,1,0,0
+36384442,36384442_30,cell_phenotype,OEG,666,3,1,0,0
+36384442,36384442_30,cell_phenotype,Oligodendrocytes,707,16,1,0,0
+36384442,36384442_30,cell_phenotype,OLG,725,3,1,0,0
+36384442,36384442_30,cell_phenotype,Choroid plexus epithelial cells,765,31,1,0,0
+36384442,36384442_30,cell_phenotype,CPC,798,3,1,0,0
+36384442,36384442_30,cell_phenotype,Hemoglobin-expressing vascular cells,840,36,1,0,0
+36384442,36384442_30,cell_phenotype,Hb_VC,878,5,1,0,0
+36384442,36384442_30,cell_phenotype,Vascular smooth muscle cells,921,28,1,0,0
+36384442,36384442_30,cell_phenotype,VSMC,951,4,1,0,0
+36384442,36384442_30,cell_phenotype,Astrocyte-restricted precursors,1003,31,1,0,0
+36384442,36384442_30,cell_phenotype,ARP,1036,3,1,0,0
+36384442,36384442_30,cell_phenotype,Neural stem cells,1076,17,1,0,0
+36384442,36384442_30,cell_phenotype,NSC,1095,3,1,0,0
+36384442,36384442_30,cell_phenotype,Ependymocytes,1135,13,1,0,0
+36384442,36384442_30,cell_phenotype,EPC,1150,3,1,0,0
+36384442,36384442_30,cell_phenotype,Endothelial cells,1193,17,1,0,0
+36384442,36384442_30,cell_phenotype,EC,1212,2,1,0,0
+36384442,36384442_30,cell_phenotype,Hypendymal cells,1251,16,1,0,0
+36384442,36384442_30,cell_phenotype,HypEPC,1269,6,1,0,0
+36384442,36384442_30,cell_phenotype,Neuronal-restricted precursor,1314,29,1,0,0
+36384442,36384442_30,cell_phenotype,NRP,1345,3,1,0,0
+36384442,36384442_30,cell_phenotype,Astrocytes,1387,10,1,0,0
+36384442,36384442_30,cell_phenotype,ASC,1399,3,1,0,0
+36384442,36384442_30,cell_phenotype,Dendritic cells,1434,15,1,0,0
+36384442,36384442_30,cell_phenotype,DC,1451,2,1,0,0
+36384442,36384442_30,cell_phenotype,Immature Neurons,1486,16,1,0,0
+36384442,36384442_30,cell_phenotype,ImmN,1504,4,1,0,0
+36384442,36384442_30,cell_phenotype,Macrophages,1539,11,1,0,0
+36384442,36384442_30,cell_phenotype,MAC,1552,3,1,0,0
+36384442,36384442_30,cell_phenotype,Microglia,1588,9,1,1,0
+36384442,36384442_30,cell_phenotype,MG,1599,2,1,1,0
+36384442,36384442_30,cell_phenotype,Monocytes,1635,9,1,0,0
+36384442,36384442_30,cell_phenotype,MNC,1646,3,1,0,0
+36384442,36384442_30,cell_phenotype,Neutrophils,1682,11,1,0,0
+36384442,36384442_30,cell_phenotype,NEUT,1695,4,1,0,0
+37429945,37429945_38,cell_phenotype,Meningeal ILC2s,0,15,1,1,1
+37429945,37429945_38,cell_phenotype,ILC2s,192,5,1,1,0
+37429945,37429945_38,cell_phenotype,dural ILC2s,300,11,1,1,1
+37429945,37429945_38,cell_phenotype,lung ILC2s,330,10,1,1,0
+37429945,37429945_38,cell_phenotype,meningeal ILC2s,372,15,1,1,0
+37429945,37429945_38,cell_phenotype,lung-resident cells,410,19,1,0,0
+37429945,37429945_38,cell_phenotype,ILC2 precursors,557,15,1,1,1
+37429945,37429945_38,cell_phenotype,blood-derived ILC2s,683,19,1,1,1
+31082625,31082625_1,cell_phenotype,neuronal,94,8,0,0,0
+31082625,31082625_1,cell_phenotype,neuronal,364,8,0,0,0
+31082625,31082625_1,cell_vague,neuronal subpopulations,364,23,0,0,0
+31082625,31082625_1,cell_phenotype,neuronal,428,8,0,0,0
+31082625,31082625_1,cell_phenotype,neuronal,773,8,0,0,0
+33278342,33278342_0,cell_phenotype,Area Postrema Cell,0,18,1,0,0
+33278342,33278342_0,cell_vague,Area Postrema Cell Types,0,24,1,0,0
+35758263,35758263_92,cell_phenotype,GABAergic (P < 1 x 10-10) and glutamatergic cells,154,49,0,0,0
+35758263,35758263_92,cell_phenotype,GABAergic cells,298,15,0,0,0
+35758263,35758263_92,cell_phenotype,astrocyte,268,9,0,0,0
+37463742,37463742_73,cell_phenotype,neurons,58,7,1,0,0
+37463742,37463742_73,cell_phenotype,neurons,247,7,1,0,0
+37463742,37463742_73,cell_phenotype,neuron,302,6,1,0,0
+37463742,37463742_73,cell_phenotype,SOM cells,858,9,1,0,0
+37582805,37582805_46,cell_phenotype,mitral cells,189,12,1,1,1
+37582805,37582805_46,cell_vague,CCK-expressing neurons,462,22,1,1,0
+37582805,37582805_46,cell_phenotype,neurons,477,7,1,1,0
+33054973,33054973_61,cell_vague,progenitor population,24,21,0,0,0
+33054973,33054973_61,cell_phenotype,progenitor,24,10,0,0,0
+33054973,33054973_61,cell_phenotype,microglia,65,9,0,0,0
+33054973,33054973_61,cell_phenotype,terminally differentiated myeloid cells,119,39,0,0,0
+33054973,33054973_61,cell_phenotype,microglia,160,9,0,0,0
+33054973,33054973_61,cell_phenotype,microglial,216,10,0,0,0
+33054973,33054973_61,cell_phenotype,microglia,257,9,0,0,0
+33054973,33054973_61,cell_phenotype,progenitor,332,10,0,0,0
+33054973,33054973_61,cell_phenotype,microglia,392,9,0,0,0
+33054973,33054973_61,cell_phenotype,progenitor,456,10,0,0,0
+33054973,33054973_61,cell_phenotype,microglial,491,10,0,0,0
+33054973,33054973_61,cell_phenotype,microglial cell,547,15,0,0,0
+33054973,33054973_61,cell_phenotype,MAC2+ cells,675,11,0,0,0
+33054973,33054973_61,cell_phenotype,microglial,732,10,0,0,0
+33054973,33054973_61,cell_phenotype,proliferating microglia,779,23,0,0,0
+33054973,33054973_61,cell_phenotype,MAC2+ cells,843,11,0,0,0
+33054973,33054973_61,cell_phenotype,MAC2+ microglia,914,15,0,0,0
+33054973,33054973_61,cell_phenotype,MAC2+ cells,1137,11,0,0,0
+33054973,33054973_61,cell_phenotype,MAC2+ progenitors,1224,17,0,0,0
+31685673,31685673_51,cell_phenotype,CA1 cells,68,9,1,1,1
+31685673,31685673_51,cell_phenotype,neuron,532,6,1,1,1
+31685673,31685673_51,cell_phenotype,neurons,605,7,1,1,0
+32142694,32142694_4,cell_phenotype,MTL neurons,11,11,0,0,0
+37803069,37803069_42,cell_vague,neuronal population,290,19,1,1,0
+37803069,37803069_42,cell_phenotype,neurons,237,7,1,1,0
+37803069,37803069_42,cell_phenotype,neuronal,290,8,1,1,0
+39363111,39363111_60,cell_phenotype,vascular cells,159,14,1,1,1
+39363111,39363111_60,cell_phenotype,astrocytes,230,10,1,1,1
+39363111,39363111_60,cell_vague,radial glial subtypes,303,21,1,1,1
+39363111,39363111_60,cell_phenotype,radial glial,303,12,1,0,0
+39363111,39363111_60,cell_phenotype,astrocyte,392,9,1,1,0
+39363111,39363111_60,cell_vague,radial glial subtype,406,20,1,0,0
+39363111,39363111_60,cell_phenotype,radial glial,406,12,1,0,0
+39363111,39363111_60,cell_hetero,brain cell,562,10,1,0,0
+39363111,39363111_60,cell_vague,brain cell types,562,16,1,0,0
+33480359,33480359_1,cell_phenotype,Sox2+ cells,249,11,0,0,0
+33480359,33480359_1,cell_vague,pituitary cell type,545,19,0,0,0
+33480359,33480359_1,cell_hetero,pituitary cell,545,14,0,0,0
+33480359,33480359_1,cell_hetero,endocrine and non-endocrine pituitary cells,725,43,0,0,0
+33480359,33480359_1,cell_phenotype,corticotrophs,847,13,0,0,0
+33480359,33480359_1,cell_vague,subpopulations of somatotrophs and folliculo-stellate cells,886,59,0,0,0
+33480359,33480359_1,cell_phenotype,somatotrophs,904,12,0,0,0
+33480359,33480359_1,cell_phenotype,folliculo-stellate cells,921,24,0,0,0
+33480359,33480359_1,cell_phenotype,folliculo-stellate cells,1003,24,0,0,0
+33480359,33480359_1,cell_phenotype,somatotrophs,1078,12,0,0,0
+33480359,33480359_1,cell_phenotype,folliculo-stellate cell,1302,23,0,0,0
+35011731,35011731_17,cell_phenotype,SPNs,6,4,0,0,0
+35011731,35011731_17,cell_phenotype,neurons,34,7,0,0,0
+35011731,35011731_17,cell_phenotype,GABAergic interneurons,98,22,0,0,0
+35011731,35011731_17,cell_vague,subtypes of striatal GABAergic interneurons,176,43,0,0,0
+35011731,35011731_17,cell_phenotype,striatal GABAergic interneurons,188,31,0,0,0
+35011731,35011731_17,cell_phenotype,calretinin-expressing interneurons,354,34,0,0,0
+35011731,35011731_17,cell_vague,subset of parvalbumin- and nitric-oxide-synthase-expressing neurons,409,67,0,0,0
+35011731,35011731_17,cell_phenotype,parvalbumin- and nitric-oxide-synthase-expressing neurons,419,57,0,0,0
+35011731,35011731_17,cell_phenotype,parvalbumin- and nitric-oxide-synthase-positive neurons,532,55,0,0,0
+35011731,35011731_17,cell_vague,calretinin-positive cells,603,25,0,0,0
+35011731,35011731_17,cell_phenotype,GABAergic interneurons,773,22,0,0,0
+35011731,35011731_17,cell_phenotype,SPNs,849,4,0,0,0
+35011731,35011731_17,cell_phenotype,striatal interneurons,963,21,0,0,0
+35011731,35011731_17,cell_phenotype,SPNs,1038,4,0,0,0
+37161652,37161652_1,cell_vague,corticospinal upper motor neurons,139,33,1,0,0
+37161652,37161652_1,cell_phenotype,upper motor neurons,153,19,1,1,0
+37161652,37161652_1,cell_vague,neuronal populations,626,20,1,1,0
+37161652,37161652_1,cell_phenotype,motor neuron,858,12,1,1,0
+37161652,37161652_1,cell_phenotype,neuronal,514,8,1,1,0
+37161652,37161652_1,cell_phenotype,neuronal,626,8,1,1,0
+32101169,32101169_3,cell_phenotype,Inhibitory interneurons,640,23,0,0,0
+32101169,32101169_3,cell_phenotype,inhibitory cells,811,16,0,0,0
+34345916,34345916_16,cell_phenotype,neuronal,93,8,0,0,0
+38092913,38092913_41,cell_phenotype,neuronal,104,8,1,1,0
+32955435,32955435_35,cell_phenotype,neuronal cell,13,13,0,0,0
+33976139,33976139_18,cell_vague,pituitary cell types,227,20,1,1,0
+33976139,33976139_18,cell_phenotype,pituitary cell,227,14,1,0,0
+33976139,33976139_18,cell_phenotype,stem (progenitor) cells,283,23,1,0,0
+33976139,33976139_18,cell_vague,proliferating cells,308,19,1,1,1
+33976139,33976139_18,cell_phenotype,pituicytes,329,10,1,1,1
+33976139,33976139_18,cell_hetero,immune cells,413,12,1,1,1
+33976139,33976139_18,cell_phenotype,macrophages,427,11,1,1,1
+33976139,33976139_18,cell_phenotype,leukocytes,440,10,1,1,1
+33976139,33976139_18,cell_phenotype,endothelial cells,453,17,1,1,1
+33976139,33976139_18,cell_phenotype,pericytes,476,9,1,1,1
+33976139,33976139_18,cell_vague,clusters of stem cells,506,22,1,0,0
+33976139,33976139_18,cell_phenotype,stem cells,518,10,1,1,1
+33976139,33976139_18,cell_phenotype,gonadotrope,765,11,1,1,0
+33976139,33976139_18,cell_vague,gonadotrope clusters,765,20,1,0,0
+33976139,33976139_18,cell_vague,Pit1-negative cells,817,19,1,0,0
+33976139,33976139_18,cell_phenotype,corticotrope,857,12,1,0,0
+33976139,33976139_18,cell_vague,corticotrope and the gonadotrope clusters,857,41,1,0,0
+33976139,33976139_18,cell_phenotype,gonadotrope,878,11,1,1,0
+33976139,33976139_18,cell_phenotype,corticotrope or gonadotrope cells,951,33,1,0,0
+33976139,33976139_18,cell_phenotype,somatotrope,1054,11,1,1,0
+33976139,33976139_18,cell_vague,somatotrope clusters,1054,20,1,0,0
+33976139,33976139_18,cell_vague,clusters of lactotropes,1142,23,1,0,0
+33976139,33976139_18,cell_phenotype,lactotropes,1154,11,1,1,1
+36695493,36695493_28,cell_phenotype,neuron,32,6,0,0,0
+36695493,36695493_28,cell_phenotype,astrocyte,104,9,0,0,0
+36695493,36695493_28,cell_phenotype,astrocyte,169,9,0,0,0
+36695493,36695493_28,cell_vague,astrocyte phenotypes,169,20,0,0,0
+36695493,36695493_28,cell_phenotype,neurons,221,7,0,0,0
+36695493,36695493_28,cell_phenotype,neurons,258,7,0,0,0
+36695493,36695493_28,cell_phenotype,astrocytes,299,10,0,0,0
+36695493,36695493_28,cell_phenotype,astrocytes,427,10,0,0,0
+36695493,36695493_28,cell_phenotype,neurons,466,7,0,0,0
+36695493,36695493_28,cell_phenotype,astrocytic,766,10,0,0,0
+36695493,36695493_28,cell_phenotype,neuronal,807,8,0,0,0
+36695493,36695493_28,cell_phenotype,astrocytes,1107,10,0,0,0
+36695493,36695493_28,cell_phenotype,neurons,1231,7,0,0,0
+36695493,36695493_28,cell_phenotype,reactive astrocytes,1342,19,0,0,0
+36695493,36695493_28,cell_phenotype,astrocytic,1470,10,0,0,0
+38587883,38587883_68,cell_phenotype,glutamatergic and GABAergic neuronal,529,36,0,0,0
+38587883,38587883_68,cell_phenotype,mDA neurons,706,11,0,0,0
+38587883,38587883_68,cell_phenotype,glutamaterigic and GABAergic,737,28,0,0,0
+38587883,38587883_68,cell_phenotype,neuronal,439,8,0,0,0
+35055039,35055039_30,cell_phenotype,Mesenchymal stem cells,0,22,0,0,0
+35055039,35055039_30,cell_phenotype,MSC,24,3,0,0,0
+35055039,35055039_30,cell_vague,heterogeneous subset of stromal cells,46,37,0,0,0
+35055039,35055039_30,cell_hetero,stromal cells,70,13,0,0,0
+35055039,35055039_30,cell_phenotype,adipocytes,248,10,0,0,0
+35055039,35055039_30,cell_phenotype,osteocytes,260,10,0,0,0
+35055039,35055039_30,cell_phenotype,chondrocytes,272,12,0,0,0
+35055039,35055039_30,cell_phenotype,myocytes,290,8,0,0,0
+35055039,35055039_30,cell_phenotype,MSCs,340,4,0,0,0
+35055039,35055039_30,cell_vague,neuron-like cells,379,17,0,0,0
+35055039,35055039_30,cell_phenotype,neuron,379,6,0,0,0
+35055039,35055039_30,cell_phenotype,neurons,453,7,0,0,0
+35055039,35055039_30,cell_phenotype,MSCs,462,4,0,0,0
+35055039,35055039_30,cell_phenotype,MSCs,553,4,0,0,0
+35055039,35055039_30,cell_phenotype,neurons,621,7,0,0,0
+35055039,35055039_30,cell_phenotype,cardiomyocytes,633,14,0,0,0
+35584192,35584192_37,cell_phenotype,microglia,14,9,1,1,0
+35584192,35584192_37,cell_phenotype,myeloid cells,24,13,1,1,0
+35584192,35584192_37,cell_vague,subclusters of myeloid cells,71,28,1,0,0
+35584192,35584192_37,cell_phenotype,myeloid cells,86,13,1,1,0
+35584192,35584192_37,cell_hetero,immune cells,174,12,1,1,0
+35584192,35584192_37,cell_phenotype,microglia,221,9,1,1,0
+35584192,35584192_37,cell_phenotype,monocytes,316,9,1,0,0
+35584192,35584192_37,cell_hetero,antigen presenting cells,327,24,1,0,0
+35584192,35584192_37,cell_hetero,APCs,353,4,1,0,0
+35584192,35584192_37,cell_phenotype,granulocytic cells,364,18,1,0,0
+35584192,35584192_37,cell_hetero,myeloid lineage cells,420,21,1,1,0
+35584192,35584192_37,cell_phenotype,microglia,579,9,1,1,0
+35584192,35584192_37,cell_hetero,immune cell,609,11,1,0,0
+35584192,35584192_37,cell_phenotype,macrophages,700,11,1,1,1
+35584192,35584192_37,cell_phenotype,resident non-parenchymal macrophages,783,36,1,0,0
+35584192,35584192_37,cell_phenotype,monocyte,927,8,1,1,1
+35584192,35584192_37,cell_hetero,APC,937,3,1,1,1
+35584192,35584192_37,cell_phenotype,granulocytic cell,946,17,1,1,1
+35584192,35584192_37,cell_phenotype,myeloid cells,1044,13,1,1,1
+37013659,37013659_111,cell_phenotype,oligodendrocytes,7,16,1,1,0
+37013659,37013659_111,cell_phenotype,vOLs,167,4,1,1,0
+37013659,37013659_111,cell_phenotype,astrocytes,331,10,1,1,1
+37013659,37013659_111,cell_phenotype,endothelial cells,224,17,1,1,1
+37013659,37013659_111,cell_phenotype,neurons,77,7,1,1,1
+35802727,35802727_91,cell_phenotype,GABAergic interneurons,41,22,1,0,0
+35802727,35802727_91,cell_vague,interneuron types,148,17,1,0,0
+35802727,35802727_91,cell_phenotype,hilar interneurons,555,18,1,0,0
+35802727,35802727_91,cell_phenotype,interneuron,148,11,1,0,0
+35802727,35802727_91,cell_phenotype,neuronal,415,8,1,0,0
+39127719,39127719_48,cell_phenotype,BLALypd1 neurons,0,16,1,0,0
+39127719,39127719_48,cell_hetero,positive valence neurons,21,24,1,0,0
+37217515,37217515_11,cell_phenotype,neurons,395,7,1,0,0
+37217515,37217515_11,cell_phenotype,excitatory neurons,414,18,1,0,0
+37217515,37217515_11,cell_phenotype,inhibitory neurons,441,18,1,0,0
+37217515,37217515_11,cell_phenotype,astrocytes,471,10,1,0,0
+37217515,37217515_11,cell_phenotype,oligodendrocyte precursor cells,492,31,1,0,0
+37217515,37217515_11,cell_phenotype,oligodendrocytes,532,16,1,0,0
+37217515,37217515_11,cell_phenotype,endothelial cells,558,17,1,0,0
+37217515,37217515_11,cell_phenotype,microglia,586,9,1,0,0
+37217515,37217515_11,cell_vague,"OPC, astrocyte, and excitatory neuron cell types",1108,48,1,0,0
+37217515,37217515_11,cell_phenotype,OPC,1108,3,1,0,0
+37217515,37217515_11,cell_phenotype,astrocyte,1113,9,1,0,0
+37217515,37217515_11,cell_phenotype,excitatory neuron cell,1128,22,1,0,0
+37217515,37217515_11,cell_phenotype,Ast,1165,3,1,0,0
+37217515,37217515_11,cell_vague,"Ast1, Ast2, OPC1, and OPC2 clusters",1165,35,1,0,0
+37217515,37217515_11,cell_phenotype,Ast,1171,3,1,0,0
+37217515,37217515_11,cell_phenotype,OPC,1177,3,1,0,0
+37217515,37217515_11,cell_phenotype,OPC,1187,3,1,0,0
+37217515,37217515_11,cell_vague,excitatory neuronal cluster,1743,27,1,0,0
+37217515,37217515_11,cell_phenotype,excitatory neuronal,1743,19,1,0,0
+37217515,37217515_11,cell_vague,inhibitory neuronal cluster,1819,27,1,0,0
+37217515,37217515_11,cell_phenotype,inhibitory neuronal,1819,19,1,0,0
+37217515,37217515_11,cell_vague,cluster of excitatory neurons,2008,29,1,0,0
+37217515,37217515_11,cell_phenotype,excitatory neurons,2019,18,1,0,0
+37217515,37217515_11,cell_vague,cluster on inhibitory neurons,2130,29,1,0,0
+37217515,37217515_11,cell_phenotype,inhibitory neurons,2141,18,1,0,0
+38376567,38376567_7,cell_phenotype,cortical cell,25,13,1,0,0
+38376567,38376567_7,cell_vague,cortical cell types,25,19,1,1,0
+38376567,38376567_7,cell_vague,"Glutamatergic, GABAergic neuronal and non-neuronal cells cluster",158,64,1,0,0
+38376567,38376567_7,cell_phenotype,"Glutamatergic, GABAergic neuronal and non-neuronal cells",158,56,1,0,0
+38376567,38376567_7,cell_phenotype,GABAergic neurons,340,17,1,1,1
+38376567,38376567_7,cell_phenotype,pyramidal neurons,721,17,1,1,1
+38376567,38376567_7,cell_phenotype,glutamatergic neurons,966,21,1,1,1
+38376567,38376567_7,cell_phenotype,L2/3 IT (pyramidal) neuron,1032,26,1,0,0
+38376567,38376567_7,cell_phenotype,neuronal cell,1319,13,1,0,0
+38376567,38376567_7,cell_phenotype,OGC,1370,3,1,1,1
+38376567,38376567_7,cell_phenotype,oligodendrocyte,1375,15,1,1,1
+38376567,38376567_7,cell_phenotype,OPC,1392,3,1,1,1
+38376567,38376567_7,cell_phenotype,oligodendrocyte precursor cell,1397,30,1,1,1
+38376567,38376567_7,cell_phenotype,PVM,1429,3,1,1,1
+38376567,38376567_7,cell_phenotype,perivascular macrophage,1434,23,1,1,1
+38376567,38376567_7,cell_phenotype,SMC,1459,3,1,1,1
+38376567,38376567_7,cell_phenotype,smooth muscle cell,1464,18,1,1,1
+38376567,38376567_7,cell_phenotype,VLMC,1484,4,1,1,1
+38376567,38376567_7,cell_phenotype,vascular leptomeningeal cell,1490,28,1,1,1
+32970817,32970817_6,cell_phenotype,PSCs,376,4,0,0,0
+32970817,32970817_6,cell_hetero,brain cells,385,11,0,0,0
+39431007,39431007_3,cell_vague,pericyte subpopulations,37,23,0,0,0
+39431007,39431007_3,cell_phenotype,pericyte,37,8,0,0,0
+39431007,39431007_3,cell_phenotype,NG2+ pericytes,135,14,0,0,0
+39431007,39431007_3,cell_phenotype,neurons,219,7,0,0,0
+39431007,39431007_3,cell_phenotype,Tbx18+ pericytes,234,16,0,0,0
+39431007,39431007_3,cell_phenotype,endothelial cells,294,17,0,0,0
+39431007,39431007_3,cell_phenotype,fibroblasts,313,11,0,0,0
+39431007,39431007_3,cell_phenotype,microglia,330,9,0,0,0
+39431007,39431007_3,cell_phenotype,pericyte,427,8,0,0,0
+39431007,39431007_3,cell_phenotype,neuron,439,6,0,0,0
+39431007,39431007_3,cell_phenotype,pericytes,846,9,0,0,0
+39431007,39431007_3,cell_phenotype,neurons,872,7,0,0,0
+33991454,33991454_34,cell_phenotype,SFA interneurons,28,16,0,0,0
+37153564,37153564_48,cell_phenotype,astrocytes,273,10,1,1,1
+37153564,37153564_48,cell_phenotype,neurons,261,7,1,1,1
+37153564,37153564_48,cell_phenotype,neuron,360,6,1,0,0
+39120281,39120281_10,cell_phenotype,OECs,17,4,0,0,0
+39120281,39120281_10,cell_phenotype,adipose-derived stem cells,26,26,0,0,0
+39120281,39120281_10,cell_phenotype,ADSCs,54,5,0,0,0
+39120281,39120281_10,cell_phenotype,chondrocyte,208,11,0,0,0
+35103591,35103591_55,cell_phenotype,somatostatin-expressing CSF-c neurons,31,37,0,0,0
+35103591,35103591_55,cell_phenotype,dopaminergic CSF-c neurons,88,26,0,0,0
+35103591,35103591_55,cell_phenotype,CSF-c neurons,419,13,0,0,0
+35103591,35103591_55,cell_phenotype,CSF-c neurons,654,13,0,0,0
+35103591,35103591_55,cell_phenotype,somatostatin-expressing CSF-c neurons,771,37,0,0,0
+35103591,35103591_55,cell_phenotype,dopaminergic CSF-c neurons,954,26,0,0,0
+35103591,35103591_55,cell_phenotype,somatostatin-expressing CSF-c neurons,1052,37,0,0,0
+35103591,35103591_55,cell_phenotype,sensory neurons,1094,15,0,0,0
+35103591,35103591_55,cell_phenotype,somatostatin-expressing and dopaminergic CSF-c neurons,1177,54,0,0,0
+31375678,31375678_9,cell_phenotype,neurons,32,7,1,1,0
+31375678,31375678_9,cell_phenotype,neurons,827,7,1,1,1
+38233398,38233398_0,cell_vague,fetal and adult brain cell types,73,32,1,0,0
+38233398,38233398_0,cell_hetero,fetal and adult brain cell,73,26,1,0,0
+35960762,35960762_55,cell_phenotype,astrocytes,171,10,1,1,0
+35960762,35960762_55,cell_phenotype,astrocytes,267,10,1,1,0
+36447241,36447241_44,cell_phenotype,Cortical neurons,0,16,1,1,1
+36447241,36447241_44,cell_phenotype,glutamatergic,56,13,1,1,0
+36447241,36447241_44,cell_phenotype,GABAergic,74,9,1,0,0
+36447241,36447241_44,cell_phenotype,Glutamatergic neurons,85,21,1,1,0
+36447241,36447241_44,cell_phenotype,neurons,143,7,1,1,0
+36447241,36447241_44,cell_phenotype,glutamatergic neurons,502,21,1,1,1
+36447241,36447241_44,cell_hetero,"""excitatory"" or ""projection"" neurons",579,36,1,0,0
+36447241,36447241_44,cell_vague,GABAergic neuron subclasses,635,27,1,0,0
+36447241,36447241_44,cell_phenotype,GABAergic neuron,635,16,1,1,1
+36447241,36447241_44,cell_phenotype,"inhibitory"" neurons",747,19,1,0,0
+36447241,36447241_44,cell_phenotype,interneurons,769,12,1,1,1
+36447241,36447241_44,cell_phenotype,neuronal,928,8,1,0,0
+36447241,36447241_44,cell_phenotype,glutamatergic (putatively excitatory) neurons,969,45,1,0,0
+36447241,36447241_44,cell_phenotype,GABAergic (putatively inhibitory) cortical neurons,1150,50,1,0,0
+36447241,36447241_44,cell_vague,classes of neurons,1330,18,1,0,0
+36447241,36447241_44,cell_phenotype,neurons,1341,7,1,1,0
+36414411,36414411_113,cell_phenotype,PYR cells,284,9,1,1,0
+36414411,36414411_113,cell_phenotype,PV cells,308,8,1,1,0
+36414411,36414411_113,cell_phenotype,PYR and PV cells,500,16,1,0,0
+36414411,36414411_113,cell_phenotype,PYR and PV cells,635,16,1,0,0
+36414411,36414411_113,cell_phenotype,PV cell,805,7,1,1,0
+36414411,36414411_113,cell_phenotype,PYR,712,3,1,1,0
+36414411,36414411_113,cell_phenotype,PYR,910,3,1,1,1
+36414411,36414411_113,cell_phenotype,PYR,987,3,1,1,1
+39562551,39562551_39,cell_hetero,pSPNs,36,5,1,1,1
+39562551,39562551_39,cell_hetero,pSPNs,159,5,1,1,0
+39562551,39562551_39,cell_phenotype,astrocytic,465,10,1,0,0
+39562551,39562551_39,cell_hetero,pSPNs,490,5,1,1,0
+39562551,39562551_39,cell_phenotype,astrocytes,45,10,1,1,1
+39562551,39562551_39,cell_phenotype,neuronal,520,8,1,0,0
+36197007,36197007_19,cell_vague,adult and aged EC populations,18,29,0,0,0
+36197007,36197007_19,cell_vague,adult and aged ECs,123,18,0,0,0
+36197007,36197007_19,cell_vague,aged ECs,574,8,0,0,0
+36197007,36197007_19,cell_phenotype,EC,33,2,0,0,0
+36197007,36197007_19,cell_phenotype,ECs,138,3,0,0,0
+36197007,36197007_19,cell_phenotype,ECs,452,3,0,0,0
+36197007,36197007_19,cell_phenotype,ECs,579,3,0,0,0
+36197007,36197007_19,cell_phenotype,ECs,635,3,0,0,0
+36197007,36197007_19,cell_phenotype,T cell,531,6,0,0,0
+34616066,34616066_9,cell_vague,Non-neuronal cell types,390,23,0,0,0
+34616066,34616066_9,cell_phenotype,neurons,474,7,0,0,0
+34616066,34616066_9,cell_phenotype,excitatory (top) and inhibitory (bottom) cell,765,45,0,0,0
+34616066,34616066_9,cell_vague,excitatory (top) and inhibitory (bottom) cell classes,765,53,0,0,0
+34616066,34616066_9,cell_phenotype,inhibitory neuron,1325,17,0,0,0
+34616066,34616066_9,cell_vague,inhibitory neuron subclasses,1325,28,0,0,0
+34616066,34616066_9,cell_phenotype,Lamp5,1358,5,0,0,0
+34616066,34616066_9,cell_phenotype,Sncg,1365,4,0,0,0
+34616066,34616066_9,cell_phenotype,Vip,1371,3,0,0,0
+34616066,34616066_9,cell_phenotype,Sst,1376,3,0,0,0
+34616066,34616066_9,cell_phenotype,Pvalb,1384,5,0,0,0
+34616066,34616066_9,cell_phenotype,Astro,1391,5,0,0,0
+34616066,34616066_9,cell_phenotype,astrocyte,1398,9,0,0,0
+34616066,34616066_9,cell_phenotype,CT,1409,2,0,0,0
+34616066,34616066_9,cell_phenotype,corticothalamic,1413,15,0,0,0
+34616066,34616066_9,cell_phenotype,endo,1430,4,0,0,0
+34616066,34616066_9,cell_phenotype,endothelial,1436,11,0,0,0
+34616066,34616066_9,cell_phenotype,ET,1449,2,0,0,0
+34616066,34616066_9,cell_phenotype,extratelencephalically projecting,1453,33,0,0,0
+34616066,34616066_9,cell_phenotype,IT,1488,2,0,0,0
+34616066,34616066_9,cell_phenotype,intratelencephalically projecting,1492,33,0,0,0
+34616066,34616066_9,cell_phenotype,micro,1527,5,0,0,0
+34616066,34616066_9,cell_phenotype,microglial cell,1534,15,0,0,0
+34616066,34616066_9,cell_phenotype,NP,1551,2,0,0,0
+34616066,34616066_9,cell_phenotype,near-projecting,1555,15,0,0,0
+34616066,34616066_9,cell_phenotype,oligo,1572,5,0,0,0
+34616066,34616066_9,cell_phenotype,oligodendrocyte,1579,15,0,0,0
+34616066,34616066_9,cell_phenotype,OPC,1596,3,0,0,0
+34616066,34616066_9,cell_phenotype,oligodendrocyte precursor cell,1601,30,0,0,0
+34616066,34616066_9,cell_phenotype,peri,1633,4,0,0,0
+34616066,34616066_9,cell_phenotype,pericyte,1639,8,0,0,0
+34616066,34616066_9,cell_phenotype,PVM,1649,3,0,0,0
+34616066,34616066_9,cell_phenotype,perivascular macrophage,1654,23,0,0,0
+34616066,34616066_9,cell_phenotype,SMC,1679,3,0,0,0
+34616066,34616066_9,cell_phenotype,smooth muscle cell,1684,18,0,0,0
+34616066,34616066_9,cell_phenotype,VLMC,1704,4,0,0,0
+34616066,34616066_9,cell_phenotype,vascular leptomeningeal cell,1710,28,0,0,0
+30894190,30894190_116,cell_phenotype,Pluripotent stem cells,0,22,1,0,0
+33562136,33562136_11,cell_vague,CD34+ ECs,0,9,0,0,0
+33562136,33562136_11,cell_phenotype,pericytes,14,9,0,0,0
+33562136,33562136_11,cell_vague,CD34+ ECs,594,9,0,0,0
+33562136,33562136_11,cell_phenotype,pericytes,607,9,0,0,0
+33562136,33562136_11,cell_phenotype,ECs,6,3,0,0,0
+33562136,33562136_11,cell_phenotype,ECs,600,3,0,0,0
+39009472,39009472_32,cell_phenotype,OLG,230,3,0,0,0
+39009472,39009472_32,cell_phenotype,NEUR,235,4,0,0,0
+39009472,39009472_32,cell_phenotype,ASC,241,3,0,0,0
+39009472,39009472_32,cell_phenotype,EC,250,2,0,0,0
+31944177,31944177_76,cell_phenotype,brain ECs,93,9,0,0,0
+31944177,31944177_76,cell_phenotype,lung ECs,107,8,0,0,0
+31944177,31944177_76,cell_phenotype,heart ECs,124,9,0,0,0
+31944177,31944177_76,cell_phenotype,endothelial,56,11,0,0,0
+35029646,35029646_43,cell_phenotype,SVZ cell,164,8,0,0,0
+35029646,35029646_43,cell_phenotype,neuroblast,323,10,0,0,0
+35029646,35029646_43,cell_phenotype,microglial,345,10,0,0,0
+35029646,35029646_43,cell_phenotype,stem cell,185,9,0,0,0
+35029646,35029646_43,cell_phenotype,stem cell,444,9,0,0,0
+31282856,31282856_6,cell_phenotype,neurons,394,7,0,0,0
+37231449,37231449_17,cell_phenotype,BAMs,136,4,1,1,0
+37231449,37231449_17,cell_phenotype,DCs,252,3,1,1,0
+37231449,37231449_17,cell_phenotype,cDC1,265,4,1,1,0
+37231449,37231449_17,cell_phenotype,cDC2,283,4,1,1,0
+37231449,37231449_17,cell_phenotype,migDCs,310,6,1,1,0
+37231449,37231449_17,cell_phenotype,pDCs,332,4,1,0,0
+37231449,37231449_17,cell_phenotype,Monocytes,362,9,1,1,0
+37231449,37231449_17,cell_phenotype,Classical monocytes,490,19,1,0,0
+37231449,37231449_17,cell_phenotype,Non-classical monocytes,530,23,1,0,0
+37231449,37231449_17,cell_phenotype,Intermediate monocytes,562,22,1,0,0
+37231449,37231449_17,cell_phenotype,Neutrophils,593,11,1,1,0
+37231449,37231449_17,cell_phenotype,Neutrophils,723,11,1,1,0
+37231449,37231449_17,cell_phenotype,B cells,749,7,1,1,0
+37231449,37231449_17,cell_phenotype,Pro-B cells,874,11,1,0,0
+37231449,37231449_17,cell_phenotype,Pre-B cells,944,11,1,0,0
+37231449,37231449_17,cell_phenotype,Immature B cells,989,16,1,0,0
+37231449,37231449_17,cell_phenotype,Mature naive B cells,1051,20,1,0,0
+37231449,37231449_17,cell_phenotype,Mitotic B cells,1107,15,1,0,0
+37231449,37231449_17,cell_phenotype,T cells,1138,7,1,1,0
+37231449,37231449_17,cell_phenotype,T cells,1190,7,1,1,0
+37231449,37231449_17,cell_phenotype,NK cells,1211,8,1,1,0
+37231449,37231449_17,cell_phenotype,NK cells,1228,8,1,1,0
+37231449,37231449_17,cell_phenotype,Microglia,1264,9,1,1,0
+37231449,37231449_17,cell_phenotype,Microglia,1303,9,1,1,0
+37231449,37231449_17,cell_phenotype,BAMs,1375,4,1,1,0
+37231449,37231449_17,cell_phenotype,BAMs,1409,4,1,1,0
+37231449,37231449_17,cell_phenotype,DCs,1436,3,1,1,0
+37231449,37231449_17,cell_phenotype,cDC1,1450,4,1,1,0
+37231449,37231449_17,cell_phenotype,cDC2,1468,4,1,1,0
+37231449,37231449_17,cell_phenotype,Monocytes,1495,9,1,1,0
+37231449,37231449_17,cell_phenotype,Classical monocytes,1513,19,1,0,0
+37231449,37231449_17,cell_phenotype,Non-classical monocytes,1541,23,1,0,0
+37231449,37231449_17,cell_phenotype,T cells,1573,7,1,1,0
+37231449,37231449_17,cell_phenotype,T cells,1589,7,1,1,0
+37231449,37231449_17,cell_phenotype,B cells,1604,7,1,1,0
+37231449,37231449_17,cell_phenotype,B cells,1620,7,1,1,0
+37231449,37231449_17,cell_phenotype,NK cells,1635,8,1,1,0
+37231449,37231449_17,cell_phenotype,NK cells,1652,8,1,1,0
+37239978,37239978_23,cell_phenotype,pericytes,114,9,0,0,0
+37239978,37239978_23,cell_phenotype,Pericytes,189,9,0,0,0
+37239978,37239978_23,cell_phenotype,astrocytes,38,10,0,0,0
+37239978,37239978_23,cell_phenotype,astrocytes,282,10,0,0,0
+33874957,33874957_13,cell_phenotype,Myeloid cells,0,13,1,1,1
+33874957,33874957_13,cell_phenotype,circulating monocytes,25,21,1,0,0
+33874957,33874957_13,cell_phenotype,tissue-resident macrophages,51,27,1,1,0
+33874957,33874957_13,cell_phenotype,Monocytes,151,9,1,1,0
+33874957,33874957_13,cell_phenotype,tissue-resident macrophage,292,26,1,1,0
+33874957,33874957_13,cell_vague,tissue-resident macrophage populations,292,38,1,0,0
+33874957,33874957_13,cell_phenotype,Microglia,425,9,1,1,1
+33874957,33874957_13,cell_phenotype,tissue-resident macrophages,440,27,1,1,0
+33874957,33874957_13,cell_phenotype,Activated microglia,687,19,1,0,0
+33874957,33874957_13,cell_phenotype,neurons,739,7,1,1,1
+33874957,33874957_13,cell_phenotype,microglia,883,9,1,1,0
+35626681,35626681_22,cell_hetero,gut resident immune cells,11,25,0,0,0
+35626681,35626681_22,cell_phenotype,eosinophils,38,11,0,0,0
+35626681,35626681_22,cell_phenotype,eosinophil,250,10,0,0,0
+35626681,35626681_22,cell_hetero,immune cells,282,12,0,0,0
+35626681,35626681_22,cell_phenotype,eosinophil,332,10,0,0,0
+35626681,35626681_22,cell_phenotype,neuron,343,6,0,0,0
+35626681,35626681_22,cell_phenotype,eosinophils,423,11,0,0,0
+35626681,35626681_22,cell_phenotype,neurons,503,7,0,0,0
+35626681,35626681_22,cell_phenotype,eosinophils,536,11,0,0,0
+35626681,35626681_22,cell_phenotype,eosinophils,555,11,0,0,0
+35626681,35626681_22,cell_phenotype,neurons,643,7,0,0,0
+35235796,35235796_0,cell_vague,subpopulation of spinal cord ependymal cells with neural stem cell properties,29,77,0,0,0
+35235796,35235796_0,cell_phenotype,spinal cord ependymal cells,46,27,0,0,0
+35235796,35235796_0,cell_phenotype,neural stem cell,79,16,0,0,0
+38575991,38575991_56,cell_phenotype,pituitary endocrine cells,33,25,1,1,1
+38575991,38575991_56,cell_vague,subpopulations of PG endocrine cells,85,36,1,0,0
+38575991,38575991_56,cell_phenotype,PG endocrine cells,103,18,1,0,0
+38575991,38575991_56,cell_phenotype,endocrine cell,193,14,1,0,0
+38575991,38575991_56,cell_vague,clusters of corticotrophs,251,25,1,0,0
+38575991,38575991_56,cell_phenotype,corticotrophs,263,13,1,1,1
+38575991,38575991_56,cell_phenotype,gonadotrophs,321,12,1,1,1
+38575991,38575991_56,cell_phenotype,somatotrophs,374,12,1,1,1
+38575991,38575991_56,cell_phenotype,lactotrophs,429,11,1,1,1
+38575991,38575991_56,cell_phenotype,melanotrophs,486,12,1,1,1
+33752749,33752749_66,cell_phenotype,glial cell,182,10,1,0,0
+33752749,33752749_66,cell_phenotype,oligodendroglial cells,304,22,1,1,0
+33752749,33752749_66,cell_phenotype,astroglial or microglial cells,369,30,1,0,0
+38109308,38109308_132,cell_hetero,hormone-producing cell,0,22,0,0,0
+38289193,38289193_37,cell_phenotype,adrenergic neuron,506,17,1,0,0
+38289193,38289193_37,cell_phenotype,Betz cell,637,9,1,0,0
+38289193,38289193_37,cell_phenotype,Betz cell,656,9,1,0,0
+38289193,38289193_37,cell_phenotype,catecholaminergic neuron,704,24,1,0,0
+38289193,38289193_37,cell_vague,neuronal classes,797,16,1,0,0
+38289193,38289193_37,cell_phenotype,cortical neurons,980,16,1,0,0
+38289193,38289193_37,cell_phenotype,Betz cells,1088,10,1,0,0
+38289193,38289193_37,cell_phenotype,alpha-motoneurons,1104,17,1,0,0
+38289193,38289193_37,cell_phenotype,Betz cells,1172,10,1,0,0
+38289193,38289193_37,cell_phenotype,gigantopyramidal neurons,1246,24,1,0,0
+38289193,38289193_37,cell_phenotype,anterior horn cells,1325,19,1,0,0
+38289193,38289193_37,cell_phenotype,spinal cord interneurons,1388,24,1,0,0
+38289193,38289193_37,cell_phenotype,M1 neurons,1487,10,1,0,0
+38289193,38289193_37,cell_phenotype,spinal cord neurons,1513,19,1,0,0
+38289193,38289193_37,cell_phenotype,M1 neuron,1663,9,1,0,0
+38289193,38289193_37,cell_phenotype,spinal cord neuron,1673,18,1,0,0
+38289193,38289193_37,cell_phenotype,gigantopyramidal neurons,1754,24,1,0,0
+38289193,38289193_37,cell_phenotype,neuronal,39,8,1,0,0
+38289193,38289193_37,cell_phenotype,neuronal,186,8,1,0,0
+38289193,38289193_37,cell_phenotype,neuronal,424,8,1,0,0
+38289193,38289193_37,cell_phenotype,neuronal,797,8,1,0,0
+36575956,36575956_51,cell_phenotype,PPN Vglut2+ neurons,25,19,0,0,0
+36575956,36575956_51,cell_phenotype,spiny projection neurons,86,24,0,0,0
+36575956,36575956_51,cell_vague,striatal cholinergic interneurons,134,33,0,0,0
+36575956,36575956_51,cell_phenotype,cholinergic interneurons,143,24,0,0,0
+36575956,36575956_51,cell_phenotype,GABAergic fast-spiking interneurons,172,35,0,0,0
+36575956,36575956_51,cell_phenotype,medium spiny neurons,282,20,0,0,0
+32070434,32070434_62,cell_phenotype,astrocytes,33,10,1,1,0
+32070434,32070434_62,cell_vague,populations of astrocytes,251,25,1,0,0
+32070434,32070434_62,cell_phenotype,astrocytes,266,10,1,1,1
+32070434,32070434_62,cell_vague,populations of astrocytes reacting to a disease,313,47,1,0,0
+32070434,32070434_62,cell_phenotype,astrocytes,328,10,1,1,1
+35816276,35816276_1,cell_phenotype,Astrocytes,0,10,0,0,0
+35816276,35816276_1,cell_hetero,immune cells,236,12,0,0,0
+35816276,35816276_1,cell_phenotype,astrocytes,325,10,0,0,0
+35816276,35816276_1,cell_phenotype,inflammatory astrocyte 1,363,24,0,0,0
+35816276,35816276_1,cell_phenotype,A1,389,2,0,0,0
+35816276,35816276_1,cell_phenotype,neuroprotective astrocyte 2,397,27,0,0,0
+35816276,35816276_1,cell_phenotype,A2,426,2,0,0,0
+35816276,35816276_1,cell_vague,subtypes of astrocyte resulting from SCI,450,40,0,0,0
+35816276,35816276_1,cell_phenotype,astrocyte,462,9,0,0,0
+35816276,35816276_1,cell_phenotype,astrocytes,616,10,0,0,0
+35816276,35816276_1,cell_phenotype,astrocyte,844,9,0,0,0
+35816276,35816276_1,cell_vague,astrocyte states,844,16,0,0,0
+35816276,35816276_1,cell_phenotype,astrocytes,948,10,0,0,0
+35816276,35816276_1,cell_phenotype,astrocyte,1013,9,0,0,0
+35816276,35816276_1,cell_phenotype,astrocyte,1109,9,0,0,0
+35816276,35816276_1,cell_vague,astrocyte population,1109,20,0,0,0
+35816276,35816276_1,cell_phenotype,astrocyte,1236,9,0,0,0
+35816276,35816276_1,cell_vague,astrocyte subtype,1236,17,0,0,0
+35816276,35816276_1,cell_vague,astrocyte subtypes,1344,18,0,0,0
+35816276,35816276_1,cell_phenotype,astrocyte,1344,9,0,0,0
+35816276,35816276_1,cell_phenotype,astrocyte,1417,9,0,0,0
+35816276,35816276_1,cell_vague,astrocyte subtypes,1417,18,0,0,0
+35816276,35816276_1,cell_phenotype,astrocytes,1543,10,0,0,0
+35816276,35816276_1,cell_phenotype,astrocyte,1591,9,0,0,0
+35816276,35816276_1,cell_vague,astrocyte subtypes,1591,18,0,0,0
+37545020,37545020_1,cell_phenotype,neural stem cells,377,17,0,0,0
+37545020,37545020_1,cell_phenotype,NSCs,396,4,0,0,0
+37545020,37545020_1,cell_phenotype,Schwann cells,403,13,0,0,0
+37545020,37545020_1,cell_phenotype,olfactory ensheathing cells,424,27,0,0,0
+37545020,37545020_1,cell_phenotype,OECs,453,4,0,0,0
+37545020,37545020_1,cell_phenotype,oligodendrocyte precursor cells,460,31,0,0,0
+37545020,37545020_1,cell_phenotype,OPCs,493,4,0,0,0
+37545020,37545020_1,cell_phenotype,embryonic stem cells,500,20,0,0,0
+37545020,37545020_1,cell_phenotype,ESCs,522,4,0,0,0
+37545020,37545020_1,cell_phenotype,pluripotent stem cells,541,22,0,0,0
+37545020,37545020_1,cell_phenotype,mesenchymal stem cells,346,22,0,0,0
+37545020,37545020_1,cell_phenotype,MSCs,370,4,0,0,0
+37545020,37545020_1,cell_phenotype,stem cells,179,10,0,0,0
+37545020,37545020_1,cell_phenotype,stem cells,310,10,0,0,0
+37545020,37545020_1,cell_phenotype,SCs,418,3,0,0,0
+37545020,37545020_1,cell_phenotype,stem cell,1103,9,0,0,0
+37545020,37545020_1,cell_phenotype,stem cell,1246,9,0,0,0
+34903665,34903665_23,cell_phenotype,excitatory neuron cells,107,23,0,0,0
+34903665,34903665_23,cell_phenotype,Radial Gila,191,11,0,0,0
+34903665,34903665_23,cell_phenotype,Maturing Excitatory,255,19,0,0,0
+34903665,34903665_23,cell_phenotype,ExN,276,3,0,0,0
+34903665,34903665_23,cell_phenotype,Migrating Excitatory,282,20,0,0,0
+34903665,34903665_23,cell_phenotype,ExM,304,3,0,0,0
+34903665,34903665_23,cell_phenotype,Excitatory Upper-layer enriched,310,31,0,0,0
+34903665,34903665_23,cell_phenotype,ExM-U,343,5,0,0,0
+34903665,34903665_23,cell_phenotype,Excitatory Deep layer,355,21,0,0,0
+34903665,34903665_23,cell_phenotype,ExDp,378,4,0,0,0
+34903665,34903665_23,cell_phenotype,excitatory neurons,628,18,0,0,0
+34903665,34903665_23,cell_phenotype,P,220,1,0,0,0
+34903665,34903665_23,cell_phenotype,Intermediate Progenitors,224,24,0,0,0
+34903665,34903665_23,cell_phenotype,IP,250,2,0,0,0
+34903665,34903665_23,cell_phenotype,Progenitors,207,11,0,0,0
+36670467,36670467_45,cell_phenotype,glutamatergic (vGluT2+) and GABAergic (Gad2+) neurons in the cerebellum and cerebrum,224,84,1,0,0
+36670467,36670467_45,cell_phenotype,parvalbumin (PV+)-expressing neurons in the cerebrum,314,52,1,0,0
+36670467,36670467_45,cell_phenotype,cerebral vGluT2+ and PV+ neurons,773,32,1,0,0
+36670467,36670467_45,cell_vague,cerebral cell types,901,19,1,0,0
+36670467,36670467_45,cell_hetero,cerebral cell,901,13,1,0,0
+31664872,31664872_0,cell_phenotype,thoracic trunk motoneurons,22,26,0,0,0
+31664872,31664872_0,cell_phenotype,medullary reticulospinal neurons,52,32,0,0,0
+29161383,29161383_0,cell_phenotype,Somatostatin Neurons,26,20,0,0,0
+37897731,37897731_1,cell_phenotype,stem cells,84,10,0,0,0
+37897731,37897731_1,cell_phenotype,neural stem and progenitor cell,223,31,0,0,0
+37897731,37897731_1,cell_vague,neural stem and progenitor cell types,223,37,0,0,0
+37755676,37755676_0,cell_hetero,Brain Myeloid Cell,23,18,0,0,0
+37755676,37755676_0,cell_vague,Brain Myeloid Cell Subsets,23,26,0,0,0
+39402379,39402379_62,cell_phenotype,Sst neurons,51,11,1,0,0
+39402379,39402379_62,cell_phenotype,inhibitory neurons,72,18,1,0,0
+39402379,39402379_62,cell_phenotype,Sst+ interneurons,396,17,1,0,0
+39402379,39402379_62,cell_phenotype,inhibitory interneurons,452,23,1,0,0
+39402379,39402379_62,cell_phenotype,Sst interneurons,657,16,1,0,0
+39402379,39402379_62,cell_vague,subclasses of inhibitory cortical neurons,805,41,1,0,0
+39402379,39402379_62,cell_phenotype,inhibitory cortical neurons,819,27,1,0,0
+39402379,39402379_62,cell_phenotype,cholinergic neurons,1142,19,1,0,0
+39402379,39402379_62,cell_phenotype,Sst neurons,1216,11,1,0,0
+39402379,39402379_62,cell_phenotype,Sst neuron,1421,10,1,0,0
+39402379,39402379_62,cell_phenotype,neurons,1485,7,1,0,0
+37950146,37950146_76,cell_vague,cerebellar neuron and astrocyte cell types,16,42,1,0,0
+37950146,37950146_76,cell_phenotype,cerebellar neuron,16,17,1,0,0
+37950146,37950146_76,cell_phenotype,granule neuron,117,14,1,1,0
+37950146,37950146_76,cell_phenotype,Purkinje neuron,133,15,1,1,0
+37950146,37950146_76,cell_phenotype,Unipolar brush cell,150,19,1,0,0
+37950146,37950146_76,cell_phenotype,Lugaro cell,171,11,1,0,0
+37950146,37950146_76,cell_phenotype,Golgi cell,184,10,1,0,0
+37950146,37950146_76,cell_phenotype,Basket cell,196,11,1,0,0
+37950146,37950146_76,cell_phenotype,neuron of cerebellar nuclei,224,27,1,0,0
+37950146,37950146_76,cell_phenotype,Fibrous astrocyte,266,17,1,0,0
+37950146,37950146_76,cell_phenotype,Velate astrocyte,285,16,1,0,0
+37950146,37950146_76,cell_phenotype,Bergman glia,303,12,1,1,0
+37950146,37950146_76,cell_phenotype,Cerebellar Astrocytes,334,21,1,1,0
+37950146,37950146_76,cell_phenotype,astrocyte cell,38,14,1,0,0
+37950146,37950146_76,cell_phenotype,Astrocytes,253,10,1,1,0
+37950146,37950146_76,cell_hetero,Neurons,107,7,1,1,0
+37950146,37950146_76,cell_phenotype,Stellate cell,209,13,1,0,0
+30276807,30276807_112,cell_phenotype,RGP,65,3,0,0,0
+30276807,30276807_112,cell_phenotype,NSC,79,3,0,0,0
+30276807,30276807_112,cell_phenotype,NSCs,300,4,0,0,0
+30276807,30276807_112,cell_phenotype,OB neuron,324,9,0,0,0
+37270616,37270616_10,cell_phenotype,dSPNs,207,5,1,1,0
+37270616,37270616_10,cell_phenotype,iSPNs,225,5,1,1,0
+37270616,37270616_10,cell_phenotype,oligodendrocytes,291,16,1,1,0
+37270616,37270616_10,cell_phenotype,astrocytes,317,10,1,1,0
+37270616,37270616_10,cell_phenotype,interneurons,340,12,1,1,0
+37270616,37270616_10,cell_vague,neuronal cell types,553,19,1,1,1
+37270616,37270616_10,cell_phenotype,neuronal cell,553,13,1,0,0
+37270616,37270616_10,cell_phenotype,neuronal,594,8,1,1,0
+37270616,37270616_10,cell_vague,neuronal clusters,594,17,1,1,1
+37270616,37270616_10,cell_vague,progenitor and neural progenitor clusters,794,41,1,0,0
+37270616,37270616_10,cell_phenotype,progenitor,794,10,1,1,1
+37270616,37270616_10,cell_phenotype,neural progenitor,809,17,1,1,1
+37270616,37270616_10,cell_phenotype,interneurons,960,12,1,1,1
+37270616,37270616_10,cell_phenotype,SPNs,995,4,1,1,1
+39673257,39673257_1,cell_phenotype,superficial dorsal horn (SDH) neurons,928,37,0,0,0
+39673257,39673257_1,cell_phenotype,neurons,1042,7,0,0,0
+39673257,39673257_1,cell_phenotype,SDH neurons,1058,11,0,0,0
+39673257,39673257_1,cell_phenotype,inhibitory SDH neurons,1147,22,0,0,0
+39673257,39673257_1,cell_phenotype,excitatory SDH neurons,1182,22,0,0,0
+32581726,32581726_23,cell_phenotype,I-S cells,62,9,1,1,1
+32581726,32581726_23,cell_phenotype,SOM+ cells,191,10,1,0,0
+32581726,32581726_23,cell_phenotype,PV+ cells,212,9,1,0,0
+32581726,32581726_23,cell_phenotype,hippocampal CA1 I-S3 cells,240,26,1,1,1
+32581726,32581726_23,cell_vague,VIP+ cell types,311,15,1,0,0
+32581726,32581726_23,cell_phenotype,VIP+ cell,311,9,1,0,0
+32581726,32581726_23,cell_phenotype,I-S cell,378,8,1,1,0
+32581726,32581726_23,cell_vague,I-S cell types,378,14,1,0,0
+32581726,32581726_23,cell_phenotype,pyramidal cells,416,15,1,1,0
+32581726,32581726_23,cell_phenotype,non-I-S VIP+ cells,445,18,1,0,0
+32042144,32042144_64,cell_phenotype,DG neuron,315,9,0,0,0
+32042144,32042144_64,cell_vague,DG neuron types,315,15,0,0,0
+32042144,32042144_64,cell_phenotype,GCs,464,3,0,0,0
+32042144,32042144_64,cell_phenotype,GC,563,2,0,0,0
+32042144,32042144_64,cell_phenotype,GCs,664,3,0,0,0
+32042144,32042144_64,cell_phenotype,GCs,756,3,0,0,0
+32042144,32042144_64,cell_phenotype,GCs,830,3,0,0,0
+30883329,30883329_39,cell_phenotype,L4 FS cells,25,11,0,0,0
+34101729,34101729_159,cell_phenotype,SOM neurons,357,11,1,1,0
+34311763,34311763_15,cell_phenotype,microglia,777,9,1,1,0
+34311763,34311763_15,cell_phenotype,myeloid cells,687,13,1,1,1
+33392918,33392918_1,cell_phenotype,neuronal,89,8,0,0,0
+33392918,33392918_1,cell_phenotype,neuronal,155,8,0,0,0
+33392918,33392918_1,cell_phenotype,olfactory bulb (OB) GABAergic interneurons,323,42,0,0,0
+33392918,33392918_1,cell_phenotype,GABA+-neurons,410,13,0,0,0
+33392918,33392918_1,cell_vague,subtypes of these neurons,441,25,0,0,0
+33392918,33392918_1,cell_phenotype,neurons,459,7,0,0,0
+33392918,33392918_1,cell_phenotype,tyrosine hydroxylase,468,20,0,0,0
+33392918,33392918_1,cell_phenotype,TH+,490,3,0,0,0
+33392918,33392918_1,cell_phenotype,calretinin,496,10,0,0,0
+33392918,33392918_1,cell_phenotype,Calr+,508,5,0,0,0
+33392918,33392918_1,cell_phenotype,calbindin,516,9,0,0,0
+33392918,33392918_1,cell_phenotype,Calb+,527,5,0,0,0
+33392918,33392918_1,cell_phenotype,parvalbumin,539,11,0,0,0
+33392918,33392918_1,cell_phenotype,PVA+,552,4,0,0,0
+33392918,33392918_1,cell_phenotype,embryonic mouse olfactory bulb neural stem cells,600,48,0,0,0
+33392918,33392918_1,cell_phenotype,eOBNSCs,650,7,0,0,0
+33392918,33392918_1,cell_phenotype,neurons,702,7,0,0,0
+33392918,33392918_1,cell_phenotype,neurons,805,7,0,0,0
+33392918,33392918_1,cell_vague,interneuron populations,933,23,0,0,0
+33392918,33392918_1,cell_phenotype,interneuron,933,11,0,0,0
+33392918,33392918_1,cell_phenotype,PVA+-neurons,977,12,0,0,0
+33392918,33392918_1,cell_vague,interneuron populations,1064,23,0,0,0
+33392918,33392918_1,cell_phenotype,interneuron,1064,11,0,0,0
+33392918,33392918_1,cell_phenotype,PVA+-neurons,1109,12,0,0,0
+33392918,33392918_1,cell_phenotype,GABA+- and TH+-neurons,1123,22,0,0,0
+33392918,33392918_1,cell_phenotype,neurons,1277,7,0,0,0
+33392918,33392918_1,cell_phenotype,neuronal,1464,8,0,0,0
+33392918,33392918_1,cell_phenotype,OB interneurons,1558,15,0,0,0
+36693887,36693887_17,cell_phenotype,L5 extratelencephalic projecting glutamatergic cortical neuron,569,62,1,1,1
+36693887,36693887_17,cell_phenotype,primary motor cortex pyramidal cell,712,35,1,0,0
+39466230,39466230_41,cell_vague,immune cell types,13,17,0,0,0
+39466230,39466230_41,cell_vague,immune cell types,215,17,0,0,0
+39466230,39466230_41,cell_vague,immune cell populations,551,23,0,0,0
+39466230,39466230_41,cell_vague,immune cell types,784,17,0,0,0
+39466230,39466230_41,cell_vague,immune cell population,1074,22,0,0,0
+39466230,39466230_41,cell_phenotype,C-MC,1503,4,0,0,0
+39466230,39466230_41,cell_phenotype,Mphi,1508,4,0,0,0
+39466230,39466230_41,cell_phenotype,MG,1593,2,0,0,0
+39466230,39466230_41,cell_phenotype,microglia,1597,9,0,0,0
+39466230,39466230_41,cell_phenotype,GRAN,1608,4,0,0,0
+39466230,39466230_41,cell_phenotype,granulocytes,1614,12,0,0,0
+39466230,39466230_41,cell_vague,Neu-like MC,1628,11,0,0,0
+39466230,39466230_41,cell_vague,neutrophil-like monocyte,1641,24,0,0,0
+39466230,39466230_41,cell_hetero,immune cell,13,11,0,0,0
+39466230,39466230_41,cell_hetero,immune cells,116,12,0,0,0
+39466230,39466230_41,cell_hetero,immune cell,215,11,0,0,0
+39466230,39466230_41,cell_hetero,immune cell,551,11,0,0,0
+39466230,39466230_41,cell_hetero,immune cell,784,11,0,0,0
+39466230,39466230_41,cell_hetero,immune cell,1074,11,0,0,0
+39466230,39466230_41,cell_phenotype,monocyte,1524,8,0,0,0
+39466230,39466230_41,cell_phenotype,monocyte,1657,8,0,0,0
+39466230,39466230_41,cell_phenotype,NK,1567,2,0,0,0
+39466230,39466230_41,cell_phenotype,natural killer cells,1571,20,0,0,0
+39466230,39466230_41,cell_phenotype,MC,1637,2,0,0,0
+39466230,39466230_41,cell_phenotype,DCs,1545,3,0,0,0
+39466230,39466230_41,cell_phenotype,dendritic cells,1550,15,0,0,0
+39466230,39466230_41,cell_phenotype,leukocytes,1175,10,0,0,0
+39466230,39466230_41,cell_phenotype,macrophage,1533,10,0,0,0
+35501678,35501678_138,cell_phenotype,Layer 5/6 cortico-cortical projection neurons,0,45,1,0,0
+33373440,33373440_1,cell_phenotype,somatotropes,277,12,0,0,0
+33373440,33373440_1,cell_phenotype,"somatotrope, lactotrope, and thyrotrope cell",533,44,0,0,0
+33373440,33373440_1,cell_vague,"somatotrope, lactotrope, and thyrotrope cell lineages",533,53,0,0,0
+33373440,33373440_1,cell_phenotype,somatotropes,634,12,0,0,0
+33373440,33373440_1,cell_phenotype,stem cell,789,9,0,0,0
+33373440,33373440_1,cell_phenotype,somatotropes,904,12,0,0,0
+33373440,33373440_1,cell_hetero,pituitary cells,1136,15,0,0,0
+33373440,33373440_1,cell_phenotype,Gh-expressing somatotropes,1239,26,0,0,0
+33373440,33373440_1,cell_vague,somatotrope cell population,1340,27,0,0,0
+33373440,33373440_1,cell_phenotype,somatotrope cell,1340,16,0,0,0
+33373440,33373440_1,cell_phenotype,somatotrope,1801,11,0,0,0
+36750735,36750735_55,cell_phenotype,excitatory neurons,138,18,1,1,1
+36750735,36750735_55,cell_phenotype,inhibitory neurons,167,18,1,1,1
+36750735,36750735_55,cell_phenotype,oligodendrocytes,197,16,1,1,1
+36750735,36750735_55,cell_phenotype,astrocytes,228,10,1,1,1
+36750735,36750735_55,cell_phenotype,inhibitory neurons,257,18,1,1,1
+36750735,36750735_55,cell_phenotype,intermediate progenitor cells,294,29,1,1,1
+36750735,36750735_55,cell_phenotype,radial glia,340,11,1,1,1
+36750735,36750735_55,cell_phenotype,RG,353,2,1,0,0
+36750735,36750735_55,cell_vague,non-neural cells,372,16,1,1,1
+36750735,36750735_55,cell_phenotype,endothelial,390,11,1,1,1
+36750735,36750735_55,cell_phenotype,pericytes,403,9,1,1,1
+34588430,34588430_83,cell_vague,spinal cord cell types,60,22,1,1,1
+34588430,34588430_83,cell_hetero,spinal cord cell,60,16,1,0,0
+32910889,32910889_1,cell_vague,subset of striatal neurons hit hardest in Huntington's disease,121,62,0,0,0
+32910889,32910889_1,cell_phenotype,striatal neurons,131,16,0,0,0
+36630196,36630196_8,cell_phenotype,pluripotent epiblast,101,20,0,0,0
+36630196,36630196_8,cell_phenotype,primitive endoderm,163,18,0,0,0
+36630196,36630196_8,cell_phenotype,PE,183,2,0,0,0
+36630196,36630196_8,cell_phenotype,visceral endoderm,205,17,0,0,0
+36630196,36630196_8,cell_phenotype,VE,224,2,0,0,0
+36630196,36630196_8,cell_phenotype,trophectoderm,265,13,0,0,0
+36630196,36630196_8,cell_phenotype,TE,280,2,0,0,0
+36630196,36630196_8,cell_phenotype,ESCs,324,4,0,0,0
+36630196,36630196_8,cell_phenotype,extra-embryonic cells,407,21,0,0,0
+36630196,36630196_8,cell_phenotype,TE,656,2,0,0,0
+36630196,36630196_8,cell_phenotype,PE,741,2,0,0,0
+36630196,36630196_8,cell_phenotype,ESCs,840,4,0,0,0
+36630196,36630196_8,cell_phenotype,stem cell,855,9,0,0,0
+36630196,36630196_8,cell_phenotype,trophoblast stem cells,874,22,0,0,0
+36630196,36630196_8,cell_phenotype,TSCs,898,4,0,0,0
+36630196,36630196_8,cell_phenotype,TE,935,2,0,0,0
+36630196,36630196_8,cell_phenotype,eXtraEmbryoNic stem cells,945,25,0,0,0
+36630196,36630196_8,cell_phenotype,XEN cells,972,9,0,0,0
+36630196,36630196_8,cell_phenotype,PE,992,2,0,0,0
+36630196,36630196_8,cell_phenotype,VE,995,2,0,0,0
+36630196,36630196_8,cell_phenotype,pluripotent ESCs,1158,16,0,0,0
+36630196,36630196_8,cell_vague,extra-embryonic stem cell types,1187,31,0,0,0
+36630196,36630196_8,cell_phenotype,extra-embryonic stem cell,1187,25,0,0,0
+35085322,35085322_3,cell_vague,nestin-expressing stem cells,538,28,1,1,1
+35085322,35085322_3,cell_vague,hair-follicle-associated pluripotent (HAP) stem cells,629,53,1,1,1
+35085322,35085322_3,cell_phenotype,pluripotent (HAP) stem cells,654,28,1,0,0
+35085322,35085322_3,cell_vague,HAP stem cells,684,14,1,1,1
+35085322,35085322_3,cell_phenotype,glia,796,4,1,1,1
+35085322,35085322_3,cell_phenotype,melanocytes,823,11,1,1,1
+35085322,35085322_3,cell_phenotype,keratinocytes,836,13,1,1,1
+35085322,35085322_3,cell_phenotype,cardiac muscle cells,851,20,1,1,1
+35085322,35085322_3,cell_phenotype,dopaminergic neurons,876,20,1,1,1
+35085322,35085322_3,cell_phenotype,smooth muscle cells,802,19,1,1,1
+35085322,35085322_3,cell_phenotype,neurons,787,7,1,1,1
+35085322,35085322_3,cell_phenotype,stem cells,429,10,1,1,1
+35085322,35085322_3,cell_phenotype,stem cells,556,10,1,1,0
+34128468,34128468_13,cell_phenotype,extrahypothalamic gonadotropin-releasing hormone (GnRH) neurons,176,63,0,0,0
+36221127,36221127_112,cell_vague,pituitary cell-type,69,19,1,0,0
+36221127,36221127_112,cell_phenotype,somatotropes,181,12,1,1,0
+36221127,36221127_112,cell_phenotype,lactotropes,230,11,1,1,0
+36221127,36221127_112,cell_vague,gonadotrope cell-type,483,21,1,0,0
+36221127,36221127_112,cell_phenotype,gonadotrope cell,483,16,1,0,0
+36221127,36221127_112,cell_phenotype,somatotrope cell,906,16,1,0,0
+36221127,36221127_112,cell_phenotype,lactotrope cell,954,15,1,0,0
+36221127,36221127_112,cell_hetero,pituitary cell,69,14,1,1,0
+33436550,33436550_1,cell_vague,subpopulations of neurons,599,25,1,0,0
+33436550,33436550_1,cell_vague,neuronal subtype populations,971,28,1,1,0
+33436550,33436550_1,cell_vague,neuronal subtypes,1164,17,1,1,0
+33436550,33436550_1,cell_phenotype,neurons,376,7,1,1,0
+33436550,33436550_1,cell_phenotype,neurons,617,7,1,1,0
+33436550,33436550_1,cell_phenotype,neurons,795,7,1,1,0
+33436550,33436550_1,cell_phenotype,neuronal,971,8,1,1,0
+33436550,33436550_1,cell_phenotype,neuronal,1164,8,1,1,0
+38470935,38470935_14,cell_phenotype,OLM,18,3,1,1,1
+38470935,38470935_14,cell_phenotype,HS neurons,26,10,1,1,1
+34831217,34831217_8,cell_phenotype,Schwann cells,279,13,0,0,0
+34831217,34831217_8,cell_phenotype,SCs,294,3,0,0,0
+34831217,34831217_8,cell_phenotype,olfactory ensheathing cells,300,27,0,0,0
+34831217,34831217_8,cell_phenotype,OECs,329,4,0,0,0
+34831217,34831217_8,cell_vague,types of stem cells,356,19,0,0,0
+34831217,34831217_8,cell_phenotype,stem cells,365,10,0,0,0
+34831217,34831217_8,cell_phenotype,neural stem cells,385,17,0,0,0
+34831217,34831217_8,cell_phenotype,NSCs,404,4,0,0,0
+34831217,34831217_8,cell_phenotype,mesenchymal stem cells,414,22,0,0,0
+34831217,34831217_8,cell_phenotype,MSCs,438,4,0,0,0
+36163250,36163250_51,cell_phenotype,neurons,24,7,1,1,0
+36163250,36163250_51,cell_phenotype,neurons,252,7,1,1,0
+36163250,36163250_51,cell_vague,non-neurons,272,11,1,0,0
+36163250,36163250_51,cell_phenotype,neurons,402,7,1,1,0
+36163250,36163250_51,cell_phenotype,neurons,444,7,1,1,0
+36163250,36163250_51,cell_phenotype,"dorsal excitatory (DE), dorsal inhibitory (DI), mid-excitatory (ME), mid-inhibitory (MI), ventral excitatory (VE), ventral inhibitory (VI) and motoneurons",514,154,1,0,0
+36163250,36163250_51,cell_phenotype,neurons,756,7,1,1,0
+36163250,36163250_51,cell_vague,deep neuronal subtype,830,21,1,0,0
+36163250,36163250_51,cell_phenotype,neuronal,835,8,1,0,0
+36163250,36163250_51,cell_phenotype,neuronal,920,8,1,0,0
+36163250,36163250_51,cell_vague,neuronal subpopulations,920,23,1,1,0
+38012702,38012702_39,cell_phenotype,Arg1+ microglial,38,16,1,0,0
+38012702,38012702_39,cell_vague,Arg1+ microglial subtype,38,24,1,0,0
+38012702,38012702_39,cell_phenotype,Arg1+ microglia,170,15,1,0,0
+38012702,38012702_39,cell_vague,Arg1+ microglia subtype,170,23,1,0,0
+38012702,38012702_39,cell_phenotype,microglial,255,10,1,1,0
+38012702,38012702_39,cell_phenotype,microglia,382,9,1,1,0
+38012702,38012702_39,cell_phenotype,astrocytes,449,10,1,1,0
+38012702,38012702_39,cell_phenotype,microglia,464,9,1,1,0
+38012702,38012702_39,cell_phenotype,microglia,604,9,1,1,1
+32108571,32108571_44,cell_phenotype,L2 marginal neurons,15,19,0,0,0
+32108571,32108571_44,cell_phenotype,L2MN,36,4,0,0,0
+32108571,32108571_44,cell_phenotype,L2 neurons,215,10,0,0,0
+32108571,32108571_44,cell_phenotype,L2MN,287,4,0,0,0
+31295328,31295328_49,cell_phenotype,OXTR,0,4,0,0,0
+35915179,35915179_16,cell_phenotype,pyramidal neuron,70,16,1,1,1
+35915179,35915179_16,cell_phenotype,neuronal,439,8,1,1,0
+36867023,36867023_38,cell_vague,PVT subtypes,75,12,0,0,0
+36867023,36867023_38,cell_vague,PVT subtypes,152,12,0,0,0
+36867023,36867023_38,cell_vague,PVT subtypes,232,12,0,0,0
+36867023,36867023_38,cell_vague,PVT subtypes,322,12,0,0,0
+37249212,37249212_41,cell_phenotype,interneuron,31,11,0,0,0
+37249212,37249212_41,cell_phenotype,pyramidal,21,9,0,0,0
+34844989,34844989_0,cell_phenotype,Prefrontal Dopamine D1 and D2 Neurons,19,37,0,0,0
+32415072,32415072_20,cell_hetero,neural cell,141,11,1,0,0
+32415072,32415072_20,cell_vague,neural cell type,141,16,1,0,0
+32415072,32415072_20,cell_phenotype,central and peripheral neurons,687,30,1,1,1
+32415072,32415072_20,cell_phenotype,astrocytes,719,10,1,1,1
+32415072,32415072_20,cell_phenotype,oligodendrocytes,731,16,1,1,1
+32415072,32415072_20,cell_phenotype,Schwann cells,749,13,1,1,1
+32415072,32415072_20,cell_hetero,immune cells,764,12,1,1,1
+32415072,32415072_20,cell_vague,brain vascular cell types,782,25,1,1,1
+32415072,32415072_20,cell_phenotype,brain vascular cell,782,19,1,0,0
+32415072,32415072_20,cell_phenotype,enteric glia,952,12,1,1,1
+32415072,32415072_20,cell_phenotype,vascular leptomeningeal cells,971,29,1,1,1
+32415072,32415072_20,cell_phenotype,VLMCs,1003,5,1,1,1
+32415072,32415072_20,cell_phenotype,Enteric mesothelial fibroblasts,1123,31,1,1,1
+32415072,32415072_20,cell_phenotype,enteric glia,1194,12,1,1,0
+32415072,32415072_20,cell_phenotype,VLMCs,1213,5,1,1,0
+32415072,32415072_20,cell_vague,organ barrier-forming fibroblast populations,1256,44,1,0,0
+32415072,32415072_20,cell_phenotype,fibroblast,1278,10,1,0,0
+32415072,32415072_20,cell_phenotype,VLMCs,1641,5,1,1,1
+32415072,32415072_20,cell_vague,populations of barrier-forming fibroblasts,1747,42,1,0,0
+32415072,32415072_20,cell_phenotype,fibroblasts,1778,11,1,1,1
+32415072,32415072_20,cell_phenotype,VLMCs,1801,5,1,1,1
+36876911,36876911_15,cell_phenotype,medial (MOC) and lateral (LOC) olivocochlear neuron,20,51,0,0,0
+36876911,36876911_15,cell_vague,medial (MOC) and lateral (LOC) olivocochlear neuron (OCN) subtypes,20,66,0,0,0
+36876911,36876911_15,cell_phenotype,OCN,73,3,0,0,0
+36876911,36876911_15,cell_phenotype,IHC,328,3,0,0,0
+36876911,36876911_15,cell_phenotype,inner hair cell,333,15,0,0,0
+36876911,36876911_15,cell_phenotype,OHC,350,3,0,0,0
+36876911,36876911_15,cell_phenotype,outer hair cell,355,15,0,0,0
+36876911,36876911_15,cell_phenotype,SGN,372,3,0,0,0
+36876911,36876911_15,cell_phenotype,spiral ganglion neuron,377,22,0,0,0
+36876911,36876911_15,cell_phenotype,MOCs,928,4,0,0,0
+36876911,36876911_15,cell_phenotype,LOCs,934,4,0,0,0
+36876911,36876911_15,cell_vague,motor neuron types,962,18,0,0,0
+36876911,36876911_15,cell_phenotype,motor neuron,962,12,0,0,0
+36876911,36876911_15,cell_vague,non-neuronal populations,999,24,0,0,0
+36876911,36876911_15,cell_phenotype,neuronal,1265,8,0,0,0
+36876911,36876911_15,cell_vague,non-neuronal population,1302,23,0,0,0
+36876911,36876911_15,cell_phenotype,oligodendrocyte,1348,15,0,0,0
+36876911,36876911_15,cell_phenotype,Motor neuron,1376,12,0,0,0
+36876911,36876911_15,cell_vague,Motor neuron clusters,1376,21,0,0,0
+36876911,36876911_15,cell_phenotype,motor neuron,1410,12,0,0,0
+36876911,36876911_15,cell_phenotype,brainstem motor neurons,1457,23,0,0,0
+36876911,36876911_15,cell_phenotype,OCNs,1482,4,0,0,0
+36876911,36876911_15,cell_phenotype,LOCs,1634,4,0,0,0
+36876911,36876911_15,cell_phenotype,MOCs,1643,4,0,0,0
+36876911,36876911_15,cell_phenotype,OCNs,1698,4,0,0,0
+36876911,36876911_15,cell_phenotype,MOCs,1729,4,0,0,0
+36876911,36876911_15,cell_phenotype,LOCs,1738,4,0,0,0
+36876911,36876911_15,cell_phenotype,FMNs,1751,4,0,0,0
+36876911,36876911_15,cell_phenotype,"mature LOCs, MOCs, and FMNs",1826,27,0,0,0
+36876911,36876911_15,cell_phenotype,MOCs,1944,4,0,0,0
+36876911,36876911_15,cell_phenotype,LOCs,1953,4,0,0,0
+36876911,36876911_15,cell_phenotype,FMNs,1973,4,0,0,0
+30773318,30773318_115,cell_phenotype,PV+FSIs,4,7,0,0,0
+30773318,30773318_115,cell_phenotype,MSNs,56,4,0,0,0
+30773318,30773318_115,cell_phenotype,PV+FSIs,142,7,0,0,0
+30773318,30773318_115,cell_phenotype,MSNs,157,4,0,0,0
+30773318,30773318_115,cell_phenotype,PV+FSIs,184,7,0,0,0
+30773318,30773318_115,cell_phenotype,MSN,210,3,0,0,0
+30773318,30773318_115,cell_phenotype,PV+FSIs,297,7,0,0,0
+30773318,30773318_115,cell_phenotype,MSN cells,309,9,0,0,0
+30773318,30773318_115,cell_phenotype,MSN,365,3,0,0,0
+30773318,30773318_115,cell_phenotype,PV+FSI,377,6,0,0,0
+34880956,34880956_41,cell_phenotype,spinal cord neuronal cells,154,26,0,0,0
+34880956,34880956_41,cell_phenotype,spinal cord neuronal cells,348,26,0,0,0
+33951093,33951093_10,cell_phenotype,neuronal,36,8,1,0,0
+34616075,34616075_52,cell_vague,neural subpopulations,27,21,1,1,1
+34616075,34616075_52,cell_hetero,neural,27,6,1,1,0
+34616075,34616075_52,cell_phenotype,progenitors,53,11,1,0,0
+34616075,34616075_52,cell_phenotype,glutamatergic pyramidal neuron,280,30,1,1,1
+34616075,34616075_52,cell_vague,glutamatergic pyramidal neuron (PyN) subpopulations,280,51,1,0,0
+34616075,34616075_52,cell_phenotype,PyN,312,3,1,1,1
+34332630,34332630_44,cell_phenotype,oligodendrocyte,55,15,1,1,0
+34332630,34332630_44,cell_phenotype,oligodendrocyte lineage cells,178,29,1,0,0
+34332630,34332630_44,cell_phenotype,oligodendrocyte progenitor cells,250,32,1,1,1
+34332630,34332630_44,cell_phenotype,myelinating oligodendrocytes,287,28,1,1,1
+33414410,33414410_0,cell_phenotype,hippocampal dentate gyrus granule cells,67,39,1,0,0
+35853870,35853870_10,cell_vague,GFP + ve /-ve cells,192,19,1,0,0
+35853870,35853870_10,cell_phenotype,Neuronal,1006,8,1,1,0
+35853870,35853870_10,cell_phenotype,Glial,1016,5,1,1,0
+35853870,35853870_10,cell_hetero,Immune,1023,6,1,1,0
+35853870,35853870_10,cell_phenotype,RG,1295,2,1,1,0
+35853870,35853870_10,cell_phenotype,Radial glia,1298,11,1,1,0
+35853870,35853870_10,cell_phenotype,TAPs,1311,4,1,0,0
+35853870,35853870_10,cell_phenotype,Transient amplifying progenitors,1316,32,1,1,0
+35853870,35853870_10,cell_phenotype,aNSCs,1350,5,1,1,0
+35853870,35853870_10,cell_phenotype,Active neural stem cells,1356,24,1,0,0
+35853870,35853870_10,cell_phenotype,APCs,1382,4,1,1,0
+35853870,35853870_10,cell_phenotype,Astrocyte progenitor cells,1387,26,1,1,0
+35853870,35853870_10,cell_phenotype,EmNBs,1415,5,1,1,0
+35853870,35853870_10,cell_phenotype,Embryonic neuroblasts,1421,21,1,0,0
+35853870,35853870_10,cell_phenotype,GE NBs,1444,6,1,1,0
+35853870,35853870_10,cell_phenotype,Ganglionic eminence neuroblasts,1451,31,1,1,0
+35853870,35853870_10,cell_phenotype,OPCs,1484,4,1,1,0
+35853870,35853870_10,cell_phenotype,Oligoprogenitor cells,1489,21,1,1,0
+35853870,35853870_10,cell_phenotype,PreM-ODCs,1512,9,1,1,0
+35853870,35853870_10,cell_phenotype,Immature pre-myelinating oligodendrocytes,1522,41,1,0,0
+35853870,35853870_10,cell_phenotype,INs,1565,3,1,0,0
+35853870,35853870_10,cell_phenotype,ImStNeurons,1583,11,1,0,0
+35853870,35853870_10,cell_phenotype,Immature striatal neurons,1595,25,1,1,0
+35853870,35853870_10,cell_phenotype,VLMC,1622,4,1,0,0
+35853870,35853870_10,cell_phenotype,Vascular leptomeningeal cells,1627,29,1,0,0
+35853870,35853870_10,cell_phenotype,Myeloid-DSCs,1658,12,1,0,0
+35853870,35853870_10,cell_phenotype,Myeloid-derived suppressor cells,1671,32,1,0,0
+35853870,35853870_10,cell_phenotype,Interneurons,1569,12,1,1,0
+35853870,35853870_10,cell_phenotype,Vascular,1034,8,1,1,0
+37983289,37983289_50,cell_vague,diverse population of stromal cells,81,35,0,0,0
+37983289,37983289_50,cell_hetero,stromal cells,103,13,0,0,0
+37983289,37983289_50,cell_hetero,GP38+ and GP38- stromal cells,128,29,0,0,0
+37983289,37983289_50,cell_phenotype,GP38+ FRCs,326,10,0,0,0
+37983289,37983289_50,cell_vague,MAdCAM1+ CD21/CD35+ cells,370,25,0,0,0
+37983289,37983289_50,cell_vague,FDC-like cells,426,14,0,0,0
+37983289,37983289_50,cell_phenotype,FDC,426,3,0,0,0
+37983289,37983289_50,cell_phenotype,lymphatic endothelial cells,592,27,0,0,0
+37983289,37983289_50,cell_phenotype,LECs,621,4,0,0,0
+37983289,37983289_50,cell_phenotype,blood endothelial cells,630,23,0,0,0
+37983289,37983289_50,cell_phenotype,BECs,655,4,0,0,0
+37983289,37983289_50,cell_vague,fibroblast clusters,1052,19,0,0,0
+37983289,37983289_50,cell_phenotype,fibroblast,1052,10,0,0,0
+37983289,37983289_50,cell_phenotype,Ly6a+ pericytes,1106,15,0,0,0
+37983289,37983289_50,cell_vague,Ly6a+ Rarres2+ cells,1280,20,0,0,0
+37983289,37983289_50,cell_vague,fibroblast population,1413,21,0,0,0
+37983289,37983289_50,cell_phenotype,fibroblast,1413,10,0,0,0
+37983289,37983289_50,cell_phenotype,Ly6a+ Rarres2+ FRC-like pericytes,1449,33,0,0,0
+37983289,37983289_50,cell_phenotype,Aldh1a2+ Ccl19+ FRC-like pericytes,1494,34,0,0,0
+37983289,37983289_50,cell_phenotype,myofibroblasts,1530,14,0,0,0
+37983289,37983289_50,cell_phenotype,Fth1+ fibroblasts,1546,17,0,0,0
+37983289,37983289_50,cell_phenotype,perivascular dura fibroblasts,1569,29,0,0,0
+37983289,37983289_50,cell_phenotype,FRCs,1756,4,0,0,0
+37983289,37983289_50,cell_vague,FDC-like cells,1765,14,0,0,0
+37983289,37983289_50,cell_phenotype,FDC,1765,3,0,0,0
+37983289,37983289_50,cell_phenotype,LECs,1828,4,0,0,0
+37983289,37983289_50,cell_phenotype,BECs,1837,4,0,0,0
