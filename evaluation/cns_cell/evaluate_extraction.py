@@ -148,7 +148,8 @@ def load_structsense(output_dir: str) -> dict[str, dict[str, SSEntity]]:
     for path in glob.glob(os.path.join(output_dir, "*.json")):
         pmid = os.path.basename(path).split("_")[0]
         try:
-            data = json.load(open(path))
+            with open(path, encoding="utf-8") as f:
+                data = json.load(f)
         except (json.JSONDecodeError, OSError) as exc:
             print(f"WARNING: could not read {path}: {exc}", file=sys.stderr)
             continue
