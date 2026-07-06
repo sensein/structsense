@@ -351,7 +351,7 @@ def main(argv: list[str] | None = None) -> int:
     ss_index = load_structsense(args.output_dir)
     results = evaluate(gt, ss_index, args.sentence_mode, args.threshold, args.min_token_len)
     if args.summary_out:
-        with open(args.summary_out, "w") as fh:
+        with open(args.summary_out, "w", encoding="utf-8") as fh:
             report(results, out=fh)
         print(f"Wrote summary report: {args.summary_out}")
     else:
