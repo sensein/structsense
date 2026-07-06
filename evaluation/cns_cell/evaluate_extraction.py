@@ -300,7 +300,7 @@ def _breakdown(emit, rows: list[Result], key, label: str) -> None:
 
 def write_detail_csv(results: list[Result], path: str) -> None:
     # Only covered papers (those with structsense output); uncovered papers are ignored.
-    with open(path, "w", newline="") as fh:
+    with open(path, "w", newline="", encoding="utf-8") as fh:
         writer = csv.writer(fh)
         writer.writerow(
             ["pmid", "passage_id", "entity_type", "entity_text", "offset", "length",
