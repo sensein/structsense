@@ -29,6 +29,7 @@ If you find this work useful or build upon it, please consider citing:
 - [Architecture](#architecture)
 - [Installation](#installation)
 - [Quick Start](#quick-start)
+- [StructSense Skills](#structsense-skills)
 - [Usage](#usage)
   - [CLI](#cli)
   - [Python](#python)
@@ -144,6 +145,8 @@ with open("result.json", "w") as f:
 ```
 
 ---
+## StructSense Skills
+StructSense is also available in skills. If you prefer using skills, please refer to [StructSense Skills](https://github.com/sensein/agent_skills/tree/main/skills/structsense-skills).
 
 ## Advanced Usage
 
