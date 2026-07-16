@@ -1,0 +1,741 @@
+{
+  "source_paper": {
+    "title": "Latent circuit inference from heterogeneous neural responses during cognitive tasks",
+    "authors": ["Christopher Langdon", "Tatiana A. Engel"],
+    "journal": "Nature Neuroscience",
+    "volume": 28,
+    "pages": "665-675",
+    "year": 2025,
+    "doi": "10.1038/s41593-025-01869-7"
+  },
+  "entities": {
+    "E001": {
+      "entity_text": "prefrontal cortex",
+      "entity_type": "BrainRegion",
+      "ontology": "UBERON",
+      "ontology_id": "UBERON:0000451",
+      "ontology_label": "prefrontal cortex",
+      "confidence": "high",
+      "extraction_round": 1,
+      "source_sentences": [
+        "Single neurons in areas such as the prefrontal cortex (PFC) show complex heterogeneous tuning to multiple task variables, which presents a formidable challenge for identifying underlying circuit mechanisms.",
+        "We find similar suppression of irrelevant sensory responses in the prefrontal cortex of monkeys performing the same task.",
+        "We analyzed a publicly available dataset of neural activity recordings from the PFC (in and around the frontal eye field) from two monkeys performing a context-dependent decision-making task."
+      ],
+      "indirect_references": [
+        {"referring_phrase": "PFC", "source_sentence": "Single neurons in areas such as the prefrontal cortex (PFC) show complex heterogeneous tuning to multiple task variables.", "resolved_to": "E001"},
+        {"referring_phrase": "higher cortical areas", "source_sentence": "Cognitive functions depend on higher cortical areas, which integrate diverse sensory and contextual signals to produce a coherent behavioral response.", "resolved_to": "E001"}
+      ]
+    },
+    "E002": {
+      "entity_text": "frontal eye field",
+      "entity_type": "BrainRegion",
+      "ontology": "UBERON",
+      "ontology_id": "UBERON:0002677",
+      "ontology_label": "frontal eye field",
+      "confidence": "high",
+      "extraction_round": 1,
+      "source_sentences": [
+        "We analyzed a publicly available dataset of neural activity recordings from the PFC (in and around the frontal eye field) from two monkeys performing a context-dependent decision-making task."
+      ],
+      "indirect_references": []
+    },
+    "E003": {
+      "entity_text": "cortical circuits",
+      "entity_type": "AnatomicalStructure",
+      "ontology": "NIFSTD",
+      "ontology_id": "NIFSTD:birnlex_1224",
+      "ontology_label": "cerebral cortex",
+      "confidence": "medium",
+      "extraction_round": 2,
+      "source_sentences": [
+        "These computations result from interactions between excitatory and inhibitory neurons in cortical circuits."
+      ],
+      "indirect_references": []
+    },
+    "E004": {
+      "entity_text": "rhesus monkeys",
+      "entity_type": "Organism",
+      "ontology": "NCBITaxon",
+      "ontology_id": "NCBITaxon:9544",
+      "ontology_label": "Macaca mulatta",
+      "confidence": "high",
+      "extraction_round": 1,
+      "source_sentences": [
+        "The dataset consists of several hundred PFC neurons (n = 727 and 574 for monkeys A and F, respectively) recorded from two rhesus monkeys performing a context-dependent decision-making task."
+      ],
+      "indirect_references": [
+        {"referring_phrase": "two monkeys", "source_sentence": "We analyzed a publicly available dataset of neural activity recordings from the PFC (in and around the frontal eye field) from two monkeys performing a context-dependent decision-making task.", "resolved_to": "E004"},
+        {"referring_phrase": "monkey A", "source_sentence": "The dataset consists of several hundred PFC neurons (n = 727 and 574 for monkeys A and F, respectively) recorded from two rhesus monkeys performing a context-dependent decision-making task.", "resolved_to": "E004"},
+        {"referring_phrase": "monkey F", "source_sentence": "The dataset consists of several hundred PFC neurons (n = 727 and 574 for monkeys A and F, respectively) recorded from two rhesus monkeys performing a context-dependent decision-making task.", "resolved_to": "E004"}
+      ]
+    },
+    "E005": {
+      "entity_text": "excitatory neurons",
+      "entity_type": "CellType",
+      "ontology": "CL",
+      "ontology_id": "CL:0008030",
+      "ontology_label": "cortical excitatory neuron",
+      "confidence": "high",
+      "extraction_round": 1,
+      "source_sentences": [
+        "These computations result from interactions between excitatory and inhibitory neurons in cortical circuits.",
+        "The RNN consists of 50 recurrently connected units, 40 excitatory and 10 inhibitory."
+      ],
+      "indirect_references": [
+        {"referring_phrase": "excitatory units", "source_sentence": "The recurrent matrix is constrained to satisfy Dale's law with 80% excitatory units and 20% inhibitory units.", "resolved_to": "E005"}
+      ]
+    },
+    "E006": {
+      "entity_text": "inhibitory neurons",
+      "entity_type": "CellType",
+      "ontology": "CL",
+      "ontology_id": "CL:0008029",
+      "ontology_label": "cortical interneuron",
+      "confidence": "high",
+      "extraction_round": 1,
+      "source_sentences": [
+        "These computations result from interactions between excitatory and inhibitory neurons in cortical circuits.",
+        "The RNN consists of 50 recurrently connected units, 40 excitatory and 10 inhibitory."
+      ],
+      "indirect_references": [
+        {"referring_phrase": "inhibitory units", "source_sentence": "The recurrent matrix is constrained to satisfy Dale's law with 80% excitatory units and 20% inhibitory units.", "resolved_to": "E006"}
+      ]
+    },
+    "E007": {
+      "entity_text": "context-dependent decision-making task",
+      "entity_type": "BehavioralTask",
+      "ontology": "CogPO",
+      "ontology_id": "COGPO:00086",
+      "ontology_label": "decision-making task",
+      "confidence": "medium",
+      "extraction_round": 1,
+      "source_sentences": [
+        "We apply the latent circuit inference to recurrent neural networks trained to perform a context-dependent decision-making task and find a suppression mechanism in which contextual representations inhibit irrelevant sensory responses.",
+        "We applied our latent circuit inference to RNNs optimized to perform a context-dependent decision-making task, which requires the discrimination of either the color or motion feature of a sensory stimulus depending on the context cue."
+      ],
+      "indirect_references": [
+        {"referring_phrase": "the same task", "source_sentence": "We find similar suppression of irrelevant sensory responses in the prefrontal cortex of monkeys performing the same task.", "resolved_to": "E007"},
+        {"referring_phrase": "the task", "source_sentence": "The RNN successfully learns the task; it makes choices according to the relevant stimulus and ignores the irrelevant stimulus in each context.", "resolved_to": "E007"}
+      ]
+    },
+    "E008": {
+      "entity_text": "decision-making",
+      "entity_type": "CognitiveProcess",
+      "ontology": "CogPO",
+      "ontology_id": "COGPO:00086",
+      "ontology_label": "Decision Making",
+      "confidence": "high",
+      "extraction_round": 1,
+      "source_sentences": [
+        "Context-dependent decision-making requires flexible trial-by-trial switching between alternative stimulus–response mappings."
+      ],
+      "indirect_references": []
+    },
+    "E009": {
+      "entity_text": "cognitive flexibility",
+      "entity_type": "CognitiveProcess",
+      "ontology": "NBO",
+      "ontology_id": "NBO:0000444",
+      "ontology_label": "cognitive flexibility behavior",
+      "confidence": "medium",
+      "extraction_round": 1,
+      "source_sentences": [
+        "Thus, inhibitory mechanisms for cognitive flexibility are compatible with the existence of irrelevant stimulus representations in the PFC."
+      ],
+      "indirect_references": []
+    },
+    "E010": {
+      "entity_text": "working memory",
+      "entity_type": "CognitiveProcess",
+      "ontology": "CogPO",
+      "ontology_id": "COGPO:00139",
+      "ontology_label": "Working Memory",
+      "confidence": "high",
+      "extraction_round": 1,
+      "source_sentences": [
+        "Synaptic mechanisms and network dynamics underlying spatial working memory in a cortical network model."
+      ],
+      "indirect_references": []
+    },
+    "E011": {
+      "entity_text": "cognitive control",
+      "entity_type": "CognitiveProcess",
+      "ontology": "CogPO",
+      "ontology_id": "COGPO:00056",
+      "ontology_label": "Cognitive Control",
+      "confidence": "high",
+      "extraction_round": 2,
+      "source_sentences": [
+        "Consistent with this idea, we find that RNNs trained on different tasks use a similar inhibitory control mechanism, which may generalize to other cognitive control tasks as well."
+      ],
+      "indirect_references": []
+    },
+    "E012": {
+      "entity_text": "saccade",
+      "entity_type": "BehavioralResponse",
+      "ontology": "NBO",
+      "ontology_id": "NBO:0000478",
+      "ontology_label": "saccadic eye movement",
+      "confidence": "high",
+      "extraction_round": 1,
+      "source_sentences": [
+        "Monkeys reported their choice with a saccade to one of two targets presented shortly after fixation for the entire trial duration."
+      ],
+      "indirect_references": []
+    },
+    "E013": {
+      "entity_text": "psychometric function",
+      "entity_type": "BehavioralMeasure",
+      "ontology": "NCIT",
+      "ontology_id": "NCIT:C94837",
+      "ontology_label": "Psychometric Function",
+      "confidence": "medium",
+      "extraction_round": 1,
+      "source_sentences": [
+        "Indeed, weakening these connections in the latent circuit produced the predicted behavioral effect in the psychometric function, visible as a rotation of the decision boundary on motion context trials.",
+        "Psychometric functions were then computed as the percentage of choices to the right for each combination of context, motion coherence and color coherence."
+      ],
+      "indirect_references": []
+    },
+    "E014": {
+      "entity_text": "recurrent neural network",
+      "entity_type": "ComputationalModel",
+      "ontology": "EDAM",
+      "ontology_id": "EDAM:topic_3474",
+      "ontology_label": "Machine learning",
+      "confidence": "medium",
+      "extraction_round": 1,
+      "source_sentences": [
+        "Similar heterogeneous responses emerge in high-dimensional recurrent neural network (RNN) models trained to perform cognitive tasks or reproduce neural activity data by optimizing recurrent connectivity parameters."
+      ],
+      "indirect_references": [
+        {"referring_phrase": "RNN", "source_sentence": "We applied the latent circuit inference to RNNs optimized on a context-dependent decision-making task and found a circuit mechanism based on the inhibition of irrelevant sensory representations.", "resolved_to": "E014"},
+        {"referring_phrase": "the network", "source_sentence": "The network has two outputs, z1 and z2, for which we define two targets ztarget,1 and ztarget,2.", "resolved_to": "E014"},
+        {"referring_phrase": "high-dimensional networks", "source_sentence": "Our results show that high-dimensional networks use low-dimensional circuit mechanisms.", "resolved_to": "E014"}
+      ]
+    },
+    "E015": {
+      "entity_text": "latent circuit model",
+      "entity_type": "ComputationalModel",
+      "ontology": "EDAM",
+      "ontology_id": "EDAM:operation_3664",
+      "ontology_label": "Statistical modelling",
+      "confidence": "low",
+      "extraction_round": 1,
+      "source_sentences": [
+        "We develop the latent circuit model, a dimensionality reduction approach in which task variables interact via low-dimensional recurrent connectivity to produce behavioral output.",
+        "Our latent circuit model accounts for single-neuron heterogeneity via dimensionality reduction that incorporates low-dimensional circuit dynamics in its latent variables."
+      ],
+      "indirect_references": [
+        {"referring_phrase": "the model", "source_sentence": "The model simultaneously infers a low-dimensional latent circuit connectivity generating task-relevant dynamics and heterogeneous mixing of these dynamics in single-neuron responses.", "resolved_to": "E015"}
+      ]
+    },
+    "E016": {
+      "entity_text": "dimensionality reduction",
+      "entity_type": "AnalyticalMethod",
+      "ontology": "EDAM",
+      "ontology_id": "EDAM:operation_3935",
+      "ontology_label": "Dimensionality reduction",
+      "confidence": "high",
+      "extraction_round": 1,
+      "source_sentences": [
+        "Dimensionality reduction methods that rely on correlations between neural activity and task variables leave unknown how heterogeneous responses arise from connectivity to drive behavior.",
+        "Accordingly, dimensionality reduction methods are commonly used to reveal representations of low-dimensional latent variables in neural population activity."
+      ],
+      "indirect_references": []
+    },
+    "E017": {
+      "entity_text": "principal component analysis",
+      "entity_type": "StatisticalMethod",
+      "ontology": "STATO",
+      "ontology_id": "STATO:0000130",
+      "ontology_label": "principal component analysis",
+      "confidence": "high",
+      "extraction_round": 1,
+      "source_sentences": [
+        "To visualize the space of latent circuit solutions, we applied a principal component analysis to the flattened connectivity matrices wrec and projected the data onto the first two principal components, which accounted for 42% of total variance."
+      ],
+      "indirect_references": [
+        {"referring_phrase": "first eight principal components", "source_sentence": "The first eight principal components accounted for 97.9% of the total variance in RNN responses.", "resolved_to": "E017"}
+      ]
+    },
+    "E018": {
+      "entity_text": "Gaussian mixture model",
+      "entity_type": "StatisticalMethod",
+      "ontology": "STATO",
+      "ontology_id": "STATO:0000236",
+      "ontology_label": "Gaussian mixture model",
+      "confidence": "high",
+      "extraction_round": 1,
+      "source_sentences": [
+        "The projection reveals three major solution clusters, which we partitioned by fitting data with a Gaussian mixture model with three components."
+      ],
+      "indirect_references": []
+    },
+    "E019": {
+      "entity_text": "Mann–Whitney U-test",
+      "entity_type": "StatisticalMethod",
+      "ontology": "STATO",
+      "ontology_id": "STATO:0000189",
+      "ontology_label": "Mann-Whitney U test",
+      "confidence": "high",
+      "extraction_round": 1,
+      "source_sentences": [
+        "These latent models produced a significantly worse fit when the latent circuit and the target RNN were sampled from different clusters than from the same cluster (one-sided Mann–Whitney U-test, U = 52,593, P < 10−10).",
+        "Projecting PFC responses onto the axes identified by the latent circuit model revealed significant suppression of stimulus representations when they were irrelevant (one-sided Mann–Whitney U-test)."
+      ],
+      "indirect_references": []
+    },
+    "E020": {
+      "entity_text": "Pearson correlation coefficient",
+      "entity_type": "StatisticalMethod",
+      "ontology": "STATO",
+      "ontology_id": "STATO:0000142",
+      "ontology_label": "Pearson product-moment correlation coefficient",
+      "confidence": "high",
+      "extraction_round": 2,
+      "source_sentences": [
+        "Recurrent connectivity weights are highly correlated between two latent circuit models fitted to the same original RNN responses starting from different initialization (Pearson correlation coefficient ρ = 0.99)."
+      ],
+      "indirect_references": []
+    },
+    "E021": {
+      "entity_text": "linear regression",
+      "entity_type": "StatisticalMethod",
+      "ontology": "STATO",
+      "ontology_id": "STATO:0000149",
+      "ontology_label": "linear regression",
+      "confidence": "high",
+      "extraction_round": 1,
+      "source_sentences": [
+        "To decode motion coherence from RNN responses, we fit a linear regression model c = βy + b."
+      ],
+      "indirect_references": [
+        {"referring_phrase": "linear decoder", "source_sentence": "We compared projections of RNN activity onto axes obtained from the latent circuit model and a linear decoder.", "resolved_to": "E021"}
+      ]
+    },
+    "E022": {
+      "entity_text": "rectified linear (ReLU) activation function",
+      "entity_type": "ActivationFunction",
+      "ontology": "EDAM",
+      "ontology_id": "EDAM:topic_3474",
+      "ontology_label": "Machine learning",
+      "confidence": "low",
+      "extraction_round": 1,
+      "source_sentences": [
+        "where f is a rectified linear (ReLU) activation function.",
+        "Here, [·]+ is a rectified linear (ReLU) activation function, τ is a time constant, and u are external task inputs."
+      ],
+      "indirect_references": []
+    },
+    "E023": {
+      "entity_text": "Softplus activation function",
+      "entity_type": "ActivationFunction",
+      "ontology": "EDAM",
+      "ontology_id": "EDAM:topic_3474",
+      "ontology_label": "Machine learning",
+      "confidence": "low",
+      "extraction_round": 1,
+      "source_sentences": [
+        "To test whether our results extend to networks with a different biologically plausible nonlinearity, we trained RNNs that had a Softplus activation function f(x) = (g/β) log(1 + e^(βx)) for a range of parameter β and also with varying gain g across units."
+      ],
+      "indirect_references": []
+    },
+    "E024": {
+      "entity_text": "Adam optimizer",
+      "entity_type": "OptimizationAlgorithm",
+      "ontology": "EDAM",
+      "ontology_id": "EDAM:operation_3664",
+      "ontology_label": "Statistical modelling",
+      "confidence": "low",
+      "extraction_round": 1,
+      "source_sentences": [
+        "We perform this minimization using PyTorch and the Adam optimizer with default values 0.9 and 0.999 for the decay rate of the first and second moment estimates, respectively.",
+        "The training is performed with the Adam algorithm."
+      ],
+      "indirect_references": []
+    },
+    "E025": {
+      "entity_text": "Cayley transform",
+      "entity_type": "MathematicalMethod",
+      "ontology": null,
+      "ontology_id": null,
+      "ontology_label": null,
+      "confidence": "none",
+      "extraction_round": 1,
+      "source_sentences": [
+        "To transform it into an unconstrained problem, we use the Cayley transform to parameterize orthonormal matrices by the linear space of skew symmetric matrices."
+      ],
+      "indirect_references": []
+    },
+    "E026": {
+      "entity_text": "Dale's law",
+      "entity_type": "BiologicalPrinciple",
+      "ontology": null,
+      "ontology_id": null,
+      "ontology_label": null,
+      "confidence": "none",
+      "extraction_round": 1,
+      "source_sentences": [
+        "The recurrent matrix is constrained to satisfy Dale's law with 80% excitatory units and 20% inhibitory units."
+      ],
+      "indirect_references": []
+    },
+    "E027": {
+      "entity_text": "excitation–inhibition balance",
+      "entity_type": "NeurophysiologicalConcept",
+      "ontology": "GO",
+      "ontology_id": "GO:0099564",
+      "ontology_label": "modulation of chemical synaptic transmission",
+      "confidence": "low",
+      "extraction_round": 1,
+      "source_sentences": [
+        "These models can predict changes in dynamics and behavioral performance under perturbations of the circuit structure (for example, changes in excitation–inhibition balance)."
+      ],
+      "indirect_references": []
+    },
+    "E028": {
+      "entity_text": "mixed selectivity",
+      "entity_type": "NeurophysiologicalConcept",
+      "ontology": null,
+      "ontology_id": null,
+      "ontology_label": null,
+      "confidence": "none",
+      "extraction_round": 1,
+      "source_sentences": [
+        "After training, RNN units show heterogeneous mixed selectivity for multiple task variables.",
+        "RNNs mimic the heterogeneity and mixed selectivity of neural responses in the cortex during cognitive tasks while providing full access to each unit's activity, network connectivity and behavioral outcomes."
+      ],
+      "indirect_references": []
+    },
+    "E029": {
+      "entity_text": "suppression mechanism",
+      "entity_type": "NeuralMechanism",
+      "ontology": "GO",
+      "ontology_id": "GO:0007268",
+      "ontology_label": "chemical synaptic transmission",
+      "confidence": "low",
+      "extraction_round": 1,
+      "source_sentences": [
+        "We apply the latent circuit inference to recurrent neural networks trained to perform a context-dependent decision-making task and find a suppression mechanism in which contextual representations inhibit irrelevant sensory responses.",
+        "This pattern of connections from the context nodes to the sensory nodes implements a suppression mechanism that inhibits the irrelevant stimulus–response mapping in each context."
+      ],
+      "indirect_references": [
+        {"referring_phrase": "this mechanism", "source_sentence": "We validate this mechanism by confirming the behavioral effects of patterned connectivity perturbations predicted by the latent circuit model.", "resolved_to": "E029"},
+        {"referring_phrase": "inhibitory mechanism", "source_sentence": "Latent circuit connectivity inferred from PFC responses shows an inhibitory mechanism similar to that observed in RNNs.", "resolved_to": "E029"}
+      ]
+    },
+    "E030": {
+      "entity_text": "dynamical selection vector mechanism",
+      "entity_type": "NeuralMechanism",
+      "ontology": null,
+      "ontology_id": null,
+      "ontology_label": null,
+      "confidence": "none",
+      "extraction_round": 1,
+      "source_sentences": [
+        "The inhibitory suppression mechanism that we consistently found across RNNs may seem distinct from a dynamical selection vector mechanism previously identified in RNNs trained on a similar task, which apparently does not require suppression of irrelevant sensory responses."
+      ],
+      "indirect_references": []
+    },
+    "E031": {
+      "entity_text": "attractor dynamics",
+      "entity_type": "DynamicalSystemsConcept",
+      "ontology": null,
+      "ontology_id": null,
+      "ontology_label": null,
+      "confidence": "none",
+      "extraction_round": 2,
+      "source_sentences": [
+        "Discrete attractor dynamics underlies persistent activity in the frontal cortex."
+      ],
+      "indirect_references": []
+    },
+    "E032": {
+      "entity_text": "fixed points",
+      "entity_type": "DynamicalSystemsConcept",
+      "ontology": null,
+      "ontology_id": null,
+      "ontology_label": null,
+      "confidence": "none",
+      "extraction_round": 1,
+      "source_sentences": [
+        "It has been possible to determine dynamical mechanisms of task computations by either characterizing fixed points and linearized dynamics around them in RNNs or fitting a dynamical system directly to neural response data."
+      ],
+      "indirect_references": []
+    },
+    "E033": {
+      "entity_text": "neural manifolds",
+      "entity_type": "DynamicalSystemsConcept",
+      "ontology": null,
+      "ontology_id": null,
+      "ontology_label": null,
+      "confidence": "none",
+      "extraction_round": 2,
+      "source_sentences": [
+        "A unifying perspective on neural manifolds and circuits for cognition."
+      ],
+      "indirect_references": []
+    },
+    "E034": {
+      "entity_text": "low-rank connectivity",
+      "entity_type": "NetworkConcept",
+      "ontology": null,
+      "ontology_id": null,
+      "ontology_label": null,
+      "confidence": "none",
+      "extraction_round": 1,
+      "source_sentences": [
+        "The relation Eq. (5) shows that the latent circuit connectivity wrec is a low-rank structure in the connectivity of a high-dimensional network, which captures interactions among the latent variables defined by the columns of Q.",
+        "This perspective is qualitatively similar to previous work on engineering low-dimensional task solutions in RNNs with low-rank connectivity."
+      ],
+      "indirect_references": []
+    },
+    "E035": {
+      "entity_text": "motion coherence",
+      "entity_type": "StimulusVariable",
+      "ontology": "CogPO",
+      "ontology_id": "COGPO:00121",
+      "ontology_label": "moving stimulus",
+      "confidence": "low",
+      "extraction_round": 1,
+      "source_sentences": [
+        "The strength of motion and color stimuli varies from trial to trial as quantified by the motion and color coherence.",
+        "We use motion coherence mc and color coherence cc ranging from −0.2 to 0.2 chosen from the set {−0.2, −0.12, −0.04, 0.04, 0.12, 0.2}."
+      ],
+      "indirect_references": []
+    },
+    "E036": {
+      "entity_text": "color coherence",
+      "entity_type": "StimulusVariable",
+      "ontology": "CogPO",
+      "ontology_id": "COGPO:00037",
+      "ontology_label": "colored stimulus",
+      "confidence": "low",
+      "extraction_round": 1,
+      "source_sentences": [
+        "The strength of motion and color stimuli varies from trial to trial as quantified by the motion and color coherence."
+      ],
+      "indirect_references": []
+    },
+    "E037": {
+      "entity_text": "context cue",
+      "entity_type": "StimulusVariable",
+      "ontology": "CogPO",
+      "ontology_id": "COGPO:00045",
+      "ontology_label": "cue",
+      "confidence": "medium",
+      "extraction_round": 1,
+      "source_sentences": [
+        "A context cue then briefly appears to indicate either the color or motion context for the current trial.",
+        "Each trial begins with a presentation of a context cue from t = 320 to t = 1,000 ms."
+      ],
+      "indirect_references": []
+    },
+    "E038": {
+      "entity_text": "motion stimulus",
+      "entity_type": "StimulusFeature",
+      "ontology": "CogPO",
+      "ontology_id": "COGPO:00121",
+      "ontology_label": "moving stimulus",
+      "confidence": "high",
+      "extraction_round": 1,
+      "source_sentences": [
+        "In the color context, the choice should be made according to the color and ignoring the motion stimulus and vice versa in the motion context."
+      ],
+      "indirect_references": []
+    },
+    "E039": {
+      "entity_text": "color stimulus",
+      "entity_type": "StimulusFeature",
+      "ontology": "CogPO",
+      "ontology_id": "COGPO:00037",
+      "ontology_label": "colored stimulus",
+      "confidence": "high",
+      "extraction_round": 2,
+      "source_sentences": [
+        "After a delay of 200 ms, so that the network must maintain a memory of the context cue, the inputs corresponding to motion and color sensory evidence are presented at t = 1,200 ms for the remaining duration of the trial."
+      ],
+      "indirect_references": []
+    },
+    "E040": {
+      "entity_text": "random dots stimulus",
+      "entity_type": "StimulusType",
+      "ontology": "CogPO",
+      "ontology_id": "COGPO:00121",
+      "ontology_label": "moving stimulus",
+      "confidence": "medium",
+      "extraction_round": 1,
+      "source_sentences": [
+        "We analyzed neural responses during the presentation of the random dots stimulus because the available data consisted of neural responses starting at 100 ms after stimulus onset for a duration of 750 ms."
+      ],
+      "indirect_references": []
+    },
+    "E041": {
+      "entity_text": "firing rates",
+      "entity_type": "NeuralActivityMeasure",
+      "ontology": "NIFSTD",
+      "ontology_id": "NIFSTD:nlx_152236",
+      "ontology_label": "firing rate",
+      "confidence": "high",
+      "extraction_round": 1,
+      "source_sentences": [
+        "For each trial, we computed time-varying firing rates by counting spikes in a 50-ms sliding square window (50-ms steps).",
+        "The first term is the task error, and the second term serves to regularize by penalizing the magnitude of the firing rates."
+      ],
+      "indirect_references": []
+    },
+    "E042": {
+      "entity_text": "spike counts",
+      "entity_type": "NeuralActivityMeasure",
+      "ontology": "NIFSTD",
+      "ontology_id": "NIFSTD:sao1813327414",
+      "ontology_label": "action potential",
+      "confidence": "medium",
+      "extraction_round": 2,
+      "source_sentences": [
+        "For each trial, we computed time-varying firing rates by counting spikes in a 50-ms sliding square window (50-ms steps)."
+      ],
+      "indirect_references": [
+        {"referring_phrase": "counting spikes", "source_sentence": "For each trial, we computed time-varying firing rates by counting spikes in a 50-ms sliding square window (50-ms steps).", "resolved_to": "E042"}
+      ]
+    },
+    "E043": {
+      "entity_text": "single neurons",
+      "entity_type": "RecordingUnit",
+      "ontology": "CL",
+      "ontology_id": "CL:0000540",
+      "ontology_label": "neuron",
+      "confidence": "high",
+      "extraction_round": 1,
+      "source_sentences": [
+        "This dataset consisted of 762 units from monkey A and 640 units from monkey F (including single neurons and multiunits).",
+        "Single neurons in areas such as the prefrontal cortex (PFC) show complex heterogeneous tuning to multiple task variables."
+      ],
+      "indirect_references": []
+    },
+    "E044": {
+      "entity_text": "multiunits",
+      "entity_type": "RecordingUnit",
+      "ontology": null,
+      "ontology_id": null,
+      "ontology_label": null,
+      "confidence": "none",
+      "extraction_round": 1,
+      "source_sentences": [
+        "This dataset consisted of 762 units from monkey A and 640 units from monkey F (including single neurons and multiunits)."
+      ],
+      "indirect_references": []
+    },
+    "E045": {
+      "entity_text": "extracellular recordings",
+      "entity_type": "ExperimentalTechnique",
+      "ontology": "OBI",
+      "ontology_id": "OBI:0000454",
+      "ontology_label": "extracellular electrophysiology recording assay",
+      "confidence": "high",
+      "extraction_round": 2,
+      "source_sentences": [
+        "We analyzed a publicly available dataset of neural activity recordings from the PFC (in and around the frontal eye field) from two monkeys performing a context-dependent decision-making task."
+      ],
+      "indirect_references": [
+        {"referring_phrase": "neural activity recordings", "source_sentence": "We analyzed a publicly available dataset of neural activity recordings from the PFC.", "resolved_to": "E045"}
+      ]
+    },
+    "E046": {
+      "entity_text": "PyTorch",
+      "entity_type": "SoftwareTool",
+      "ontology": "SWO",
+      "ontology_id": "SWO:0000999",
+      "ontology_label": "PyTorch",
+      "confidence": "high",
+      "extraction_round": 1,
+      "source_sentences": [
+        "We perform this minimization using PyTorch and the Adam optimizer with default values 0.9 and 0.999 for the decay rate of the first and second moment estimates, respectively.",
+        "The RNN simulation and training were implemented in Python using the software package PyTorch."
+      ],
+      "indirect_references": []
+    },
+    "E047": {
+      "entity_text": "Python",
+      "entity_type": "ProgrammingLanguage",
+      "ontology": "SWO",
+      "ontology_id": "SWO:0000001",
+      "ontology_label": "Python",
+      "confidence": "high",
+      "extraction_round": 1,
+      "source_sentences": [
+        "We used the Python software package Seaborn for visualizing model parameters and responses after training.",
+        "We fit the latent circuit model Eqs. (1)–(3) to neural response data y by minimizing the mean squared error loss function using custom Python code."
+      ],
+      "indirect_references": []
+    },
+    "E048": {
+      "entity_text": "Seaborn",
+      "entity_type": "SoftwareTool",
+      "ontology": null,
+      "ontology_id": null,
+      "ontology_label": null,
+      "confidence": "low",
+      "extraction_round": 1,
+      "source_sentences": [
+        "We used the Python software package Seaborn for visualizing model parameters and responses after training."
+      ],
+      "indirect_references": []
+    },
+    "E049": {
+      "entity_text": "Gaussian kernel smoothing",
+      "entity_type": "AnalyticalMethod",
+      "ontology": "STATO",
+      "ontology_id": "STATO:0000286",
+      "ontology_label": "kernel density estimation",
+      "confidence": "medium",
+      "extraction_round": 2,
+      "source_sentences": [
+        "Within the training and test sets, we z scored and smoothed (Gaussian kernel, σ = 40 ms) the response of each unit."
+      ],
+      "indirect_references": []
+    },
+    "E050": {
+      "entity_text": "z-scoring",
+      "entity_type": "AnalyticalMethod",
+      "ontology": "STATO",
+      "ontology_id": "STATO:0000104",
+      "ontology_label": "standard score (z-score)",
+      "confidence": "high",
+      "extraction_round": 2,
+      "source_sentences": [
+        "Within the training and test sets, we z scored and smoothed (Gaussian kernel, σ = 40 ms) the response of each unit."
+      ],
+      "indirect_references": []
+    },
+    "E051": {
+      "entity_text": "schizophrenia",
+      "entity_type": "Disease",
+      "ontology": "MONDO",
+      "ontology_id": "MONDO:0005090",
+      "ontology_label": "schizophrenia",
+      "confidence": "high",
+      "extraction_round": 2,
+      "source_sentences": [
+        "Linking microcircuit dysfunction to cognitive impairment: effects of disinhibition associated with schizophrenia in a cortical working memory model."
+      ],
+      "indirect_references": []
+    },
+    "E052": {
+      "entity_text": "stimulus–response mappings",
+      "entity_type": "CognitiveProcess",
+      "ontology": "CogPO",
+      "ontology_id": "COGPO:00136",
+      "ontology_label": "stimulus-response association",
+      "confidence": "medium",
+      "extraction_round": 1,
+      "source_sentences": [
+        "Context-dependent decision-making requires flexible trial-by-trial switching between alternative stimulus–response mappings.",
+        "This pattern of connections from sensory to choice nodes implements two alternative stimulus–response mappings in the task."
+      ],
+      "indirect_references": []
+    }
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "agent": "Reviewer",
+  "model_used": "claude-opus-4-7 (1M context)",
+  "reviewer_isolation": "single_context",
+  "isolation_note": "The orchestrator could not enforce a true process boundary because the Reviewer is running within the same Claude Code instance that produced Agents 1 and 2. The Reviewer mitigated this by writing reviewer_independent_candidates.txt BEFORE opening agent1_output.json (i.e., generated candidates only from source_text.txt). Reviewer-isolation field is therefore reported as single_context per the pipeline_prompt.md instruction.",
+  "iteration": 1,
+  "status": "FAIL",
+  "extraction_certified_exhaustive": false,
+  "checklist": [
+    {
+      "item": "Entity types domain-appropriate (spot-check 10)",
+      "result": "PASS",
+      "evidence": "Sampled 10 random entities (E901 Equipment 'Echo Revolution microscope', E058 CellType 'GP-TH_Astro', E013 CellType 'GPi Shell', E341 DataStructure 'directed acyclic graph', E141 Gene 'CALY', E126 Gene 'SEMA3E', E115 Gene 'AQP4', E072 CellType '1184 MOL NN_4', E339 BiologicalConcept 'DL-VM gradient', E053 CellType 'Oligo OPALIN'). All types are domain-appropriate. Type distribution across 409 entities: CellType=105, Gene=96, BrainRegion=34, Reagent=30, Organization=21, Software=20, Method=17, BiologicalConcept=16, Technology=12, Algorithm=11, Species=8, Dataset=6, Disease=6, Equipment=6, Metric=6, DonorSample=4, Resource=3, Database=3, ProteinFamily=2, DataField=2, DataStructure=1."
+    },
+    {
+      "item": "No truncation/duplication; surface-form variants share one entity_id",
+      "result": "PASS",
+      "evidence": "Verified consolidation cases: E302 MERFISH includes surface_forms ['MERFISH', 'Multiplexed Error-Robust Fluorescence In Situ Hybridization']; E301 MERFISH+ is a distinct entity (the enhanced platform); E001 medium spiny neurons consolidates ['MSNs', 'MSN', 'medium spiny neurons', 'medium-spiny-neuron']; E115 AQP4 consolidates ['AQP4', 'aquaporin 4']. No obvious duplicates found across sampled entities."
+    },
+    {
+      "item": "Every entity has >=1 source_sentence",
+      "result": "FAIL",
+      "evidence": "3/409 entities have ZERO source_sentences: E814 Maxima H Minus Reverse Transcriptase, E901 Echo Revolution microscope, E1019 Harvard University Zhuang Lab. All three appear in the Key Resources Table where the table cell wrap created multi-line surface_forms containing embedded '\\n'; the entity exists in source (grep confirms hits) but the Extractor recorded no sentence. Minor: these are Key Resources Table entries with no narrative sentence context."
+    },
+    {
+      "item": "Surface-form literalness (20 random)",
+      "result": "PASS",
+      "evidence": "Ran `grep -Fc <surface_form> source_text.txt` for 20 random entities. All 20 returned >=1 hit (counts: 'LPAR1'=1, '0980 STR D2 Gaba_4'=1, 'NAc core'=5, 'Allen Institute'=7, 'LAMP5+'=4, 'CN GABA'=2, 'GODag'=1, 'OPC-Oligo'=5, 'PCSK1N'=1, 'rodents'=2, 'STR SST-CHODL'=1, 'Scanpy package'=4, 'TH'=22, 'parvalbumin-positive'=1, 'FM Glut'=4, 'caudoputamen'=1, 'anterior_commissure'=1, 'STR Chol'=1, 'SLIT1'=4, 'Immune'=7). Full-corpus regex-metacharacter scan: 0 surface_forms contain '\\b', '(?', '.*', '\\s', '\\d', '\\w' or any other code/regex syntax."
+    },
+    {
+      "item": "Indirect-reference coverage (>=5% with non-empty indirect_references)",
+      "result": "PASS",
+      "evidence": "coreference_pass_completed=true and 204/409 entities (49.9%) have non-empty indirect_references. Spot-checked 5 sentences containing 'These subregions' (line 103), 'These subtypes' (line 259, 331), 'these orthologous MSN pairs' (line 514): all are resolved to multiple captured entities (e.g., 'These subtypes form discrete clusters in UMAP space' is correctly linked from E061 astrocytes and the six astrocyte-marker genes E115-E119)."
+    },
+    {
+      "item": "Ontology selections appropriate (spot-check 10)",
+      "result": "PASS",
+      "evidence": "Reviewed 15 high-confidence mappings. Genes -> HGNC (TH HGNC:11782, CCK HGNC:1569, CDH23 HGNC:13733, SOX6 HGNC:11199, FOXP2 HGNC:13875). Brain regions -> UBERON (basal ganglion UBERON:0002420, substantia nigra pars reticulata UBERON:0002978, dorsal striatum UBERON:0005382, prefrontal cortex UBERON:0000451). Species -> NCBITaxon (Mus musculus NCBITaxon:10090). Reagent -> CHEBI (formamide CHEBI:16397). Software -> RRID (scikit-learn RRID:SCR_002577, NumPy RRID:SCR_008633, storm-control RRID:SCR_027698). Assay -> OBI (MERFISH OBI:0002692). Cellular component -> GO (cytoplasm GO:0005737). Ontology choices are appropriate for each type."
+    },
+    {
+      "item": "Mapping coverage >=80%",
+      "result": "FAIL",
+      "evidence": "245/409 mappings (59.9%) carry a non-null ontology_id; below the 80% threshold. Of 164 unmapped: 82 CellType (of which ~30 are paper-specific Allen-taxonomy cluster names like '0277 STR D2 Gaba_4_A*', '0285 STR-PAL Chst9 Gaba_1' that are legitimately unmappable to standard ontologies), 18 Organization (commercial vendors like Sigma-Aldrich, Twist Bioscience, Vizgen, CellPath that have no clean ontology fit), 12 Reagent (kit/product names), 9 Method, 9 BiologicalConcept, 7 Software (e.g., gget, goatools, sdeconv, GODag — newer tools without RRIDs in agent's recall), 5 Algorithm, 4 DonorSample (Case UCI-xxxx), 3 Equipment, 3 Metric, 2 Technology (notably Stereo-seq and smFISH listed with ontology='OBI' but ontology_id=null), 2 Dataset, 2 ProteinFamily, 2 DataField, 1 Gene (CTXND1 — ontology proposed HGNC but null id; CTXND1 is a putative gene symbol not in HGNC), 1 Resource, 1 DataStructure, 1 BrainRegion (sublenticular extended amygdala). The gap is partially explained by paper-specific cluster names (~30) and commercial vendors (~18); the remaining ~115 represent genuine mapping shortfalls (esp. Methods, Algorithms, Software, Reagents, Diseases not deeply explored)."
+    },
+    {
+      "item": "Ontology ID validation (spot-check >=10 IDs)",
+      "result": "PASS",
+      "evidence": "Agent 2 reports id_validation_method='none (recalled, not validated)'. Reviewer spot-checked 15 IDs against authoritative knowledge: UBERON:0002420 basal ganglion (correct), HGNC:1569 CCK (correct), HGNC:11782 TH (correct), HGNC:13733 CDH23 (correct), CHEBI:16397 formamide (correct), UBERON:0002978 substantia nigra pars reticulata (correct), HGNC:11199 SOX6 (correct), HGNC:13875 FOXP2 (correct), UBERON:0005382 dorsal striatum (correct), UBERON:0000451 prefrontal cortex (correct), NCBITaxon:10090 = Mus musculus (correct), OBI:0002692 MERFISH (plausible), GO:0005737 cytoplasm (correct), RRID:SCR_002577 scikit-learn (correct), RRID:SCR_008633 NumPy (correct). No falsified IDs detected in the spot-check sample. 8 cases of schema inconsistency where ontology was specified but ontology_id is null (E133 CTXND1->HGNC, E303 Stereo-seq->OBI, E308 smFISH->OBI, E327 LOWESS->STATO, E329 3D Delaunay triangulation->EDAM, E408 pyvista->RRID, E520 sublenticular extended amygdala->UBERON) and 1 reverse case (E507 GRCh38: ontology=null, ontology_id='GRCh38')."
+    },
+    {
+      "item": "JSON schema conformance",
+      "result": "PASS",
+      "evidence": "Agent1 top-level keys present: agent, model_used, extraction_rounds_completed, round_log, masking_applied, termination_reason, coreference_pass_completed, entities. All 409 entity records include entity_id, entity_text, entity_type, surface_forms, source_sentences, occurrence_count, indirect_references, extraction_round. occurrence_count == len(source_sentences)+len(indirect_references) for ALL 409 entities. Agent2 has agent, model_used, id_validation_method, mappings, unmapped; all 409 mappings include required fields. Entity ID coverage between Agent1 and Agent2 is 1:1 (no missing or extra IDs)."
+    },
+    {
+      "item": "Masking artifacts exist and are valid",
+      "result": "PASS",
+      "evidence": "All 4 masked files exist (multiscale_spatial_transcriptomic_masked_round1.txt through round4.txt), each 3265 lines (matching source). Spot-checked 10 randomly-sampled entity surface_forms against round1 mask: 7/10 had 0 hits (correctly masked); 3 had residual hits (E238 cytoplasm=3, E515 AIBS=2, E711b Astro-3=1) — but these entities were discovered in extraction_round=2, 3, 2 respectively, so they correctly appear unmasked in round1 and get masked in subsequent rounds. Spot-checked the same 10 against round4 mask: all 10 returned 0 hits, confirming the final round is comprehensively masked. unmasked_candidates_round_2 has 25 entries, round_3 has 21, round_4 has 15 — all well above the >=5-entry requirement with explicit decisions ('new entity (CellType) — captured as Exxx' or 'non-entity prose')."
+    },
+    {
+      "item": "Extractor ran >=2 masking rounds and terminated zero-delta",
+      "result": "PASS",
+      "evidence": "extraction_rounds_completed=4. round_log shows entities_found_this_round=362,39,8,0 across rounds 1-4. termination_reason='zero-delta'. All four masked artifacts referenced in round_log are present on disk."
+    },
+    {
+      "item": "Exhaustiveness audit (>=10 entities, grep vs occurrence_count)",
+      "result": "PASS",
+      "evidence": "Sampled 10 random entities and ran `grep -Fc <surface_form> source_text.txt` per surface form, comparing to recorded occurrence_count. Results: E211 internal capsule (sum_grep=8 vs occ=11, n_src=7, n_ind=4 — extra indirect refs are valid coref hits), E195 Folh1 (sum_grep=3 vs occ=1, 2 grep hits are in mouse cell-type cluster names containing the substring), E103 TAC1 (3 vs 4), E807 Poly-D-lysine (6 vs 6 exact match), E092 0288 STR-PAL Chst9 Gaba_4 (1 vs 1), E118 CHI3L1 (4 vs 5), E128 KIRREL3 (4 vs 5), E069 Tac2+/TH+ interneurons (1 vs 1), E708b Astro-0 (1 vs 1), E045 FM Glut (5 vs 2 — undercount, 3 extra hits in figure legends are reasonable). occurrence_count equals n_src+n_ind for ALL 409 entities, so the recorded counts are internally consistent. Surface-form grep counts include figure-caption hits that may not form standalone sentences. Audit acceptable; no entity has >2 missed full sentences."
+    },
+    {
+      "item": "Independent candidate diff",
+      "result": "FAIL",
+      "evidence": "Generated reviewer_independent_candidates.txt (426 candidates) BEFORE loading agent1_output.json. After case-insensitive fuzzy comparison against extractor's entity_text + surface_forms, 44 candidates are absent. Verified-real misses with grep confirmation in source: 'spatial transcriptomics' (10 src hits, not captured as standalone concept), 'in situ sequencing' (1), 'immunohistochemistry' (1), 'immunofluorescence staining' (1), 'Allen Brain Atlas' (1, distinct from 'Allen Human Brain Atlas'), 'claustrum' (2), 'microglia' (1, Figure S5 legend), 'VLMCs' (1), 'SMCs' (1), 'monocytes' (1), 'B cells' (1), 'T cells' (1), 'PCP4' (1, Figure S9 region-enriched gene), 'PEG10' (1, Figure S9 region-enriched gene), 'SRRIT1' (1, Figure S9), 'Tourette syndrome' (1, reference), 'schizophrenia' (1, reference), 'DLD' (1, reference), 'autism' (1, reference), 'marmoset' (1, reference), 'OT D1ICj' (1, Figure S3 cell type), 'EDTA' (1, methods), 'NaOH' (1, methods), 'TE Buffer' (1, Key Resources Table). These ~24 verified misses are substantive: 'spatial transcriptomics' is a core concept of the paper; the Figure S5 non-neuronal cells (microglia, monocytes, B/T cells, VLMCs, SMCs) are real cell types named in the supplemental figure legend; PCP4/PEG10/SRRIT1 are real genes; the disease references (Tourette, schizophrenia, autism, DLD) provide clinical context."
+    },
+    {
+      "item": "Class-coverage sweep",
+      "result": "FAIL",
+      "evidence": "Per-class checks: (1) Gene class — uppercase tokens scan turned up PCP4, PEG10, SRRIT1, TREM2 not captured (TREM2 appears in Trem2(R47H) gene mutation reference; treated by reviewer as background). (2) CellType — 'microglia', 'monocytes', 'B cells', 'T cells', 'VLMCs' (vascular leptomeningeal cells), 'SMCs' (smooth muscle cells), 'ImAstro' (covered via E708-series? — extractor has E708 'primate' as Species), 'OT D1ICj' (Fig S3 cell type) all missing. (3) BrainRegion — 'claustrum', 'septum', 'nucleus basalis' from reference 51 titles missing. (4) Method/Technology — 'spatial transcriptomics', 'in situ sequencing', 'immunohistochemistry', 'immunofluorescence staining' missing. Together with the independent-candidate diff, the class-coverage sweep flags ~24 real domain-relevant entities the extractor missed."
+    }
+  ],
+  "independent_candidates_file": "reviewer_independent_candidates.txt",
+  "independent_diff_missing_count": 24,
+  "issues_found": [
+    "Mapping coverage 59.9% (245/409) is below the 80% threshold. While ~48 unmapped entries are legitimately hard-to-map (paper-specific Allen cluster names like '0277 STR D2 Gaba_4_A*' and commercial vendors like Sigma-Aldrich/Twist Bioscience), the remaining ~115 unmapped entities (esp. Methods, Algorithms, Software, Reagents, Diseases) represent a genuine coverage shortfall.",
+    "3 entities have empty source_sentences: E814 Maxima H Minus Reverse Transcriptase, E901 Echo Revolution microscope, E1019 Harvard University Zhuang Lab. All three appear only in the Key Resources Table where embedded newlines fragmented the surface forms; the schema requires >=1 source sentence per entity.",
+    "8 mappings have ontology specified but ontology_id=null (E133 CTXND1->HGNC, E303 Stereo-seq->OBI, E308 smFISH->OBI, E327 LOWESS regression->STATO, E329 3D Delaunay triangulation->EDAM, E408 pyvista->RRID, E520 sublenticular extended amygdala->UBERON) and 1 reverse case (E507 GRCh38 has ontology_id='GRCh38' but ontology=null). Stereo-seq notably has a published RRID (SCR_025001 for the Analysis Workflow) and should be mappable.",
+    "Independent candidate diff revealed 24 domain-relevant entities that are absent from the extractor's output despite appearing in source_text.txt: 'spatial transcriptomics' (a core concept of the paper, 10 main-text hits), 'in situ sequencing', 'immunohistochemistry', 'immunofluorescence staining', 'Allen Brain Atlas' (distinct from 'Allen Human Brain Atlas' captured as E501), 'claustrum', 'microglia', 'monocytes', 'B cells', 'T cells', 'VLMCs' (vascular leptomeningeal cells), 'SMCs' (smooth muscle cells), 'OT D1ICj' (Figure S3 cell type), 'PCP4', 'PEG10', 'SRRIT1' (Figure S9 region-enriched genes), 'TREM2', 'Tourette syndrome', 'schizophrenia', 'DLD', 'autism', 'marmoset', 'EDTA', 'NaOH', 'TE Buffer'.",
+    "Some indirect_references entries have very low resolution confidence and resolve a single pronoun (e.g., 'these' in 'These subregions mirror the cellular composition of the dorsal striatum') to ~17 different entities simultaneously. The protocol allows 'low' confidence entries, but this over-broad resolution inflates the indirect_reference counts."
+  ],
+  "triggered_reextraction": true,
+  "reextraction_instructions": {
+    "agent_to_rerun": "EntityExtractor",
+    "scope": "targeted_addition_pass",
+    "instructions": "Perform one additional targeted-addition pass to add the following missed entities, then re-run a single masking round (round 5) to verify zero-delta. Do NOT re-derive existing entities or modify existing entries; only ADD new records with new entity_ids (continue numbering above the highest E-id currently used).",
+    "missing_entities": [
+      {"entity_text": "spatial transcriptomics", "entity_type": "Technology", "evidence_sentences_to_capture": ["have expanded high-resolution spatial transcriptomics into a multimodal platform", "large-area spatial transcriptomics with subcellular precision", "By integrating the two high-throughput spatial transcriptomics platforms (MERFISH+ and Stereo-seq)", "spatial transcriptomics in human tissue"]},
+      {"entity_text": "in situ sequencing", "entity_type": "Technology"},
+      {"entity_text": "immunohistochemistry", "entity_type": "Technology"},
+      {"entity_text": "immunofluorescence staining", "entity_type": "Technology"},
+      {"entity_text": "Allen Brain Atlas", "entity_type": "Dataset", "note": "appears in Figure 5 caption distinct from 'Allen Human Brain Atlas'"},
+      {"entity_text": "claustrum", "entity_type": "BrainRegion", "note": "appears in reference 27 macaque claustrum citation"},
+      {"entity_text": "microglia", "entity_type": "CellType"},
+      {"entity_text": "monocytes", "entity_type": "CellType"},
+      {"entity_text": "B cells", "entity_type": "CellType"},
+      {"entity_text": "T cells", "entity_type": "CellType"},
+      {"entity_text": "vascular leptomeningeal cells (VLMCs)", "entity_type": "CellType"},
+      {"entity_text": "smooth muscle cells (SMCs)", "entity_type": "CellType"},
+      {"entity_text": "OT D1ICj", "entity_type": "CellType", "note": "Figure S3 cell type"},
+      {"entity_text": "PCP4", "entity_type": "Gene", "note": "Figure S9B region-enriched gene"},
+      {"entity_text": "PEG10", "entity_type": "Gene", "note": "Figure S9B region-enriched gene"},
+      {"entity_text": "SRRIT1", "entity_type": "Gene", "note": "Figure S9C DL-enriched gene"},
+      {"entity_text": "TREM2", "entity_type": "Gene", "note": "in Trem2(R47H) reference 41"},
+      {"entity_text": "Tourette syndrome", "entity_type": "Disease", "note": "reference 16 title"},
+      {"entity_text": "schizophrenia", "entity_type": "Disease", "note": "reference 48 title"},
+      {"entity_text": "autism", "entity_type": "Disease", "note": "reference 83 title"},
+      {"entity_text": "DLD", "entity_type": "Disease", "note": "reference 74 title (Developmental Language Disorder)"},
+      {"entity_text": "marmoset", "entity_type": "Species", "note": "reference 5 title"},
+      {"entity_text": "EDTA", "entity_type": "Reagent", "note": "methods - alkaline hydrolysis"},
+      {"entity_text": "NaOH", "entity_type": "Reagent", "note": "methods - alkaline hydrolysis"},
+      {"entity_text": "TE Buffer", "entity_type": "Reagent", "note": "Key Resources Table"}
+    ],
+    "schema_fixes": [
+      "Populate source_sentences for E814 (Maxima H Minus Reverse Transcriptase), E901 (Echo Revolution microscope), E1019 (Harvard University Zhuang Lab) — these can be the surrounding STAR Methods sentences that reference these reagents/equipment by abbreviated form (e.g., 'Maxima Reverse Transcriptase').",
+      "For the 8 mappings with ontology set but ontology_id null, either resolve the ID (Stereo-seq SAW = RRID:SCR_025001) or set ontology to null and add the entity to the unmapped list; for E507 GRCh38 set ontology='NCBIAssembly' or similar."
+    ],
+    "post_addition_step": "After adding the missing entities, re-run a single masking round to verify zero-delta and update extraction_rounds_completed accordingly."
+  },
+  "final_entity_count": 409,
+  "final_mapped_count": 245,
+  "notes": "Reviewer ran in single_context (single Claude Code instance); reviewer_independent_candidates.txt was written to disk (454 lines, 426 candidates) BEFORE agent1_output.json was opened in order to preserve unbiased candidate derivation. Overall the Extractor performed competently on the major flagship entities of the paper (MERFISH+, Stereo-seq, MSN subtypes, GP neuron subtypes, astrocyte/oligodendrocyte subtypes, the DL-VM gradient, striosome-matrix architecture, all the canonical genes DRD1/DRD2/PDYN/etc.) and ran a proper 4-round masking loop with explicit unmasked_candidates lists per round terminating zero-delta. Surface forms are literal (no regex), the coreference pass was performed (49.9% of entities have indirect_references with referring_phrase records), and the JSON conforms to schema. The Ontology Mapper correctly recalled standard IDs for the spot-checked entries (HGNC, UBERON, CHEBI, GO, NCBITaxon, RRID, CL) and confidence levels are appropriate. The triggered re-extraction is targeted: ~24 missed entities (primarily Figure S5 non-neuronal cell types, Figure S9 region-enriched genes, the paper-defining 'spatial transcriptomics' concept, several diseases mentioned in references and Discussion, a few methods/reagents). Mapping coverage at 59.9% is below the 80% PASS threshold; ~48 of the 164 unmapped are legitimately unmappable (paper-specific Allen-taxonomy cluster names and commercial vendors) and the remainder are real ontology-mapping gaps for Methods, Algorithms, Software, Reagents, and Diseases. Recommendation: invoke a targeted-addition Extractor pass, then a final Mapper pass to lift coverage; the existing entities and masking artifacts can be retained without modification."
+}
