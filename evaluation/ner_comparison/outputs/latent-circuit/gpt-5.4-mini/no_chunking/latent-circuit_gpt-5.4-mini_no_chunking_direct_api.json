@@ -1,0 +1,1137 @@
+{
+  "entities": [
+    {
+      "entity": "Higher cortical areas",
+      "label": "BRAIN_REGION",
+      "start": 9,
+      "end": 29,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "single neurons",
+      "label": "CELL_TYPE",
+      "start": 108,
+      "end": 122,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "latent circuit model",
+      "label": "COMPUTATIONAL_MODEL",
+      "start": 489,
+      "end": 510,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "recurrent neural networks",
+      "label": "MODEL_CLASS",
+      "start": 656,
+      "end": 681,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "prefrontal cortex",
+      "label": "BRAIN_REGION",
+      "start": 832,
+      "end": 849,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "monkeys",
+      "label": "SPECIES",
+      "start": 853,
+      "end": 860,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "Higher cortical areas",
+      "label": "BRAIN_REGION",
+      "start": 1000,
+      "end": 1020,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "excitatory neurons",
+      "label": "CELL_TYPE",
+      "start": 1099,
+      "end": 1117,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "inhibitory neurons",
+      "label": "CELL_TYPE",
+      "start": 1122,
+      "end": 1140,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "cortical circuits",
+      "label": "NEURAL_CIRCUIT",
+      "start": 1146,
+      "end": 1163,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "prefrontal cortex",
+      "label": "BRAIN_REGION",
+      "start": 1430,
+      "end": 1447,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 1449,
+      "end": 1452,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNNs",
+      "label": "MODEL_CLASS",
+      "start": 1528,
+      "end": 1532,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 2372,
+      "end": 2375,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNNs",
+      "label": "MODEL_CLASS",
+      "start": 2653,
+      "end": 2657,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 3311,
+      "end": 3314,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "latent circuit model",
+      "label": "COMPUTATIONAL_MODEL",
+      "start": 3892,
+      "end": 3913,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNNs",
+      "label": "MODEL_CLASS",
+      "start": 3996,
+      "end": 4000,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 4287,
+      "end": 4290,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNNs",
+      "label": "MODEL_CLASS",
+      "start": 4439,
+      "end": 4443,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "context-dependent decision-making",
+      "label": "BEHAVIORAL_TASK",
+      "start": 4455,
+      "end": 4488,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFCs",
+      "label": "BRAIN_REGION",
+      "start": 5379,
+      "end": 5383,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "context-dependent decision-making",
+      "label": "BEHAVIORAL_TASK",
+      "start": 5388,
+      "end": 5421,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 5427,
+      "end": 5430,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNN",
+      "label": "MODEL_CLASS",
+      "start": 5434,
+      "end": 5437,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNN",
+      "label": "MODEL_CLASS",
+      "start": 5498,
+      "end": 5501,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNN",
+      "label": "MODEL_CLASS",
+      "start": 6397,
+      "end": 6400,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNN",
+      "label": "MODEL_CLASS",
+      "start": 6725,
+      "end": 6728,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNN",
+      "label": "MODEL_CLASS",
+      "start": 7130,
+      "end": 7133,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNN",
+      "label": "MODEL_CLASS",
+      "start": 7469,
+      "end": 7472,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNN",
+      "label": "MODEL_CLASS",
+      "start": 7930,
+      "end": 7933,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNN",
+      "label": "MODEL_CLASS",
+      "start": 7938,
+      "end": 7941,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNN",
+      "label": "MODEL_CLASS",
+      "start": 7945,
+      "end": 7948,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNN",
+      "label": "MODEL_CLASS",
+      "start": 8379,
+      "end": 8382,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNN",
+      "label": "MODEL_CLASS",
+      "start": 9368,
+      "end": 9371,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 9491,
+      "end": 9494,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNN",
+      "label": "MODEL_CLASS",
+      "start": 10619,
+      "end": 10622,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 11318,
+      "end": 11321,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "monkeys",
+      "label": "SPECIES",
+      "start": 11325,
+      "end": 11332,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "context-dependent decision-making task",
+      "label": "BEHAVIORAL_TASK",
+      "start": 11342,
+      "end": 11380,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 11430,
+      "end": 11433,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "two rhesus monkeys",
+      "label": "SPECIES",
+      "start": 11459,
+      "end": 11477,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "context-dependent decision-making task",
+      "label": "BEHAVIORAL_TASK",
+      "start": 11493,
+      "end": 11531,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNNs",
+      "label": "MODEL_CLASS",
+      "start": 12177,
+      "end": 12181,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "Mante et al.",
+      "label": "AUTHOR_CITATION",
+      "start": 12208,
+      "end": 12221,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 12256,
+      "end": 12259,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 12375,
+      "end": 12378,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "monkey A",
+      "label": "SPECIES",
+      "start": 12413,
+      "end": 12421,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "monkey F",
+      "label": "SPECIES",
+      "start": 12426,
+      "end": 12434,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "latent circuit model",
+      "label": "COMPUTATIONAL_MODEL",
+      "start": 12792,
+      "end": 12813,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 12835,
+      "end": 12838,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 13009,
+      "end": 13012,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "latent circuit model",
+      "label": "COMPUTATIONAL_MODEL",
+      "start": 13152,
+      "end": 13173,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 13482,
+      "end": 13485,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 13625,
+      "end": 13628,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 13699,
+      "end": 13702,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNNs",
+      "label": "MODEL_CLASS",
+      "start": 14146,
+      "end": 14150,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNNs",
+      "label": "MODEL_CLASS",
+      "start": 14288,
+      "end": 14292,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "decoder",
+      "label": "METHOD",
+      "start": 14410,
+      "end": 14417,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNN",
+      "label": "MODEL_CLASS",
+      "start": 14522,
+      "end": 14525,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 14909,
+      "end": 14912,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNN",
+      "label": "MODEL_CLASS",
+      "start": 15603,
+      "end": 15606,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PyTorch",
+      "label": "SOFTWARE",
+      "start": 17103,
+      "end": 17110,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "Adam",
+      "label": "ALGORITHM",
+      "start": 17115,
+      "end": 17119,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "Seaborn",
+      "label": "SOFTWARE",
+      "start": 17299,
+      "end": 17306,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNNs",
+      "label": "MODEL_CLASS",
+      "start": 17953,
+      "end": 17957,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "latent circuit models",
+      "label": "COMPUTATIONAL_MODEL",
+      "start": 18070,
+      "end": 18091,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNN",
+      "label": "MODEL_CLASS",
+      "start": 18379,
+      "end": 18382,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "Mann-Whitney U-test",
+      "label": "STATISTICAL_TEST",
+      "start": 19320,
+      "end": 19339,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNN",
+      "label": "MODEL_CLASS",
+      "start": 19642,
+      "end": 19645,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNN",
+      "label": "MODEL_CLASS",
+      "start": 19883,
+      "end": 19886,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "Softplus",
+      "label": "ACTIVATION_FUNCTION",
+      "start": 20109,
+      "end": 20117,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "ReLU",
+      "label": "ACTIVATION_FUNCTION",
+      "start": 20202,
+      "end": 20206,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNN",
+      "label": "MODEL_CLASS",
+      "start": 20655,
+      "end": 20658,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNN",
+      "label": "MODEL_CLASS",
+      "start": 20728,
+      "end": 20731,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNN",
+      "label": "MODEL_CLASS",
+      "start": 20784,
+      "end": 20787,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNN",
+      "label": "MODEL_CLASS",
+      "start": 21047,
+      "end": 21050,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNNs",
+      "label": "MODEL_CLASS",
+      "start": 21784,
+      "end": 21788,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNN",
+      "label": "MODEL_CLASS",
+      "start": 22025,
+      "end": 22028,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "context-dependent decision-making task",
+      "label": "BEHAVIORAL_TASK",
+      "start": 22104,
+      "end": 22142,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNN",
+      "label": "MODEL_CLASS",
+      "start": 22246,
+      "end": 22249,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNNs",
+      "label": "MODEL_CLASS",
+      "start": 22613,
+      "end": 22617,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "context-dependent decision-making task",
+      "label": "BEHAVIORAL_TASK",
+      "start": 22631,
+      "end": 22669,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "context-dependent decision-making task",
+      "label": "BEHAVIORAL_TASK",
+      "start": 23966,
+      "end": 24004,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNN",
+      "label": "MODEL_CLASS",
+      "start": 24130,
+      "end": 24133,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PyTorch",
+      "label": "SOFTWARE",
+      "start": 25104,
+      "end": 25111,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "Adam",
+      "label": "ALGORITHM",
+      "start": 25116,
+      "end": 25120,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNNs",
+      "label": "MODEL_CLASS",
+      "start": 25661,
+      "end": 25665,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNNs",
+      "label": "MODEL_CLASS",
+      "start": 25733,
+      "end": 25737,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNNs",
+      "label": "MODEL_CLASS",
+      "start": 25806,
+      "end": 25810,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 25839,
+      "end": 25842,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "monkey A",
+      "label": "SPECIES",
+      "start": 25858,
+      "end": 25866,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "monkey F",
+      "label": "SPECIES",
+      "start": 25871,
+      "end": 25879,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 26018,
+      "end": 26021,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "Mann-Whitney U-test",
+      "label": "STATISTICAL_TEST",
+      "start": 26025,
+      "end": 26044,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 26523,
+      "end": 26526,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNN",
+      "label": "MODEL_CLASS",
+      "start": 26881,
+      "end": 26884,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNN",
+      "label": "MODEL_CLASS",
+      "start": 27271,
+      "end": 27274,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 27341,
+      "end": 27344,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "Mann-Whitney U-test",
+      "label": "STATISTICAL_TEST",
+      "start": 27468,
+      "end": 27487,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNNs",
+      "label": "MODEL_CLASS",
+      "start": 27804,
+      "end": 27808,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNNs",
+      "label": "MODEL_CLASS",
+      "start": 28878,
+      "end": 28882,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 29375,
+      "end": 29378,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNNs",
+      "label": "MODEL_CLASS",
+      "start": 29686,
+      "end": 29690,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "Mann-Whitney U-test",
+      "label": "STATISTICAL_TEST",
+      "start": 31334,
+      "end": 31353,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNNs",
+      "label": "MODEL_CLASS",
+      "start": 31750,
+      "end": 31754,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 31805,
+      "end": 31808,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNNs",
+      "label": "MODEL_CLASS",
+      "start": 32548,
+      "end": 32552,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 32603,
+      "end": 32606,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNNs",
+      "label": "MODEL_CLASS",
+      "start": 33658,
+      "end": 33662,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 33758,
+      "end": 33761,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNN",
+      "label": "MODEL_CLASS",
+      "start": 34241,
+      "end": 34244,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNN",
+      "label": "MODEL_CLASS",
+      "start": 34881,
+      "end": 34884,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNN",
+      "label": "MODEL_CLASS",
+      "start": 34902,
+      "end": 34905,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNN",
+      "label": "MODEL_CLASS",
+      "start": 35362,
+      "end": 35365,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNN",
+      "label": "MODEL_CLASS",
+      "start": 35386,
+      "end": 35389,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNNs",
+      "label": "MODEL_CLASS",
+      "start": 35881,
+      "end": 35885,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNNs",
+      "label": "MODEL_CLASS",
+      "start": 36243,
+      "end": 36247,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 36796,
+      "end": 36799,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNNs",
+      "label": "MODEL_CLASS",
+      "start": 37902,
+      "end": 37906,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "latent circuit model",
+      "label": "COMPUTATIONAL_MODEL",
+      "start": 38593,
+      "end": 38614,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "Python",
+      "label": "SOFTWARE",
+      "start": 39058,
+      "end": 39064,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNNs",
+      "label": "MODEL_CLASS",
+      "start": 39364,
+      "end": 39368,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 39433,
+      "end": 39436,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "monkey A",
+      "label": "SPECIES",
+      "start": 39458,
+      "end": 39466,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "monkey F",
+      "label": "SPECIES",
+      "start": 39471,
+      "end": 39479,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 39584,
+      "end": 39587,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 39848,
+      "end": 39851,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 40408,
+      "end": 40411,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 40798,
+      "end": 40801,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "context-dependent decision-making",
+      "label": "BEHAVIORAL_TASK",
+      "start": 41438,
+      "end": 41471,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 41704,
+      "end": 41707,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNNs",
+      "label": "MODEL_CLASS",
+      "start": 42558,
+      "end": 42562,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNNs",
+      "label": "MODEL_CLASS",
+      "start": 42728,
+      "end": 42732,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 43162,
+      "end": 43165,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 43934,
+      "end": 43937,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 44443,
+      "end": 44446,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 44736,
+      "end": 44739,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNNs",
+      "label": "MODEL_CLASS",
+      "start": 45313,
+      "end": 45317,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 45354,
+      "end": 45357,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 45726,
+      "end": 45729,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNNs",
+      "label": "MODEL_CLASS",
+      "start": 46071,
+      "end": 46075,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 46710,
+      "end": 46713,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "RNNs",
+      "label": "MODEL_CLASS",
+      "start": 46835,
+      "end": 46839,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "monkey F",
+      "label": "SPECIES",
+      "start": 47321,
+      "end": 47329,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 47379,
+      "end": 47382,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "Monkey A",
+      "label": "SPECIES",
+      "start": 47623,
+      "end": 47631,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "Monkey F",
+      "label": "SPECIES",
+      "start": 47674,
+      "end": 47682,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "latent circuit model",
+      "label": "COMPUTATIONAL_MODEL",
+      "start": 48047,
+      "end": 48068,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 48079,
+      "end": 48082,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 48749,
+      "end": 48752,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "Mante et al.",
+      "label": "AUTHOR_CITATION",
+      "start": 49696,
+      "end": 49709,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "Extended Data Fig. 8",
+      "label": "FIGURE_REFERENCE",
+      "start": 50107,
+      "end": 50127,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 50177,
+      "end": 50180,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 50478,
+      "end": 50481,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "Extended Data Fig. 9",
+      "label": "FIGURE_REFERENCE",
+      "start": 50920,
+      "end": 50940,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "PFC",
+      "label": "BRAIN_REGION",
+      "start": 50969,
+      "end": 50972,
+      "sentence": "Untitled Section 1"
+    },
+    {
+      "entity": "Monkey F",
+      "label": "SPECIES",
+      "start": 51000,
+      "end": 51008,
+      "sentence": "Untitled Section 1"
+    }
+  ],
+  "model": "openrouter/openai/gpt-5.4-mini",
+  "usage": {
+    "completion_tokens": 4638,
+    "prompt_tokens": 18667,
+    "total_tokens": 23305,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": null,
+      "audio_tokens": 0,
+      "reasoning_tokens": 0,
+      "rejected_prediction_tokens": null,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cached_tokens": 0,
+      "text_tokens": null,
+      "image_tokens": null
+    },
+    "cost": 0.03487125,
+    "is_byok": false,
+    "cost_details": {
+      "upstream_inference_cost": 0.03487125,
+      "upstream_inference_prompt_cost": 0.01400025,
+      "upstream_inference_completions_cost": 0.020871
+    }
+  },
+  "raw_response": "{\"entities\":[{\"entity\":\"Higher cortical areas\",\"label\":\"BRAIN_REGION\",\"start\":9,\"end\":29,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"single neurons\",\"label\":\"CELL_TYPE\",\"start\":108,\"end\":122,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"latent circuit model\",\"label\":\"COMPUTATIONAL_MODEL\",\"start\":489,\"end\":510,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"recurrent neural networks\",\"label\":\"MODEL_CLASS\",\"start\":656,\"end\":681,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"prefrontal cortex\",\"label\":\"BRAIN_REGION\",\"start\":832,\"end\":849,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"monkeys\",\"label\":\"SPECIES\",\"start\":853,\"end\":860,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"Higher cortical areas\",\"label\":\"BRAIN_REGION\",\"start\":1000,\"end\":1020,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"excitatory neurons\",\"label\":\"CELL_TYPE\",\"start\":1099,\"end\":1117,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"inhibitory neurons\",\"label\":\"CELL_TYPE\",\"start\":1122,\"end\":1140,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"cortical circuits\",\"label\":\"NEURAL_CIRCUIT\",\"start\":1146,\"end\":1163,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"prefrontal cortex\",\"label\":\"BRAIN_REGION\",\"start\":1430,\"end\":1447,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":1449,\"end\":1452,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNNs\",\"label\":\"MODEL_CLASS\",\"start\":1528,\"end\":1532,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":2372,\"end\":2375,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNNs\",\"label\":\"MODEL_CLASS\",\"start\":2653,\"end\":2657,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":3311,\"end\":3314,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"latent circuit model\",\"label\":\"COMPUTATIONAL_MODEL\",\"start\":3892,\"end\":3913,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNNs\",\"label\":\"MODEL_CLASS\",\"start\":3996,\"end\":4000,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":4287,\"end\":4290,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNNs\",\"label\":\"MODEL_CLASS\",\"start\":4439,\"end\":4443,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"context-dependent decision-making\",\"label\":\"BEHAVIORAL_TASK\",\"start\":4455,\"end\":4488,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFCs\",\"label\":\"BRAIN_REGION\",\"start\":5379,\"end\":5383,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"context-dependent decision-making\",\"label\":\"BEHAVIORAL_TASK\",\"start\":5388,\"end\":5421,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":5427,\"end\":5430,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNN\",\"label\":\"MODEL_CLASS\",\"start\":5434,\"end\":5437,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNN\",\"label\":\"MODEL_CLASS\",\"start\":5498,\"end\":5501,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNN\",\"label\":\"MODEL_CLASS\",\"start\":6397,\"end\":6400,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNN\",\"label\":\"MODEL_CLASS\",\"start\":6725,\"end\":6728,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNN\",\"label\":\"MODEL_CLASS\",\"start\":7130,\"end\":7133,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNN\",\"label\":\"MODEL_CLASS\",\"start\":7469,\"end\":7472,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNN\",\"label\":\"MODEL_CLASS\",\"start\":7930,\"end\":7933,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNN\",\"label\":\"MODEL_CLASS\",\"start\":7938,\"end\":7941,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNN\",\"label\":\"MODEL_CLASS\",\"start\":7945,\"end\":7948,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNN\",\"label\":\"MODEL_CLASS\",\"start\":8379,\"end\":8382,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNN\",\"label\":\"MODEL_CLASS\",\"start\":9368,\"end\":9371,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":9491,\"end\":9494,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNN\",\"label\":\"MODEL_CLASS\",\"start\":10619,\"end\":10622,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":11318,\"end\":11321,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"monkeys\",\"label\":\"SPECIES\",\"start\":11325,\"end\":11332,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"context-dependent decision-making task\",\"label\":\"BEHAVIORAL_TASK\",\"start\":11342,\"end\":11380,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":11430,\"end\":11433,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"two rhesus monkeys\",\"label\":\"SPECIES\",\"start\":11459,\"end\":11477,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"context-dependent decision-making task\",\"label\":\"BEHAVIORAL_TASK\",\"start\":11493,\"end\":11531,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNNs\",\"label\":\"MODEL_CLASS\",\"start\":12177,\"end\":12181,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"Mante et al.\",\"label\":\"AUTHOR_CITATION\",\"start\":12208,\"end\":12221,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":12256,\"end\":12259,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":12375,\"end\":12378,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"monkey A\",\"label\":\"SPECIES\",\"start\":12413,\"end\":12421,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"monkey F\",\"label\":\"SPECIES\",\"start\":12426,\"end\":12434,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"latent circuit model\",\"label\":\"COMPUTATIONAL_MODEL\",\"start\":12792,\"end\":12813,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":12835,\"end\":12838,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":13009,\"end\":13012,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"latent circuit model\",\"label\":\"COMPUTATIONAL_MODEL\",\"start\":13152,\"end\":13173,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":13482,\"end\":13485,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":13625,\"end\":13628,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":13699,\"end\":13702,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNNs\",\"label\":\"MODEL_CLASS\",\"start\":14146,\"end\":14150,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNNs\",\"label\":\"MODEL_CLASS\",\"start\":14288,\"end\":14292,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"decoder\",\"label\":\"METHOD\",\"start\":14410,\"end\":14417,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNN\",\"label\":\"MODEL_CLASS\",\"start\":14522,\"end\":14525,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":14909,\"end\":14912,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNN\",\"label\":\"MODEL_CLASS\",\"start\":15603,\"end\":15606,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PyTorch\",\"label\":\"SOFTWARE\",\"start\":17103,\"end\":17110,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"Adam\",\"label\":\"ALGORITHM\",\"start\":17115,\"end\":17119,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"Seaborn\",\"label\":\"SOFTWARE\",\"start\":17299,\"end\":17306,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNNs\",\"label\":\"MODEL_CLASS\",\"start\":17953,\"end\":17957,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"latent circuit models\",\"label\":\"COMPUTATIONAL_MODEL\",\"start\":18070,\"end\":18091,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNN\",\"label\":\"MODEL_CLASS\",\"start\":18379,\"end\":18382,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"Mann-Whitney U-test\",\"label\":\"STATISTICAL_TEST\",\"start\":19320,\"end\":19339,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNN\",\"label\":\"MODEL_CLASS\",\"start\":19642,\"end\":19645,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNN\",\"label\":\"MODEL_CLASS\",\"start\":19883,\"end\":19886,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"Softplus\",\"label\":\"ACTIVATION_FUNCTION\",\"start\":20109,\"end\":20117,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"ReLU\",\"label\":\"ACTIVATION_FUNCTION\",\"start\":20202,\"end\":20206,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNN\",\"label\":\"MODEL_CLASS\",\"start\":20655,\"end\":20658,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNN\",\"label\":\"MODEL_CLASS\",\"start\":20728,\"end\":20731,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNN\",\"label\":\"MODEL_CLASS\",\"start\":20784,\"end\":20787,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNN\",\"label\":\"MODEL_CLASS\",\"start\":21047,\"end\":21050,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNNs\",\"label\":\"MODEL_CLASS\",\"start\":21784,\"end\":21788,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNN\",\"label\":\"MODEL_CLASS\",\"start\":22025,\"end\":22028,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"context-dependent decision-making task\",\"label\":\"BEHAVIORAL_TASK\",\"start\":22104,\"end\":22142,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNN\",\"label\":\"MODEL_CLASS\",\"start\":22246,\"end\":22249,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNNs\",\"label\":\"MODEL_CLASS\",\"start\":22613,\"end\":22617,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"context-dependent decision-making task\",\"label\":\"BEHAVIORAL_TASK\",\"start\":22631,\"end\":22669,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"context-dependent decision-making task\",\"label\":\"BEHAVIORAL_TASK\",\"start\":23966,\"end\":24004,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNN\",\"label\":\"MODEL_CLASS\",\"start\":24130,\"end\":24133,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PyTorch\",\"label\":\"SOFTWARE\",\"start\":25104,\"end\":25111,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"Adam\",\"label\":\"ALGORITHM\",\"start\":25116,\"end\":25120,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNNs\",\"label\":\"MODEL_CLASS\",\"start\":25661,\"end\":25665,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNNs\",\"label\":\"MODEL_CLASS\",\"start\":25733,\"end\":25737,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNNs\",\"label\":\"MODEL_CLASS\",\"start\":25806,\"end\":25810,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":25839,\"end\":25842,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"monkey A\",\"label\":\"SPECIES\",\"start\":25858,\"end\":25866,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"monkey F\",\"label\":\"SPECIES\",\"start\":25871,\"end\":25879,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":26018,\"end\":26021,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"Mann-Whitney U-test\",\"label\":\"STATISTICAL_TEST\",\"start\":26025,\"end\":26044,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":26523,\"end\":26526,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNN\",\"label\":\"MODEL_CLASS\",\"start\":26881,\"end\":26884,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNN\",\"label\":\"MODEL_CLASS\",\"start\":27271,\"end\":27274,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":27341,\"end\":27344,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"Mann-Whitney U-test\",\"label\":\"STATISTICAL_TEST\",\"start\":27468,\"end\":27487,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNNs\",\"label\":\"MODEL_CLASS\",\"start\":27804,\"end\":27808,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNNs\",\"label\":\"MODEL_CLASS\",\"start\":28878,\"end\":28882,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":29375,\"end\":29378,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNNs\",\"label\":\"MODEL_CLASS\",\"start\":29686,\"end\":29690,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"Mann-Whitney U-test\",\"label\":\"STATISTICAL_TEST\",\"start\":31334,\"end\":31353,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNNs\",\"label\":\"MODEL_CLASS\",\"start\":31750,\"end\":31754,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":31805,\"end\":31808,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNNs\",\"label\":\"MODEL_CLASS\",\"start\":32548,\"end\":32552,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":32603,\"end\":32606,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNNs\",\"label\":\"MODEL_CLASS\",\"start\":33658,\"end\":33662,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":33758,\"end\":33761,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNN\",\"label\":\"MODEL_CLASS\",\"start\":34241,\"end\":34244,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNN\",\"label\":\"MODEL_CLASS\",\"start\":34881,\"end\":34884,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNN\",\"label\":\"MODEL_CLASS\",\"start\":34902,\"end\":34905,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNN\",\"label\":\"MODEL_CLASS\",\"start\":35362,\"end\":35365,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNN\",\"label\":\"MODEL_CLASS\",\"start\":35386,\"end\":35389,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNNs\",\"label\":\"MODEL_CLASS\",\"start\":35881,\"end\":35885,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNNs\",\"label\":\"MODEL_CLASS\",\"start\":36243,\"end\":36247,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":36796,\"end\":36799,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNNs\",\"label\":\"MODEL_CLASS\",\"start\":37902,\"end\":37906,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"latent circuit model\",\"label\":\"COMPUTATIONAL_MODEL\",\"start\":38593,\"end\":38614,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"Python\",\"label\":\"SOFTWARE\",\"start\":39058,\"end\":39064,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNNs\",\"label\":\"MODEL_CLASS\",\"start\":39364,\"end\":39368,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":39433,\"end\":39436,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"monkey A\",\"label\":\"SPECIES\",\"start\":39458,\"end\":39466,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"monkey F\",\"label\":\"SPECIES\",\"start\":39471,\"end\":39479,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":39584,\"end\":39587,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":39848,\"end\":39851,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":40408,\"end\":40411,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":40798,\"end\":40801,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"context-dependent decision-making\",\"label\":\"BEHAVIORAL_TASK\",\"start\":41438,\"end\":41471,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":41704,\"end\":41707,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNNs\",\"label\":\"MODEL_CLASS\",\"start\":42558,\"end\":42562,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNNs\",\"label\":\"MODEL_CLASS\",\"start\":42728,\"end\":42732,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":43162,\"end\":43165,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":43934,\"end\":43937,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":44443,\"end\":44446,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":44736,\"end\":44739,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNNs\",\"label\":\"MODEL_CLASS\",\"start\":45313,\"end\":45317,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":45354,\"end\":45357,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":45726,\"end\":45729,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNNs\",\"label\":\"MODEL_CLASS\",\"start\":46071,\"end\":46075,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":46710,\"end\":46713,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"RNNs\",\"label\":\"MODEL_CLASS\",\"start\":46835,\"end\":46839,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"monkey F\",\"label\":\"SPECIES\",\"start\":47321,\"end\":47329,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":47379,\"end\":47382,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"Monkey A\",\"label\":\"SPECIES\",\"start\":47623,\"end\":47631,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"Monkey F\",\"label\":\"SPECIES\",\"start\":47674,\"end\":47682,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"latent circuit model\",\"label\":\"COMPUTATIONAL_MODEL\",\"start\":48047,\"end\":48068,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":48079,\"end\":48082,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":48749,\"end\":48752,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"Mante et al.\",\"label\":\"AUTHOR_CITATION\",\"start\":49696,\"end\":49709,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"Extended Data Fig. 8\",\"label\":\"FIGURE_REFERENCE\",\"start\":50107,\"end\":50127,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":50177,\"end\":50180,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":50478,\"end\":50481,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"Extended Data Fig. 9\",\"label\":\"FIGURE_REFERENCE\",\"start\":50920,\"end\":50940,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"PFC\",\"label\":\"BRAIN_REGION\",\"start\":50969,\"end\":50972,\"sentence\":\"Untitled Section 1\"},{\"entity\":\"Monkey F\",\"label\":\"SPECIES\",\"start\":51000,\"end\":51008,\"sentence\":\"Untitled Section 1\"}]}"
+}
