@@ -23,6 +23,15 @@ If you find this work useful or build upon it, please consider citing:
 
 ---
 
+
+> [!IMPORTANT]
+> **StructSense has moved from a standalone application to an agent skill-based implementation.**
+>
+> The latest version, with expanded capabilities, updated workflows, and ongoing development, is available in the **[StructSense Agent Skill](https://github.com/sensein/agent_skills/tree/main/skills/structsense)**.
+>
+> Please use the skill-based implementation for the latest features, improvements, and documentation. This repository contains the earlier standalone implementation.
+
+
 ## Table of Contents
 
 - [Features](#features)
