@@ -16,6 +16,9 @@ classifiers = [
   "License :: OSI Approved :: Apache Software License",
   "Operating System :: OS Independent",
 ]
+dependencies = [
+    "requests>=2.32.5",
+]
 
 [project.urls]
 homepage = "https://github.com/sensein/structsense"
