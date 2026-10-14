@@ -1,0 +1,3266 @@
+
+
+=== PAGE 1 ===
+
+1 
+ 
+Multiscale Spatial Transcriptomic Atlas of ***** Basal Ganglia Cell-Type and 1 
+Cellular Community Organization  2 
+Bereket Tesfay Berackey 1#, Zhiqun Tan 2,7#, Ginny Wu 2, Sujan C. Das 2, Ren Li 3, 3 
+Benjamin Esser 4, Qiao Ye 2, Mahsa Nafisi 4, Samuel S. Park 4, Pedro Adolfo Sequeira 4 
+Mendieta 5, Jillian Berry 6, Firoza Mamdani 5, Quan Zhu 4, 12, Todd C. Holmes 7,8, 5 
+Daofeng Li 9, Ting Wang9, M. Margarita Behrens 10, Bing Ren 4, 11, Joseph R. Ecker 10, 6 
+Bogdan Bintu 4,7*, Xiangmin Xu 1,2,7* 7 
+1 Department of Biomedical Engineering, ******************************** 8 
+2 Department of Anatomy and Neurobiology, School of Medicine, University of California, 9 
+Irvine 10 
+3 Mathematical, Computational and Systems Biology, ********************************  11 
+4 Department of Cellular and Molecular Medicine, School of Medicine, and Department 12 
+of Bioengeneering, University of California, San Diego 13 
+5 Department of Psychiatry & ***** Behavior, School of Medicine, University of 14 
+California, Irvine 15 
+6 Department of Pathology, School of Medicine, ******************************** 16 
+7 Center for Neural Circuit Mapping (CNCM), ******************************** 17 
+8 Department of Physiology and Biophysics, School of Medicine, University of California, 18 
+Irvine 19 
+9 Department of Genetics, School of Medicine, Washington University in St. Louis, St. 20 
+Louis, Missouri 21 
+10 ************** for Biological Studies, La Jolla, California 22 
+11 New York Genome Center, New York, New York 23 
+12 Center for Epigenomics, Department of Cellular and Molecular Medicine, School of 24 
+Medicine, University of California, San Diego 25 
+ 26 
+# Co-first authors 27 
+* Corresponding authors 28 
+* Correspondence: xiangmin.xu@uci.edu (X.X.), bbintu@health.ucsd.edu (B.B.) 29 
+ 30 
+Key words: ********; **********; single-cell atlas; cellular communities; transcript 31 
+topography, *********–matrix organization; cross-species comparison 32 
+  33 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 2 ===
+
+2 
+ 
+Highlights 34 
+• Our multi-centimeter scale spatial taxonomy identifies the precise locations of 60 35 
+neuronal and glial cell types of ***** *************. 36 
+• ******** and ********** platforms map consistent *************** that align 37 
+with classical neuroanatomical nuclei. 38 
+• **************** and *******-expanded interneurons show regional and 39 
+domain specific organization 40 
+• Subcellular RNA localization reports **** morphology and projection-inferred 41 
+signatures. 42 
+ 43 
+SUMMARY 44 
+We generated a multi-region, subcellular-resolution spatial transcriptomic atlas of the 45 
+***** ************* by integrating ******** and ********** across four neurotypical 46 
+donors.  These datasets profiled ~7 million cells spanning the *******, *******, 47 
+*****************, and ***************, resolving 60 transcriptionally distinct cell types.  48 
+We show region-selective, molecular and spatial diversification of ******************* 49 
+cell types and multiple non-neuronal populations with distinct molecular identities and 50 
+spatial localizations.  Subcellular RNA localization captures ******* size and projection-51 
+inferred signatures that reflect direct and **************** topology.  Cellular community 52 
+analyses reveal the enrichment of sub-clusters of ********** and **************** at 53 
+*********–matrix borders, while *******-expanded interneurons are confined to matrix 54 
+territories.  Cross-species mapping uncovers orthologous *********–matrix organization 55 
+and conserved ************************* gene expression gradients. This atlas 56 
+provides a foundational molecular and spatial framework for studying ***** basal 57 
+ganglia architecture, offering a multi-centimeter scale resource that links cell types, 58 
+spatial architecture, and subcellular transcript topography across multiple nuclei. 59 
+  60 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 3 ===
+
+3 
+ 
+INTRODUCTION  61 
+The ***** ************* is a critical brain structure involved in motor control, learning 62 
+and emotion.  It is comprised of distinct anatomical nuclei / subdivisions including the 63 
+******** (*************** and *******), the *************** (external and internal 64 
+segments, *** and ***), and the ***************** (***) 1.  ************* cell types 65 
+and architecture are well characterized in ******* and ******************, but are 66 
+much less understood in ******.  The literature from both animal models and ****** 67 
+shows that ****************************** (****) are the dominant neuronal cell 68 
+type in the ******** (85–95%) 2-5; **** are divided into two major populations: D1-type 69 
+****, which express the ******************** (****), ********************** (****), 70 
+and *********; and ************, which express the ******************** (****), 71 
+************* (****), and ********** 2,3,6.  The D1 and D2 populations are spatially 72 
+organized into interdigitated ********* and ******************s that form the structural 73 
+foundation of ************* function 3,7,8.  Further studies, including those using single-74 
+nucleus RNA-seq in animal and ***** brains have revealed additional D1/D2 neuronal 75 
+diversity 9,10, and identified multiple classes of interneurons, including cholinergic 76 
+(**********************************; *****), ******************** (***), ************-77 
+positive (****), and ******************************************** (********) 78 
+subtypes 10-14. The *****************, located at the ventral extension of the ********, 79 
+contains both D1 and ******* and is further divided into core and shell subregions. 80 
+These subregions mirror the cellular composition of the ***************, including 81 
+diverse interneuron classes 10,15. The *************** consists of two principal divisions: 82 
+the external segment (***) and the internal segment (***) 3,16.  Both regions are 83 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 4 ===
+
+4 
+ 
+dominated by *** **************************** 17.  Within ***, ****************** 84 
+express PV, ************** (****), and ************** (******) 18,19; ************ 85 
+neurons express ***************************** (*****) and *********************** 86 
+(*****) 20,21.  *** contains ***/****+ projection neurons that form the principal 87 
+output pathway of the ************* 16,17. 88 
+A comprehensive understanding of ***** ************* organization requires 89 
+integrating cell-type identity, molecular signatures, and spatial architecture within an 90 
+intact anatomical framework.  Traditional ************************** provides 91 
+molecular resolution but lacks spatial context, limiting its ability to capture circuit-level 92 
+organization.  Emerging spatial transcriptomic technologies map gene expression 93 
+directly within intact tissue sections that retain the spatial relationships of cell types and 94 
+structures 10,14,22-24.  These methods include probe-based multiplexed fluorescent in situ 95 
+hybridization (****) and ************************** (***)-based spatially resolved 96 
+transcriptomics, each with complementary strengths in resolution, transcriptome 97 
+coverage, and throughput 23,25,26.  These approaches enable an unprecedented 98 
+mapping of brain architecture through quantitative classification of cell types and 99 
+detection of spatially patterned gene expression.  Although previous studies have 100 
+revealed the spatial organization of ********** within the striatal matrix and 101 
+transcriptional gradients across ************* nuclei in model organisms such as **** 102 
+and ******** 10,27, a comprehensive molecular and cell-type-resolved spatial atlas of 103 
+the adult ***** ************* remains lacking.  This gap has persisted in part because 104 
+of the large size and complex cytoarchitecture of ***** ************* nuclei, as well as 105 
+technical limitations in the spatial scale and resolution of existing mapping approaches.  106 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 5 ===
+
+5 
+ 
+Addressing this limitation is particularly critical given the central role of the ************* 107 
+in ***** ****************** (including ******************* and ********************), 108 
+***************************, and species-specific differences in ************* cellular 109 
+composition and structural organization that reflect the complexity of inputs and outputs 110 
+for these structures in ****** 7,28. 111 
+Recent advances in large-scale spatially resolved transcriptomics have transformed our 112 
+ability to characterize cellular heterogeneity and molecular architecture within intact 113 
+neural tissue such as ***** *************.  Two particularly powerful approaches are 114 
+*********************************************************** (*******) 26,29-33 and 115 
+**************************************************** (**********) 34-38.  ******* 116 
+enables highly multiplexed, single-molecule RNA imaging at subcellular resolution, 117 
+allowing the precise mapping of hundreds to thousands of genes within individual cells 118 
+while maintaining their spatial context 26,29,31.  This approach has been instrumental in 119 
+decoding cell-type organization across ******** and sub******** structures in multiple 120 
+species that reveal both conserved and species-specific architectural principles in the 121 
+*****, ****** and ***** brains 14,27,36,39-41.  Subsequent advancements in ******* 122 
+have expanded high-resolution spatial transcriptomics into a multimodal platform 123 
+capable of imaging DNA, RNA, and proteins within the same tissue specimen 42,43. Most 124 
+recently, the incorporation of modified probe designs, high-throughput microscopy, and 125 
+microfluidic automation has led to ******** 44, an enhanced implementation that 126 
+enables imaging across multi-centimeter–scale tissue areas. This extension achieves 127 
+large-area spatial transcriptomics with subcellular precision for integrative molecular 128 
+and structural analyses 44.   ********** employs ************-patterned arrays to 129 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 6 ===
+
+6 
+ 
+generate spatially barcoded **** libraries that capture transcriptomes from large 130 
+tissue sections at high resolution 34,36-38.  ********** has been successfully applied to 131 
+generate whole-brain atlases in **** and to characterize ******** and sub******** 132 
+organization in ***************** 34-38. This sequencing-based approach provides an 133 
+unbiased, genome-wide view of spatial gene-expression patterns across extensive 134 
+anatomical domains, albeit at a lower spatial resolution compared with imaging-based 135 
+methods such as ********.   136 
+In this study, we harness complementary strengths of ******** and ********** to 137 
+generate a multiscale spatial transcriptomic atlas of the ***** ************* to capture 138 
+spatial gene-expression patterns, specific cell types, and molecular architectures across 139 
+multi-centimeter tissue sections from four neurotypical adult postmortem donors.  This 140 
+atlas offers a novel view of ***** ************* organization of cell types, cellular 141 
+communities, and region-specific transcriptional gradients at subcellular precision that 142 
+was previously uncharted. 143 
+ 144 
+RESULTS 145 
+Multi-region, subcellular-resolution spatial transcriptomic mapping of ***** 146 
+************* 147 
+We obtained four postmortem ***** brain fresh frozen slabs across anterior-to-148 
+posterior segments of the ************* encompassing the ***************, *******, 149 
+***************** (***), ***************, and **************** (Figure 1A).  Tissue 150 
+samples were collected from four neurotypical Caucasian male donors, aged 36–53 151 
+years, with no pathological evidence of ************************* or other brain injury. 152 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 7 ===
+
+7 
+ 
+RNA quality was confirmed by ******************** (***) values ranging from 7.0 to 153 
+8.4, indicating excellent preservation for downstream analyses (Table S1). 154 
+For spatial transcriptomic profiling, 10 µm-thick ***************** were processed for 155 
+********** with the coverage area size of up to 20 mm × 30 mm, while adjacent 16 µm-156 
+thick sections were selected for ******** imaging with an area size of up to 43 mm × 157 
+30 mm (Figure 1A, Supplementary Movie 1, Table 1S & Figure 1S in Supplemental 158 
+Information).  A single 20mm x 30mm *************** captured ~0.9 million cells (with 159 
+~0.29 million cells selected for cell type classification), which were clustered into 10 160 
+different major cell types (Figure 1B). Across four ********** assays, we obtained 161 
+genome-wide transcriptomic coverage of ~70,000 genes across ~3.2 million cells.  In 162 
+parallel, comparable numbers of cells per area were captured by ******** on 163 
+adjacent sections targeting a panel of 673 selected genes (Figure 1C, Supplemental 164 
+Data).  Four ******** experiments captured ~3.9 million cells at single-molecule 165 
+resolution over multi-centimeter-scale tissue areas.  Both methods yielded highly 166 
+concordant results for the spatial distributions of major cell types across corresponding 167 
+anatomical regions (Figure S1A).  Although ********** detects fewer transcripts per cell 168 
+due to its sequencing-based capture efficiency, the expression levels of the 673 169 
+******** target genes show strong cross-platform correlation between the two 170 
+modalities (******************* coefficient of 0.71), demonstrating the quantitative 171 
+agreement of spatial gene-expression measurements across methodological 172 
+approaches (Figure S1B) with high reproducibility across and between experiments 173 
+(Figure S1C-D).   Although ********** provides transcriptome-wide coverage, its spatial 174 
+signal localization is inherently more diffuse (Figure 1D-G) than ******** that 175 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 8 ===
+
+8 
+ 
+delineates sharp cellular boundaries based on transcript density (Figures 1H–K; 176 
+Supplementary Movie 1).  Given these respective advantages and limitations, we used 177 
+******** to focus on fine-scale cell definition and subcellular localization, and Stereo-178 
+seq for exploring large scale gene expression patterns across centimeter scale tissue.  179 
+Molecular and spatial taxonomy of cell types in the ***** ************* 180 
+Using ********, we resolve approximately 60 transcriptionally distinct cell types that 181 
+are separable when embedded in ********************************************* 182 
+(****) space of gene-expression data (Figure 2A).  These cell types show expression 183 
+of expected corresponding marker genes (Figure S2) and demonstrate strong 184 
+correspondence with ***************************** (*********) datasets from the 185 
+***************************************************************** (***************; 186 
+RRID:SCR_024672) 45 (Figure 2B), validating our cell type classification.  We identify 187 
+twelve major classes spanning anterior-to-posterior sections (Figure 2C).  Among these 188 
+are eight neuronal classes that include caudal and lateral ******************* 189 
+(***/***)-derived GABAergic neurons, which are dominated by medium spiny 190 
+neurons (****) (Figure S3A).  191 
+We further examined **** – the predominant neuronal population of the ******** that 192 
+are essential for modulating movement control in the ************* circuit 3. **** 193 
+segregate into two canonical classes – D1 and ******* – further subdivided into six 194 
+major dopaminergic *** subtypes: *****************, **************, *******, 195 
+*****************, ************** and ******* (***************, ****; ventral 196 
+********, ****) (Figure 2D-E, Figure S3B).  These subtypes display distinct dorsal–197 
+ventral and *********–matrix distribution patterns across ************* compartments 198 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 9 ===
+
+9 
+ 
+along the *********************** (Figure 2D, Figure S3B).  Specifically, D1 and D2 199 
+strio****l **** are enriched within ********* compartments, whereas D1 and D2 200 
+matrix **** predominate in the surrounding matrix (Figure 2E).   201 
+The proportion of *** cell types is largely consistent along the *********************** 202 
+(Figure 2F).  ******* constitute the largest proportion compared to ******* 203 
+(approximately 54 % vs 27 %, respectively). D1 and ******* together represent ~83 % 204 
+of all striatal neurons. 205 
+Beyond these canonical *** populations, our analyses uncover spatial distributions of 206 
+several novel and rare *** cell types described across species including ***** and 207 
+***************** that are “mixed-identity” neurons that co-express D1- and D2-208 
+associated gene modules – these neurons are not regionally restricted cell types to 209 
+discrete striatal or pallidal territories 46-48.  The ************ (***************), 210 
+*********-matrix hybrid (**************), and D1 NUDAP (Neurochemically Unique 211 
+Domains in the Accumbens and *******) (*************) **** are primarily 212 
+localized within the *******, ***************, and ***************** (Figure 2G), 213 
+but are largely absent from the *************** and ****************.  The mixed state of 214 
+these cell populations is corroborated by colocalization within individual neurons of 215 
+multiple transcripts of ****, ****, and ************ (****), a canonical strio****l 216 
+*** marker (Figure 2H).  217 
+We next examined neuronal subtypes within the ***************.  Analysis of two 218 
+posterior sections encompassing both internal (***) and external (***) segments 219 
+reveal six transcriptionally distinct GP-associated neuronal classes: *********, ********, 220 
+*******************, ************, ***************, and ************** 221 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 10 ===
+
+10 
+ 
+(Figure 2I, Figure S4).  As indicated by their nomenclature, ********* and ******** 222 
+neurons are localized to peripheral and central GP regions, respectively (Figure 2J). In 223 
+contrast, *************** and ************ neurons are concentrated within 224 
+the *** and show only sparse distributions in other ************* nuclei (Figure 2K). 225 
+In addition to neuronal classes, we uncovered multiple non-neuronal populations with 226 
+distinct molecular identities and spatial localizations (Figure 3A, Figure S5).  Four major 227 
+categories are observed: immune, vascular, ******************** (**********), and 228 
+*************** lineage (*********) cells, each exhibiting characteristic regional 229 
+patterns.  ********* cells represent the *************** lineage and form the most 230 
+abundant non-neuronal population, comprising 60–70% of all non-neuronal cells (Figure 231 
+3A-left).  This group includes five transcriptionally distinct subtypes: committed 232 
+*************** progenitors (***), ******************************** (***), Oligo 233 
+*******, ********************************** (*******), and ************ (Figure 234 
+3A-right).  Notably, ************ and ************* display complementary spatial 235 
+distributions (Figure 3B) with differential transcriptional signatures (Figure 3C).  We 236 
+found that ************ cells are enriched along **************************** (arrows, 237 
+Figure 3B-right), whereas ************* cells are preferentially localized to the 238 
+**************** ************ and ***************, but are sparse in the ******* and 239 
+*************** — this pattern is consistent across different sections (Figure S6A). 240 
+We found that ********** also exhibit pronounced regional heterogeneity.  Subclustering 241 
+analysis identifies six ********* subtypes, each defined by distinct marker gene 242 
+combinations that include *********** (****), *********** (****), solute carrier 243 
+family 6 member 11 (*******), ****************** (******), and adhesion G protein-244 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 11 ===
+
+11 
+ 
+coupled receptor V1 (******) (Figure 3D).  These subtypes form discrete clusters in 245 
+**** space with divergent transcriptional signatures (Figure 3E).  Except for the 246 
+ventricle-associated ********** (***************, captured in section AP19), the relative 247 
+abundances of ********* subtypes are generally consistent across anterior and 248 
+posterior ************* regions (Figure 3F).  Spatial mapping reveal distinct topographic 249 
+specializations (Figure 3G and Figure S6B-C): ******** cells, characterized by high 250 
+**** expression, are localized primarily to ************ tracts and the peripheral 251 
+*************** (Figure 3H); *********** cells, defined by ******, are enriched in 252 
+******** (Figure 3I), and *********** cells, expressing *******, are selectively 253 
+concentrated in the *************** (Figure 3J).  The differential gene expression of 254 
+these varied astrocytic cell types likely provides clues for their specific function.  For 255 
+instance, ******* (also known as *****) is a **************** that is important for 256 
+GABA uptake and metabolism in **********49,50 , consistent with the high abundance of 257 
+GABAergic neurons in the ***************.  These findings underscore the molecular, 258 
+cellular, and spatial heterogeneity of glial and neuronal populations that define the 259 
+complex architecture of the ***** *************. 260 
+Subcellular transcript localization for ******* size estimation and projection 261 
+inference 262 
+The high spatial precision of ******** enables the localization of individual RNA 263 
+molecules at subcellular resolution (Figure 1J-K; Supplementary Movie 1).  This allows 264 
+each transcript to be categorized as ******* (within the nucleus), ******* (within the 265 
+*********), or putative cellular processes (distributed along processes or extensions) 266 
+(Figure 4A) (see STAR Methods).  While ******* and ******* transcripts are used to 267 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 12 ===
+
+12 
+ 
+define cell identity, we developed additional analysis to capture ******* morphology of 268 
+single neurons.  We also used the RNA distributions in putative cellular processes to 269 
+reveal information about projection topology in ***** *************. 270 
+To estimate ******* size, we modeled each cell’s *********** space as a three-271 
+dimensional point cloud derived from ******* RNA coordinates, which was then 272 
+converted into a volumetric mesh representation (see STAR Methods).  This analysis 273 
+reveals substantial heterogeneity in neuronal **** volumes across ************* 274 
+regions (Figure 4A-B).  Cholinergic interneurons and *************** neurons including 275 
+********, *********, ************, and ************** populations, exhibit the 276 
+largest median **** volumes (up to ~9,400 µm³), whereas ****** interneurons and 277 
+**** display markedly smaller volumes (~1,800 µm³ and ~2,500 µm³, respectively) 278 
+(Figure 4B). This is consistent with histological studies in ***** and ***** basal 279 
+ganglia 51-53.  Although *** subtypes are more consistent in **** volumes, other 280 
+neuronal classes exhibit more subtype-dependent variability; for example, ********* 281 
+interneurons have among the largest median volumes (~6,200 µm³), while ***–282 
+****** interneurons are significantly smaller (~2,300 µm³) (******* = 6.9 x 10-15, 283 
+**********************).  These quantitative reconstructions highlight the pronounced 284 
+morphological diversity among neuronal subtypes in the ***** *************. 285 
+We next analyzed RNA distributions in putative cellular processes including ****** and 286 
+********* processes (“*******************”) which provide indirect information about 287 
+neuronal projections.  Focusing on ****, in the ***** and ****** ************* 288 
+circuitry, D1 matrix **** project directly to the *** and ********************************, 289 
+whereas D2 matrix **** form the **************** via the *** 3,54.  Consistent with 290 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 13 ===
+
+13 
+ 
+this organization, we found that D1-enriched transcripts (e.g., ****, ****, *****) 291 
+exhibit higher extra-******* signal density within the ***, while D2-enriched transcripts 292 
+show preferential accumulation in the *** (Figure 4C–D).  Quantitative correlation 293 
+analysis across the 673 genes imaged with ******** confirms this relationship: D1-294 
+specific genes display significantly higher spatial correlation scores in the *** than in 295 
+the ***, whereas the inverse pattern is observed for D2-specific genes (Figure 4E).  In 296 
+addition, we observed that *** and *** regions have high concentration of 297 
+extra******* ****** and ******, ligands part of the ***************** of ****** 298 
+guidance molecules 55,56. We found ****** is enriched in *** (Figure 4F), while 299 
+****** is prominently found in *** (Figure 4H). Their expression is also higher in the 300 
+nuclei as confirmed using the ********* data from the *************** Basal Ganglia 301 
+Consensus Cell Type Atlas (Figure 4G, I). This might reflect that specific semaphorin 302 
+gene family members mediate long range connections in neurons such as **** 303 
+targeting specific segments of the *************** 55,57.  Together, these findings 304 
+demonstrate that ******** not only resolves molecular and spatial identities of cells 305 
+but also captures morphological and projection-inferred features encoded in the 306 
+subcellular transcriptome and provides an unprecedented window into the structural and 307 
+functional organization of ***** ************* circuits. 308 
+Mesoscale ****************** architecture of the ***** ************* 309 
+To resolve mesoscale organization beyond individual cell types, we performed cellular 310 
+community analysis 14,58, which groups cells based on the composition of their spatial 311 
+neighborhoods.  Specifically, for each cell, we calculated the frequency of neighboring 312 
+cell types within a radius of 250 - 400 µm and then constructed neighborhood 313 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 14 ===
+
+14 
+ 
+composition vectors which were subsequently clustered into *************** (STAR 314 
+Methods and Figure 5A).  This approach yields 14 discrete *************** that 315 
+correspond to anatomical regions defined in the *********************** 59 (Figure 5B).  316 
+Each spatial module display characteristic cell-type enrichment patterns corresponding 317 
+to known anatomical domains 13.  For example, *************** and *** *****–318 
+**** neurons are enriched in the ************************ (***), whereas ******** 319 
+and ********* neurons are confined to the ***.  Similarly, ******* and ******* **** 320 
+are enriched in the ***************** shell and core, while **** D1 and **** D2 321 
+**** populate the ******** (*************** and *******) (Figure 5C). 322 
+Besides these canonical distributions, several interneuron and projection-type 323 
+populations exhibit distinct regional biases. For instance, STR fast-spiking *****–324 
+***** GABAergic interneurons are preferentially enriched in the *************** 325 
+(Figure 5D, in agreement with previous ********* analysis 11. ********** 326 
+GABAergic interneurons are more abundant in the ******* (Figure 5E).  In contrast, 327 
+FM *****–****** neurons, a transcriptionally distinct population with unclear lineage 328 
+affiliation are enriched in the *** nucleus of the *************; ; this represents a 329 
+previously unknown neuronal subtype within this region (Figure 5F). 330 
+Quantitative analysis of *** subtype proportions across striatal subregions reveals that 331 
+the *************** and ******* share comparable D1/D2 ratios (Figure 5C).  In 332 
+contrast, both D1- and D2-strio****l **** are detected in the ********* but are 333 
+largely absent from the ******** (Figure 5G–H).  This differential organization is 334 
+corroborated by the expression of established molecular markers: ** associated with 335 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 15 ===
+
+15 
+ 
+********* compartments 3, is enriched in the *********, whereas *******, a matrix-336 
+associated marker 60, is predominantly expressed in the ******** (Figure 5I). 337 
+These findings demonstrate that *************************** reconstructs macroscopic 338 
+anatomical boundaries and allows for the identification of cell types located within or 339 
+absent from the anatomical regions comprising the ***** ************* circuits. 340 
+*********–matrix domains and cross-species orthologous organization 341 
+Beyond its mesoscale structures, the ******** exhibits micro-domain architecture 342 
+composed of ********* and ******************s 61.  To delineate these domains, we 343 
+further applied *************************** restricted to *** subtype composition—the 344 
+principal determinant of *********–matrix identity (Figure 6A-B).  Beyond canonical 345 
+D1/****** distributions, we identify additional cell types exhibiting previously 346 
+uncharacterized *********–matrix enrichments.  Notably, ************** 347 
+interneurons are exclusively localized to the ****************** (Figure 6C, 6D top). 348 
+These interneurons are *******-specific62,63 and likely represent the orthologous lineage 349 
+of rare ********* interneurons that is described in *******  17,64.  In our ***** dataset, 350 
+************** neurons are among the most abundant population of striatal 351 
+interneurons (Figure 6E).  This expansion is consistent with the trend of expansion for 352 
+this cell type seen in prior ******* and ***** studies, whereas their putative ***** 353 
+homologs represent only ~6% of interneurons 62-64.  This marked expansion of ****–354 
+***** interneurons in ******** suggests an evolutionary adaptation that supports the 355 
+integration of the greater density of ********** and associative ******** inputs, potentially 356 
+enabling enhanced sensorimotor and cognitive control 11,65. 357 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 16 ===
+
+16 
+ 
+Conversely, **** and ****** interneurons display moderate enrichment within 358 
+strio****l territories (Figure 6C, 6D bottom), although these populations are not 359 
+exclusive to that compartment.  To further explore the organization of cell types across 360 
+the matrix-********* boundary, we quantified the distance of each cell to the nearest 361 
+********* boundary and analyzed cell-type–specific density profiles as a function of 362 
+proximity (Figure 6F).  This analysis reveals ********* and ************ 363 
+*************** enrichment near ********* borders that form boundary-aligned 364 
+microdomains (Figure 6G, 6H bottom).  The ************ subtype, previously identified 365 
+along **************************** (Figure 3), appears to delineate the perimeters of 366 
+strio****l territories and highlights glial contributions to compartmental architecture. 367 
+To assess whether gene expression varies systematically with spatial proximity to 368 
+**********, we examined transcript gradients along the *********-to-matrix axis. 369 
+Several *********-enriched genes exhibit distance-dependent expression patterns 370 
+(Figure S7A).  Clustering based on these genes resolves four ********* subpopulations 371 
+that occupy distinct positional zones—core, boundary, and perimatrix (Figures 6H, top); 372 
+this organization is consistent across different sections (Figure S7B-E). 373 
+We next investigated cross-species conservation of this organization using the Allen 374 
+Institute’s ********************************* 10.  Orthologous ***** **** were 375 
+identified by correlating gene-expression signatures with ***** subtypes (Figure S8A, 376 
+B).  ***** supertypes 0268 STR D1 GABA_4 and 0267 STR D1 GABA_3 correspond 377 
+to ***** ***************** and ************** ****, respectively (Figure S8C–D).  378 
+Similarly, finer subclustering of the ***** ****************** supertype, designated 379 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 17 ===
+
+17 
+ 
+as A* and B*, map to ***** ***************** *** and ************** ***, 380 
+respectively (Figure S8E–F). 381 
+Using these orthologous *** pairs, we delineated *********–matrix boundaries in the 382 
+***** ******** and performed analogous proximity analyses in which we computed the 383 
+distance of cells from border of nearest ********* (Figure 6I) and quantified the 384 
+distribution of cells as a function of distance. The results are highly concordant across 385 
+species: specific glial populations, ************* ********** and ******** 386 
+****************, are enriched at ********* borders in **** (Figure 6J-K). 387 
+These findings demonstrate conserved organizational principles and orthologous 388 
+cellular microenvironments within *********–matrix systems of the ***** and murine 389 
+*************.  The identification of matrix-confined ********** interneurons and 390 
+boundary-enriched glial subtypes further reveals an evolutionarily elaborated 391 
+compartmental architecture in the ***** ******** that integrates neuronal and non-392 
+neuronal components across spatial scales. 393 
+Conserved molecular gradients and cross-species correspondence revealed by 394 
+********** mapping 395 
+While cell-type composition defines ***************, these modules ultimately emerge 396 
+from underlying transcriptional programs.  To directly examine these patterns, we 397 
+applied unsupervised clustering to spatially weighted whole-transcriptome profiles 398 
+derived from ********** data, independent of prior cell-type annotation (see Methods). 399 
+This spatial analysis recapitulates the mesoscale modules identified by ******** 400 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 18 ===
+
+18 
+ 
+*************************** and aligns closely with established anatomical territories of 401 
+the ***** ************* (Figure 7A, Figure S9A). 402 
+Each spatial module is characterized by distinct sets of regionally enriched genes 403 
+(Figure 7B-C, Figure S9B), indicating the molecular specialization among the 404 
+subregions of the *************.  For example, the ******* exhibits strong enrichment 405 
+of ******* (a zinc-finger transcription factor) and ***** (an ****** guidance 406 
+molecule), whereas the *************** shows elevated expression of ****(a 407 
+neuropeptide precursor) and ****(an immediate early transcription factor).  The 408 
+***************** shell is marked by vesicle associated molecules **** and ****, 409 
+while the ******** is enriched for stress-response genes ***** and ****** (Figure 410 
+7C). 411 
+We further examined the transcriptional difference between the regions by performing 412 
+gene ontology (**) enrichment analysis on the differentially expressed genes.  413 
+Pathways such as synaptic signaling and regulation of cell communication are mainly 414 
+associated with ******* and *********, while processes such as regulation of secretion 415 
+by cell and regulation of response to stress prominently involve the ******* with some 416 
+contribution from the ********* and ******** respectively.  Some ** terms are 417 
+uniformly distributed among multiple regions; regulation of transport involves the 418 
+*******, ***-shell, and ************, and negative regulation of cellular process is 419 
+linked to the *******, ******** and ********* (Figure 7D). 420 
+In our ********** data, the genes displaying regional specificity constitute only ~5%; 421 
+majority of the remaining genes are expressed throughout the ********. This led us to 422 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 19 ===
+
+19 
+ 
+ask whether gene expression gradients in the ***** ******** are similar to those 423 
+known in **** and ******************4,5,66.  To investigate topographical continuity of 424 
+gene expression across species we focused on ************************* (*****) 425 
+expression gradients, an established organizational axis in the ***** ********14,66.  We 426 
+find numerous genes in the ***** ******** that display graded expression along this 427 
+axis (Figure 7E).  For example, ******, ****, and ***** are dorsolaterally enriched, 428 
+whereas ****, ****, and ******* exhibit ventromedial bias.  Importantly, the 429 
+majority of gradient-aligned genes show directionality concordance across species as 430 
+illustrated by the similarity of the gradient scores (Figure 7F) and spatial expression 431 
+maps (Figure 7G and Figure S9C) of genes between ***** and *****.  This 432 
+underscores evolutionarily conserved transcriptional patterning that likely supports 433 
+shared ************* circuit architecture and function.  In addition, we observe in both 434 
+***** and *****, the expression gradient is dominated by the ventromedial direction 435 
+(*****: 73%, *****: 97.2%) as opposed to the dorsolateral direction (*****: 26%, 436 
+*****: 2.73%) (Figure 7H and Figure S9D).   437 
+To identify cellular contributors to these spatial gradients, we mapped gradient-438 
+associated genes onto cell types defined in the *************** Basal Ganglia Consensus 439 
+Cell Type Atlas.  Most gradient-associated transcripts are enriched in lateral ganglionic 440 
+eminence (CN/***)-derived GABAergic neurons, the principal *** population.  A 441 
+subset of dorsolateral-enriched genes, however, are expressed within *************** 442 
+lineage (*********) cells, that reflects the dense myelinated fiber tracts that occupy 443 
+dorsal striatal territories (Figure 7I).  In contrast, in ***** we do not observe this; *** 444 
+neurons dominate in both directions (Figure S9E).  445 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 20 ===
+
+20 
+ 
+These analyses demonstrate that ********** captures transcriptome-wide spatial 446 
+gradients that mirror functional and anatomical axes of the *************.  The high 447 
+concordance of these gradients between ****** and **** highlights conserved 448 
+molecular topographies that organize the macroscale regions across species (Figure 449 
+7F-I). 450 
+ 451 
+DISCUSSION 452 
+By integrating the two high-throughput spatial transcriptomics platforms (******** 453 
+and **********), we generated a multiscale spatial transcriptomic atlas of the ***** 454 
+************* spanning 6 orders of magnitude in scale from subcellular transcript 455 
+organization (~50 nm) within single-cells to the multi-centimeter (~4cm) spatial 456 
+arrangement of cell types across ************* nuclei. This large-scale atlas, which 457 
+covers ~7 million cells in total, encompasses all major nuclei including the *******, 458 
+*******, *****************, and the *************** across four neurotypical 459 
+postmortem brains.  In addition to providing a comprehensive molecular and anatomical 460 
+reference for the neuroscience community, our work establishes a scalable 461 
+experimental and computational framework for performing large-area, high-resolution 462 
+spatial transcriptomics in ***** tissue. 463 
+While much of the spatial organization of cell types and circuit domains in the ***** 464 
+************* has been derived from ****** and ***************** studies 13,67, our 465 
+dataset provides the first comprehensive spatial and molecular reference directly in 466 
+******. The resulting framework reveals how subcellular gene expression, cell type 467 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 21 ===
+
+21 
+ 
+identities and spatial ****************** structures may converge to shape ***** basal 468 
+ganglia organization and potentially underlie its function. 469 
+A unified molecular and spatial taxonomy across ***** ************* 470 
+******** resolves the spatial organization of 60 transcriptionally distinct cell types 471 
+that includes the subclassification of eight major neuronal classes spanning anterior–472 
+posterior strata.  Within the ********, we map both the most abundant D1 and ******* 473 
+into ********* and ******************s as well as the less abundant, hybrid-identity 474 
+*** cell types (e.g., ***************; **************), and show their preferential 475 
+localization to the *******, *******, and *** but not to GP or ****************.  Within 476 
+the ***************, we delineate six GP-associated classes: *********, ********, ***n-477 
+BF Cholinergic, ************, ***************, and ************** based 478 
+on their single-cell transcriptional profiles and reveal their spatial locations within the 479 
+***/*** shell and core anatomical regions.  We also find that non-neuronal classes are 480 
+molecularly and spatially organized: the ********* lineage comprises ~60–70% of 481 
+non-neuronal cells and partitions into ***, ***, *************, *******, and Oligo 482 
+****** subtypes with distinct regional enrichments (************* in internal 483 
+capsule/GP; ************ broadly distribute with enhanced abundance in striatopallidal 484 
+fibers).  Six ********* subtypes, distinguished by markers such as ****, ****, 485 
+*******, ******, and ******, show region-specific topographies (e.g., 486 
+********/**** in ************; ***********/ ****** in ********; GP-487 
+**_Astro/******* in GP). 488 
+Mesoscale cellular communities and *********–matrix architecture 489 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 22 ===
+
+22 
+ 
+Our *************************** based on the proximity of the 60 identified cell types 490 
+reveals 14 *************** in the ***** ************* sections, providing an unbiased, 491 
+refined anatomical delineation of the imaged regions that aligns closely with the Allen 492 
+***** Brain Atlas parcellation 59. The differential enrichment of cell-types across 493 
+*************** recapitulates expected spatial segregations based on the Mammalian 494 
+*************************************** reference (***************; RRID:SCR_024672) 495 
+(e.g., ***************/*****–**** in ***; ********/Shell in ***; *******/D2 496 
+in ***; **** D1/D2 in the *******/*******) including regional interneuron biases: 497 
+****************** enriched in the *******, ***** enriched in the *******, and 498 
+FM *****–****** concentrated in ***. Within ***, we uncover that both D1- and 499 
+D2-strio****l **** populate ********* but are largely absent in core, consistent with 500 
+** (*********) and ******* (matrix) compartment markers. 501 
+The matrix and ********* *************** derived from *** subtype composition 502 
+reveals fine-scale spatial organization biases.  Specifically, ********** interneurons, 503 
+which are expanded in ******** 64, are matrix-restricted, whereas **** and ****** 504 
+interneurons are *********-enriched but not exclusive.  Across the ********* 505 
+boundaries, we find enrichment of specific subpopulations of ********** and 506 
+**************** which delineates boundary-aligned glial microdomains.  Cross-species 507 
+comparison with the *******-derived ***** cell type atlas 10,14 identifies orthologous 508 
+*** counterparts (e.g., ***** 0268 D1 and 0267 D1 supertypes corresponding to 509 
+***** **** D1 ********* and matrix respectively) and confirms border-enriched 510 
+********* (*************) and *************** (********) supertypes in *****.  511 
+These data argue for conserved compartment organization principles and orthologous 512 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 23 ===
+
+23 
+ 
+boundary microenvironments between ***** and ****** striata, while also highlighting 513 
+******* and ***** specializations (e.g., matrix-restricted **********) 67,68. 514 
+Subcellular transcript localization informs morphology and projection architecture 515 
+******** subcellular transcript localizations enable characterization of cell 516 
+morphology and projection-inferred connectivity.  Our 3D analysis of RNA transcript 517 
+localization provides ****-volume measurements that span ~5-fold variation across 518 
+neuronal types. Although this strategy differs from traditional methods that offer more 519 
+detailed cell morphology, including immunofluorescence staining and Cajal–Golgi 520 
+impregnation methods 69,70, the key advantage of ******** based quantification is its 521 
+ability to distinguish and measure dozens of neuronal subclasses at tissue-wide scale. 522 
+We find that ************************ and pallidal neuron subtypes (e.g., ********/Shell; 523 
+*** NDB–SI–****/8–****; **************) exhibit the largest **** volumes, 524 
+whereas ******  interneurons and **** are among the smallest. These findings are 525 
+supported by previous histological observations in ************* 51-53.  While the nine 526 
+*** subtypes show largely similar volumes, **** interneuron subclasses diverge 527 
+markedly; for example, ********* versus ***–****** interneurons show 528 
+substantial differences. These physical parameters could inform future neural network 529 
+models in classifying cell types based on label free methods reporting on size and 530 
+morphology 71,72. 531 
+Quantification of putative “********” transcripts within the *** and *** recapitulates in 532 
+***** the canonical projection pathways measured directly in animal models. 533 
+Specifically, D1-enriched genes (e.g., ****, ****, *****) are found to preferentially 534 
+accumulate in *** projections, whereas D2-enriched genes are biased to *** 535 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 24 ===
+
+24 
+ 
+projections. These correlation patterns recapitulate the direct (D1→ ***) versus indirect 536 
+(D2→ ***) pathway topology in ****** and ***************** models 3,6,68.  Thus, 537 
+subcellular transcript “geography” provides a quantitative readout of both cell size/shape 538 
+and projection-inferred circuitry in ***** brain tissue. 539 
+Genome-wide transcriptional modules and a conserved ***** gradient 540 
+Unsupervised clustering of the whole-transcriptome spatial distribution (based on 541 
+**********) recapitulates ******** cell-type community modules and classical 542 
+anatomy and provides novel gene enrichment within each anatomical subregions.  We 543 
+find that a *********************************** emerges as a dominant axis of 544 
+transcriptional variation at the multi-centimeter-scale; this axis is conserved in the 545 
+***** at the multi-millimeter scale 10,14 revealing dorsolateral-biased genes such as 546 
+******, **** and ***** and ventromedial-biased genes such as ****, ****, 547 
+*******.  Most of the genes exhibiting the gradient are expressed in *********** 548 
+neurons, with a dorsal contribution from ********* lineages, consistent with differential 549 
+myelination in the dorsal fiber bundles 73,74.   550 
+Functional implications 551 
+Functionally, the underlying cell types, cellular communities, subcellular transcript 552 
+geography, and conserved spatial gradients suggest an intricate multi-layered 553 
+organizational architecture for neurotypical ***** ************* 75,76.  The finding that 554 
+subcellular RNA localization captures projection-inferred signatures suggests a 555 
+promising avenue for inferring ***** circuit topology directly from spatial transcriptomic 556 
+data - an approach that circumvents the limitations of traditional neural tracing in ***** 557 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 25 ===
+
+25 
+ 
+tissue. In addition, ********* and *************** niches aligned with ********* 558 
+boundaries point to specialized metabolic and myelination interfaces at these 559 
+compartmental perimeters. Finally, the *******-expanded, matrix-restricted ****–560 
+***** interneurons may reflect evolutionary adaptations to the enlarged ********** 561 
+******, potentially supporting the increased computational demands of *****-specific 562 
+action selection, valuation, and cognitive flexibility 11. 563 
+Clinically, our dataset highlights specific neuronal and glial subtypes including *** core 564 
+versus shell populations and boundary-enriched glial communities, as potential 565 
+substrates of selective vulnerability in movement and **************************. 566 
+Establishing the neurotypical abundance and spatial distribution of D1, D2, and D1/D2 567 
+hybrid *** subtypes in the *******, *******, and ***************** provides a 568 
+crucial baseline for detecting disease-associated shifts in cell number, composition, and 569 
+transcriptional state. Such comparisons will be particularly valuable for elucidating cell-570 
+type-selective vulnerability in ************* disorders, including ******************** 571 
+and ******************* 77,78. 572 
+Limitations of the study 573 
+This study is limited by the number and demographic diversity of available donors, as 574 
+well as inherent constraints associated with postmortem ***** tissue. Although our 575 
+multimodal spatial framework provides a comprehensive baseline, additional orthogonal 576 
+validations such as immunohistochemistry, in situ sequencing, and in vivo 577 
+electrophysiological or connectivity assays would further strengthen cell-type and spatial 578 
+community assignments. Future work should extend this approach to a broader range of 579 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 26 ===
+
+26 
+ 
+ages and demographic backgrounds and apply this methodology to comparative 580 
+analyses of neurological and psychiatric disorders in ***** tissue. 581 
+In summary, by coupling genome-wide spatial profiling with subcellular transcript 582 
+localization and community-level modeling, we deliver a multiscale, molecular atlas of 583 
+***** ************* organization from single transcripts to cellular communities and 584 
+anatomical modules that shows features unique to ****** and those that are 585 
+conserved across species. This atlas establishes a foundational framework for studying 586 
+***** ************* architecture and its disruption in neuropsychiatric and 587 
+***************************, enabling cross-species and disease-state comparisons at 588 
+single-cell and community scales. 589 
+ 590 
+ACKNOWLEDGEMENTS 591 
+We thank members of the Xu laboratory for their valuable feedback and discussion 592 
+throughout this project. We are grateful to Dr. Ruth Walker for her insightful comments. 593 
+We also acknowledge Drs. Elizabeth and Edwin Monuki, along with our *** colleagues, 594 
+for their contributions to establishing the *** **************** and supporting the 595 
+collection of neurotypical ***** brain samples.  This work was in part funded by the 596 
+NIH grant [UM1MH130994 Center for Multiomic ***** Brain Cell Atlas] and UC Irvine 597 
+Center for Neural Circuit technology development funds.  This publication was 598 
+supported and coordinated through the Brain Initiative Cell Atlas Network (*****, 599 
+RRID:SCR_022794).  600 
+ 601 
+AU**OR CONTRIBUTIONS 602 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 27 ===
+
+27 
+ 
+X.X. and B.B. conceived the study. X.X., B.B. and Z.T designed the experiments. B.T.B., 603 
+B.B., and X.X. designed the gene probe libraries. J.B., P.A.S.M, G.W, and Z.T. prepared 604 
+samples, Z.T. and S.C.D performed the experiments. B.T.B., B.E., R.L., and B.B. 605 
+performed data analysis. X.X., and B.B. interpreted data. B.T.B., Z.T., T.C.H., B.B. and 606 
+X.X. wrote and edited the manuscript with input from G.W., S.C.D., Q.Y., R.L., M.N., S.P., 607 
+Q.Z., M.B., and J.E. X.X. supervised the study. 608 
+ 609 
+DECLARATION OF INTEREST 610 
+B.B. and Q.Z are co-inventors on a patent application for ******** filed by the 611 
+University of California, San Diego. To date, two US provisional patent applications have 612 
+been filed. The other authors declare no competing interests.  613 
+ 614 
+References 615 
+1. Graybiel, A.M. (2000). The *************. Curr Biol 10, R509-511. 616 
+10.1016/s0960-9822(00)00593-5. 617 
+2. Mendelsohn, A.I., Nikoobakht, L., Bikoff, J.B., and Costa, R.M. (2025). 618 
+Segregated ************* output pathways correspond to genetically divergent 619 
+neuronal subclasses. Cell Rep 44, 115454. 10.1016/j.celrep.2025.115454. 620 
+3. Lanciego, J.L., Luquin, N., and Obeso, J.A. (2012). Functional neuroanatomy of 621 
+the *************. Cold Spring Harb Perspect Med 2, a009621. 622 
+10.1101/cshperspect.a009621. 623 
+4. He, J., Kleyman, M., Chen, J., Alikaya, A., Rothenhoefer, K.M., Ozturk, B.E., 624 
+Wirthlin, M., Bostan, A.C., Fish, K., Byrne, L.C., et al. (2021). Transcriptional and 625 
+anatomical diversity of ******************** in the ******* ********. Curr Biol 626 
+31, 5473-5486 e5476. 10.1016/j.cub.2021.10.015. 627 
+5. Krienen, F.M., Levandowski, K.M., Zaniewski, H., Del Rosario, R.C.H., Schroeder, 628 
+M.E., Goldman, M., Wienisch, M., Lutservitz, A., Beja-Glasser, V.F., Chen, C., et 629 
+al. (2023). A marmoset brain cell census reveals regional specialization of cellular 630 
+identities. Sci Adv 9, eadk3986. 10.1126/sciadv.adk3986. 631 
+6. Calabresi, P., Picconi, B., Tozzi, A., Ghig lieri, V., and Di Filippo, M. (2014). Direct 632 
+and ****************s of *************: a critical reappraisal. Nat Neurosci 17, 633 
+1022-1030. 10.1038/nn.3743. 634 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 28 ===
+
+28 
+ 
+7. Kerkhoff, W.G., and Stauffer, W.R. (2024). *************: Uniting circuit logic 635 
+between matrix and *********. Curr Biol 34, R1149-R1152. 636 
+10.1016/j.cub.2024.10.010. 637 
+8. Lazaridis, I., Crittenden, J.R., Ahn, G., Hirokane, K., Wickersham, I.R., Yoshida, 638 
+T., Mahar, A., Skara, V., Loftus, J.H., Parvataneni, K., et al. (2024). *********s 639 
+control dopamine via dual pathways paralleling canonical ************* circuits. 640 
+Curr Biol 34, 5263-5283 e5268. 10.1016/j.cub.2024.09.070. 641 
+9. Siletti, K., Hodge, R., Mossi Albiach, A., Lee, K.W., Ding, S.L., Hu, L., Lonnerberg, 642 
+P., Bakken, T., Casper, T., Clark, M., et al. (2023). Transcriptomic diversity of cell 643 
+types across the adult ***** brain. Science 382, eadd7046. 644 
+10.1126/science.add7046. 645 
+10. Yao, Z., van Velthoven, C.T.J., Kunst, M., Zhang, M., McMillen, D., Lee, C., Jung, 646 
+W., Goldy, J., Abdelhak, A., Aitken, M., et al. (2023). A high-resolution 647 
+transcriptomic and spatial atlas of cell types in the whole ***** brain. Nature 648 
+624, 317-332. 10.1038/s41586-023-06812-z. 649 
+11. Garma, L.D., Harder, L., Barba-Reyes, J.M., Marco Salas, S., Diez-Salguero, M., 650 
+Nilsson, M., Serrano-Pozo, A., Hyman, B.T., and Munoz-Manchado, A.B. (2024). 651 
+Interneuron diversity in the ***** ***************. Nat Commun 15, 6164. 652 
+10.1038/s41467-024-50414-w. 653 
+12. Roseberry, T.K., Lee, A.M., Lalive, A.L., Wilbrecht, L., Bonci, A., and Kreitzer, A.C. 654 
+(2016). Cell-Type-Specific Control of Brainstem Locomotor Circuits by Basal 655 
+Ganglia. Cell 164, 526-537. 10.1016/j.cell.2015.12.037. 656 
+13. Mandali, A., Srinivasa Chakravarthy, V., and Moustafa, A.A. (2018). The 657 
+Molecular, Cellular, and Systems-Level Structure of the Basal Ganglia. In 658 
+Computational Neuroscience Models of the Basal Ganglia, V.S. Chakravarthy, 659 
+and A.A. Moustafa, eds. (Springer Singapore), pp. 5-19. 10.1007/978-981-10-660 
+8494-2_2. 661 
+14. Zhang, M., Pan, X., Jung, W., Halpern, A.R., Eichhorn, S.W., Lei, Z., Cohen, L., 662 
+Smith, K.A., Tasic, B., Yao, Z., et al. (2023). Molecularly defined and spatially 663 
+resolved cell atlas of the whole ***** brain. Nature 624, 343-354. 664 
+10.1038/s41586-023-06808-9. 665 
+15. Tran, M.N., Maynard, K.R., Spangler, A., Huuki, L.A., Montgomery, K.D., 666 
+Sadashivaiah, V., Tippani, M., Barry, B.K., Hancock, D.B., Hicks, S.C., et al. 667 
+(2021). Single-nucleus transcriptome analysis reveals cell-type-specific 668 
+molecular signatures across reward circuitry in the ***** brain. Neuron 109, 669 
+3088-3103 e3085. 10.1016/j.neuron.2021.09.001. 670 
+16. Kalanithi, P .S., Zheng, W., Kataoka, Y ., DiFiglia, M., Grantz, H., Saper, C.B., 671 
+Schwartz, M.L., Leckman, J.F., and Vaccarino, F.M. (2005). Altered ***********-672 
+positive neuron distribution in ************* of individuals with Tourette syndrome. 673 
+Proc Natl Acad Sci U S A 102, 13307-13312. 10.1073/pnas.0502624102. 674 
+17. Courtney, C.D., Pamukcu, A., and Chan, C.S. (2023). Cell and circuit complexity 675 
+of the ************************. Nat Neurosci 26,  1147-1159. 10.1038/s41593-676 
+023-01368-7. 677 
+18. Sandberg, M., Flandin, P ., Silberberg, S., Su-Feher, L., Price, J.D., Hu, J.S., Kim, 678 
+C., Visel, A., Nord, A.S., and Rubenstein, J.L.R. (2016). Transcriptional Networks 679 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 29 ===
+
+29 
+ 
+Controlled by ****** in the Development of Forebrain GABAergic Neurons. 680 
+Neuron 91, 1260-1275. 10.1016/j.neuron.2016.08.020. 681 
+19. Saunders, A., Macosko, E.Z., Wysoker, A., Goldman, M., Krienen, F.M., de 682 
+Rivera, H., Bien, E., Baum, M., Bortolin, L., Wang, S., et al. (2018). Molecular 683 
+Diversity and Specializations among the Cells of the Adult ***** Brain. Cell 174, 684 
+1015-1030 e1016. 10.1016/j.cell.2018.07.028. 685 
+20. Baker, M., Kang, S., Hong, S.I., Song, M., Yang, M.A., Peyton, L., Essa, H., Lee, 686 
+S.W., and Choi, D.S. (2023). External *************** input to the *************** 687 
+regulates habitual seeking behavior in male ****. Nat Commun 14, 4085. 688 
+10.1038/s41467-023-39545-8. 689 
+21. Gast, R., Gong, R., Schmidt, H., Meijer, H.G.E., and Knosche, T.R. (2021). On 690 
+the Role of Arkypallidal and Prototypical Neurons for Phase Transitions in the 691 
+External Pallidum. J Neurosci 41, 6673-6683. 10.1523/JNEUROSCI.0094-692 
+21.2021. 693 
+22. Chen, W.T., Lu, A., Craessaerts, K., Pavie, B., Sala Frigerio, C., Corthout, N., 694 
+Qian, X., Lalakova, J., Kuhnemund, M., Voytyuk, I., et al. (2020). Spatial 695 
+Transcriptomics and In Situ Sequencing to Study Alzheimer's Disease. Cell 182, 696 
+976-991 e919. 10.1016/j.cell.2020.06.038. 697 
+23. Piwecka, M., Rajewsky, N., and Rybak-Wolf, A. (2023). Single-cell and spatial 698 
+transcriptomics: deciphering brain complexity in health and disease. Nat Rev 699 
+Neurol 19, 346-362. 10.1038/s41582-023-00809-y. 700 
+24. Rao, A., Barkley, D., Franca, G.S., and Yanai, I. (2021). Exploring tissue 701 
+architecture using spatial transcriptomics. Nature 596, 211-220. 10.1038/s41586-702 
+021-03634-9. 703 
+25. Ortiz, C., Carlen, M., and Meletis, K. (2021). Spatial Transcriptomics: Molecular 704 
+Maps of the Mammalian Brain. Annu Rev Neurosci 44, 547-562. 705 
+10.1146/annurev-neuro-100520-082639. 706 
+26. Cheng, Y., Dang, S., Zhang, Y ., Chen, Y., Yu, R., Liu, M., Jin, S., Han, A., Katz, S., 707 
+and Wang, S. (2025). Sequencing-free whole-genome spatial transcriptomics at 708 
+single-molecule resolution. Cell. 10.1016/j.cell.2025.09.006. 709 
+27. Lei, Y ., Liu, Y ., Wang, M., Yuan, N., Hou, Y., Ding, L., Zhu, Z., Wu, Z., Li, C., 710 
+Zheng, M., et al. (2025). Single-cell spatial transcriptome atlas and whole-brain 711 
+connectivity of the macaque claustrum. Cell. 10.1016/j.cell.2025.02.037. 712 
+28. Del Rey, N.L., and Garcia-Cabezas, M.A. (2023). Cytology, architecture, 713 
+development, and connections of the ******* ********: Hints for ***** pathology. 714 
+Neurobiol Dis 176, 105945. 10.1016/j.nbd.2022.105945. 715 
+29. Chen, K.H., Boettiger, A.N., Moffitt, J.R., Wang, S., and Zhuang, X. (2015). RNA 716 
+imaging. Spatially resolved, highly multiplexed RNA profiling in single cells. 717 
+Science 348, aaa6090. 10.1126/science.aaa6090. 718 
+30. Moffitt, J.R., and Zhuang, X. (2016). RNA Imaging with Multiplexed Error-Robust 719 
+Fl
+uorescence In Situ Hybridization (*******). Methods Enzymol 572, 1-49. 720 
+10.1016/bs.mie.2016.03.020. 721 
+31. Moffitt, J.R., Bambah-Mukku, D., Eichhorn, S.W., Vaughn, E., Shekhar, K., Perez, 722 
+J.D., Rubinstein, N.D., Hao, J., Regev, A., Dulac, C., and Zhuang, X. (2018). 723 
+Molecular, spatial, and functional single-cell profiling of the hypothalamic preoptic 724 
+region. Science 362. 10.1126/science.aau5324. 725 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 30 ===
+
+30 
+ 
+32. Moffitt, J.R., Hao, J., Bambah-Mukku, D., Lu, T., Dulac, C., and Zhuang, X. 726 
+(2016). High-performance multiplexed fluorescence in situ hybridization in culture 727 
+and tissue with matrix imprinting and clearing. Proc Natl Acad Sci U S A 113, 728 
+14456-14461. 10.1073/pnas.1617699113. 729 
+33. Zhuang, X. (2021). Spatially resolved single-cell genomics and transcriptomics 730 
+by imaging. Nat Methods 18, 18-22. 10.1038/s41592-020-01037-8. 731 
+34. Chen, A., Liao, S., Cheng, M., Ma, K., Wu, L., Lai, Y ., Qiu, X., Yang, J., Xu, J., 732 
+Hao, S., et al. (2022). Spatiotemporal transcriptomic atlas of ***** 733 
+organogenesis using ************-patterned arrays. Cell 185, 1777-1792 e1721. 734 
+10.1016/j.cell.2022.04.003. 735 
+35. You, Y., Fu, Y., Li, L., Zhang, Z., Jia, S., Lu, S., Ren, W., Liu, Y., Xu, Y., Liu, X., et 736 
+al. (2024). Systematic comparison of sequencing-based spatial transcriptomic 737 
+methods. Nat Methods 21, 1743-1754. 10.1038/s41592-024-02325-3. 738 
+36. Chen, A., Sun, Y., Lei, Y., Li, C., Liao, S., Meng, J., Bai, Y ., Liu, Z., Liang, Z., Zhu, 739 
+Z., et al. (2023). Single-cell spatial transcriptome reveals cell-type organization in 740 
+the macaque ******. Cell 186, 3726-3743 e3724. 10.1016/j.cell.2023.06.009. 741 
+37. Hao, S., Zhu, X., Huang, Z., Yang, Q., Liu, H., Wu, Y., Zhan, Y., Dong, Y ., Li, C., 742 
+Wang, H., et al. (2024). Cross-species single-cell spatial transcriptomic atlases of 743 
+the cerebellar ******. Science 385, eado3927. 10.1126/science.ado3927. 744 
+38. Lei, Y ., Liu, Y ., Wang, M., Yuan, N., Hou, Y., Ding, L., Zhu, Z., Wu, Z., Li, C., 745 
+Zheng, M., et al. (2025). Single-cell spatial transcriptome atlas and whole-brain 746 
+connectivity of the macaque claustrum. Cell 188, 3863-3881 e3825. 747 
+10.1016/j.cell.2025.02.037. 748 
+39. Fang, R., Xia, C., Close, J.L., Zhang, M., He, J., Huang, Z., Halpern, A.R., Long, 749 
+B., Miller, J.A., Lein, E.S., and Zhuang, X. (2022). Conservation and divergence 750 
+of ******** cell organization in ***** and ***** revealed by *******. Science 751 
+377, 56-62. 10.1126/science.abm1741. 752 
+40. Xie, F., Jain, S., Xu, R., Butrus, S., Tan, Z., Xu, X., Shekhar, K., and Zipursky, S.L. 753 
+(2025). Spatial profiling of the interplay between cell type- and vision-dependent 754 
+transcriptomic programs in the visual ******. Proc Natl Acad Sci U S A 122, 755 
+e2421022122. 10.1073/pnas.2421022122. 756 
+41. Johnston, K.G., Berackey, B.T., Tran, K.M., Gelber, A., Yu, Z., MacGregor, G.R., 757 
+Mukamel, E.A., Tan, Z., Green, K.N., and Xu, X. (2025). Single-cell spatial 758 
+transcriptomics reveals distinct patterns of dysregulation in non-neuronal and 759 
+neuronal cells induced by the Trem2(R47H) Alzheimer's risk gene mutation. Mol 760 
+Psychiatry 30, 461-477. 10.1038/s41380-024-02651-0. 761 
+42. Maimon, R., Chillon-Marinas, C., Vazquez-Sanchez, S., Kern, C., Jenie, K., 762 
+Malukhina, K., Moore, S., Cui, J., Goginashvili, A., Moghadami, S., et al. (2024). 763 
+Re-activation of neurogenic niches in aging brain. bioRxiv. 764 
+10.1101/2024.01.27.575940. 765 
+43.
+ Su, J.H., Zheng, P., Kinrot, S.S., Bintu, B., and Zhuang, X. (2020). Genome-766 
+Scale Imaging of the 3D Organization and Transcriptional Activity of Chromatin. 767 
+Cell 182, 1641-1659 e1626. 10.1016/j.cell.2020.07.032. 768 
+44. Kern, C., Zhang, Q., Lu, Y ., Eschbach, J., Zeng, Z., Farah, E.N., Tai, C.-Y., Yang, 769 
+K., Jenie, I., Yao, F., et al. (2025). ********, a large-scale, multi-omics spatial 770 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 31 ===
+
+31 
+ 
+technology resolves the molecular holograms of the 3D ***** developing heart 771 
+bioRxiv. 10.1101/2025.11.02.686137. 772 
+45. Hewitt, M.N., Turner, M.A. , Johansen, N., McMillen, D.A., Dan, S., DeBerardine, 773 
+M., Ruiz, A., Huang, M., Quon, J., Fu, Y., et al. (2025). A cross-species spatial 774 
+transcriptomic atlas of the ***** and ***************** *************. bioRxiv, 775 
+2025.2011.2022.688128. 10.1101/2025.11.22.688128. 776 
+46. Surmeier, D.J., Ding, J., Day, M., Wang, Z., and Shen, W. (2007). D1 and D2 777 
+dopamine-receptor modulation of striatal glutamatergic signaling in striatal 778 
+********************. Trends Neurosci 30, 228-235. 10.1016/j.tins.2007.03.008. 779 
+47. Gagnon, D., Petryszyn, S., Sanchez, M.G., Bories, C., Beaulieu, J.M., De 780 
+Koninck, Y ., Parent, A., and Parent, M. (2017). Striatal Neurons Expressing D(1) 781 
+and D(2) Receptors are Morphologically Distinct and Differently Affected by 782 
+Dopamine Denervation in Mice. Sci Rep 7, 41432. 10.1038/srep41432. 783 
+48. Perreault, M.L., Hasbi, A., Alijaniaram, M., Fan, T., Varghese, G., Fletcher, P .J., 784 
+Seeman, P., O'Dowd, B.F., and George, S.R. (2010). The dopamine D1-D2 785 
+receptor heteromer localizes in *********/********** neurons: increased high 786 
+affinity state following amphetamine and in schizophrenia. J Biol Chem 285, 787 
+36625-36634. 10.1074/jbc.M110.159954. 788 
+49. Salcedo, C., Wagner, A., Andersen, J.V., Vinten, K.T., Waagepetersen, H.S., 789 
+Schousboe, A., Freude, K.K., and Aldana, B.I. (2021). Downregulation of GABA 790 
+Transporter 3 (GAT3) is Associated with Deficient Oxidative GABA Metabolism in 791 
+***** Induced Pluripotent Stem Cell-Derived *********s in Alzheimer's Disease. 792 
+Neurochem Res 46, 2676-2686. 10.1007/s11064-021-03276-3. 793 
+50. Yadav, R., Han, G.W., and Gati, C. (2025). Molecular basis of ***** GABA 794 
+transporter 3 inhibition. Nat Commun 16, 3830. 10.1038/s41467-025-59066-w. 795 
+51. Carrasco, A., Oorschot, D.E., Barzaghi, P ., and Wickens, J.R. (2022). Three-796 
+Dimensional Spatial Analyses of Cholinergic Neuronal Distributions Across The 797 
+***** Septum, Nucleus Basalis, Globus Pallidus, Nucleus Accumbens, and 798 
+*******-*******. Neuroinformatics 20, 1121-1136. 10.1007/s12021-022-09588-799 
+1. 800 
+52. Kozlov, A., Blazquez-Llorca, L., Benavides-Piccione, R., Kastanauskaite, A., Rojo, 801 
+A.I., Munoz, A., Cuadrado, A., DeFelipe, J., and Grillner, S. (2025). ***** and 802 
+***** striatal projection neurons compared - ****to********* arbor, spines and 803 
+in silico analyses. PLoS Comput Biol 21, e1013569. 804 
+10.1371/journal.pcbi.1013569. 805 
+53. Singh-Bains, M.K., Tippett, L.J., Hogg, V.M., Synek, B.J., Roxburgh, R.H., 806 
+Waldvogel, H.J., and Faull, R.L. (2016). Globus pallidus degeneration and 807 
+clinicopathological features of Huntington disease. Ann Neurol 80, 185-201. 808 
+10.1002/ana.24694. 809 
+54. Crittenden, J.R., and Graybiel, A.M. (2011). Basal Ganglia disorders associated 810 
+with imbalances in the striatal ********* and ******************s. Front 811 
+Neuroanat
+ 5, 59. 10.3389/fnana.2011.00059. 812 
+55. Tran, T.S., Kolodkin, A.L., and Bharadwaj, R. (2007). Semaphorin regulation of 813 
+cellular morphology. Annu Rev Cell Dev Biol 23, 263-292. 814 
+10.1146/annurev.cellbio.22.010605.093554. 815 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 32 ===
+
+32 
+ 
+56. Alto, L.T., and Terman, J.R. (2017). Semaphorins and their Signaling 816 
+Mechanisms. Methods Mol Biol 1493, 1-25. 10.1007/978-1-4939-6448-2_1. 817 
+57. Koropouli, E., and Kolodkin, A.L. (2014). Semaphorins and the dynamic 818 
+regulation of synapse assembly, refinement, and function. Curr Opin Neurobiol 819 
+27, 1-7. 10.1016/j.conb.2014.02.005. 820 
+58. Farah, E.N., Hu, R.K., Kern, C., Zhang, Q., Lu, T.Y., Ma, Q., Tran, S., Zhang, B., 821 
+Carlin, D., Monell, A., et al. (2024). Spatially organized cellular communities form 822 
+the developing ***** heart. Nature 627, 854-864. 10.1038/s41586-024-07171-z. 823 
+59. Ding, S.L., Royall, J.J., Sunkin, S.M., Ng, L., Facer, B.A., Lesnar, P ., Guillozet-824 
+Bongaarts, A., McMurray, B., Szafer, A., Dolbeare, T.A., et al. (2016). 825 
+Comprehensive cellular-resolution atlas of the adult ***** brain. J Comp Neurol 826 
+524, 3127-3481. 10.1002/cne.24080. 827 
+60. Matsushima, A., Pineda, S.S., Crittenden, J.R., Lee, H., Galani, K., Mantero, J., 828 
+Tombaugh, G., Kellis, M., Heiman, M., and Graybiel, A.M. (2023). Transcriptional 829 
+vulnerabilities of striatal neurons in ***** and ****** models of Huntington's 830 
+disease. Nat Commun 14, 282. 10.1038/s41467-022-35752-x. 831 
+61. Graybiel, A.M., and Matsushima, A. (2023). *********s and Matrisomes: 832 
+Scaffolds for Dynamic Coupling of Volition and Action. Annu Rev Neurosci 46, 833 
+359-380. 10.1146/annurev-neuro-121522-025740. 834 
+62. Krienen, F.M., Goldman, M., Zhang, Q., R, C.H.D.R., Florio, M., Machold, R., 835 
+Saunders, A., Levandowski, K., Zaniewski, H., Sc*****, B., et al. (2020). 836 
+Innovations present in the ******* interneuron repertoire. Nature 586, 262-269. 837 
+10.1038/s41586-020-2781-z. 838 
+63. Schmitz, M.T., Sandoval, K., Chen, C.P ., Mostajo-Radji, M.A., Seeley, W.W., 839 
+Nowakowski, T.J., Ye, C.J., Paredes, M.F., and Pollen, A.A. (2022). The 840 
+development and evolution of inhibitory neurons in ******* cerebrum. Nature 603, 841 
+871-877. 10.1038/s41586-022-04510-w. 842 
+64. Corrigan, E.K., DeBerardine, M., Poddar, A., Turrero Garcia, M., de la, O.S., He, 843 
+S., Sen, H., Duhne, M., Lindberg, S., Song, M., et al. (2025). Conservation and 844 
+alteration of mammalian striatal interneurons. Nature 647, 187-193. 845 
+10.1038/s41586-025-09592-w. 846 
+65. Klug, J.R., Engelhardt, M.D., Cadman, C.N., Li, H., Smith, J.B., Ayala, S., 847 
+Williams, E.W., Hoffman, H., and Jin, X. (2018). Differential inputs to striatal 848 
+cholinergic and *********** interneurons imply functional distinctions. Elife 7. 849 
+10.7554/eLife.35657. 850 
+66. Stanley, G., Gokce, O., Malenka, R.C., Sudhof, T.C., and Quake, S.R. (2020). 851 
+Continuous and Discrete Neuron Types of the Adult Murine ********. Neuron 105, 852 
+688-699 e688. 10.1016/j.neuron.2019.11.004. 853 
+67. Grillner, S., and Robertson, B. (2016). The Basal Ganglia Over 500 Million Years. 854 
+Curr Biol 26,  R1088-R1100. 10.1016/j.cub.2016.06.041. 855 
+68. Foster, N.N., Barry, J., Korobkova, L., Garcia, L., Gao, L., Becerra, M., Sherafat, 856 
+Y., Peng, B., Li, X., Choi, J.H., et al. (2021). The ***** cortico-*************-857 
+thalamic network. Nature 598, 188-194. 10.1038/s41586-021-03993-3. 858 
+69. Lai, H.M., Liu, A.K.L., Ng, H.H.M., Goldfinger, M.H., Chau, T.W., DeFelice, J., 859 
+Tilley, B.S., Wong, W.M., Wu, W., and Gentleman, S.M. (2018). Next generation 860 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 33 ===
+
+33 
+ 
+histology methods for three-dimensional imaging of fresh and archival ***** 861 
+brain tissues. Nat Commun 9, 1066. 10.1038/s41467-018-03359-w. 862 
+70. Rosoklija, G.B., Petrushevski, V.M., Stankov, A., Dika, A., Jakovski, Z., Pavlovski, 863 
+G., Davcheva, N., Lipkin, R., Schnieder, T., Scobie, K., et al. (2014). Reliable and 864 
+durable Golgi staining of brain tissue from ***** autopsies and experimental 865 
+animals. J Neurosci Methods 230, 20-29. 10.1016/j.jneumeth.2014.04.006. 866 
+71. Jang, H., Li, Y ., Fung, A.A., Bagheri, P ., Hoang, K., Skowronska-Krawczyk, D., 867 
+Chen, X., Wu, J.Y ., Bintu, B., and Shi, L. (2023). Super-resolution SRS 868 
+microscopy with A-PoD. Nat Methods 20, 448-458. 10.1038/s41592-023-01779-1. 869 
+72. Walsh, C.L., Tafforeau, P., Wagner, W.L., Jafree, D.J., Bellier, A., Werlein, C., 870 
+Kuhnel, M.P ., Boller, E., Walker-Samuel, S., Robertus, J.L., et al. (2021). Imaging 871 
+intact ***** organs with local resolution of cellular structures using hierarchical 872 
+phase-contrast tomography. Nat Methods 18, 1532-1541. 10.1038/s41592-021-873 
+01317-x. 874 
+73. Nord, C.L., Kim, S.G., Callesen, M.B., Kvamme, T.L., Jensen, M., Pedersen, 875 
+M.U., Thomsen, K.R., and Voon, V. (2019). The myeloarchitecture of impulsivity: 876 
+premature responding in youth is associated with decreased myelination of 877 
+ventral *******. Neuropsychopharmacology 44, 1216-1223. 10.1038/s41386-878 
+019-0343-6. 879 
+74. Krishnan, S., Cler, G.J., Smith, H.J., Willis, H.E., Asaridou, S.S., Healy, M.P., 880 
+Papp, D., and Watkins, K.E. (2022). Quantitative MRI reveals differences in 881 
+striatal myelin in children with DLD. Elife 11. 10.7554/eLife.74242. 882 
+75. De Biase, L.M., Schuebel, K.E., Fusfeld, Z.H., Jair, K., Hawes, I.A., Cimbro, R., 883 
+Zhang, H.Y ., Liu, Q.R., Shen, H., Xi, Z.X., et al. (2017). Local Cues Establish and 884 
+Maintain Region-Specific Phenotypes of Basal Ganglia Microglia. Neuron 95, 885 
+341-356 e346. 10.1016/j.neuron.2017.06.020. 886 
+76. Woolley, S.C., Rajan, R., Joshua, M., and Doupe, A.J. (2014). Emergence of 887 
+context-dependent variability across a ************* network. Neuron 82, 208-888 
+223. 10.1016/j.neuron.2014.01.039. 889 
+77. Niccolini, F., Foltynie, T., Reis Marques, T., Muhlert, N., Tziortzi, A.C., Searle, 890 
+G.E., Natesan, S., Kapur, S., Rabiner, E.A., Gunn, R.N., et al. (2015). Loss of 891 
+phosphodiesterase 10A expression is associated with progression and severity in 892 
+Parkinson's disease. Brain 138, 3003-3015. 10.1093/brain/awv219. 893 
+78. Beaumont, V., Zhong, S., Lin, H., Xu, W., Bradaia, A., Steidl, E., Gleyzes, M., 894 
+Wadel, K., Buisson, B., Padovan-Neto, F.E., et al. (2016). Phosphodiesterase 895 
+10A Inhibition Improves Cortico-Basal Ganglia Function in Huntington's Disease 896 
+Models. Neuron 92, 1220-1237. 10.1016/j.neuron.2016.10.064. 897 
+79. Stringer, C., Wang, T., Michaelos, M., and Pachitariu, M. (2021). ********: a 898 
+generalist algorithm for cellular segmentation. Nat Methods 18, 100-106. 899 
+10.
+1038/s41592-020-01018-x. 900 
+80. Wolf, F.A., Angerer, P ., and Theis, F.J. (2018). SCA***: large-scale single-cell 901 
+gene expression data analysis. Genome Biol 19, 15. 10.1186/s13059-017-1382-0. 902 
+81. Virtanen, P ., Gommers, R., Oliphant, T.E., Haberland, M., Reddy, T., Cournapeau, 903 
+D., Burovski, E., Peterson, P., Weckesser, W., Bright, J., et al. (2020). ***** 1.0: 904 
+fundamental algorithms for scientific computing in Python. Nat Methods 17, 261-905 
+272. 10.1038/s41592-019-0686-2. 906 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 34 ===
+
+34 
+ 
+82. Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel, O., 907 
+Blondel, M., Prettenhofer, P ., Weiss, R., Dubourg, V., et al. (2011). Scikit-learn: 908 
+Machine Learning in Python. J. Mach. Learn. Res. 12, 2825–2830. 909 
+83. Li, C., Fleck, J.S., Martins-Costa, C., Burkard, T.R., Themann, J., Stuempflen, M., 910 
+Peer, A.M., Vertesy, A., Littleboy, J.B., Esk, C., et al. (2023). Single-cell brain 911 
+organoid screening identifies developmental defects in autism. Nature 621, 373-912 
+380. 10.1038/s41586-023-06473-y. 913 
+84. Sullivan, C., and Kaszynski, A. (2019). PyVista: 3D plotting and mesh analysis 914 
+through a streamlined interface for the Visualization Toolkit (VTK). Journal of 915 
+Open Source Software 4. 10.21105/joss.01450. 916 
+ 917 
+  918 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 35 ===
+
+35 
+ 
+Figure Legends 919 
+ 920 
+Figure 1. Multi-centimeter, subcellular-resolution spatial transcriptomic mapping 921 
+of the ***** ************* with ********** and ******** 922 
+(A) Overview of study design, donor and sample quality and metadata, tissue sampling 923 
+strategy, and adjacent-section workflows. (B) ********** dataset from an anterior basal 924 
+ganglia section (donor case ID 2724): left, spatial map with cell-type assignments; right, 925 
+**** embedding resolving 10 major cell classes from the same section. (C) 926 
+******** dataset from an adjacent anterior section. Left, spatial map with cell-type 927 
+assignments; right, **** embedding resolving 10 major cell classes corresponding to 928 
+********** in (B). (D–G, progressively greater magnification) Multi-scale ********** 929 
+enlarged views of the boxed region in (B), illustrating the resolution span from 930 
+centimeter-scale tissue anatomy to micron-scale detection of individual transcripts, with 931 
+corresponding cell-type labels (D, E), cell-contour segmentation (F), and single-cell 932 
+detail (G). (H–K, progressively greater magnification) Multi-scale ******** enlarged 933 
+views of the boxed region in (C), showing transcripts for selected genes (****, ****, 934 
+****, ***, ***, ****, ***) (color coded) and other genes (gray coded) that define 935 
+cell-types at micron-scale resolution. See color keys at (K).  Scale bars as indicated 936 
+ 937 
+Figure 2. Spatial organization of major neuronal cell types across the ***** 938 
+*************. 939 
+(A) **** embedding of ******** single cell data with 60 transcriptionally defined 940 
+cell types classified using ********* (***************; RRID:SCR_024672; 941 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 36 ===
+
+36 
+ 
+https://github.com/AllenInstitute/****************). (B) High correlation between 942 
+******** defined cell types and *********–defined clusters. (C) Fractional 943 
+composition of 12 major cell types for all sections combined and across the anterior–944 
+posterior (A–P) axis / position (AP 18a, 19a, 26a, 34a), defined based on *************** 945 
+***** brain atlas59 (stacked bars). (D) Spatial distributions of ******** mapped cell 946 
+types in the brain section samples across the AP axis (left - right AP 18a, 19a, 26a, 34a). 947 
+See cell type color keys in (A).  The contour lines in the sample sections / maps (i.e., 948 
+panels D, G, H and J-K) shown in this figure and subsequent figures denote the 949 
+anatomical regional boundaries derived from the *************************** (further 950 
+described later in the results section of “Mesoscale ****************** architecture of 951 
+the ***** *************”). (E) Zoomed-in view of D1 and ******* within the boxed 952 
+region of the posterior section (AP 34a) in (D). (F) Fractional composition of *** 953 
+subtypes for all sections combined, then along the A–P axis (AP 18a, 19a, 26a, 34a 954 
+shown for each section stacked bars). (G) Spatial distributions of ***************, 955 
+************* , and ************** **** at anterior (AP 19a) and posterior (AP 956 
+34a) sections. (H) Multiscale spatial gene-expression maps for ****, ****, and 957 
+**** in a posterior section (AP 34a) showing ****-enriched ********** and D1/D2 958 
+**** predominantly in the ******* matrix territories. Boxed regions show sequential 959 
+progressively magnified centimeter→ millimeter→ micron-scale views. Cell-segmented 960 
+higher-magnification panels highlight representative gene expression of **** in D1 961 
+*** (1), **** in ****** (2), **** and **** in ***************** (3), and both 962 
+**** and **** in *************** (4) cells. (I) Fractional composition of globus 963 
+pallidus (GP) neuronal subtypes for all combined sections and for AP 26a and AP 34a 964 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 37 ===
+
+37 
+ 
+(stacked bars). (J) Spatial distributions of ******** and ********* neurons, with 965 
+enlarged views illustrating the anatomical topographies of each subtype at AP 26a and 966 
+AP 34a. (K) Spatial distributions of *************** and ************ neuronal 967 
+subtypes, with enlarged views of boxed regions in *** at AP 26a and AP 34a. 968 
+  969 
+Figure 3. Spatial organization of major non-neuronal cell types across the ***** 970 
+************* 971 
+(A) Fractional composition of major non-neuronal classes (left) and 972 
+***/*************** (Oligo) subtypes (right) for all combined sections and across the 973 
+*********************** (AP 18a, 19a, 26a, 34a). (B) Spatial distributions of two 974 
+*************** subtypes, ************ and *************. Zoomed-in views of the 975 
+boxed regions: (1) ****************, (2) ******* with ***************************** 976 
+(arrows), and (3) ***. (C) Heatmap (***** z-score) of the top differentially expressed 977 
+genes distinguishing ************ and ************* subtypes. (D) **** of six 978 
+subtypes of ********** defined based on the ******** astrocytic genes measured, 979 
+with expression maps for representative differentially expressed astrocytic genes. (E) 980 
+Heatmap (***** z-score) of the top differentially expressed genes associated with each 981 
+********* subtype. (F) Fractional composition of ********* subtypes for all combined 982 
+sections and across the anterior–posterior (AP) axis (left - right: AP 18a, 19a, 26a, 34a, 983 
+stacked bars).   (G-J) Spatial distributions of the six ********* subtypes in anterior (AP 984 
+18a) and posterior (AP 34a) sections (G), including (H) white-matter–enriched 985 
+********** (********) localized to the **************** with high **** expression 986 
+(right), (I) ********-enriched ********** (left) with high ****** expression (right), and 987 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 38 ===
+
+38 
+ 
+(J) ***************-enriched ********** (***********) with high ******* expression. 988 
+Color keys are consistent across panels (G–J). ********* cell type key as shown in (D). 989 
+Scale bars as indicated. 990 
+ 991 
+Figure 4. Subcellular ******** transcript localization infers cell-type-specific 992 
+******* morphology and projection signatures. 993 
+(A) Images of ******** transcripts pseudo-colored to indicate subcellular localization: 994 
+******* (white), *********** (yellow), and putative cellular processes (red) across nine 995 
+selected cell types.  Distinct localization profiles highlight cell-type–specific **** size, 996 
+shape, and putative ******** extent.  **** shown in blue but largely masked by the 997 
+******* transcript signal. (B) Estimated **** means and ranges of volumes (µm³) 998 
+inferred from transcript-density segmentation across neuronal cell types in the ***** 999 
+*************, including those shown in (A).  (C) Plot of differential gene expression 1000 
+between D1 and D2 matrix **** measured by ********.  Genes are ranked based 1001 
+on differential expressions.  Top differential expressed genes are annotated.  (D) Spatial 1002 
+maps of transcripts localized in putative cellular processes for genes enriched in D1 1003 
+matrix **** (****, ****, *****; top) and D2 matrix **** (****, ****, *****; 1004 
+bottom).  (E) Section-wide correlation maps of D1 matrix *** (top) and D2 matrix *** 1005 
+(bottom) gene expression with the expression in putative cellular processes across the 1006 
+entire posterior section (AP34a).  Dashed blue outline marks *** and dashed yellow 1007 
+outline marks ***.  Projection-biased localization reflects direct (D1→ ***) versus 1008 
+indirect (D2→ ***) pathway topology.  (F) Gene expression map of ****** transcripts 1009 
+localized in putative cellular processes in the posterior section (AP34a). (G) The ***** 1010 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 39 ===
+
+39 
+ 
+normalized count of ******* ****** transcripts obtained from ********* data.  (H) 1011 
+Gene expression maps of ****** transcripts localized in putative cellular processes in 1012 
+the posterior section (AP34a).  (I) The ***** normalized count of ******* ****** 1013 
+transcripts obtained from ********* data.  1014 
+ 1015 
+Figure 5. Cellular community architecture recapitulates major anatomical 1016 
+modules of the ***** ************* 1017 
+(A) Spatial map of major cell types of the posterior section (as shown in Figure 2D) and 1018 
+inferred ****************** modules derived from the local neighborhood composition 1019 
+analysis, accompanied by a **** embedding of community-level clustering across 1020 
+major cell classes. (B) Top: Community module assignments mapped onto anatomical 1021 
+regions across the ***************************** (AP 18a, 19a, 26a, 34a), capturing 1022 
+mesoscale organization. Bottom: Corresponding anatomical reference images from the 1023 
+***********************59. Pu, *******; Ca, *******; ***, *****************; GP , 1024 
+***************. Color keys are consistent across panels in (B). (C) Heatmap showing 1025 
+cell-type enrichment scores for each community module (rows = cell types; columns = 1026 
+modules). (D) Spatial distribution of fast-spiking interneurons (******************) 1027 
+across A–P levels, highlighting preferential enrichment in *******. Right: ********** plot 1028 
+quantifying ******* > ******* representation (* p = 0.021; Wilcoxon rank-sum). (E) 1029 
+Spatial distribution of ************************ (**********) across the A–P axis, 1030 
+showing relative enrichment in ******* compared to *******. Right: ********** plot 1031 
+quantifying ******* > ******* representation (* p = 0.021; Wilcoxon rank-sum). (F) 1032 
+Spatial map showing the enrichment of the cell type **************** in the internal 1033 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 40 ===
+
+40 
+ 
+segment of the *************** (***). (G) Fractional composition of *** subtypes 1034 
+within ******* (Pu), ******* (Ca), ***************** (***) core, and *********. (H) 1035 
+Spatial distributions of ****** subtypes in the *** from two anterior sections: AP 18a 1036 
+(shell; left zoom-in) and AP 19a (shell + core; right zoom-in), illustrating enrichment of 1037 
+**** D1 *********-like **** in shell relative to core regions. (I) Marker gene maps 1038 
+illustrating compartmentalization of *********–matrix-like architecture in the *********: 1039 
+******************** (**) (*********-associated) and ******* (matrix-associated). 1040 
+ 1041 
+Figure 6. Cellular community and proximity analyses resolve *********–matrix 1042 
+organization, gene-expression spatial gradients, and cross-species 1043 
+correspondence in the ***** *************. 1044 
+(A) **** computed based on *************************** restricted to *** cell types. 1045 
+***************** defines the matrix (purple) and ********* (blue) (left).  Different types 1046 
+of **** are colored as indicated (right).  (B) Spatial maps of ********* and matrix 1047 
+compartments (defined in A) across anterior–posterior (A–P) sections (AP 18a, 19a, 1048 
+26a, 34a).  (C) Cell-type enrichment (**********s) for ********* versus matrix 1049 
+compartments.  Dot size reflects statistical significance (−log₁₀  ***).  P-values are 1050 
+derived using right-tailed ********** tests; *** adjustment via the Benjamini–Hochberg 1051 
+method; **********s via ****************************.  For purpose of visualization, 1052 
+********** values associated with the ********* are multiplied by -1. (D) Spatial 1053 
+distributions of interneuron subtypes showing compartmental biases: ******** 1054 
+GABAergic interneurons enriched in matrix and **** GABAergic interneurons enriched 1055 
+in ********* regions.  In the main text, ******** GABAergic interneurons are referred 1056 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 41 ===
+
+41 
+ 
+to as ************** using the long name of the cell type; lilac-blue shading marks 1057 
+********* mask defined in (A). (E) Relative abundance of medial ******************* 1058 
+(***)– and caudal ******************* (***)–derived interneuron subtypes in the 1059 
+********. (F) Spatial heatmap of distance for each cell to the nearest ********* 1060 
+boundary (positive values = inside the *********; negative values = outside the 1061 
+*********). (G) Cell-type distributions as a function of distance to ********* boundaries, 1062 
+illustrating cell-type organization within ********** in *****.  (H) Spatial distribution of 1063 
+four ********* subclusters defined based on the genes differentially expressed across 1064 
+********* borders (top); and ************ **************** enriched at ********* 1065 
+borders (bottom). Panels show magnified views of the boxed region in (F).  (I) Spatial 1066 
+distributions of ***** striatal neuronal subtypes re-plotted using the Allen Brain 1067 
+Institute Whole ***** Brain ******* dataset (left). Cellular community analysis 1068 
+identifies ***** *********–******************s with the spatial heatmap of per-cell 1069 
+distance to the nearest ********* boundary (positive values = inside the *********; 1070 
+negative values = outside the *********) (right).  (J) Cell-type distributions as a function 1071 
+of distance to ********* boundaries in *****, showing compartmental organization 1072 
+analogous to *****. (K) Enlarged view of the boxed region in ***** *************** (I) 1073 
+showing distributions of the border-enriched subtype of ***** ********** (Allen dataset: 1074 
+supertype: 1163 *************) (top) and **************** (Allen dataset: supertype: 1075 
+1184 ********) (bottom) across *********–matrix boundaries. 1076 
+ 1077 
+Figure 7. ********** spatial transcriptomics mapping of the ***** ************* 1078 
+reveals conserved spatial gene-expression gradients between ***** and ***** 1079 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 42 ===
+
+42 
+ 
+(A) Whole-transcriptome *************** mapped onto anatomical regions in sections 1080 
+AP 18a and AP 19a, the same color code as that depicted in Figure 5.  (B) Heatmap of 1081 
+module-marker genes (rows) across *************** (columns), with corresponding cell-1082 
+type composition shown alongside; values are cell type fraction, note red highlighted 1083 
+genes depicted in greater detail below.  (C) Spatial expression maps of red-highlighted 1084 
+representative module-enriched genes in sections AP 18a and AP 19a.  (D) Gene 1085 
+ontology (**) enrichment analysis for each spatial module. The horizontal bar values 1086 
+show the fractions of genes associated with the color-coded regions for each term.  (E) 1087 
+Correlation of gene expression gradient along the dorsolateral–ventromedial (DL–VM) 1088 
+axis.  Genes are ranked based on their gradient expression. (F) Top 10 DL-expressed 1089 
+genes in ***** ************* and their corresponding DL–VM gradient expression in 1090 
+***** ******** (top). Top 10 VM-expressed genes in ***** ************* and their 1091 
+corresponding VM-DL gradient expression in ***** ******** (bottom).  These related 1092 
+correlations highlight the relatively conserved DL–VM gene-expression gradients across 1093 
+species. (G) Spatial gene expression maps for matching genes from panel F in ***** 1094 
+************* and ***** ********.  (H) Fractional distribution of DL-enriched versus 1095 
+VM-enriched genes in ***** *************.  (I) Fraction plots of cell-type-specific 1096 
+expression for DL (top) and VM (bottom) enriched genes.  See cell type color keys 1097 
+below.  1098 
+  1099 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 43 ===
+
+43 
+ 
+Supplementary Materials 1100 
+ 1101 
+Supplementary Movie 1. ******** spatial transcriptomics of a large ***** 1102 
+************* section visualized across scales. The movie depicts successively 1103 
+greater magnified views starting from multi-centimeter tissue architecture to subcellular 1104 
+resolution scale, revealing transcriptionally distinct cell types and local cellular 1105 
+neighborhoods, and individual RNA transcripts visualized at submicrometer precision 1106 
+(color-coded by gene identity). 1107 
+         1108 
+Table S1. ***** brain sample information.  Detailed information on ***** donor 1109 
+identification number, age, sex, race/ethnicity, ************************* from time of 1110 
+death to tissue freezing, RNA integrity number (***) indicating sample quality, cause of 1111 
+death, section AP, subregions profiled.          1112 
+Supplemental Data for the information related to the ******** encoding probes, 1113 
+adaptor probes, and readout probes and the gene panel codebook.  1114 
+ 1115 
+Supplemental Figure Legends 1116 
+Figure S1. Comparative spatial maps of major cell types of adjacent coronal 1117 
+sections of ***** ************* between ******** and **********.  (A) 1118 
+Comparative spatial distributions of **********, ***********, ***********, CN 1119 
+*** GABA, ******, and ********* cell types mapped by ******** and **********, 1120 
+respectively, showing strong agreement between two approaches.  (B) Pearson 1121 
+correlations of per-cell count or mean gene expression between ******** and 1122 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 44 ===
+
+44 
+ 
+********** show significant correlation between measurements, see panels for 1123 
+correlation values.  (C) *******************s of per-cell count or mean gene expression 1124 
+between independent ******** assays (MER1 vs. MER2/3/4), demonstrate 1125 
+significant reproducibility across platforms and replicates. MER1/2/3/4 = ******** 1126 
+assays 1/2/3/4, see panels for correlation values. (D) *******************s of mean 1127 
+gene expression between independent ********** experiments show significant 1128 
+correlations.  ********** = *******************; *********** = *************** 1129 
+caudal ******************* GABA; *********** = *************** lateral ganglionic 1130 
+eminence GABA; *********** = *************** medial ******************* GABA, 1131 
+see panels for correlation values. Scale bar = 1 cm. 1132 
+Figure S2. Graphical representation of top differentially expressed genes between 1133 
+the 60 transcriptomics cell typ es identified by ********. The dot-plot shows 150 1134 
+differential expressed genes out of the 673 ******** imaged genes, thus validating 1135 
+the distinction between 60 transcriptomics cell types.  1136 
+Figure S3. Spatial distributions and relati ve abundances of non-*** and globus 1137 
+pallidus–associated neuronal subtypes across anterior–posterior coronal 1138 
+sections of the ***** *************. (A) Relative proportions of all neuronal cell 1139 
+types including non-*** and *************** (GP) neuron subtypes—as well as ***- 1140 
+and ***-derived G ABAergic n euron subclasses, in both combined and individual 1141 
+******** assays, showing all sections versus AP-specific proportions. (B) Spatial 1142 
+distributions of D1 +  and D2 +  ******************** (****) across anterior–posterior 1143 
+sections of the ***** *************. (C) Spatial distributions of diverse non-*** 1144 
+neuronal subtypes, including ********, ************ GABA, STR ***–****** 1145 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 45 ===
+
+45 
+ 
+GABA, STR ***–***** GABA, STR ********* GABA, STR *****–***** 1146 
+GABA, *********inergic GABA, OT D1ICj, LAMP5–**** GABA, ************** 1147 
+GABA, ******** GABA, and STR–BF **********–**** GABA cell types show 1148 
+subregional expression specificity. Scale bar = 1 cm. 1149 
+Figure S4. Spatial distributions of ***/*** neuron subtypes and associated 1150 
+marker expression in the ***** ***************.  ( A) Relative proportions of 1151 
+forebrain–midbrain (FM) GABAergic and FM glutamatergic neuron subtypes identified in 1152 
+******** data, including all sections combined and specific AP sections. ( B) Spatial 1153 
+distributions of AMY–SLEA–**** GABA, ************** GABA, AMY–SLEA–1154 
+**** D1 GABA, and ***n–BF Cholinergic GABA neuron subtypes across globus 1155 
+pallidus. ( C) Heatmap showing expression of top marker genes distinguishing six 1156 
+***/*** neuron subtypes. ( D) Spatial maps showing representative marker genes for 1157 
+each of the six ***/*** neuron subtypes. 1158 
+Figure S5. Spatial distributions of non-neuronal cell sub-types in the ***** basal 1159 
+ganglia. ( A) Relative proportions of ******************* (**********) subtypes, 1160 
+vascular-associated subtypes, and immune subtypes across all ******** assays, 1161 
+including all sections combined and AP sections 18-34, note AP19 includes the greatest 1162 
+********* zone surface abutting the ventricle. ( B) Spatial maps of non-neuronal 1163 
+subtypes, including *************, *************** precursor cells (***s), Oligo 1164 
+******, committed *************** precursors (***s), immune-associated 1165 
+**************** (*******), **********, immune-associated ********** (*******), 1166 
+********* cells, vascular leptomeningeal cells (VLMCs), smooth muscle cells (SMCs), 1167 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 46 ===
+
+46 
+ 
+pericytes, endothelial cells, microglia, monocytes, B cells, and T cells from AP18-34. 1168 
+Scale bar = 1 cm for all panels. 1169 
+Figure S6. Spatial maps of *************** and ********* sub-types in the ***** 1170 
+*************. (A) Spatial distributions of two *************** subtypes (************ 1171 
+and *************) in anterior and posterior sections of the ***** *************. ( B) 1172 
+Spatial subregion specific distributions of six ********* subtypes across anterior–1173 
+posterior sample sections. (C) Spatial expression maps of representative marker genes 1174 
+that correspond to each ********* subtype across anterior–posterior sample sections 1175 
+show subregion specific expression. 1176 
+ 1177 
+Figure S7. ********* subclusters stratified by gene-expression gradients across 1178 
+*********–matrix boundaries.  ( A) Heatmap of astrocytic gene expression as a 1179 
+function of distance from the *********–matrix border. Distance is measured relative to 1180 
+the border (center), where 0 represents the *********-matrix border, and spans −500 1181 
+µm into matrix regions (negative values) and +500 µm into ********* interiors (positive 1182 
+values). ( B) **** embedding computed from clustering of ********** located within 1183 
+±500 µm from the *********-matrix border based on genes shown in (A) in the posterior 1184 
+sample AP26a (left) and the spatial map showing the distribution of the subclusters 1185 
+relative to ********* boundaries (middle). Right: Zoomed-in view of the boxed region 1186 
+(left). ( C) Same analysis as in (B), shown for posterior section AP34a: **** 1187 
+embedding (left), spatial distribution along ********* boundaries (middle), and zoom-in 1188 
+of the boxed region (right). (D) Density distribution of ********* subclusters as a function 1189 
+of distance from the *********–matrix border in AP26a, 0 represents the *********-1190 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 47 ===
+
+47 
+ 
+matrix border. (E) Density distribution of ********* subclusters as a function of distance 1191 
+from the *********–matrix border in AP34a, 0 represents the *********-matrix border. 1192 
+ 1193 
+Figure S8. Cross-species mapping between ***** and ***** orthologous basal 1194 
+ganglia cell types. (A) Corresponding section position in the *************** for Brain 1195 
+Science (AIBS) CCF v3 ***** reference atlas (left), and the spatial transcriptomics 1196 
+section from the AIBS Whole ***** Brain (WMB) ******* C57BL/6J-638850 dataset 1197 
+with annotated regional parcellation (right). The red box indicates the region used to 1198 
+extract *************–associated cell types. ( B) Cell-type expression correlation matrix 1199 
+comparing ***** and ***** ************* cell types. DRD-related cell types are 1200 
+highlighted (red text and bounding box). Columns = ***** cell types; rows = ***** 1201 
+cell types. ********************* and ********************* represent two 1202 
+manually combined ***** cell types derived from higher-resolution clusters of 0277 1203 
+STR D2 Gaba_4. (C–F) Fine-grained mapping of ***** **** D1 ********* **** (C), 1204 
+D1 matrix **** ( D), D2 ********* **** ( E), and D2 matrix **** (F ) to orthologous 1205 
+***** cell types. Top: gene-expression correlation and normalized marker-gene 1206 
+expression profiles. Rows = ***** and ***** cell types (***** ordered by correlation 1207 
+to the ***** type); columns = marker genes from the ***** subtype sorted by relative 1208 
+abundance.  ***** expression reflects corresponding orthologous gene values. Middle: 1209 
+spatial distributions of the ***** *** cell types. Bottom: spatial distributions of the 1210 
+best-matched orthologous ***** *** cell types. 1211 
+ 1212 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 48 ===
+
+48 
+ 
+Figure S9. More spatial module analysis using additional ***** ************* 1213 
+********** data.  1214 
+ (A) Whole-transcriptome *************** identified in additional ********** samples 1215 
+including the external segment of the *************** (***). (B) Spatial expression 1216 
+maps of representative region-enriched genes: ****** (*******), PCP4 (*******), 1217 
+PEG10 (***), and ******* and ***** (***). (C) Spatial expression map showing 1218 
+conserved dorsolateral–ventromedial (DL–VM) gradients in ***** and ***** ********. 1219 
+DL-enriched genes: **** and SRRIT1; VM-enriched genes: ***** and ****. 1220 
+(D) Fractional distribution of DL-enriched versus VM-enriched genes in ***** ********. 1221 
+(E) Fraction plots of cell-type-specific expression for DL (top) and VM (bottom) direction 1222 
+in ***** ********.  1223 
+  1224 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 49 ===
+
+49 
+ 
+STAR* ME**ODS 1225 
+KEY RESOURCES TABLE  1226 
+REAGENT or RESOURCE SOURCE IDENTIFIER 
+Biological samples 
+Healthy adult ************* 
+brain tissue 
+ 
+University of California Irvine 
+**************** 
+ 
+************* 
+************* 
+************* 
+************* 
+Chemicals, peptides, and recombinant proteins 
+********** ************* Cat#M33631-4L 
+******** ************* Cat#1060071000 
+******* (100%)  Decon Labs  Cat# V1016  
+*********  Ambion  
+(Thermo Fisher  
+Scientific)  
+Cat# AM9342  
+TE Buffer, pH 8.0  Thermo Fisher  
+Scientific  
+Cat# T11493  
+20X SSC  Thermo Fisher  
+Scientific  
+Cat# J60839.K3  
+************  *************  Cat# 92046-34-9  
+******  *************  Cat# 238813  
+************* ************* Cat# A-003-M 
+Gel Slick Lonza Cat# 50640 
+*** (4%)  Thermo Fisher  
+Scientific  
+Cat# 28906  
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 50 ===
+
+50 
+ 
+****  Thermo Fisher  
+Scientific  
+Cat# D1306  
+10% *** Corning Cat# 46-040-Cl 
+***** ************* Cat# T7024 
+******** ************* Cat# C30-500MG 
+*************** ************* Cat# G2133-250KU 
+Zymo-Spin™ IC RNA 
+Columns  
+Zymo  
+Research  
+Cat# R1013  
+Zymo-Spin IIICG Columns Zymo  
+Research 
+Cat# C1006-250-G 
+Zymo- Dna Clean and 
+Conc-25    
+*************  Cat# D4006 
+Zymo- Oligo Clean & 
+Concentrator™ 
+************* Cat# D4061 
+****************
+*********************  
+Thermo Fisher  
+Scientific  
+Cat# EP0753  
+**************************
+**********  
+New England  
+Biolabs  
+Cat# M0536L  
+HiScribe T7 Quick High 
+Yield RNA  
+Synthesis Kit  
+*******************  Cat# E2050  
+***************  *******************  Cat# M0314L  
+dNTP Mix (10 mM)  Thermo Fisher  
+Scientific  
+Cat# R0192  
+*************** (20% w/v)  Millipore  Cat# S4030  
+Acrylamide: Bis-Acrylamide 
+19:1 (40% 
+Solution/Electrophoresis) 
+Thermo Fisher  
+Scientific 
+Cat#J60868.AP 
+******************* ************* Cat#215589-100G 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 51 ===
+
+51 
+ 
+******* Technologies 
+D1000 Reagents 
+******* Cat# D1000 
+********** 
+Permeabilization Set for 
+Chip-on-a-slide V1.1 
+***************** Cat#211SP11118-CG 
+********** Transcriptomics 
+Set (2cm*3cm) V1.2 
+*******/Complete 
+Genomics 
+Cat#111ST13231-CG 
+********** 16 Barcoded 
+Library Preparation Kit 
+V1.0 
+***************** Cat#111KL160 
+PE100 flow cells reagent  ***************** Cat#100008555 
+************************ ********** Cat#Q32854 
+********************** ********** Cat#Q10212 
+D5000 ScreenTape Assay 
+Kit 
+******* Cat#5067-5588 
+   
+Oligonucleotides 
+Encoding probes targeting 
+673 genes 
+****************  This paper; Table S1  
+Readout probes   Integrated DNA  
+Technologies (***)  
+This paper; Supplemental 
+Data  
+Primers for ******* 
+encoding probe synthesis   
+Integrated DNA  
+Technologies (***)  
+This paper; Supplemental 
+Data 
+RT primer for **** 
+synthesis in RT&TAMP  
+Integrated DNA  
+Technologies (***)  
+This paper; Supplemental 
+Data 
+Software & Instrument 
+************* **************************
+*** 
+(https://github.com/ZhuangLa
+b/*************) 
+RRID: SCR_027698 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 52 ===
+
+52 
+ 
+********************
+******** 
+******* RRID:SCR_025001 
+STAR http://code.google.com/p/rna-
+star/  
+RRID:SCR_004463 
+******* ******* RRID:SCR_002344 
+****** http://opencv.org RRID:SCR_015526 
+***** http://www.numpy.org  RRID:SCR_008633 
+***** http://www.scipy.org RRID:SCR_008058 
+********** http://www.**********s.org/ RRID:SCR_016074 
+************ http://************.org RRID:SCR_002577 
+******************* Laptop ******* RRID:SCR_019547 
+Other 
+50mm x 64mm glass 
+coverslips 
+******** SAF-5064-02A 
+*************** for Brain 
+Science 
+http://www.brain-map.org RRID:SCR_006491 
+**************** Cell Atlas 
+Network 
+**************** Cell Atlas 
+Network 
+RRID:SCR_022794 
+******************* (***)  ******************* (***) RRID:SCR_017272 
+*********** Neuroscience Multi-omic 
+Archive (************) 
+RRID:SCR_016152 
+****************
+**********  
+************* RRID: SCR_027699 
+************* Genetic 
+Sequencer 
+*** RRID:SCR_024847 
+***************** ***************** RRID:SCR_027007 
+*********** *********** RRID: SCR_027700 
+ 1227 
+ 1228 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 53 ===
+
+53 
+ 
+RESOURCE AVAILA***ITY  1229 
+Material availability  1230 
+Oligonucleotide probe sequences used for imaging can be found in Supplemental Data. 1231 
+These probes or materials for making these probes can be purchased from commercial 1232 
+sources, as detailed in the Key Resources Table.  1233 
+Data and code availability  1234 
+Image and sequencing data are in the process of being deposited at the Brain Image 1235 
+Library (***, RRID:SCR_017272) and the Neuroscience Multi-omic Archive (NeMO 1236 
+Archive, RRID:SCR_016152).  The relevant data analysis codes are uploaded to Github 1237 
+under the repository: 1238 
+https://github.com/BBerackey/*****_*****_basal_ganglia_spatial_transcriptomics_m1239 
+anuscript_2025  1240 
+ 1241 
+EXPERIMENTAL DETAILS 1242 
+Postmortem ***** ************* samples   1243 
+Four ***** brain cases with the ************* were obtained from the University of 1244 
+California Irvine (***) **************** under approval of the Institutional Review 1245 
+Board (IRB). These adult ***** postmortem brain samples were from white males of 1246 
+36 to 53 years old and showed no evidence of *************************** (Table 1247 
+S1).   1248 
+Preparation of multi-centimeter tissue sections for ********** and ********  1249 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 54 ===
+
+54 
+ 
+To facilitate multimodal investigation of the same donor sample, each pre-dissected 1250 
+postmortem ***** coronal brain slab, which is 5–10 mm thick and containing the basal 1251 
+ganglia, was used in this study. To prepare adjacent brain sections for experiments, a 1252 
+tissue block measuring up to 4 cm × 5 cm and encompassing ************* components 1253 
+was further dissected out of each coronal brain slab, quickly embedded in *** 1254 
+embedding medium, and frozen in dry ice prechilled ********** (************, 1255 
+M33631). ************ of 10 µm and 16 µm thickness were then obtained using a Leica 1256 
+CM1850 ******** at –18 to –20/i2 °C and mounted onto **************** and specially 1257 
+coated 50 mm × 64 mm rectangular glass slides for ********, respectively. To fit the 2 1258 
+cm × 3 cm **************** (*******/*****************, 111ST13231-CG), each 1259 
+large brain section was trimmed and/or subdivided within the ******** to approximately 1260 
+18 mm × 28 mm dimensions (Figure 1).  1261 
+Sample processing for ********** 1262 
+For **********, tissue fixation and spatial transcriptomics procedures were conducted 1263 
+in accordance with the manufacturer’s protocol and established methods. Briefly, tissue 1264 
+sections mounted on **************** were dried at 37°C (5 min), then fixed in pre-1265 
+cooled ******** (************, 1060071000) for 30 mins at -20 °C. After fixation, 1266 
+sections were stained with ********************** (**********, Q10212) and 1267 
+incubated in the dark for 5 mins, washed with 0.1× SSC buffer with 5% *************** 1268 
+(0.05 U/mL, *******************, M0314L), the nuclei-stained tissue section was 1269 
+imaged using the FITC channel under a 10x microscope objective of Echo Revolution 1270 
+microscope (*************, RRID: SCR_027699). The resulting TIFF file was run 1271 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 55 ===
+
+55 
+ 
+through *****************. After passing *******, the chip was washed with 0.1× 1272 
+SSC before proceeding with permeabilization.  1273 
+Permeabilization was conducted using the manufacturer’s buffer (*****************, 1274 
+211KT13114) at 37°C for 12 minutes. RNA captured on **************** from 1275 
+permeabilized tissue was reverse transcribed at 42°C. The tissue was then removed, 1276 
+and **** was released from the chip using a transcriptomics reagent kit (Complete 1277 
+Genomics, 211KT13114). After *********************, tissue removal and **** release 1278 
+and **** collection were done at 55°C for 3 to 18 hours. After size selection, 1279 
+amplification, and purification, **** concentrations were measured with the Qubit 1280 
+dsDNA HS Assay Kit (**********, Q32854). The distribution of **** fragment size was 1281 
+also measured using *******'s D5000 ScreenTape assay (*******, 5067-5588). For 1282 
+library construction, 20 ng of **** per sample was processed with a library preparation 1283 
+kit (*****************, 111KL160) followed by ************ (***) generation. 1284 
+Sequencing was performed on the ******************* at *********** (Agoura 1285 
+Hill, CA, USA) with PE100 flow cells and 50 bp read 1 and 100 bp read 2 (Complete 1286 
+Genomics, 100008555). 1287 
+******** design and methodology 1288 
+1. Gene selection: First, we compiled 992 candidate genes that comprised 150 1289 
+canonical cell type marker genes, 20 control genes (housekeeping genes) and 822 1290 
+genes that were differentially expressed between Group level cell types in the reference 1291 
+***** ************* ********* dataset from the Allen Brain Institute 1292 
+(RRID:SCR_006491) . We then refined the list by removing non-coding genes, and 1293 
+genes that are highly abundant in all cell types as they can lead to molecular crowding. 1294 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 56 ===
+
+56 
+ 
+We considered genes to be highly abundant, if their mean count across cell types 1295 
+(Group level) was greater than 20.  After this step a total of 813 genes were remaining. 1296 
+Next, we identified the exon sequence from the longest isoform of each gene, and then 1297 
+we quantified the homology between the sequences based on a 12-nucleotide hash-1298 
+table. Genes were removed if the fraction of homology was greater than 50% with p-1299 
+value less than 0.001. Based on this criteria, 149 genes were removed, leaving 673 final 1300 
+candidate genes.  1301 
+2. Primary encoding probe, adaptor probe, and readout probe design: The 1302 
+******* library was designed using a similar pipeline described in previous studies 42-1303 
+44.  As therein, each primary encoding probe contains a 40-mer target sequence that is 1304 
+complementary to the **** sequence of a gene, three 20nt readout sequences unique 1305 
+for each gene and two 20nt PCR primers. However, we made one modification to this 1306 
+design by adding a 4th readout sequence in order to help us to troubleshoot ******* 1307 
+experiments through ****** imaging. To design the primary probes, we first generated 1308 
+overlapping 40-mer target sequences from the **** sequence of each gene. Next, we 1309 
+filtered the target sequences based on off-target binding score and other predefined 1310 
+screening requirements such as GC content, melting temperature, and homology 1311 
+against the genome, transcriptome and repetitive sequences. For each gene, we 1312 
+retained 10-150 40-mer target sequences that met the criteria, then we concatenated 1313 
+each sequence to 4 readout and 2 primer sequences. Finally, we screened the 1314 
+concatenated sequences for homology against the whole genome and excluded primary 1315 
+probes that had homology scores beyond 99 percentiles. 1316 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 57 ===
+
+57 
+ 
+The selection of readout sequences that were concatenated to a target sequence of a 1317 
+gene was guided by a ******* codebook, which is a set of unique binary barcodes 1318 
+that determines in which imaging round the fluorescence signal of each gene will show 1319 
+up. We designed the codebook by first generating all possible 4 **************** 1320 
+binary words of length N = 28 using the ******************* 29.  Next, we used the 1321 
+****************************************** to assign each binary word to a particular 1322 
+gene while minimizing the chances of molecular(signal) crowding due to shared 1323 
+channels when imaging genes that are co-expressed in the same cell type. 1324 
+As described in the method section for ******* imaging, the primary probes were 1325 
+used in combination with adapter probes and readout probes during each imaging 1326 
+round. Adaptor probes are associated with a particular gene and they are made of 20nt 1327 
+sequence reverse complementary to the readout sequence used in the primary probe of 1328 
+the associated gene. In addition, they contain two identical sequences that serve as 1329 
+binding sites for readout probes. The readout probes are 20nt sequences that are 1330 
+conjugated with a fluorescence dye at the 5’ or 3’ end. 1331 
+3. Encoding probe synthesis: Primary encoding probes generation was performed 1332 
+from oligonucleotide pools as described previously 42-44. Oligonucleotide pools and 1333 
+primers were purchased from ***************** and Integrated DNA Technologies (***), 1334 
+respectively. Oligo pools were amplified through PCR with approximately 18 cycles 1335 
+using *************************** (************************, F631L). The resulting 1336 
+PCR product was purified and concentrated with Zymo DNA clean & concentrator-25 1337 
+(*************, D4006). RNA was generated from the purified PCR-amplified DNA 1338 
+through ********************** (***) using ************************* (***, E2060S). 1339 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 58 ===
+
+58 
+ 
+Next, single strand DNA (*****) was generated from the ***-derived RNA through 1340 
+********************* (RT) using Thermo Scientific Maxima Reverse Transcriptase 1341 
+(************************, EP0743). The RT product went through alkaline hydrolysis 1342 
+(1:1 of 1M NaOH and 0.5M EDTA) to remove RNA followed by ***** (encoding probes) 1343 
+purification using Zymo Oligo Clean & Concentrator (*************, D4061). The 1344 
+concentration and purity of the encoding probes were determined through NanoDrop 1345 
+while the size of the encoding probes was verified through ******************* 1346 
+(RRID:SCR_019547). During the RT step, the forward primer introduced an acrydite 1347 
+anchor into the encoding probes which allowed the encoding probes to covalently bind 1348 
+with the polyacrylamide gel post encoding probes hybridization. 1349 
+4. Adaptor and readout probe preparation: Adaptor probes (total 28 adaptors) and 1350 
+readout probes (total 3 readout probes each tagged with one of the three fluorophores: 1351 
+********************, 5***/3***Sp, 5***/3***Sp) were purchased from ***. 1352 
+Adaptor probes and readout probes were diluted with a pre-hybridization buffer (PreHB, 1353 
+0.1% Tween-20, 35% *********, 2xSSC) with dilution factors of 1:1000 and 1:2000, 1354 
+respectively. 1355 
+5. Silanization and ***-coating of coverslips: 50mm x 64mm glass coverslips 1356 
+(********, SAF-5064-02A) were incubated in 18.5% HCl in ******** for 30 min at room 1357 
+temperature (RT) followed by 4 washes with MiliQ water. Then coverslips were 1358 
+incubated in 70% ******* for 5 min at RT followed by drying at 60°C for 30 min. Next, 1359 
+coverslips were incubated in a solution containing 0.1% triethylamine and 0.2% allyl 1360 
+trichlorosilane in chloroform for 30 min at RT. Coverslips were then washed with 1361 
+chloroform followed by washing with 100% *******. Then coverslips were dried at 60°C 1362 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 59 ===
+
+59 
+ 
+for 30 min. Coverslips were stacked on top of each other with a working solution of 1363 
+************* (***, SIgmaAldrich, A-003-M) (1 mg ***/ml + ***************) in 1364 
+between coverslips and incubated for ~3 hours. Next, coverslips were dried at 60°C for 1365 
+30 min. Finally, silanized and ***-coated coverslips were stored at -20°C until use 1366 
+(good for 6 months). 1367 
+6. ******** sample preparation: ***** postmortem ************* samples in *** 1368 
+block were sectioned (16 µm thick) using ******** (************) at -20°C and 1369 
+mounted onto ***-coated pre-silanized coverslips as aforedescribed. The mounted 1370 
+tissue sections were air dried at room temperature for 5 minutes followed by fixation 1371 
+with 4% **************** (***) in PBS for 15 min. The ***-fixed samples were 1372 
+stored in a 10% glucose solution in PBS (with ***************, 1:1000) at -80°C for 1373 
+future use. The ***-fixed frozen samples were thawed and incubated with 70% (v/v) 1374 
+******* for 1 hour at room temperature. The samples were then incubated with 5% *** 1375 
+(in 2xSSC) for 10 minutes at room temperature followed by three washes with 2xSSC. 1376 
+Samples were incubated with PreHB for 15 minutes at room temperature. The coverslip 1377 
+containing the sample was transferred to a new Petri dish and 200 µl of encoding probe 1378 
+hybridization buffer containing 200 µg of encoding probes were added onto the sample. 1379 
+The encoding probe hybridization buffer consisted of 50% (v/v) ********* in 2xSSC 1380 
+and 10% (wt/v) ***************, with the *************** added. Parafilm was placed 1381 
+gently on the top of the sample to prevent evaporation of the encoding probe 1382 
+hybridization buffer (10% ***************, 50% *********, 2xSSC) and incubated in 1383 
+humidified incubator for 18-24 hours at 47°C. After encoding probe hybridization, 1384 
+samples were washed with PreHB twice 15 minutes each at room temperature. Next, 4% 1385 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 60 ===
+
+60 
+ 
+polyacrylamide gel embedding of samples was performed to anchor RNA molecules at 1386 
+place. Samples were then post-fixed with 4% *** for 10 minutes at room temperature. 1387 
+Samples were incubated with digestion buffer containing 2% *** in 2x SSC and 2% 1388 
+************ overnight at 37°C. To quench sample autofluorescence, samples (still in 1389 
+digestion buffer) were incubated in ******************** for at least 3 hours. Finally, 1390 
+samples were washed with 2x SSC three times and proceeded to image acquisition. 1391 
+7. Microscope setup for ******** imaging: ******** image acquisition was 1392 
+performed with a custom-built system consisting of a custom-built microscope and 1393 
+microfluidics systems (as described in 44). The microscope was built with an ASI 1394 
+microscope body coupled with ******************************* oil immersion 1395 
+objective. Custom software was used to control system components based on 1396 
+https://github.com/ZhuangLab/************* (RRID: SCR_027698) and also see the 1397 
+******** reference 44 1398 
+******** data acquisition 1399 
+******** data acquisition consisted of 10 sequential rounds of hybridization and 1400 
+imaging. Each of the hybridization round consisted of the following steps-(i) flow the 1401 
+adaptor probes (1:1000 dilution with PreHB) specific to each round and incubate for 1402 
+5400 sec (ii) wash with ********* wash buffer (30% v/v ********* in 2xSSC + 0.1% 1403 
+Tween-20) (iii) flow the readout probes (1:2000 dilution with PreHB) and incubate for 1404 
+5400 sec (iv) wash with ********* wash buffer (30% v/v ********* in 2xSSC+ 0.1% 1405 
+Tween-20) (v) flow 2xSSC (vi) flow imaging buffer. The composition of the imaging 1406 
+buffer was as previously described 43. After each round of hybridization, z-stack (10 µm) 1407 
+images were acquired with four channels (750 nm, 647 nm and 560 nm for RNA 1408 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 61 ===
+
+61 
+ 
+molecules; 405 nm for ****) at 0.4µm step size (25 frames per *************/channel, 1409 
+total frames=100/*************). After image acquisition of a round, fluorescence signals 1410 
+were removed through flowing stripping buffer (80% ********* in 0.8xSSC+0.1% 1411 
+Tween-20) and 2xSSC before proceeding to next round of hybridization and imaging. 1412 
+ 1413 
+Bioinformatics  1414 
+********** data processing  1415 
+We processed the ********** data using the standard analysis workflow software 1416 
+(https://github.com/*******/***, RRID:SCR_025001) version 8.3 with the following 1417 
+parameters:  –kit-version “********************”, – sequencing-type “PE100_50+100”. 1418 
+The pipeline takes three files as an input: (1) paired-end FASTQ files, (2) mask file and 1419 
+(3) mosaic image of ***************. The first read in the fastq files contains coordinate 1420 
+ID (***) - spatial location identifier barcode sequence that is unique to each DNA nano 1421 
+ball on the stereo-seq chip, and the ****************** - artificially synthesized ****-1422 
+specific sequence that helps differentiate the number of reads contributed by **** 1423 
+expression level due to amplification. The ***s were first aligned and matched with the 1424 
+values in the mask file which contains the mapping of the *** barcodes to the actual 1425 
+spatial coordinates in the tissue. This allows the identification of the spatial location of 1426 
+the ***** within the tissue section.  Reads that have *** sequence with more than 1427 
+one N bases or more than one bases with quality less than Q10 were excluded. The 1428 
+second read in the fastq file contains the actual sequence of the captured ****. These 1429 
+were aligned to a reference genome using the ************. The reference genome 1430 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 62 ===
+
+62 
+ 
+and transcript annotation were done using the ***** ******.dna  primary sequence 1431 
+assembly and ******.113 GTF files downloaded from ******* (RRID:SCR_002344). 1432 
+The cell segmentation was performed by applying a combination of the watershed 1433 
+algorithm, the ************************************************ (*****) algorithm and 1434 
+the ******** mode on the ***** *************** images. Finally, the cell 1435 
+segmentation mask and the count of the transcripts were combined to generate a cell-1436 
+by-gene count matrix. 1437 
+******* image processing 1438 
+******* image analysis consists of 4 major steps: (1) detecting individual 1439 
+fluorescence spots; (2) correcting the drift between the images across the different 1440 
+hybridization rounds; (3) decoding the gene identity of fluorescence spots by matching 1441 
+their on-off intensity pattern with the binary words in the codebook; (4) segmenting the 1442 
+mask of individual cells. A detailed overview of each step is as follows.  1443 
+1. Spot detection: we applied flat-field correction to the raw transcript images in the 1444 
+***, *** and 750 channels to minimize vignetting artifacts. Next, we deconvolved the 1445 
+images by applying the ****************** as implemented in the *************** 1446 
+using a *************************** estimated from the raw transcript images. Then, we 1447 
+normalized the resulting images and detected spots with gaussian peaks.  1448 
+2. Drift correction: To estimate the drift between hybridization rounds, we detected 1449 
+image features corresponding to local minima and local maxima intensity points within 1450 
+the **** channel using the same procedure as in the spot detection step. These 1451 
+features were then used to register the images from different hybridization rounds using 1452 
+***********************.  1453 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 63 ===
+
+63 
+ 
+3. Decoding: We decoded the detected fluorescent spots as described previously 42. 1454 
+Briefly, we matched each spot in an image to spots that are within a set distance 1455 
+threshold in other images across the different hybridization rounds. We then compared 1456 
+the intensity pattern formed by the colocalizing spots to the binary words in the 1457 
+codebook in order to decode their gene identity. Finally, we filtered the molecules based 1458 
+on their correlation to the ********************* and the distance of their normalized 1459 
+brightness from the matched binary word.  1460 
+4. Cell segmentation: First, we deconvolved the flat-field corrected **** images using 1461 
+the ****************, with the parameter beta set to 0.01, in order to improve the 1462 
+contrast of the nuclei boundaries. Then for each z-plane, we performed cell 1463 
+segmentation using the ******** ‘nuclei’ model 79 with the parameters: diameter = 23, 1464 
+flow_threshold = -10 and cellprob_threshold = -10. Next, we stitched the segmented 1465 
+images to get a 3D reconstruction of the cell masks. We then applied the masks to the 1466 
+decoded molecule in order to assign them to cells based on their spatial position. Finally, 1467 
+we generated a cell-by-gene count matrix by aggregating the transcript count of each 1468 
+gene in every cell. In addition, we generated cell metadata that included spatial 1469 
+information such as the XYZ location and volume of the imaged cells. 1470 
+Cell type clustering and cell type annotation 1471 
+1. Pre-processing: We preprocessed the cell by gene count matrix as follows. First, 1472 
+cells with total transcript counts greater than 99 percentile or less 1 percentile were 1473 
+filtered out. Second, cells with very large (above 98 percentile) and very small (below 2 1474 
+percentile) volume were removed. Such cells arise from segmentation artifacts and 1475 
+usually represent incomplete or doublet cells (two different cells segmented as one). 1476 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 64 ===
+
+64 
+ 
+The count matrix was then normalized by volume of cells, in order to account for the 1477 
+effect of cell size variation on the expression level of genes. The matrix was again 1478 
+normalized by the total count of transcripts in the cells in order to reduce noise arising 1479 
+from the difference in the relative expression of genes between cells. Finally, the data 1480 
+was log-normalized to ensure all genes had the same expression baseline and hence 1481 
+minimized the risk of masking low abundant genes.  1482 
+2. Clustering and annotation: We performed clustering analysis using classical single-1483 
+cell clustering pipeline from the **************80. First, the graph representation of the 1484 
+count matrix was generated using the neighbors module, ******.pp.neighbors(use_rep 1485 
+= ‘X’, n_neighbors = 15). Then, the communities formed in the graph were clustered 1486 
+using the ***************** algorithm, ******.tl.leiden(resolution = 1). Finally, the **** 1487 
+embedding of the clustered data was obtained by projecting the high dimensional 1488 
+clustering into 2D space, ******.tl.umap(resolution = 1, min_dist = 0.1). The annotation 1489 
+of cell types was done by mapping the data to the Cross-species Basal ganglion cell 1490 
+type taxonomy from the *************** through **************** (the python backend 1491 
+for **********, RRID:SCR_024672) using two precomputed supporting files shared 1492 
+through the ***** consortium: query_markers (a lookup table of marker genes for the 1493 
+taxonomy) and precomputed_stats (HDF5 file that defines the taxonomy). 1494 
+We performed the subclustering analysis for ********** using only astrocytic genes in 1495 
+order to avoid artifacts from cross-talk or contamination from other cell types. To identify 1496 
+the genes, we applied the ***************** method on the pre-processed count 1497 
+matrix as implemented in the rank_genes_groups function from the **************80. 1498 
+Next, we reduced the data to cells that were labeled as ********** at the Subclass level 1499 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 65 ===
+
+65 
+ 
+and to genes that were differentially expressed in them. Following this, we performed 1500 
+further quantity control to remove outlier cells with volume and transcript count below 1 1501 
+percentile or greater than 99th percentile. Next, we did **************************** 1502 
+(***) and ******************* on the normalized count matrix using the functions 1503 
+sc.pl.pca and sc.external.pp.harmony_intergrate from ****** respectively. We then 1504 
+constructed the ********* based on the principal components from harmony 1505 
+integration using the parameters n_neighbors = 10 and n_pcs = 20. Lastly, we ran 1506 
+***************** with a resolution of 0.6.  1507 
+Spatial module analysis  1508 
+We performed spatial module analysis with two different approaches, (1) cell-type–1509 
+based community clustering from ******** data, and (2) whole-transcriptome spatial 1510 
+clustering from ********** data. Together, these analyses resolve both mesoscale 1511 
+anatomical territories and microscale compartmental organization within the ***** 1512 
+*************. 1513 
+ 1514 
+1. Spatial module clustering based on cell type composition: Using cell type 1515 
+composition, we delineated both major anatomical regions of the ************* such as 1516 
+*******, *******, NAC core, NAC shell and internal and external segment of the 1517 
+globus palladium; and the local compartments of the ******** including the ********* 1518 
+and Matrix. 1519 
+For each cell, we first searched neighboring cells that were within a radius r in the 1520 
+spatial coordinate of the tissue using the ****** module from ***** 1521 
+(RRID:SCR_008058) 81. Then we counted the number of cell types at the group level in 1522 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 66 ===
+
+66 
+ 
+the identified neighborhoods to construct the cell type composition matrix. The rows of 1523 
+the matrix correspond to individual cells and the columns are the cell types at group 1524 
+level. Then we generated a ********* based on the composition matrix using 1525 
+******.pp.neighbors , and then we ran ***************** using ******.pp.leiden  to 1526 
+cluster the cells into ***************. The clustering was performed hierarchically; we 1527 
+first identified high level modules that corresponded to major anatomical regions such 1528 
+as the ************ and the ********. Then we iteratively subclustered each module to 1529 
+identify more finer regions. During each iteration, we tuned different parameters 1530 
+including the radius for searching spatially neighboring cells, the number of neighbors 1531 
+used for the *********, and the resolution for ***************** until the resulting 1532 
+modules captured known anatomical regions. The identified *************** 1533 
+corresponded well to anatomical regions defined in the ***********************59; 1534 
+however, the ************************ module partially overlapped with adjacent white 1535 
+matter tracts; its boundary was refined using the spatial location of ********* neurons, 1536 
+which delineated the *** border with high precision.  1537 
+ 1538 
+To identify *************** corresponding to the ********* and ******************, we 1539 
+followed similar but slightly different procedure to that used in global *************** 1540 
+analysis. The main differences were that we only used *** cell types when building the 1541 
+cell type composition matrix and we only included the cells in the ******** for the 1542 
+analysis as the ********* and Matrix compartments exist only in this part of the Basal 1543 
+ganglia. In detail, we first built a ************************ based on the spatial location 1544 
+of *** subtypes using the ************ package82, then we queried the graph to identify 1545 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 67 ===
+
+67 
+ 
+50 nearest **** for each cell in the ********. Next, as explained in 14, we defined the 1546 
+composition matrix as distance weighted frequency count of neighboring *** subtypes. 1547 
+This matrix was then L2 normalized and clustered using the **************** from the 1548 
+**************. The same analysis approach was used in ***** and ***** datasets. 1549 
+2. Whole transcriptome based spatial module analysis: To do spatial module 1550 
+analysis using gene expression, we integrated the expression values with the spatial 1551 
+information of cells. First, we calculated the spatial distance of each cell to neighboring 1552 
+cells located within a radius r using the function radius_neighbors_graph from scikit-1553 
+learn82.  Next, we took the negative exponential of the distance values and normalized 1554 
+them by the total distance to get a gaussian distribution. The resulting values were then 1555 
+multiplied with the gene expression matrix to get spatially weighted average gene 1556 
+expression for each cell. Next, using the **************80, we identified the top 5000 1557 
+highly variable genes, which we then used for *** and ********* computation. Finally, 1558 
+we did ***************** to identify the ***************. Similar to the *************** 1559 
+analysis based on cell type composition, we did the clustering hierarchically - starting 1560 
+from high level to finer ***************. And the parameters were tuned at each 1561 
+hierarchy until the modules matched the anatomical regions.  1562 
+ 1563 
+Cell type enrichment analysis 1564 
+Cell type enrichment analyses across spatial anatomical modules: The enrichment 1565 
+analysis was done following the method described in Zhang et al. 14. We first computed 1566 
+the confusion matrix between *************** and cell types at the group level using the 1567 
+pivot_table function from the **************. Next, for each cell type, we calculated its 1568 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 68 ===
+
+68 
+ 
+expected average density in every spatial module as the product of the fraction of cells 1569 
+that belonged to the cell type and the fraction of cells found in the ***************. Then 1570 
+the enrichment score of a cell type in a spatial module was computed as the ratio of its 1571 
+cell density and expected average cell density in the spatial module. To quantify the 1572 
+significance of the result, we used a **************** where we shuffled cell type labels 1573 
+and recomputed the enrichment score. We repeated this step 1000 times to generate a 1574 
+null distribution of the enrichment score. Then the ******* was computed as the fraction 1575 
+of values in the distribution that are at least as large as the observed enrichment score. 1576 
+Finally, we corrected the *******s for multiple testing using the *****************. 1577 
+Cell type enrichment analyses across the matrix and ********* compartments: 1578 
+We quantified the enrichment of cell types within the Matrix and ********* 1579 
+compartments using the **********************************83. For each cell type, we 1580 
+built contingency tables that summarize the number of cells in the compartments from 1581 
+each individual sample. Then, we computed the common ********** as: 1582 
+/g1844/g3404  
+∑ /g1827 /g3036/g1830 /g3036
+/g1846 /g3036
+/g3012
+/g3036/g2880/g2869
+∑ /g1828 /g3036/g1829 /g3036
+/g1846 /g3036
+/g3012
+/g3036/g2880/g2869
+ 
+Where, 1583 
+ K :  is the total number of samples,  1584 
+/g1827 /g3036 :  is the number of cells in sample i that belongs to a cell type of interest and are 1585 
+within the brain region of interest. 1586 
+/g1828 /g3036 :  is the number of cells in sample i that belongs to a cell type of interest but are not 1587 
+within the brain region of interest. 1588 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 69 ===
+
+69 
+ 
+/g1829 /g3036 :  is the number of cells in sample i that does not belong to a cell type of interest but 1589 
+are within the brain region of interest. 1590 
+/g1830 /g3036: is the number of cells in sample i that does not belong to a cell type of interest and 1591 
+are not within the brain region of interest. 1592 
+/g1846 /g3036 : is the total number of cells in the data.  1593 
+Next, we quantified the significance of the result using the ****************, as 1594 
+described above. 1595 
+Cell type organization and gene expression gradients with respect to ********* 1596 
+borders 1597 
+We first identified the contours for ********* borders from the spatial map of the brain 1598 
+section using the function findcontours from the ****** package. Then we used the 1599 
+****** module from *****81 to find the distance of each cell from the contour of the 1600 
+nearest *********. We set the distance of cells within the ********* compartment as 1601 
+positive and negative for those that are outside. Then we binned the distance into bins 1602 
+of size 50 microns and computed the mean abundance of celltype within each bin. 1603 
+When doing the calculation, we only considered cells that are 200 microns away from 1604 
+the ********* border and 500 microns into the center of the *********. We also 1605 
+removed cell types that were very sparse - with less than 1 % abundance near the 1606 
+*********.  1607 
+To quantify the gene expression gradient with respect to the border **********, we 1608 
+computed the mean ***** gene expression of cells that are within the binned distances.  1609 
+Then, we performed ***************** using the ********** package to quantify the 1610 
+dependence of the mean gene expression on the distance of cells from the **********. 1611 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 70 ===
+
+70 
+ 
+We computed the significance of the estimated values using a ****************. More 1612 
+specifically, we randomized the distance values and recomputed the regression and, 1613 
+then we obtained the explained variance for the estimated values. We repeated the 1614 
+permutation 1000 times to generate a null distribution, the ******* was then calculated 1615 
+as the fraction of the explained variance that were at least as greater as the observed 1616 
+explained variance.  1617 
+Analysis of gene expression gradients in the ******** using stereo-seq data 1618 
+To quantify the gene expression gradient along the ventromedial to dorsolateral (VM-DL) 1619 
+axis, we used the **************** as our reference since it is located approximately 1620 
+along this axis. We first rotated the brain sections so that the **************** aligns with 1621 
+the horizontal axis. Then we digitized the rotated coordinate values using the 1622 
+combination of the functions digitize and histogram from the ***** package 1623 
+(RRID:SCR_008633). Next, we grouped the cells located within the same bin (digitized 1624 
+coordinates) and took the average of their spatially weighted gene expression values. 1625 
+Following this, we quantified the expression gradient of each gene by calculating the 1626 
+correlation between the bin average gene expression and the axis coordinates using the 1627 
+pearsonr function from *****. Finally, we integrated the results from all stereo-seq 1628 
+samples by computing the mean and std of the correlation coefficients. We only kept 1629 
+genes whose standard deviation is below 0.2 and reported their mean correlation 1630 
+coefficient as final value.  1631 
+********************************* for *************** 1632 
+We performed ********************************* using the enricher function from the 1633 
+************ using the “ontology” database. For each spatial module, we first identified 1634 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 71 ===
+
+71 
+ 
+the marker genes that were differentially expressed in each spatial module. Then we 1635 
+obtained the top 10 ontology terms in relation to these genes by running the enricher 1636 
+function. Next, we mapped each term to their parent (broad) categories by parsing the 1637 
+**************************** built from the basic ** ontology file - ‘go-basic.obo’ using 1638 
+the ***** module from ****************. Finally, we computed the frequency of the 1639 
+parent terms in each module and calculated the proportion of the frequencies across the 1640 
+regions to quantify the relative abundance across the regions.  1641 
+Density-based clustering of subcellular transcript distributions For each cell type, 1642 
+we first selected 100 cells whose differential gene expression correlated most with the 1643 
+average (pseudobulk) differential gene expression of the cell type. Then, we quantified 1644 
+the enrichment of every gene within the intracellular space of the cells as the fold 1645 
+change between transcript counts inside and outside the cell’s segmentation mask. We 1646 
+excluded genes from further analysis if their enrichment was less than 3-fold or if they 1647 
+were not differentially expressed. Next, we computed the median distance between 1648 
+neighboring transcripts in both the ******* and putative distal ******** spaces using the 1649 
+****** function from the ***** package81. Following this, we performed density-based 1650 
+clustering to identify the ******* transcripts corresponding to each cell. To achieve this, 1651 
+we used the ****** function from the ************ package (RRID:SCR_002577) 82 1652 
+with the maximum distance parameter set to the average of the median transcript 1653 
+distances in ******* and putative distal ******** spaces. Next, we classified the non-1654 
+******* transcripts as ******** if they are within 20 microns from the nearest ******* 1655 
+transcript. 1656 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 72 ===
+
+72 
+ 
+Computing the volume of cells using ******* transcripts: To quantify the volume of 1657 
+a cell, we generated a tetrahedral mesh from the point cloud formed by the cell’s 1658 
+******* transcripts. For this, we performed ************************* using the function 1659 
+delaunay_3d from the *************** 84 with the parameter alpha set to 3 times the 1660 
+median distance between neighboring transcripts. We then triangulated the mesh and 1661 
+computed its volume using the triangulate function. Following this procedure, we 1662 
+quantified the volume of 100 cells sampled from each cell type. Finally, we took the 1663 
+median of the cell’s volume to get a representative value for each cell type.  We filtered 1664 
+out cells that had artifacts in the labeling of their ******* transcripts. Such artifacts arise 1665 
+when cells are surrounded by density transcript from nearby cells or their processes.  1666 
+Quantifying the projection of neurons using distribution of subcellular transcripts  1667 
+As the ******* imaging data is acquired on a ************* by ************* basis, the 1668 
+decoded transcript information is organized separately for each ***.  For this reason, 1669 
+we performed the quantification of a neuron projection to a target region by aggregating 1670 
+the information within each ***. For every gene in each ***, we first computed the 1671 
+count of transcripts that are outside a cell’s segmentation mask. Then we took the log of 1672 
+the counts and normalized them across genes and all ***s. Next, we computed the 1673 
+differential gene expression between ************** and **** D2 matrix ****. The 1674 
+differential expression was quantified as a difference-in-difference: the deviation of 1675 
+************** ***’s pseudobulk expression from the across-cell-type mean, minus 1676 
+the deviation of **** D2 matrix ***’s pseudobulk expression from that mean.  Finally, 1677 
+we quantified the projection strength as the dot product between log count of 1678 
+extracellular transcripts and the differential gene expression scores. 1679 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 73 ===
+
+73 
+ 
+Identifying ***** homologues of ***** ************* cell types 1680 
+To identify the ***** homologues of the cell types detected in our ***** ************* 1681 
+******* dataset, we used the imputed whole ***** brain ******* spatial 1682 
+transcriptomic dataset from an earlier publication10. First, we manually insepcted the 1683 
+***** ******* data to identify tissue sections that contain brain regions 1684 
+corresponding to those covered in the ***** samples. We selected the sections of 1685 
+**********************, which show the ************ and *************** regions. 1686 
+Then we used the parcellation_division label “STR” and “PAL” in the dataset to select all 1687 
+cells located in the ***** ******** and ********. Next, we filtered the data by removing 1688 
+low abundance cell types; cell types with less than 150 cell counts. We then mapped 1689 
+the ***** genes to their ***** orthologs using the ***** ***** homologous gene 1690 
+table from the ***************************************.  Next, we identified the 1691 
+genes shared between the ***** and ***** ******* dataset and reduced the gene 1692 
+expression matrix in both ***** and ***** to the common genes. Following this, we 1693 
+computed the pseudobulk gene expression of each cell type at the supertype level for 1694 
+the ***** and at the group level for the *****. Then we performed the Pearson 1695 
+correlation between the ***** and ***** expression values.  Through this approach, 1696 
+we identified the ***** homologs of the ***** D1 Matrix and ********* ****. Both 1697 
+D2 Matrix and ********* **** were initially mapped to ****************** ***** 1698 
+cell type; we differentiated the two cell types after subclustering this supertype as 0277 1699 
+STR D2 Gaba_4_A* which corresponds to **** strio****l *** and 0277 STR D2 1700 
+Gaba_4_B* which corresponds to the **** matrix ***. 1701 
+ 1702 
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 74 ===
+
+*******
+*******
+Globus pallidus
+Cryostat
+A  Experiment Design
+C  ********B  **********
+E
+F G
+H
+I
+***
+***
+****
+****
+****
+****
+***
+Other genes
+Cut adjacent sections
+**********
+4 experiments
+3,281,615 cells
+72,143 genes/isoforms
+********
+4 experiments 
+3,250,780 cells
+673 genes
+J K
+5 m
+ 15 m
+**********
+***********
+***********
+*******
+*******
+*******
+***********
+**************
+********
+*** Oligo
+**********
+***********
+***********
+*******
+*******
+*******
+***********
+**************
+********
+*** Oligo
+D
+1000 m
+Case ID
+*****
+*****
+*****
+*****
+Age
+36 yr
+40 yr
+44 yr
+53 yr
+***
+18 hr
+18 hr
+22 hr
+20 hr
+***
+8.2
+8.1
+8.2
+8.4
+Regions
+ Ca, Pu, ***, IC, GP
+ Pu, ***, IC, GP
+ Ca, Pu, ***, IC
+ Ca, Pu, ***, IC, GP
+20 mm
+30 mm
+Pu
+***
+Ca
+Anterior
+ Posterior
+50 mm
+Pu
+Ca
+***
+***
+********** clustering of 0.29 million cells
+****1****2
+******** clustering of 0.64 million cells
+****1****2
+**********
+***********
+***********
+*******
+*******
+*******
+*******************
+**************
+Detected transcripts
+*** Oligo
+1 cm
+ 1 cm
+1000 m
+250 m
+ 250 m
+50 m 50 m
+Main Figure 1
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 75 ===
+
+****1****2
+A
+Cell types - ********
+1 cm
+1 cm
+*****************
+**************
+******
+*****************
+**************
+****
+****
+****
+******
+Cell types (*********)
+Cell types  (********)
+***************
+ *************
+1
+**************
+2 mm
+0.5 mm
+ 150 m 10 m
+B C
+D E
+F G
+H
+I K
+0.5 cm
+1 cm
+********
+*********
+1 cm
+J
+1 cm
+0.5 cm
+ 1 cm
+***************
+CN ****-****
+1 cm
+0
+100
+80
+60
+40
+20
+Percent (%)
+****** *******-Glut
+***********
+******** *******
+******
+********
+********** *********
+***********
+***********
+********
+Major cell classes
+100
+80
+60
+40
+20 Percent (%)
+**************
+*************
+*******
+***************
+*******
+*****************
+**************
+**************
+*****************
+*** cell proportions
+100
+80
+60
+40
+20 Percent (%)
+AP26 AP34ALL
+***************
+**************
+CN ****-****
+************
+********
+*********
+GP cell proportions
+60 Transcriptomic cell types
+All cell types
+************ *****************
+************* **************
+**************
+*****************
+***************
+**************
+CN ****-****
+*******
+************
+**************
+********
+*************
+*********
+***************
+**********
+...
+...
+1
+2
+3
+4
+1 2
+3 4
+2.5 mm
+ AP18
+AP19
+AP26
+AP34
+ALL
+AP18
+AP19
+AP26
+AP34
+ALL
+Pearsons correlation coefficient
+0.0
+0.2
+0.4
+0.6
+Ca
+Pu
+***
+Ca
+Pu
+***
+Ca
+Pu
+Ca
+Pu
+******
+***
+***
+************** **************
+********************************
+Main Figure 2 .CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 76 ===
+
+1 cm
+100
+80
+60
+40
+20 Percent (%)
+AP18
+AP19
+AP26
+AP34
+ALL
+******
+********
+**********
+*********
+Non-neuronal cells
+100
+80
+60
+40
+20 Percent (%)
+***
+***
+*************
+*******
+************
+********* subtypes
+***********
+***********
+*******
+***********
+***************
+********
+**** **** *******
+******
+******
+****1****2
+A
+D
+G
+************
+*************
+1 cm
+2.5 mm
+1
+  Oligo 
+******
+2
+   Oligo 
+*******
+3
+merged ************ *************B
+100
+80
+60
+40
+20 Percent (%)
+***************
+*******
+***********
+********
+***********
+***********
+********* subtypesE F
+C
+1
+23
+****
+1 cm
+H
+I
+***********
+*******
+J
+********
+AP18
+AP19
+AP26
+AP34
+ALL
+AP18
+AP19
+AP26
+AP34
+ALL
+***********
+ ******
+******
+*****
+*****
+******
+*****
+*****
+****
+****
+*****
+*****
+****
+*****
+*******
+******
+****
+***
+*****
+*****
+*****
+*****
+z-scored expression
+z-scored expression
+-0.5 0 0.3
+-1 0 1
+Main Figure 3 .CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 77 ===
+
+A B
+C D E
+F G H I
+D1-associated gene expression
+D2-associated gene expression
+********
+Gene rank
+1 200 400 600
+*****
+**** **** *****
+************ 
+**************
+*********
+************** 
+************** 
+CN ****-****
+************** 
+********
+********* 
+10 m
+Correlation map
+Cytoplasmic Putative cellular processes ****Nuclear
+***
+***
+******
+ ************ expression
+in ********* data
+****** expression
+in ********* data
+Estimated **** volume across neuronal cell types
+D1 expression
+D2 expression
+2000 4000 6000 8000 10000
+Cell volume ( m3)
+**********
+************
+***************
+*************
+**************
+***************
+**************
+**************
+*******
+*****************
+****************
+**************
+********
+*************
+***************
+********
+**************
+***************
+********
+*********
+CN ****-****
+*************
+********
+************
+*********
+Differential expression
+0
+1
+Differential expression
+0
+1
+***
+***
+Correlation map
+Main Figure 4
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 78 ===
+
+Neighborhood composition vector
+1cm
+Core
+Shell
+Shell
+M
+D
+V
+L
+Enrichment of *********
+Enrichment of ***************
+M
+D
+V
+L
+1cm
+1cm
+****1****2
+Spatial Module Clustering
+250 mm
+ 50 mm
+100
+80
+60
+40
+20Percent (%)
+Ca ***
+shell
+***
+core
+Pu
+*******
+*************
+*******
+**************
+***************
+*****************
+**************
+**************
+*****************
+*** cell proportions
+*******
+*********
+****
+********
+***
+*******
+************
+**************
+**************
+*****************
+A
+B
+CorCorCorCorCorCorCorCorCorCorCorCorCorCorCorCorCorCorCorCorCorCorCorCorrrreeeeeeeeeeeeeeeeeeeeeeeee
+SheSheSheSheSheSheSheSheSheSheSheSheSheSheSheSheSheSheSheeSheSheSheSheSheheeeeS eeeeeSheeeeeeeSS eeheShhSheheSheeeSShSSh llllllllllllllllllllllllllllllllllllllll
+SheSheSheSheSheSheSheSheSheSheSheSheSheSheSheSheSSheSheSheShSheSheSheSheSheSheSheSheSheShSheeSheSheSheShSheSheSheShShSSheSheSSheSheSheS eeSheSShSheeSS eeSSSShShSheheeSSSheeeeeeheSS eeheelllllllllllllllllllllllllllllllllllllllllllllllll
+2.5 mm
+***************** **************
+*******
+G H
+I
+11.0 2.0 10.0Cell i  . . .
+7.0 2.0 8.0  . . .Cell i+1
+4.0 3.0 12.0  . . .Cell i+3
+2.0 2.0 5.0  . . .Cell i+(n-3)
+5.0 4.0 15.0Cell i+2  . . .
+Cell i+(n-2) 7.0 1.0 11.0  . . .
+Cell i+(n-1) 11.0 4.0 12.0  . . .
+Cell i+n 2.0 0 12.0  . . .
+...
+...
+...
+...
+...
+...
+******* **
+1cm
+Ca Ca Ca Ca
+Pu Pu Pu Pu
+*** *** *** ***
+ac ac
+***
+****
+***
+*** ***
+E
+D
+1cm
+*******
+*********
+********
+***
+*******
+***
+IsCj
+Striatopallidal_fibers
+*******************
+**************
+************
+****
+**************
+********
+*********
+C
+***************
+... ...
+*
+*
+1cm
+****************F
+1cm
+Ca
+Ca
+Ca
+Ca
+Pu PuPuPu
+Cell type enrichment
+in ***************Spatial modules - ********
+Anatomical regions - Allen Brain Atlas
+Ca Pu
+********** **********
+Ca Pu
+Main Figure 5 .CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 79 ===
+
+******** VIP*********
+1 cm
+*************************
+*************************
+*************************
+*************************
+*************************
+******************
+*************************
+*************************
+*************************
+************************************
+******************
+******************
+******************
+***********************
+***********************
+******************
+******************
+***********************
+******************
+*********************
+*********************
+******************
+******************
+******************
+toward
+matrix
+toward
+*********
+center
+border
+A B
+C D E
+F G H
+I J
+microns ( m)
+microns ( m)
+1 cm 0.5 cm
+1 cm
+Oligo 
+******
+2 mm
+*******
+*******
+*******
+*******
+2 mm
+********
+****
+0.5 mm
+**********
+********
+0.5 mm
+K
+*********************
+1184 ********
+*********************
+******************
+**************
+1163 *************
+******************
+toward
+matrix
+toward
+*********
+center
+border
+0
+-35
+-175
+-140
+-105
+-70
+35
+70
+105
+1 mm
+D1/****** Distribution*********/Matrix 
+module clustering
+****1****2
+      Distance from 
+********* border ( m)
+*********
+*********/Matrix modules
+********* celltype organization
+in *****
+********* celltype organization
+in *****
+***** celltype organization
+Glial cell types - ***** *********
+Glial cell types - ***** *********
+Main Figure 6
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 
+
+=== PAGE 80 ===
+
+*******
+*********
+********
+*******
+**************
+************
+******* ************************ **************************
+********************************
+**************
+***********
+**************
+***************
+*********
+A B
+C
+E H
+I
+D
+Enriched in *******
+ Enriched in *******
+Enriched in ***-shell
+ Enriched in ***-core
+Correlation with axis
+****
+***
+******
+*****
+*****
+****
+****
+******
+*******
+*******
+Nrgn
+Mbp
+Pde10a
+Rasd2
+Gpr88
+Cnr1
+Hpca
+Spock1
+Slc24a2
+Znf385b
+**********
+0.9
+0.8
+0.7
+0.6
+0.5
+0.4
+0.3
+Correlation with axis
+******
+****
+******
+******
+******
+*******
+*****
+*****
+*****
+****
+Sema3a
+Pdyn
+Kcnip4
+Rbfox1
+Pcsk1n
+Galntl6
+Lsamp
+Synpr
+Htr2c
+Crym
+0.4
+0.6
+0.2
+0.0
+-0.2
+-0.4
+-0.6
+-0.8
+Hum
+an
+***** 1 mm
+**** Crym
+1 cm1 cm
+**** Nrgn
+97.27% 2.73%
+F G DL enriched genes
+VM enriched genes
+DL enriched genes
+VM enriched genes
+DLVM
+1 cm
+M
+D
+V
+L
+M
+D
+V
+L
+1 cm
+DL
+VM
+********** Modules
+Gene rank
+1 5000 10000 15000
+cell type fraction
+***** *****
+Correlation of gene expression gradient
+Main Figure 7
+.CC-BY-NC-ND 4.0 International licenseavailable under a
+(which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made 
+The copyright holder for this preprintthis version posted December 5, 2025. ; https://doi.org/10.64898/2025.12.02.691876doi: bioRxiv preprint 

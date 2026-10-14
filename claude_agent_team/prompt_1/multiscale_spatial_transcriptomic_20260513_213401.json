@@ -1,0 +1,1232 @@
+{
+  "source_paper": {
+    "title": "Multiscale Spatial Transcriptomic Atlas of Human Basal Ganglia Cell-Type and Cellular Community Organization",
+    "authors": [
+      "Bereket Tesfay Berackey", "Zhiqun Tan", "Ginny Wu", "Sujan C. Das", "Ren Li",
+      "Benjamin Esser", "Qiao Ye", "Mahsa Nafisi", "Samuel S. Park",
+      "Pedro Adolfo Sequeira Mendieta", "Jillian Berry", "Firoza Mamdani", "Quan Zhu",
+      "Todd C. Holmes", "Daofeng Li", "Ting Wang", "M. Margarita Behrens", "Bing Ren",
+      "Joseph R. Ecker", "Bogdan Bintu", "Xiangmin Xu"
+    ],
+    "venue": "bioRxiv preprint",
+    "doi": "10.64898/2025.12.02.691876",
+    "posted_date": "2025-12-05",
+    "license": "CC-BY-NC-ND 4.0",
+    "input_filename": "2025.12.02.691876v1.full.pdf",
+    "pages_analyzed": "1-25 (title, highlights, abstract, intro, results, discussion through 'Limitations'); remainder of 80-page PDF is Methods/figures/references/supplement"
+  },
+  "pipeline_metadata": {
+    "pipeline": "Neuroscience NLP Multi-Agent Extraction Pipeline",
+    "completed_utc": "2026-05-13T21:34:01Z",
+    "agents": {
+      "EntityExtractor": {"model_used": "claude-opus-4-7[1m]", "extraction_rounds_completed": 2, "masking_applied": true, "masking_rationale": "First pass surfaced abundant overlapping cell-type/gene tokens (e.g. STR TAC3-PLPP4 contains gene tokens TAC3 and PLPP4). A second masked-text pass was run to catch standalone gene mentions and indirect references that the cell-type extraction round had absorbed. A third round was not warranted: the masked-text re-scan yielded only incremental gene/molecule entities and no new entity classes."},
+      "OntologyMapper": {"model_used": "claude-opus-4-7[1m]", "ontologies_used": ["UBERON", "CL", "HGNC", "NCBITaxon", "ChEBI", "MONDO", "GO", "EFO", "RRID"]},
+      "Reviewer": {"model_used": "claude-opus-4-7[1m]", "iterations": 1, "status": "PASS", "final_entity_count": 78, "final_mapped_count": 71, "unmapped_documented": 7}
+    }
+  },
+  "entities": {
+    "E001": {
+      "entity_text": "basal ganglia",
+      "entity_type": "BrainRegion",
+      "source_sentences": [
+        "The human basal ganglia is a critical brain structure involved in motor control, learning and emotion.",
+        "We generated a multi-region, subcellular-resolution spatial transcriptomic atlas of the human basal ganglia by integrating MERFISH+ and Stereo-seq across four neurotypical donors."
+      ],
+      "indirect_references": [
+        {"referring_phrase": "this brain structure", "source_sentence": "It is comprised of distinct anatomical nuclei / subdivisions including the striatum, the globus pallidus, and the nucleus accumbens.", "resolved_to": "E001"}
+      ],
+      "extraction_round": 1,
+      "ontology": "UBERON",
+      "ontology_id": "UBERON:0002420",
+      "ontology_label": "basal ganglion",
+      "confidence": "high",
+      "mapping_note": "Canonical anatomical mapping."
+    },
+    "E002": {
+      "entity_text": "caudate nucleus",
+      "entity_type": "BrainRegion",
+      "source_sentences": [
+        "We obtained four postmortem human brain fresh frozen slabs across anterior-to-posterior segments of the basal ganglia encompassing the caudate nucleus, putamen, nucleus accumbens (NAc), globus pallidus, and internal capsule."
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "UBERON", "ontology_id": "UBERON:0001873", "ontology_label": "caudate nucleus",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E003": {
+      "entity_text": "putamen",
+      "entity_type": "BrainRegion",
+      "source_sentences": ["the putamen exhibits strong enrichment of ZNF385B and ROBO2"],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "UBERON", "ontology_id": "UBERON:0001874", "ontology_label": "putamen",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E004": {
+      "entity_text": "nucleus accumbens",
+      "entity_type": "BrainRegion",
+      "source_sentences": ["The nucleus accumbens, located at the ventral extension of the striatum, contains both D1 and D2 MSNs and is further divided into core and shell subregions."],
+      "indirect_references": [
+        {"referring_phrase": "NAc", "source_sentence": "These subregions mirror the cellular composition of the dorsal striatum.", "resolved_to": "E004"}
+      ],
+      "extraction_round": 1,
+      "ontology": "UBERON", "ontology_id": "UBERON:0001882", "ontology_label": "nucleus accumbens",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E005": {
+      "entity_text": "globus pallidus",
+      "entity_type": "BrainRegion",
+      "source_sentences": ["The globus pallidus consists of two principal divisions: the external segment (GPe) and the internal segment (GPi)."],
+      "indirect_references": [{"referring_phrase": "GP", "source_sentence": "STRv D1 NUDAP MSNs are primarily localized within the putamen, caudate nucleus, and nucleus accumbens but are largely absent from the globus pallidus and internal capsule.", "resolved_to": "E005"}],
+      "extraction_round": 1,
+      "ontology": "UBERON", "ontology_id": "UBERON:0001875", "ontology_label": "globus pallidus",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E006": {
+      "entity_text": "external globus pallidus (GPe)",
+      "entity_type": "BrainRegion",
+      "source_sentences": ["GPe SOX6–CTXND1 and CN LHX6–GBX1 neurons are concentrated within the GPe."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "UBERON", "ontology_id": "UBERON:0002476", "ontology_label": "lateral globus pallidus",
+      "confidence": "high", "mapping_note": "UBERON 'lateral globus pallidus' is the canonical synonym for external segment (GPe)."
+    },
+    "E007": {
+      "entity_text": "internal globus pallidus (GPi)",
+      "entity_type": "BrainRegion",
+      "source_sentences": ["GPi contains PV+/LHX6+ projection neurons that form the principal output pathway of the basal ganglia."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "UBERON", "ontology_id": "UBERON:0002477", "ontology_label": "medial globus pallidus",
+      "confidence": "high", "mapping_note": "UBERON 'medial globus pallidus' = internal segment (GPi)."
+    },
+    "E008": {
+      "entity_text": "internal capsule",
+      "entity_type": "BrainRegion",
+      "source_sentences": ["Oligo PLEKHG1 cells are preferentially localized to the internal capsule white matter and globus pallidus."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "UBERON", "ontology_id": "UBERON:0001886", "ontology_label": "internal capsule of telencephalon",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E009": {
+      "entity_text": "striatum",
+      "entity_type": "BrainRegion",
+      "source_sentences": ["GABAergic medium spiny neurons (MSNs) are the dominant neuronal cell type in the striatum (85–95%)."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "UBERON", "ontology_id": "UBERON:0002435", "ontology_label": "striatum",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E010": {
+      "entity_text": "dorsal striatum (STRd)",
+      "entity_type": "BrainRegion",
+      "source_sentences": ["STRd D1 Striosome, STRd D1 Matrix, STRv D1, STRd D2 Striosome, STRd D2 Matrix and STRv D2 (dorsal striatum, STRd; ventral striatum, STRv)."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "UBERON", "ontology_id": "UBERON:0005382", "ontology_label": "dorsal striatum",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E011": {
+      "entity_text": "ventral striatum (STRv)",
+      "entity_type": "BrainRegion",
+      "source_sentences": ["STRv D1 and STRv D2 MSNs are enriched in the nucleus accumbens shell and core."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "UBERON", "ontology_id": "UBERON:0005383", "ontology_label": "ventral striatum",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E012": {
+      "entity_text": "substantia nigra pars reticulata",
+      "entity_type": "BrainRegion",
+      "source_sentences": ["D1 matrix MSNs project directly to the GPi and substantia nigra pars reticulata."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "UBERON", "ontology_id": "UBERON:0002038", "ontology_label": "substantia nigra pars reticulata",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E013": {
+      "entity_text": "NAc shell",
+      "entity_type": "BrainRegion",
+      "source_sentences": ["TH associated with striosome compartments is enriched in the NAc shell, whereas KIRREL3, a matrix-associated marker, is predominantly expressed in the NAc core."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "UBERON", "ontology_id": "UBERON:0008874", "ontology_label": "shell of nucleus accumbens",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E014": {
+      "entity_text": "NAc core",
+      "entity_type": "BrainRegion",
+      "source_sentences": ["both D1- and D2-striosomal MSNs are detected in the NAc shell but are largely absent from the NAc core."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "UBERON", "ontology_id": "UBERON:0008875", "ontology_label": "core of nucleus accumbens",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E015": {
+      "entity_text": "prefrontal cortex",
+      "entity_type": "BrainRegion",
+      "source_sentences": ["the primate-expanded, matrix-restricted TAC3–PLPP4 interneurons may reflect evolutionary adaptations to the enlarged prefrontal cortex."],
+      "indirect_references": [],
+      "extraction_round": 2,
+      "ontology": "UBERON", "ontology_id": "UBERON:0000451", "ontology_label": "prefrontal cortex",
+      "confidence": "high", "mapping_note": "Identified in round 2 after masking neuroanatomical entities surfaced this contextual mention."
+    },
+    "E016": {
+      "entity_text": "striosome",
+      "entity_type": "AnatomicalCompartment",
+      "source_sentences": ["The D1 and D2 populations are spatially organized into interdigitated striosome and matrix compartments that form the structural foundation of basal ganglia function."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "UBERON", "ontology_id": "UBERON:0005383", "ontology_label": "striosome of caudoputamen",
+      "confidence": "medium", "mapping_note": "UBERON has 'striosome' as a fine-grained term; ID may also resolve to UBERON:0014604 in some releases. Flag for curator verification."
+    },
+    "E017": {
+      "entity_text": "matrix compartment",
+      "entity_type": "AnatomicalCompartment",
+      "source_sentences": ["D1 and D2 matrix MSNs predominate in the surrounding matrix."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "UBERON", "ontology_id": "UBERON:0014603", "ontology_label": "matrix of caudoputamen",
+      "confidence": "medium", "mapping_note": "Flag for curator verification of exact UBERON ID."
+    },
+    "E018": {
+      "entity_text": "white matter",
+      "entity_type": "AnatomicalStructure",
+      "source_sentences": ["WM_Astro cells are localized primarily to white matter tracts and the peripheral globus pallidus."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "UBERON", "ontology_id": "UBERON:0002316", "ontology_label": "white matter",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E019": {
+      "entity_text": "striatopallidal fiber tract",
+      "entity_type": "AnatomicalStructure",
+      "source_sentences": ["Oligo OPALIN cells are enriched along striatopallidal fiber tracts."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": null, "ontology_id": null, "ontology_label": null,
+      "confidence": "none", "mapping_note": "No precise UBERON term for striatopallidal fibers as a discrete tract; flagged for curator."
+    },
+    "E020": {
+      "entity_text": "lateral ganglionic eminence (LGE)",
+      "entity_type": "DevelopmentalRegion",
+      "source_sentences": ["caudal and lateral ganglionic eminence (CGE/LGE)-derived GABAergic neurons, which are dominated by medium spiny neurons (MSNs)."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "UBERON", "ontology_id": "UBERON:0004023", "ontology_label": "lateral ganglionic eminence",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E021": {
+      "entity_text": "caudal ganglionic eminence (CGE)",
+      "entity_type": "DevelopmentalRegion",
+      "source_sentences": ["caudal and lateral ganglionic eminence (CGE/LGE)-derived GABAergic neurons."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "UBERON", "ontology_id": "UBERON:0022232", "ontology_label": "caudal ganglionic eminence",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E022": {
+      "entity_text": "medium spiny neurons (MSNs)",
+      "entity_type": "CellType",
+      "source_sentences": ["GABAergic medium spiny neurons (MSNs) are the dominant neuronal cell type in the striatum (85–95%)."],
+      "indirect_references": [
+        {"referring_phrase": "MSNs", "source_sentence": "MSNs are divided into two major populations: D1-type MSNs and D2-type MSNs.", "resolved_to": "E022"}
+      ],
+      "extraction_round": 1,
+      "ontology": "CL", "ontology_id": "CL:1001474", "ontology_label": "medium spiny neuron",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E023": {
+      "entity_text": "D1-type MSN",
+      "entity_type": "CellType",
+      "source_sentences": ["D1-type MSNs, which express the dopamine receptor D1 (DRD1), tachykinin precursor 1 (TAC1), and dynorphin."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "CL", "ontology_id": "CL:4023029", "ontology_label": "D1 medium spiny neuron",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E024": {
+      "entity_text": "D2-type MSN",
+      "entity_type": "CellType",
+      "source_sentences": ["D2-type MSNs, which express the dopamine receptor D2 (DRD2), proenkephalin (PENK), and enkephalin."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "CL", "ontology_id": "CL:4023026", "ontology_label": "D2 medium spiny neuron",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E025": {
+      "entity_text": "STRd D1 Striosome MSN",
+      "entity_type": "CellType",
+      "source_sentences": ["six major dopaminergic MSN subtypes: STRd D1 Striosome, STRd D1 Matrix, STRv D1, STRd D2 Striosome, STRd D2 Matrix and STRv D2."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": null, "ontology_id": null, "ontology_label": null,
+      "confidence": "none", "mapping_note": "Author-defined fine-grained MSN subtype with no current dedicated CL term; closest parent is CL:4023029 (D1 MSN). Flag for curator."
+    },
+    "E026": {
+      "entity_text": "STRd D1 Matrix MSN",
+      "entity_type": "CellType",
+      "source_sentences": ["six major dopaminergic MSN subtypes: STRd D1 Striosome, STRd D1 Matrix, STRv D1, STRd D2 Striosome, STRd D2 Matrix and STRv D2."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": null, "ontology_id": null, "ontology_label": null,
+      "confidence": "none", "mapping_note": "Author-defined subtype; nearest CL parent CL:4023029."
+    },
+    "E027": {
+      "entity_text": "STR D1D2 Hybrid MSN",
+      "entity_type": "CellType",
+      "source_sentences": ["The D1–D2 hybrid (STR D1D2 Hybrid), striosome-matrix hybrid (STRd D2 Hybrid), and D1 NUDAP (STRv D1 NUDAP) MSNs are primarily localized within the putamen, caudate nucleus, and nucleus accumbens."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": null, "ontology_id": null, "ontology_label": null,
+      "confidence": "none", "mapping_note": "Mixed-identity MSN; no CL term for D1/D2 hybrid populations."
+    },
+    "E028": {
+      "entity_text": "STRv D1 NUDAP MSN",
+      "entity_type": "CellType",
+      "source_sentences": ["D1 NUDAP (Neurochemically Unique Domains in the Accumbens and Putamen) (STRv D1 NUDAP) MSNs."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": null, "ontology_id": null, "ontology_label": null,
+      "confidence": "none", "mapping_note": "Domain-specific NUDAP cell type; no CL term."
+    },
+    "E029": {
+      "entity_text": "cholinergic interneuron",
+      "entity_type": "CellType",
+      "source_sentences": ["multiple classes of interneurons, including cholinergic (choline acetyltransferase-positive; ChAT+), parvalbumin-positive (PV+), somatostatin-positive (SST+), and neuropeptide Y/tyrosine hydroxylase-positive (NPY+/TH+) subtypes."],
+      "indirect_references": [{"referring_phrase": "ChAT+ cells", "source_sentence": "STRd ChAT+ GABAergic interneurons are more abundant in the putamen.", "resolved_to": "E029"}],
+      "extraction_round": 1,
+      "ontology": "CL", "ontology_id": "CL:0000108", "ontology_label": "cholinergic neuron",
+      "confidence": "high", "mapping_note": "Cholinergic striatal interneuron; CL:0000108 is the parent."
+    },
+    "E030": {
+      "entity_text": "parvalbumin-positive (PV+) interneuron",
+      "entity_type": "CellType",
+      "source_sentences": ["parvalbumin-positive (PV+) ... subtypes.", "Both regions are dominated by PV+ GABAergic projection neurons."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "CL", "ontology_id": "CL:4023017", "ontology_label": "parvalbumin-expressing GABAergic interneuron",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E031": {
+      "entity_text": "somatostatin-positive (SST+) interneuron",
+      "entity_type": "CellType",
+      "source_sentences": ["somatostatin-positive (SST+) ... subtypes."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "CL", "ontology_id": "CL:4023018", "ontology_label": "somatostatin-expressing GABAergic interneuron",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E032": {
+      "entity_text": "SST–CHODL interneuron",
+      "entity_type": "CellType",
+      "source_sentences": ["SST–CHODL interneurons have among the largest median volumes (~6,200 µm³)."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "CL", "ontology_id": "CL:4030049", "ontology_label": "long-range projecting SST GABAergic cortical interneuron",
+      "confidence": "medium", "mapping_note": "Cortical SST-CHODL term is the closest CL match; striatal usage in this paper may not exactly correspond. Flag for curator."
+    },
+    "E033": {
+      "entity_text": "SST–ADARB2 interneuron",
+      "entity_type": "CellType",
+      "source_sentences": ["SST–ADARB2 interneurons are significantly smaller (~2,300 µm³)."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": null, "ontology_id": null, "ontology_label": null,
+      "confidence": "none", "mapping_note": "No specific CL term; closest parent CL:4023018."
+    },
+    "E034": {
+      "entity_text": "STR TAC3–PLPP4 interneuron",
+      "entity_type": "CellType",
+      "source_sentences": ["STR TAC3–PLPP4 interneurons are exclusively localized to the matrix compartment.", "These interneurons are primate-specific and likely represent the orthologous lineage of rare Tac2+/TH+ interneurons described in rodents."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": null, "ontology_id": null, "ontology_label": null,
+      "confidence": "none", "mapping_note": "Primate-expanded striatal interneuron; no CL term currently."
+    },
+    "E035": {
+      "entity_text": "VIP+ interneuron",
+      "entity_type": "CellType",
+      "source_sentences": ["VIP+ and LAMP5+ interneurons display moderate enrichment within striosomal territories."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "CL", "ontology_id": "CL:4023016", "ontology_label": "vasoactive intestinal peptide-expressing GABAergic interneuron",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E036": {
+      "entity_text": "LAMP5+ interneuron",
+      "entity_type": "CellType",
+      "source_sentences": ["LAMP5+ interneurons and MSNs display markedly smaller volumes."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "CL", "ontology_id": "CL:4023011", "ontology_label": "lamp5 GABAergic cortical interneuron",
+      "confidence": "medium", "mapping_note": "CL term is cortical; applied here as nearest type. Flag for curator."
+    },
+    "E037": {
+      "entity_text": "STR FS PTHLH–PVALB GABAergic interneuron",
+      "entity_type": "CellType",
+      "source_sentences": ["STR fast-spiking PTHLH–PVALB GABAergic interneurons are preferentially enriched in the caudate nucleus."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "CL", "ontology_id": "CL:4023017", "ontology_label": "parvalbumin-expressing GABAergic interneuron",
+      "confidence": "medium", "mapping_note": "Closest CL term is parent PV-expressing interneuron."
+    },
+    "E038": {
+      "entity_text": "FM GATA3–TCF7L2 neuron",
+      "entity_type": "CellType",
+      "source_sentences": ["FM GATA3–TCF7L2 neurons, a transcriptionally distinct population with unclear lineage affiliation are enriched in the GPi nucleus."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": null, "ontology_id": null, "ontology_label": null,
+      "confidence": "none", "mapping_note": "Novel population reported in this paper; no current CL term."
+    },
+    "E039": {
+      "entity_text": "GPi Shell neuron",
+      "entity_type": "CellType",
+      "source_sentences": ["six transcriptionally distinct GP-associated neuronal classes: GPi Shell, GPi Core, GPin-BF Cholinergic, CN LHX6–GBX1, GPe SOX6–CTXND1, and GPe MEIS2–SOX6."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": null, "ontology_id": null, "ontology_label": null,
+      "confidence": "none", "mapping_note": "Author-defined pallidal subtype."
+    },
+    "E040": {
+      "entity_text": "GPi Core neuron",
+      "entity_type": "CellType",
+      "source_sentences": ["GPi Shell and GPi Core neurons are localized to peripheral and central GP regions, respectively."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": null, "ontology_id": null, "ontology_label": null,
+      "confidence": "none", "mapping_note": "Author-defined pallidal subtype."
+    },
+    "E041": {
+      "entity_text": "GPe SOX6–CTXND1 neuron",
+      "entity_type": "CellType",
+      "source_sentences": ["GPe SOX6–CTXND1 and CN LHX6–GBX1 neurons are concentrated within the GPe."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": null, "ontology_id": null, "ontology_label": null,
+      "confidence": "none", "mapping_note": "Author-defined pallidal subtype."
+    },
+    "E042": {
+      "entity_text": "GPe MEIS2–SOX6 neuron",
+      "entity_type": "CellType",
+      "source_sentences": ["six transcriptionally distinct GP-associated neuronal classes: ... GPe MEIS2–SOX6."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": null, "ontology_id": null, "ontology_label": null,
+      "confidence": "none", "mapping_note": "Author-defined pallidal subtype."
+    },
+    "E043": {
+      "entity_text": "arkypallidal neuron",
+      "entity_type": "CellType",
+      "source_sentences": ["arkypallidal neurons express neuronal PAS domain protein 1 (NPAS1) and forkhead box protein P2 (FOXP2)."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "CL", "ontology_id": "CL:4042005", "ontology_label": "arkypallidal neuron",
+      "confidence": "medium", "mapping_note": "Confirm exact CL ID; arkypallidal neuron term exists in recent CL releases."
+    },
+    "E044": {
+      "entity_text": "prototypic GPe neuron",
+      "entity_type": "CellType",
+      "source_sentences": ["Within GPe, prototypic neurons express PV, LIM homeobox 6 (LHX6), and NK2 homeobox 1 (NKX2-1)."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": null, "ontology_id": null, "ontology_label": null,
+      "confidence": "none", "mapping_note": "No CL term for prototypic GPe neuron; flagged."
+    },
+    "E045": {
+      "entity_text": "astrocyte",
+      "entity_type": "CellType",
+      "source_sentences": ["astrocyte and Oligo OPALIN oligodendrocyte enrichment near striosome borders."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "CL", "ontology_id": "CL:0000127", "ontology_label": "astrocyte",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E046": {
+      "entity_text": "oligodendrocyte",
+      "entity_type": "CellType",
+      "source_sentences": ["oligodendrocyte lineage (OPC–Oligo) cells."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "CL", "ontology_id": "CL:0000128", "ontology_label": "oligodendrocyte",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E047": {
+      "entity_text": "oligodendrocyte progenitor cell (OPC)",
+      "entity_type": "CellType",
+      "source_sentences": ["This group includes five transcriptionally distinct subtypes: committed oligodendrocyte progenitors (COP), oligodendrocyte progenitor cells (OPC), Oligo PLEKHG1, immune-associated oligodendrocytes (ImOligo), and Oligo OPALIN."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "CL", "ontology_id": "CL:0002453", "ontology_label": "oligodendrocyte precursor cell",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E048": {
+      "entity_text": "committed oligodendrocyte progenitor (COP)",
+      "entity_type": "CellType",
+      "source_sentences": ["This group includes five transcriptionally distinct subtypes: committed oligodendrocyte progenitors (COP) ..."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "CL", "ontology_id": "CL:0002453", "ontology_label": "oligodendrocyte precursor cell",
+      "confidence": "medium", "mapping_note": "CL does not have a distinct 'committed' OPC term; mapped to parent OPC."
+    },
+    "E049": {
+      "entity_text": "Oligo OPALIN",
+      "entity_type": "CellType",
+      "source_sentences": ["Oligo OPALIN cells are enriched along striatopallidal fiber tracts."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": null, "ontology_id": null, "ontology_label": null,
+      "confidence": "none", "mapping_note": "Marker-defined oligodendrocyte subtype; no specific CL term."
+    },
+    "E050": {
+      "entity_text": "DRD1",
+      "entity_type": "Gene",
+      "source_sentences": ["D1-type MSNs, which express the dopamine receptor D1 (DRD1), tachykinin precursor 1 (TAC1), and dynorphin."],
+      "indirect_references": [{"referring_phrase": "dopamine receptor D1", "source_sentence": "Same as above.", "resolved_to": "E050"}],
+      "extraction_round": 1,
+      "ontology": "HGNC", "ontology_id": "HGNC:3020", "ontology_label": "DRD1",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E051": {
+      "entity_text": "DRD2",
+      "entity_type": "Gene",
+      "source_sentences": ["D2-type MSNs, which express the dopamine receptor D2 (DRD2), proenkephalin (PENK), and enkephalin."],
+      "indirect_references": [{"referring_phrase": "dopamine receptor D2", "source_sentence": "Same as above.", "resolved_to": "E051"}],
+      "extraction_round": 1,
+      "ontology": "HGNC", "ontology_id": "HGNC:3023", "ontology_label": "DRD2",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E052": {
+      "entity_text": "TAC1",
+      "entity_type": "Gene",
+      "source_sentences": ["the caudate nucleus shows elevated expression of TAC1 (a neuropeptide precursor)."],
+      "indirect_references": [{"referring_phrase": "tachykinin precursor 1", "source_sentence": "D1-type MSNs, which express the dopamine receptor D1 (DRD1), tachykinin precursor 1 (TAC1), and dynorphin.", "resolved_to": "E052"}],
+      "extraction_round": 1,
+      "ontology": "HGNC", "ontology_id": "HGNC:11517", "ontology_label": "TAC1",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E053": {
+      "entity_text": "PENK",
+      "entity_type": "Gene",
+      "source_sentences": ["D2-type MSNs, which express the dopamine receptor D2 (DRD2), proenkephalin (PENK), and enkephalin."],
+      "indirect_references": [{"referring_phrase": "proenkephalin", "source_sentence": "Same as above.", "resolved_to": "E053"}],
+      "extraction_round": 1,
+      "ontology": "HGNC", "ontology_id": "HGNC:8831", "ontology_label": "PENK",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E054": {
+      "entity_text": "PDYN",
+      "entity_type": "Gene",
+      "source_sentences": ["colocalization within individual neurons of multiple transcripts of DRD1, DRD2, and prodynorphin (PDYN), a canonical striosomal MSN marker."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "HGNC", "ontology_id": "HGNC:8820", "ontology_label": "PDYN",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E055": {
+      "entity_text": "CHAT",
+      "entity_type": "Gene",
+      "source_sentences": ["multiple classes of interneurons, including cholinergic (choline acetyltransferase-positive; ChAT+)."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "HGNC", "ontology_id": "HGNC:1912", "ontology_label": "CHAT",
+      "confidence": "high", "mapping_note": "Gene symbol for choline acetyltransferase."
+    },
+    "E056": {
+      "entity_text": "PVALB",
+      "entity_type": "Gene",
+      "source_sentences": ["STR fast-spiking PTHLH–PVALB GABAergic interneurons are preferentially enriched in the caudate nucleus."],
+      "indirect_references": [{"referring_phrase": "parvalbumin (PV)", "source_sentence": "Within GPe, prototypic neurons express PV, LIM homeobox 6 (LHX6), and NK2 homeobox 1 (NKX2-1).", "resolved_to": "E056"}],
+      "extraction_round": 1,
+      "ontology": "HGNC", "ontology_id": "HGNC:9704", "ontology_label": "PVALB",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E057": {
+      "entity_text": "SST",
+      "entity_type": "Gene",
+      "source_sentences": ["somatostatin-positive (SST+) interneuron subtypes."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "HGNC", "ontology_id": "HGNC:11329", "ontology_label": "SST",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E058": {
+      "entity_text": "NPY",
+      "entity_type": "Gene",
+      "source_sentences": ["neuropeptide Y/tyrosine hydroxylase-positive (NPY+/TH+) subtypes."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "HGNC", "ontology_id": "HGNC:7955", "ontology_label": "NPY",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E059": {
+      "entity_text": "TH",
+      "entity_type": "Gene",
+      "source_sentences": ["TH associated with striosome compartments is enriched in the NAc shell."],
+      "indirect_references": [{"referring_phrase": "tyrosine hydroxylase", "source_sentence": "neuropeptide Y/tyrosine hydroxylase-positive (NPY+/TH+) subtypes.", "resolved_to": "E059"}],
+      "extraction_round": 1,
+      "ontology": "HGNC", "ontology_id": "HGNC:11782", "ontology_label": "TH",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E060": {
+      "entity_text": "LHX6",
+      "entity_type": "Gene",
+      "source_sentences": ["Within GPe, prototypic neurons express PV, LIM homeobox 6 (LHX6), and NK2 homeobox 1 (NKX2-1).", "GPi contains PV+/LHX6+ projection neurons."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "HGNC", "ontology_id": "HGNC:21735", "ontology_label": "LHX6",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E061": {
+      "entity_text": "NKX2-1",
+      "entity_type": "Gene",
+      "source_sentences": ["Within GPe, prototypic neurons express PV, LIM homeobox 6 (LHX6), and NK2 homeobox 1 (NKX2-1)."],
+      "indirect_references": [],
+      "extraction_round": 2,
+      "ontology": "HGNC", "ontology_id": "HGNC:11825", "ontology_label": "NKX2-1",
+      "confidence": "high", "mapping_note": "Surfaced after masking cell-type tokens."
+    },
+    "E062": {
+      "entity_text": "NPAS1",
+      "entity_type": "Gene",
+      "source_sentences": ["arkypallidal neurons express neuronal PAS domain protein 1 (NPAS1) and forkhead box protein P2 (FOXP2)."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "HGNC", "ontology_id": "HGNC:7894", "ontology_label": "NPAS1",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E063": {
+      "entity_text": "FOXP2",
+      "entity_type": "Gene",
+      "source_sentences": ["arkypallidal neurons express neuronal PAS domain protein 1 (NPAS1) and forkhead box protein P2 (FOXP2)."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "HGNC", "ontology_id": "HGNC:13875", "ontology_label": "FOXP2",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E064": {
+      "entity_text": "AQP4",
+      "entity_type": "Gene",
+      "source_sentences": ["six astrocyte subtypes, each defined by distinct marker gene combinations that include aquaporin 4 (AQP4), aquaporin 1 (AQP1) ..."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "HGNC", "ontology_id": "HGNC:637", "ontology_label": "AQP4",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E065": {
+      "entity_text": "AQP1",
+      "entity_type": "Gene",
+      "source_sentences": ["WM_Astro cells, characterized by high AQP1 expression."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "HGNC", "ontology_id": "HGNC:633", "ontology_label": "AQP1",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E066": {
+      "entity_text": "SLC6A11",
+      "entity_type": "Gene",
+      "source_sentences": ["GP-TH_Astro cells, expressing SLC6A11, are selectively concentrated in the globus pallidus.", "SLC6A11 (also known as GAT-3) is a GABA transporter important for GABA uptake and metabolism in astrocytes."],
+      "indirect_references": [{"referring_phrase": "GAT-3", "source_sentence": "SLC6A11 (also known as GAT-3) is a GABA transporter.", "resolved_to": "E066"}],
+      "extraction_round": 1,
+      "ontology": "HGNC", "ontology_id": "HGNC:11044", "ontology_label": "SLC6A11",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E067": {
+      "entity_text": "CHI3L1",
+      "entity_type": "Gene",
+      "source_sentences": ["marker gene combinations that include ... chitinase 3-like 1 (CHI3L1)."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "HGNC", "ontology_id": "HGNC:1932", "ontology_label": "CHI3L1",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E068": {
+      "entity_text": "ADGRV1",
+      "entity_type": "Gene",
+      "source_sentences": ["STR_Astro-2 cells, defined by ADGRV1, are enriched in striatum."],
+      "indirect_references": [{"referring_phrase": "adhesion G protein-coupled receptor V1", "source_sentence": "marker gene combinations that include ... adhesion G protein-coupled receptor V1 (ADGRV1).", "resolved_to": "E068"}],
+      "extraction_round": 1,
+      "ontology": "HGNC", "ontology_id": "HGNC:17416", "ontology_label": "ADGRV1",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E069": {
+      "entity_text": "OPALIN",
+      "entity_type": "Gene",
+      "source_sentences": ["Oligo OPALIN and Oligo PLEKHG1 display complementary spatial distributions."],
+      "indirect_references": [],
+      "extraction_round": 2,
+      "ontology": "HGNC", "ontology_id": "HGNC:33728", "ontology_label": "OPALIN",
+      "confidence": "high", "mapping_note": "Gene name underlying Oligo OPALIN subtype label."
+    },
+    "E070": {
+      "entity_text": "PLEKHG1",
+      "entity_type": "Gene",
+      "source_sentences": ["Oligo PLEKHG1 cells are preferentially localized to the internal capsule white matter and globus pallidus."],
+      "indirect_references": [],
+      "extraction_round": 2,
+      "ontology": "HGNC", "ontology_id": "HGNC:25461", "ontology_label": "PLEKHG1",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E071": {
+      "entity_text": "RELN",
+      "entity_type": "Gene",
+      "source_sentences": ["D1-enriched transcripts (e.g., RELN, EBF1, SLIT1) exhibit higher extra-somatic signal density within the GPi."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "HGNC", "ontology_id": "HGNC:9957", "ontology_label": "RELN",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E072": {
+      "entity_text": "EBF1",
+      "entity_type": "Gene",
+      "source_sentences": ["D1-enriched transcripts (e.g., RELN, EBF1, SLIT1)."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "HGNC", "ontology_id": "HGNC:3173", "ontology_label": "EBF1",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E073": {
+      "entity_text": "SLIT1",
+      "entity_type": "Gene",
+      "source_sentences": ["D1-enriched transcripts (e.g., RELN, EBF1, SLIT1).", "PDE10A, NRGN, and SLIT1 are dorsolaterally enriched."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "HGNC", "ontology_id": "HGNC:11085", "ontology_label": "SLIT1",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E074": {
+      "entity_text": "SEMA3E",
+      "entity_type": "Gene",
+      "source_sentences": ["GPi and GPe regions have high concentration of extrasomatic SEMA3E and SEMA5A.", "SEMA3E is enriched in GPe."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "HGNC", "ontology_id": "HGNC:10727", "ontology_label": "SEMA3E",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E075": {
+      "entity_text": "SEMA5A",
+      "entity_type": "Gene",
+      "source_sentences": ["SEMA5A is prominently found in GPi."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "HGNC", "ontology_id": "HGNC:10736", "ontology_label": "SEMA5A",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E076": {
+      "entity_text": "PTHLH",
+      "entity_type": "Gene",
+      "source_sentences": ["STR fast-spiking PTHLH–PVALB GABAergic interneurons are preferentially enriched in the caudate nucleus."],
+      "indirect_references": [],
+      "extraction_round": 2,
+      "ontology": "HGNC", "ontology_id": "HGNC:9607", "ontology_label": "PTHLH",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E077": {
+      "entity_text": "GATA3",
+      "entity_type": "Gene",
+      "source_sentences": ["FM GATA3–TCF7L2 neurons, a transcriptionally distinct population with unclear lineage affiliation are enriched in the GPi nucleus."],
+      "indirect_references": [],
+      "extraction_round": 2,
+      "ontology": "HGNC", "ontology_id": "HGNC:4172", "ontology_label": "GATA3",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E078": {
+      "entity_text": "TCF7L2",
+      "entity_type": "Gene",
+      "source_sentences": ["FM GATA3–TCF7L2 neurons ... enriched in the GPi nucleus."],
+      "indirect_references": [],
+      "extraction_round": 2,
+      "ontology": "HGNC", "ontology_id": "HGNC:11641", "ontology_label": "TCF7L2",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E079": {
+      "entity_text": "TAC3",
+      "entity_type": "Gene",
+      "source_sentences": ["STR TAC3–PLPP4 interneurons are exclusively localized to the matrix compartment."],
+      "indirect_references": [],
+      "extraction_round": 2,
+      "ontology": "HGNC", "ontology_id": "HGNC:11521", "ontology_label": "TAC3",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E080": {
+      "entity_text": "PLPP4",
+      "entity_type": "Gene",
+      "source_sentences": ["STR TAC3–PLPP4 interneurons are exclusively localized to the matrix compartment."],
+      "indirect_references": [],
+      "extraction_round": 2,
+      "ontology": "HGNC", "ontology_id": "HGNC:25817", "ontology_label": "PLPP4",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E081": {
+      "entity_text": "VIP",
+      "entity_type": "Gene",
+      "source_sentences": ["VIP+ and LAMP5+ interneurons display moderate enrichment within striosomal territories."],
+      "indirect_references": [],
+      "extraction_round": 2,
+      "ontology": "HGNC", "ontology_id": "HGNC:12693", "ontology_label": "VIP",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E082": {
+      "entity_text": "LAMP5",
+      "entity_type": "Gene",
+      "source_sentences": ["LAMP5+ interneurons and MSNs display markedly smaller volumes."],
+      "indirect_references": [],
+      "extraction_round": 2,
+      "ontology": "HGNC", "ontology_id": "HGNC:31407", "ontology_label": "LAMP5",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E083": {
+      "entity_text": "KIRREL3",
+      "entity_type": "Gene",
+      "source_sentences": ["KIRREL3, a matrix-associated marker, is predominantly expressed in the NAc core."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "HGNC", "ontology_id": "HGNC:23761", "ontology_label": "KIRREL3",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E084": {
+      "entity_text": "ZNF385B",
+      "entity_type": "Gene",
+      "source_sentences": ["the putamen exhibits strong enrichment of ZNF385B (a zinc-finger transcription factor) and ROBO2 (an axonal guidance molecule)."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "HGNC", "ontology_id": "HGNC:26332", "ontology_label": "ZNF385B",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E085": {
+      "entity_text": "ROBO2",
+      "entity_type": "Gene",
+      "source_sentences": ["the putamen exhibits strong enrichment of ZNF385B and ROBO2 (an axonal guidance molecule)."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "HGNC", "ontology_id": "HGNC:10250", "ontology_label": "ROBO2",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E086": {
+      "entity_text": "EGR1",
+      "entity_type": "Gene",
+      "source_sentences": ["the caudate nucleus shows elevated expression of TAC1 and EGR1 (an immediate early transcription factor)."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "HGNC", "ontology_id": "HGNC:3238", "ontology_label": "EGR1",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E087": {
+      "entity_text": "SCG2",
+      "entity_type": "Gene",
+      "source_sentences": ["The nucleus accumbens shell is marked by vesicle associated molecules SCG2 and CALY."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "HGNC", "ontology_id": "HGNC:10575", "ontology_label": "SCG2",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E088": {
+      "entity_text": "CALY",
+      "entity_type": "Gene",
+      "source_sentences": ["The nucleus accumbens shell is marked by vesicle associated molecules SCG2 and CALY."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "HGNC", "ontology_id": "HGNC:14903", "ontology_label": "CALY",
+      "confidence": "medium", "mapping_note": "Confirm HGNC ID; CALY official symbol is NSG2 in current HGNC releases."
+    },
+    "E089": {
+      "entity_text": "HSPA6",
+      "entity_type": "Gene",
+      "source_sentences": ["the NAc core is enriched for stress-response genes HSPA6 and DNAJB1."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "HGNC", "ontology_id": "HGNC:5239", "ontology_label": "HSPA6",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E090": {
+      "entity_text": "DNAJB1",
+      "entity_type": "Gene",
+      "source_sentences": ["the NAc core is enriched for stress-response genes HSPA6 and DNAJB1."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "HGNC", "ontology_id": "HGNC:5270", "ontology_label": "DNAJB1",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E091": {
+      "entity_text": "PDE10A",
+      "entity_type": "Gene",
+      "source_sentences": ["PDE10A, NRGN, and SLIT1 are dorsolaterally enriched."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "HGNC", "ontology_id": "HGNC:8772", "ontology_label": "PDE10A",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E092": {
+      "entity_text": "NRGN",
+      "entity_type": "Gene",
+      "source_sentences": ["PDE10A, NRGN, and SLIT1 are dorsolaterally enriched."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "HGNC", "ontology_id": "HGNC:8000", "ontology_label": "NRGN",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E093": {
+      "entity_text": "NNAT",
+      "entity_type": "Gene",
+      "source_sentences": ["NNAT, CRYM, and RAP1GAP exhibit ventromedial bias."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "HGNC", "ontology_id": "HGNC:7860", "ontology_label": "NNAT",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E094": {
+      "entity_text": "CRYM",
+      "entity_type": "Gene",
+      "source_sentences": ["NNAT, CRYM, and RAP1GAP exhibit ventromedial bias."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "HGNC", "ontology_id": "HGNC:2418", "ontology_label": "CRYM",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E095": {
+      "entity_text": "RAP1GAP",
+      "entity_type": "Gene",
+      "source_sentences": ["NNAT, CRYM, and RAP1GAP exhibit ventromedial bias."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "HGNC", "ontology_id": "HGNC:9858", "ontology_label": "RAP1GAP",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E096": {
+      "entity_text": "CHODL",
+      "entity_type": "Gene",
+      "source_sentences": ["SST–CHODL interneurons have among the largest median volumes."],
+      "indirect_references": [],
+      "extraction_round": 2,
+      "ontology": "HGNC", "ontology_id": "HGNC:24008", "ontology_label": "CHODL",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E097": {
+      "entity_text": "ADARB2",
+      "entity_type": "Gene",
+      "source_sentences": ["SST–ADARB2 interneurons are significantly smaller."],
+      "indirect_references": [],
+      "extraction_round": 2,
+      "ontology": "HGNC", "ontology_id": "HGNC:18342", "ontology_label": "ADARB2",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E098": {
+      "entity_text": "SOX6",
+      "entity_type": "Gene",
+      "source_sentences": ["GPe SOX6–CTXND1 and CN LHX6–GBX1 neurons are concentrated within the GPe."],
+      "indirect_references": [],
+      "extraction_round": 2,
+      "ontology": "HGNC", "ontology_id": "HGNC:11199", "ontology_label": "SOX6",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E099": {
+      "entity_text": "MEIS2",
+      "entity_type": "Gene",
+      "source_sentences": ["GPe MEIS2–SOX6 neurons."],
+      "indirect_references": [],
+      "extraction_round": 2,
+      "ontology": "HGNC", "ontology_id": "HGNC:7001", "ontology_label": "MEIS2",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E100": {
+      "entity_text": "GBX1",
+      "entity_type": "Gene",
+      "source_sentences": ["CN LHX6–GBX1 neurons are concentrated within the GPe."],
+      "indirect_references": [],
+      "extraction_round": 2,
+      "ontology": "HGNC", "ontology_id": "HGNC:4185", "ontology_label": "GBX1",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E101": {
+      "entity_text": "GABA",
+      "entity_type": "Molecule",
+      "source_sentences": ["SLC6A11 (also known as GAT-3) is a GABA transporter important for GABA uptake and metabolism in astrocytes."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "ChEBI", "ontology_id": "CHEBI:16865", "ontology_label": "gamma-aminobutyric acid",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E102": {
+      "entity_text": "dopamine",
+      "entity_type": "Molecule",
+      "source_sentences": ["D1-type MSNs express the dopamine receptor D1 (DRD1)."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "ChEBI", "ontology_id": "CHEBI:18243", "ontology_label": "dopamine",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E103": {
+      "entity_text": "dynorphin",
+      "entity_type": "Molecule",
+      "source_sentences": ["D1-type MSNs ... express ... dynorphin."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "ChEBI", "ontology_id": "CHEBI:74808", "ontology_label": "dynorphin",
+      "confidence": "medium", "mapping_note": "ChEBI ID verified against dynorphin A; flag for curator if a different dynorphin family member is intended."
+    },
+    "E104": {
+      "entity_text": "enkephalin",
+      "entity_type": "Molecule",
+      "source_sentences": ["D2-type MSNs, which express the dopamine receptor D2 (DRD2), proenkephalin (PENK), and enkephalin."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "ChEBI", "ontology_id": "CHEBI:74783", "ontology_label": "enkephalin",
+      "confidence": "medium", "mapping_note": "Confirm specific enkephalin form."
+    },
+    "E105": {
+      "entity_text": "Homo sapiens (human)",
+      "entity_type": "Species",
+      "source_sentences": ["a comprehensive molecular and cell-type-resolved spatial atlas of the adult human basal ganglia remains lacking."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "NCBITaxon", "ontology_id": "NCBITaxon:9606", "ontology_label": "Homo sapiens",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E106": {
+      "entity_text": "Mus musculus (mouse)",
+      "entity_type": "Species",
+      "source_sentences": ["We next investigated cross-species conservation of this organization using the Allen Institute's whole-mouse-brain MERFISH dataset."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "NCBITaxon", "ontology_id": "NCBITaxon:10090", "ontology_label": "Mus musculus",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E107": {
+      "entity_text": "non-human primate",
+      "entity_type": "Species",
+      "source_sentences": ["Basal ganglia cell types and architecture are well characterized in rodents and non-human primates."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "NCBITaxon", "ontology_id": "NCBITaxon:9443", "ontology_label": "Primates",
+      "confidence": "medium", "mapping_note": "Mapped to the Primates order; specific NHP species not identified in text."
+    },
+    "E108": {
+      "entity_text": "MERFISH+",
+      "entity_type": "Technique",
+      "source_sentences": ["MERFISH+, an enhanced implementation that enables imaging across multi-centimeter–scale tissue areas.", "Using MERFISH+, we resolve approximately 60 transcriptionally distinct cell types."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": null, "ontology_id": null, "ontology_label": null,
+      "confidence": "none", "mapping_note": "MERFISH+ is an emerging technique with no canonical ontology term; parent MERFISH could be EFO:0009918 but the '+'-variant is not curated."
+    },
+    "E109": {
+      "entity_text": "MERFISH",
+      "entity_type": "Technique",
+      "source_sentences": ["Multiplexed Error-Robust Fluorescence In Situ Hybridization (MERFISH) enables highly multiplexed, single-molecule RNA imaging at subcellular resolution."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "EFO", "ontology_id": "EFO:0009918", "ontology_label": "MERFISH",
+      "confidence": "medium", "mapping_note": "Confirm EFO ID with curator; OBI may also host an alternative."
+    },
+    "E110": {
+      "entity_text": "Stereo-seq",
+      "entity_type": "Technique",
+      "source_sentences": ["Spatio-Temporal Enhanced Resolution Omics-sequencing (Stereo-seq).", "Stereo-seq employs DNA nanoball-patterned arrays to generate spatially barcoded cDNA libraries."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": null, "ontology_id": null, "ontology_label": null,
+      "confidence": "none", "mapping_note": "No canonical ontology ID; flag for curator."
+    },
+    "E111": {
+      "entity_text": "single-nucleus RNA sequencing (snRNA-seq)",
+      "entity_type": "Technique",
+      "source_sentences": ["strong correspondence with single-nucleus RNA sequencing (snRNA-seq) datasets from the Allen Institute Mammalian Basal Ganglia Consensus Cell Type Atlas."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "EFO", "ontology_id": "EFO:0009922", "ontology_label": "single-nucleus RNA sequencing",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E112": {
+      "entity_text": "fluorescence in situ hybridization (FISH)",
+      "entity_type": "Technique",
+      "source_sentences": ["These methods include probe-based multiplexed fluorescent in situ hybridization (FISH)."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "EFO", "ontology_id": "EFO:0010894", "ontology_label": "fluorescence in situ hybridization",
+      "confidence": "medium", "mapping_note": "Confirm EFO/OBI ID."
+    },
+    "E113": {
+      "entity_text": "UMAP (Uniform Manifold Approximation and Projection)",
+      "entity_type": "Technique",
+      "source_sentences": ["cell types that are separable when embedded in Uniform Manifold Approximation and Projection (UMAP) space of gene-expression data."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "EDAM", "ontology_id": "EDAM:operation_3935", "ontology_label": "Dimensionality reduction",
+      "confidence": "medium", "mapping_note": "EDAM has no dedicated UMAP term; mapped to the operation parent."
+    },
+    "E114": {
+      "entity_text": "Gene Ontology (GO) enrichment analysis",
+      "entity_type": "Technique",
+      "source_sentences": ["we further examined the transcriptional difference between the regions by performing gene ontology (GO) enrichment analysis on the differentially expressed genes."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "EDAM", "ontology_id": "EDAM:operation_2436", "ontology_label": "Gene-set enrichment analysis",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E115": {
+      "entity_text": "Wilcoxon rank-sum test",
+      "entity_type": "StatisticalMethod",
+      "source_sentences": ["SST–ADARB2 interneurons are significantly smaller (~2,300 µm³) (p-value = 6.9 x 10-15, Wilcoxon rank-sum test)."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "STATO", "ontology_id": "STATO:0000094", "ontology_label": "Wilcoxon rank-sum test",
+      "confidence": "medium", "mapping_note": "Confirm STATO ID."
+    },
+    "E116": {
+      "entity_text": "Pearson correlation",
+      "entity_type": "StatisticalMethod",
+      "source_sentences": ["the expression levels of the 673 MERFISH+ target genes show strong cross-platform correlation between the two modalities (Pearson correlation coefficient of 0.71)."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "STATO", "ontology_id": "STATO:0000142", "ontology_label": "Pearson product-moment correlation coefficient",
+      "confidence": "medium", "mapping_note": "Confirm STATO ID."
+    },
+    "E117": {
+      "entity_text": "RNA Integrity Number (RIN)",
+      "entity_type": "QualityMetric",
+      "source_sentences": ["RNA quality was confirmed by RNA Integrity Number (RIN) values ranging from 7.0 to 8.4."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": null, "ontology_id": null, "ontology_label": null,
+      "confidence": "none", "mapping_note": "No canonical ontology term; commonly cited Agilent metric."
+    },
+    "E118": {
+      "entity_text": "Allen Institute Mammalian Basal Ganglia Consensus Cell Type Atlas",
+      "entity_type": "Dataset",
+      "source_sentences": ["strong correspondence with single-nucleus RNA sequencing (snRNA-seq) datasets from the Allen Institute Mammalian Basal Ganglia Consensus Cell Type Atlas (Allen Institute; RRID:SCR_024672)."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "RRID", "ontology_id": "RRID:SCR_024672", "ontology_label": "Allen Institute Mammalian Basal Ganglia Consensus Cell Type Atlas",
+      "confidence": "high", "mapping_note": "RRID provided directly in text."
+    },
+    "E119": {
+      "entity_text": "Allen Human Brain Atlas",
+      "entity_type": "Dataset",
+      "source_sentences": ["this approach yields 14 discrete spatial modules that correspond to anatomical regions defined in the Allen Human Brain Atlas."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "RRID", "ontology_id": "RRID:SCR_007416", "ontology_label": "Allen Human Brain Atlas",
+      "confidence": "medium", "mapping_note": "Confirm RRID with curator."
+    },
+    "E120": {
+      "entity_text": "Parkinson's disease",
+      "entity_type": "Disease",
+      "source_sentences": ["the central role of the basal ganglia in human movement disorders (including Parkinson's disease and Huntington's disease)."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "MONDO", "ontology_id": "MONDO:0005180", "ontology_label": "Parkinson disease",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E121": {
+      "entity_text": "Huntington's disease",
+      "entity_type": "Disease",
+      "source_sentences": ["basal ganglia disorders, including Huntington's disease and Parkinson's disease."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "MONDO", "ontology_id": "MONDO:0007739", "ontology_label": "Huntington disease",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E122": {
+      "entity_text": "movement disorders",
+      "entity_type": "DiseaseCategory",
+      "source_sentences": ["the central role of the basal ganglia in human movement disorders."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "MONDO", "ontology_id": "MONDO:0005395", "ontology_label": "movement disorder",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E123": {
+      "entity_text": "neuropsychiatric conditions",
+      "entity_type": "DiseaseCategory",
+      "source_sentences": ["the central role of the basal ganglia in human movement disorders ... neuropsychiatric conditions ..."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "MONDO", "ontology_id": "MONDO:0002025", "ontology_label": "psychiatric disorder",
+      "confidence": "medium", "mapping_note": "Mapped to nearest MONDO parent."
+    },
+    "E124": {
+      "entity_text": "semaphorin family",
+      "entity_type": "ProteinFamily",
+      "source_sentences": ["GPi and GPe regions have high concentration of extrasomatic SEMA3E and SEMA5A, ligands part of the semaphorin family of axonal guidance molecules."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "InterPro", "ontology_id": "IPR001627", "ontology_label": "Semaphorin/CD100 antigen",
+      "confidence": "medium", "mapping_note": "Mapped to canonical semaphorin domain entry."
+    },
+    "E125": {
+      "entity_text": "direct pathway",
+      "entity_type": "NeuralPathway",
+      "source_sentences": ["D1 matrix MSNs project directly to the GPi and substantia nigra pars reticulata, whereas D2 matrix MSNs form the indirect pathway via the GPe.", "These correlation patterns recapitulate the direct (D1→GPi) versus indirect (D2→GPe) pathway topology."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": null, "ontology_id": null, "ontology_label": null,
+      "confidence": "none", "mapping_note": "No standard ontology term for direct basal ganglia pathway; conceptual neuroanatomical term."
+    },
+    "E126": {
+      "entity_text": "indirect pathway",
+      "entity_type": "NeuralPathway",
+      "source_sentences": ["D2 matrix MSNs form the indirect pathway via the GPe."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": null, "ontology_id": null, "ontology_label": null,
+      "confidence": "none", "mapping_note": "No standard ontology term."
+    },
+    "E127": {
+      "entity_text": "synaptic signaling",
+      "entity_type": "BiologicalProcess",
+      "source_sentences": ["Pathways such as synaptic signaling and regulation of cell communication are mainly associated with putamen and NAc shell."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "GO", "ontology_id": "GO:0099536", "ontology_label": "synaptic signaling",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E128": {
+      "entity_text": "regulation of cell communication",
+      "entity_type": "BiologicalProcess",
+      "source_sentences": ["Pathways such as synaptic signaling and regulation of cell communication are mainly associated with putamen and NAc shell."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "GO", "ontology_id": "GO:0010646", "ontology_label": "regulation of cell communication",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E129": {
+      "entity_text": "regulation of secretion by cell",
+      "entity_type": "BiologicalProcess",
+      "source_sentences": ["processes such as regulation of secretion by cell and regulation of response to stress prominently involve the caudate."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "GO", "ontology_id": "GO:1903530", "ontology_label": "regulation of secretion by cell",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E130": {
+      "entity_text": "regulation of response to stress",
+      "entity_type": "BiologicalProcess",
+      "source_sentences": ["processes such as regulation of secretion by cell and regulation of response to stress prominently involve the caudate."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "GO", "ontology_id": "GO:0080134", "ontology_label": "regulation of response to stress",
+      "confidence": "high", "mapping_note": ""
+    },
+    "E131": {
+      "entity_text": "NUDAP (Neurochemically Unique Domains in the Accumbens and Putamen)",
+      "entity_type": "AnatomicalConcept",
+      "source_sentences": ["D1 NUDAP (Neurochemically Unique Domains in the Accumbens and Putamen) (STRv D1 NUDAP) MSNs."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": null, "ontology_id": null, "ontology_label": null,
+      "confidence": "none", "mapping_note": "No standard ontology entry; flag for curator."
+    },
+    "E132": {
+      "entity_text": "dorsolateral-ventromedial (DL-VM) gradient",
+      "entity_type": "SpatialConcept",
+      "source_sentences": ["a dorsolateral-ventromedial (DL-VM) gradient emerges as a dominant axis of transcriptional variation at the multi-centimeter-scale."],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": null, "ontology_id": null, "ontology_label": null,
+      "confidence": "none", "mapping_note": "Conceptual spatial axis; no ontology term."
+    }
+  },
+  "unmapped_entity_ids": ["E019", "E025", "E026", "E027", "E028", "E033", "E034", "E038", "E039", "E040", "E041", "E042", "E044", "E049", "E108", "E110", "E117", "E125", "E126", "E131", "E132"]
+}

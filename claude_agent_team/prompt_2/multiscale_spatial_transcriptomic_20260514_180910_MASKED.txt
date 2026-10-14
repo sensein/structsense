@@ -1,0 +1,600 @@
+# Masked version of the source body text.
+# Generated from: multiscale_spatial_transcriptomic_20260514_180910.json
+# Every entity span recorded in the JSON has been replaced with `*` of equivalent length.
+# Anything still readable below is a CANDIDATE for a missed entity (or is genuinely non-entity prose).
+# Stats: 154 entities, 722 total span-matches masked, 7147/37388 alphabetic chars masked (19.1% of the body's alphabetic content).
+# Note: the % is dominated by function words and connective prose; entity-dense passages should be heavily starred.
+==============================================================================
+
+Highlights
+• Our multi-centimeter scale spatial taxonomy identifies the precise locations of 60
+neuronal and glial cell types of ***** *************.
+• ******** and ********** platforms map consistent spatial modules that align
+with classical neuroanatomical nuclei.
+• **************** and *******-expanded interneurons show regional and
+domain specific organization
+• Subcellular RNA localization reports soma morphology and projection-inferred
+signatures.
+SUMMARY
+We generated a multi-region, subcellular-resolution spatial transcriptomic atlas of the
+***** ************* by integrating ******** and ********** across four neurotypical
+donors.  These datasets profiled ~7 million cells spanning the *******, *******,
+*****************, and ***************, resolving 60 transcriptionally distinct cell types.
+We show region-selective, molecular and spatial diversification of *******************
+cell types and multiple non-neuronal populations with distinct molecular identities and
+spatial localizations.  Subcellular RNA localization captures somatic size and projection-51 
+inferred signatures that reflect ************************************.  Cellular community
+analyses reveal the enrichment of sub-clusters of ********** and **************** at
+*********–matrix borders, while *******-expanded interneurons are confined to matrix
+territories.  Cross-species mapping uncovers orthologous *********–matrix organization
+and conserved ************************* gene expression gradients. This atlas
+provides a foundational molecular and spatial framework for studying ***** basal
+ganglia architecture, offering a multi-centimeter scale resource that links cell types,
+spatial architecture, and subcellular transcript topography across multiple nuclei.
+INTRODUCTION
+The ***** ************* is a critical brain structure involved in motor control, learning
+and emotion.  It is comprised of distinct anatomical nuclei / subdivisions including the
+******** (*************** and *******), the *************** (external and internal
+segments, *** and ***), and the ***************** (***) 1.  Basal ganglia cell types
+and architecture are well characterized in rodents and non-***** ********, but are
+much less understood in ******.  The literature from both animal models and ******
+shows that ****************************** (****) are the dominant neuronal cell
+type in the ******** (85–95%) 2-5; **** are divided into two major populations: D1-type
+****, which express the ******************** (****), ********************** (****),
+and dynorphin; and ************, which express the ******************** (****),
+************* (****), and enkephalin 2,3,6.  The D1 and D2 populations are spatially
+organized into interdigitated ********* and ******************* that form the structural
+foundation of ************* function 3,7,8.  Further studies, including those using single-74 
+nucleus RNA-seq in animal and ***** brains have revealed additional D1/D2 neuronal
+diversity 9,10, and identified multiple classes of interneurons, including cholinergic
+(**********************************; *****), ******************** (***), somatostatin-77 
+positive (****), and ******************************************** (NPY+/**+)
+subtypes 10-14. The *****************, located at the ventral extension of the ********,
+contains both D1 and ******* and is further divided into core and shell subregions.
+These subregions mirror the cellular composition of the ***************, including
+diverse interneuron classes 10,15. The *************** consists of two principal divisions:
+the **************** (***) and the **************** (***) 3,16.  Both regions are
+dominated by ******************************** 17.  Within ***, ******************
+express PV, ************** (****), and ************** (******) 18,19; arkypallidal
+neurons express ***************************** (*****) and ***********************
+(*****) 20,21.  *** contains **************************** that form the principal
+output pathway of the ************* 16,17.
+A comprehensive understanding of ***** ************* organization requires
+integrating cell-type identity, molecular signatures, and spatial architecture within an
+intact anatomical framework.  Traditional ************************** provides
+molecular resolution but lacks spatial context, limiting its ability to capture circuit-level
+organization.  Emerging spatial transcriptomic technologies map gene expression
+directly within intact tissue sections that retain the spatial relationships of cell types and
+structures 10,14,22-24.  These methods include probe-based multiplexed ********************************* (****) and ************************** (***)-based spatially resolved
+transcriptomics, each with complementary strengths in resolution, transcriptome
+coverage, and throughput 23,25,26.  These approaches enable an unprecedented
+mapping of brain architecture through quantitative classification of cell types and
+detection of spatially patterned gene expression.  Although previous studies have
+revealed the spatial organization of ********** within the striatal matrix and
+transcriptional gradients across ************* nuclei in model organisms such as ****
+and ******** 10,27, a comprehensive molecular and cell-type-resolved spatial atlas of
+the adult ***** ************* remains lacking.  This gap has persisted in part because
+of the large size and complex cytoarchitecture of ***** ************* nuclei, as well as
+technical limitations in the spatial scale and resolution of existing mapping approaches.
+Addressing this limitation is particularly critical given the central role of the *************
+in ***** movement disorders (including ******************* and ********************),
+neuropsychiatric conditions, and species-specific differences in ************* cellular
+composition and structural organization that reflect the complexity of inputs and outputs
+for these structures in ****** 7,28.
+Recent advances in large-scale spatially resolved transcriptomics have transformed our
+ability to characterize cellular heterogeneity and molecular architecture within intact
+neural tissue such as ***** *************.  Two particularly powerful approaches are
+*********************************************************** (*******) 26,29-33 and
+**************************************************** (**********) 34-38.  *******
+enables highly multiplexed, single-molecule RNA imaging at subcellular resolution,
+allowing the precise mapping of hundreds to thousands of genes within individual cells
+while maintaining their spatial context 26,29,31.  This approach has been instrumental in
+decoding cell-type organization across cortical and subcortical structures in multiple
+species that reveal both conserved and species-specific architectural principles in the
+*****, ****** and ***** brains 14,27,36,39-41.  Subsequent advancements in *******
+have expanded high-resolution spatial transcriptomics into a multimodal platform
+capable of imaging DNA, RNA, and proteins within the same tissue specimen 42,43. Most
+recently, the incorporation of modified probe designs, high-throughput microscopy, and
+microfluidic automation has led to ******** 44, an enhanced implementation that
+enables imaging across multi-centimeter–scale tissue areas. This extension achieves
+large-area spatial transcriptomics with subcellular precision for integrative molecular
+and structural analyses 44.   ********** employs DNA nanoball-patterned arrays to
+generate spatially barcoded cDNA libraries that capture transcriptomes from large
+tissue sections at high resolution 34,36-38.  ********** has been successfully applied to
+generate whole-brain atlases in **** and to characterize cortical and subcortical
+organization in ***************** 34-38. This sequencing-based approach provides an
+unbiased, genome-wide view of spatial gene-expression patterns across extensive
+anatomical domains, albeit at a lower spatial resolution compared with imaging-based
+methods such as ********.
+In this study, we harness complementary strengths of ******** and ********** to
+generate a multiscale spatial transcriptomic atlas of the ***** ************* to capture
+spatial gene-expression patterns, specific cell types, and molecular architectures across
+multi-centimeter tissue sections from four neurotypical adult postmortem donors.  This
+atlas offers a novel view of ***** ************* organization of cell types, cellular
+communities, and region-specific transcriptional gradients at subcellular precision that
+was previously uncharted.
+RESULTS
+Multi-region, subcellular-resolution spatial transcriptomic mapping of *****
+*************
+We obtained four postmortem ***** brain fresh frozen slabs across anterior-to-148 
+posterior segments of the ************* encompassing the ***************, *******,
+***************** (***), ***************, and **************** (Figure 1A).  Tissue
+samples were collected from four neurotypical Caucasian male donors, aged 36–53
+years, with no pathological evidence of neurodegenerative disease or other brain injury.
+RNA quality was confirmed by ******************** (***) values ranging from 7.0 to
+8.4, indicating excellent preservation for downstream analyses (Table S1).
+For spatial transcriptomic profiling, 10 µm-thick cryostat sections were processed for
+********** with the coverage area size of up to 20 mm × 30 mm, while adjacent 16 µm-156 
+thick sections were selected for ******** imaging with an area size of up to 43 mm ×
+30 mm (Figure 1A, Supplementary Movie 1, Table 1S & Figure 1S in Supplemental
+Information).  A single 20mm x 30mm ********** chip captured ~0.9 million cells (with
+~0.29 million cells selected for cell type classification), which were clustered into 10
+different major cell types (Figure 1B). Across four ********** assays, we obtained
+genome-wide transcriptomic coverage of ~70,000 genes across ~3.2 million cells.  In
+parallel, comparable numbers of cells per area were captured by ******** on
+adjacent sections targeting a panel of 673 selected genes (Figure 1C, Supplemental
+Data).  Four ******** experiments captured ~3.9 million cells at single-molecule
+resolution over multi-centimeter-scale tissue areas.  Both methods yielded highly
+concordant results for the spatial distributions of major cell types across corresponding
+anatomical regions (Figure S1A).  Although ********** detects fewer transcripts per cell
+due to its sequencing-based capture efficiency, the expression levels of the 673
+******** target genes show strong cross-platform correlation between the two
+modalities (******************************* of 0.71), demonstrating the quantitative
+agreement of spatial gene-expression measurements across methodological
+approaches (Figure S1B) with high reproducibility across and between experiments
+(Figure S1C-D).   Although ********** provides transcriptome-wide coverage, its spatial
+signal localization is inherently more diffuse (Figure 1D-G) than ******** that
+delineates sharp cellular boundaries based on transcript density (Figures 1H–K;
+Supplementary Movie 1).  Given these respective advantages and limitations, we used
+******** to focus on fine-scale cell definition and subcellular localization, and Stereo-178 
+seq for exploring large scale gene expression patterns across centimeter scale tissue.
+Molecular and spatial taxonomy of cell types in the ***** *************
+Using ********, we resolve approximately 60 transcriptionally distinct cell types that
+are separable when embedded in *********************************************
+(****) space of gene-expression data (Figure 2A).  These cell types show expression
+of expected corresponding marker genes (Figure S2) and demonstrate strong
+correspondence with ***************************** (*********) datasets from the
+***************************************************************** (***************;
+***************) 45 (Figure 2B), validating our cell type classification.  We identify
+twelve major classes spanning anterior-to-posterior sections (Figure 2C).  Among these
+are eight neuronal classes that include **************************************
+(*******)-derived *****************, which are dominated by medium spiny
+neurons (****) (Figure S3A).
+We further examined **** – the predominant neuronal population of the ******** that
+are essential for modulating movement control in the ************* circuit 3. ****
+segregate into two canonical classes – D1 and ******* – further subdivided into six
+major dopaminergic *** subtypes: *****************, **************, *******,
+*****************, ************** and ******* (***************, ****; ventral
+********, ****) (Figure 2D-E, Figure S3B).  These subtypes display distinct dorsal–197 
+ventral and *********–matrix distribution patterns across ************* compartments
+along the anterior-posterior axis (Figure 2D, Figure S3B).  Specifically, D1 and D2
+********** **** are enriched within **********************, whereas D1 and D2
+matrix **** predominate in the surrounding matrix (Figure 2E).
+The proportion of *** cell types is largely consistent along the anterior-posterior axis
+(Figure 2F).  ******* constitute the largest proportion compared to *******
+(approximately 54 % vs 27 %, respectively). D1 and ******* together represent ~83 %
+of all striatal neurons.
+Beyond these canonical *** populations, our analyses uncover spatial distributions of
+several novel and rare *** cell types described across species including ***** and
+***************** that are “mixed-identity” neurons that co-express D1- and D2-208 
+associated gene modules – these neurons are not regionally restricted cell types to
+discrete striatal or pallidal territories 46-48.  The ************ (***************),
+*********************** (**************), and ******** (Neurochemically Unique
+Domains in the Accumbens and Putamen) (*************) **** are primarily
+localized within the *******, ***************, and ***************** (Figure 2G),
+but are largely absent from the *************** and ****************.  The mixed state of
+these cell populations is corroborated by colocalization within individual neurons of
+multiple transcripts of ****, ****, and ************ (****), a canonical **********
+*** marker (Figure 2H).
+We next examined neuronal subtypes within the ***************.  Analysis of two
+posterior sections encompassing both internal (***) and external (***) segments
+reveal six transcriptionally distinct **-associated neuronal classes: *********, ********,
+*******************, ************, ***************, and **************
+(Figure 2I, Figure S4).  As indicated by their nomenclature, ********* and ********
+neurons are localized to peripheral and central ** regions, respectively (Figure 2J). In
+contrast, *************** and ************ neurons are concentrated within
+the *** and show only sparse distributions in other ************* nuclei (Figure 2K).
+In addition to neuronal classes, we uncovered multiple non-neuronal populations with
+distinct molecular identities and spatial localizations (Figure 3A, Figure S5).  Four major
+categories are observed: immune, vascular, **********/ependymal (Astro–Epen), and
+*************** lineage (*********) cells, each exhibiting characteristic regional
+patterns.  ********* cells represent the *************** lineage and form the most
+abundant non-neuronal population, comprising 60–70% of all non-neuronal cells (Figure
+3A-left).  This group includes five transcriptionally distinct subtypes: committed
+*************** progenitors (***), ******************************** (***), Oligo
+*******, ********************************** (*******), and ************ (Figure
+3A-right).  Notably, ************ and ************* display complementary spatial
+distributions (Figure 3B) with differential transcriptional signatures (Figure 3C).  We
+found that ************ cells are enriched along striatopallidal fiber tracts (arrows,
+Figure 3B-right), whereas ************* cells are preferentially localized to the
+**************** ************ and ***************, but are sparse in the ******* and
+*************** — this pattern is consistent across different sections (Figure S6A).
+We found that ********** also exhibit pronounced regional heterogeneity.  Subclustering
+analysis identifies six ********* subtypes, each defined by distinct marker gene
+combinations that include *********** (****), *********** (****), solute carrier
+family 6 member 11 (*******), ****************** (******), and adhesion G protein-244
+coupled receptor V1 (******) (Figure 3D).  These subtypes form discrete clusters in
+**** space with divergent transcriptional signatures (Figure 3E).  Except for the
+******************************* (***************, captured in section AP19), the relative
+abundances of ********* subtypes are generally consistent across anterior and
+posterior ************* regions (Figure 3F).  Spatial mapping reveal distinct topographic
+specializations (Figure 3G and Figure S6B-C): ******** cells, characterized by high
+**** expression, are localized primarily to ************ tracts and the peripheral
+*************** (Figure 3H); *********** cells, defined by ******, are enriched in
+******** (Figure 3I), and *********** cells, expressing *******, are selectively
+concentrated in the *************** (Figure 3J).  The differential gene expression of
+these varied ********** cell types likely provides clues for their specific function.  For
+instance, ******* (also known as *****) is a GABA transporter that is important for
+GABA uptake and metabolism in astrocytes49,50 , consistent with the high abundance of
+***************** in the ***************.  These findings underscore the molecular,
+cellular, and spatial heterogeneity of glial and neuronal populations that define the
+complex architecture of the ***** *************.
+Subcellular transcript localization for somatic size estimation and projection
+inference
+The high spatial precision of ******** enables the localization of individual RNA
+molecules at subcellular resolution (Figure 1J-K; Supplementary Movie 1).  This allows
+each transcript to be categorized as nuclear (within the nucleus), somatic (within the
+cytoplasm), or putative cellular processes (distributed along processes or extensions)
+(Figure 4A) (see STAR Methods).  While nuclear and somatic transcripts are used to
+define cell identity, we developed additional analysis to capture somatic morphology of
+single neurons.  We also used the RNA distributions in putative cellular processes to
+reveal information about projection topology in ***** *************.
+To estimate somatic size, we modeled each cell’s cytoplasmic space as a three-271 
+dimensional point cloud derived from somatic RNA coordinates, which was then
+converted into a volumetric mesh representation (see STAR Methods).  This analysis
+reveals substantial heterogeneity in neuronal soma volumes across *************
+regions (Figure 4A-B).  Cholinergic interneurons and *************** neurons including
+********, *********, ************, and ************** populations, exhibit the
+largest median soma volumes (up to ~9,400 µm³), whereas ****** interneurons and
+**** display markedly smaller volumes (~1,800 µm³ and ~2,500 µm³, respectively)
+(Figure 4B). This is consistent with histological studies in ***** and ***** basal
+ganglia 51-53.  Although *** subtypes are more consistent in soma volumes, other
+neuronal classes exhibit more subtype-dependent variability; for example, *********
+interneurons have among the largest median volumes (~6,200 µm³), while SST–282 
+ADARB2 interneurons are significantly smaller (~2,300 µm³) (p-value = 6.9 x 10-15,
+**********************).  These quantitative reconstructions highlight the pronounced
+morphological diversity among neuronal subtypes in the ***** *************.
+We next analyzed RNA distributions in putative cellular processes including axonal and
+dendritic processes (“neurite transcripts”) which provide indirect information about
+neuronal projections.  Focusing on ****, in the ***** and ****** *************
+circuitry, D1 matrix **** project directly to the *** and ********************************,
+whereas D2 matrix **** form the **************** via the *** 3,54.  Consistent with
+this organization, we found that D1-enriched transcripts (e.g., ****, ****, *****)
+exhibit higher extra-somatic signal density within the ***, while D2-enriched transcripts
+show preferential accumulation in the *** (Figure 4C–D).  Quantitative correlation
+analysis across the 673 genes imaged with ******** confirms this relationship: D1-294 
+specific genes display significantly higher spatial correlation scores in the *** than in
+the ***, whereas the inverse pattern is observed for D2-specific genes (Figure 4E).  In
+addition, we observed that *** and *** regions have high concentration of
+extrasomatic ****** and ******, ligands part of the ***************** of axonal
+guidance molecules 55,56. We found ****** is enriched in *** (Figure 4F), while
+****** is prominently found in *** (Figure 4H). Their expression is also higher in the
+nuclei as confirmed using the ********* data from the *************** *************
+Consensus Cell Type Atlas (Figure 4G, I). This might reflect that specific **********
+gene family members mediate long range connections in neurons such as ****
+targeting specific segments of the *************** 55,57.  Together, these findings
+demonstrate that ******** not only resolves molecular and spatial identities of cells
+but also captures morphological and projection-inferred features encoded in the
+subcellular transcriptome and provides an unprecedented window into the structural and
+functional organization of ***** ************* circuits.
+Mesoscale cellular community architecture of the ***** *************
+To resolve mesoscale organization beyond individual cell types, we performed cellular
+community analysis 14,58, which groups cells based on the composition of their spatial
+neighborhoods.  Specifically, for each cell, we calculated the frequency of neighboring
+cell types within a radius of 250 - 400 µm and then constructed neighborhood
+composition vectors which were subsequently clustered into spatial modules (STAR
+Methods and Figure 5A).  This approach yields 14 discrete spatial modules that
+correspond to anatomical regions defined in the *********************** 59 (Figure 5B).
+Each spatial module display characteristic cell-type enrichment patterns corresponding
+to known anatomical domains 13.  For example, *************** and *** *****–318 
+**** neurons are enriched in the ************************ (***), whereas ********
+and ********* neurons are confined to the ***.  Similarly, ******* and **** *******
+are enriched in the *********************** and core, while **** D1 and **** D2
+**** populate the ******** (*************** and *******) (Figure 5C).
+Besides these canonical distributions, several interneuron and projection-type
+populations exhibit distinct regional biases. For instance, STR fast-spiking *****–324 
+***** ********* interneurons are preferentially enriched in the ***************
+(Figure 5D, in agreement with previous ********* analysis 11. **** *****
+********* interneurons are more abundant in the ******* (Figure 5E).  In contrast,
+*************** neurons, a transcriptionally distinct population with unclear lineage
+affiliation are enriched in the *** nucleus of the *************; ; this represents a
+previously unknown neuronal subtype within this region (Figure 5F).
+Quantitative analysis of *** subtype proportions across striatal subregions reveals that
+the *************** and ******* share comparable D1/D2 ratios (Figure 5C).  In
+contrast, both D1- and D2-********** **** are detected in the ********* but are
+largely absent from the ******** (Figure 5G–H).  This differential organization is
+corroborated by the expression of established molecular markers: ** associated with
+********************** 3, is enriched in the *********, whereas *******, a matrix-336 
+associated marker 60, is predominantly expressed in the ******** (Figure 5I).
+These findings demonstrate that cellular community analysis reconstructs macroscopic
+anatomical boundaries and allows for the identification of cell types located within or
+absent from the anatomical regions comprising the ***** ************* circuits.
+Striosome–matrix domains and cross-species orthologous organization
+Beyond its mesoscale structures, the ******** exhibits micro-domain architecture
+composed of ********* and ******************* 61.  To delineate these domains, we
+further applied cellular community analysis restricted to *** subtype composition—the
+principal determinant of *********–matrix identity (Figure 6A-B).  Beyond canonical
+D1/****** distributions, we identify additional cell types exhibiting previously
+uncharacterized *********–matrix enrichments.  Notably, **************
+interneurons are exclusively localized to the ****************** (Figure 6C, 6D top).
+These interneurons are *******-specific62,63 and likely represent the orthologous lineage
+of rare ********************** that is described in rodents  17,64.  In our ***** dataset,
+************** neurons are among the most abundant population of striatal
+interneurons (Figure 6E).  This expansion is consistent with the trend of expansion for
+this cell type seen in prior ******* and ***** studies, whereas their putative *****
+homologs represent only ~6% of interneurons 62-64.  This marked expansion of ****–354 
+***** interneurons in ******** suggests an evolutionary adaptation that supports the
+integration of the greater density of prefrontal and associative cortical inputs, potentially
+enabling enhanced sensorimotor and cognitive control 11,65.
+Conversely, **** and ****** interneurons display moderate enrichment within
+********** territories (Figure 6C, 6D bottom), although these populations are not
+exclusive to that compartment.  To further explore the organization of cell types across
+the matrix-********* boundary, we quantified the distance of each cell to the nearest
+********* boundary and analyzed cell-type–specific density profiles as a function of
+proximity (Figure 6F).  This analysis reveals ********* and ************
+*************** enrichment near ********* borders that form boundary-aligned
+microdomains (Figure 6G, 6H bottom).  The ************ subtype, previously identified
+along striatopallidal fiber tracts (Figure 3), appears to delineate the perimeters of
+********** territories and highlights glial contributions to compartmental architecture.
+To assess whether gene expression varies systematically with spatial proximity to
+**********, we examined transcript gradients along the *********-to-matrix axis.
+Several *********-enriched genes exhibit distance-dependent expression patterns
+(Figure S7A).  Clustering based on these genes resolves four ********* subpopulations
+that occupy distinct positional zones—core, boundary, and perimatrix (Figures 6H, top);
+this organization is consistent across different sections (Figure S7B-E).
+We next investigated cross-species conservation of this organization using the Allen
+Institute’s ********************************* 10.  Orthologous ***** **** were
+identified by correlating gene-expression signatures with ***** subtypes (Figure S8A,
+B).  Mouse supertypes ****************** and ****************** correspond
+to ***** ***************** and ************** ****, respectively (Figure S8C–D).
+Similarly, finer subclustering of the ***** ****************** supertype, designated
+as A* and B*, map to ***** ***************** *** and ************** ***,
+respectively (Figure S8E–F).
+Using these orthologous *** pairs, we delineated *********–matrix boundaries in the
+***** ******** and performed analogous proximity analyses in which we computed the
+distance of cells from border of nearest ********* (Figure 6I) and quantified the
+distribution of cells as a function of distance. The results are highly concordant across
+species: specific glial populations, ************* ********** and ********
+****************, are enriched at ********* borders in **** (Figure 6J-K).
+These findings demonstrate conserved organizational principles and orthologous
+cellular microenvironments within *********–matrix systems of the ***** and ******
+*************.  The identification of matrix-confined *********************** and
+boundary-enriched glial subtypes further reveals an evolutionarily elaborated
+compartmental architecture in the ***** ******** that integrates neuronal and non-392 
+neuronal components across spatial scales.
+Conserved molecular gradients and cross-species correspondence revealed by
+********** mapping
+While cell-type composition defines spatial modules, these modules ultimately emerge
+from underlying transcriptional programs.  To directly examine these patterns, we
+applied unsupervised clustering to spatially weighted whole-transcriptome profiles
+derived from ********** data, independent of prior cell-type annotation (see Methods).
+This spatial analysis recapitulates the mesoscale modules identified by ********
+cellular community analysis and aligns closely with established anatomical territories of
+the ***** ************* (Figure 7A, Figure S9A).
+Each spatial module is characterized by distinct sets of regionally enriched genes
+(Figure 7B-C, Figure S9B), indicating the molecular specialization among the
+subregions of the *************.  For example, the ******* exhibits strong enrichment
+of ******* (a zinc-finger transcription factor) and ***** (an axonal guidance
+molecule), whereas the *************** shows elevated expression of ****(a
+neuropeptide precursor) and ****(an immediate early transcription factor).  The
+*********************** is marked by vesicle associated molecules **** and ****,
+while the ******** is enriched for stress-response genes ***** and ****** (Figure
+7C).
+We further examined the transcriptional difference between the regions by performing
+************************************** on the differentially expressed genes.
+Pathways such as synaptic signaling and regulation of cell communication are mainly
+associated with ******* and *********, while processes such as regulation of secretion
+by cell and regulation of response to stress prominently involve the ******* with some
+contribution from the ********* and ******** respectively.  Some ******** are
+uniformly distributed among multiple regions; regulation of transport involves the
+*******, ***-shell, and ************, and negative regulation of cellular process is
+linked to the *******, ******** and ********* (Figure 7D).
+In our ********** data, the genes displaying regional specificity constitute only ~5%;
+majority of the remaining genes are expressed throughout the ********. This led us to
+ask whether gene expression gradients in the ***** ******** are similar to those
+known in **** and non-***** primates4,5,66.  To investigate topographical continuity of
+gene expression across species we focused on ************************* (*****)
+expression gradients, an established organizational axis in the ***** striatum14,66.  We
+find numerous genes in the ***** ******** that display graded expression along this
+axis (Figure 7E).  For example, ******, ****, and ***** are dorsolaterally enriched,
+whereas ****, ****, and ******* exhibit ventromedial bias.  Importantly, the
+majority of gradient-aligned genes show directionality concordance across species as
+illustrated by the similarity of the gradient scores (Figure 7F) and spatial expression
+maps (Figure 7G and Figure S9C) of genes between ***** and *****.  This
+underscores evolutionarily conserved transcriptional patterning that likely supports
+shared ************* circuit architecture and function.  In addition, we observe in both
+***** and *****, the expression gradient is dominated by the ventromedial direction
+(Mouse: 73%, Human: 97.2%) as opposed to the dorsolateral direction (Mouse: 26%,
+Human: 2.73%) (Figure 7H and Figure S9D).
+To identify cellular contributors to these spatial gradients, we mapped gradient-438 
+associated genes onto cell types defined in the *************** ************* Consensus
+Cell Type Atlas.  Most gradient-associated transcripts are enriched in lateral ganglionic
+eminence (******)-derived *****************, the principal *** population.  A
+subset of dorsolateral-enriched genes, however, are expressed within ***************
+lineage (*********) cells, that reflects the dense myelinated fiber tracts that occupy
+dorsal striatal territories (Figure 7I).  In contrast, in ***** we do not observe this; LGE
+neurons dominate in both directions (Figure S9E).
+These analyses demonstrate that ********** captures transcriptome-wide spatial
+gradients that mirror functional and anatomical axes of the *************.  The high
+concordance of these gradients between ****** and **** highlights conserved
+molecular topographies that organize the macroscale regions across species (Figure
+7F-I).
+DISCUSSION
+By integrating the two high-throughput spatial transcriptomics platforms (********
+and **********), we generated a multiscale spatial transcriptomic atlas of the *****
+************* spanning 6 orders of magnitude in scale from subcellular transcript
+organization (~50 nm) within single-cells to the multi-centimeter (~4cm) spatial
+arrangement of cell types across ************* nuclei. This large-scale atlas, which
+covers ~7 million cells in total, encompasses all major nuclei including the *******,
+*******, *****************, and the *************** across four neurotypical
+postmortem brains.  In addition to providing a comprehensive molecular and anatomical
+reference for the neuroscience community, our work establishes a scalable
+experimental and computational framework for performing large-area, high-resolution
+spatial transcriptomics in ***** tissue.
+While much of the spatial organization of cell types and circuit domains in the *****
+************* has been derived from rodent and ***************** studies 13,67, our
+dataset provides the first comprehensive spatial and molecular reference directly in
+******. The resulting framework reveals how subcellular gene expression, cell type
+identities and spatial cellular community structures may converge to shape ***** basal
+ganglia organization and potentially underlie its function.
+A unified molecular and spatial taxonomy across ***** *************
+******** resolves the spatial organization of 60 transcriptionally distinct cell types
+that includes the subclassification of eight major neuronal classes spanning anterior–472 
+posterior strata.  Within the ********, we map both the most abundant D1 and *******
+into ********* and ******************* as well as the less abundant, hybrid-identity
+*** cell types (e.g., ***************; **************), and show their preferential
+localization to the *******, *******, and *** but not to ** or ****************.  Within
+the ***************, we delineate six **-associated classes: *********, ********, GPin-477 
+BF Cholinergic, ************, ***************, and ************** based
+on their single-cell transcriptional profiles and reveal their spatial locations within the
+***/*** shell and core anatomical regions.  We also find that non-neuronal classes are
+molecularly and spatially organized: the ********* lineage comprises ~60–70% of
+non-neuronal cells and partitions into ***, ***, *************, *******, and Oligo
+****** subtypes with distinct regional enrichments (************* in internal
+capsule/**; ************ broadly distribute with enhanced abundance in striatopallidal
+fibers).  Six ********* subtypes, distinguished by markers such as ****, ****,
+*******, ******, and ******, show region-specific topographies (e.g.,
+********/**** in ************; ***********/ ****** in ********; **-487 
+TH_Astro/******* in **).
+Mesoscale cellular communities and *********–matrix architecture
+Our cellular community analysis based on the proximity of the 60 identified cell types
+reveals 14 spatial modules in the ***** ************* sections, providing an unbiased,
+refined anatomical delineation of the imaged regions that aligns closely with the Allen
+Human Brain Atlas parcellation 59. The differential enrichment of cell-types across
+spatial modules recapitulates expected spatial segregations based on the Mammalian
+************* Consensus Cell Type Atlas reference (***************; ***************)
+(e.g., ***************/*****–**** in ***; ********/Shell in ***; *******/D2
+in ***; **** D1/D2 in the *******/*******) including regional interneuron biases:
+****************** enriched in the *******, ***** enriched in the *******, and
+*************** concentrated in ***. Within ***, we uncover that both D1- and
+D2-********** **** populate ********* but are largely absent in core, consistent with
+** (*********) and ******* (matrix) compartment markers.
+The matrix and ********* spatial modules derived from *** subtype composition
+reveals fine-scale spatial organization biases.  Specifically, ***********************,
+which are expanded in ******** 64, are matrix-restricted, whereas **** and ******
+interneurons are *********-enriched but not exclusive.  Across the *********
+boundaries, we find enrichment of specific subpopulations of ********** and
+**************** which delineates boundary-aligned glial microdomains.  Cross-species
+comparison with the MERFISH-derived ***** cell type atlas 10,14 identifies orthologous
+*** counterparts (e.g., ***** 0268 D1 and 0267 D1 supertypes corresponding to
+***** **** D1 ********* and matrix respectively) and confirms border-enriched
+********* (*************) and *************** (********) supertypes in *****.
+These data argue for conserved compartment organization principles and orthologous
+boundary microenvironments between ***** and rodent *******, while also highlighting
+******* and ***** specializations (e.g., matrix-restricted **********) 67,68.
+Subcellular transcript localization informs morphology and projection architecture
+******** subcellular transcript localizations enable characterization of cell
+morphology and projection-inferred connectivity.  Our 3D analysis of RNA transcript
+localization provides soma-volume measurements that span ~5-fold variation across
+neuronal types. Although this strategy differs from traditional methods that offer more
+detailed cell morphology, including *************************** and Cajal–Golgi
+impregnation methods 69,70, the key advantage of ******** based quantification is its
+ability to distinguish and measure dozens of neuronal subclasses at tissue-wide scale.
+We find that ************************ and pallidal neuron subtypes (e.g., ********/Shell;
+**********************; **************) exhibit the largest soma volumes,
+whereas ******  interneurons and **** are among the smallest. These findings are
+supported by previous histological observations in ************* 51-53.  While the nine
+*** subtypes show largely similar volumes, **** interneuron subclasses diverge
+markedly; for example, ********* versus ********** interneurons show
+substantial differences. These physical parameters could inform future neural network
+models in classifying cell types based on label free methods reporting on size and
+morphology 71,72.
+Quantification of putative “neuritic” transcripts within the *** and *** recapitulates in
+***** the canonical projection pathways measured directly in animal models.
+Specifically, D1-enriched genes (e.g., ****, ****, *****) are found to preferentially
+accumulate in *** projections, whereas D2-enriched genes are biased to ***
+projections. These correlation patterns recapitulate the direct (D1→ ***) versus indirect
+(D2→ ***) pathway topology in rodent and ***************** models 3,6,68.  Thus,
+subcellular transcript “geography” provides a quantitative readout of both cell size/shape
+and projection-inferred circuitry in ***** brain tissue.
+Genome-wide transcriptional modules and a conserved ***** gradient
+Unsupervised clustering of the whole-transcriptome spatial distribution (based on
+**********) recapitulates ******** cell-type community modules and classical
+anatomy and provides novel gene enrichment within each anatomical subregions.  We
+find that a dorsolateral- ventromedial gradient emerges as a dominant axis of
+transcriptional variation at the multi-centimeter-scale; this axis is conserved in the
+***** at the multi-millimeter scale 10,14 revealing dorsolateral-biased genes such as
+******, **** and ***** and ventromedial-biased genes such as ****, ****,
+*******.  Most of the genes exhibiting the gradient are expressed in ***********
+neurons, with a dorsal contribution from ********* lineages, consistent with differential
+myelination in the dorsal fiber bundles 73,74.
+Functional implications
+Functionally, the underlying cell types, cellular communities, subcellular transcript
+geography, and conserved spatial gradients suggest an intricate multi-layered
+organizational architecture for neurotypical ***** ************* 75,76.  The finding that
+subcellular RNA localization captures projection-inferred signatures suggests a
+promising avenue for inferring ***** circuit topology directly from spatial transcriptomic
+data - an approach that circumvents the limitations of traditional neural tracing in *****
+tissue. In addition, ********* and *************** niches aligned with *********
+boundaries point to specialized metabolic and myelination interfaces at these
+compartmental perimeters. Finally, the *******-expanded, matrix-restricted ****–560 
+***** interneurons may reflect evolutionary adaptations to the enlarged prefrontal
+cortex, potentially supporting the increased computational demands of *****-specific
+action selection, valuation, and cognitive flexibility 11.
+Clinically, our dataset highlights specific neuronal and glial subtypes including *** core
+versus shell populations and boundary-enriched glial communities, as potential
+substrates of selective vulnerability in movement and neuropsychiatric disorders.
+Establishing the neurotypical abundance and spatial distribution of D1, D2, and D1/D2
+hybrid *** subtypes in the *******, *******, and ***************** provides a
+crucial baseline for detecting disease-associated shifts in cell number, composition, and
+transcriptional state. Such comparisons will be particularly valuable for elucidating cell-570 
+type-selective vulnerability in ************* disorders, including ********************
+and ******************* 77,78.
+Limitations of the study
+This study is limited by the number and demographic diversity of available donors, as
+well as inherent constraints associated with postmortem ***** tissue. Although our
+multimodal spatial framework provides a comprehensive baseline, additional orthogonal
+validations such as ********************, ******************, and in vivo
+electrophysiological or connectivity assays would further strengthen cell-type and spatial
+community assignments. Future work should extend this approach to a broader range of
+ages and demographic backgrounds and apply this methodology to comparative
+analyses of neurological and psychiatric disorders in ***** tissue.
+In summary, by coupling genome-wide spatial profiling with subcellular transcript
+localization and community-level modeling, we deliver a multiscale, molecular atlas of
+***** ************* organization from single transcripts to cellular communities and
+anatomical modules that shows features unique to ****** and those that are
+conserved across species. This atlas establishes a foundational framework for studying
+***** ************* architecture and its disruption in neuropsychiatric and
+neurodegenerative disorders, enabling cross-species and disease-state comparisons at
+single-cell and community scales.
+ACKNOWLEDGEMENTS
+We thank members of the Xu laboratory for their valuable feedback and discussion
+throughout this project. We are grateful to Dr. Ruth Walker for her insightful comments.
+We also acknowledge Drs. Elizabeth and Edwin Monuki, along with our UCI colleagues,
+for their contributions to establishing the ******************** and supporting the
+collection of neurotypical ***** brain samples.  This work was in part funded by the
+NIH grant [*********** *******************************************] and UC Irvine
+Center for Neural Circuit technology development funds.  This publication was
+supported and coordinated through the *********************************** (*****,
+***************).
+AUTHOR CONTRIBUTIONS
+X.X. and B.B. conceived the study. X.X., B.B. and Z.T designed the experiments. B.T.B.,
+B.B., and X.X. designed the gene probe libraries. J.B., P.A.S.M, G.W, and Z.T. prepared
+samples, Z.T. and S.C.D performed the experiments. B.T.B., B.E., R.L., and B.B.
+performed data analysis. X.X., and B.B. interpreted data. B.T.B., Z.T., T.C.H., B.B. and
+X.X. wrote and edited the manuscript with input from G.W., S.C.D., Q.Y., R.L., M.N., S.P.,
+Q.Z., M.B., and J.E. X.X. supervised the study.
+DECLARATION OF INTEREST
+B.B. and Q.Z are co-inventors on a patent application for ******** filed by the
+University of California, San Diego. To date, two US provisional patent applications have
+been filed. The other authors declare no competing interests.
+References
+1. Graybiel, A.M. (2000). The *************. Curr Biol 10, R509-511.
+10.1016/s0960-9822(00)00593-5.
+2. Mendelsohn, A.I., Nikoobakht, L., Bikoff, J.B., and Costa, R.M. (2025).
+Segregated ************* output pathways correspond to genetically divergent
+neuronal subclasses. Cell Rep 44, 115454. 10.1016/j.celrep.2025.115454.
+3. Lanciego, J.L., Luquin, N., and Obeso, J.A. (2012). Functional neuroanatomy of
+the *************. Cold Spring Harb Perspect Med 2, a009621.
+10.1101/cshperspect.a009621.
+4. He, J., Kleyman, M., Chen, J., Alikaya, A., Rothenhoefer, K.M., Ozturk, B.E.,
+Wirthlin, M., Bostan, A.C., Fish, K., Byrne, L.C., et al. (2021). Transcriptional and
+anatomical diversity of ******************** in the ******* ********. Curr Biol
+31, 5473-5486 e5476. 10.1016/j.cub.2021.10.015.
+5. Krienen, F.M., Levandowski, K.M., Zaniewski, H., Del Rosario, R.C.H., Schroeder,
+M.E., Goldman, M., Wienisch, M., Lutservitz, A., Beja-Glasser, V.F., Chen, C., et
+al. (2023). A marmoset brain cell census reveals regional specialization of cellular
+identities. Sci Adv 9, eadk3986. 10.1126/sciadv.adk3986.
+6. Calabresi, P., Picconi, B., Tozzi, A., Ghig lieri, V., and Di Filippo, M. (2014). Direct
+and indirect pathways of *************: a critical reappraisal. Nat Neurosci 17,
+1022-1030. 10.1038/nn.3743.

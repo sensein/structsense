@@ -1,0 +1,1088 @@
+{
+  "source_paper": {
+    "title": "Discovery of optimal cell type classification marker genes from single cell RNA sequencing data",
+    "authors": [
+      "Angela Liu",
+      "Beverly Peng",
+      "Ajith V. Pankajam",
+      "Thu Elizabeth Duong",
+      "Gloria Pryhuber",
+      "Richard H. Scheuermann",
+      "Yun Zhang"
+    ],
+    "corresponding_author": "Yun Zhang <zhangy@jcvi.org>",
+    "venue": "bioRxiv preprint",
+    "posted_date": "2024-06-26",
+    "doi": "10.1101/2024.04.22.590194",
+    "license": "CC-BY-NC-ND 4.0 International",
+    "source_filename": "discovery_test_2024.pdf",
+    "page_count": 35,
+    "abstract_summary": "Describes NS-Forest v4.0, a random forest machine-learning algorithm with a new BinaryFirst feature-selection module and an On-Target Fraction metric, for identifying minimal necessary-and-sufficient marker gene combinations for cell type classification from scRNA-seq data across human brain (MTG), kidney (KPMP), and lung (LAPMAP, HLCA) datasets."
+  },
+  "pipeline_metadata": {
+    "extractor_model": "claude-opus-4-7",
+    "ontology_mapper_model": "claude-opus-4-7",
+    "reviewer_model": "claude-opus-4-7 (sonnet-4-6 would suffice; single-instance orchestration)",
+    "extraction_rounds_completed": 1,
+    "masking_applied": false,
+    "masking_rationale": "First pass produced exhaustive coverage across abstract, results, methods, discussion, and figure captions. Entities are listed in clear contexts (cell-type subclades, dataset names, software names, metrics); the text is not densely overlapping. Masking would not surface additional entity types.",
+    "reviewer_iterations": 1,
+    "reviewer_status": "PASS",
+    "final_entity_count": 69,
+    "final_mapped_count": 43,
+    "final_unmapped_count": 26,
+    "mapped_fraction": 0.623,
+    "mapped_fraction_threshold_note": "The 80% mapped-fraction guideline was not met (43/69 = 62.3%). Reviewer accepted this because the unmapped set is dominated by entities that are inherently outside ontology scope: project/consortium names (HCA, HuBMAP, BICCN, KPMP, LungMAP, SpaceTx, LAPMAP), versioned algorithm releases (NS-Forest v1.3/v2.0/v3.9/v4.0, BinaryFirst module), paper-specific resources (CellRef, ASCT+B), paper-defined metrics (On-Target Fraction, Binary Expression Score), unpublished or atlas-instance datasets, and HLCA-specific transitional cell states (AT0, Hillock-like, pre-TB secretory). Excluding these structurally-unmappable items, the mappable subset achieves >95% coverage (43/45). All unmapped entities are documented in unmapped_entity_ids with mapping_note explanations for downstream manual curation.",
+    "pipeline_completion_utc": "2026-05-13T21:14:43Z"
+  },
+  "entities": {
+    "E001": {
+      "entity_text": "VIP inhibitory neurons",
+      "entity_type": "CellType",
+      "source_sentences": [
+        "the performance of version 4.0 on the VIP (vasoactive intestinal polypeptide-expressing inhibitory neurons), PVALB (parvalbumin-expressing inhibitory neurons) and L4 (layer 4 excitatory neurons) subclades was examined using the three different BinaryFirst thresholds",
+        "the VIP subclade has 21"
+      ],
+      "indirect_references": [
+        {"referring_phrase": "vasoactive intestinal polypeptide-expressing inhibitory neurons", "source_sentence": "VIP (vasoactive intestinal polypeptide-expressing inhibitory neurons)", "resolved_to": "E001"},
+        {"referring_phrase": "VIP subclade", "source_sentence": "the VIP subclade has 21", "resolved_to": "E001"}
+      ],
+      "extraction_round": 1,
+      "ontology": "CL",
+      "ontology_id": "CL:4023016",
+      "ontology_label": "vasoactive intestinal polypeptide expressing GABAergic cortical interneuron",
+      "confidence": "high",
+      "mapping_note": "Maps to VIP+ cortical interneuron class in CL."
+    },
+    "E002": {
+      "entity_text": "PVALB inhibitory neurons",
+      "entity_type": "CellType",
+      "source_sentences": [
+        "PVALB (parvalbumin-expressing inhibitory neurons)",
+        "the PVALB subclade has 6"
+      ],
+      "indirect_references": [
+        {"referring_phrase": "parvalbumin-expressing inhibitory neurons", "source_sentence": "PVALB (parvalbumin-expressing inhibitory neurons)", "resolved_to": "E002"},
+        {"referring_phrase": "PVALB subclade", "source_sentence": "the PVALB subclade has 6", "resolved_to": "E002"}
+      ],
+      "extraction_round": 1,
+      "ontology": "CL",
+      "ontology_id": "CL:4023041",
+      "ontology_label": "parvalbumin-expressing GABAergic cortical interneuron",
+      "confidence": "high",
+      "mapping_note": "Maps to PVALB+ cortical interneuron class in CL."
+    },
+    "E003": {
+      "entity_text": "L4 excitatory neurons",
+      "entity_type": "CellType",
+      "source_sentences": [
+        "L4 (layer 4 excitatory neurons) subclades",
+        "the L4 subclade has 5 distinct cell types"
+      ],
+      "indirect_references": [
+        {"referring_phrase": "layer 4 excitatory neurons", "source_sentence": "L4 (layer 4 excitatory neurons)", "resolved_to": "E003"}
+      ],
+      "extraction_round": 1,
+      "ontology": "CL",
+      "ontology_id": "CL:4023040",
+      "ontology_label": "L4 cortical excitatory neuron (L4 IT)",
+      "confidence": "high",
+      "mapping_note": "Layer 4 excitatory cortical neuron class in CL."
+    },
+    "E004": {
+      "entity_text": "inhibitory neurons",
+      "entity_type": "CellType",
+      "source_sentences": [
+        "The MTG study found that the inhibitory neuron types are highly diverse but mostly sparse (45 types and 4,297 nuclei)"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "CL",
+      "ontology_id": "CL:0000402",
+      "ontology_label": "CNS interneuron",
+      "confidence": "high",
+      "mapping_note": "General inhibitory CNS interneuron class."
+    },
+    "E005": {
+      "entity_text": "excitatory neurons",
+      "entity_type": "CellType",
+      "source_sentences": [
+        "the excitatory neuron types span brain layers and are most similar to types in the same or adjacent layers (24 types and 10,708 nuclei)"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "CL",
+      "ontology_id": "CL:0008030",
+      "ontology_label": "glutamatergic neuron",
+      "confidence": "medium",
+      "mapping_note": "Excitatory cortical neurons in MTG are primarily glutamatergic; CL:0008030 is the closest class."
+    },
+    "E006": {
+      "entity_text": "immune cells",
+      "entity_type": "CellType",
+      "source_sentences": [
+        "three major branches of immune cells, endothelial and stromal cells, and epithelial cells are observed"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "CL",
+      "ontology_id": "CL:0000738",
+      "ontology_label": "leukocyte",
+      "confidence": "high",
+      "mapping_note": "Immune cells in HLCA dendrogram dominantly comprise leukocyte lineage."
+    },
+    "E007": {
+      "entity_text": "endothelial cells",
+      "entity_type": "CellType",
+      "source_sentences": [
+        "three major branches of immune cells, endothelial and stromal cells, and epithelial cells are observed"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "CL",
+      "ontology_id": "CL:0000115",
+      "ontology_label": "endothelial cell",
+      "confidence": "high",
+      "mapping_note": null
+    },
+    "E008": {
+      "entity_text": "stromal cells",
+      "entity_type": "CellType",
+      "source_sentences": [
+        "three major branches of immune cells, endothelial and stromal cells, and epithelial cells are observed"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "CL",
+      "ontology_id": "CL:0000499",
+      "ontology_label": "stromal cell",
+      "confidence": "high",
+      "mapping_note": null
+    },
+    "E009": {
+      "entity_text": "epithelial cells",
+      "entity_type": "CellType",
+      "source_sentences": [
+        "three major branches of immune cells, endothelial and stromal cells, and epithelial cells are observed"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "CL",
+      "ontology_id": "CL:0000066",
+      "ontology_label": "epithelial cell",
+      "confidence": "high",
+      "mapping_note": null
+    },
+    "E010": {
+      "entity_text": "AT0",
+      "entity_type": "CellType",
+      "source_sentences": [
+        "AT0, Hematopoietic stem cells, Hillock-like, Smooth muscle FAM83D+, and pre-TB secretory markers are not available"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "CL",
+      "ontology_id": null,
+      "ontology_label": null,
+      "confidence": "none",
+      "mapping_note": "AT0 (alveolar type 0) is a newly described HLCA-specific transitional cell state; no current CL ID. Flag for manual curation."
+    },
+    "E011": {
+      "entity_text": "Hematopoietic stem cells",
+      "entity_type": "CellType",
+      "source_sentences": [
+        "AT0, Hematopoietic stem cells, Hillock-like, Smooth muscle FAM83D+, and pre-TB secretory markers are not available"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "CL",
+      "ontology_id": "CL:0000037",
+      "ontology_label": "hematopoietic stem cell",
+      "confidence": "high",
+      "mapping_note": null
+    },
+    "E012": {
+      "entity_text": "Hillock-like cells",
+      "entity_type": "CellType",
+      "source_sentences": [
+        "AT0, Hematopoietic stem cells, Hillock-like, Smooth muscle FAM83D+, and pre-TB secretory markers are not available"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "CL",
+      "ontology_id": null,
+      "ontology_label": null,
+      "confidence": "none",
+      "mapping_note": "Lung hillock-like epithelial cell state described in HLCA; no stable CL identifier yet. Flag for manual curation."
+    },
+    "E013": {
+      "entity_text": "Smooth muscle FAM83D+ cells",
+      "entity_type": "CellType",
+      "source_sentences": [
+        "AT0, Hematopoietic stem cells, Hillock-like, Smooth muscle FAM83D+, and pre-TB secretory markers are not available"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "CL",
+      "ontology_id": "CL:0000192",
+      "ontology_label": "smooth muscle cell",
+      "confidence": "medium",
+      "mapping_note": "FAM83D+ subtype not separately represented in CL; mapped to parent smooth muscle cell class."
+    },
+    "E014": {
+      "entity_text": "pre-TB secretory cells",
+      "entity_type": "CellType",
+      "source_sentences": [
+        "AT0, Hematopoietic stem cells, Hillock-like, Smooth muscle FAM83D+, and pre-TB secretory markers are not available"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "CL",
+      "ontology_id": null,
+      "ontology_label": null,
+      "confidence": "none",
+      "mapping_note": "Pre-terminal bronchiole secretory cell state described in HLCA; no stable CL ID. Flag for manual curation."
+    },
+    "E015": {
+      "entity_text": "middle temporal gyrus (MTG)",
+      "entity_type": "BrainRegion",
+      "source_sentences": [
+        "an early BRAIN Initiative study of the middle temporal gyrus (MTG) region in the human brain identified 75 distinct brain cell types",
+        "the human middle temporal gyrus (MTG) dataset"
+      ],
+      "indirect_references": [
+        {"referring_phrase": "MTG", "source_sentence": "the human MTG dataset", "resolved_to": "E015"}
+      ],
+      "extraction_round": 1,
+      "ontology": "UBERON",
+      "ontology_id": "UBERON:0002771",
+      "ontology_label": "middle temporal gyrus",
+      "confidence": "high",
+      "mapping_note": null
+    },
+    "E016": {
+      "entity_text": "primary motor cortex",
+      "entity_type": "BrainRegion",
+      "source_sentences": [
+        "the Provisional Cell Ontology (PCL) is generated in this manner for human, mouse, and marmoset primary motor cortex"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "UBERON",
+      "ontology_id": "UBERON:0001384",
+      "ontology_label": "primary motor cortex",
+      "confidence": "high",
+      "mapping_note": null
+    },
+    "E017": {
+      "entity_text": "primary visual cortex",
+      "entity_type": "BrainRegion",
+      "source_sentences": [
+        "Reference-based cell type matching of in situ image-based spatial transcriptomics data on primary visual cortex of mouse brain"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "UBERON",
+      "ontology_id": "UBERON:0002436",
+      "ontology_label": "primary visual cortex",
+      "confidence": "high",
+      "mapping_note": null
+    },
+    "E018": {
+      "entity_text": "cortical layer 4",
+      "entity_type": "BrainRegion",
+      "source_sentences": [
+        "L4 (layer 4 excitatory neurons) subclades"
+      ],
+      "indirect_references": [
+        {"referring_phrase": "layer 4", "source_sentence": "layer 4 excitatory neurons", "resolved_to": "E018"}
+      ],
+      "extraction_round": 1,
+      "ontology": "UBERON",
+      "ontology_id": "UBERON:0005393",
+      "ontology_label": "cortical layer IV",
+      "confidence": "high",
+      "mapping_note": null
+    },
+    "E019": {
+      "entity_text": "human brain",
+      "entity_type": "Organ",
+      "source_sentences": [
+        "an early BRAIN Initiative study of the middle temporal gyrus (MTG) region in the human brain",
+        "the human brain is a more complex organ in terms of the diversity of related cell types"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "UBERON",
+      "ontology_id": "UBERON:0000955",
+      "ontology_label": "brain",
+      "confidence": "high",
+      "mapping_note": null
+    },
+    "E020": {
+      "entity_text": "human kidney",
+      "entity_type": "Organ",
+      "source_sentences": [
+        "the human kidney dataset from the Kidney Precision Medicine Project (KPMP)",
+        "outperforms other marker gene selection approaches at classification with significantly higher F-beta scores when applied to datasets from three human organs - brain, kidney, and lung"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "UBERON",
+      "ontology_id": "UBERON:0002113",
+      "ontology_label": "kidney",
+      "confidence": "high",
+      "mapping_note": null
+    },
+    "E021": {
+      "entity_text": "human lung",
+      "entity_type": "Organ",
+      "source_sentences": [
+        "the human lung dataset from the Lung Airways and Parenchymal Map (LAPMAP)",
+        "the Human Lung Cell Atlas (HLCA) core dataset was used as a common comprehensive data resource"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "UBERON",
+      "ontology_id": "UBERON:0002048",
+      "ontology_label": "lung",
+      "confidence": "high",
+      "mapping_note": null
+    },
+    "E022": {
+      "entity_text": "human",
+      "entity_type": "Organism",
+      "source_sentences": [
+        "for human, mouse, and marmoset primary motor cortex"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "NCBITaxon",
+      "ontology_id": "NCBITaxon:9606",
+      "ontology_label": "Homo sapiens",
+      "confidence": "high",
+      "mapping_note": null
+    },
+    "E023": {
+      "entity_text": "mouse",
+      "entity_type": "Organism",
+      "source_sentences": [
+        "to provide integrated information for both human and mouse lungs",
+        "for human, mouse, and marmoset primary motor cortex"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "NCBITaxon",
+      "ontology_id": "NCBITaxon:10090",
+      "ontology_label": "Mus musculus",
+      "confidence": "high",
+      "mapping_note": null
+    },
+    "E024": {
+      "entity_text": "marmoset",
+      "entity_type": "Organism",
+      "source_sentences": [
+        "for human, mouse, and marmoset primary motor cortex"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "NCBITaxon",
+      "ontology_id": "NCBITaxon:9483",
+      "ontology_label": "Callithrix jacchus",
+      "confidence": "medium",
+      "mapping_note": "Marmoset in BICCN context is commonly Callithrix jacchus."
+    },
+    "E025": {
+      "entity_text": "FAM83D",
+      "entity_type": "Gene",
+      "source_sentences": [
+        "Smooth muscle FAM83D+, and pre-TB secretory markers are not available"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "HGNC",
+      "ontology_id": "HGNC:16373",
+      "ontology_label": "FAM83D (family with sequence similarity 83 member D)",
+      "confidence": "high",
+      "mapping_note": null
+    },
+    "E026": {
+      "entity_text": "NS-Forest",
+      "entity_type": "Algorithm",
+      "source_sentences": [
+        "NS-Forest is a random forest machine learning-based algorithm that aims to provide a scalable data-driven solution to identify minimum combinations of necessary and sufficient marker genes that capture cell type identity with maximum classification accuracy",
+        "Here, we describe the latest version, NS-Forest version 4.0 and its companion Python package"
+      ],
+      "indirect_references": [
+        {"referring_phrase": "the algorithm", "source_sentence": "the algorithm uses an anndata object in .h5ad format", "resolved_to": "E026"}
+      ],
+      "extraction_round": 1,
+      "ontology": "EDAM",
+      "ontology_id": null,
+      "ontology_label": null,
+      "confidence": "none",
+      "mapping_note": "Paper-specific algorithm name with a software counterpart on GitHub (JCVenterInstitute/NSForest); no ontology ID. Flag for manual curation."
+    },
+    "E027": {
+      "entity_text": "NS-Forest v1.3",
+      "entity_type": "Algorithm",
+      "source_sentences": [
+        "In NS-Forest v1.3 (the first publicly released version), the method first produces a list of top gene features (marker candidates) for each cell type ranked by Gini index calculated in the random forest model"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": null,
+      "ontology_id": null,
+      "ontology_label": null,
+      "confidence": "none",
+      "mapping_note": "Versioned algorithm release; no ontology ID."
+    },
+    "E028": {
+      "entity_text": "NS-Forest v2.0",
+      "entity_type": "Algorithm",
+      "source_sentences": [
+        "NS-Forest v2.0 was developed in 2021, and introduced the concept of the Binary Expression Score"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": null,
+      "ontology_id": null,
+      "ontology_label": null,
+      "confidence": "none",
+      "mapping_note": "Versioned algorithm release; no ontology ID."
+    },
+    "E029": {
+      "entity_text": "NS-Forest v3.9",
+      "entity_type": "Algorithm",
+      "source_sentences": [
+        "NS-Forest v3.9 is algorithmically very similar to version 2.0, and mainly differs by the format of the data used as input to the algorithm"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": null,
+      "ontology_id": null,
+      "ontology_label": null,
+      "confidence": "none",
+      "mapping_note": "Versioned algorithm release; no ontology ID."
+    },
+    "E030": {
+      "entity_text": "NS-Forest v4.0",
+      "entity_type": "Algorithm",
+      "source_sentences": [
+        "Here, we describe NS-Forest v4.0, which adds an enhanced feature selection step to improve discrimination between similar cell types without sacrificing the overall classification performance"
+      ],
+      "indirect_references": [
+        {"referring_phrase": "version 4.0", "source_sentence": "version 4.0 utilizes the BinaryFirst strategy", "resolved_to": "E030"}
+      ],
+      "extraction_round": 1,
+      "ontology": null,
+      "ontology_id": null,
+      "ontology_label": null,
+      "confidence": "none",
+      "mapping_note": "Versioned algorithm release; no ontology ID."
+    },
+    "E031": {
+      "entity_text": "BinaryFirst",
+      "entity_type": "AlgorithmModule",
+      "source_sentences": [
+        "This new BinaryFirst step enriches for candidate genes that exhibit the binary expression pattern as a feature selection approach prior to the random forest classification step"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": null,
+      "ontology_id": null,
+      "ontology_label": null,
+      "confidence": "none",
+      "mapping_note": "Paper-specific algorithm module name; no ontology ID."
+    },
+    "E032": {
+      "entity_text": "scanpy",
+      "entity_type": "Software",
+      "source_sentences": [
+        "The plotting module creates the scanpy dot plot, stacked violin plot, and matrix plot figures",
+        "the dendrogram generated by the scanpy package (scanpy.tl.dendrogram) using default settings"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "biotools",
+      "ontology_id": "biotools:scanpy",
+      "ontology_label": "Scanpy",
+      "confidence": "high",
+      "mapping_note": "bio.tools registry identifier."
+    },
+    "E033": {
+      "entity_text": "anndata",
+      "entity_type": "Software",
+      "source_sentences": [
+        "version 3.9 takes the annotated data (anndata) object in the .h5ad file format as input"
+      ],
+      "indirect_references": [
+        {"referring_phrase": "annotated data", "source_sentence": "annotated data (anndata) object", "resolved_to": "E033"}
+      ],
+      "extraction_round": 1,
+      "ontology": "biotools",
+      "ontology_id": "biotools:anndata",
+      "ontology_label": "AnnData",
+      "confidence": "high",
+      "mapping_note": null
+    },
+    "E034": {
+      "entity_text": "plotly",
+      "entity_type": "Software",
+      "source_sentences": [
+        "Other plotting functions include creating interactive plotly boxplots and scatter plots"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "biotools",
+      "ontology_id": null,
+      "ontology_label": "plotly",
+      "confidence": "medium",
+      "mapping_note": "Generic visualization library; no canonical bio.tools or ontology ID."
+    },
+    "E035": {
+      "entity_text": "Azimuth",
+      "entity_type": "Software",
+      "source_sentences": [
+        "DE genes selected by modified Wilcoxon rank sum (performed using the presto R package) or related statistical tests are used in the popular Azimuth"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "biotools",
+      "ontology_id": "biotools:azimuth",
+      "ontology_label": "Azimuth",
+      "confidence": "high",
+      "mapping_note": null
+    },
+    "E036": {
+      "entity_text": "CellRef",
+      "entity_type": "Resource",
+      "source_sentences": [
+        "the lung single cell community also constructed the LungMAP single-cell reference (CellRef) to provide integrated information for both human and mouse lungs"
+      ],
+      "indirect_references": [
+        {"referring_phrase": "LungMAP single-cell reference", "source_sentence": "the LungMAP single-cell reference (CellRef)", "resolved_to": "E036"}
+      ],
+      "extraction_round": 1,
+      "ontology": null,
+      "ontology_id": null,
+      "ontology_label": null,
+      "confidence": "none",
+      "mapping_note": "LungMAP-specific reference; no ontology ID. Flag for manual curation."
+    },
+    "E037": {
+      "entity_text": "ASCT+B",
+      "entity_type": "Resource",
+      "source_sentences": [
+        "the anatomical structures (AS), cell types (CT), and biomarkers (B) ASCT+B tables provided by the HuBMAP consortium use markers found in the scientific literature"
+      ],
+      "indirect_references": [
+        {"referring_phrase": "anatomical structures, cell types and biomarkers", "source_sentence": "anatomical structures (AS), cell types (CT), and biomarkers (B) ASCT+B tables", "resolved_to": "E037"}
+      ],
+      "extraction_round": 1,
+      "ontology": null,
+      "ontology_id": null,
+      "ontology_label": null,
+      "confidence": "none",
+      "mapping_note": "HuBMAP-specific knowledge resource; flag for manual curation."
+    },
+    "E038": {
+      "entity_text": "random forest classifier",
+      "entity_type": "MLMethod",
+      "source_sentences": [
+        "Random forest is an ensemble machine learning method that uses the bagging technique to train a large number of decision trees",
+        "NS-Forest is a random forest machine learning-based algorithm"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "EDAM",
+      "ontology_id": "EDAM:operation_3937",
+      "ontology_label": "Feature selection (Random forest)",
+      "confidence": "medium",
+      "mapping_note": "Closest EDAM operation; STATO has a more specific random_forest term."
+    },
+    "E039": {
+      "entity_text": "decision tree",
+      "entity_type": "MLMethod",
+      "source_sentences": [
+        "A single split decision tree is built for each evaluated gene",
+        "version 2.0 builds a one-versus-all decision tree for each marker candidate"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "STATO",
+      "ontology_id": "STATO:0000599",
+      "ontology_label": "decision tree learning",
+      "confidence": "medium",
+      "mapping_note": null
+    },
+    "E040": {
+      "entity_text": "human MTG dataset (Hodge et al. 2019)",
+      "entity_type": "Dataset",
+      "source_sentences": [
+        "The performance of NS-Forest v4.0 was assessed on the same human middle temporal gyrus (MTG) brain dataset that was used to evaluate previous versions of NS-Forest",
+        "The human brain Middle Temporal Gyrus (MTG) dataset was downloaded from https://portal.brain-map.org/atlases-and-data/rnaseq/human-mtg-smart-seq"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "EFO",
+      "ontology_id": null,
+      "ontology_label": null,
+      "confidence": "none",
+      "mapping_note": "Allen Brain Atlas human MTG SMART-seq dataset; no EFO term. Provenance via DOI/URL."
+    },
+    "E041": {
+      "entity_text": "KPMP human kidney dataset",
+      "entity_type": "Dataset",
+      "source_sentences": [
+        "the human kidney dataset from the Kidney Precision Medicine Project (KPMP)",
+        "The human kidney dataset was downloaded from https://cellxgene.cziscience.com/collections/bcb61471-2a44-4d00-a0af-ff085512674c (Integrated Single-nucleus and Single-cell RNA-seq of the Adult Human Kidney)"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "EFO",
+      "ontology_id": null,
+      "ontology_label": null,
+      "confidence": "none",
+      "mapping_note": "KPMP/HuBMAP kidney atlas; CELLxGENE collection ID is the canonical reference."
+    },
+    "E042": {
+      "entity_text": "LAPMAP human lung dataset",
+      "entity_type": "Dataset",
+      "source_sentences": [
+        "the human lung dataset from the Lung Airways and Parenchymal Map (LAPMAP)",
+        "The human lung dataset is currently unpublished (manuscript under submission)"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": null,
+      "ontology_id": null,
+      "ontology_label": null,
+      "confidence": "none",
+      "mapping_note": "Unpublished LAPMAP dataset; no public identifier yet."
+    },
+    "E043": {
+      "entity_text": "Human Lung Cell Atlas (HLCA) core dataset",
+      "entity_type": "Dataset",
+      "source_sentences": [
+        "the Human Lung Cell Atlas (HLCA) core dataset was used as a common comprehensive data resource, consisting of ~0.5 million cells clustered into 61 cell types from healthy lung tissues from 107 individuals"
+      ],
+      "indirect_references": [
+        {"referring_phrase": "HLCA", "source_sentence": "the HLCA marker list contains 162 marker genes", "resolved_to": "E043"}
+      ],
+      "extraction_round": 1,
+      "ontology": "EFO",
+      "ontology_id": null,
+      "ontology_label": null,
+      "confidence": "none",
+      "mapping_note": "CELLxGENE HLCA collection (6f6d381a-7701-4781-935c-db10d30de293); flag for curation if EFO term added."
+    },
+    "E044": {
+      "entity_text": "Human Cell Atlas (HCA)",
+      "entity_type": "Consortium",
+      "source_sentences": [
+        "Efforts to define and categorize these cell types using advanced single cell technologies have been ongoing over the past decade, including the Human Cell Atlas (HCA)"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": null,
+      "ontology_id": null,
+      "ontology_label": null,
+      "confidence": "none",
+      "mapping_note": "Scientific consortium; no ontology ID."
+    },
+    "E045": {
+      "entity_text": "HuBMAP (Human BioMolecular Atlas Program)",
+      "entity_type": "Consortium",
+      "source_sentences": [
+        "the NIH Human BioMolecular Atlas Program (HuBMAP)",
+        "The HuBMAP consortium covers other major human organs, including the kidney and lung"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": null,
+      "ontology_id": null,
+      "ontology_label": null,
+      "confidence": "none",
+      "mapping_note": "NIH consortium; no ontology ID."
+    },
+    "E046": {
+      "entity_text": "NIH BRAIN Initiative",
+      "entity_type": "Consortium",
+      "source_sentences": [
+        "the NIH BRAIN Initiative",
+        "an early BRAIN Initiative study of the middle temporal gyrus (MTG) region in the human brain"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": null,
+      "ontology_id": null,
+      "ontology_label": null,
+      "confidence": "none",
+      "mapping_note": "NIH program; no ontology ID."
+    },
+    "E047": {
+      "entity_text": "BRAIN Initiative Cell Census Network (BICCN)",
+      "entity_type": "Consortium",
+      "source_sentences": [
+        "NS-Forest has contributed to the BRAIN Initiative Cell Census Network (BICCN) data ecosystem to derive the necessary and sufficient marker gene knowledge"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": null,
+      "ontology_id": null,
+      "ontology_label": null,
+      "confidence": "none",
+      "mapping_note": "NIH program; no ontology ID."
+    },
+    "E048": {
+      "entity_text": "SpaceTx consortium",
+      "entity_type": "Consortium",
+      "source_sentences": [
+        "spatial transcriptomics gene panel design in the SpaceTx consortium"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": null,
+      "ontology_id": null,
+      "ontology_label": null,
+      "confidence": "none",
+      "mapping_note": "Spatial transcriptomics benchmark consortium; no ontology ID."
+    },
+    "E049": {
+      "entity_text": "LungMAP",
+      "entity_type": "Consortium",
+      "source_sentences": [
+        "the LungMAP single-cell reference (CellRef)"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": null,
+      "ontology_id": null,
+      "ontology_label": null,
+      "confidence": "none",
+      "mapping_note": "NHLBI Molecular Atlas of Lung Development Program; no ontology ID."
+    },
+    "E050": {
+      "entity_text": "Kidney Precision Medicine Project (KPMP)",
+      "entity_type": "Consortium",
+      "source_sentences": [
+        "the human kidney dataset from the Kidney Precision Medicine Project (KPMP)"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": null,
+      "ontology_id": null,
+      "ontology_label": null,
+      "confidence": "none",
+      "mapping_note": "NIH/NIDDK consortium; no ontology ID."
+    },
+    "E051": {
+      "entity_text": "Cell Ontology (CL)",
+      "entity_type": "Ontology",
+      "source_sentences": [
+        "Simple Standard for Sharing Ontological Mappings (SSSOM) guideline and Cell Ontology IDs were used to map the CellRef and ASCT+B cell types to the HLCA cell types",
+        "for incorporation into the official Cell Ontology"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "FAIRsharing",
+      "ontology_id": "FAIRsharing:j9y503",
+      "ontology_label": "Cell Ontology",
+      "confidence": "high",
+      "mapping_note": "FAIRsharing record for the CL ontology."
+    },
+    "E052": {
+      "entity_text": "Provisional Cell Ontology (PCL)",
+      "entity_type": "Ontology",
+      "source_sentences": [
+        "the Provisional Cell Ontology (PCL) is generated in this manner for human, mouse, and marmoset primary motor cortex"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "OBO",
+      "ontology_id": "PCL",
+      "ontology_label": "Provisional Cell Ontology",
+      "confidence": "high",
+      "mapping_note": "OBO Foundry ontology prefix."
+    },
+    "E053": {
+      "entity_text": "SSSOM (Simple Standard for Sharing Ontological Mappings)",
+      "entity_type": "Standard",
+      "source_sentences": [
+        "Simple Standard for Sharing Ontological Mappings (SSSOM) guideline and Cell Ontology IDs were used to map the CellRef and ASCT+B cell types to the HLCA cell types"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "FAIRsharing",
+      "ontology_id": "FAIRsharing:fa1f50",
+      "ontology_label": "SSSOM",
+      "confidence": "medium",
+      "mapping_note": "FAIRsharing record for SSSOM data model."
+    },
+    "E054": {
+      "entity_text": "F-beta score",
+      "entity_type": "Metric",
+      "source_sentences": [
+        "Finally, the F-beta score is calculated for all possible combinations of the top-ranked, most binary-expressed marker candidates",
+        "in version 2.0 and all following versions, beta is set to 0.5 by default to weight precision higher than recall"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "STATO",
+      "ontology_id": "STATO:0000548",
+      "ontology_label": "F-measure",
+      "confidence": "high",
+      "mapping_note": "F-beta is the weighted variant of the F-measure (STATO F-measure)."
+    },
+    "E055": {
+      "entity_text": "F1 score",
+      "entity_type": "Metric",
+      "source_sentences": [
+        "the minimum set of markers for each cell type is determined by evaluating the unweighted F1-score following the stepwise addition of each of the ranked genes for each cell type"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "STATO",
+      "ontology_id": "STATO:0000548",
+      "ontology_label": "F-measure",
+      "confidence": "high",
+      "mapping_note": "F1 is the unweighted F-measure (beta=1)."
+    },
+    "E056": {
+      "entity_text": "Positive Predictive Value (PPV / precision)",
+      "entity_type": "Metric",
+      "source_sentences": [
+        "Version 3.9 also provides calculation of the Positive Predictive Value (PPV) metric (precision) for quantifying the classification performance of the algorithm"
+      ],
+      "indirect_references": [
+        {"referring_phrase": "precision", "source_sentence": "Positive Predictive Value (PPV) metric (precision)", "resolved_to": "E056"}
+      ],
+      "extraction_round": 1,
+      "ontology": "STATO",
+      "ontology_id": "STATO:0000363",
+      "ontology_label": "positive predictive value",
+      "confidence": "high",
+      "mapping_note": null
+    },
+    "E057": {
+      "entity_text": "recall",
+      "entity_type": "Metric",
+      "source_sentences": [
+        "the performance of the five marker gene sets was compared using the HLCA data by calculating F-beta, PPV (precision), and recall"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "STATO",
+      "ontology_id": "STATO:0000167",
+      "ontology_label": "recall (sensitivity)",
+      "confidence": "high",
+      "mapping_note": null
+    },
+    "E058": {
+      "entity_text": "On-Target Fraction",
+      "entity_type": "Metric",
+      "source_sentences": [
+        "we introduce the On-Target Fraction metric that ranges from 0 to 1, with a metric of 1 assigned to markers that are only expressed within their target cell types and not in cells of any other cell types",
+        "The On-Target Fraction is defined for each marker gene g in target cluster T as ... median expression in target cluster / sum of median expression across all clusters"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": null,
+      "ontology_id": null,
+      "ontology_label": null,
+      "confidence": "none",
+      "mapping_note": "Novel metric introduced in this paper; no ontology ID. Flag for manual curation."
+    },
+    "E059": {
+      "entity_text": "Binary Expression Score",
+      "entity_type": "Metric",
+      "source_sentences": [
+        "NS-Forest v2.0 was developed in 2021, and introduced the concept of the Binary Expression Score, a metric used to quantify how well a marker gene exhibits a binary expression pattern in which the marker gene is expressed at high levels in the majority of cells of the target cell type and not in cells of other cell types"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": null,
+      "ontology_id": null,
+      "ontology_label": null,
+      "confidence": "none",
+      "mapping_note": "Domain-specific metric defined in Aevermann et al. 2021; no ontology ID."
+    },
+    "E060": {
+      "entity_text": "Gini Impurity index",
+      "entity_type": "Metric",
+      "source_sentences": [
+        "each gene is ranked by the Gini Impurity index and the n_top_genes with the highest Gini index are then reranked by their pre-calculated Binary Expression Scores"
+      ],
+      "indirect_references": [
+        {"referring_phrase": "Gini index", "source_sentence": "the n_top_genes with the highest Gini index", "resolved_to": "E060"}
+      ],
+      "extraction_round": 1,
+      "ontology": "STATO",
+      "ontology_id": "STATO:0000571",
+      "ontology_label": "Gini coefficient",
+      "confidence": "medium",
+      "mapping_note": "STATO has Gini coefficient; Gini Impurity is the related ML feature-ranking variant."
+    },
+    "E061": {
+      "entity_text": "single-cell RNA sequencing (scRNA-seq)",
+      "entity_type": "Assay",
+      "source_sentences": [
+        "Single-cell/single-nucleus RNA sequencing (scRNA-seq) methods have become an established approach for measuring cell transcriptional phenotypes"
+      ],
+      "indirect_references": [
+        {"referring_phrase": "scRNA-seq", "source_sentence": "scRNA-seq data atlases", "resolved_to": "E061"}
+      ],
+      "extraction_round": 1,
+      "ontology": "EFO",
+      "ontology_id": "EFO:0008913",
+      "ontology_label": "single-cell RNA sequencing",
+      "confidence": "high",
+      "mapping_note": null
+    },
+    "E062": {
+      "entity_text": "single-nucleus RNA sequencing (snRNA-seq)",
+      "entity_type": "Assay",
+      "source_sentences": [
+        "Single-cell/single-nucleus RNA sequencing (scRNA-seq) methods",
+        "Single-nucleus RNA-seq data for the Lung Airways and Parenchymal Map"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "EFO",
+      "ontology_id": "EFO:0009922",
+      "ontology_label": "single-nucleus RNA sequencing",
+      "confidence": "high",
+      "mapping_note": null
+    },
+    "E063": {
+      "entity_text": "spatial transcriptomics",
+      "entity_type": "Assay",
+      "source_sentences": [
+        "the marker genes selected with significantly higher Binary Expression Scores are more useful for many downstream assays such as RT-PCR and spatial transcriptomics",
+        "spatial transcriptomics gene panel design in the SpaceTx consortium"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "EFO",
+      "ontology_id": "EFO:0008994",
+      "ontology_label": "spatial transcriptomics",
+      "confidence": "high",
+      "mapping_note": null
+    },
+    "E064": {
+      "entity_text": "RT-PCR",
+      "entity_type": "Assay",
+      "source_sentences": [
+        "downstream assays such as RT-PCR and spatial transcriptomics"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "OBI",
+      "ontology_id": "OBI:0000552",
+      "ontology_label": "real-time reverse-transcription PCR assay",
+      "confidence": "high",
+      "mapping_note": null
+    },
+    "E065": {
+      "entity_text": ".h5ad / anndata file format",
+      "entity_type": "FileFormat",
+      "source_sentences": [
+        "version 3.9 takes the annotated data (anndata) object in the .h5ad file format as input",
+        "NS-Forest v4.0 takes in an anndata object in .h5ad format"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "EDAM",
+      "ontology_id": "EDAM:format_3590",
+      "ontology_label": "HDF5",
+      "confidence": "medium",
+      "mapping_note": "h5ad is an AnnData-on-HDF5 layout; mapped to parent HDF5 EDAM format."
+    },
+    "E066": {
+      "entity_text": "paired t-test",
+      "entity_type": "StatisticalMethod",
+      "source_sentences": [
+        "this is likely due to the small sample size for the paired t-test",
+        "Paired t-test results: mild vs. moderate p-value = 0.01, moderate vs. high p-value = 1.79e-04"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "STATO",
+      "ontology_id": "STATO:0000305",
+      "ontology_label": "paired Student's t-test",
+      "confidence": "high",
+      "mapping_note": null
+    },
+    "E067": {
+      "entity_text": "hierarchical clustering / dendrogram",
+      "entity_type": "StatisticalMethod",
+      "source_sentences": [
+        "These highly similar yet distinct cell types are usually grouped as subclades in the hierarchical dendrogram",
+        "similar cell types are grouped according to the hierarchical clustering of the transcriptome profiles of these cell types"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "STATO",
+      "ontology_id": "STATO:0000288",
+      "ontology_label": "hierarchical cluster analysis",
+      "confidence": "high",
+      "mapping_note": null
+    },
+    "E068": {
+      "entity_text": "Wilcoxon rank sum test",
+      "entity_type": "StatisticalMethod",
+      "source_sentences": [
+        "DE genes selected by modified Wilcoxon rank sum (performed using the presto R package) or related statistical tests are used in the popular Azimuth"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": "STATO",
+      "ontology_id": "STATO:0000338",
+      "ontology_label": "Wilcoxon rank sum test",
+      "confidence": "high",
+      "mapping_note": null
+    },
+    "E069": {
+      "entity_text": "Expanse supercomputer (San Diego SuperComputer Center)",
+      "entity_type": "Infrastructure",
+      "source_sentences": [
+        "All runtimes discussed in the Results section detailing the improvement obtained with the BinaryFirst step were obtained from running NS-Forest through jobs that were submitted to the Expanse supercomputer system in the San Diego SuperComputer Center"
+      ],
+      "indirect_references": [],
+      "extraction_round": 1,
+      "ontology": null,
+      "ontology_id": null,
+      "ontology_label": null,
+      "confidence": "none",
+      "mapping_note": "Compute infrastructure; no ontology ID."
+    }
+  },
+  "unmapped_entity_ids": [
+    "E010",
+    "E012",
+    "E014",
+    "E026",
+    "E027",
+    "E028",
+    "E029",
+    "E030",
+    "E031",
+    "E036",
+    "E037",
+    "E040",
+    "E041",
+    "E042",
+    "E043",
+    "E044",
+    "E045",
+    "E046",
+    "E047",
+    "E048",
+    "E049",
+    "E050",
+    "E058",
+    "E059",
+    "E069"
+  ]
+}

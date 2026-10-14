@@ -1,0 +1,77 @@
+[
+  {
+    "line_approx": 84,
+    "candidate": "AP18a/AP19a/AP26a/AP34a section labels",
+    "decision": "non-entity (sample-section identifiers)"
+  },
+  {
+    "line_approx": 1700,
+    "candidate": "Phusion Plus PCR Master Mix F631L (catalog)",
+    "decision": "non-entity (catalog code; entity captured as Phusion E815)"
+  },
+  {
+    "line_approx": 1700,
+    "candidate": "Maxima Reverse Transcriptase EP0743",
+    "decision": "subsumed under E814"
+  },
+  {
+    "line_approx": 280,
+    "candidate": "Neurochemically Unique Domains in the Accumbens and Putamen",
+    "decision": "non-entity (NUDAP acronym expansion)"
+  },
+  {
+    "line_approx": 2700,
+    "candidate": "S1A, S1B, ... Figure references",
+    "decision": "non-entity (figure panel labels)"
+  },
+  {
+    "line_approx": 2400,
+    "candidate": "L2 normalization",
+    "decision": "non-entity (math operation)"
+  },
+  {
+    "line_approx": 2700,
+    "candidate": "P.S. authors / J.R. authors",
+    "decision": "non-entity (author initials in references)"
+  },
+  {
+    "line_approx": 2700,
+    "candidate": "JCI / Nat Methods / Cell / Nature (journal names in refs)",
+    "decision": "non-entity (journal names in reference list)"
+  },
+  {
+    "line_approx": 1300,
+    "candidate": "Pearson correlation visible partially-masked",
+    "decision": "already captured E322"
+  },
+  {
+    "line_approx": 2700,
+    "candidate": "ZymoSpin IC RNA Columns",
+    "decision": "non-entity (lab consumable, low-value)"
+  },
+  {
+    "line_approx": 2700,
+    "candidate": "GTF files",
+    "decision": "non-entity (file format)"
+  },
+  {
+    "line_approx": 250,
+    "candidate": "GABAergic",
+    "decision": "subsumed under GABA / cell-type names"
+  },
+  {
+    "line_approx": 350,
+    "candidate": "STAR Methods (section header)",
+    "decision": "non-entity (section reference)"
+  },
+  {
+    "line_approx": 2700,
+    "candidate": "Tween-20",
+    "decision": "non-entity (low-value lab detergent)"
+  },
+  {
+    "line_approx": 2700,
+    "candidate": "HDF5 file",
+    "decision": "non-entity (file format)"
+  }
+]
